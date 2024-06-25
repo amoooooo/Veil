@@ -1,11 +1,11 @@
 {
     "key.veil.editor": "Schakel Editor",
-  "key.categories.veil": "Sluier",
+  "key.categories.veil": "Veil",
   "veil.deferred.unsupported.title": "Deferred Renderer Niet Ondersteund",
   "veil.deferred.unsupported.sodium_desc": "Deferred ondersteunt Sodium niet",
   "veil.deferred.unsupported.fabulous_desc": "Deferred ondersteunt Fabulous niet",
   "gui.veil.save": "Opslaan",
-
+ 
   "editor_group.veil.default": "Editor",
   "editor_group.veil.example": "Voorbeeld",
   "editor_group.veil.deferred": "Deferred",
@@ -141,8 +141,8 @@
   "editor.veil.shader.definitions.hint": "naam = waarde",
   "editor.veil.shader.source.vanilla": "Vanilla",
   "editor.veil.shader.source.vanilla_post": "Vanilla Post",
-  "editor.veil.shader.source.veil": "Sluier",
-  "editor.veil.shader.source.veil_deferred": "Sluier Deferred",
+  "editor.veil.shader.source.veil": "Viel",
+  "editor.veil.shader.source.veil_deferred": "Veil Deferred",
   "editor.veil.shader.source.iris": "Iris",
   "editor.veil.shader.source.sodium": "Sodium",
   "editor.veil.shader.source.unknown": "Onbekend",

@@ -1,6 +1,6 @@
 {
   "key.veil.editor": "Editor umschalten",
-  "key.categories.veil": "Schleier",
+  "key.categories.veil": "Veil",
   "veil.deferred.unsupported.title": "Deferred Renderer nicht unterstützt",
   "veil.deferred.unsupported.sodium_desc": "Deferred unterstützt Sodium nicht",
   "veil.deferred.unsupported.fabulous_desc": "Deferred unterstützt Fabulous nicht",
@@ -141,8 +141,8 @@
   "editor.veil.shader.definitions.hint": "name = value",
   "editor.veil.shader.source.vanilla": "Vanilla",
   "editor.veil.shader.source.vanilla_post": "Vanilla Post",
-  "editor.veil.shader.source.veil": "Schleier",
-  "editor.veil.shader.source.veil_deferred": "Deferred-Schleier",
+  "editor.veil.shader.source.veil": "Veil",
+  "editor.veil.shader.source.veil_deferred": "Deferred-Veil",
   "editor.veil.shader.source.iris": "Iris",
   "editor.veil.shader.source.sodium": "Sodium",
   "editor.veil.shader.source.unknown": "Unbekannt",
