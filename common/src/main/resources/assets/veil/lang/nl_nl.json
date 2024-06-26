@@ -1,5 +1,5 @@
 {
-    "key.veil.editor": "Schakel Editor",
+  "key.veil.editor": "Schakel Editor",
   "key.categories.veil": "Veil",
   "veil.deferred.unsupported.title": "Deferred Renderer Niet Ondersteund",
   "veil.deferred.unsupported.sodium_desc": "Deferred ondersteunt Sodium niet",
