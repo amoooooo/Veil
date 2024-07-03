@@ -9,6 +9,12 @@ import org.joml.Vector3f;
 
 import java.util.List;
 
+// W.I.P. replacement for graveyard
+// dooooon't use this. i'm still working on it...
+//
+//      ~ your best friend,
+//          cappin  >_o
+
 public class Bone {
     String name;
 
@@ -18,6 +24,9 @@ public class Bone {
 
     Vector3f position;
     Vector3f previousPosition;
+
+    Vector3f size;
+    Vector3f previousSize;
 
     Quaternionf rotation;
     Quaternionf previousRotation;
@@ -43,11 +52,16 @@ public class Bone {
 
     public void updatePrevious() {
         this.previousPosition.set(this.position);
+        this.previousSize.set(this.size);
         this.previousRotation.set(this.rotation);
 
         this.previousRed = this.red;
         this.previousGreen = this.green;
         this.previousBlue = this.blue;
         this.previousAlpha = this.alpha;
+    }
+
+    public void update(float deltaTime) {
+        this.updatePrevious();
     }
 }

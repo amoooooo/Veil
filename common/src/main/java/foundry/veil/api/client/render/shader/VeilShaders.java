@@ -22,11 +22,17 @@ public final class VeilShaders {
     public static final ResourceLocation LIGHT_SKY = light("sky");
     public static final ResourceLocation LIGHT_INDIRECT_SPHERE = light("indirect_sphere");
 
+    public static final ResourceLocation SKINNED_MESH = necromancer("skinned_mesh");
+
     private static ResourceLocation quasar(String name) {
         return Veil.veilPath("quasar/" + name);
     }
 
     private static ResourceLocation light(String name) {
         return Veil.veilPath("light/" + name);
+    }
+
+    private static ResourceLocation necromancer(String name) {
+        return Veil.veilPath("necromancer/" + name);
     }
 }

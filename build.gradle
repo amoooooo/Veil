@@ -1,7 +1,6 @@
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT' apply(false)
+    id 'fabric-loom' version '1.5-SNAPSHOT' apply(false)
     id 'net.minecraftforge.gradle' version '[6.0,6.2)' apply(false)
-    id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT' apply(false)
     id "org.spongepowered.mixin" version "0.7-SNAPSHOT" apply(false)
     id "com.github.johnrengelman.shadow" version "8.1.1" apply false
 }
@@ -26,7 +25,7 @@ subprojects {
                     'Implementation-Version'  : project.jar.archiveVersion,
                     'Implementation-Vendor'   : mod_author,
                     'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                    'Timestampe'              : System.currentTimeMillis(),
+                    'Timestamp'               : System.currentTimeMillis(),
                     'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                     'Build-On-Minecraft'      : minecraft_version
             ])
@@ -69,33 +68,26 @@ subprojects {
 
     processResources {
         def expandProps = [
-                "version": version,
-                "group": project.group, //Else we target the task's group.
-                "minecraft_version": minecraft_version,
-                "forge_version": forge_version,
+                "version"                   : version,
+                "group"                     : project.group, //Else we target the task's group.
+                "minecraft_version"         : minecraft_version,
+                "forge_version"             : forge_version,
                 "forge_loader_version_range": forge_loader_version_range,
-                "forge_version_range": forge_version_range,
-                "minecraft_version_range": minecraft_version_range,
-                "fabric_version": fabric_version,
-                "fabric_loader_version": fabric_loader_version,
-                "mod_name": mod_name,
-                "mod_author": mod_author,
-                "mod_id": mod_id,
-                "license": license,
-                "description": project.description,
-                "credits": credits
+                "forge_version_range"       : forge_version_range,
+                "minecraft_version_range"   : minecraft_version_range,
+                "fabric_version"            : fabric_version,
+                "fabric_loader_version"     : fabric_loader_version,
+                "mod_name"                  : mod_name,
+                "mod_author"                : mod_author,
+                "mod_id"                    : mod_id,
+                "license"                   : license,
+                "description"               : project.description,
+                "credits"                   : credits
         ]
 
         filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
             expand expandProps
         }
         inputs.properties(expandProps)
-    }
-
-    // Disables Gradle's custom module metadata from being published to maven. The
-    // metadata includes mapped dependencies which are not reasonably consumable by
-    // other mod developers.
-    tasks.withType(GenerateModuleMetadata) {
-        enabled = false
     }
 }

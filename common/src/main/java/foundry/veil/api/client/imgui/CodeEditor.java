@@ -6,6 +6,7 @@ import imgui.extension.texteditor.TextEditor;
 import imgui.flag.ImGuiCond;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.type.ImBoolean;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
@@ -23,14 +24,14 @@ public class CodeEditor implements NativeResource {
 
     // TODO reimplement in Java
     private final TextEditor editor;
-    private final String saveText;
+    private final Component saveText;
     private String oldSource;
     private SaveCallback saveCallback;
     private String fileName;
 
     private final ImBoolean open;
 
-    public CodeEditor(@Nullable String saveText) {
+    public CodeEditor(@Nullable Component saveText) {
         this.editor = new TextEditor();
         this.editor.setShowWhitespaces(false);
         this.saveText = saveText;
@@ -139,7 +140,7 @@ public class CodeEditor implements NativeResource {
                 }
 
                 if (this.saveText != null) {
-                    if (ImGui.menuItem(this.saveText)) {
+                    if (ImGui.menuItem(this.saveText.getString())) {
                         this.save();
                     }
                 }
@@ -205,30 +206,33 @@ public class CodeEditor implements NativeResource {
         ImVec2 center = ImGui.getMainViewport().getCenter();
         ImGui.setNextWindowPos(center.x, center.y, ImGuiCond.Appearing, 0.5f, 0.5f);
 
-        if (ImGui.beginPopupModal(this.saveText + "?###save_confirm", ImGuiWindowFlags.AlwaysAutoResize)) {
-            ImGui.text("Your changes have not been saved.\nThis operation cannot be undone!");
-            ImGui.separator();
+        if (this.saveText != null) {
+            String save = this.saveText.getString();
+            if (ImGui.beginPopupModal(save + "?###save_confirm", ImGuiWindowFlags.AlwaysAutoResize)) {
+                ImGui.text("Your changes have not been saved.\nThis operation cannot be undone!");
+                ImGui.separator();
 
-            ImGui.setItemDefaultFocus();
-            if (ImGui.button(this.saveText)) {
-                this.save();
-                this.hide();
-                ImGui.closeCurrentPopup();
+                ImGui.setItemDefaultFocus();
+                if (ImGui.button(save)) {
+                    this.save();
+                    this.hide();
+                    ImGui.closeCurrentPopup();
+                }
+
+                ImGui.sameLine();
+                if (ImGui.button("Discard")) {
+                    this.oldSource = null;
+                    this.hide();
+                    ImGui.closeCurrentPopup();
+                }
+
+                ImGui.sameLine();
+                if (ImGui.button("Cancel")) {
+                    ImGui.closeCurrentPopup();
+                }
+
+                ImGui.endPopup();
             }
-
-            ImGui.sameLine();
-            if (ImGui.button("Discard")) {
-                this.oldSource = null;
-                this.hide();
-                ImGui.closeCurrentPopup();
-            }
-
-            ImGui.sameLine();
-            if (ImGui.button("Cancel")) {
-                ImGui.closeCurrentPopup();
-            }
-
-            ImGui.endPopup();
         }
 
         ImGui.popID();

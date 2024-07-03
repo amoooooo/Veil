@@ -67,14 +67,14 @@ dependencies {
     modRuntimeOnly "maven.modrinth:iris:1.6.11+1.20.1"
 //    modRuntimeOnly "maven.modrinth:replaymod:1.20.1-2.6.15"
 
-    implementation(include("org.antlr:antlr4-runtime:${antlr_version}"))
-    implementation(include("io.github.douira:glsl-transformer:${glsl_transformer_version}"))
-    implementation(include("io.github.douira:glsl-preprocessor:${glsl_preprocessor_version}"))
+    api(include("org.antlr:antlr4-runtime:${antlr_version}"))
+    api(include("io.github.douira:glsl-transformer:${glsl_transformer_version}"))
+    api(include("io.github.douira:glsl-preprocessor:${glsl_preprocessor_version}"))
 
-    implementation(include("gg.moonflower:molang-compiler:${molang_compiler_version}"))
+    api(include("gg.moonflower:molang-compiler:${molang_compiler_version}"))
 
-    implementation(include("io.github.spair:imgui-java-binding:$imgui_version"))
-    implementation(include(("io.github.spair:imgui-java-lwjgl3:$imgui_version"))) {
+    api(include("io.github.spair:imgui-java-binding:$imgui_version"))
+    api(include(("io.github.spair:imgui-java-lwjgl3:$imgui_version"))) {
         exclude group: 'org.lwjgl'
         exclude group: 'org.lwjgl.lwjgl'
     }
@@ -83,7 +83,7 @@ dependencies {
     implementation(include("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))
     implementation(include("io.github.spair:imgui-java-natives-windows:$imgui_version"))
 
-    implementation(include("org.lwjgl:lwjgl-opencl:$lwjgl_version")) {
+    api(include("org.lwjgl:lwjgl-opencl:$lwjgl_version")) {
         transitive false
     }
 }

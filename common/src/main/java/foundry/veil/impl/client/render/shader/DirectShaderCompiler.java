@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.shader;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.CompiledShader;
@@ -102,7 +103,7 @@ public class DirectShaderCompiler implements ShaderCompiler {
         String transformed = processor.modify(new PreProcessorContext(importProcessor, context, uniformBindings, dependencies, includes, includesView, this.compilingName, true), source);
 
         int shader = glCreateShader(type);
-        glShaderSource(shader, transformed);
+        GlStateManager.glShaderSource(shader, List.of(transformed));
         glCompileShader(shader);
         if (glGetShaderi(shader, GL_COMPILE_STATUS) != GL_TRUE) {
             String log = glGetShaderInfoLog(shader);

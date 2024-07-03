@@ -1,0 +1,78 @@
+import net.fabricmc.loom.api.mappings.layered.MappingsNamespace
+import net.fabricmc.loom.task.RemapJarTask
+import net.fabricmc.loom.task.RemapSourcesJarTask
+
+plugins {
+    id 'fabric-loom'
+}
+base {
+    archivesName = "${mod_name}-mojmap-${minecraft_version}"
+}
+loom {
+    mixin {
+        useLegacyMixinAp = false
+    }
+}
+if (System.getenv('BUILD_NUMBER') != null) {
+    version += "." + System.getenv('BUILD_NUMBER')
+}
+
+// Based on EMI's solution: https://github.com/emilyploszaj/emi/blob/1.21/xplat/mojmap/build.gradle
+
+evaluationDependsOn ':common'
+
+dependencies {
+    minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+    mappings loom.officialMojangMappings()
+}
+
+def mojmapJar = tasks.register('mojmapJar', RemapJarTask, {
+    classpath.from loom.getMinecraftJarsCollection(MappingsNamespace.INTERMEDIARY)
+    def remapJar = project(':common').tasks.named('remapJar', AbstractArchiveTask)
+    dependsOn remapJar
+
+    inputFile.convention(remapJar.flatMap {it.archiveFile })
+    sourceNamespace = 'intermediary'
+    targetNamespace = 'named'
+
+    remapperIsolation = true
+})
+
+def mojmapSourcesJar = tasks.register('mojmapSourcesJar', RemapSourcesJarTask, {
+    classpath.from loom.getMinecraftJarsCollection(MappingsNamespace.INTERMEDIARY)
+    def filteredSourcesJar = project(':common').tasks.named('sourcesJar', Jar)
+    dependsOn filteredSourcesJar
+
+    archiveClassifier = 'sources'
+
+    inputFile.convention(filteredSourcesJar.flatMap {it.archiveFile })
+    sourceNamespace = 'named'
+    targetNamespace = 'named'
+
+    remapperIsolation = true
+})
+
+tasks.named("build").configure {
+    dependsOn(mojmapJar, mojmapSourcesJar)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId base.archivesName.get()
+            artifact(mojmapJar) {
+                builtBy mojmapJar
+                classifier = ''
+            }
+            artifact(mojmapSourcesJar) {
+                builtBy mojmapSourcesJar
+                classifier = 'sources'
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "file://" + System.getenv("local_maven")
+        }
+    }
+}

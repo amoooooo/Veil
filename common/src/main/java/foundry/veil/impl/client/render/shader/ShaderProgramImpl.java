@@ -139,12 +139,10 @@ public class ShaderProgramImpl implements ShaderProgram {
                 throw new ShaderException("Failed to link shader", log);
             }
 
-            this.bind();
             this.shaders.values().forEach(shader -> {
                 shader.apply(this);
                 this.definitionDependencies.addAll(shader.definitionDependencies());
             });
-            ShaderProgram.unbind();
         } catch (Exception e) {
             this.clearShader(); // F
             throw e;

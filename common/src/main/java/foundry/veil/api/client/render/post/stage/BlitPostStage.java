@@ -56,6 +56,13 @@ public class BlitPostStage extends FramebufferPostStage {
             return;
         }
 
+        if (this.getOut().equals(this.getIn())) {
+            if (!this.printedError) {
+                this.printedError = true;
+                Veil.LOGGER.error("Input and output targets cannot be the same: {}", this.shader);
+            }
+        }
+
         shader.bind();
         shader.applyRenderSystem();
         shader.addRenderSystemTextures();

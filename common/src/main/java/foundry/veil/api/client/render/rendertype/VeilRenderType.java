@@ -5,9 +5,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderBridge;
+import foundry.veil.api.client.render.VeilVertexFormat;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.mixin.accessor.RenderTypeAccessor;
 import net.minecraft.Util;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +26,8 @@ public final class VeilRenderType extends RenderType {
 
     private static final ShaderStateShard PARTICLE = VeilRenderBridge.shaderState(VeilShaders.PARTICLE);
     private static final ShaderStateShard PARTICLE_ADD = VeilRenderBridge.shaderState(VeilShaders.PARTICLE_ADD);
+
+    private static final ShaderStateShard SKINNED_MESH = VeilRenderBridge.shaderState(VeilShaders.SKINNED_MESH);
 
     private static final BiFunction<ResourceLocation, Boolean, RenderType> QUASAR_PARTICLE = Util.memoize((texture, additive) -> {
         CompositeState state = RenderType.CompositeState.builder()
@@ -45,6 +49,18 @@ public final class VeilRenderType extends RenderType {
                 .createCompositeState(false);
         return RenderType.create(Veil.MODID + ":quasar_trail", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLE_STRIP, TRANSIENT_BUFFER_SIZE, false, false, state);
     });
+
+    private static final Function<ResourceLocation, RenderType> NECROMANCER_SKINNED_MESH = Util.memoize((texture) -> {
+        CompositeState state = RenderType.CompositeState.builder()
+                .setShaderState(SKINNED_MESH)
+                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                .setTransparencyState(NO_TRANSPARENCY)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .createCompositeState(true);
+        return RenderType.create(Veil.MODID + ":skinned_mesh", VeilVertexFormat.SKINNED_MESH, VertexFormat.Mode.QUADS, SMALL_BUFFER_SIZE, true, false, state);
+    });
+
 
     public static RenderType quasarParticle(ResourceLocation texture, boolean additive) {
         return QUASAR_PARTICLE.apply(texture, additive);

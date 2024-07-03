@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
@@ -39,6 +40,16 @@ public interface VeilRenderBridge {
      */
     static VeilRenderTypeBuilder create(RenderType.CompositeState.CompositeStateBuilder builder) {
         return (VeilRenderTypeBuilder) builder;
+    }
+
+    /**
+     * Creates a matrix stack wrapper for the specified post stack.
+     *
+     * @param poseStack The pose stack to wrap
+     * @return The matrix stack representation
+     */
+    static MatrixStack create(PoseStack poseStack) {
+        return (MatrixStack) poseStack;
     }
 
     /**
