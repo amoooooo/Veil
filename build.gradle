@@ -12,6 +12,11 @@ subprojects {
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
+
+    javadoc {
+        failOnError = false
+    }
+    
     jar {
         from(rootProject.file("LICENSE")) {
             rename { "${it}_${mod_name}" }
