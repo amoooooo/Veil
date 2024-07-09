@@ -3,7 +3,6 @@
 Todo short Text about Quasar
 
 Advantages:
-
 - FULLY resource-pack driven
 
 # Key concepts
@@ -12,16 +11,16 @@ Advantages:
 
 ## Particle Emitters
 
-| Folder | emitters                                                                                                                             |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Folder | emitters|
+| ------ | ------- |
 | Link   | [Github](https://github.com/FoundryMC/Veil/blob/1.20/common/src/main/java/foundry/veil/api/quasar/data/ParticleEmitterData.java#L27) |
 
 Particle emitters are the starting point for everything related to Quasar’s particles. They define a few variables about themselves like lifetime and the rate at which they emit particles, but more importantly they hold the links to the Particle data and Shape that each describe specific properties of the spawned particles.
 
 ## Modules
 
-| Folder | modules                                                                                                        |
-| ------ | -------------------------------------------------------------------------------------------------------------- |
+| Folder | modules|
+| ------ | -------|
 | Link   | [Github](https://github.com/FoundryMC/Veil/tree/1.20/common/src/main/java/foundry/veil/api/quasar/data/module) |
 
 Modules are the most powerful building block of Quasar. A module is code attached to a particle, where it is executed at a specific time, depending on which kind of module it is. They are what makes particles dynamic by defining movement, color changes or light emission.
@@ -40,20 +39,19 @@ We are gonna go into more detail how they work internally in [`Creating Costum M
 
 ## Particle Data
 
-| Folder | modules/particle_data                                                                                                               |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Folder | modules/particle_data |
+| ------ | --------------------- |
 | Link   | [Github](https://github.com/FoundryMC/Veil/blob/1.20/common/src/main/java/foundry/veil/api/quasar/data/QuasarParticleData.java#L52) |
 
 Defines the modules to attach to a particle and optionally the texture(s) for it. Also defines collision and the render style, which can be either `CUBE` or `BILLBOARD`. `BILLBOARD` is meant for particles with Textures that always face the player, whereas `CUBE` displays colored, textureless cubes.
 
 ## Shape
 
-| Folder | modules/emitter/particle/shape                                                                                    |
-| ------ | ----------------------------------------------------------------------------------------------------------------- |
+| Folder | modules/emitter/particle/shape |
+| ------ | ------------------------------ |
 | Link   | [Github](https://github.com/FoundryMC/Veil/tree/1.20/common/src/main/java/foundry/veil/api/quasar/emitters/shape) |
 
-<p><span style="color: rgb(184, 49, 47);">
-A shape describes where relative to the location of the Particle Emitter to spawn the individual particles. When spawning the particle a random point on the surface of the shape is picked?</span></p>
+A shape describes where relative to the location of the Particle Emitter to spawn the individual particles. When spawning the particle a random point on the surface of the shape is picked
 
 Possible Shapes (Lower- or Uppercase works):
 
@@ -68,9 +66,9 @@ Possible Shapes (Lower- or Uppercase works):
 
 ## Particle Settings
 
-| Folder | modules/emitter/particle                                                                                                |
-| ------ | ----------------------------------------------------------------------------------------------------------------------- |
-| Link   | https://github.com/FoundryMC/Veil/blob/1.20/common/src/main/java/foundry/veil/api/quasar/data/ParticleSettings.java#L26 |
+| Folder | modules/emitter/particle|
+| ------ | ----------------------- |
+| Link   | [Github](https://github.com/FoundryMC/Veil/blob/1.20/common/src/main/java/foundry/veil/api/quasar/data/ParticleSettings.java#L26) |
 
 Sets lifetime, size, speed, initial rotation and the ranges for randomizing them.
 
@@ -93,21 +91,21 @@ Let‘s start by creating a resource pack with a folder structure for our partic
 ```markdown
 resourcepacks
 \-particles
-|-pack.mcmeta
-\-assets
-\-modid
-\-quasar
-|-emitters
-|-modules  
- |-render
-|-update
-|-init
-|-force
-|---collision  
- \-particle_data
-\-emitter
-\-particle
-\-shape
+  |-pack.mcmeta
+    \-assets
+      \-modid
+        \-quasar
+          |-emitters
+          |-modules
+            |-render
+            |-update
+            |-init
+            |-force
+            |---collision
+            \-particle_data
+              \-emitter
+                \-particle
+                  \-shape
 ```
 
 Note that you have to replace `modid` with the ID of the mod you want to add Particles for.
@@ -129,7 +127,7 @@ In this section I would go through all the files of a full particle definition a
 
 ### Spawning particles
 
-**_Java_**
+**Java**
 
 Since Quasar uses Resource packs for it‘s particles, it is suggested to make the code for spawning particles fault-tolerant. A method like this could be located in your Mods Client class to access it quickly. Since this code is wrapped in a `try`-`catch`-block it will just stop executing if it encounters a error at any point:
 
@@ -154,11 +152,11 @@ public static void spawnParticle(@Nullable Vec3 position, @Nullable Entity entit
     }
 ```
 
-**_Command_**
+**Command**
 
 You can also use the `/quasar` command to spawn the particle. It’s syntax is `/quasar <particleemitter> <position>`. Please note that this command only exists client-side and can therefore not be executed by anything other than the player directly.
 
-# Modules?
+# Modules
 
 All available Modules and their IDs for use in the Particle Module data can be found [here.](https://github.com/FoundryMC/Veil/blob/4361244986c2c6d3430484c11b72f83dd3cd5e9b/common/src/main/java/foundry/veil/api/quasar/data/module/ModuleType.java#L19-L54)
 
@@ -166,11 +164,11 @@ Example modules for explaining structure: Dieoncollision&Trail?
 
 In case we‘ve lost you somewhere between Particle Module Data, Module Data and Modules here‘s the terminology:
 
-**_Module Data_**: Json-defined Arguments for a specific Module. The corresponding Java record handles applying modulesto the particle using the data from the Json.
+**Module Data**: Json-defined Arguments for a specific Module. The corresponding Java record handles applying modulesto the particle using the data from the Json.
 
-**_Module_**: Interface-implementing class that takes values from the Module Data to use them in logic executed on the particle (`render`,`init`,`update`)
+**Module**: Interface-implementing class that takes values from the Module Data to use them in logic executed on the particle (`render`,`init`,`update`)
 
-**_Particle Module Data_**: Defines the modules to attach to the particle
+**Particle Module Data**: Defines the modules to attach to the particle
 
 ```mermaid
 graph
