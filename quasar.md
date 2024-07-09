@@ -9,7 +9,7 @@ Advantages:
 
 <p>❗ These paths go off of `assets/modid/quasar`.</p>
 
-## Particle Emitters
+### Particle Emitters
 
 | Folder | emitters|
 | ------ | ------- |
@@ -17,7 +17,7 @@ Advantages:
 
 Particle emitters are the starting point for everything related to Quasar’s particles. They define a few variables about themselves like lifetime and the rate at which they emit particles, but more importantly they hold the links to the Particle data and Shape that each describe specific properties of the spawned particles.
 
-## Modules
+### Modules
 
 | Folder | modules|
 | ------ | -------|
@@ -37,7 +37,7 @@ Modules are interacted with by making a json for the Module instance, telling it
 
 We are gonna go into more detail how they work internally in [`Creating Costum Modules`](https://github.com/foundrymc/veil/wiki/quasar#creating-costum-Modules).
 
-## Particle Data
+### Particle Data
 
 | Folder | modules/particle_data |
 | ------ | --------------------- |
@@ -45,7 +45,7 @@ We are gonna go into more detail how they work internally in [`Creating Costum M
 
 Defines the modules to attach to a particle and optionally the texture(s) for it. Also defines collision and the render style, which can be either `CUBE` or `BILLBOARD`. `BILLBOARD` is meant for particles with Textures that always face the player, whereas `CUBE` displays colored, textureless cubes.
 
-## Shape
+### Shape
 
 | Folder | modules/emitter/particle/shape |
 | ------ | ------------------------------ |
@@ -123,7 +123,7 @@ For your pack.mcmeta you can just put something like this where Pack format 15 i
 
 ### Making a particle
 
-In this section I would go through all the files of a full particle definition and explain each file on an Example?
+In this section I would go through all the files of a full particle definition and explain each file on an Example
 
 ### Spawning particles
 
