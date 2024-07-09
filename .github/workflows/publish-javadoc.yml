@@ -28,3 +28,9 @@ jobs:
           java-version: 17
           target-folder: javadoc
           project: gradle
+
+
+      - name: Debug - List directory contents
+        run: |
+          pwd
+          ls -R
