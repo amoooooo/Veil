@@ -14,6 +14,7 @@
     "client.MinecraftMixin",
     "client.MouseHandlerMixin",
     "client.RenderTypeMixin",
+    "client.ShowMouse",
     "client.deferred.ModelBlockRendererMixin",
     "client.deferred.ParticleEngineMixin",
     "client.deferred.vanilla.LevelRendererMixin",
@@ -21,12 +22,12 @@
     "client.stage.LevelRendererMixin",
     "client.stage.sodium.SodiumWorldRendererMixin",
     "client.stage.vanilla.LevelRendererMixin",
-    "compat.sodium.SodiumWorldRendererAccessor",
-    "compat.sodium.ShaderChunkRendererAccessor",
-    "compat.sodium.RenderSectionManagerAccessor",
     "compat.iris.NewWorldRenderingPipelineAccessor",
     "compat.replaymod.PipelineMixin",
-    "compat.sodium.ShaderLoaderMixin"
+    "compat.sodium.RenderSectionManagerAccessor",
+    "compat.sodium.ShaderChunkRendererAccessor",
+    "compat.sodium.ShaderLoaderMixin",
+    "compat.sodium.SodiumWorldRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

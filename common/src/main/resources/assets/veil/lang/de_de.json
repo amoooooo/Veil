@@ -1,5 +1,6 @@
 {
   "key.veil.editor": "Editor umschalten",
+  "key.veil.mouse": "Maus umschalten",
   "key.categories.veil": "Veil",
   "veil.deferred.unsupported.title": "Deferred Renderer nicht unterstützt",
   "veil.deferred.unsupported.sodium_desc": "Deferred unterstützt Sodium nicht",

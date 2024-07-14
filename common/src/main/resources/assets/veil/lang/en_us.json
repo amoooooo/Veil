@@ -1,5 +1,6 @@
 {
   "key.veil.editor": "Toggle Editor",
+  "key.veil.mouse": "Toggle Mouse",
   "key.categories.veil": "Veil",
   "veil.deferred.unsupported.title": "Deferred Renderer Unsupported",
   "veil.deferred.unsupported.sodium_desc": "Deferred does not support Sodium",

@@ -83,6 +83,7 @@ public class VeilFabricClient implements ClientModInitializer {
         }
 
         KeyBindingHelper.registerKeyBinding(VeilClient.EDITOR_KEY);
+        KeyBindingHelper.registerKeyBinding(VeilClient.MOUSE_KEY);
 
         // Register test resource pack
         ModContainer container = FabricLoader.getInstance().getModContainer(Veil.MODID).orElseThrow();

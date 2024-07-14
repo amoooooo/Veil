@@ -1,11 +1,12 @@
 {
   "key.veil.editor": "Schakel Editor",
+  "key.veil.mouse": "Muis Schakelen",
   "key.categories.veil": "Veil",
   "veil.deferred.unsupported.title": "Deferred Renderer Niet Ondersteund",
   "veil.deferred.unsupported.sodium_desc": "Deferred ondersteunt Sodium niet",
   "veil.deferred.unsupported.fabulous_desc": "Deferred ondersteunt Fabulous niet",
   "gui.veil.save": "Opslaan",
- 
+
   "editor_group.veil.default": "Editor",
   "editor_group.veil.example": "Voorbeeld",
   "editor_group.veil.deferred": "Deferred",
@@ -173,5 +174,6 @@
   "editor.veil.deferred.toggle.pipeline": "Activeer Pipeline",
   "editor.veil.deferred.toggle.ao": "Activeer Omgevingsocclusie",
   "editor.veil.deferred.toggle.vanilla_light": "Activeer Vanilla Licht",
-  "editor.veil.deferred.toggle.vanilla_entity_light": "Activeer Vanilla Entiteit Licht"
+  "editor.veil.deferred.toggle.vanilla_entity_light": "Activeer Vanilla Entiteit Licht",
+  "key.veil.mouse": "Toggle Mouse"
 }
