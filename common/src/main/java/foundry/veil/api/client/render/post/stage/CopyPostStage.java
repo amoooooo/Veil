@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.post.stage;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
@@ -15,7 +16,9 @@ import java.util.Objects;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL20.GL_MAX_DRAW_BUFFERS;
 import static org.lwjgl.opengl.GL20.glDrawBuffers;
+import static org.lwjgl.opengl.GL30.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL30.glBlitFramebuffer;
 import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT0;
 
@@ -28,9 +31,26 @@ public class CopyPostStage extends FramebufferPostStage {
 
     public static final Codec<CopyPostStage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("in").forGetter(CopyPostStage::getIn),
-            Codec.INT.optionalFieldOf("in_attachment", 0).forGetter(CopyPostStage::getInAttachment),
+            Codec.INT.optionalFieldOf("in_attachment", 0)
+                .flatXmap(
+                    a -> a >= 0 && a < glGetInteger(GL_MAX_COLOR_ATTACHMENTS)
+                        ? DataResult.success(a)
+                        : DataResult.error(() -> "Invalid in attachment: " + a + ", must be in range of [0, " + glGetInteger(GL_MAX_COLOR_ATTACHMENTS) + ")"),
+                    DataResult::success
+                ).forGetter(CopyPostStage::getInAttachment),
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("out").forGetter(CopyPostStage::getOut),
-            Codec.list(Codec.INT).optionalFieldOf("out_attachments", List.of(0)).forGetter(CopyPostStage::getOutAttachments),
+            Codec.list(Codec.INT).optionalFieldOf("out_attachments", List.of(0))
+                .flatXmap(as -> {
+                        for (int a : as) {
+                            if (a < 0 || a >= glGetInteger(GL_MAX_DRAW_BUFFERS))
+                                return DataResult.error(() -> "Invalid out attachment: " + a + ", must be in range of [0, " + glGetInteger(GL_MAX_DRAW_BUFFERS) + ")");
+                        }
+                        if (as.stream().distinct().count() != as.size())
+                            return DataResult.error(() -> "Out attachments contains duplicates");
+                        return DataResult.success(as);
+                    },
+                    DataResult::success
+                ).forGetter(CopyPostStage::getOutAttachments),
             Codec.BOOL.optionalFieldOf("color", true).forGetter(CopyPostStage::copyColor),
             Codec.BOOL.optionalFieldOf("depth", false).forGetter(CopyPostStage::copyDepth),
             Codec.BOOL.optionalFieldOf("linear", false).forGetter(CopyPostStage::isLinear)
