@@ -1,24 +1,24 @@
 package foundry.veil.api.client.render.post.stage;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.post.PostPipeline;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
+import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11C.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL20.GL_MAX_DRAW_BUFFERS;
 import static org.lwjgl.opengl.GL20.glDrawBuffers;
-import static org.lwjgl.opengl.GL30.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL30.glBlitFramebuffer;
 import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT0;
 
@@ -31,51 +31,37 @@ public class CopyPostStage extends FramebufferPostStage {
 
     public static final Codec<CopyPostStage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("in").forGetter(CopyPostStage::getIn),
-            Codec.INT.optionalFieldOf("in_attachment", 0)
-                .flatXmap(
-                    a -> a >= 0 && a < glGetInteger(GL_MAX_COLOR_ATTACHMENTS)
-                        ? DataResult.success(a)
-                        : DataResult.error(() -> "Invalid in attachment: " + a + ", must be in range of [0, " + glGetInteger(GL_MAX_COLOR_ATTACHMENTS) + ")"),
-                    DataResult::success
-                ).forGetter(CopyPostStage::getInAttachment),
+            Codec.STRING.optionalFieldOf("in_attachment").forGetter(CopyPostStage::getInAttachmentName),
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("out").forGetter(CopyPostStage::getOut),
-            Codec.list(Codec.INT).optionalFieldOf("out_attachments", List.of(0))
-                .flatXmap(as -> {
-                        for (int a : as) {
-                            if (a < 0 || a >= glGetInteger(GL_MAX_DRAW_BUFFERS))
-                                return DataResult.error(() -> "Invalid out attachment: " + a + ", must be in range of [0, " + glGetInteger(GL_MAX_DRAW_BUFFERS) + ")");
-                        }
-                        if (as.stream().distinct().count() != as.size())
-                            return DataResult.error(() -> "Out attachments contains duplicates");
-                        return DataResult.success(as);
-                    },
-                    DataResult::success
-                ).forGetter(CopyPostStage::getOutAttachments),
+            Codec.list(Codec.STRING).optionalFieldOf("out_attachments").forGetter(CopyPostStage::getOutAttachmentNames),
             Codec.BOOL.optionalFieldOf("color", true).forGetter(CopyPostStage::copyColor),
             Codec.BOOL.optionalFieldOf("depth", false).forGetter(CopyPostStage::copyDepth),
             Codec.BOOL.optionalFieldOf("linear", false).forGetter(CopyPostStage::isLinear)
     ).apply(instance, CopyPostStage::new));
 
-    private final int inAttachment;
-    private final int[] outAttachments;
+    private final @Nullable String inAttachmentName;
+    private int inAttachmentId = 0;
+    private final @Nullable List<String> outAttachmentNames;
+    private int[] outAttachmentIds = null;
     private final int mask;
     private final int filter;
 
     /**
      * Creates a new blit post stage that applies the specified shader.
      *
-     * @param in             The framebuffer to copy from
-     * @param inAttachment   The color attachment to copy from, must be in the range of [0, GL_MAX_COLOR_ATTACHMENTS), see also: {@link org.lwjgl.opengl.GL11#glReadBuffer(int)}
-     * @param out            The framebuffer to write into
-     * @param outAttachments The color attachments to write into, the values must be in the range of [0, GL_MAX_DRAW_BUFFERS), see also: {@link org.lwjgl.opengl.GL30#glDrawBuffers(int[])}
-     * @param copyColor      Whether to copy the color buffers
-     * @param copyDepth      Whether to copy the depth buffers
-     * @param linear         Whether to copy with a linear filter if the input size doesn't match the output size
+     * @param in                 The framebuffer to copy from
+     * @param inAttachmentName   The name of the color attachment to copy from, see also: {@link org.lwjgl.opengl.GL11#glReadBuffer(int)}
+     * @param out                The framebuffer to write into
+     * @param outAttachmentNames The names of the color attachments to write into, see also: {@link org.lwjgl.opengl.GL30#glDrawBuffers(int[])}
+     * @param copyColor          Whether to copy the color buffers
+     * @param copyDepth          Whether to copy the depth buffers
+     * @param linear             Whether to copy with a linear filter if the input size doesn't match the output size
      */
-    public CopyPostStage(ResourceLocation in, int inAttachment, ResourceLocation out, List<Integer> outAttachments, boolean copyColor, boolean copyDepth, boolean linear) {
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public CopyPostStage(ResourceLocation in, Optional<String> inAttachmentName, ResourceLocation out, Optional<List<String>> outAttachmentNames, boolean copyColor, boolean copyDepth, boolean linear) {
         super(in, out, false);
-        this.inAttachment = inAttachment + GL_COLOR_ATTACHMENT0;
-        this.outAttachments = outAttachments.stream().mapToInt(a -> a + GL_COLOR_ATTACHMENT0).toArray();
+        this.inAttachmentName = inAttachmentName.orElse(null);
+        this.outAttachmentNames = outAttachmentNames.orElse(null);
         this.mask = (copyColor ? GL_COLOR_BUFFER_BIT : 0) | (copyDepth ? GL_DEPTH_BUFFER_BIT : 0);
         this.filter = linear ? GL_LINEAR : GL_NEAREST;
     }
@@ -85,21 +71,45 @@ public class CopyPostStage extends FramebufferPostStage {
         AdvancedFbo in = context.getFramebuffer(this.getIn());
         AdvancedFbo out = context.getFramebuffer(this.getOut());
         if (in != null && out != null) {
-
             in.bindRead();
             out.bindDraw(false);
 
+            // Update attachment ids
+            if (this.inAttachmentId == 0) {
+                if (this.inAttachmentName == null) {
+                    this.inAttachmentId = GL_COLOR_ATTACHMENT0;
+                } else {
+                    this.inAttachmentId = in.getColorAttachmentSlot(this.inAttachmentName)
+                            .map(i -> i + GL_COLOR_ATTACHMENT0)
+                            .orElse(GL_COLOR_ATTACHMENT0);
+                }
+            }
+            if (this.outAttachmentIds == null) {
+                if (this.outAttachmentNames == null) {
+                    this.outAttachmentIds = out.getDrawBuffers();
+                } else {
+                    this.outAttachmentIds = this.outAttachmentNames.stream().filter(
+                            name -> {
+                                if (out.getColorAttachmentSlot(name).isEmpty()) {
+                                    throw new InvalidParameterException("Invalid out attachment name \"" + name + "\" in CopyPostStage.");
+                                }
+                                return true;
+                            }
+                    ).mapToInt(name -> out.getColorAttachmentSlot(name).orElseThrow() + GL_COLOR_ATTACHMENT0).toArray();
+                }
+            }
+
             int old_read_buf = glGetInteger(GL_READ_BUFFER);
-            if (this.inAttachment != old_read_buf) glReadBuffer(this.inAttachment);
+            if (this.inAttachmentId != old_read_buf) glReadBuffer(this.inAttachmentId);
             boolean draw_bufs_changed = false;
-            if (!Arrays.equals(this.outAttachments, out.getDrawBuffers())) {
+            if (!Arrays.equals(this.outAttachmentIds, out.getDrawBuffers())) {
                 draw_bufs_changed = true;
-                glDrawBuffers(this.outAttachments);
+                glDrawBuffers(this.outAttachmentIds);
             }
 
             glBlitFramebuffer(0, 0, in.getWidth(), in.getHeight(), 0, 0, out.getWidth(), out.getHeight(), mask, filter);
 
-            if (this.inAttachment != old_read_buf) glReadBuffer(old_read_buf);
+            if (this.inAttachmentId != old_read_buf) glReadBuffer(old_read_buf);
             if (draw_bufs_changed) glDrawBuffers(out.getDrawBuffers());
 
             AdvancedFbo.unbind();
@@ -117,17 +127,17 @@ public class CopyPostStage extends FramebufferPostStage {
     }
 
     /**
-     * @return The color attachment to copy from, must be in the range of [0, GL_MAX_COLOR_ATTACHMENTS), see also: {@link org.lwjgl.opengl.GL11#glReadBuffer(int)}
+     * @return The name of the color attachment to copy from, see also: {@link org.lwjgl.opengl.GL11#glReadBuffer(int)}
      */
-    public int getInAttachment() {
-        return this.inAttachment - GL_COLOR_ATTACHMENT0;
+    private Optional<String> getInAttachmentName() {
+        return Optional.ofNullable(this.inAttachmentName);
     }
 
     /**
-     * @return The color attachments to write into, the values must be in the range of [0, GL_MAX_DRAW_BUFFERS), see also: {@link org.lwjgl.opengl.GL30#glDrawBuffers(int[])}
+     * @return The names of the color attachments to write into, see also: {@link org.lwjgl.opengl.GL30#glDrawBuffers(int[])}
      */
-    public List<Integer> getOutAttachments() {
-        return Arrays.stream(this.outAttachments).mapToObj(a -> a - GL_COLOR_ATTACHMENT0).toList();
+    private Optional<List<String>> getOutAttachmentNames() {
+        return Optional.ofNullable(this.outAttachmentNames);
     }
 
     /**
