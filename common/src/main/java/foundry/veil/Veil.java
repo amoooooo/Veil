@@ -2,6 +2,7 @@ package foundry.veil;
 
 import foundry.veil.api.client.imgui.VeilImGui;
 import foundry.veil.api.molang.VeilMolang;
+import foundry.veil.example.VeilExampleContent;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.platform.VeilPlatform;
 import gg.moonflower.molangcompiler.api.MolangCompiler;
@@ -40,6 +41,9 @@ public class Veil {
             LOGGER.info("ImGui Disabled");
         }
         VeilMolang.set(MolangCompiler.create(MolangCompiler.DEFAULT_FLAGS, Veil.class.getClassLoader()));
+
+        if (platform().isDevelopmentEnvironment())
+            VeilExampleContent.init();
     }
 
     /**

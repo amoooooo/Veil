@@ -173,5 +173,7 @@
   "editor.veil.deferred.toggle.pipeline": "Enable Pipeline",
   "editor.veil.deferred.toggle.ao": "Enable Ambient Occlusion",
   "editor.veil.deferred.toggle.vanilla_light": "Enable Vanilla Light",
-  "editor.veil.deferred.toggle.vanilla_entity_light": "Enable Vanilla Entity Lights"
+  "editor.veil.deferred.toggle.vanilla_entity_light": "Enable Vanilla Entity Lights",
+
+  "veil.item_group.example_items_tab": "Veil Example Items"
 }
