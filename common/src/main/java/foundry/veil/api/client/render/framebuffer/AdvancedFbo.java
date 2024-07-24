@@ -14,6 +14,7 @@ import org.lwjgl.system.NativeResource;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11C.glReadBuffer;
@@ -273,6 +274,19 @@ public interface AdvancedFbo extends NativeResource {
      * @throws IllegalArgumentException If there is no attachment in the specified attachment slot
      */
     AdvancedFboAttachment getColorAttachment(int attachment);
+
+    /**
+     * Get a color attachment slot by the attachment name.
+     *
+     * @return The color attachment slot that has the given name
+     */
+    default Optional<Integer> getColorAttachmentSlot(String name) {
+        for (int i = 0; i < getColorAttachments(); i++) {
+            if (name.equals(getColorAttachment(i).getName()))
+                return Optional.of(i);
+        }
+        return Optional.empty();
+    }
 
     /**
      * Checks to see if the provided attachment has been added to this framebuffer and is a texture attachment.
