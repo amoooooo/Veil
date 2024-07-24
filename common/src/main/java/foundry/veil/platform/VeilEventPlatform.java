@@ -1,6 +1,9 @@
 package foundry.veil.platform;
 
 import foundry.veil.api.event.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.ServiceLoader;
 
@@ -26,4 +29,10 @@ public interface VeilEventPlatform {
     void onVeilRegisterBlockLayers(VeilRegisterBlockLayerEvent event);
 
     void onVeilRenderTypeStageRender(VeilRenderLevelStageEvent event);
+
+    void onVeilAssignBlockRenderLayer(VeilAssignRenderLayerEvent<Block> event);
+
+    void onVeilAssignFluidRenderLayer(VeilAssignRenderLayerEvent<Fluid> event);
+
+    void onVeilAssignItemRenderLayer(VeilAssignRenderLayerEvent<Item> event);
 }

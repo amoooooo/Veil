@@ -3,6 +3,10 @@ package foundry.veil.fabric.platform;
 import foundry.veil.api.event.*;
 import foundry.veil.fabric.event.*;
 import foundry.veil.platform.VeilEventPlatform;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
@@ -41,5 +45,20 @@ public class FabricVeilEventPlatform implements VeilEventPlatform {
     @Override
     public void onVeilRenderTypeStageRender(VeilRenderLevelStageEvent event) {
         FabricVeilRenderLevelStageEvent.EVENT.register(event);
+    }
+
+    @Override
+    public void onVeilAssignBlockRenderLayer(VeilAssignRenderLayerEvent<Block> event) {
+        FabricVeilAssignRenderLayerEvent.BLOCK.register(event);
+    }
+
+    @Override
+    public void onVeilAssignFluidRenderLayer(VeilAssignRenderLayerEvent<Fluid> event) {
+        FabricVeilAssignRenderLayerEvent.FLUID.register(event);
+    }
+
+    @Override
+    public void onVeilAssignItemRenderLayer(VeilAssignRenderLayerEvent<Item> event) {
+        FabricVeilAssignRenderLayerEvent.ITEM.register(event);
     }
 }

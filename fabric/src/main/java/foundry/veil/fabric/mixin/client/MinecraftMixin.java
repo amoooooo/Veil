@@ -5,11 +5,9 @@ import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.fabric.FabricRenderTypeStageHandler;
-import foundry.veil.fabric.event.FabricFreeNativeResourcesEvent;
-import foundry.veil.fabric.event.FabricVeilRegisterBlockLayerEvent;
-import foundry.veil.fabric.event.FabricVeilRegisterFixedBuffersEvent;
-import foundry.veil.fabric.event.FabricVeilRendererEvent;
+import foundry.veil.fabric.event.*;
 import foundry.veil.mixin.accessor.RenderStateShardAccessor;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.main.GameConfig;
 import net.minecraft.client.renderer.RenderType;
@@ -26,6 +24,9 @@ public class MinecraftMixin {
         VeilClient.initRenderer();
         FabricVeilRendererEvent.EVENT.invoker().onVeilRendererAvailable(VeilRenderSystem.renderer());
         FabricVeilRegisterFixedBuffersEvent.EVENT.invoker().onRegisterFixedBuffers(FabricRenderTypeStageHandler::register);
+        FabricVeilAssignRenderLayerEvent.BLOCK.invoker().onAssignRenderLayer(BlockRenderLayerMap.INSTANCE::putBlocks);
+        FabricVeilAssignRenderLayerEvent.FLUID.invoker().onAssignRenderLayer(BlockRenderLayerMap.INSTANCE::putFluids);
+//        TODO: FabricVeilAssignRenderLayerEvent.ITEM.invoker().onAssignRenderLayer(BlockRenderLayerMap.INSTANCE::putItems);
     }
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupDefaultState(IIII)V"))
