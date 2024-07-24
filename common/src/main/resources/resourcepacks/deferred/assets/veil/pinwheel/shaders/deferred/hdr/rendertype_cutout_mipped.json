@@ -1,0 +1,7 @@
+{
+  "vertex": "block",
+  "fragment": "rendertype_cutout_mipped",
+  "definitions": [
+    { "VEIL_USE_HDR": 1 }
+  ]
+}

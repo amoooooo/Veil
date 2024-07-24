@@ -6,6 +6,7 @@ import foundry.veil.api.client.registry.*;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
+import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.impl.client.editor.*;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
@@ -62,6 +63,7 @@ public class VeilClient {
             glEnable(GL_DEPTH_CLAMP); // TODO add config option
         });
 
+        VeilRenderType.init();
         // This fixes moving transparent blocks drawing too early
         VeilEventPlatform.INSTANCE.onVeilRegisterFixedBuffers(registry -> registry.registerFixedBuffer(VeilRenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS, RenderType.translucentMovingBlock()));
         RenderTypeStageRegistry.addGenericStage(renderType -> true, new RenderStateShard(Veil.MODID + ":deferred", () -> VeilRenderSystem.renderer().getDeferredRenderer().setup(), () -> VeilRenderSystem.renderer().getDeferredRenderer().clear()) {

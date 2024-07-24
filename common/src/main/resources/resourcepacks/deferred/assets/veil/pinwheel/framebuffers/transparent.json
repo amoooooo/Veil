@@ -7,7 +7,7 @@
     },
     {
       "name": "AlbedoSampler",
-      "format": "RGBA8"
+      "format": "RGBA16F"
     },
     {
       "name": "NormalSampler",

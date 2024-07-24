@@ -4,6 +4,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
+import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.impl.client.render.pipeline.PatchState;
 import foundry.veil.impl.client.render.pipeline.ShaderProgramState;
@@ -79,7 +80,15 @@ public interface VeilRenderBridge {
      * @return A new shader state shard for that shader
      */
     static RenderStateShard.ShaderStateShard shaderState(ResourceLocation shader) {
-        return new ShaderProgramState(() -> VeilRenderSystem.renderer().getShaderManager().getShader(shader));
+        return shaderState(() -> VeilRenderSystem.renderer().getShaderManager(), shader);
+    }
+
+    static RenderStateShard.ShaderStateShard shaderState(Supplier<ShaderManager> shaderManager, ResourceLocation shader) {
+        return new ShaderProgramState(() -> shaderManager.get().getShader(shader));
+    }
+
+    static RenderStateShard.ShaderStateShard deferredShaderState(ResourceLocation shader) {
+        return shaderState(() -> VeilRenderSystem.renderer().getDeferredRenderer().getDeferredShaderManager(), shader);
     }
 
     /**
