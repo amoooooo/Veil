@@ -22,6 +22,7 @@ public final class VeilFramebuffers {
     public static final ResourceLocation OPAQUE_LIGHT = buffer("opaque_light");
     public static final ResourceLocation TRANSPARENT_LIGHT = buffer("transparent_light");
     public static final ResourceLocation POST = buffer("post");
+    public static final ResourceLocation BLOOM = buffer("bloom");
 
     private static ResourceLocation buffer(String name) {
         return new ResourceLocation(Veil.MODID, name);

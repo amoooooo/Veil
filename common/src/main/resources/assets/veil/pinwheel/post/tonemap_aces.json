@@ -1,0 +1,21 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "veil:tonemap/tonemap",
+      "in": "veil:post",
+      "out": "swap"
+    },
+    {
+      "type": "veil:copy",
+      "in": "swap",
+      "out": "veil:post"
+    }
+  ],
+  "framebuffers": {
+    "swap": {
+      "depth": true,
+      "format": "RGBA16F"
+    }
+  }
+}

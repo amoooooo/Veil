@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render;
 
 import foundry.veil.api.client.editor.EditorManager;
+import foundry.veil.api.client.render.bloom.BloomManager;
 import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.post.PostPipeline;
@@ -39,6 +40,7 @@ public class VeilRenderer implements NativeResource {
     private final EditorManager editorManager;
     private final CameraMatrices cameraMatrices;
     private final GuiInfo guiInfo;
+    private final BloomManager bloomManager;
 
     @ApiStatus.Internal
     public VeilRenderer(ReloadableResourceManager resourceManager) {
@@ -54,6 +56,7 @@ public class VeilRenderer implements NativeResource {
         this.editorManager = new EditorManager(resourceManager);
         this.cameraMatrices = new CameraMatrices();
         this.guiInfo = new GuiInfo();
+        this.bloomManager = new BloomManager();
 
         List<PreparableReloadListener> listeners = ((ReloadableResourceManagerAccessor) resourceManager).getListeners();
 
@@ -156,6 +159,10 @@ public class VeilRenderer implements NativeResource {
      */
     public static CullFrustum getCullingFrustum() {
         return ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).veil$getCullFrustum();
+    }
+
+    public BloomManager getBloomManager() {
+        return bloomManager;
     }
 
     @Override

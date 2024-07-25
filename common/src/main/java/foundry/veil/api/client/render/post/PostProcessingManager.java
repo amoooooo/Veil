@@ -217,6 +217,14 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         }
     }
 
+    public void runPipeline(ResourceLocation id, boolean resolvePost) {
+        runPipeline(getPipeline(id), resolvePost);
+    }
+
+    public void runPipeline(ResourceLocation id) {
+        runPipeline(getPipeline(id));
+    }
+
     private CompositePostPipeline loadPipeline(Resource resource) throws IOException {
         try (Reader reader = resource.openAsReader()) {
             JsonElement element = JsonParser.parseReader(reader);

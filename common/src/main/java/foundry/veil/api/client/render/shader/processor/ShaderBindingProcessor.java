@@ -89,6 +89,7 @@ public class ShaderBindingProcessor extends ShaderLineProcessor {
             layoutSuffix = layoutSuffix.substring(1).trim();
         }
 
+        if (!prefix.isEmpty()) prefix += " ";
         line.add(prefix + "layout(" + layoutPrefix + layoutSuffix + ") " + suffix);
     }
 

@@ -15,6 +15,8 @@ import org.lwjgl.system.NativeResource;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11C.glReadBuffer;
@@ -286,6 +288,10 @@ public interface AdvancedFbo extends NativeResource {
                 return Optional.of(i);
         }
         return Optional.empty();
+    }
+
+    default OptionalInt getColorAttachmentSlot(AdvancedFboAttachment attachment) {
+        return IntStream.range(0, getColorAttachments()).filter(i -> getColorAttachment(i) == attachment).findFirst();
     }
 
     /**

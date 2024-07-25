@@ -1,0 +1,6 @@
+{
+  "compute": "veil:bloom/downsample",
+  "definitions": [
+    "BLOOM_LOW_QUALITY"
+  ]
+}

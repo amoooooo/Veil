@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
@@ -659,6 +660,8 @@ public final class VeilRenderSystem {
     public static void resize(int width, int height) {
         if (renderer != null) {
             renderer.getFramebufferManager().resizeFramebuffers(width, height);
+            if (renderer.getBloomManager() != null)
+                renderer.getBloomManager().initialize(width, height);
         }
     }
 
@@ -674,6 +677,10 @@ public final class VeilRenderSystem {
     @ApiStatus.Internal
     public static void renderPost() {
         renderer.getPostProcessingManager().runPipeline();
+        // TODO: shouldn't actually be here (should include gui)
+        VeilRenderSystem.renderer().getBloomManager().apply();
+        renderer.getPostProcessingManager().runPipeline(renderer.getPostProcessingManager().getPipeline(Veil.veilPath("tonemap_aces")), false);
+        VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST).resolveToFramebuffer(Minecraft.getInstance().getMainRenderTarget());
     }
 
     @ApiStatus.Internal

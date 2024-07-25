@@ -1,0 +1,29 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "veil:tonemap/tonemap_inv",
+      "in": "veil:opaque",
+      "out": "swap"
+    },
+    {
+      "type": "veil:copy",
+      "in": "swap",
+      "out": "veil:opaque",
+      "out_attachments": ["AlbedoSampler"],
+      "color": true,
+      "depth": false
+    }
+  ],
+  "framebuffers": {
+    "swap": {
+      "depth": false,
+      "color_buffers": [
+        {
+          "name": "AlbedoSampler",
+          "format": "RGBA16F"
+        }
+      ]
+    }
+  }
+}

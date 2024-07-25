@@ -1,0 +1,28 @@
+#extension GL_ARB_compute_shader : enable
+#extension GL_ARB_shader_image_load_store: enable
+#extension GL_ARB_shader_image_size: enable
+
+uniform sampler2D inputTex;
+uniform layout(rgba16f) writeonly image2D outputImg;
+
+#include veil:sampling
+
+#ifdef BLOOM_LOW_QUALITY
+    #define SAMPLE_FUNCTION DownsampleBox4Tap
+#else
+    #define SAMPLE_FUNCTION DownsampleBox13Tap
+#endif
+
+layout(local_size_x = 8, local_size_y = 4) in;
+void main() {
+    ivec2 texel = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 outSize = ivec2(imageSize(outputImg));
+
+    if (texel.x >= outSize.x || texel.y >= outSize.y) return;
+
+    vec2 texCoord = vec2(texel) / vec2(outSize-1);
+    vec2 oneTexel = 1./vec2(outSize-1);
+
+    vec3 color = SAMPLE_FUNCTION(inputTex, texCoord, oneTexel).rgb;
+    imageStore(outputImg, texel, vec4(color, 1.0));
+}

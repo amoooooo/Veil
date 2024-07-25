@@ -24,6 +24,9 @@ public final class VeilShaders {
 
     public static final ResourceLocation SKINNED_MESH = necromancer("skinned_mesh");
 
+    public static final ResourceLocation BLOOM_DOWNSAMPLE = bloom("downsample");
+    public static final ResourceLocation BLOOM_UPSAMPLE = bloom("upsample");
+
     private static ResourceLocation quasar(String name) {
         return Veil.veilPath("quasar/" + name);
     }
@@ -34,5 +37,9 @@ public final class VeilShaders {
 
     private static ResourceLocation necromancer(String name) {
         return Veil.veilPath("necromancer/" + name);
+    }
+
+    private static ResourceLocation bloom(String name) {
+        return Veil.veilPath("bloom/" + name);
     }
 }
