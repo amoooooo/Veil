@@ -2,7 +2,7 @@ package foundry.veil.example.block;
 
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
-import foundry.veil.platform.VeilEventPlatform;
+import foundry.veil.api.client.render.rendertype.VeilRenderTypeAssigner;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
@@ -11,7 +11,6 @@ public class BasicHDRBlock extends Block {
 
     public BasicHDRBlock() {
         super(Properties.of());
-        VeilEventPlatform.INSTANCE.onVeilAssignBlockRenderLayer(
-                event -> event.assignRenderLayer(VeilRenderType.SOLID_HDR, this));
+        VeilRenderTypeAssigner.assign(this, VeilRenderType.SOLID_HDR);
     }
 }

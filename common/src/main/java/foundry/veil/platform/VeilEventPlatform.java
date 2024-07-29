@@ -29,10 +29,4 @@ public interface VeilEventPlatform {
     void onVeilRegisterBlockLayers(VeilRegisterBlockLayerEvent event);
 
     void onVeilRenderTypeStageRender(VeilRenderLevelStageEvent event);
-
-    void onVeilAssignBlockRenderLayer(VeilAssignRenderLayerEvent<Block> event);
-
-    void onVeilAssignFluidRenderLayer(VeilAssignRenderLayerEvent<Fluid> event);
-
-    void onVeilAssignItemRenderLayer(VeilAssignRenderLayerEvent<Item> event);
 }

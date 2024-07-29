@@ -57,6 +57,7 @@
     "client.shader.ShaderInstanceMixin",
     "client.skeleton.ClientLevelMixin",
     "client.stage.CompositeStateMixin",
+    "client.stage.ItemBlockRenderTypesMixin",
     "client.stage.RenderTypeMixin",
     "debug.DebugKeyboardHandlerMixin",
     "debug.GlDebugMixin",

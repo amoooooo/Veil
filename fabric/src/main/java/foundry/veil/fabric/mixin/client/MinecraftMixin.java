@@ -24,9 +24,6 @@ public class MinecraftMixin {
         VeilClient.initRenderer();
         FabricVeilRendererEvent.EVENT.invoker().onVeilRendererAvailable(VeilRenderSystem.renderer());
         FabricVeilRegisterFixedBuffersEvent.EVENT.invoker().onRegisterFixedBuffers(FabricRenderTypeStageHandler::register);
-        FabricVeilAssignRenderLayerEvent.BLOCK.invoker().onAssignRenderLayer(BlockRenderLayerMap.INSTANCE::putBlocks);
-        FabricVeilAssignRenderLayerEvent.FLUID.invoker().onAssignRenderLayer(BlockRenderLayerMap.INSTANCE::putFluids);
-//        TODO: FabricVeilAssignRenderLayerEvent.ITEM.invoker().onAssignRenderLayer(BlockRenderLayerMap.INSTANCE::putItems);
     }
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupDefaultState(IIII)V"))
