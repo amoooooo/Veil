@@ -1,0 +1,8 @@
+{
+  "vertex": "entity",
+  "fragment": "rendertype_entity_cutout",
+  "definitions": [
+    "DISABLE_VANILLA_ENTITY_LIGHT",
+    { "VEIL_HDR_SCALE": 1.0 }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "veil:bloom/bloom_prefilter",
+      "out": "veil:bloom",
+      "clear": []
+    }
+  ],
+  "textures": {
+    "MainSampler": {
+      "type": "framebuffer",
+      "name": "veil:post"
+    },
+    "HDRScaleSampler": {
+      "type": "framebuffer",
+      "name": "veil:post",
+      "sampler": "HDRScaleSampler"
+    }
+  }
+}

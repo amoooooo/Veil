@@ -22,10 +22,10 @@ void main() {
 
     if (texel.x >= dstSize.x || texel.y >= dstSize.y) return;
 
-    vec2 texCoord = vec2(texel) / vec2(dstSize-1);
-    vec2 oneTexel = 1./vec2(dstSize-1);
+    vec2 texCoord = vec2(texel) / vec2(dstSize - 1);
+    vec2 oneTexel = 1.0 / vec2(dstSize);
 
-    vec4 color = imageLoad(dstImg, texel);
-    color.rgb += SAMPLE_FUNCTION(upSampleTex, texCoord, oneTexel, vec4(1.)).rgb * multiplier;
-    imageStore(dstImg, texel, color);
+    vec3 color = imageLoad(dstImg, texel).rgb;
+    color += SAMPLE_FUNCTION(upSampleTex, texCoord, oneTexel, vec4(1.)).rgb * multiplier;
+    imageStore(dstImg, texel, vec4(color.rgb, 1.0));
 }

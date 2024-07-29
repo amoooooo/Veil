@@ -52,14 +52,14 @@ public class CopyPostStage extends FramebufferPostStage {
      * @param in                 The framebuffer to copy from
      * @param inAttachmentName   The name of the color attachment to copy from, see also: {@link org.lwjgl.opengl.GL11#glReadBuffer(int)}
      * @param out                The framebuffer to write into
-     * @param outAttachmentNames The names of the color attachments to write into, see also: {@link org.lwjgl.opengl.GL30#glDrawBuffers(int[])}
+     * @param outAttachmentNames The names of the color attachments to write into, defaults to color attachment 0, see also: {@link org.lwjgl.opengl.GL30#glDrawBuffers(int[])}
      * @param copyColor          Whether to copy the color buffers
      * @param copyDepth          Whether to copy the depth buffers
      * @param linear             Whether to copy with a linear filter if the input size doesn't match the output size
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public CopyPostStage(ResourceLocation in, Optional<String> inAttachmentName, ResourceLocation out, Optional<List<String>> outAttachmentNames, boolean copyColor, boolean copyDepth, boolean linear) {
-        super(in, out, false);
+        super(in, out, List.of());
         this.inAttachmentName = inAttachmentName.orElse(null);
         this.outAttachmentNames = outAttachmentNames.orElse(null);
         this.mask = (copyColor ? GL_COLOR_BUFFER_BIT : 0) | (copyDepth ? GL_DEPTH_BUFFER_BIT : 0);
@@ -86,7 +86,7 @@ public class CopyPostStage extends FramebufferPostStage {
             }
             if (this.outAttachmentIds == null) {
                 if (this.outAttachmentNames == null) {
-                    this.outAttachmentIds = out.getDrawBuffers();
+                    this.outAttachmentIds = new int[]{GL_COLOR_ATTACHMENT0};
                 } else {
                     this.outAttachmentIds = this.outAttachmentNames.stream().filter(
                             name -> {

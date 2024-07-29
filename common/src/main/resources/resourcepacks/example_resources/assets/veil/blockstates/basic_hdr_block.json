@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "veil:block/basic_hdr_block"
+    }
+  }
+}

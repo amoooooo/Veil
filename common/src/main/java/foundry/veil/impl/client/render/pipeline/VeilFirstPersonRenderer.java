@@ -14,6 +14,8 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public final class VeilFirstPersonRenderer {
 
+    // TODO: maybe remove this if integrating first person rendering into the deferred pipeline works out
+
     // TODO add options
 
     private static final ResourceLocation FIRST_PERSON = Veil.veilPath("first_person");
@@ -25,37 +27,37 @@ public final class VeilFirstPersonRenderer {
     }
 
     public static void bind() {
-        AdvancedFbo postTarget = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
-        AdvancedFbo mainRenderTarget = postTarget != null ? postTarget : AdvancedFbo.getMainFramebuffer();
-        int w = mainRenderTarget.getWidth();
-        int h = mainRenderTarget.getHeight();
-        if (firstPerson == null || firstPerson.getWidth() != w || firstPerson.getHeight() != h) {
-            free();
-            firstPerson = AdvancedFbo.withSize(w, h)
-                    .addColorTextureWrapper(mainRenderTarget.getColorTextureAttachment(0).getId(), w, h)
-                    .setFormat(FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT)
-                    .setDepthTextureBuffer()
-                    .build(true);
-        }
-        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
-        firstPerson.bind(false);
+//        AdvancedFbo postTarget = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
+//        AdvancedFbo mainRenderTarget = postTarget != null ? postTarget : AdvancedFbo.getMainFramebuffer();
+//        int w = mainRenderTarget.getWidth();
+//        int h = mainRenderTarget.getHeight();
+//        if (firstPerson == null || firstPerson.getWidth() != w || firstPerson.getHeight() != h) {
+//            free();
+//            firstPerson = AdvancedFbo.withSize(w, h)
+//                    .addColorTextureWrapper(mainRenderTarget.getColorTextureAttachment(0).getId(), w, h)
+//                    .setFormat(FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT)
+//                    .setDepthTextureBuffer()
+//                    .build(true);
+//        }
+//        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
+//        firstPerson.bind(false);
     }
 
     public static void unbind() {
-        VeilRenderer renderer = VeilRenderSystem.renderer();
-        PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
-
-        PostPipeline pipeline = postProcessingManager.getPipeline(FIRST_PERSON);
-        if (pipeline == null) {
-            if (!printedError) {
-                Veil.LOGGER.error("Failed to apply first person pipeline");
-                printedError = true;
-            }
-            AdvancedFbo.unbind();
-            return;
-        }
-
-        postProcessingManager.runPipeline(pipeline, false);
+//        VeilRenderer renderer = VeilRenderSystem.renderer();
+//        PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
+//
+//        PostPipeline pipeline = postProcessingManager.getPipeline(FIRST_PERSON);
+//        if (pipeline == null) {
+//            if (!printedError) {
+//                Veil.LOGGER.error("Failed to apply first person pipeline");
+//                printedError = true;
+//            }
+//            AdvancedFbo.unbind();
+//            return;
+//        }
+//
+//        postProcessingManager.runPipeline(pipeline, false);
     }
 
     public static void free() {

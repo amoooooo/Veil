@@ -5,16 +5,21 @@
     "CompatibilitySampler": {
       "type": "framebuffer",
       "name": "veil:opaque",
-      "sampler": 0
+      "sampler": "CompatibilitySampler"
     },
     "AlbedoSampler": {
       "type": "framebuffer",
       "name": "veil:opaque",
-      "sampler": 1
+      "sampler": "AlbedoSampler"
     },
     "LightSampler": {
       "type": "framebuffer",
       "name": "veil:opaque_light"
+    },
+    "HDRScaleSampler": {
+      "type": "framebuffer",
+      "name": "veil:opaque",
+      "sampler": "HDRScaleSampler"
     }
   }
 }

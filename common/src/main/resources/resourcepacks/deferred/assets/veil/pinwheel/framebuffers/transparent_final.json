@@ -1,4 +1,13 @@
 {
   "depth": true,
-  "format": "RGBA16F"
+  "color_buffers": [
+    {
+      "name": "ColorSampler",
+      "format": "RGBA16F"
+    },
+    {
+      "name": "HDRScaleSampler",
+      "format": "R8"
+    }
+  ]
 }

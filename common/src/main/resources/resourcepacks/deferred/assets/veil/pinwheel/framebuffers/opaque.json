@@ -18,6 +18,10 @@
       "format": "R8UI"
     },
     {
+      "name": "HDRScaleSampler",
+      "format": "R8"
+    },
+    {
       "name": "VanillaLightSampler",
       "format": "RG8UI"
     },

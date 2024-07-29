@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,8 +26,8 @@ public class BlitPostStage extends FramebufferPostStage {
             ResourceLocation.CODEC.fieldOf("shader").forGetter(BlitPostStage::getShaderId),
             FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("in").forGetter(stage -> Optional.ofNullable(stage.getIn())),
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("out").forGetter(BlitPostStage::getOut),
-            Codec.BOOL.optionalFieldOf("clear", true).forGetter(BlitPostStage::clearOut)
-    ).apply(instance, (shader, in, out, clear) -> new BlitPostStage(shader, in.orElse(null), out, clear)));
+            Codec.list(Codec.STRING).optionalFieldOf("clear").forGetter(it -> Optional.ofNullable(it.clearBuffersDef()))
+    ).apply(instance, (shader, in, out, clear) -> new BlitPostStage(shader, in.orElse(null), out, clear.orElse(null))));
 
     private final ResourceLocation shader;
     private boolean printedError;
@@ -38,9 +39,9 @@ public class BlitPostStage extends FramebufferPostStage {
      * @param in     The framebuffer to use as <code>DiffuseSampler0</code>-<code>DiffuseSampler7</code>
      *               and <code>DiffuseDepthSampler</code>
      * @param out    The framebuffer to write into
-     * @param clear  Whether to clear the output before drawing
+     * @param clear  The name of the color attachments to clear, default to the color attachment 0
      */
-    public BlitPostStage(ResourceLocation shader, @Nullable ResourceLocation in, ResourceLocation out, boolean clear) {
+    public BlitPostStage(ResourceLocation shader, @Nullable ResourceLocation in, ResourceLocation out, @Nullable List<String> clear) {
         super(in, out, clear);
         this.shader = shader;
     }

@@ -1,0 +1,4 @@
+{
+  "vertex": "veil:blit_screen",
+  "fragment": "veil:hdr/hdr_final"
+}

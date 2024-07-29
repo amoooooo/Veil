@@ -8,6 +8,7 @@ import foundry.veil.api.client.render.VeilRenderBridge;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.VeilVertexFormat;
+import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.mixin.accessor.RenderTypeAccessor;
@@ -30,12 +31,27 @@ import java.util.function.Function;
  */
 public final class VeilRenderType extends RenderType {
     private static final ResourceLocation HDR_BLOCK_SHEET_ID = Veil.veilPath("textures/atlas/hdr_blocks.png");
-    private static final TextureAtlas HDR_BLOCK_SHEET = new TextureAtlas(HDR_BLOCK_SHEET_ID); //TODO: HDR_BLOCK_SHEET
+    private static TextureAtlas HDR_BLOCK_SHEET; //TODO: loading & stitching HDR textures
+    static {
+        RenderSystem.recordRenderCall(() -> HDR_BLOCK_SHEET = new TextureAtlas(HDR_BLOCK_SHEET_ID));
+    }
     private static final TextureStateShard HDR_BLOCK_SHEET_TS = new TextureStateShard(HDR_BLOCK_SHEET_ID, false, false);
     private static final TextureStateShard HDR_BLOCK_SHEET_MIPPED_TS = new TextureStateShard(HDR_BLOCK_SHEET_ID, false, true);
 
     // TODO: copy/wrap vanilla rendertypes instead of hardcoding?
-    public static final RenderType SOLID_HDR = create(Veil.MODID + ":solid_hdr", DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 131072, true, false, RenderType.CompositeState.builder().setLightmapState(LIGHTMAP).setShaderState(VeilRenderBridge.deferredShaderState(Veil.veilPath("hdr/rendertype_solid"))).setTextureState(HDR_BLOCK_SHEET_TS).createCompositeState(true));
+    public static final RenderType SOLID_HDR = create(
+        Veil.MODID + ":solid_hdr",
+        DefaultVertexFormat.BLOCK,
+        VertexFormat.Mode.QUADS,
+        131072,
+        true, false,
+        RenderType.CompositeState.builder()
+            .setLightmapState(LIGHTMAP)
+            .setShaderState(VeilRenderBridge.deferredShaderState(Veil.veilPath("hdr/rendertype_solid")))
+            .setTextureState(HDR_BLOCK_SHEET_TS)
+            .setOutputState(VeilRenderBridge.outputState(VeilFramebuffers.OPAQUE))
+            .createCompositeState(true)
+    );
     public static final RenderType CUTOUT_HDR = create(Veil.MODID + ":cutout_hdr", DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 131072, true, false, RenderType.CompositeState.builder().setLightmapState(LIGHTMAP).setShaderState(VeilRenderBridge.deferredShaderState(Veil.veilPath("hdr/rendertype_cutout"))).setTextureState(HDR_BLOCK_SHEET_TS).createCompositeState(true));
     public static final RenderType CUTOUT_MIPPED_HDR = create(Veil.MODID + ":cutout_mipped_hdr", DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 131072, true, false, RenderType.CompositeState.builder().setLightmapState(LIGHTMAP).setShaderState(VeilRenderBridge.deferredShaderState(Veil.veilPath("hdr/rendertype_cutout_mipped"))).setTextureState(HDR_BLOCK_SHEET_MIPPED_TS).createCompositeState(true));
     public static final RenderType TRANSLUCENT_HDR = create(Veil.MODID + ":translucent_hdr", DefaultVertexFormat.BLOCK, VertexFormat.Mode.QUADS, 2097152, true, true, RenderType.CompositeState.builder().setLightmapState(LIGHTMAP).setShaderState(VeilRenderBridge.deferredShaderState(Veil.veilPath("hdr/rendertype_translucent"))).setTextureState(HDR_BLOCK_SHEET_MIPPED_TS).setTransparencyState(TRANSLUCENT_TRANSPARENCY).createCompositeState(true));

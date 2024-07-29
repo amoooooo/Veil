@@ -17,7 +17,7 @@
       "shader": "veil:blit_depth",
       "in": "veil:first_person",
       "out": "veil:post",
-      "clear": false
+      "clear": []
     }
   ]
 }

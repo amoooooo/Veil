@@ -9,8 +9,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 public class BloomManager {
-    private static final ResourceLocation BLOOM_FILTER = Veil.veilPath("core/bloom_filter");
-    private static final ResourceLocation BLOOM_COMPOSE = Veil.veilPath("core/bloom_compose");
+    private static final ResourceLocation BLOOM_PREFILTER = Veil.veilPath("core/bloom_prefilter");
+//    public static final ResourceLocation HDR_FINAL = Veil.veilPath("core/hdr_final");
 
     private BloomRenderer renderer;
 
@@ -34,12 +34,10 @@ public class BloomManager {
     public void apply() {
         if (renderer == null) return;
         VeilRenderSystem.renderer().getPostProcessingManager()
-                .runPipeline(BLOOM_FILTER, false);
+                .runPipeline(BLOOM_PREFILTER, false);
         AdvancedFbo bloomFramebuffer = VeilRenderSystem.renderer().getFramebufferManager()
                 .getFramebuffer(VeilFramebuffers.BLOOM);
         if (bloomFramebuffer == null) return;
         renderer.apply(bloomFramebuffer);
-        VeilRenderSystem.renderer().getPostProcessingManager()
-                .runPipeline(BLOOM_COMPOSE, false);
     }
 }

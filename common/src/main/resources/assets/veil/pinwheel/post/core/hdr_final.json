@@ -1,0 +1,35 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "veil:hdr/hdr_final",
+      "out": "swap"
+    },
+    {
+      "type": "veil:copy",
+      "in": "swap",
+      "out": "veil:post"
+    }
+  ],
+  "textures": {
+    "MainSampler": {
+      "type": "framebuffer",
+      "name": "veil:post"
+    },
+    "BloomSampler": {
+      "type": "framebuffer",
+      "name": "veil:bloom"
+    },
+    "HDRScaleSampler": {
+      "type": "framebuffer",
+      "name": "veil:post",
+      "sampler": "HDRScaleSampler"
+    }
+  },
+  "framebuffers": {
+    "swap": {
+      "depth": true,
+      "format": "RGBA16F"
+    }
+  }
+}

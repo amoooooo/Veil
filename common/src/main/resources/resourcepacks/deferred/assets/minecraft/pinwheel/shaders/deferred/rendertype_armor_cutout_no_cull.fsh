@@ -19,6 +19,7 @@ void main() {
     fragAlbedo = color;
     fragNormal = vec4(normal, 1.0);
     fragMaterial = ivec4(ARMOR_CUTOUT, 0, 0, 1);
+    VEIL_OPAQUE_USE_DEFINED_HDR_SCALE();
     fragLightSampler = vec4(texCoord2, 0.0, 1.0);
     fragLightMap = lightmapColor;
 }

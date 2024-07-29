@@ -7,6 +7,11 @@ import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+import java.util.Optional;
+
+import static org.lwjgl.opengl.GL20.glDrawBuffers;
+
 /**
  * An abstract stage that uses a framebuffer as the input and output.
  *
@@ -16,7 +21,7 @@ public abstract class FramebufferPostStage implements PostPipeline {
 
     private final ResourceLocation in;
     private final ResourceLocation out;
-    private final boolean clear;
+    private final @Nullable List<String> clear;
 
     /**
      * Creates a post stage with the specified input and output framebuffers.
@@ -24,9 +29,9 @@ public abstract class FramebufferPostStage implements PostPipeline {
      * @param in    The framebuffer to use as <code>DiffuseSampler0</code>-<code>DiffuseSampler...max</code>
      *              and <code>DiffuseDepthSampler</code>
      * @param out   The framebuffer to write into
-     * @param clear Whether to clear the output before drawing
+     * @param clear The name of the color attachments to clear, default to color attachment 0
      */
-    public FramebufferPostStage(@Nullable ResourceLocation in, ResourceLocation out, boolean clear) {
+    public FramebufferPostStage(@Nullable ResourceLocation in, ResourceLocation out, @Nullable List<String> clear) {
         this.in = in;
         this.out = out;
         this.clear = clear;
@@ -47,9 +52,21 @@ public abstract class FramebufferPostStage implements PostPipeline {
         }
 
         out.bind(true);
-        if (this.clear) {
+        int[] drawBuffers;
+        if (this.clear != null) {
+            drawBuffers = this.clear.stream()
+                    .map(out::getColorAttachmentSlot)
+                    .filter(Optional::isPresent)
+                    .mapToInt(Optional::get)
+                    .toArray();
+        } else {
+            drawBuffers = new int[]{0};
+        }
+        if (drawBuffers.length != 0) {
+            glDrawBuffers(drawBuffers);
             RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
             out.clear();
+            glDrawBuffers(out.getDrawBuffers());
         }
 
         if (in != null) {
@@ -78,7 +95,7 @@ public abstract class FramebufferPostStage implements PostPipeline {
     /**
      * @return Whether the output should be cleared before drawing
      */
-    public boolean clearOut() {
+    public @Nullable List<String> clearBuffersDef() {
         return this.clear;
     }
 }

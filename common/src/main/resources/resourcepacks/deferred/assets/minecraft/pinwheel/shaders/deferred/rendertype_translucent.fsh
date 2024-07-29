@@ -17,6 +17,9 @@ void main() {
     fragAlbedo = color;
     fragNormal = vec4(normal, 1.0);
     fragMaterial = ivec4(BLOCK_TRANSLUCENT, TRANSLUCENT_TRANSPARENCY, 0, 1);
+    if (color.a < 1.0) {
+        VEIL_TRANSPARENT_USE_DEFINED_HDR_SCALE();
+    }
     fragLightSampler = vec4(texCoord2, 0.0, 1.0);
     fragLightMap = lightmapColor;
 }

@@ -20,8 +20,8 @@ void main() {
 
     if (texel.x >= outSize.x || texel.y >= outSize.y) return;
 
-    vec2 texCoord = vec2(texel) / vec2(outSize-1);
-    vec2 oneTexel = 1./vec2(outSize-1);
+    vec2 texCoord = vec2(texel) / vec2(outSize - 1);
+    vec2 oneTexel = 1.0 / vec2(outSize);
 
     vec3 color = SAMPLE_FUNCTION(inputTex, texCoord, oneTexel).rgb;
     imageStore(outputImg, texel, vec4(color, 1.0));

@@ -677,9 +677,10 @@ public final class VeilRenderSystem {
     @ApiStatus.Internal
     public static void renderPost() {
         renderer.getPostProcessingManager().runPipeline();
-        // TODO: shouldn't actually be here (should include gui)
+        // TODO: shouldn't actually be here (should come after gui and everything)
         VeilRenderSystem.renderer().getBloomManager().apply();
-        renderer.getPostProcessingManager().runPipeline(renderer.getPostProcessingManager().getPipeline(Veil.veilPath("tonemap_aces")), false);
+        VeilRenderSystem.renderer().getPostProcessingManager()
+                .runPipeline(Veil.veilPath("core/hdr_final"), false);
         VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST).resolveToFramebuffer(Minecraft.getInstance().getMainRenderTarget());
     }
 

@@ -24,4 +24,4 @@ rootProject.name = 'Veil'
 include("common")
 include("common:mojmap")
 include("fabric")
-include("forge")
+//include("forge")

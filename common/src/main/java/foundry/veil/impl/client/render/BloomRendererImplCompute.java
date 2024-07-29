@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL42.*;
 import static org.lwjgl.opengl.GL43.glDispatchCompute;
 
@@ -30,21 +29,22 @@ public class BloomRendererImplCompute extends BloomRenderer {
         downSampleTextures.clear();
 
         // generate down sample sizes
-        int w = width, h = height;
-        while (w >= MIN_DOWN_SAMPLE_SIZE && h >= MIN_DOWN_SAMPLE_SIZE) {
-            w = Mth.positiveCeilDiv(w, 2);
-            h = Mth.positiveCeilDiv(h, 2);
+        int div = 2;
+        int w, h;
+        while (true) {
+            w = width / div;
+            h = height / div;
+            if (w < MIN_DOWN_SAMPLE_SIZE || h < MIN_DOWN_SAMPLE_SIZE)
+                break;
             downSampleTextures.add(new HDRTexture(w, h));
+            div *= 2;
         }
     }
 
     public void apply(AdvancedFbo framebuffer) {
         var attachment = framebuffer.getColorTextureAttachment(0);
         attachment.bindAttachment();
-        RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        HDRTexture.setParams();
 
         // Down sample
         {
@@ -70,6 +70,9 @@ public class BloomRendererImplCompute extends BloomRenderer {
             }
             glBindTexture(GL_TEXTURE_2D, 0);
         }
+
+        VeilRenderSystem.setShader((ShaderProgram) null);
+        RenderSystem.bindTexture(0);
 
         framebuffer.bind(false);
         framebuffer.clear();
@@ -115,12 +118,17 @@ public class BloomRendererImplCompute extends BloomRenderer {
         public HDRTexture(int width, int height) {
             this(width, height, TextureUtil.generateTextureId());
             RenderSystem.bindTextureForSetup(id);
-            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            setParams();
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, (FloatBuffer) null);
             RenderSystem.bindTexture(0);
+        }
+
+        private static void setParams() {
+            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+            RenderSystem.texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+            glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, new float[]{0f, 0f, 0f, 1f});
         }
 
         public HDRTexture(AdvancedFboTextureAttachment attachment) {

@@ -10,6 +10,7 @@ public class VeilBuiltinPacks {
 
     public static void registerPacks(VeilBuiltinPacks.Context context) {
         if (Veil.platform().isDevelopmentEnvironment()) {
+            context.register(Veil.veilPath("example_resources"), true);
             context.register(Veil.veilPath("test_shaders"), false);
             context.register(Veil.veilPath("test_particles"), false);
         }

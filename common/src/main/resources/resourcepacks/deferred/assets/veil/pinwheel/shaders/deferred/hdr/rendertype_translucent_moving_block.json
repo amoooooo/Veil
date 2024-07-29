@@ -2,6 +2,6 @@
   "vertex": "block",
   "fragment": "rendertype_translucent_moving_block",
   "definitions": [
-    { "VEIL_USE_HDR": 1 }
+    { "VEIL_HDR_SCALE": 1.0 }
   ]
 }

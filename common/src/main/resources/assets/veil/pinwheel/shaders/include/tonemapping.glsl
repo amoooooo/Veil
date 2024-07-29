@@ -18,12 +18,12 @@ vec3 aces_min_inv(vec3 x) {
 // https://www.shadertoy.com/view/XsGfWV
 // Based on http://www.oscars.org/science-technology/sci-tech-projects/aces
 vec3 aces_full(vec3 color) {
-    mat3 m1 = mat3(
+    const mat3 m1 = mat3(
         0.59719, 0.07600, 0.02840,
         0.35458, 0.90834, 0.13383,
         0.04823, 0.01566, 0.83777
 	);
-	mat3 m2 = mat3(
+	const mat3 m2 = mat3(
          1.60475, -0.10208, -0.00327,
         -0.53108,  1.10813, -0.07276,
         -0.07367, -0.00605,  1.07602
@@ -34,6 +34,8 @@ vec3 aces_full(vec3 color) {
 	return m2 * (a / b);
 }
 
-//vec3 aces_full_inv() {
+//vec3 aces_full_inv(vec3 color) {
+//    const mat3 M = mat3(
 //
+//    );
 //}

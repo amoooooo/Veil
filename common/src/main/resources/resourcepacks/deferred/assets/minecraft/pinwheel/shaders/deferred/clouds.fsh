@@ -18,6 +18,7 @@ void main() {
     fragAlbedo = color;
     fragNormal = vec4(normal, 1.0);
     fragMaterial = ivec4(CLOUD, TRANSLUCENT_TRANSPARENCY, 0, 1);
+    VEIL_TRANSPARENT_USE_DEFINED_HDR_SCALE();
     fragLightSampler = vec4(0.0, 1.0, 0.0, 1.0);
     fragLightMap = vec4(vertexColor.rgb, 1.0);
 }

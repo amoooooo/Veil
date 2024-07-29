@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Optional;
+
 /**
  * Source of a shader texture using a framebuffer.
  *
@@ -14,17 +16,17 @@ import net.minecraft.resources.ResourceLocation;
  * @author Ocelot
  */
 public record FramebufferSource(ResourceLocation name,
-                                int sampler,
+                                Optional<String> sampler,
                                 boolean depth) implements ShaderTextureSource {
 
     public static final Codec<FramebufferSource> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("name").forGetter(source -> source.name.toString()),
-            Codec.INT.optionalFieldOf("sampler", 0).forGetter(FramebufferSource::sampler)
+            Codec.STRING.optionalFieldOf("sampler").forGetter(FramebufferSource::sampler)
     ).apply(instance, (name, sampler) -> {
         boolean depth = name.endsWith(":depth");
         String path = depth ? name.substring(0, name.length() - 6) : name;
         ResourceLocation location = name.contains(":") ? new ResourceLocation(path) : new ResourceLocation("temp", name);
-        return new FramebufferSource(location, depth ? 0 : sampler, depth);
+        return new FramebufferSource(location, depth ? Optional.empty() : sampler, depth);
     }));
 
     @Override
@@ -37,7 +39,8 @@ public record FramebufferSource(ResourceLocation name,
         if (this.depth) {
             return framebuffer.isDepthTextureAttachment() ? framebuffer.getDepthTextureAttachment().getId() : 0;
         }
-        return framebuffer.isColorTextureAttachment(this.sampler) ? framebuffer.getColorTextureAttachment(this.sampler).getId() : 0;
+        var slot = this.sampler.map(framebuffer::getColorAttachmentSlot).orElse(Optional.of(0));
+        return slot.map(integer -> framebuffer.getColorTextureAttachment(integer).getId()).orElse(0);
     }
 
     @Override

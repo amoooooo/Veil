@@ -2,11 +2,16 @@
   "vertex": "veil:blit_screen",
   "fragment": "veil:core/composite",
   "textures": {
-    "DeferredSampler": {
+    "OpaqueSampler": {
       "type": "framebuffer",
       "name": "veil:opaque_final"
     },
-    "DeferredDepthSampler": {
+    "OpaqueHDRScaleSampler": {
+      "type": "framebuffer",
+      "name": "veil:opaque_final",
+      "sampler": "HDRScaleSampler"
+    },
+    "OpaqueDepthSampler": {
       "type": "framebuffer",
       "name": "veil:opaque_final:depth"
     },
@@ -25,7 +30,12 @@
     "TransparentMaterialSampler": {
       "type": "framebuffer",
       "name": "veil:transparent",
-      "sampler": 3
+      "sampler": "MaterialSampler"
+    },
+    "TransparentHDRScaleSampler": {
+      "type": "framebuffer",
+      "name": "veil:transparent_final",
+      "sampler": "HDRScaleSampler"
     },
     "TransparentDepthSampler": {
       "type": "framebuffer",

@@ -1,6 +1,8 @@
 package foundry.veil.api.client.render.deferred;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
@@ -247,6 +249,13 @@ public class VeilDeferredRenderer implements PreparableReloadListener, NativeRes
             }
             return;
         }
+
+        // TODO: Cleanup.; Vanilla clears the depth buffer before doing this. Attach a temporary empty depth buffer here (on veil:opaque & veil:transparent) then compose back to main later
+        Minecraft.getInstance().gameRenderer.renderItemInHand(
+            new PoseStack(),
+            Minecraft.getInstance().gameRenderer.getMainCamera(),
+            Minecraft.getInstance().getFrameTime()
+        );
 
         ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
         profiler.push("veil_deferred");
