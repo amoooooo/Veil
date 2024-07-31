@@ -13,13 +13,13 @@ import org.joml.Vector3d;
 import org.joml.Vector3dc;
 import org.joml.Vector3fc;
 
-public record EmitterShapeSettings(EmitterShape.Shape shape,
+public record EmitterShapeSettings(EmitterShape shape,
                                    Vector3fc dimensions,
                                    Vector3fc rotation,
                                    boolean fromSurface) {
 
     public static final Codec<EmitterShapeSettings> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            EmitterShape.Shape.CODEC.fieldOf("shape").forGetter(EmitterShapeSettings::shape),
+            EmitterShape.CODEC.fieldOf("shape").forGetter(EmitterShapeSettings::shape),
             CodecUtil.VECTOR3F_CODEC.fieldOf("dimensions").forGetter(EmitterShapeSettings::dimensions),
             CodecUtil.VECTOR3F_CODEC.fieldOf("rotation").forGetter(EmitterShapeSettings::rotation),
             Codec.BOOL.fieldOf("from_surface").forGetter(EmitterShapeSettings::fromSurface)

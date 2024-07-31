@@ -1,5 +1,5 @@
 {
-    "shape": "SPHERE",
+    "shape": "veil:sphere",
     "dimensions": [
         0.5, 0.5, 0.5
     ],
