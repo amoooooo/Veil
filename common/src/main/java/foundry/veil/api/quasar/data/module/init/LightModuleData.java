@@ -3,6 +3,7 @@ package foundry.veil.api.quasar.data.module.init;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.molang.MolangExpressionCodec;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.render.DynamicLightModule;
@@ -35,6 +36,6 @@ public record LightModuleData(ColorGradient color,
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.LIGHT;
+        return ParticleModuleTypeRegistry.LIGHT;
     }
 }

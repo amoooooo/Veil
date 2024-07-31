@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.collision;
 
 import com.mojang.serialization.Codec;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.CollisionParticleModule;
@@ -18,6 +19,6 @@ public class DieOnCollisionModuleData implements ParticleModuleData {
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.DIE_ON_COLLISION;
+        return ParticleModuleTypeRegistry.DIE_ON_COLLISION;
     }
 }

@@ -7,6 +7,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.registry.EmitterShapeRegistry;
 import foundry.veil.api.quasar.registry.RenderStyleRegistry;
 import foundry.veil.impl.client.editor.*;
@@ -74,6 +75,7 @@ public class VeilClient {
         VeilResourceEditorRegistry.bootstrap();
         EmitterShapeRegistry.bootstrap();
         RenderStyleRegistry.bootstrap();
+        ParticleModuleTypeRegistry.bootstrap();
     }
 
     @ApiStatus.Internal

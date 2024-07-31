@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.data.module.init;
 
 import com.mojang.serialization.Codec;
 import foundry.veil.api.molang.MolangExpressionCodec;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.InitParticleModule;
@@ -27,6 +28,6 @@ public record InitSizeParticleModuleData(MolangExpression size) implements Parti
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.INIT_SIZE;
+        return ParticleModuleTypeRegistry.INIT_SIZE;
     }
 }

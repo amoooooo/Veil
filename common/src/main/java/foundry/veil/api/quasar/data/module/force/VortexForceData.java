@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.data.module.force;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.force.VortexForceModule;
@@ -39,6 +40,6 @@ public record VortexForceData(Vector3dc vortexAxis,
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.VORTEX;
+        return ParticleModuleTypeRegistry.VORTEX;
     }
 }

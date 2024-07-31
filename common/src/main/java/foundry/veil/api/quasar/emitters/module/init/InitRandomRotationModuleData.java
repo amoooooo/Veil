@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.emitters.module.init;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.InitParticleModule;
@@ -27,6 +28,6 @@ public record InitRandomRotationModuleData(Vector3fc minDegrees, Vector3fc maxDe
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.INIT_RANDOM_ROTATION;
+        return ParticleModuleTypeRegistry.INIT_RANDOM_ROTATION;
     }
 }

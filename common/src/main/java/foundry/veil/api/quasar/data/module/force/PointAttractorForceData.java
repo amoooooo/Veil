@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.data.module.force;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.force.PointAttractorForceModule;
@@ -52,6 +53,6 @@ public record PointAttractorForceData(Vector3dc position,
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.POINT_ATTRACTOR;
+        return ParticleModuleTypeRegistry.POINT_ATTRACTOR;
     }
 }

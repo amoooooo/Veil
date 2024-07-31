@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.render;
 
 import com.mojang.serialization.Codec;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.RenderParticleModule;
@@ -33,6 +34,6 @@ public record TrailParticleModuleData(List<TrailSettings> settings) implements P
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.TRAIL;
+        return ParticleModuleTypeRegistry.TRAIL;
     }
 }
