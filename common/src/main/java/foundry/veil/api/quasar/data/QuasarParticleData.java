@@ -5,7 +5,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.particle.QuasarParticle;
 import foundry.veil.api.quasar.particle.RenderData;
+import foundry.veil.api.quasar.particle.RenderStyle;
 import foundry.veil.api.quasar.particle.SpriteData;
+import foundry.veil.api.quasar.registry.RenderStyleRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -47,7 +49,7 @@ public record QuasarParticleData(boolean shouldCollide,
                                  List<Holder<ParticleModuleData>> renderModules,
                                  @Nullable SpriteData spriteData,
                                  boolean additive,
-                                 RenderData.RenderStyle renderStyle) {
+                                 RenderStyle renderStyle) {
 
     public static final Codec<QuasarParticleData> DIRECT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.BOOL.optionalFieldOf("should_collide", true).forGetter(QuasarParticleData::shouldCollide),
@@ -60,7 +62,7 @@ public record QuasarParticleData(boolean shouldCollide,
             ParticleModuleData.RENDER_CODEC.listOf().optionalFieldOf("render_modules", Collections.emptyList()).forGetter(QuasarParticleData::renderModules),
             SpriteData.CODEC.optionalFieldOf("sprite_data").forGetter(data -> Optional.ofNullable(data.spriteData())),
             Codec.BOOL.optionalFieldOf("additive", false).forGetter(QuasarParticleData::additive),
-            RenderData.RenderStyle.CODEC.optionalFieldOf("render_style", RenderData.RenderStyle.BILLBOARD).forGetter(QuasarParticleData::renderStyle)
+            RenderStyle.CODEC.optionalFieldOf("render_style", RenderStyleRegistry.BILLBOARD.get()).forGetter(QuasarParticleData::renderStyle)
     ).apply(instance, (shouldCollide, faceVelocity, velocityStretchFactor, initModules, updateModules, collisionModules, forceModules, renderModules, spriteData, additive, renderStyle) -> new QuasarParticleData(shouldCollide, faceVelocity, velocityStretchFactor, initModules, updateModules, collisionModules, forceModules, renderModules, spriteData.orElse(null), additive, renderStyle)));
     public static final Codec<Holder<QuasarParticleData>> CODEC = RegistryFileCodec.create(QuasarParticles.PARTICLE_DATA, DIRECT_CODEC);
 
@@ -74,7 +76,7 @@ public record QuasarParticleData(boolean shouldCollide,
                               List<Holder<ParticleModuleData>> renderModules,
                               @Nullable SpriteData spriteData,
                               boolean additive,
-                              RenderData.RenderStyle renderStyle) {
+                              RenderStyle renderStyle) {
         this.shouldCollide = shouldCollide;
         this.faceVelocity = faceVelocity;
         this.velocityStretchFactor = velocityStretchFactor;
