@@ -21,9 +21,9 @@ import net.minecraft.resources.ResourceKey;
 import org.jetbrains.annotations.ApiStatus;
 
 public class ParticleModuleTypeRegistry {
-    public static final ResourceKey<Registry<ModuleType<?>>> INIT_MODULES_KEY = ResourceKey.createRegistryKey(Veil.veilPath("quasar/modules/init"));
-    public static final ResourceKey<Registry<ModuleType<?>>> UPDATE_MODULES_KEY = ResourceKey.createRegistryKey(Veil.veilPath("quasar/modules/update"));
-    public static final ResourceKey<Registry<ModuleType<?>>> RENDER_MODULES_KEY = ResourceKey.createRegistryKey(Veil.veilPath("quasar/modules/render"));
+    public static final ResourceKey<Registry<ModuleType<?>>> INIT_MODULES_KEY = ResourceKey.createRegistryKey(Veil.veilPath("quasar/module_type/init"));
+    public static final ResourceKey<Registry<ModuleType<?>>> UPDATE_MODULES_KEY = ResourceKey.createRegistryKey(Veil.veilPath("quasar/module_type/update"));
+    public static final ResourceKey<Registry<ModuleType<?>>> RENDER_MODULES_KEY = ResourceKey.createRegistryKey(Veil.veilPath("quasar/module_type/render"));
 
     private static final RegistrationProvider<ModuleType<?>> INIT_MODULES_PROVIDER = RegistrationProvider.get(INIT_MODULES_KEY, Veil.MODID);
     private static final RegistrationProvider<ModuleType<?>> UPDATE_MODULES_PROVIDER = RegistrationProvider.get(UPDATE_MODULES_KEY, Veil.MODID);
