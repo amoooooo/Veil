@@ -60,7 +60,7 @@ public class ParticleEmitter {
     private int rate;
     private int count;
     private int maxParticles;
-    private EmitterShapeSettings emitterShapeSettings;
+    private List<EmitterShapeSettings> emitterShapeSettings;
     private ParticleSettings particleSettings;
     private boolean forceSpawn;
     private QuasarParticleData particleData;
@@ -107,7 +107,7 @@ public class ParticleEmitter {
         this.particleManager.reserve(count);
 
         for (int i = 0; i < count; i++) {
-            Vector3dc particlePos = this.emitterShapeSettings.getPos(this.randomSource, this.position);
+            Vector3dc particlePos = this.emitterShapeSettings.get(i % this.emitterShapeSettings.size()).getPos(this.randomSource, this.position);
             Vector3fc particleDirection = this.particleSettings.particleDirection(this.randomSource);
 
             // TODO
@@ -376,7 +376,7 @@ public class ParticleEmitter {
         return this.maxParticles;
     }
 
-    public EmitterShapeSettings getEmitterShapeSettings() {
+    public List<EmitterShapeSettings> getEmitterShapeSettings() {
         return this.emitterShapeSettings;
     }
 
@@ -449,7 +449,7 @@ public class ParticleEmitter {
         this.maxParticles = maxParticles;
     }
 
-    public void setEmitterShapeSettings(EmitterShapeSettings emitterShapeSettings) {
+    public void setEmitterShapeSettings(List<EmitterShapeSettings> emitterShapeSettings) {
         this.emitterShapeSettings = emitterShapeSettings;
     }
 

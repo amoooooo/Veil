@@ -1,7 +1,9 @@
 package foundry.veil.api.util;
 
+import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.*;
+import net.minecraft.util.ExtraCodecs;
 import org.joml.*;
 
 import java.util.List;
@@ -35,5 +37,16 @@ public class CodecUtil {
             return DataResult.error(() -> "Vector" + size + "f must have " + size + " elements!");
         }
         return DataResult.success(list);
+    }
+
+    public static <T> Codec<List<T>> singleOrList(Codec<T> codec) {
+        return Codec.either(
+                codec.flatComapMap(List::of,
+                                l -> l.size() == 1
+                                        ? DataResult.success(l.get(0))
+                                        : DataResult.error(() -> "List must have exactly one element.")),
+                ExtraCodecs.nonEmptyList(codec.listOf()))
+                .xmap(e -> e.map(Function.identity(), Function.identity()),
+                        l -> l.size() == 1 ? Either.left(l) : Either.right(l));
     }
 }

@@ -1,0 +1,11 @@
+{
+  "max_lifetime": 40,
+  "loop": false,
+  "rate": 1,
+  "count": 16,
+  "emitter_settings": {
+      "shape": ["veil:large_ring", "veil:small_ring"],
+      "particle_settings": "veil:smoke_bigger"
+  },
+  "particle_data": "veil:smoke_big_static"
+}

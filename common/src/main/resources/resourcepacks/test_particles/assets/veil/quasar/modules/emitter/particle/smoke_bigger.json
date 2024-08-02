@@ -1,0 +1,17 @@
+{
+    "random_speed": false,
+    "random_size": true,
+    "random_lifetime": true,
+    "initial_direction": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "random_initial_direction": false,
+    "random_initial_rotation": false,
+    "particle_size_variation": 0.1,
+    "particle_lifetime": 48,
+    "particle_lifetime_variation": 32.0,
+    "particle_speed": 1.0,
+    "base_particle_size": 5.0
+}

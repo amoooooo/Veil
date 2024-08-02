@@ -1,0 +1,24 @@
+{
+  "sprite_data": {
+    "sprite": "veil:textures/particle/smoke.png",
+    "frame_count": 64,
+    "frame_width": 8,
+    "frame_height": 8,
+    "stretch_to_lifetime": true
+  },
+  "render_style": "BILLBOARD",
+  "init_modules": [
+    "veil:smoke_random_init_rotation"
+  ],
+  "update_modules": [],
+  "collision_modules": [
+  ],
+  "forces": [
+  ],
+  "render_modules": [
+    "veil:color/smoke_color_over_lifetime"
+  ],
+  "face_velocity": false,
+  "velocity_stretch_factor": 0.0,
+  "should_collide": true
+}

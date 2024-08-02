@@ -1,0 +1,14 @@
+{
+    "shape": "DISC",
+    "dimensions": [
+        1.0,
+        0.01,
+        1.0
+    ],
+    "rotation": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "from_surface": true
+}
