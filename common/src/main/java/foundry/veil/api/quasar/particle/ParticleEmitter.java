@@ -214,7 +214,7 @@ public class ParticleEmitter {
     @ApiStatus.Internal
     public void render(PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, float partialTicks) {
         Vec3 projectedView = camera.getPosition();
-        RenderData.RenderStyle renderStyle = this.particleData.renderStyle();
+        RenderStyle renderStyle = this.particleData.renderStyle();
 
         Vector3f renderOffset = new Vector3f();
         RenderType lastRenderType = null;

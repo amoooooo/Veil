@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.data.module.update;
 
 import com.mojang.serialization.Codec;
 import foundry.veil.api.molang.MolangExpressionCodec;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.UpdateParticleModule;
@@ -27,6 +28,6 @@ public record TickSizeParticleModuleData(MolangExpression size) implements Parti
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.TICK_SIZE;
+        return ParticleModuleTypeRegistry.TICK_SIZE;
     }
 }

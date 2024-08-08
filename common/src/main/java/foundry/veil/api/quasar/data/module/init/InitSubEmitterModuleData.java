@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.data.module.init;
 
 import com.mojang.serialization.Codec;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.InitParticleModule;
@@ -30,6 +31,6 @@ public record InitSubEmitterModuleData(ResourceLocation subEmitter) implements P
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.INIT_SUB_EMITTER;
+        return ParticleModuleTypeRegistry.INIT_SUB_EMITTER;
     }
 }

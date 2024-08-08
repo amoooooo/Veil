@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.data.module.update;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.update.TickSubEmitterModule;
@@ -22,6 +23,6 @@ public record TickSubEmitterModuleData(ResourceLocation subEmitter, int frequenc
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.TICK_SUB_EMITTER;
+        return ParticleModuleTypeRegistry.TICK_SUB_EMITTER;
     }
 }

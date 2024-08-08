@@ -2,6 +2,7 @@ package foundry.veil.api.quasar.data.module.collision;
 
 import com.mojang.serialization.Codec;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.emitters.module.CollisionParticleModule;
@@ -30,6 +31,6 @@ public record CollisionSubEmitterData(ResourceLocation subEmitter) implements Pa
 
     @Override
     public ModuleType<?> getType() {
-        return ModuleType.SUB_EMITTER_COLLISION;
+        return ParticleModuleTypeRegistry.SUB_EMITTER_COLLISION;
     }
 }

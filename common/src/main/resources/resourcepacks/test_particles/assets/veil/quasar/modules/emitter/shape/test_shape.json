@@ -1,5 +1,5 @@
 {
-    "shape": "CUBE",
+    "shape": "veil:cube",
     "dimensions": [
         20.0,
         20.0,
