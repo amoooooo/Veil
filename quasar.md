@@ -92,7 +92,7 @@ Not Currently Finished! Please return at a later point for documentation and use
 
 ### Resource Browser
 
-Veil has a Resource browser that allows you to edit any text file from any resource pack in-game and save it. It can be opened by pressing the (by default) F6 key and clicking on the `Resource Browser` Tab. Files can be edited by clicking on them with the Right mouse button, which will open a context window with the `Open in Veil Text Editor` option. This will open a Code editor layered over Minecraft. When you have edited the file and want to apply the changes, save it using the editor and either press `F3+t` or use the `Reload Resources` button at the top of the Resource Browser window to reload all Resource Packs.
+Veil has a Resource browser that allows you to edit any text file from any resource pack in-game and save it. It can be opened by pressing the (by default) F6 key and clicking on the `Resource` Tab. Files can be edited by clicking on them with the Right mouse button, which will open a context window with the `Open in Veil Text Editor` option. This will open a Code editor layered over Minecraft. When you have edited the file and want to apply the changes, save it using the editor and either press `F3+t` or use the `Reload Resources` button at the top of the Resource Browser window to reload all Resource Packs.
 
 # Getting started
 
