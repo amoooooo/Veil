@@ -10,18 +10,40 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import java.io.IOException;
 
 import static org.lwjgl.opengl.GL11C.*;
+import static org.lwjgl.opengl.GL12C.*;
 import static org.lwjgl.opengl.GL13C.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+import static org.lwjgl.opengl.GL14C.GL_TEXTURE_LOD_BIAS;
 
+/**
+ * Dynamic implementation of {@link CubemapTexture}. Must be initialized before it can be used.
+ *
+ * @author Ocelot
+ */
 public class DynamicCubemapTexture extends CubemapTexture {
 
+    /**
+     * Initializes each face to the same size white texture.
+     *
+     * @param width  The width of each face
+     * @param height The height of each face
+     */
     public void init(int width, int height) {
         try (NativeImage image = new NativeImage(width, height, true)) {
             this.upload(image);
         }
     }
 
+    /**
+     * Uploads the same image to all faces of the cubemap.
+     *
+     * @param image The image to upload
+     */
     public void upload(NativeImage image) {
         this.bind();
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -31,18 +53,35 @@ public class DynamicCubemapTexture extends CubemapTexture {
         GlStateManager._pixelStore(GL_UNPACK_ROW_LENGTH, 0);
         GlStateManager._pixelStore(GL_UNPACK_SKIP_ROWS, 0);
         GlStateManager._pixelStore(GL_UNPACK_SKIP_PIXELS, 0);
-        image.format().setUnpackPixelStoreState();
+        NativeImage.Format format = image.format();
+        format.setUnpackPixelStoreState();
         for (int i = 0; i < 6; i++) {
-            GlStateManager._texSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, 0, 0, width, height, image.format().glFormat(), GL_UNSIGNED_BYTE, accessor.getPixels());
+            GlStateManager._texSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, 0, 0, width, height, format.glFormat(), GL_UNSIGNED_BYTE, accessor.getPixels());
         }
     }
 
+    /**
+     * Uploads the specified image to the specified face.
+     *
+     * @param face  The face to upload to
+     * @param image The image to upload
+     */
     public void upload(Direction face, NativeImage image) {
         this.upload(getGlFace(face), image);
     }
 
+    /**
+     * Uploads the specified image to the specified face.
+     *
+     * @param face  The face to upload to
+     * @param image The image to upload
+     */
     public void upload(int face, NativeImage image) {
         this.bind();
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -52,8 +91,9 @@ public class DynamicCubemapTexture extends CubemapTexture {
         GlStateManager._pixelStore(GL_UNPACK_ROW_LENGTH, 0);
         GlStateManager._pixelStore(GL_UNPACK_SKIP_ROWS, 0);
         GlStateManager._pixelStore(GL_UNPACK_SKIP_PIXELS, 0);
-        image.format().setUnpackPixelStoreState();
-        GlStateManager._texSubImage2D(face, 0, 0, 0, width, height, image.format().glFormat(), GL_UNSIGNED_BYTE, accessor.getPixels());
+        NativeImage.Format format = image.format();
+        format.setUnpackPixelStoreState();
+        GlStateManager._texSubImage2D(face, 0, 0, 0, width, height, format.glFormat(), GL_UNSIGNED_BYTE, accessor.getPixels());
     }
 
     @Override
