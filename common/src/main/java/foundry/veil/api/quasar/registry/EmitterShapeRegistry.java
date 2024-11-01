@@ -1,12 +1,6 @@
 package foundry.veil.api.quasar.registry;
 
-import com.mojang.serialization.Codec;
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.post.PostPipeline;
-import foundry.veil.api.client.render.post.stage.BlitPostStage;
-import foundry.veil.api.client.render.post.stage.CopyPostStage;
-import foundry.veil.api.client.render.post.stage.DepthFunctionPostStage;
-import foundry.veil.api.client.render.post.stage.MaskPostStage;
 import foundry.veil.api.quasar.emitters.shape.*;
 import foundry.veil.platform.registry.RegistrationProvider;
 import net.minecraft.core.Registry;

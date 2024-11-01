@@ -1,8 +1,7 @@
 package foundry.veil.api.client.color;
 
-import net.minecraft.util.Mth;
-
 import com.mojang.serialization.Codec;
+import net.minecraft.util.Mth;
 
 /**
  * A simple color class that can be used to represent a color in RGBA format with utility functions.

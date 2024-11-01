@@ -1,16 +1,11 @@
 package foundry.veil.impl.compat;
 
 import foundry.veil.Veil;
-import it.unimi.dsi.fastutil.ints.IntSet;
-import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Collections;
-import java.util.Set;
 import java.util.function.Supplier;
 
 @ApiStatus.Internal

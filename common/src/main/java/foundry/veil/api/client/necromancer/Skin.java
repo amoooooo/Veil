@@ -5,10 +5,6 @@ import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilVertexFormat;
-import foundry.veil.api.client.render.shader.VeilShaders;
-import foundry.veil.ext.VertexBufferExtension;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;

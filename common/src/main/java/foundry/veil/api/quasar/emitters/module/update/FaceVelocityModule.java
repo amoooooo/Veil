@@ -2,7 +2,6 @@ package foundry.veil.api.quasar.emitters.module.update;
 
 import foundry.veil.api.quasar.emitters.module.UpdateParticleModule;
 import foundry.veil.api.quasar.particle.QuasarParticle;
-import foundry.veil.api.quasar.particle.RenderData;
 import foundry.veil.api.quasar.registry.RenderStyleRegistry;
 import net.minecraft.util.Mth;
 import org.joml.Vector3d;

@@ -7,8 +7,6 @@ import io.github.douira.glsl_transformer.ast.transform.ASTParser;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.io.IOException;
-import java.util.function.Supplier;
-import java.util.regex.Matcher;
 
 @ApiStatus.Internal
 public class InputShaderModification implements ShaderModification {

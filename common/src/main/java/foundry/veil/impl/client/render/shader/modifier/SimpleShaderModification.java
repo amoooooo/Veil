@@ -16,7 +16,6 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.Objects;
 import java.util.regex.Matcher;
 
 @ApiStatus.Internal

@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.util.CodecUtil;
 import net.minecraft.core.Holder;
-import net.minecraft.util.ExtraCodecs;
 
 import java.util.List;
 

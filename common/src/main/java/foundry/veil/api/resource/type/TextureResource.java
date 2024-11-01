@@ -1,9 +1,9 @@
 package foundry.veil.api.resource.type;
 
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
-import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceAction;
+import foundry.veil.api.resource.VeilResourceInfo;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;

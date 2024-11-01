@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
 import foundry.veil.api.quasar.particle.QuasarParticle;
-import foundry.veil.api.quasar.particle.RenderData;
 import foundry.veil.api.quasar.particle.RenderStyle;
 import foundry.veil.api.quasar.particle.SpriteData;
 import foundry.veil.api.quasar.registry.RenderStyleRegistry;

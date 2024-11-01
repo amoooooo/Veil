@@ -2,12 +2,9 @@ package foundry.veil.forge.event;
 
 import foundry.veil.api.event.VeilRegisterBlockLayerEvent;
 import foundry.veil.api.event.VeilRegisterFixedBuffersEvent;
-import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.event.IModBusEvent;
-
-import java.util.function.Consumer;
 
 /**
  * <p>Fired to register block layers.</p>

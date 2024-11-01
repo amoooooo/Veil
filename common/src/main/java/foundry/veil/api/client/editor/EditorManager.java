@@ -1,7 +1,6 @@
 package foundry.veil.api.client.editor;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.registry.VeilResourceEditorRegistry;
 import foundry.veil.api.resource.editor.ResourceFileEditor;
 import foundry.veil.api.util.CompositeReloadListener;

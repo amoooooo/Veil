@@ -6,8 +6,6 @@ import imgui.ImGuiStyle;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiDir;
 
-import java.io.IOException;
-
 public class VeilImGuiStylesheet {
 
     public static void initStyles() {
