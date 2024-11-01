@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../../script.js"></script>
-<script type="text/javascript" src="../../../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -88,6 +88,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">CubemapTexture</span>
 <span class="extends-implements">extends net.minecraft.client.renderer.texture.AbstractTexture</span></div>
+<div class="block"><code>AbstractTexture</code> implementation for using a cubemap texture.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -129,7 +130,9 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getGlFace(net.minecraft.core.Direction)" class="member-name-link">getGlFace</a><wbr>(net.minecraft.core.Direction&nbsp;direction)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Converts the <code>Direction</code> value to the correct GL cubemap enum.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFilter(boolean,boolean)" class="member-name-link">setFilter</a><wbr>(boolean&nbsp;blur,
  boolean&nbsp;mipmap)</code></div>
@@ -172,6 +175,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getGlFace(net.minecraft.core.Direction)">
 <h3>getGlFace</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getGlFace</span><wbr><span class="parameters">(net.minecraft.core.Direction&nbsp;direction)</span></div>
+<div class="block">Converts the <code>Direction</code> value to the correct GL cubemap enum.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>direction</code> - The direction to convert</dd>
+<dt>Returns:</dt>
+<dd>The OpenGL enum</dd>
+</dl>
 </section>
 </li>
 <li>

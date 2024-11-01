@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../../../script.js"></script>
-<script type="text/javascript" src="../../../../../../script-dir/jquery-3.6.1.min.js"></script>
+<script type="text/javascript" src="../../../../../../script-dir/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="../../../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -86,6 +86,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">DynamicCubemapTexture</span>
 <span class="extends-implements">extends <a href="CubemapTexture.html" title="class in foundry.veil.api.client.render.texture">CubemapTexture</a></span></div>
+<div class="block">Dynamic implementation of <a href="CubemapTexture.html" title="class in foundry.veil.api.client.render.texture"><code>CubemapTexture</code></a>. Must be initialized before it can be used.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -123,16 +124,31 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#load(net.minecraft.server.packs.resources.ResourceManager)" class="member-name-link">load</a><wbr>(net.minecraft.server.packs.resources.ResourceManager&nbsp;resourceManager)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#init(int,int)" class="member-name-link">init</a><wbr>(int&nbsp;width,
+ int&nbsp;height)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Initializes each face to the same size white texture.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(int,com.mojang.blaze3d.platform.NativeImage)" class="member-name-link">upload</a><wbr>(int&nbsp;face,
- com.mojang.blaze3d.platform.NativeImage&nbsp;image)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#load(net.minecraft.server.packs.resources.ResourceManager)" class="member-name-link">load</a><wbr>(net.minecraft.server.packs.resources.ResourceManager&nbsp;resourceManager)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(int,com.mojang.blaze3d.platform.NativeImage)" class="member-name-link">upload</a><wbr>(int&nbsp;face,
+ com.mojang.blaze3d.platform.NativeImage&nbsp;image)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uploads the specified image to the specified face.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(com.mojang.blaze3d.platform.NativeImage)" class="member-name-link">upload</a><wbr>(com.mojang.blaze3d.platform.NativeImage&nbsp;image)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uploads the same image to all faces of the cubemap.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(net.minecraft.core.Direction,com.mojang.blaze3d.platform.NativeImage)" class="member-name-link">upload</a><wbr>(net.minecraft.core.Direction&nbsp;face,
  com.mojang.blaze3d.platform.NativeImage&nbsp;image)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uploads the specified image to the specified face.</div>
+</div>
 </div>
 </div>
 </div>
@@ -171,10 +187,40 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="init(int,int)">
+<h3>init</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">init</span><wbr><span class="parameters">(int&nbsp;width,
+ int&nbsp;height)</span></div>
+<div class="block">Initializes each face to the same size white texture.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>width</code> - The width of each face</dd>
+<dd><code>height</code> - The height of each face</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="upload(com.mojang.blaze3d.platform.NativeImage)">
+<h3>upload</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upload</span><wbr><span class="parameters">(com.mojang.blaze3d.platform.NativeImage&nbsp;image)</span></div>
+<div class="block">Uploads the same image to all faces of the cubemap.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>image</code> - The image to upload</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="upload(net.minecraft.core.Direction,com.mojang.blaze3d.platform.NativeImage)">
 <h3>upload</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upload</span><wbr><span class="parameters">(net.minecraft.core.Direction&nbsp;face,
  com.mojang.blaze3d.platform.NativeImage&nbsp;image)</span></div>
+<div class="block">Uploads the specified image to the specified face.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>face</code> - The face to upload to</dd>
+<dd><code>image</code> - The image to upload</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -182,6 +228,12 @@ loadScripts(document, 'script');</script>
 <h3>upload</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upload</span><wbr><span class="parameters">(int&nbsp;face,
  com.mojang.blaze3d.platform.NativeImage&nbsp;image)</span></div>
+<div class="block">Uploads the specified image to the specified face.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>face</code> - The face to upload to</dd>
+<dd><code>image</code> - The image to upload</dd>
+</dl>
 </section>
 </li>
 <li>
