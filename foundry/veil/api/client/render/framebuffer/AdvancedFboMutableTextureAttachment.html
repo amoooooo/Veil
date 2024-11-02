@@ -107,11 +107,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int,int)" class="member-name-link">AdvancedFboMutableTextureAttachment</a><wbr>(int&nbsp;textureId,
- int&nbsp;textureTarget,
- int&nbsp;attachmentType,
- int&nbsp;width,
- int&nbsp;height)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int)" class="member-name-link">AdvancedFboMutableTextureAttachment</a><wbr>(int&nbsp;attachmentType,
+ int&nbsp;textureId,
+ int&nbsp;layer)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -141,22 +139,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates the attachment and initializes it with the default properties.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#releaseId()" class="member-name-link">releaseId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTexture(int,int,int,int)" class="member-name-link">setTexture</a><wbr>(int&nbsp;textureTarget,
- int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTexture(int,int)" class="member-name-link">setTexture</a><wbr>(int&nbsp;textureId,
+ int&nbsp;layer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -185,13 +175,11 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int,int,int,int)">
+<section class="detail" id="&lt;init&gt;(int,int,int)">
 <h3>AdvancedFboMutableTextureAttachment</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AdvancedFboMutableTextureAttachment</span><wbr><span class="parameters">(int&nbsp;textureId,
- int&nbsp;textureTarget,
- int&nbsp;attachmentType,
- int&nbsp;width,
- int&nbsp;height)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AdvancedFboMutableTextureAttachment</span><wbr><span class="parameters">(int&nbsp;attachmentType,
+ int&nbsp;textureId,
+ int&nbsp;layer)</span></div>
 </section>
 </li>
 </ul>
@@ -267,40 +255,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getWidth()">
-<h3>getWidth</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getWidth</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="AdvancedFboAttachment.html#getWidth()">getWidth</a></code>&nbsp;in interface&nbsp;<code><a href="AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></dd>
-<dt>Overrides:</dt>
-<dd><code><a href="AdvancedFboTextureAttachment.html#getWidth()">getWidth</a></code>&nbsp;in class&nbsp;<code><a href="AdvancedFboTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboTextureAttachment</a></code></dd>
-<dt>Returns:</dt>
-<dd>The width of this attachment</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getHeight()">
-<h3>getHeight</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getHeight</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="AdvancedFboAttachment.html#getHeight()">getHeight</a></code>&nbsp;in interface&nbsp;<code><a href="AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></dd>
-<dt>Overrides:</dt>
-<dd><code><a href="AdvancedFboTextureAttachment.html#getHeight()">getHeight</a></code>&nbsp;in class&nbsp;<code><a href="AdvancedFboTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboTextureAttachment</a></code></dd>
-<dt>Returns:</dt>
-<dd>The height of this attachment</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setTexture(int,int,int,int)">
+<section class="detail" id="setTexture(int,int)">
 <h3>setTexture</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">setTexture</span><wbr><span class="parameters">(int&nbsp;textureTarget,
- int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">setTexture</span><wbr><span class="parameters">(int&nbsp;textureId,
+ int&nbsp;layer)</span></div>
 </section>
 </li>
 </ul>

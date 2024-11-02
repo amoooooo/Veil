@@ -295,34 +295,26 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="block">Resolves this framebuffer to the window framebuffer as the target.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int,int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
- int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
+ int&nbsp;textureId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the 2D texture attachment reference for the specified slot.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int,int,int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
- int&nbsp;textureTarget,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
  int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</code></div>
+ int&nbsp;layer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the texture attachment reference for the specified slot.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int,int,int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the 2D depth texture attachment reference for the specified slot.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int,int,int,int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureTarget,
- int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int,int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureId,
+ int&nbsp;layer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the depth texture attachment reference for the specified slot.</div>
 </div>
@@ -697,12 +689,10 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setColorAttachmentTexture(int,int,int,int)">
+<section class="detail" id="setColorAttachmentTexture(int,int)">
 <h3>setColorAttachmentTexture</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setColorAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;attachment,
- int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</span></div>
+ int&nbsp;textureId)</span></div>
 <div class="block">Updates the 2D texture attachment reference for the specified slot.
  If the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
  use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</div>
@@ -710,8 +700,6 @@ extends org.lwjgl.system.NativeResource</span></div>
 <dt>Parameters:</dt>
 <dd><code>attachment</code> - The attachment to modify</dd>
 <dd><code>textureId</code> - The id of the texture to draw into</dd>
-<dd><code>width</code> - The width of the texture</dd>
-<dd><code>height</code> - The height of the texture</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If there is no attachment in the specified attachment
                                   slot, or it is not an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a></dd>
@@ -719,23 +707,19 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setColorAttachmentTexture(int,int,int,int,int)">
+<section class="detail" id="setColorAttachmentTexture(int,int,int)">
 <h3>setColorAttachmentTexture</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setColorAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;attachment,
- int&nbsp;textureTarget,
  int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</span></div>
+ int&nbsp;layer)</span></div>
 <div class="block">Updates the texture attachment reference for the specified slot.
  If the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
  use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>attachment</code> - The attachment to modify</dd>
-<dd><code>textureTarget</code> - The texture target to upload</dd>
 <dd><code>textureId</code> - The id of the texture to draw into</dd>
-<dd><code>width</code> - The width of the texture</dd>
-<dd><code>height</code> - The height of the texture</dd>
+<dd><code>layer</code> - The texture layer to attach. For cubemaps this is the attachment face</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If there is no attachment in the specified attachment
                                   slot, or it is not an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a></dd>
@@ -819,19 +803,15 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setDepthAttachmentTexture(int,int,int)">
+<section class="detail" id="setDepthAttachmentTexture(int)">
 <h3>setDepthAttachmentTexture</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDepthAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</span></div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDepthAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;textureId)</span></div>
 <div class="block">Updates the 2D depth texture attachment reference for the specified slot.
  If the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
  use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>textureId</code> - The id of the texture to draw into</dd>
-<dd><code>width</code> - The width of the texture</dd>
-<dd><code>height</code> - The height of the texture</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If there is no attachment in the specified attachment
                                   slot, or it is not an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a></dd>
@@ -839,21 +819,17 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setDepthAttachmentTexture(int,int,int,int)">
+<section class="detail" id="setDepthAttachmentTexture(int,int)">
 <h3>setDepthAttachmentTexture</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDepthAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;textureTarget,
- int&nbsp;textureId,
- int&nbsp;width,
- int&nbsp;height)</span></div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDepthAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;textureId,
+ int&nbsp;layer)</span></div>
 <div class="block">Updates the depth texture attachment reference for the specified slot.
  If the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
  use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>textureTarget</code> - The texture target to upload</dd>
 <dd><code>textureId</code> - The id of the texture to draw into</dd>
-<dd><code>width</code> - The width of the texture</dd>
-<dd><code>height</code> - The height of the texture</dd>
+<dd><code>layer</code> - The texture layer to attach. For cubemaps this is the attachment face</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If there is no attachment in the specified attachment
                                   slot, or it is not an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a></dd>
