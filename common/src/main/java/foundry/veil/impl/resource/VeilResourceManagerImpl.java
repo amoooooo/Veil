@@ -71,10 +71,14 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
         this.loaders.add(loader);
     }
 
-    private void loadPack(ResourceManager resourceManager, VeilPackResources resources, Object2ObjectMap<Path, PackResourceListener> watchers, PackResources packResources) {
+    private void loadPack(ResourceManager resourceManager, VeilPackResources resources, Object2ObjectMap<Path, PackResourceListener> watchers, PackType type, PackResources packResources) {
         if (packResources instanceof PackResourcesExtension ext) {
             try {
                 ext.veil$listResources((packType, loc, packPath, path, modResourcePath) -> {
+                    if (packType != type) {
+                        return;
+                    }
+
                     try {
                         VeilResource<?> resource = this.visitResource(packType, resourceManager, loc, path, modResourcePath);
                         resources.add(packType, loc, resource);
@@ -99,16 +103,14 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
             }
         }
 
-        for (PackType packType : PackType.values()) {
-            for (String namespace : packResources.getNamespaces(PackType.CLIENT_RESOURCES)) {
-                packResources.listResources(packType, namespace, "", (loc, inputStreamIoSupplier) -> {
-                    try {
-                        resources.add(packType, loc, this.visitResource(packType, resourceManager, loc, null, null));
-                    } catch (Exception e) {
-                        Veil.LOGGER.error("Error loading resource: {}", loc, e);
-                    }
-                });
-            }
+        for (String namespace : packResources.getNamespaces(type)) {
+            packResources.listResources(type, namespace, "", (loc, inputStreamIoSupplier) -> {
+                try {
+                    resources.add(type, loc, this.visitResource(type, resourceManager, loc, null, null));
+                } catch (Exception e) {
+                    Veil.LOGGER.error("Error loading resource: {}", loc, e);
+                }
+            });
         }
     }
 
@@ -153,7 +155,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
             Object2ObjectMap<Path, PackResourceListener> watchers = new Object2ObjectArrayMap<>();
             resourceManager.listPacks().flatMap(pack -> pack instanceof PackResourcesExtension extension ? extension.veil$listPacks() : Stream.of(pack)).forEach(pack -> {
                 VeilPackResources resources = new VeilPackResources(pack.packId());
-                this.loadPack(resourceManager, resources, watchers, pack);
+                this.loadPack(resourceManager, resources, watchers, PackType.CLIENT_RESOURCES, pack);
                 packs.add(resources);
 
                 if (pack instanceof PackResourcesExtension extension) {
