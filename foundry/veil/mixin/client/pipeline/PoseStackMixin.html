@@ -132,18 +132,18 @@ implements <a href="../../../api/client/render/MatrixStack.html" title="interfac
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#last()" class="member-name-link">last</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pop()" class="member-name-link">pop</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#matrixPop()" class="member-name-link">matrixPop</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Restores a previous position and normal set with <code>#pushMatrix()</code>.</div>
+<div class="block">Restores a previous position and normal set with <a href="../../../api/client/render/MatrixStack.html#matrixPush()"><code>MatrixStack.matrixPush()</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.mojang.blaze3d.vertex.PoseStack.Pose</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pose()" class="member-name-link">pose</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#push()" class="member-name-link">push</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Saves the current position and normal transformation for restoring later wit <code>#popMatrix()</code>.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#matrixPush()" class="member-name-link">matrixPush</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Saves the current position and normal transformation for restoring later with <a href="../../../api/client/render/MatrixStack.html#matrixPop()"><code>MatrixStack.matrixPop()</code></a>.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.mojang.blaze3d.vertex.PoseStack.Pose</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pose()" class="member-name-link">pose</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#rotate(float,float,float,float)" class="member-name-link">rotate</a><wbr>(float&nbsp;angle,
  float&nbsp;x,
@@ -192,12 +192,6 @@ implements <a href="../../../api/client/render/MatrixStack.html" title="interfac
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Rotates about the z, y, then x planes the specified angles.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shadow$clear()" class="member-name-link">shadow$clear</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract com.mojang.blaze3d.vertex.PoseStack.Pose</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shadow$last()" class="member-name-link">shadow$last</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shadow$mulPose(org.joml.Quaternionf)" class="member-name-link">shadow$mulPose</a><wbr>(org.joml.Quaternionf&nbsp;quaternion)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
@@ -219,18 +213,15 @@ implements <a href="../../../api/client/render/MatrixStack.html" title="interfac
  float&nbsp;z)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shadow$setIdentity()" class="member-name-link">shadow$setIdentity</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shadow$translate(float,float,float)" class="member-name-link">shadow$translate</a><wbr>(float&nbsp;x,
+ float&nbsp;y,
+ float&nbsp;z)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shadow$translate(float,float,float)" class="member-name-link">shadow$translate</a><wbr>(float&nbsp;x,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#translate(float,float,float)" class="member-name-link">translate</a><wbr>(float&nbsp;x,
  float&nbsp;y,
  float&nbsp;z)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#translate(float,float,float)" class="member-name-link">translate</a><wbr>(float&nbsp;x,
- float&nbsp;y,
- float&nbsp;z)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Translates the position by the specified amount.</div>
 </div>
 </div>
@@ -308,24 +299,6 @@ implements <a href="../../../api/client/render/MatrixStack.html" title="interfac
 <section class="detail" id="shadow$popPose()">
 <h3>shadow$popPose</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">shadow$popPose</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="shadow$clear()">
-<h3>shadow$clear</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shadow$clear</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="shadow$setIdentity()">
-<h3>shadow$setIdentity</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">shadow$setIdentity</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="shadow$last()">
-<h3>shadow$last</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">com.mojang.blaze3d.vertex.PoseStack.Pose</span>&nbsp;<span class="element-name">shadow$last</span>()</div>
 </section>
 </li>
 <li>
@@ -532,26 +505,26 @@ implements <a href="../../../api/client/render/MatrixStack.html" title="interfac
 </section>
 </li>
 <li>
-<section class="detail" id="push()">
-<h3>push</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">push</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../api/client/render/MatrixStack.html#push()">MatrixStack</a></code></span></div>
-<div class="block">Saves the current position and normal transformation for restoring later wit <code>#popMatrix()</code>.</div>
+<section class="detail" id="matrixPush()">
+<h3>matrixPush</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">matrixPush</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../api/client/render/MatrixStack.html#matrixPush()">MatrixStack</a></code></span></div>
+<div class="block">Saves the current position and normal transformation for restoring later with <a href="../../../api/client/render/MatrixStack.html#matrixPop()"><code>MatrixStack.matrixPop()</code></a>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../api/client/render/MatrixStack.html#push()">push</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a></code></dd>
+<dd><code><a href="../../../api/client/render/MatrixStack.html#matrixPush()">matrixPush</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a></code></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="pop()">
-<h3>pop</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">pop</span>()</div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../api/client/render/MatrixStack.html#pop()">MatrixStack</a></code></span></div>
-<div class="block">Restores a previous position and normal set with <code>#pushMatrix()</code>.</div>
+<section class="detail" id="matrixPop()">
+<h3>matrixPop</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">matrixPop</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../../../api/client/render/MatrixStack.html#matrixPop()">MatrixStack</a></code></span></div>
+<div class="block">Restores a previous position and normal set with <a href="../../../api/client/render/MatrixStack.html#matrixPush()"><code>MatrixStack.matrixPush()</code></a>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../api/client/render/MatrixStack.html#pop()">pop</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a></code></dd>
+<dd><code><a href="../../../api/client/render/MatrixStack.html#matrixPop()">matrixPop</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a></code></dd>
 </dl>
 </section>
 </li>

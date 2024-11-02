@@ -151,25 +151,25 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isIdentity()" class="member-name-link">isIdentity</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#matrixPop()" class="member-name-link">matrixPop</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Restores a previous position and normal set with <a href="#matrixPush()"><code>matrixPush()</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#matrixPush()" class="member-name-link">matrixPush</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Saves the current position and normal transformation for restoring later with <a href="#matrixPop()"><code>matrixPop()</code></a>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default org.joml.Matrix3f</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#normal()" class="member-name-link">normal</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#pop()" class="member-name-link">pop</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Restores a previous position and normal set with <code>#pushMatrix()</code>.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>com.mojang.blaze3d.vertex.PoseStack.Pose</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#pose()" class="member-name-link">pose</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default org.joml.Matrix4f</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#position()" class="member-name-link">position</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#push()" class="member-name-link">push</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Saves the current position and normal transformation for restoring later wit <code>#popMatrix()</code>.</div>
-</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>com.mojang.blaze3d.vertex.PoseStack.Pose</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#pose()" class="member-name-link">pose</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default org.joml.Matrix4f</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#position()" class="member-name-link">position</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#rotate(double,double,double,double)" class="member-name-link">rotate</a><wbr>(double&nbsp;angle,
  double&nbsp;x,
@@ -575,17 +575,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="push()">
-<h3>push</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">push</span>()</div>
-<div class="block">Saves the current position and normal transformation for restoring later wit <code>#popMatrix()</code>.</div>
+<section class="detail" id="matrixPush()">
+<h3>matrixPush</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">matrixPush</span>()</div>
+<div class="block">Saves the current position and normal transformation for restoring later with <a href="#matrixPop()"><code>matrixPop()</code></a>.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="pop()">
-<h3>pop</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">pop</span>()</div>
-<div class="block">Restores a previous position and normal set with <code>#pushMatrix()</code>.</div>
+<section class="detail" id="matrixPop()">
+<h3>matrixPop</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">matrixPop</span>()</div>
+<div class="block">Restores a previous position and normal set with <a href="#matrixPush()"><code>matrixPush()</code></a>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link">IllegalStateException</a></code> - If there are no more matrix transformations to pop</dd>
