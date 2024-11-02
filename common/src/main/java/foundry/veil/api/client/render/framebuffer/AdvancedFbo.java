@@ -331,7 +331,7 @@ public interface AdvancedFbo extends NativeResource {
      *                                  slot, or it is not an {@link AdvancedFboMutableTextureAttachment}
      */
     default void setColorAttachmentTexture(int attachment, int textureId) {
-        this.setColorAttachmentTexture(attachment, GL_TEXTURE_2D, textureId);
+        this.setColorAttachmentTexture(attachment, textureId, -1);
     }
 
     /**
@@ -424,7 +424,7 @@ public interface AdvancedFbo extends NativeResource {
      *                                  slot, or it is not an {@link AdvancedFboMutableTextureAttachment}
      */
     default void setDepthAttachmentTexture(int textureId) {
-        this.setDepthAttachmentTexture(GL_TEXTURE_2D, textureId);
+        this.setDepthAttachmentTexture(textureId, -1);
     }
 
     /**

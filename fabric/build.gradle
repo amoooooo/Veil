@@ -58,8 +58,6 @@ dependencies {
     implementation 'org.jetbrains:annotations:24.0.1'
     implementation project(path: ":common", configuration: "namedElements")
 
-    modRuntimeOnly "maven.modrinth:modmenu:7.2.2"
-
     modCompileOnly "maven.modrinth:sodium:mc1.20.1-0.5.3"
     modCompileOnly "maven.modrinth:iris:1.6.11+1.20.1"
     modCompileOnly "maven.modrinth:replaymod:1.20.1-2.6.15"
