@@ -167,16 +167,6 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
         }
 
         @Override
-        public int getWidth() {
-            return this.parent.getWidth();
-        }
-
-        @Override
-        public int getHeight() {
-            return this.parent.getHeight();
-        }
-
-        @Override
         public @NotNull AdvancedFboTextureAttachment clone() {
             return new VanillaAdvancedFboWrapper.AttachmentWrapper(this.parent, this.id, this.getAttachmentType());
         }

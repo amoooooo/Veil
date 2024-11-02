@@ -1,34 +1,34 @@
 package foundry.veil.api.client.render.framebuffer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.glFramebufferTextureLayer;
 import static org.lwjgl.opengl.GL30C.GL_DEPTH_ATTACHMENT;
 
 @ApiStatus.Internal
 public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttachment {
 
-    private int textureTarget;
     private int textureId;
-    private int width;
-    private int height;
+    private int layer;
 
-    public AdvancedFboMutableTextureAttachment(int textureId, int textureTarget, int attachmentType, int width, int height) {
+    public AdvancedFboMutableTextureAttachment(int attachmentType, int textureId, int layer) {
         super(attachmentType, 0, 0, 0, 0, 0, 0, false, null);
-        this.setTexture(textureTarget, textureId, width, height);
+        this.setTexture(textureId, layer);
     }
 
     @Override
     public void attach(int attachment) {
         int attachmentType = this.getAttachmentType();
         Validate.isTrue(attachmentType < GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
-        GlStateManager._glFramebufferTexture2D(GL_FRAMEBUFFER,
+        glFramebufferTextureLayer(
+                GL_FRAMEBUFFER,
                 attachmentType + attachment,
-                this.textureTarget,
-                this.getId(),
-                0); // Only draw into the first level
+                this.textureId,
+                0,
+                this.layer
+        );
     }
 
     @Override
@@ -37,7 +37,7 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
 
     @Override
     public AdvancedFboMutableTextureAttachment clone() {
-        return new AdvancedFboMutableTextureAttachment(this.textureId, this.textureTarget, this.getAttachmentType(), this.getWidth(), this.getHeight());
+        return new AdvancedFboMutableTextureAttachment(this.textureId, this.getAttachmentType(), this.layer);
     }
 
     @Override
@@ -49,25 +49,13 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
         return this.textureId;
     }
 
-    @Override
-    public int getWidth() {
-        return this.width;
-    }
-
-    @Override
-    public int getHeight() {
-        return this.height;
-    }
-
-    public boolean setTexture(int textureTarget, int textureId, int width, int height) {
-        if (this.textureTarget == textureTarget && this.textureId == textureId && this.width == width && this.height == height) {
+    public boolean setTexture(int textureId, int layer) {
+        if (this.textureId == textureId && this.layer == layer) {
             return false;
         }
 
-        this.textureTarget = textureTarget;
         this.textureId = textureId;
-        this.width = width;
-        this.height = height;
+        this.layer = layer;
         return true;
     }
 }

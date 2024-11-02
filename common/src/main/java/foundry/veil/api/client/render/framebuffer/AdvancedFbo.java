@@ -327,13 +327,11 @@ public interface AdvancedFbo extends NativeResource {
      *
      * @param attachment The attachment to modify
      * @param textureId  The id of the texture to draw into
-     * @param width      The width of the texture
-     * @param height     The height of the texture
      * @throws IllegalArgumentException If there is no attachment in the specified attachment
      *                                  slot, or it is not an {@link AdvancedFboMutableTextureAttachment}
      */
-    default void setColorAttachmentTexture(int attachment, int textureId, int width, int height) {
-        this.setColorAttachmentTexture(attachment, GL_TEXTURE_2D, textureId, width, height);
+    default void setColorAttachmentTexture(int attachment, int textureId) {
+        this.setColorAttachmentTexture(attachment, GL_TEXTURE_2D, textureId);
     }
 
     /**
@@ -341,19 +339,17 @@ public interface AdvancedFbo extends NativeResource {
      * If the attachment is not known to be an {@link AdvancedFboMutableTextureAttachment},
      * use {@link #isMutableColorTextureAttachment(int)} before calling this.
      *
-     * @param attachment    The attachment to modify
-     * @param textureTarget The texture target to upload
-     * @param textureId     The id of the texture to draw into
-     * @param width         The width of the texture
-     * @param height        The height of the texture
+     * @param attachment The attachment to modify
+     * @param textureId  The id of the texture to draw into
+     * @param layer      The texture layer to attach. For cubemaps this is the attachment face
      * @throws IllegalArgumentException If there is no attachment in the specified attachment
      *                                  slot, or it is not an {@link AdvancedFboMutableTextureAttachment}
      */
-    default void setColorAttachmentTexture(int attachment, int textureTarget, int textureId, int width, int height) {
+    default void setColorAttachmentTexture(int attachment, int textureId, int layer) {
         AdvancedFboAttachment advancedFboAttachment = this.getColorAttachment(attachment);
         Validate.isTrue(this.isMutableColorTextureAttachment(attachment), "Color attachment " + attachment + " must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
-        if (mutableTextureAttachment.setTexture(textureTarget, textureId, width, height)) {
+        if (mutableTextureAttachment.setTexture(textureId, layer)) {
             this.bind(false);
             mutableTextureAttachment.attach(attachment);
             AdvancedFbo.unbind();
@@ -424,13 +420,11 @@ public interface AdvancedFbo extends NativeResource {
      * use {@link #isMutableColorTextureAttachment(int)} before calling this.
      *
      * @param textureId The id of the texture to draw into
-     * @param width     The width of the texture
-     * @param height    The height of the texture
      * @throws IllegalArgumentException If there is no attachment in the specified attachment
      *                                  slot, or it is not an {@link AdvancedFboMutableTextureAttachment}
      */
-    default void setDepthAttachmentTexture(int textureId, int width, int height) {
-        this.setDepthAttachmentTexture(GL_TEXTURE_2D, textureId, width, height);
+    default void setDepthAttachmentTexture(int textureId) {
+        this.setDepthAttachmentTexture(GL_TEXTURE_2D, textureId);
     }
 
     /**
@@ -438,18 +432,16 @@ public interface AdvancedFbo extends NativeResource {
      * If the attachment is not known to be an {@link AdvancedFboMutableTextureAttachment},
      * use {@link #isMutableColorTextureAttachment(int)} before calling this.
      *
-     * @param textureTarget The texture target to upload
-     * @param textureId     The id of the texture to draw into
-     * @param width         The width of the texture
-     * @param height        The height of the texture
+     * @param textureId The id of the texture to draw into
+     * @param layer     The texture layer to attach. For cubemaps this is the attachment face
      * @throws IllegalArgumentException If there is no attachment in the specified attachment
      *                                  slot, or it is not an {@link AdvancedFboMutableTextureAttachment}
      */
-    default void setDepthAttachmentTexture(int textureTarget, int textureId, int width, int height) {
+    default void setDepthAttachmentTexture(int textureId, int layer) {
         AdvancedFboAttachment advancedFboAttachment = this.getDepthAttachment();
         Validate.isTrue(this.isDepthMutableTextureAttachment(), "Depth attachment must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
-        if (mutableTextureAttachment.setTexture(textureTarget, textureId, width, height)) {
+        if (mutableTextureAttachment.setTexture(textureId, layer)) {
             this.bind(false);
             mutableTextureAttachment.attach(0);
             AdvancedFbo.unbind();
@@ -677,26 +669,22 @@ public interface AdvancedFbo extends NativeResource {
         }
 
         /**
-         * Adds the specified texture as a 2D texture attachment.
+         * Adds the specified texture as a texture attachment.
          *
          * @param textureId The id of the texture to add
-         * @param width     The width of the texture
-         * @param height    The height of the texture
          */
-        public Builder addColorTextureWrapper(int textureId, int width, int height) {
-            return this.addColorTextureWrapper(textureId, GL_TEXTURE_2D, width, height);
+        public Builder addColorTextureWrapper(int textureId) {
+            return this.addColorTextureWrapper(textureId, 0);
         }
 
         /**
          * Adds the specified texture as a texture attachment.
          *
-         * @param textureId     The id of the texture to add
-         * @param textureTarget The target to use for the texture
-         * @param width         The width of the texture
-         * @param height        The height of the texture
+         * @param textureId The id of the texture to add
+         * @param layer     The layer of the texture to use
          */
-        public Builder addColorTextureWrapper(int textureId, int textureTarget, int width, int height) {
-            return this.addColorBuffer(new AdvancedFboMutableTextureAttachment(textureId, textureTarget, GL_COLOR_ATTACHMENT0, width, height));
+        public Builder addColorTextureWrapper(int textureId, int layer) {
+            return this.addColorBuffer(new AdvancedFboMutableTextureAttachment(GL_COLOR_ATTACHMENT0, textureId, layer));
         }
 
         /**
@@ -780,26 +768,22 @@ public interface AdvancedFbo extends NativeResource {
         }
 
         /**
-         * Adds the specified texture as a 2D texture attachment.
+         * Adds the specified texture as a texture attachment.
          *
          * @param textureId The id of the texture to add
-         * @param width     The width of the texture
-         * @param height    The height of the texture
          */
-        public Builder setDepthTextureWrapper(int textureId, int width, int height) {
-            return this.setDepthTextureWrapper(textureId, GL_TEXTURE_2D, width, height);
+        public Builder setDepthTextureWrapper(int textureId) {
+            return this.setDepthTextureWrapper(textureId, 0);
         }
 
         /**
          * Adds the specified texture as a texture attachment.
          *
-         * @param textureId     The id of the texture to add
-         * @param textureTarget The target to use for the texture
-         * @param width         The width of the texture
-         * @param height        The height of the texture
+         * @param textureId The id of the texture to add
+         * @param layer     The layer of the texture to use
          */
-        public Builder setDepthTextureWrapper(int textureId, int textureTarget, int width, int height) {
-            return this.setDepthBuffer(new AdvancedFboMutableTextureAttachment(textureId, textureTarget, GL_DEPTH_ATTACHMENT, width, height));
+        public Builder setDepthTextureWrapper(int textureId, int layer) {
+            return this.setDepthBuffer(new AdvancedFboMutableTextureAttachment(GL_DEPTH_ATTACHMENT, textureId, layer));
         }
 
         /**

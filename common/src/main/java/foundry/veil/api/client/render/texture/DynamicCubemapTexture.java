@@ -15,11 +15,14 @@ import static org.lwjgl.opengl.GL13C.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 import static org.lwjgl.opengl.GL14C.GL_TEXTURE_LOD_BIAS;
 
 /**
- * Dynamic implementation of {@link CubemapTexture}. Must be initialized before it can be used.
+ * Dynamic implementation of {@link CubemapTexture}. Must call {@link #init(int, int)} before it can be used.
  *
  * @author Ocelot
  */
 public class DynamicCubemapTexture extends CubemapTexture {
+
+    private int width;
+    private int height;
 
     /**
      * Initializes each face to the same size white texture.
@@ -28,8 +31,18 @@ public class DynamicCubemapTexture extends CubemapTexture {
      * @param height The height of each face
      */
     public void init(int width, int height) {
-        try (NativeImage image = new NativeImage(width, height, true)) {
-            this.upload(image);
+        this.width = width;
+        this.height = height;
+
+        this.bind();
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, 0);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
+
+        RenderSystem.assertOnRenderThreadOrInit();
+        for (int i = 0; i < 6; i++) {
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0L);
         }
     }
 
@@ -39,11 +52,11 @@ public class DynamicCubemapTexture extends CubemapTexture {
      * @param image The image to upload
      */
     public void upload(NativeImage image) {
-        this.bind();
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
+        if (this.width != image.getWidth() || this.height != image.getHeight()) {
+            this.init(image.getWidth(), image.getHeight());
+        } else {
+            this.bind();
+        }
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -77,11 +90,11 @@ public class DynamicCubemapTexture extends CubemapTexture {
      * @param image The image to upload
      */
     public void upload(int face, NativeImage image) {
-        this.bind();
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
+        if (this.width != image.getWidth() || this.height != image.getHeight()) {
+            this.init(image.getWidth(), image.getHeight());
+        } else {
+            this.bind();
+        }
 
         int width = image.getWidth();
         int height = image.getHeight();
