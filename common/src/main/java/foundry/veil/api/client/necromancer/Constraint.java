@@ -1,8 +1,6 @@
 package foundry.veil.api.client.necromancer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import foundry.veil.api.client.graveyard.skeleton.InterpolatedSkeleton;
-import foundry.veil.api.client.graveyard.skeleton.InterpolatedSkeletonParent;
 import net.minecraft.client.renderer.MultiBufferSource;
 
 // W.I.P. replacement for graveyard

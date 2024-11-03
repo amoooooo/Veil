@@ -1,11 +1,9 @@
 package foundry.veil.api.util;
 
 import com.mojang.datafixers.util.Either;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.*;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import foundry.veil.Veil;
-import foundry.veil.api.quasar.emitters.shape.EmitterShape;
-import foundry.veil.api.quasar.registry.EmitterShapeRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -16,7 +14,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 public class CodecUtil {
 

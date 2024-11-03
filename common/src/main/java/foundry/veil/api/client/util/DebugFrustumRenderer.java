@@ -2,8 +2,6 @@ package foundry.veil.api.client.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import foundry.veil.api.client.render.MatrixStack;
-import foundry.veil.api.client.render.VeilRenderBridge;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import org.jetbrains.annotations.NotNull;

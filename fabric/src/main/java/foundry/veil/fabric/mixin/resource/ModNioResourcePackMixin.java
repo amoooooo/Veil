@@ -45,8 +45,6 @@ public abstract class ModNioResourcePackMixin implements ModResourcePack, PackRe
 
     @Override
     public void veil$listResources(PackResourceConsumer consumer) {
-        String packId = this.packId();
-
         for (Path basePath : this.basePaths) {
             String separator = basePath.getFileSystem().getSeparator();
 
@@ -55,6 +53,9 @@ public abstract class ModNioResourcePackMixin implements ModResourcePack, PackRe
 
                 for (String namespace : entry.getValue()) {
                     Path nsPath = basePath.resolve(type.getDirectory()).resolve(namespace);
+                    if (!Files.exists(nsPath)) {
+                        continue;
+                    }
 
                     try {
                         Files.walkFileTree(nsPath, new SimpleFileVisitor<>() {

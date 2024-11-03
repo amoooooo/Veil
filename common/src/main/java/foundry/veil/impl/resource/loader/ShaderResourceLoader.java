@@ -7,7 +7,6 @@ import foundry.veil.api.resource.VeilResourceLoader;
 import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.api.resource.type.VeilShaderDefinitionResource;
 import foundry.veil.api.resource.type.VeilShaderFileResource;
-import foundry.veil.api.resource.type.VeilShaderResource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceProvider;

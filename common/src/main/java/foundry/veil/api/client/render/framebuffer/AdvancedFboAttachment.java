@@ -103,16 +103,6 @@ public interface AdvancedFboAttachment extends NativeResource, Cloneable {
     int getFormat();
 
     /**
-     * @return The width of this attachment
-     */
-    int getWidth();
-
-    /**
-     * @return The height of this attachment
-     */
-    int getHeight();
-
-    /**
      * @return Texture targets return mipmaps and render targets return samples.
      */
     int getLevels();

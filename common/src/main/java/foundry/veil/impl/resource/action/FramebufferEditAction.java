@@ -6,7 +6,6 @@ import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.type.FramebufferResource;
 import net.minecraft.network.chat.Component;
 
-import java.util.Comparator;
 import java.util.OptionalInt;
 
 public class FramebufferEditAction implements VeilResourceAction<FramebufferResource> {

@@ -1,7 +1,6 @@
 package foundry.veil.api.quasar.data;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import foundry.veil.Veil;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;

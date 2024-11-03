@@ -6,7 +6,6 @@ import imgui.ImGui;
 import imgui.type.ImBoolean;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
 public class DemoEditor implements Editor {

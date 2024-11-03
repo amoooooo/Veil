@@ -2,7 +2,6 @@ package foundry.veil.api.client.render.shader.processor;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**

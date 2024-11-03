@@ -223,16 +223,16 @@ public interface MatrixStack {
     boolean isEmpty();
 
     /**
-     * Saves the current position and normal transformation for restoring later wit {@link #popMatrix()}.
+     * Saves the current position and normal transformation for restoring later with {@link #matrixPop()}.
      */
-    void push();
+    void matrixPush();
 
     /**
-     * Restores a previous position and normal set with {@link #pushMatrix()}.
+     * Restores a previous position and normal set with {@link #matrixPush()}.
      *
      * @throws IllegalStateException If there are no more matrix transformations to pop
      */
-    void pop();
+    void matrixPop();
 
     /**
      * @return The last pose in the stack

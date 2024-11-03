@@ -1,8 +1,6 @@
 package foundry.veil.mixin.client.imgui;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.imgui.VeilImGui;
-import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import net.minecraft.client.MouseHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

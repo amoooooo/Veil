@@ -9,7 +9,6 @@ import foundry.veil.api.opencl.*;
 import imgui.ImGui;
 import imgui.flag.ImGuiDataType;
 import imgui.type.ImInt;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;

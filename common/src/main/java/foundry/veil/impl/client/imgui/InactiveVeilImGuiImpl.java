@@ -1,10 +1,8 @@
 package foundry.veil.impl.client.imgui;
 
 import foundry.veil.api.client.imgui.VeilImGui;
-import imgui.ImFont;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.ObjIntConsumer;
 

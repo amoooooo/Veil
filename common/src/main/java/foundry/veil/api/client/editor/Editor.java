@@ -1,8 +1,6 @@
 package foundry.veil.api.client.editor;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import imgui.ImGui;
-import imgui.type.ImBoolean;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.system.NativeResource;

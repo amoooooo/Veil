@@ -2,14 +2,12 @@ package foundry.veil.api.client.color;
 
 import foundry.veil.api.client.color.theme.IThemeProperty;
 import foundry.veil.api.client.tooltip.Tooltippable;
-import net.minecraft.Util;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 /**
  * A color theme is a collection of colors. The colors can be accessed by name. Themes are intended to be used for color schemes.

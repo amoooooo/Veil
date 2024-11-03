@@ -3,7 +3,6 @@ package foundry.veil.api.quasar.particle;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import foundry.veil.api.quasar.data.QuasarParticleData;
 import foundry.veil.api.quasar.registry.RenderStyleRegistry;
 import foundry.veil.api.util.CodecUtil;
@@ -12,8 +11,6 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
-
-import java.util.Locale;
 
 public interface RenderStyle {
     Codec<RenderStyle> CODEC = CodecUtil.registryOrLegacyCodec(RenderStyleRegistry.REGISTRY);

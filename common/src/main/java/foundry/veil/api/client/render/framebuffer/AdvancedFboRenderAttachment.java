@@ -108,16 +108,6 @@ public class AdvancedFboRenderAttachment implements AdvancedFboAttachment {
     }
 
     @Override
-    public int getWidth() {
-        return this.width;
-    }
-
-    @Override
-    public int getHeight() {
-        return this.height;
-    }
-
-    @Override
     public int getLevels() {
         return this.samples;
     }

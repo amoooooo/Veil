@@ -8,8 +8,19 @@ import net.minecraft.core.Direction;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL13C.*;
 
+/**
+ * {@link AbstractTexture} implementation for using a cubemap texture.
+ *
+ * @author Ocelot
+ */
 public abstract class CubemapTexture extends AbstractTexture {
 
+    /**
+     * Converts the {@link Direction} value to the correct GL cubemap enum.
+     *
+     * @param direction The direction to convert
+     * @return The OpenGL enum
+     */
     public static int getGlFace(Direction direction) {
         return switch (direction) {
             case DOWN -> GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;

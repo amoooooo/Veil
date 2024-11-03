@@ -32,7 +32,7 @@ public final class VeilFirstPersonRenderer {
         if (firstPerson == null || firstPerson.getWidth() != w || firstPerson.getHeight() != h) {
             free();
             firstPerson = AdvancedFbo.withSize(w, h)
-                    .addColorTextureWrapper(mainRenderTarget.getColorTextureAttachment(0).getId(), w, h)
+                    .addColorTextureWrapper(mainRenderTarget.getColorTextureAttachment(0).getId())
                     .setFormat(FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT)
                     .setDepthTextureBuffer()
                     .build(true);

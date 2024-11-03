@@ -1,11 +1,11 @@
 package foundry.veil.api.client.ui.util;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.util.Mth;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.util.Mth;
 
 /**
  * A utility class to manage and apply animations to a {@link PoseStack}.

@@ -1,8 +1,6 @@
 package foundry.veil.api.quasar.registry;
 
 import foundry.veil.Veil;
-import foundry.veil.api.quasar.emitters.shape.*;
-import foundry.veil.api.quasar.particle.RenderData;
 import foundry.veil.api.quasar.particle.RenderStyle;
 import foundry.veil.platform.registry.RegistrationProvider;
 import net.minecraft.core.Registry;

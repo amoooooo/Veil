@@ -120,16 +120,6 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     }
 
     @Override
-    public int getWidth() {
-        return this.width;
-    }
-
-    @Override
-    public int getHeight() {
-        return this.height;
-    }
-
-    @Override
     public int getLevels() {
         return this.mipmapLevels;
     }

@@ -37,15 +37,6 @@ public abstract class PoseStackMixin implements MatrixStack {
     public abstract void shadow$popPose();
 
     @Shadow
-    public abstract boolean shadow$clear();
-
-    @Shadow
-    public abstract void shadow$setIdentity();
-
-    @Shadow
-    public abstract PoseStack.Pose shadow$last();
-
-    @Shadow
     @Final
     private Deque<PoseStack.Pose> poseStack;
 
@@ -116,12 +107,12 @@ public abstract class PoseStackMixin implements MatrixStack {
     }
 
     @Override
-    public void push() {
+    public void matrixPush() {
         this.shadow$pushPose();
     }
 
     @Override
-    public void pop() {
+    public void matrixPop() {
         this.shadow$popPose();
     }
 

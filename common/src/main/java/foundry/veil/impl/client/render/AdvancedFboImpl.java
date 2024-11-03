@@ -276,9 +276,8 @@ public class AdvancedFboImpl implements AdvancedFbo {
 
             this.fbo.width = width;
             this.fbo.height = height;
-            AdvancedFboAttachment attachment = this.fbo.hasColorAttachment(0) ? this.fbo.getColorAttachment(0) : null;
-            this.width = attachment == null ? this.viewWidth : attachment.getWidth();
-            this.height = attachment == null ? this.viewHeight : attachment.getHeight();
+            this.width = width;
+            this.height = height;
         }
 
         @Override
