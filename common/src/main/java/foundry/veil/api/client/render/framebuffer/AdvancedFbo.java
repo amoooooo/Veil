@@ -335,9 +335,11 @@ public interface AdvancedFbo extends NativeResource {
     }
 
     /**
-     * Updates the texture attachment reference for the specified slot.
-     * If the attachment is not known to be an {@link AdvancedFboMutableTextureAttachment},
-     * use {@link #isMutableColorTextureAttachment(int)} before calling this.
+     * <p>Updates the texture attachment reference for the specified slot.
+     * if the attachment is not known to be an {@link AdvancedFboMutableTextureAttachment},
+     * use {@link #isMutableColorTextureAttachment(int)} before calling this.</p>
+     *
+     * <p><strong>The framebuffer must be bound before calling this</strong></p>
      *
      * @param attachment The attachment to modify
      * @param textureId  The id of the texture to draw into
@@ -350,9 +352,7 @@ public interface AdvancedFbo extends NativeResource {
         Validate.isTrue(this.isMutableColorTextureAttachment(attachment), "Color attachment " + attachment + " must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
         if (mutableTextureAttachment.setTexture(textureId, layer)) {
-            this.bind(false);
             mutableTextureAttachment.attach(attachment);
-            AdvancedFbo.unbind();
         }
     }
 
@@ -428,9 +428,11 @@ public interface AdvancedFbo extends NativeResource {
     }
 
     /**
-     * Updates the depth texture attachment reference for the specified slot.
+     * <p>Updates the depth texture attachment reference for the specified slot.
      * If the attachment is not known to be an {@link AdvancedFboMutableTextureAttachment},
-     * use {@link #isMutableColorTextureAttachment(int)} before calling this.
+     * use {@link #isMutableColorTextureAttachment(int)} before calling this.</p>
+     *
+     * <p><strong>The framebuffer must be bound before calling this</strong></p>
      *
      * @param textureId The id of the texture to draw into
      * @param layer     The texture layer to attach. For cubemaps this is the attachment face
@@ -442,9 +444,7 @@ public interface AdvancedFbo extends NativeResource {
         Validate.isTrue(this.isDepthMutableTextureAttachment(), "Depth attachment must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
         if (mutableTextureAttachment.setTexture(textureId, layer)) {
-            this.bind(false);
             mutableTextureAttachment.attach(0);
-            AdvancedFbo.unbind();
         }
     }
 
