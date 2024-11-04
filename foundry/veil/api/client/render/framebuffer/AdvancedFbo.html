@@ -712,9 +712,11 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setColorAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;attachment,
  int&nbsp;textureId,
  int&nbsp;layer)</span></div>
-<div class="block">Updates the texture attachment reference for the specified slot.
- If the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
- use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</div>
+<div class="block"><p>Updates the texture attachment reference for the specified slot.
+ if the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
+ use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</p>
+
+ <p><strong>The framebuffer must be bound before calling this</strong></p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>attachment</code> - The attachment to modify</dd>
@@ -823,9 +825,11 @@ extends org.lwjgl.system.NativeResource</span></div>
 <h3>setDepthAttachmentTexture</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDepthAttachmentTexture</span><wbr><span class="parameters">(int&nbsp;textureId,
  int&nbsp;layer)</span></div>
-<div class="block">Updates the depth texture attachment reference for the specified slot.
+<div class="block"><p>Updates the depth texture attachment reference for the specified slot.
  If the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
- use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</div>
+ use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</p>
+
+ <p><strong>The framebuffer must be bound before calling this</strong></p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>textureId</code> - The id of the texture to draw into</dd>
