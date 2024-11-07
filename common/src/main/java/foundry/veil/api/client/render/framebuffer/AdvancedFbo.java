@@ -674,7 +674,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param textureId The id of the texture to add
          */
         public Builder addColorTextureWrapper(int textureId) {
-            return this.addColorTextureWrapper(textureId, 0);
+            return this.addColorTextureWrapper(textureId, -1);
         }
 
         /**
@@ -773,7 +773,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param textureId The id of the texture to add
          */
         public Builder setDepthTextureWrapper(int textureId) {
-            return this.setDepthTextureWrapper(textureId, 0);
+            return this.setDepthTextureWrapper(textureId, -1);
         }
 
         /**
