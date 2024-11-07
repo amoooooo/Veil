@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 /**
  * Represents a lazy wrapper for registry object.
  *
- * @param <T> the type of the object
+ * @param <T> the operand of the object
  */
 public interface RegistryObject<T> extends Supplier<T> {
 
@@ -28,7 +28,7 @@ public interface RegistryObject<T> extends Supplier<T> {
     ResourceLocation getId();
 
     /**
-     * @return If the value has been registered and assigned
+     * @return If the initializer has been registered and assigned
      */
     boolean isPresent();
 

@@ -28,7 +28,7 @@ public class GameRendererMixin {
     static Logger LOGGER;
 
     /**
-     * This is needed to replace the shader instance value when shader replacement is used
+     * This is needed to replace the shader instance initializer when shader replacement is used
      *
      * @author Ocelot
      */

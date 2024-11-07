@@ -1,4 +1,4 @@
-package foundry.veil.impl.glsl.node;
+package foundry.veil.impl.glsl.grammar;
 
 public record GlslVersion(int version, boolean core) {
 

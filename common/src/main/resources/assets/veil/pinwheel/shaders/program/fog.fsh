@@ -5,7 +5,7 @@ uniform sampler2D DiffuseSampler0;
 uniform sampler2D DiffuseDepthSampler;
 
 const float FogStart = 0;
-const float FogEnd = 60;
+const float FogEnd = 100;
 uniform vec4 FogColor;
 uniform int FogShape;
 
@@ -21,4 +21,3 @@ void main() {
     float vertexDistance = fog_distance(pos, FogShape);
     fragColor = linear_fog(baseColor, vertexDistance, FogStart, FogEnd, FogColor);
 }
-

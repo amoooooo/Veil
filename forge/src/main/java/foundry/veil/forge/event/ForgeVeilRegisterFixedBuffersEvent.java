@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.BiConsumer;
 
 /**
- * <p>Registers custom fixed render type buffers.</p>
+ * <p>Registers custom fixed render operand buffers.</p>
  * <p>Use {@link RenderLevelStageEvent} or {@link VeilEventPlatform#onVeilRenderTypeStageRender(VeilRenderLevelStageEvent)}  to listen to level stage render events on Forge.</p>
  *
  * @author Ocelot
@@ -27,10 +27,10 @@ public class ForgeVeilRegisterFixedBuffersEvent extends Event implements IModBus
     }
 
     /**
-     * Registers a fixed render type.
+     * Registers a fixed render operand.
      *
      * @param stage      The stage the buffer should be finished after or <code>null</code> to do it manually
-     * @param renderType The render type to finish
+     * @param renderType The render operand to finish
      */
     public void register(@Nullable RenderLevelStageEvent.Stage stage, RenderType renderType) {
         this.registry.accept(stage, renderType);

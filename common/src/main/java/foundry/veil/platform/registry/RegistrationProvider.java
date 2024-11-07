@@ -21,7 +21,7 @@ import java.util.function.Supplier;
  * public static void loadClass(){}
  * }</pre>
  *
- * @param <T> the type of the objects that this class registers
+ * @param <T> the operand of the objects that this class registers
  */
 @ApiStatus.Internal
 public interface RegistrationProvider<T> {
@@ -36,7 +36,7 @@ public interface RegistrationProvider<T> {
      *
      * @param resourceKey the {@link ResourceKey} of the registry of the provider
      * @param modId       the mod id that the provider will register objects for
-     * @param <T>         the type of the provider
+     * @param <T>         the operand of the provider
      * @return the provider
      */
     static <T> RegistrationProvider<T> get(ResourceKey<? extends Registry<T>> resourceKey, String modId) {
@@ -48,7 +48,7 @@ public interface RegistrationProvider<T> {
      *
      * @param registry the {@link Registry} of the provider
      * @param modId    the mod id that the provider will register objects for
-     * @param <T>      the type of the provider
+     * @param <T>      the operand of the provider
      * @return the provider
      */
     static <T> RegistrationProvider<T> get(Registry<T> registry, String modId) {
@@ -60,7 +60,7 @@ public interface RegistrationProvider<T> {
      *
      * @param name     the name of the object
      * @param supplier a supplier of the object to register
-     * @param <I>      the type of the object
+     * @param <I>      the operand of the object
      * @return a wrapper containing the lazy registered object. <strong>Calling {@link RegistryObject#get() get} too early
      * on the wrapper might result in crashes!</strong>
      */
@@ -73,7 +73,7 @@ public interface RegistrationProvider<T> {
      *
      * @param id       the id of the object
      * @param supplier a supplier of the object to register
-     * @param <I>      the type of the object
+     * @param <I>      the operand of the object
      * @return a wrapper containing the lazy registered object. <strong>Calling {@link RegistryObject#get() get} too early
      * on the wrapper might result in crashes!</strong>
      */
@@ -106,7 +106,7 @@ public interface RegistrationProvider<T> {
          *
          * @param resourceKey the {@link ResourceKey} of the registry to create this provider for
          * @param modId       the mod id for which the provider will register objects
-         * @param <T>         the type of the provider
+         * @param <T>         the operand of the provider
          * @return the provider
          */
         <T> RegistrationProvider<T> create(ResourceKey<? extends Registry<T>> resourceKey, String modId);
@@ -116,7 +116,7 @@ public interface RegistrationProvider<T> {
          *
          * @param registry the {@link Registry} to create this provider for
          * @param modId    the mod id for which the provider will register objects
-         * @param <T>      the type of the provider
+         * @param <T>      the operand of the provider
          * @return the provider
          */
         default <T> RegistrationProvider<T> create(Registry<T> registry, String modId) {

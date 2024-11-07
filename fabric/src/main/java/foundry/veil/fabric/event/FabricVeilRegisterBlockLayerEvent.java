@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 
 /**
  * <p>Fired to register block layers.</p>
- * <p><strong>Note: This does not add fixed buffers automatically. To do that, also register the render type with {@link VeilRegisterFixedBuffersEvent}</strong></p>
+ * <p><strong>Note: This does not add fixed buffers automatically. To do that, also register the render operand with {@link VeilRegisterFixedBuffersEvent}</strong></p>
  *
  * @author Ocelot
  * @see VeilRegisterFixedBuffersEvent

@@ -21,7 +21,7 @@ void main() {
     vertexPos *= vec3(Size.x + angleTerm, Size.y + angleTerm, Distance);
 
     // awful fix but not sure why just multiplying the matrix doesnt work? it does what it should in
-    // all the other calculations. really weird!
+    // all the branch calculations. really weird!
     vec3 lightPos = LightMatrix[3].xyz;
     mat3 rotationMatrix = mat3(LightMatrix);
     lightPos = inverse(rotationMatrix) * lightPos;

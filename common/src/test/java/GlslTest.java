@@ -2,7 +2,7 @@ import foundry.veil.impl.glsl.GlslLexer;
 import foundry.veil.impl.glsl.GlslParser;
 import foundry.veil.impl.glsl.GlslSyntaxException;
 import foundry.veil.impl.glsl.node.GlslTree;
-import foundry.veil.impl.glsl.node.GlslVersion;
+import foundry.veil.impl.glsl.grammar.GlslVersion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,25 +29,68 @@ public class GlslTest {
 
     @Test
     void testParser() throws GlslSyntaxException {
-        GlslLexer.Token[] tokens = GlslLexer.createTokens("#version 330 core\nfloat a = 32.0;");
+        GlslLexer.Token[] tokens = GlslLexer.createTokens("#version 330 core\nfloat a = 1.0 + 3.0;");
         GlslTree tree = GlslParser.parse(tokens);
         Assertions.assertEquals(new GlslVersion(330, true), tree.getVersion());
     }
 
     @Test
-    void testPrecision() throws GlslSyntaxException {
+    void testSet() throws GlslSyntaxException {
         GlslLexer.Token[] tokens = GlslLexer.createTokens("""
-                uniform highp float h1;
-                highp float h2 = 2.3 * 4.7; // operation and result are highp
-                precision
-                mediump float m;
-                m = 3.7 * h1 * h2; // all operations are highp precision
-                h2 = m * h1; // operation is highp precision
-                m = h2 - h1; // operation is highp precision
-                h2 = m + m; // addition and result at mediump precision
-                void f(highp float p);
-                f(3.3); // 3.3 will be passed in at highp precision""");
+                #version 330 core
+                
+                uniform vec4 color;
+                
+                void main() {
+                    highp float test;
+                    test = 2.0;
+                }
+                """);
+        GlslTree tree = GlslParser.parse(tokens);
+        System.out.println(tree);
+    }
+
+    @Test
+    void testCall() throws GlslSyntaxException {
+        GlslLexer.Token[] tokens = GlslLexer.createTokens("""
+                void main() {
+                    vec4 baseColor = texture(DiffuseSampler0, texCoord);
+                }
+                """);
         GlslTree tree = GlslParser.parse(tokens);
         System.out.println(this.toString(tokens));
+    }
+
+    @Test
+    void testShader() throws GlslSyntaxException {
+        long start = System.nanoTime();
+        GlslLexer.Token[] tokens = GlslLexer.createTokens("""
+                #version 430 core
+                
+                uniform sampler2D DiffuseSampler0;
+                uniform sampler2D DiffuseDepthSampler;
+                
+                const float FogStart = 0;
+                const float FogEnd = 100;
+                uniform vec4 FogColor;
+                uniform int FogShape;
+                
+                in vec2 texCoord;
+                
+                out vec4 fragColor;
+                
+                void main() {
+                    vec4 baseColor = texture(DiffuseSampler0, texCoord);
+                    float depthSample = texture(DiffuseDepthSampler, texCoord).r;
+                    vec3 pos = viewPosFromDepthSample(depthSample, texCoord);
+                
+                    float vertexDistance = fog_distance(pos, FogShape);
+                    fragColor = linear_fog(baseColor, vertexDistance, FogStart, FogEnd, FogColor);
+                }
+                """);
+        long parseStart = System.nanoTime();
+        GlslTree tree = GlslParser.parse(tokens);
+        long end = System.nanoTime();
+        System.out.printf("Took %.1fms to tokenize, %.1fms to parse%n", (parseStart - start) / 1_000_000.0F, (end - parseStart) / 1_000_000.0F);
     }
 }

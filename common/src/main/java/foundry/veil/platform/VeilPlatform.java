@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 public interface VeilPlatform {
 
     /**
-     * @return The detected platform type
+     * @return The detected platform operand
      */
     PlatformType getPlatformType();
 

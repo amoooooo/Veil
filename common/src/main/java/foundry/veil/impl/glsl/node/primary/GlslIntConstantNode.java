@@ -1,8 +1,7 @@
 package foundry.veil.impl.glsl.node.primary;
 
 import foundry.veil.impl.glsl.node.GlslConstantNode;
-import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.node.GlslVisitor;
+import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
 public record GlslIntConstantNode(GlslIntFormat format, int value) implements GlslConstantNode {
 
