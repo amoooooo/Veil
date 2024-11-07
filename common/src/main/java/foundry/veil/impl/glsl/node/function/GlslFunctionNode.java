@@ -3,12 +3,12 @@ package foundry.veil.impl.glsl.node.function;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
-public class GlslFunction implements GlslNode {
+public class GlslFunctionNode implements GlslNode {
 
-    private GlslFunctionHeader header;
+    private GlslFunctionHeaderNode header;
     private GlslNode body;
 
-    public GlslFunction(GlslFunctionHeader header, GlslNode body) {
+    public GlslFunctionNode(GlslFunctionHeaderNode header, GlslNode body) {
         this.header = header;
         this.body = body;
     }
@@ -18,7 +18,7 @@ public class GlslFunction implements GlslNode {
 
     }
 
-    public GlslFunctionHeader getHeader() {
+    public GlslFunctionHeaderNode getHeader() {
         return this.header;
     }
 
@@ -26,7 +26,7 @@ public class GlslFunction implements GlslNode {
         return this.body;
     }
 
-    public void setHeader(GlslFunctionHeader header) {
+    public void setHeader(GlslFunctionHeaderNode header) {
         this.header = header;
     }
 

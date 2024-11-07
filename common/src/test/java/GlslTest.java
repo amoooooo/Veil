@@ -79,6 +79,10 @@ public class GlslTest {
                 
                 out vec4 fragColor;
                 
+                vec3 test(int) {
+                    return normalize(vec3(7.0, 0.0, 1.0));
+                }
+                
                 void main() {
                     vec4 baseColor = texture(DiffuseSampler0, texCoord);
                     float depthSample = texture(DiffuseDepthSampler, texCoord).r;
@@ -92,5 +96,19 @@ public class GlslTest {
         GlslTree tree = GlslParser.parse(tokens);
         long end = System.nanoTime();
         System.out.printf("Took %.1fms to tokenize, %.1fms to parse%n", (parseStart - start) / 1_000_000.0F, (end - parseStart) / 1_000_000.0F);
+        System.out.println(tree);
+    }
+
+    @Test
+    void testReturn() throws GlslSyntaxException {
+        GlslLexer.Token[] tokens = GlslLexer.createTokens("""
+                #version 430 core
+                
+                vec3 test(int) {
+                    return normalize(vec3(7.0, 0.0, 1.0));
+                }
+                """);
+        GlslTree tree = GlslParser.parse(tokens);
+        System.out.println(tree);
     }
 }

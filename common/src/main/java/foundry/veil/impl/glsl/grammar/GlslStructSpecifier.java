@@ -1,5 +1,5 @@
 package foundry.veil.impl.glsl.grammar;
 
 // TODO
-public record GlslStructSpecifier() {
+public record GlslStructSpecifier() implements GlslTypeSpecifier {
 }

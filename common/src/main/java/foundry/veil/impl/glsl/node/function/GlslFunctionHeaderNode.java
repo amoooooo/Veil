@@ -1,6 +1,7 @@
 package foundry.veil.impl.glsl.node.function;
 
 import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
+import foundry.veil.impl.glsl.grammar.GlslType;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.grammar.GlslParameterDeclaration;
 import foundry.veil.impl.glsl.visitor.GlslVisitor;
@@ -10,20 +11,20 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class GlslFunctionHeader implements GlslNode {
+public class GlslFunctionHeaderNode implements GlslNode {
 
     private String name;
     private GlslSpecifiedType returnType;
     private final List<GlslParameterDeclaration> parameters;
 
-    public GlslFunctionHeader(String name, GlslSpecifiedType returnType, Collection<GlslParameterDeclaration> parameters) {
+    public GlslFunctionHeaderNode(String name, GlslType returnType, Collection<GlslParameterDeclaration> parameters) {
         this.name = name;
-        this.returnType = returnType;
+        this.returnType = returnType.asSpecifiedType();
         this.parameters = new ArrayList<>(parameters);
     }
 
-    public GlslFunctionHeader withParameters(GlslParameterDeclaration... parameters) {
-        return new GlslFunctionHeader(this.name, this.returnType, new ArrayList<>(Arrays.asList(parameters)));
+    public GlslFunctionHeaderNode withParameters(GlslParameterDeclaration... parameters) {
+        return new GlslFunctionHeaderNode(this.name, this.returnType, new ArrayList<>(Arrays.asList(parameters)));
     }
 
     public String getName() {
@@ -38,13 +39,13 @@ public class GlslFunctionHeader implements GlslNode {
         return this.parameters;
     }
 
-    public GlslFunctionHeader setName(String name) {
+    public GlslFunctionHeaderNode setName(String name) {
         this.name = name;
         return this;
     }
 
-    public GlslFunctionHeader setReturnType(GlslSpecifiedType returnType) {
-        this.returnType = returnType;
+    public GlslFunctionHeaderNode setReturnType(GlslType returnType) {
+        this.returnType = returnType.asSpecifiedType();
         return this;
     }
 

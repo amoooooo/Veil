@@ -36,6 +36,6 @@ public class GlslInvokeFunctionNode implements GlslNode {
 
     @Override
     public String toString() {
-        return "GlslInvokeFunctionNode{header=" + this.header + ", parameters=" + this.parameters + '}';
+        return "GlslInvokeFunctionNode{name=" + this.header + ", parameters=" + this.parameters + '}';
     }
 }

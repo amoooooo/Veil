@@ -5,12 +5,8 @@ import org.jetbrains.annotations.Nullable;
 
 public interface GlslTypeSpecifier extends GlslType {
 
-    static GlslTypeSpecifier simple(BuiltinType type) {
-        return new Simple(type);
-    }
-
-    static GlslTypeSpecifier struct(GlslStructSpecifier structSpecifier) {
-        return new Struct(structSpecifier);
+    default boolean isNamed() {
+        return this instanceof Name;
     }
 
     static GlslTypeSpecifier named(String name) {
@@ -22,23 +18,21 @@ public interface GlslTypeSpecifier extends GlslType {
     }
 
     @Override
-    default GlslSpecifiedType asGlslSpecifiedType() {
+    default GlslSpecifiedType asSpecifiedType() {
         return new GlslSpecifiedType(this);
-    }
-
-    record Simple(BuiltinType type) implements GlslTypeSpecifier {
-    }
-
-    record Struct(GlslStructSpecifier structSpecifier) implements GlslTypeSpecifier {
     }
 
     record Name(String name) implements GlslTypeSpecifier {
     }
 
     record Array(GlslTypeSpecifier specifier, @Nullable GlslNode size) implements GlslTypeSpecifier {
+        @Override
+        public boolean isNamed() {
+            return this.specifier.isNamed();
+        }
     }
 
-    enum BuiltinType {
+    enum BuiltinType implements GlslTypeSpecifier {
         VOID,
         FLOAT,
         DOUBLE,

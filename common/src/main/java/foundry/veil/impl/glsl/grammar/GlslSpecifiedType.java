@@ -7,9 +7,6 @@ import java.util.List;
 
 /**
  * Specifies the full operand of something in GLSL in addition to all qualifiers.
- *
- * @param type       The operand of the field, method, etc
- * @param qualifiers The qualifiers applied to it, for example <code>layout()</code> or <code>flat</code>
  */
 public class GlslSpecifiedType implements GlslType {
 
@@ -31,16 +28,33 @@ public class GlslSpecifiedType implements GlslType {
         this.qualifiers.addAll(Arrays.asList(qualifiers));
     }
 
+    /**
+     * @return The operand of the field, method, etc
+     */
     public GlslTypeSpecifier getType() {
         return this.type;
     }
 
+    /**
+     * @return The qualifiers applied to it, for example <code>layout()</code> or <code>flat</code>
+     */
     public List<GlslTypeQualifier> getQualifiers() {
         return this.qualifiers;
     }
 
+    /**
+     * Sets the type of this
+     * @param type
+     * @return
+     */
     public GlslSpecifiedType setType(GlslTypeSpecifier type) {
         this.type = type;
+        return this;
+    }
+
+    public GlslSpecifiedType setQualifiers(GlslTypeQualifier... qualifiers) {
+        this.qualifiers.clear();
+        this.qualifiers.addAll(Arrays.asList(qualifiers));
         return this;
     }
 
@@ -56,7 +70,7 @@ public class GlslSpecifiedType implements GlslType {
     }
 
     @Override
-    public GlslSpecifiedType asGlslSpecifiedType() {
+    public GlslSpecifiedType asSpecifiedType() {
         return this;
     }
 }

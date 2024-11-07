@@ -18,7 +18,9 @@ public class GlslTree {
     }
 
     public void visit(GlslVisitor visitor) {
-
+        for (GlslNode node : this.body) {
+            node.visit(visitor);
+        }
     }
 
     public GlslVersion getVersion() {
