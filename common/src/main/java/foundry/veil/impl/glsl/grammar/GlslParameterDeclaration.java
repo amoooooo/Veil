@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 
 /**
- * Represents a single parameter declaration. Includes the name and full data type of the parameter.
+ * Represents a single parameter declaration. Includes the name and full data operand of the parameter.
  *
  * @author Ocelot
  */
@@ -27,7 +27,7 @@ public class GlslParameterDeclaration {
     }
 
     /**
-     * @return The parameter data type
+     * @return The parameter data operand
      */
     public GlslSpecifiedType getType() {
         return this.type;
@@ -44,9 +44,9 @@ public class GlslParameterDeclaration {
     }
 
     /**
-     * Sets the data type of this parameter.
+     * Sets the data operand of this parameter.
      *
-     * @param type The new type
+     * @param type The new operand
      */
     public GlslParameterDeclaration setType(GlslType type) {
         this.type = type.asSpecifiedType();
@@ -54,7 +54,7 @@ public class GlslParameterDeclaration {
     }
 
     /**
-     * Sets The qualifiers of this parameter type.
+     * Sets The qualifiers of this parameter operand.
      *
      * @param qualifiers The new qualifiers
      */
@@ -64,7 +64,7 @@ public class GlslParameterDeclaration {
     }
 
     /**
-     * Sets The qualifiers of this parameter type.
+     * Sets The qualifiers of this parameter operand.
      *
      * @param qualifiers The new qualifiers
      */
@@ -75,6 +75,6 @@ public class GlslParameterDeclaration {
 
     @Override
     public String toString() {
-        return "GlslParameterDeclaration{name='" + this.name + "', type=" + this.type + '}';
+        return "GlslParameterDeclaration{name='" + this.name + "', operand=" + this.type + '}';
     }
 }

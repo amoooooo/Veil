@@ -1,17 +1,31 @@
 package foundry.veil.impl.glsl.node.primary;
 
 import foundry.veil.impl.glsl.node.GlslConstantNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
 public record GlslBoolConstantNode(boolean value) implements GlslConstantNode {
 
     @Override
-    public void visit(GlslVisitor visitor) {
-
+    public Number numberValue() {
+        return this.value ? 1 : 0;
     }
 
     @Override
-    public Object rawValue() {
+    public boolean booleanValue() {
         return this.value;
+    }
+
+    @Override
+    public boolean isNumber() {
+        return false;
+    }
+
+    @Override
+    public String getSourceString() {
+        return Boolean.toString(this.value);
+    }
+
+    @Override
+    public String toString() {
+        return this.getSourceString();
     }
 }

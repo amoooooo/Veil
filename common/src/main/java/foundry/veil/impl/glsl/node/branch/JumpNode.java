@@ -1,14 +1,15 @@
 package foundry.veil.impl.glsl.node.branch;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
+
+import java.util.Locale;
 
 public enum JumpNode implements GlslNode {
 
     CONTINUE, BREAK, DISCARD;
 
     @Override
-    public void visit(GlslVisitor visitor) {
-
+    public String getSourceString() {
+        return this.name().toLowerCase(Locale.ROOT);
     }
 }

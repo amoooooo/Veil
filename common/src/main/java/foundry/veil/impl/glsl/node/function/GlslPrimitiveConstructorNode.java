@@ -2,13 +2,12 @@ package foundry.veil.impl.glsl.node.function;
 
 import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
-public class PrimitiveConstructorNode implements GlslNode {
+public class GlslPrimitiveConstructorNode implements GlslNode {
 
     private GlslTypeSpecifier type;
 
-    public PrimitiveConstructorNode(GlslTypeSpecifier type) {
+    public GlslPrimitiveConstructorNode(GlslTypeSpecifier type) {
         this.type = type;
     }
 
@@ -21,12 +20,12 @@ public class PrimitiveConstructorNode implements GlslNode {
     }
 
     @Override
-    public void visit(GlslVisitor visitor) {
-
+    public String toString() {
+        return "PrimitiveConstructorNode{operand=" + this.type + '}';
     }
 
     @Override
-    public String toString() {
-        return "PrimitiveConstructorNode{type=" + this.type + '}';
+    public String getSourceString() {
+        return this.type.getSourceString();
     }
 }

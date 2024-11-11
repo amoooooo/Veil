@@ -1,12 +1,32 @@
 package foundry.veil.impl.glsl.node.variable;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
-public record GlslVariableNode(String name) implements GlslNode {
+public class GlslVariableNode implements GlslNode {
+
+    private String name;
+
+    public GlslVariableNode(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public GlslVariableNode setName(String name) {
+        this.name = name;
+        return this;
+    }
 
     @Override
-    public void visit(GlslVisitor visitor) {
+    public String getSourceString() {
+        return this.name;
+    }
 
+    @Override
+    public String toString() {
+        return "GlslVariableNode{" +
+                "name=" + this.name + '}';
     }
 }

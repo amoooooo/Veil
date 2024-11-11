@@ -1,14 +1,9 @@
 package foundry.veil.impl.glsl.node.variable;
 
+import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.grammar.GlslType;
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
-import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 public class GlslNewNode implements GlslNode {
 
@@ -20,15 +15,6 @@ public class GlslNewNode implements GlslNode {
         this.type = type.asSpecifiedType();
         this.name = name;
         this.initializer = initializer;
-    }
-
-    @Override
-    public void visit(GlslVisitor visitor) {
-    }
-
-    @Override
-    public Collection<GlslNode> children() {
-        return this.initializer != null ? List.of(this.initializer) : Collections.emptyList();
     }
 
     public GlslSpecifiedType getType() {
@@ -59,7 +45,12 @@ public class GlslNewNode implements GlslNode {
     }
 
     @Override
+    public String getSourceString() {
+        return this.type.getSourceString() + ' ' + this.name + (this.initializer != null ? " = " + this.initializer.getSourceString() : "");
+    }
+
+    @Override
     public String toString() {
-        return "GlslNewNode{type=" + this.type + ", name='" + this.name + "', initializer=" + this.initializer + '}';
+        return "GlslNewNode{operand=" + this.type + ", name='" + this.name + "', initializer=" + this.initializer + '}';
     }
 }

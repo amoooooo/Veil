@@ -4,8 +4,11 @@ import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Locale;
 
-public interface GlslTypeQualifier {
+public sealed interface GlslTypeQualifier {
+
+    String getSourceString();
 
     static GlslTypeQualifier storage(Storage.StorageType storageType) {
         if (storageType == StorageType.SUBROUTINE) {
@@ -40,14 +43,41 @@ public interface GlslTypeQualifier {
     record Storage(StorageType storageType, @Nullable String[] typeNames) implements GlslTypeQualifier {
         @Override
         public String toString() {
-            return this.storageType == StorageType.SUBROUTINE ? "Storage[type=SUBROUTINE, typeNames=" + Arrays.toString(this.typeNames) + "]" : "Storage[type=" + this.storageType + ']';
+            return this.storageType == StorageType.SUBROUTINE ? "Storage[operand=SUBROUTINE, typeNames=" + Arrays.toString(this.typeNames) + "]" : "Storage[operand=" + this.storageType + ']';
+        }
+
+        @Override
+        public String getSourceString() {
+            if (this.typeNames != null && this.typeNames.length > 0) {
+                return "subroutine(" + String.join(",", this.typeNames) + ")";
+            }
+
+            return this.storageType.name().toLowerCase(Locale.ROOT);
         }
     }
 
-    record Layout(LayoutId[] qualifierIds) implements GlslTypeQualifier {
+    record Layout(LayoutId[] layoutIds) implements GlslTypeQualifier {
+        @Override
+        public String getSourceString() {
+            StringBuilder builder = new StringBuilder();
+            for (GlslTypeQualifier.LayoutId layoutId : this.layoutIds) {
+                if (layoutId.shared()) {
+                    builder.append("shared ");
+                } else {
+                    builder.append(layoutId.identifier());
+                    GlslNode expression = layoutId.expression();
+                    if (expression != null) {
+                        builder.append('=').append(expression.getSourceString());
+                    }
+                    builder.append(" ");
+                }
+            }
+            builder.deleteCharAt(builder.length() - 1);
+            return "layout(" + builder + ")";
+        }
     }
 
-    record LayoutId(String identifier, @Nullable GlslNode constantExpression) {
+    record LayoutId(String identifier, @Nullable GlslNode expression) {
 
         public boolean shared() {
             return "shared".equals(this.identifier);
@@ -74,22 +104,48 @@ public interface GlslTypeQualifier {
     }
 
     enum Precision implements GlslTypeQualifier {
-        HIGH_PRECISION,
-        MEDIUM_PRECISION,
-        LOW_PRECISION
+        HIGH_PRECISION("highp"),
+        MEDIUM_PRECISION("mediump"),
+        LOW_PRECISION("lowp");
+
+        private final String sourceName;
+
+        Precision(String sourceName) {
+            this.sourceName = sourceName;
+        }
+
+        @Override
+        public String getSourceString() {
+            return this.sourceName;
+        }
     }
 
     enum Interpolation implements GlslTypeQualifier {
         SMOOTH,
         FLAT,
-        NOPERSPECTIVE
+        NOPERSPECTIVE;
+
+        @Override
+        public String getSourceString() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
     }
 
     enum Invariant implements GlslTypeQualifier {
-        INVARIANT
+        INVARIANT;
+
+        @Override
+        public String getSourceString() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
     }
 
     enum Precise implements GlslTypeQualifier {
-        PRECISE
+        PRECISE;
+
+        @Override
+        public String getSourceString() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
     }
 }

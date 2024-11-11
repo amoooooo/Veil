@@ -1,11 +1,12 @@
 package foundry.veil.impl.glsl.node.function;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
+import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GlslInvokeFunctionNode implements GlslNode {
 
@@ -15,11 +16,6 @@ public class GlslInvokeFunctionNode implements GlslNode {
     public GlslInvokeFunctionNode(GlslNode header, Collection<GlslNode> parameters) {
         this.header = header;
         this.parameters = new ArrayList<>(parameters);
-    }
-
-    @Override
-    public void visit(GlslVisitor visitor) {
-
     }
 
     public GlslNode getHeader() {
@@ -37,5 +33,11 @@ public class GlslInvokeFunctionNode implements GlslNode {
     @Override
     public String toString() {
         return "GlslInvokeFunctionNode{name=" + this.header + ", parameters=" + this.parameters + '}';
+    }
+
+    @Override
+    public String getSourceString() {
+        String parameters = this.parameters.stream().map(GlslNode::getSourceString).collect(Collectors.joining(", "));
+        return this.header.getSourceString() + "(" + parameters + ")";
     }
 }

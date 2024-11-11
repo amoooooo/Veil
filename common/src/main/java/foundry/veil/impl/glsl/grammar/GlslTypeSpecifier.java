@@ -3,7 +3,11 @@ package foundry.veil.impl.glsl.grammar;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
-public interface GlslTypeSpecifier extends GlslType {
+import java.util.Locale;
+
+public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpecifier, GlslTypeSpecifier.Array, GlslTypeSpecifier.BuiltinType, GlslTypeSpecifier.Name {
+
+    String getSourceString();
 
     default boolean isNamed() {
         return this instanceof Name;
@@ -23,9 +27,18 @@ public interface GlslTypeSpecifier extends GlslType {
     }
 
     record Name(String name) implements GlslTypeSpecifier {
+        @Override
+        public String getSourceString() {
+            return this.name;
+        }
     }
 
     record Array(GlslTypeSpecifier specifier, @Nullable GlslNode size) implements GlslTypeSpecifier {
+        @Override
+        public String getSourceString() {
+            return this.specifier.getSourceString() + (this.size != null ? "[" + this.size.getSourceString() + "]" : "[]");
+        }
+
         @Override
         public boolean isNamed() {
             return this.specifier.isNamed();
@@ -151,6 +164,11 @@ public interface GlslTypeSpecifier extends GlslType {
         UIMAGE2DMS,
         IMAGE2DMSARRAY,
         IIMAGE2DMSARRAY,
-        UIMAGE2DMSARRAY
+        UIMAGE2DMSARRAY;
+
+        @Override
+        public String getSourceString() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
     }
 }

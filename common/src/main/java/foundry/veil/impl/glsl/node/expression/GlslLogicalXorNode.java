@@ -1,9 +1,10 @@
 package foundry.veil.impl.glsl.node.expression;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
+import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Logical XOR; A ^^ B ^^ C
@@ -14,7 +15,7 @@ import java.util.List;
 public record GlslLogicalXorNode(List<GlslNode> expressions) implements GlslNode {
 
     @Override
-    public void visit(GlslVisitor visitor) {
-
+    public String getSourceString() {
+        return this.expressions.stream().map(GlslNode::getSourceString).collect(Collectors.joining(" ^^ "));
     }
 }

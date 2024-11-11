@@ -1,17 +1,36 @@
 package foundry.veil.impl.glsl.node.primary;
 
 import foundry.veil.impl.glsl.node.GlslConstantNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
 public record GlslFloatConstantNode(float value) implements GlslConstantNode {
 
     @Override
-    public void visit(GlslVisitor visitor) {
-
+    public Number numberValue() {
+        return this.value;
     }
 
     @Override
-    public Object rawValue() {
+    public float floatValue() {
         return this.value;
+    }
+
+    @Override
+    public boolean booleanValue() {
+        return this.value != 0.0;
+    }
+
+    @Override
+    public boolean isNumber() {
+        return true;
+    }
+
+    @Override
+    public String getSourceString() {
+        return Float.toString(this.value);
+    }
+
+    @Override
+    public String toString() {
+        return this.getSourceString();
     }
 }

@@ -1,18 +1,28 @@
 package foundry.veil.impl.glsl.node;
 
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
+import foundry.veil.impl.glsl.visitor.GlslNodeVisitor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public interface GlslNode {
 
-    void visit(GlslVisitor visitor);
+    String getSourceString();
 
-    default Collection<GlslNode> children() {
-        return Collections.emptySet();
+    default void visit(GlslNodeVisitor visitor) {
+        visitor.visitNode(this);
+    }
+
+    /**
+     * @return A new list with the child contents of this node
+     */
+    default List<GlslNode> toList() {
+        return new ArrayList<>(Collections.singleton(this));
+    }
+
+    static void visitAll(Collection<GlslNode> nodes, GlslNodeVisitor visitor) {
+        for (GlslNode node : nodes) {
+            node.visit(visitor);
+        }
     }
 
     static GlslNode compound(Collection<GlslNode> nodes) {
@@ -22,7 +32,16 @@ public interface GlslNode {
         if (nodes.size() == 1) {
             return nodes.iterator().next();
         }
-        return new GlslCompoundNode(new ArrayList<>(nodes));
+        List<GlslNode> list = new ArrayList<>();
+        for (GlslNode node : nodes) {
+            if (!(node instanceof GlslCompoundNode compoundNode)) {
+                list.clear();
+                list.addAll(nodes);
+                break;
+            }
+            list.addAll(compoundNode.getChildren());
+        }
+        return new GlslCompoundNode(list);
     }
 
     static GlslNode compound(GlslNode... nodes) {

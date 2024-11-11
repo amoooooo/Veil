@@ -1,7 +1,6 @@
 package foundry.veil.impl.glsl.node.branch;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -15,7 +14,14 @@ import org.jetbrains.annotations.Nullable;
 public record GlslSelectionNode(GlslNode expression, GlslNode first, @Nullable GlslNode branch) implements GlslNode {
 
     @Override
-    public void visit(GlslVisitor visitor) {
-
+    public String getSourceString() {
+        StringBuilder builder = new StringBuilder("if (");
+        builder.append(this.expression.getSourceString().replaceAll("\n", "\n\t")).append(") {\n");
+        builder.append(this.first.getSourceString()).append("\n}");
+        if (this.branch != null) {
+            builder.append(" else {\n");
+            builder.append(this.branch.getSourceString().replaceAll("\n", "\n\t")).append("\n}");
+        }
+        return builder.toString();
     }
 }

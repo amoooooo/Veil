@@ -1,7 +1,7 @@
 package foundry.veil.impl.glsl.node.branch;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
+import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -21,10 +21,6 @@ public class ForLoopNode implements GlslNode {
         this.condition = condition;
         this.increment = increment;
         this.body = body;
-    }
-
-    @Override
-    public void visit(GlslVisitor visitor) {
     }
 
     public GlslNode getInit() {
@@ -62,5 +58,17 @@ public class ForLoopNode implements GlslNode {
     @Override
     public String toString() {
         return "ForLoopNode{init=" + this.init + ", condition=" + this.condition + ", increment=" + this.increment + ", body=" + this.body + '}';
+    }
+
+    @Override
+    public String getSourceString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("for (").append(this.init.getSourceString()).append("; ").append(this.condition).append(';');
+        if (this.increment != null) {
+            builder.append(this.increment.getSourceString());
+        }
+        builder.append(") {\n").append(this.body.getSourceString().replaceAll("\n", "\n\t"));
+        builder.append('}');
+        return builder.toString();
     }
 }

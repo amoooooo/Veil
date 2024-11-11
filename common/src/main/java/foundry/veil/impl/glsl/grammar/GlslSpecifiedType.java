@@ -10,29 +10,29 @@ import java.util.List;
  */
 public class GlslSpecifiedType implements GlslType {
 
-    private GlslTypeSpecifier type;
+    private GlslTypeSpecifier specifier;
     private final List<GlslTypeQualifier> qualifiers;
 
-    public GlslSpecifiedType(GlslTypeSpecifier type) {
-        this.type = type;
+    public GlslSpecifiedType(GlslTypeSpecifier specifier) {
+        this.specifier = specifier;
         this.qualifiers = new ArrayList<>();
     }
 
-    public GlslSpecifiedType(GlslTypeSpecifier type, Collection<GlslTypeQualifier> qualifiers) {
-        this(type);
+    public GlslSpecifiedType(GlslTypeSpecifier specifier, Collection<GlslTypeQualifier> qualifiers) {
+        this(specifier);
         this.qualifiers.addAll(qualifiers);
     }
 
-    public GlslSpecifiedType(GlslTypeSpecifier type, GlslTypeQualifier... qualifiers) {
-        this(type);
+    public GlslSpecifiedType(GlslTypeSpecifier specifier, GlslTypeQualifier... qualifiers) {
+        this(specifier);
         this.qualifiers.addAll(Arrays.asList(qualifiers));
     }
 
     /**
      * @return The operand of the field, method, etc
      */
-    public GlslTypeSpecifier getType() {
-        return this.type;
+    public GlslTypeSpecifier getSpecifier() {
+        return this.specifier;
     }
 
     /**
@@ -43,12 +43,12 @@ public class GlslSpecifiedType implements GlslType {
     }
 
     /**
-     * Sets the type of this
-     * @param type
+     * Sets the operand of this
+     * @param specifier
      * @return
      */
-    public GlslSpecifiedType setType(GlslTypeSpecifier type) {
-        this.type = type;
+    public GlslSpecifiedType setSpecifier(GlslTypeSpecifier specifier) {
+        this.specifier = specifier;
         return this;
     }
 
@@ -64,9 +64,18 @@ public class GlslSpecifiedType implements GlslType {
         return this;
     }
 
+    public String getSourceString() {
+        StringBuilder builder = new StringBuilder();
+        for (GlslTypeQualifier qualifier : this.qualifiers) {
+            builder.append(qualifier.getSourceString()).append(" ");
+        }
+        builder.append(this.specifier.getSourceString());
+        return builder.toString();
+    }
+
     @Override
     public String toString() {
-        return "GlslSpecifiedType[specifier=" + this.type + ", qualifiers=" + this.qualifiers;
+        return "GlslSpecifiedType[specifier=" + this.specifier + ", qualifiers=" + this.qualifiers;
     }
 
     @Override

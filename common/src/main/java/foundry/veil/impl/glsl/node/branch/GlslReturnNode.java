@@ -1,20 +1,14 @@
 package foundry.veil.impl.glsl.node.branch;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 import org.jetbrains.annotations.Nullable;
 
-public class ReturnNode implements GlslNode {
+public class GlslReturnNode implements GlslNode {
 
     private GlslNode value;
 
-    public ReturnNode(@Nullable GlslNode value) {
+    public GlslReturnNode(@Nullable GlslNode value) {
         this.value = value;
-    }
-
-    @Override
-    public void visit(GlslVisitor visitor) {
-
     }
 
     public @Nullable GlslNode getValue() {
@@ -28,5 +22,10 @@ public class ReturnNode implements GlslNode {
     @Override
     public String toString() {
         return "ReturnNode{value=" + this.value + '}';
+    }
+
+    @Override
+    public String getSourceString() {
+        return this.value != null ? "return " + this.value.getSourceString() : "return";
     }
 }

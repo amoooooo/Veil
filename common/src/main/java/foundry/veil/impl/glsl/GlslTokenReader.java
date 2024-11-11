@@ -2,13 +2,22 @@ package foundry.veil.impl.glsl;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class GlslTokenReader {
 
     private final GlslLexer.Token[] tokens;
     private int cursor;
+    private final List<Error> errors;
+    private final List<Error> errorsView;
 
     public GlslTokenReader(GlslLexer.Token[] tokens) {
         this.tokens = tokens;
+        this.cursor = 0;
+        this.errors = new ArrayList<>();
+        this.errorsView = Collections.unmodifiableList(this.errors);
     }
 
     private int getCursorOffset() {
@@ -85,6 +94,17 @@ public class GlslTokenReader {
         this.cursor += amount;
     }
 
+    public void markError(String message) {
+        this.errors.add(new Error(this.cursor, message));
+    }
+
+    /**
+     * @return All errors marked from reading tokens
+     */
+    public List<Error> getErrors() {
+        return this.errorsView;
+    }
+
     public int getCursor() {
         return this.cursor;
     }
@@ -96,5 +116,8 @@ public class GlslTokenReader {
     @Override
     public String toString() {
         return "GlslTokenReader{cursor=" + this.cursor + ", token=" + this.peek() + "}";
+    }
+
+    public record Error(int position, String message) {
     }
 }

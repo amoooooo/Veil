@@ -1,19 +1,44 @@
 package foundry.veil.impl.glsl.node.variable;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
-import java.util.Collection;
-import java.util.Collections;
+public class GlslFieldNode implements GlslNode {
 
-public record GlslFieldNode(GlslNode expression, String fieldSelection) implements GlslNode {
+    private GlslNode expression;
+    private String fieldSelection;
 
-    @Override
-    public void visit(GlslVisitor visitor) {
+    public GlslFieldNode(GlslNode expression, String fieldSelection) {
+        this.expression = expression;
+        this.fieldSelection = fieldSelection;
+    }
+
+    public GlslNode getExpression() {
+        return this.expression;
+    }
+
+    public String getFieldSelection() {
+        return this.fieldSelection;
+    }
+
+    public GlslFieldNode setExpression(GlslNode expression) {
+        this.expression = expression;
+        return this;
+    }
+
+    public GlslFieldNode setFieldSelection(String fieldSelection) {
+        this.fieldSelection = fieldSelection;
+        return this;
     }
 
     @Override
-    public Collection<GlslNode> children() {
-        return Collections.singleton(this.expression);
+    public String getSourceString() {
+        return this.expression.getSourceString() + '.' + this.fieldSelection;
+    }
+
+    @Override
+    public String toString() {
+        return "GlslFieldNode{" +
+                "expression=" + this.expression + ", " +
+                "fieldSelection=" + this.fieldSelection + '}';
     }
 }

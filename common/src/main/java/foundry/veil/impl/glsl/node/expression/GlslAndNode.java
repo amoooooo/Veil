@@ -1,20 +1,48 @@
 package foundry.veil.impl.glsl.node.expression;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * AND; A & B & C
  *
- * @param expressions
  * @author Ocelot
  */
-public record GlslAndNode(List<GlslNode> expressions) implements GlslNode {
+public class GlslAndNode implements GlslNode {
+
+    private final List<GlslNode> expressions;
+
+    public GlslAndNode(List<GlslNode> expressions) {
+        this.expressions = expressions;
+    }
+
+    public List<GlslNode> getExpressions() {
+        return this.expressions;
+    }
+
+    public GlslAndNode setExpressions(Collection<GlslNode> expressions) {
+        this.expressions.clear();
+        this.expressions.addAll(expressions);
+        return this;
+    }
+
+    public GlslAndNode setExpressions(GlslNode... expressions) {
+        this.expressions.clear();
+        this.expressions.addAll(Arrays.asList(expressions));
+        return this;
+    }
 
     @Override
-    public void visit(GlslVisitor visitor) {
+    public String getSourceString() {
+        return this.expressions.stream().map(GlslNode::getSourceString).collect(Collectors.joining(" & "));
+    }
 
+    @Override
+    public String toString() {
+        return "GlslAndNode[expressions=" + this.expressions + ']';
     }
 }

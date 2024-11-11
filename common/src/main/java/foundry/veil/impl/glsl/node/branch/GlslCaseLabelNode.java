@@ -1,7 +1,7 @@
 package foundry.veil.impl.glsl.node.branch;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
+import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 import org.jetbrains.annotations.Nullable;
 
 public class GlslCaseLabelNode implements GlslNode {
@@ -10,11 +10,6 @@ public class GlslCaseLabelNode implements GlslNode {
 
     public GlslCaseLabelNode(@Nullable GlslNode condition) {
         this.condition = condition;
-    }
-
-    @Override
-    public void visit(GlslVisitor visitor) {
-        visitor.visitCaseLabel(this);
     }
 
     public boolean isDefault() {
@@ -32,5 +27,10 @@ public class GlslCaseLabelNode implements GlslNode {
     @Override
     public String toString() {
         return "GlslCaseLabelNode{condition=" + (this.condition == null ? "default" : this.condition) + '}';
+    }
+
+    @Override
+    public String getSourceString() {
+        return "case: " + this.condition.getSourceString();
     }
 }

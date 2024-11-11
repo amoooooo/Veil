@@ -1,7 +1,6 @@
 package foundry.veil.impl.glsl.node.branch;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslVisitor;
 
 /**
  * Represents both while and do/while loops.
@@ -20,10 +19,6 @@ public class WhileLoopNode implements GlslNode {
         this.type = type;
     }
 
-    @Override
-    public void visit(GlslVisitor visitor) {
-    }
-
     public GlslNode getCondition() {
         return this.condition;
     }
@@ -36,16 +31,24 @@ public class WhileLoopNode implements GlslNode {
         return this.type;
     }
 
-    public void setCondition(GlslNode condition) {
+    public WhileLoopNode setCondition(GlslNode condition) {
         this.condition = condition;
+        return this;
     }
 
-    public void setBody(GlslNode body) {
+    public WhileLoopNode setBody(GlslNode body) {
         this.body = body;
+        return this;
     }
 
-    public void setType(Type type) {
+    public WhileLoopNode setType(Type type) {
         this.type = type;
+        return this;
+    }
+
+    @Override
+    public String getSourceString() {
+        return "while (" + this.condition.getSourceString() + ") {\n" + this.body.getSourceString().replaceAll("\n", "\n\t") + "\n}";
     }
 
     public enum Type {
