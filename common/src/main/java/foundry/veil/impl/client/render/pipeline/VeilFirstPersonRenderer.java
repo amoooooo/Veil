@@ -38,9 +38,9 @@ public final class VeilFirstPersonRenderer {
                     .setDepthTextureBuffer()
                     .build(true);
         }
-        firstPerson.setColorAttachmentTexture(0, framebufferTexture);
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
+        firstPerson.setColorAttachmentTexture(0, framebufferTexture);
     }
 
     public static void unbind() {
