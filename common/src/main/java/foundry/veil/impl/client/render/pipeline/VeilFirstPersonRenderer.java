@@ -29,14 +29,16 @@ public final class VeilFirstPersonRenderer {
         AdvancedFbo mainRenderTarget = postTarget != null ? postTarget : AdvancedFbo.getMainFramebuffer();
         int w = mainRenderTarget.getWidth();
         int h = mainRenderTarget.getHeight();
+        int framebufferTexture = mainRenderTarget.getColorTextureAttachment(0).getId();
         if (firstPerson == null || firstPerson.getWidth() != w || firstPerson.getHeight() != h) {
             free();
             firstPerson = AdvancedFbo.withSize(w, h)
-                    .addColorTextureWrapper(mainRenderTarget.getColorTextureAttachment(0).getId())
+                    .addColorTextureWrapper(framebufferTexture)
                     .setFormat(FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT)
                     .setDepthTextureBuffer()
                     .build(true);
         }
+        firstPerson.setColorAttachmentTexture(0, framebufferTexture);
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
     }
