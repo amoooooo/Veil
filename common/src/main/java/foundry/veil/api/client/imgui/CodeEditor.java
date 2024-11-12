@@ -1,5 +1,6 @@
 package foundry.veil.api.client.imgui;
 
+import foundry.veil.Veil;
 import imgui.ImGui;
 import imgui.ImVec2;
 import imgui.extension.texteditor.TextEditor;
@@ -59,7 +60,7 @@ public class CodeEditor implements NativeResource {
         if (errors.isEmpty()) {
             this.oldSource = this.editor.getText();
         }
-        this.editor.setErrorMarkers(errors);
+        Veil.withImGui(() -> this.editor.setErrorMarkers(errors));
     }
 
     /**
@@ -73,8 +74,10 @@ public class CodeEditor implements NativeResource {
         this.oldSource = this.editor.getText();
         this.editor.setErrorMarkers(Collections.emptyMap());
         this.open.set(true);
-        ImGui.setWindowFocus("###editor");
-        ImGui.setWindowCollapsed("###editor", false);
+        Veil.withImGui(() -> {
+            ImGui.setWindowFocus("###editor");
+            ImGui.setWindowCollapsed("###editor", false);
+        });
     }
 
     /**
@@ -83,9 +86,11 @@ public class CodeEditor implements NativeResource {
     public void hide() {
         if (this.hasTextChanged()) {
             this.open.set(true);
-            ImGui.pushID(this.hashCode());
-            ImGui.openPopup("###save_confirm");
-            ImGui.popID();
+            Veil.withImGui(() -> {
+                ImGui.pushID(this.hashCode());
+                ImGui.openPopup("###save_confirm");
+                ImGui.popID();
+            });
         } else {
             this.oldSource = null;
             this.open.set(false);

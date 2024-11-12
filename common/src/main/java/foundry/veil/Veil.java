@@ -43,6 +43,17 @@ public class Veil {
     }
 
     /**
+     * Runs the specified code with the correct ImGui context.
+     *
+     * @param task The ImGui task to run
+     */
+    public static void withImGui(Runnable task) {
+        beginImGui();
+        task.run();
+        endImGui();
+    }
+
+    /**
      * <p>Enables writing ImGui to the screen. This useful for debugging during the normal render loop.</p>
      * <p>Be sure to call {@link #endImGui()} when done.</p>
      */
