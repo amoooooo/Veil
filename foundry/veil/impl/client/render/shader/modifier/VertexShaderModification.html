@@ -51,7 +51,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
+<li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -110,15 +110,6 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
-<div class="caption"><span>Fields</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Field</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final io.github.douira.glsl_transformer.ast.query.match.Matcher&lt;io.github.douira.glsl_transformer.ast.node.external_declaration.ExternalDeclaration&gt;</code></div>
-<div class="col-second even-row-color"><code><a href="#INPUT" class="member-name-link">INPUT</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-</div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-foundry.veil.impl.client.render.shader.modifier.ShaderModification">Fields inherited from interface&nbsp;foundry.veil.impl.client.render.shader.modifier.<a href="ShaderModification.html" title="interface in foundry.veil.impl.client.render.shader.modifier">ShaderModification</a></h3>
 <code><a href="ShaderModification.html#IN_PATTERN">IN_PATTERN</a>, <a href="ShaderModification.html#OUT_PATTERN">OUT_PATTERN</a>, <a href="ShaderModification.html#PLACEHOLDER_PATTERN">PLACEHOLDER_PATTERN</a>, <a href="ShaderModification.html#RETURN_PATTERN">RETURN_PATTERN</a>, <a href="ShaderModification.html#UNIFORM_PATTERN">UNIFORM_PATTERN</a>, <a href="ShaderModification.html#VERSION_PATTERN">VERSION_PATTERN</a></code></div>
@@ -158,8 +149,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlaceholder(java.lang.String)" class="member-name-link">getPlaceholder</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#inject(io.github.douira.glsl_transformer.ast.transform.ASTParser,io.github.douira.glsl_transformer.ast.node.TranslationUnit,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)" class="member-name-link">inject</a><wbr>(io.github.douira.glsl_transformer.ast.transform.ASTParser&nbsp;parser,
- io.github.douira.glsl_transformer.ast.node.TranslationUnit&nbsp;tree,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#inject(foundry.veil.impl.glsl.node.GlslTree,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)" class="member-name-link">inject</a><wbr>(<a href="../../../../glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
  <a href="../transformer/VeilJobParameters.html" title="class in foundry.veil.impl.client.render.shader.transformer">VeilJobParameters</a>&nbsp;parameters)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Injects this modification into the specified shader source.</div>
@@ -179,20 +169,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
-<!-- ============ FIELD DETAIL =========== -->
-<li>
-<section class="field-details" id="field-detail">
-<h2>Field Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="INPUT">
-<h3>INPUT</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">io.github.douira.glsl_transformer.ast.query.match.Matcher&lt;io.github.douira.glsl_transformer.ast.node.external_declaration.ExternalDeclaration&gt;</span>&nbsp;<span class="element-name">INPUT</span></div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -221,24 +197,24 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="inject(io.github.douira.glsl_transformer.ast.transform.ASTParser,io.github.douira.glsl_transformer.ast.node.TranslationUnit,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">
+<section class="detail" id="inject(foundry.veil.impl.glsl.node.GlslTree,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">
 <h3>inject</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">inject</span><wbr><span class="parameters">(io.github.douira.glsl_transformer.ast.transform.ASTParser&nbsp;parser,
- io.github.douira.glsl_transformer.ast.node.TranslationUnit&nbsp;tree,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">inject</span><wbr><span class="parameters">(<a href="../../../../glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
  <a href="../transformer/VeilJobParameters.html" title="class in foundry.veil.impl.client.render.shader.transformer">VeilJobParameters</a>&nbsp;parameters)</span>
-            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="ShaderModification.html#inject(io.github.douira.glsl_transformer.ast.transform.ASTParser,io.github.douira.glsl_transformer.ast.node.TranslationUnit,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">ShaderModification</a></code></span></div>
+            throws <span class="exceptions"><a href="../../../../glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a>,
+<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="ShaderModification.html#inject(foundry.veil.impl.glsl.node.GlslTree,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">ShaderModification</a></code></span></div>
 <div class="block">Injects this modification into the specified shader source.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ShaderModification.html#inject(io.github.douira.glsl_transformer.ast.transform.ASTParser,io.github.douira.glsl_transformer.ast.node.TranslationUnit,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">inject</a></code>&nbsp;in interface&nbsp;<code><a href="ShaderModification.html" title="interface in foundry.veil.impl.client.render.shader.modifier">ShaderModification</a></code></dd>
+<dd><code><a href="ShaderModification.html#inject(foundry.veil.impl.glsl.node.GlslTree,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">inject</a></code>&nbsp;in interface&nbsp;<code><a href="ShaderModification.html" title="interface in foundry.veil.impl.client.render.shader.modifier">ShaderModification</a></code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="SimpleShaderModification.html#inject(io.github.douira.glsl_transformer.ast.transform.ASTParser,io.github.douira.glsl_transformer.ast.node.TranslationUnit,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">inject</a></code>&nbsp;in class&nbsp;<code><a href="SimpleShaderModification.html" title="class in foundry.veil.impl.client.render.shader.modifier">SimpleShaderModification</a></code></dd>
+<dd><code><a href="SimpleShaderModification.html#inject(foundry.veil.impl.glsl.node.GlslTree,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">inject</a></code>&nbsp;in class&nbsp;<code><a href="SimpleShaderModification.html" title="class in foundry.veil.impl.client.render.shader.modifier">SimpleShaderModification</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>parser</code> - The parser instance</dd>
 <dd><code>tree</code> - The source to modify</dd>
 <dd><code>parameters</code> - The parameters to use when injecting</dd>
 <dt>Throws:</dt>
+<dd><code><a href="../../../../glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></code> - If an error occurs when parsing GLSL code</dd>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If an error occurs with the format or applying the modifications</dd>
 </dl>
 </section>

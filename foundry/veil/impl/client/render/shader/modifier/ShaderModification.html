@@ -140,8 +140,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#inject(io.github.douira.glsl_transformer.ast.transform.ASTParser,io.github.douira.glsl_transformer.ast.node.TranslationUnit,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)" class="member-name-link">inject</a><wbr>(io.github.douira.glsl_transformer.ast.transform.ASTParser&nbsp;parser,
- io.github.douira.glsl_transformer.ast.node.TranslationUnit&nbsp;tree,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#inject(foundry.veil.impl.glsl.node.GlslTree,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)" class="member-name-link">inject</a><wbr>(<a href="../../../../glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
  <a href="../transformer/VeilJobParameters.html" title="class in foundry.veil.impl.client.render.shader.transformer">VeilJobParameters</a>&nbsp;parameters)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Injects this modification into the specified shader source.</div>
@@ -212,19 +211,19 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="inject(io.github.douira.glsl_transformer.ast.transform.ASTParser,io.github.douira.glsl_transformer.ast.node.TranslationUnit,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">
+<section class="detail" id="inject(foundry.veil.impl.glsl.node.GlslTree,foundry.veil.impl.client.render.shader.transformer.VeilJobParameters)">
 <h3>inject</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">inject</span><wbr><span class="parameters">(io.github.douira.glsl_transformer.ast.transform.ASTParser&nbsp;parser,
- io.github.douira.glsl_transformer.ast.node.TranslationUnit&nbsp;tree,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">inject</span><wbr><span class="parameters">(<a href="../../../../glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
  <a href="../transformer/VeilJobParameters.html" title="class in foundry.veil.impl.client.render.shader.transformer">VeilJobParameters</a>&nbsp;parameters)</span>
-     throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+     throws <span class="exceptions"><a href="../../../../glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a>,
+<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Injects this modification into the specified shader source.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>parser</code> - The parser instance</dd>
 <dd><code>tree</code> - The source to modify</dd>
 <dd><code>parameters</code> - The parameters to use when injecting</dd>
 <dt>Throws:</dt>
+<dd><code><a href="../../../../glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></code> - If an error occurs when parsing GLSL code</dd>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If an error occurs with the format or applying the modifications</dd>
 </dl>
 </section>
