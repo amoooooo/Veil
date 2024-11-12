@@ -3,10 +3,12 @@ package foundry.veil.impl.glsl.visitor;
 import foundry.veil.impl.glsl.grammar.GlslVersion;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
+import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
 import foundry.veil.impl.glsl.node.variable.GlslNewNode;
+import foundry.veil.impl.glsl.node.variable.GlslStructNode;
 import org.jetbrains.annotations.Nullable;
 
-public class GlslStringWriter implements GlslTreeVisitor, GlslFieldVisitor {
+public class GlslStringWriter implements GlslTreeVisitor {
 
     private final StringBuilder builder;
     private String value;
@@ -26,8 +28,23 @@ public class GlslStringWriter implements GlslTreeVisitor, GlslFieldVisitor {
     }
 
     @Override
-    public void visitField(GlslNewNode node) {
-        this.builder.append(this.formatExpression(node)).append(";\n");
+    public void visitDirective(String directive) {
+        this.builder.append(directive).append('\n');
+    }
+
+    @Override
+    public void visitField(GlslNewNode newNode) {
+        this.builder.append(this.formatExpression(newNode)).append(";\n");
+    }
+
+    @Override
+    public void visitStruct(GlslStructNode structSpecifier) {
+        this.builder.append(this.formatExpression(structSpecifier)).append(";\n");
+    }
+
+    @Override
+    public void visitDeclaration(GlslDeclaration declaration) {
+        this.builder.append(this.formatExpression(declaration)).append(";\n");
     }
 
     @Override

@@ -97,7 +97,7 @@ public class GlslAssignmentNode implements GlslNode {
 
     public enum Operand {
         EQUAL("="),
-        MUL_ASSIGN("*/"),
+        MUL_ASSIGN("*="),
         DIV_ASSIGN("/="),
         MOD_ASSIGN("%="),
         ADD_ASSIGN("+="),

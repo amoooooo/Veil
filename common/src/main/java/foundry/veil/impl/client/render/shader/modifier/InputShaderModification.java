@@ -1,6 +1,8 @@
 package foundry.veil.impl.client.render.shader.modifier;
 
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
+import foundry.veil.impl.glsl.GlslParser;
+import foundry.veil.impl.glsl.GlslSyntaxException;
 import foundry.veil.impl.glsl.node.GlslTree;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -18,7 +20,8 @@ public class InputShaderModification implements ShaderModification {
     }
 
     @Override
-    public void inject(GlslTree tree, VeilJobParameters parameters) throws IOException {
+    public void inject(GlslTree tree, VeilJobParameters parameters) throws GlslSyntaxException {
+        tree.getBody().addAll(0, GlslParser.parse(this.input).getBody());
 //        tree.parseAndInjectNodes(parser, ASTInjectionPoint.BEFORE_DECLARATIONS, this.input.split("\n"));
     }
 

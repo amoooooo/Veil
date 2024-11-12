@@ -26,6 +26,6 @@ public class GlslPrimitiveConstructorNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return this.type.getSourceString();
+        return this.type.getSourceString() + this.type.getPostSourceString();
     }
 }

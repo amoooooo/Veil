@@ -71,7 +71,7 @@ public final class GlslLexer {
         DIRECTIVE("#.*"),
         GLSL_MACRO("__LINE__|__FILE__|__VERSION__"),
         COMMENT("\\/\\/.*"),
-        MULTI_COMMENT("\\/\\*(?:.|[\\n\\r])*\\*\\/|\\/\\/(?:.*\\\\[\\n\\r]?)+[\\n\\r]?(?:.*)"),
+        MULTI_COMMENT("\\/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*\\/"),
 
         CONST("const"),
         BOOL("bool"),
@@ -451,7 +451,6 @@ public final class GlslLexer {
                 case RESTRICT -> GlslTypeQualifier.StorageType.RESTRICT;
                 case READONLY -> GlslTypeQualifier.StorageType.READONLY;
                 case WRITEONLY -> GlslTypeQualifier.StorageType.WRITEONLY;
-                case SUBROUTINE -> GlslTypeQualifier.StorageType.SUBROUTINE;
                 default -> null;
             };
         }

@@ -10,15 +10,8 @@ public sealed interface GlslTypeQualifier {
 
     String getSourceString();
 
-    static GlslTypeQualifier storage(Storage.StorageType storageType) {
-        if (storageType == StorageType.SUBROUTINE) {
-            throw new IllegalArgumentException("Subroutine storage must specify operand names");
-        }
-        return new Storage(storageType, null);
-    }
-
     static GlslTypeQualifier storage(String[] typeNames) {
-        return new Storage(Storage.StorageType.SUBROUTINE, typeNames);
+        return new StorageSubroutine(typeNames);
     }
 
     static Layout layout(LayoutId... ids) {
@@ -34,25 +27,24 @@ public sealed interface GlslTypeQualifier {
     }
 
     /**
-     * A storage qualifier for a operand.
+     * A storage qualifier for a subroutine operand.
      *
-     * @param storageType The operand of storage qualifier
-     * @param typeNames   The operand names for subroutines. <code>null</code> if {@link #storageType} is not SUBROUTINE
+     * @param typeNames The operand names for subroutines
      * @author Ocelot
      */
-    record Storage(StorageType storageType, @Nullable String[] typeNames) implements GlslTypeQualifier {
+    record StorageSubroutine(String[] typeNames) implements GlslTypeQualifier {
         @Override
         public String toString() {
-            return this.storageType == StorageType.SUBROUTINE ? "Storage[operand=SUBROUTINE, typeNames=" + Arrays.toString(this.typeNames) + "]" : "Storage[operand=" + this.storageType + ']';
+            return "Storage[operand=SUBROUTINE, typeNames=" + Arrays.toString(this.typeNames) + "]";
         }
 
         @Override
         public String getSourceString() {
-            if (this.typeNames != null && this.typeNames.length > 0) {
+            if (this.typeNames.length > 0) {
                 return "subroutine(" + String.join(",", this.typeNames) + ")";
             }
 
-            return this.storageType.name().toLowerCase(Locale.ROOT);
+            return "subroutine";
         }
     }
 
@@ -67,12 +59,12 @@ public sealed interface GlslTypeQualifier {
                     builder.append(layoutId.identifier());
                     GlslNode expression = layoutId.expression();
                     if (expression != null) {
-                        builder.append('=').append(expression.getSourceString());
+                        builder.append(" = ").append(expression.getSourceString());
                     }
-                    builder.append(" ");
+                    builder.append(", ");
                 }
             }
-            builder.deleteCharAt(builder.length() - 1);
+            builder.delete(builder.length() - 2, builder.length());
             return "layout(" + builder + ")";
         }
     }
@@ -84,7 +76,7 @@ public sealed interface GlslTypeQualifier {
         }
     }
 
-    enum StorageType {
+    enum StorageType implements GlslTypeQualifier {
         CONST,
         IN,
         OUT,
@@ -99,8 +91,12 @@ public sealed interface GlslTypeQualifier {
         VOLATILE,
         RESTRICT,
         READONLY,
-        WRITEONLY,
-        SUBROUTINE
+        WRITEONLY;
+
+        @Override
+        public String getSourceString() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
     }
 
     enum Precision implements GlslTypeQualifier {

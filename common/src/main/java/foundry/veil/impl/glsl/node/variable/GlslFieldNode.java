@@ -32,7 +32,10 @@ public class GlslFieldNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return this.expression.getSourceString() + '.' + this.fieldSelection;
+        if (this.expression instanceof GlslVariableNode || this.expression instanceof GlslFieldNode) {
+            return this.expression.getSourceString() + '.' + this.fieldSelection;
+        }
+        return '(' + this.expression.getSourceString() + ")." + this.fieldSelection;
     }
 
     @Override

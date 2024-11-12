@@ -1,7 +1,5 @@
 package foundry.veil.impl.glsl.node;
 
-import foundry.veil.impl.glsl.visitor.GlslNodeVisitor;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,13 +16,6 @@ public class GlslCompoundNode implements GlslNode {
     @Override
     public List<GlslNode> toList() {
         return new ArrayList<>(this.children);
-    }
-
-    @Override
-    public void visit(GlslNodeVisitor visitor) {
-        for (GlslNode child : this.children) {
-            child.visit(visitor);
-        }
     }
 
     public List<GlslNode> getChildren() {
@@ -45,11 +36,11 @@ public class GlslCompoundNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("{\n");
         for (GlslNode child : this.children) {
-            builder.append(child.getSourceString()).append('\n');
+            builder.append('\t').append(child.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
         }
-        builder.deleteCharAt(builder.length() - 1);
+        builder.append('}');
         return builder.toString();
     }
 

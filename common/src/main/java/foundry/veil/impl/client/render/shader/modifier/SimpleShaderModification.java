@@ -1,12 +1,19 @@
 package foundry.veil.impl.client.render.shader.modifier;
 
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
+import foundry.veil.impl.glsl.GlslParser;
+import foundry.veil.impl.glsl.GlslSyntaxException;
+import foundry.veil.impl.glsl.grammar.GlslVersion;
+import foundry.veil.impl.glsl.node.GlslCompoundNode;
+import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 
 @ApiStatus.Internal
@@ -29,61 +36,61 @@ public class SimpleShaderModification implements ShaderModification {
     }
 
     @Override
-    public void inject(GlslTree tree, VeilJobParameters parameters) throws IOException {
-//        if (parameters.applyVersion()) {
-//            tree.ensureVersionStatement();
-//            VersionStatement statement = tree.getVersionStatement();
-//            if (statement.version.number < this.version) {
-//                statement.version = Version.fromNumber(this.version);
-//            }
-//        }
-//
-//        String[] includes = new String[this.includes.length];
-//        for (int i = 0; i < this.includes.length; i++) {
-//            includes[i] = "#custom veil:include " + this.includes[i] + "\n";
-//        }
-//        tree.parseAndInjectNodes(parser, ASTInjectionPoint.BEFORE_DECLARATIONS, includes);
-//
-//        if (!StringUtil.isNullOrEmpty(this.uniform)) {
-//            tree.parseAndInjectNodes(parser, ASTInjectionPoint.BEFORE_DECLARATIONS, this.fillPlaceholders(this.uniform).split("\n"));
-//        }
-//
-//        if (!StringUtil.isNullOrEmpty(this.output)) {
-//            tree.parseAndInjectNodes(parser, ASTInjectionPoint.BEFORE_DECLARATIONS, this.fillPlaceholders(this.output).split("\n"));
-//        }
-//
-//        Root root = tree.getRoot();
-//        for (Function function : this.functions) {
-//            String name = function.name();
-//            ChildNodeList<Statement> statements = root.identifierIndex.getStream(name)
-//                    .map(id -> id.getBranchAncestor(FunctionDefinition.class, FunctionDefinition::getFunctionPrototype))
-//                    .filter(definition -> {
-//                        if (definition == null) {
-//                            return false;
-//                        }
-//
-//                        int paramCount = function.parameters();
-//                        if (paramCount == -1) {
-//                            return true;
-//                        }
-//                        return definition.getFunctionPrototype().getParameters().size() == paramCount;
-//                    })
-//                    .findFirst()
-//                    .map(FunctionDefinition::getBody).orElseThrow(() -> {
-//                        int paramCount = function.parameters();
-//                        if (paramCount == -1) {
-//                            return new IOException("Unknown function: " + name);
-//                        }
-//                        return new IOException("Unknown function with " + paramCount + " parameters: " + name);
-//                    }).getStatements();
-//
-//            Statement statement = parser.parseStatement(root, this.fillPlaceholders("{" + function.code() + "}"));
-//            if (function.head()) {
-//                statements.add(0, statement);
-//            } else {
-//                statements.add(statement);
-//            }
-//        }
+    public void inject(GlslTree tree, VeilJobParameters parameters) throws GlslSyntaxException, IOException {
+        if (parameters.applyVersion()) {
+            GlslVersion version = tree.getVersion();
+            if (version.getVersion() < this.version) {
+                version.setVersion(this.version);
+            }
+        }
+
+        List<String> directives = tree.getDirectives();
+        for (ResourceLocation include : this.includes) {
+            directives.add("#custom veil:include " + include);
+        }
+
+        if (this.output != null && !this.output.isEmpty()) {
+            tree.getBody().addAll(0, GlslParser.parse(this.fillPlaceholders(this.output)).getBody());
+        }
+
+        if (this.uniform != null && !this.uniform.isEmpty()) {
+            tree.getBody().addAll(0, GlslParser.parse(this.fillPlaceholders(this.uniform)).getBody());
+        }
+
+        for (Function function : this.functions) {
+            String name = function.name();
+            List<GlslNode> body = tree.functions().filter(definition -> {
+                        if (definition == null) {
+                            return false;
+                        }
+
+                        if (definition.getBody() == null) {
+                            return false;
+                        }
+
+                        int paramCount = function.parameters();
+                        if (paramCount == -1) {
+                            return true;
+                        }
+                        return definition.getHeader().getParameters().size() == paramCount;
+                    })
+                    .findFirst()
+                    .map(GlslFunctionNode::getBody)
+                    .orElseThrow(() -> {
+                        int paramCount = function.parameters();
+                        if (paramCount == -1) {
+                            return new IOException("Unknown function: " + name);
+                        }
+                        return new IOException("Unknown function with " + paramCount + " parameters: " + name);
+                    });
+
+            GlslNode insert = new GlslCompoundNode(GlslParser.parseExpressionList(this.fillPlaceholders(function.code())));
+            if (function.head()) {
+                body.add(0, insert);
+            } else {
+                body.add(insert);
+            }
+        }
     }
 
     public String fillPlaceholders(String code) {
@@ -92,13 +99,12 @@ public class SimpleShaderModification implements ShaderModification {
             return code;
         }
 
-        StringBuilder sb = new StringBuilder();
-        matcher.appendReplacement(sb, this.getPlaceholder(matcher.group(1)));
-        while (matcher.find()) {
-            matcher.appendReplacement(sb, this.getPlaceholder(matcher.group(1)));
-        }
-        matcher.appendTail(sb);
-        return sb.toString();
+        StringBuilder builder = new StringBuilder();
+        do {
+            matcher.appendReplacement(builder, this.getPlaceholder(matcher.group(1)));
+        } while (matcher.find());
+        matcher.appendTail(builder);
+        return builder.toString();
     }
 
     protected String getPlaceholder(String key) {

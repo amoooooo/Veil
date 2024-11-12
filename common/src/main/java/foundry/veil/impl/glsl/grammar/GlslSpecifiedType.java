@@ -44,6 +44,7 @@ public class GlslSpecifiedType implements GlslType {
 
     /**
      * Sets the operand of this
+     *
      * @param specifier
      * @return
      */
@@ -71,6 +72,10 @@ public class GlslSpecifiedType implements GlslType {
         }
         builder.append(this.specifier.getSourceString());
         return builder.toString();
+    }
+
+    public String getPostSourceString() {
+        return this.specifier.getPostSourceString();
     }
 
     @Override

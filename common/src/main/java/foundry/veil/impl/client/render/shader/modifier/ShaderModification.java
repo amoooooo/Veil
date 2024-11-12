@@ -1,6 +1,7 @@
 package foundry.veil.impl.client.render.shader.modifier;
 
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
+import foundry.veil.impl.glsl.GlslSyntaxException;
 import foundry.veil.impl.glsl.node.GlslTree;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -27,9 +28,10 @@ public interface ShaderModification {
      *
      * @param tree       The source to modify
      * @param parameters The parameters to use when injecting
-     * @throws IOException If an error occurs with the format or applying the modifications
+     * @throws GlslSyntaxException If an error occurs when parsing GLSL code
+     * @throws IOException         If an error occurs with the format or applying the modifications
      */
-    void inject(GlslTree tree, VeilJobParameters parameters) throws IOException;
+    void inject(GlslTree tree, VeilJobParameters parameters) throws GlslSyntaxException, IOException;
 
     /**
      * @return The priority of this modification. A higher priority will be applied before a lower priority modification

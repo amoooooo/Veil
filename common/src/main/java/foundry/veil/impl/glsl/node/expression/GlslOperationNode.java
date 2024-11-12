@@ -31,7 +31,26 @@ public final class GlslOperationNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return this.first.getSourceString() + " " + this.operand.getDelimiter() + " " + this.second.getSourceString();
+        StringBuilder builder = new StringBuilder();
+        boolean firstOrder = this.first instanceof GlslOperationNode operation && operation.operand.needsParentheses();
+        boolean secondOrder = this.second instanceof GlslOperationNode operation && operation.operand.needsParentheses();
+
+        if (firstOrder) {
+            builder.append('(');
+        }
+        builder.append(this.first.getSourceString());
+        if (firstOrder) {
+            builder.append(')');
+        }
+        builder.append(' ').append(this.operand.getDelimiter()).append(' ');
+        if (secondOrder) {
+            builder.append('(');
+        }
+        builder.append(this.second.getSourceString());
+        if (secondOrder) {
+            builder.append(')');
+        }
+        return builder.toString();
     }
 
     /**
@@ -92,6 +111,13 @@ public final class GlslOperationNode implements GlslNode {
 
         public String getDelimiter() {
             return this.delimiter;
+        }
+
+        public boolean needsParentheses() {
+            return switch (this) {
+                case LEFT_SHIFT, RIGHT_SHIFT, ADD, SUBTRACT, MODULO -> true;
+                case MULTIPLY, DIVIDE -> false;
+            };
         }
     }
 }

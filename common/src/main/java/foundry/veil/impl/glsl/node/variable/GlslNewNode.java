@@ -11,7 +11,7 @@ public class GlslNewNode implements GlslNode {
     private String name;
     private GlslNode initializer;
 
-    public GlslNewNode(GlslType type, String name, @Nullable GlslNode initializer) {
+    public GlslNewNode(GlslType type, @Nullable String name, @Nullable GlslNode initializer) {
         this.type = type.asSpecifiedType();
         this.name = name;
         this.initializer = initializer;
@@ -21,11 +21,11 @@ public class GlslNewNode implements GlslNode {
         return this.type;
     }
 
-    public String getName() {
+    public @Nullable String getName() {
         return this.name;
     }
 
-    public GlslNode getInitializer() {
+    public @Nullable GlslNode getInitializer() {
         return this.initializer;
     }
 
@@ -46,7 +46,15 @@ public class GlslNewNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return this.type.getSourceString() + ' ' + this.name + (this.initializer != null ? " = " + this.initializer.getSourceString() : "");
+        StringBuilder builder = new StringBuilder(this.type.getSourceString());
+        if (this.name != null) {
+            builder.append(' ').append(this.name);
+            builder.append(this.type.getPostSourceString());
+            if (this.initializer != null) {
+                builder.append(" = ").append(this.initializer.getSourceString());
+            }
+        }
+        return builder.toString();
     }
 
     @Override

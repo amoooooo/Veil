@@ -4,6 +4,10 @@ import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Represents for loops.
  *
@@ -14,13 +18,13 @@ public class ForLoopNode implements GlslNode {
     private GlslNode init;
     private GlslNode condition;
     private GlslNode increment;
-    private GlslNode body;
+    private final List<GlslNode> body;
 
     public ForLoopNode(GlslNode init, GlslNode condition, @Nullable GlslNode increment, GlslNode body) {
         this.init = init;
         this.condition = condition;
         this.increment = increment;
-        this.body = body;
+        this.body = body.toList();
     }
 
     public GlslNode getInit() {
@@ -35,24 +39,35 @@ public class ForLoopNode implements GlslNode {
         return this.increment;
     }
 
-    public GlslNode getBody() {
+    public List<GlslNode> getBody() {
         return this.body;
     }
 
-    public void setInit(GlslNode init) {
+    public ForLoopNode setInit(GlslNode init) {
         this.init = init;
+        return this;
     }
 
-    public void setCondition(GlslNode condition) {
+    public ForLoopNode setCondition(GlslNode condition) {
         this.condition = condition;
+        return this;
     }
 
-    public void setIncrement(GlslNode increment) {
+    public ForLoopNode setIncrement(@Nullable GlslNode increment) {
         this.increment = increment;
+        return this;
     }
 
-    public void setBody(GlslNode body) {
-        this.body = body;
+    public ForLoopNode setBody(Collection<GlslNode> body) {
+        this.body.clear();
+        this.body.addAll(body);
+        return this;
+    }
+
+    public ForLoopNode setBody(GlslNode... body) {
+        this.body.clear();
+        this.body.addAll(Arrays.asList(body));
+        return this;
     }
 
     @Override
@@ -63,11 +78,14 @@ public class ForLoopNode implements GlslNode {
     @Override
     public String getSourceString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("for (").append(this.init.getSourceString()).append("; ").append(this.condition).append(';');
+        builder.append("for (").append(this.init.getSourceString()).append("; ").append(this.condition.getSourceString()).append(';');
         if (this.increment != null) {
-            builder.append(this.increment.getSourceString());
+            builder.append(' ').append(this.increment.getSourceString());
         }
-        builder.append(") {\n").append(this.body.getSourceString().replaceAll("\n", "\n\t"));
+        builder.append(") {\n");
+        for (GlslNode node : this.body) {
+            builder.append('\t').append(node.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+        }
         builder.append('}');
         return builder.toString();
     }

@@ -10,8 +10,8 @@ public class GlslTokenReader {
 
     private final GlslLexer.Token[] tokens;
     private int cursor;
-    private final List<Error> errors;
-    private final List<Error> errorsView;
+    private final List<GlslSyntaxException> errors;
+    private final List<GlslSyntaxException> errorsView;
 
     public GlslTokenReader(GlslLexer.Token[] tokens) {
         this.tokens = tokens;
@@ -20,9 +20,9 @@ public class GlslTokenReader {
         this.errorsView = Collections.unmodifiableList(this.errors);
     }
 
-    private int getCursorOffset() {
+    public int getCursorOffset(int cursor) {
         int offset = -1;
-        for (int i = 0; i <= Math.min(this.cursor, this.tokens.length - 1); i++) {
+        for (int i = 0; i <= Math.min(cursor, this.tokens.length - 1); i++) {
             offset += this.tokens[i].value().length() + 1;
         }
         return offset;
@@ -83,7 +83,19 @@ public class GlslTokenReader {
     }
 
     public GlslSyntaxException error(String error) {
-        return new GlslSyntaxException(error, this.getString(), this.getCursorOffset());
+        return new GlslSyntaxException(error, this.getString(), this.getCursorOffset(this.cursor));
+    }
+
+    public void throwError() throws GlslSyntaxException {
+        if (this.errors.isEmpty()) {
+            return;
+        }
+
+        GlslSyntaxException exception = new GlslSyntaxException("Failed", this.getString(), this.getCursorOffset(this.cursor));
+        for (GlslSyntaxException error : this.errors) {
+            exception.addSuppressed(error);
+        }
+        throw exception;
     }
 
     public void skip() {
@@ -95,13 +107,13 @@ public class GlslTokenReader {
     }
 
     public void markError(String message) {
-        this.errors.add(new Error(this.cursor, message));
+        this.errors.add(new GlslSyntaxException(message, this.getString(), this.getCursorOffset(this.cursor)));
     }
 
     /**
      * @return All errors marked from reading tokens
      */
-    public List<Error> getErrors() {
+    public List<GlslSyntaxException> getErrors() {
         return this.errorsView;
     }
 

@@ -1,18 +1,19 @@
 package foundry.veil.impl.glsl;
 
 import foundry.veil.impl.glsl.grammar.*;
-import foundry.veil.impl.glsl.node.*;
+import foundry.veil.impl.glsl.node.GlslEmptyNode;
+import foundry.veil.impl.glsl.node.GlslNode;
+import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.impl.glsl.node.branch.*;
 import foundry.veil.impl.glsl.node.expression.*;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
-import foundry.veil.impl.glsl.grammar.GlslFunctionHeader;
 import foundry.veil.impl.glsl.node.function.GlslInvokeFunctionNode;
 import foundry.veil.impl.glsl.node.function.GlslPrimitiveConstructorNode;
-import foundry.veil.impl.glsl.node.variable.GlslArrayNode;
-import foundry.veil.impl.glsl.node.primary.*;
-import foundry.veil.impl.glsl.node.variable.GlslFieldNode;
-import foundry.veil.impl.glsl.node.variable.GlslNewNode;
-import foundry.veil.impl.glsl.node.variable.GlslVariableNode;
+import foundry.veil.impl.glsl.node.primary.GlslBoolConstantNode;
+import foundry.veil.impl.glsl.node.primary.GlslFloatConstantNode;
+import foundry.veil.impl.glsl.node.primary.GlslIntConstantNode;
+import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
+import foundry.veil.impl.glsl.node.variable.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -23,92 +24,9 @@ import java.util.function.Function;
 
 public final class GlslParser {
 
-    private static final String GRAMMAR = """
-            variable_identifier : IDENTIFIER
-            primary_expression : variable_identifier | INTCONSTANT | UINTCONSTANT | FLOATCONSTANT | BOOLCONSTANT | DOUBLECONSTANT | LEFT_PAREN expression RIGHT_PAREN
-            postfix_expression : primary_expression | postfix_expression LEFT_BRACKET integer_expression RIGHT_BRACKET | function_call | postfix_expression DOT FIELD_SELECTION | postfix_expression INC_OP | postfix_expression DEC_OP
-            integer_expression : expression
-            function_call : function_call_or_method
-            function_call_or_method : function_call_generic
-            function_call_generic : function_call_header_with_parameters RIGHT_PAREN | function_call_header_no_parameters RIGHT_PAREN
-            function_call_header_no_parameters : function_call_header VOID | function_call_header
-            function_call_header_with_parameters : function_call_header assignment_expression | function_call_header_with_parameters COMMA assignment_expression
-            function_call_header : function_identifier LEFT_PAREN
-            function_identifier : type_specifier | postfix_expression
-            unary_expression : postfix_expression | INC_OP unary_expression | DEC_OP unary_expression | unary_operator unary_expression
-            unary_operator : PLUS | DASH | BANG | TILDE
-            multiplicative_expression : unary_expression | multiplicative_expression STAR unary_expression | multiplicative_expression SLASH unary_expression | multiplicative_expression PERCENT unary_expression
-            additive_expression : multiplicative_expression | additive_expression PLUS multiplicative_expression | additive_expression DASH multiplicative_expression
-            shift_expression : additive_expression | shift_expression LEFT_OP additive_expression | shift_expression RIGHT_OP additive_expression
-            relational_expression : shift_expression | relational_expression LEFT_ANGLE shift_expression | relational_expression RIGHT_ANGLE shift_expression | relational_expression LE_OP shift_expression | relational_expression GE_OP shift_expression
-            equality_expression : relational_expression | equality_expression EQ_OP relational_expression | equality_expression NE_OP relational_expression
-            and_expression : equality_expression | and_expression AMPERSAND equality_expression
-            exclusive_or_expression : and_expression | exclusive_or_expression CARET and_expression
-            inclusive_or_expression : exclusive_or_expression | inclusive_or_expression VERTICAL_BAR exclusive_or_expression
-            logical_and_expression : inclusive_or_expression | logical_and_expression AND_OP inclusive_or_expression
-            logical_xor_expression : logical_and_expression | logical_xor_expression XOR_OP logical_and_expression
-            logical_or_expression : logical_xor_expression | logical_or_expression OR_OP logical_xor_expression
-            conditional_expression : logical_or_expression | logical_or_expression QUESTION expression COLON assignment_expression
-            assignment_expression : conditional_expression | unary_expression assignment_operator assignment_expression
-            assignment_operator : EQUAL | MUL_ASSIGN | DIV_ASSIGN | MOD_ASSIGN | ADD_ASSIGN | SUB_ASSIGN | LEFT_ASSIGN | RIGHT_ASSIGN | AND_ASSIGN | XOR_ASSIGN | OR_ASSIGN
-            expression : assignment_expression | expression COMMA assignment_expression
-            constant_expression : conditional_expression
-            declaration : function_prototype SEMICOLON | init_declarator_list SEMICOLON | PRECISION precision_qualifier type_specifier SEMICOLON | type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE SEMICOLON | type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER SEMICOLON | type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER array_specifier SEMICOLON | type_qualifier SEMICOLON | type_qualifier IDENTIFIER SEMICOLON | type_qualifier IDENTIFIER identifier_list SEMICOLON
-            identifier_list : COMMA IDENTIFIER | identifier_list COMMA IDENTIFIER
-            function_prototype : function_declarator RIGHT_PAREN
-            function_declarator : function_header | function_header_with_parameters
-            function_header_with_parameters : function_header parameter_declaration | function_header_with_parameters COMMA parameter_declaration
-            function_header : fully_specified_type IDENTIFIER LEFT_PAREN
-            parameter_declarator : type_specifier IDENTIFIER | type_specifier IDENTIFIER array_specifier
-            parameter_declaration : type_qualifier parameter_declarator | parameter_declarator | type_qualifier parameter_type_specifier | parameter_type_specifier
-            parameter_type_specifier : type_specifier
-            init_declarator_list : single_declaration | init_declarator_list COMMA IDENTIFIER | init_declarator_list COMMA IDENTIFIER array_specifier | init_declarator_list COMMA IDENTIFIER array_specifier EQUAL initializer | init_declarator_list COMMA IDENTIFIER EQUAL initializer
-            single_declaration : fully_specified_type | fully_specified_type IDENTIFIER | fully_specified_type IDENTIFIER array_specifier | fully_specified_type IDENTIFIER array_specifier EQUAL initializer | fully_specified_type IDENTIFIER EQUAL initializer
-            fully_specified_type : type_specifier | type_qualifier type_specifier
-            invariant_qualifier : INVARIANT
-            interpolation_qualifier : SMOOTH | FLAT | NOPERSPECTIVE
-            layout_qualifier : LAYOUT LEFT_PAREN layout_qualifier_id_list RIGHT_PAREN
-            layout_qualifier_id_list : layout_qualifier_id | layout_qualifier_id_list COMMA layout_qualifier_id
-            layout_qualifier_id : IDENTIFIER | IDENTIFIER EQUAL constant_expression | SHARED
-            precise_qualifier : PRECISE
-            type_qualifier : single_type_qualifier | type_qualifier single_type_qualifier
-            single_type_qualifier : storage_qualifier | layout_qualifier | precision_qualifier | interpolation_qualifier | invariant_qualifier | precise_qualifier
-            storage_qualifier : CONST | IN | OUT | INOUT | CENTROID | PATCH | SAMPLE | UNIFORM | BUFFER | SHARED | COHERENT | VOLATILE | RESTRICT | READONLY | WRITEONLY | SUBROUTINE | SUBROUTINE LEFT_PAREN type_name_list RIGHT_PAREN
-            type_name_list : TYPE_NAME | type_name_list COMMA TYPE_NAME
-            type_specifier : type_specifier_nonarray | type_specifier_nonarray array_specifier
-            array_specifier : LEFT_BRACKET RIGHT_BRACKET | LEFT_BRACKET conditional_expression RIGHT_BRACKET | array_specifier LEFT_BRACKET RIGHT_BRACKET | array_specifier LEFT_BRACKET conditional_expression RIGHT_BRACKET
-            type_specifier_nonarray : VOID | FLOAT | DOUBLE | INT | UINT | BOOL | VEC2 | VEC3 | VEC4 | DVEC2 | DVEC3 | DVEC4 | BVEC2 | BVEC3 | BVEC4 | IVEC2 | IVEC3 | IVEC4 | UVEC2 | UVEC3 | UVEC4 | MAT2 | MAT3 | MAT4 | MAT2X2 | MAT2X3 | MAT2X4 | MAT3X2 | MAT3X3 | MAT3X4 | MAT4X2 | MAT4X3 | MAT4X4 | DMAT2 | DMAT3 | DMAT4 | DMAT2X2 | DMAT2X3 | DMAT2X4 | DMAT3X2 | DMAT3X3 | DMAT3X4 | DMAT4X2 | DMAT4X3 | DMAT4X4 | ATOMIC_UINT | SAMPLER2D | SAMPLER3D | SAMPLERCUBE | SAMPLER2DSHADOW | SAMPLERCUBESHADOW | SAMPLER2DARRAY | SAMPLER2DARRAYSHADOW | SAMPLERCUBEARRAY | SAMPLERCUBEARRAYSHADOW | ISAMPLER2D | ISAMPLER3D | ISAMPLERCUBE | ISAMPLER2DARRAY | ISAMPLERCUBEARRAY | USAMPLER2D | USAMPLER3D | USAMPLERCUBE | USAMPLER2DARRAY | USAMPLERCUBEARRAY | SAMPLER1D | SAMPLER1DSHADOW | SAMPLER1DARRAY | SAMPLER1DARRAYSHADOW | ISAMPLER1D | ISAMPLER1DARRAY | USAMPLER1D | USAMPLER1DARRAY | SAMPLER2DRECT | SAMPLER2DRECTSHADOW | ISAMPLER2DRECT | USAMPLER2DRECT | SAMPLERBUFFER | ISAMPLERBUFFER | USAMPLERBUFFER | SAMPLER2DMS | ISAMPLER2DMS | USAMPLER2DMS | SAMPLER2DMSARRAY | ISAMPLER2DMSARRAY | USAMPLER2DMSARRAY | IMAGE2D | IIMAGE2D | UIMAGE2D | IMAGE3D | IIMAGE3D | UIMAGE3D | IMAGECUBE | IIMAGECUBE | UIMAGECUBE | IMAGEBUFFER | IIMAGEBUFFER | UIMAGEBUFFER | IMAGE1D | IIMAGE1D | UIMAGE1D | IMAGE1DARRAY | IIMAGE1DARRAY | UIMAGE1DARRAY | IMAGE2DRECT | IIMAGE2DRECT | UIMAGE2DRECT | IMAGE2DARRAY | IIMAGE2DARRAY | UIMAGE2DARRAY | IMAGECUBEARRAY | IIMAGECUBEARRAY | UIMAGECUBEARRAY | IMAGE2DMS | IIMAGE2DMS | UIMAGE2DMS | IMAGE2DMSARRAY | IIMAGE2DMSARRAY | UIMAGE2DMSARRAY | struct_specifier | TYPE_NAME
-            precision_qualifier : HIGH_PRECISION | MEDIUM_PRECISION | LOW_PRECISION
-            struct_specifier : STRUCT IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE | STRUCT LEFT_BRACE struct_declaration_list RIGHT_BRACE
-            struct_declaration_list : struct_declaration | struct_declaration_list struct_declaration
-            struct_declaration : type_specifier struct_declarator_list SEMICOLON | type_qualifier type_specifier struct_declarator_list SEMICOLON
-            struct_declarator_list : struct_declarator | struct_declarator_list COMMA struct_declarator
-            struct_declarator : IDENTIFIER | IDENTIFIER array_specifier
-            initializer : assignment_expression | LEFT_BRACE initializer_list RIGHT_BRACE | LEFT_BRACE initializer_list COMMA RIGHT_BRACE
-            initializer_list : initializer | initializer_list COMMA initializer
-            declaration_statement : declaration
-            statement : compound_statement | simple_statement
-            simple_statement : declaration_statement | expression_statement | selection_statement | switch_statement | case_label | iteration_statement | jump_statement
-            compound_statement : LEFT_BRACE RIGHT_BRACE | LEFT_BRACE statement_list RIGHT_BRACE
-            statement_no_new_scope : compound_statement_no_new_scope | simple_statement
-            compound_statement_no_new_scope : LEFT_BRACE RIGHT_BRACE | LEFT_BRACE statement_list RIGHT_BRACE
-            statement_list : statement | statement_list statement
-            expression_statement : SEMICOLON | expression SEMICOLON
-            selection_statement : IF LEFT_PAREN expression RIGHT_PAREN selection_rest_statement
-            selection_rest_statement : statement ELSE statement | statement
-            condition : expression | fully_specified_type IDENTIFIER EQUAL initializer
-            switch_statement : SWITCH LEFT_PAREN expression RIGHT_PAREN LEFT_BRACE switch_statement_list | RIGHT_BRACE
-            switch_statement_list : statement_list
-            case_label : CASE expression COLON | DEFAULT COLON
-            iteration_statement : WHILE LEFT_PAREN condition RIGHT_PAREN statement_no_new_scope | DO statement WHILE LEFT_PAREN expression RIGHT_PAREN SEMICOLON | FOR LEFT_PAREN for_init_statement for_rest_statement RIGHT_PAREN statement_no_new_scope
-            for_init_statement : expression_statement | declaration_statement
-            conditionopt : condition
-            for_rest_statement : conditionopt SEMICOLON | conditionopt SEMICOLON expression
-            jump_statement : CONTINUE SEMICOLON | BREAK SEMICOLON | RETURN SEMICOLON | RETURN expression SEMICOLON | DISCARD SEMICOLON
-            translation_unit : external_declaration | translation_unit external_declaration
-            external_declaration : function_definition | declaration | SEMICOLON
-            function_definition : function_prototype compound_statement_no_new_scope
-            """;
+    public static GlslTree parse(String input) throws GlslSyntaxException {
+        return parse(GlslLexer.createTokens(input));
+    }
 
     public static GlslTree parse(GlslLexer.Token[] tokens) throws GlslSyntaxException {
         GlslTokenReader reader = new GlslTokenReader(tokens);
@@ -130,8 +48,14 @@ public final class GlslParser {
             }
         }
 
+        List<String> directives = new ArrayList<>();
         List<GlslNode> body = new ArrayList<>();
         while (reader.canRead()) {
+            if (reader.tryConsume(GlslLexer.TokenType.DIRECTIVE)) {
+                directives.add(reader.peek(-1).value());
+                continue;
+            }
+
             GlslFunctionNode functionDefinition = parseFunctionDefinition(reader);
             if (functionDefinition != null) {
                 body.add(functionDefinition);
@@ -148,10 +72,45 @@ public final class GlslParser {
                 continue;
             }
 
-            throw reader.error("Failed");
+            reader.throwError();
         }
 
-        return new GlslTree(version, body);
+        return new GlslTree(version, body, directives);
+    }
+
+    public static GlslNode parseExpression(String input) throws GlslSyntaxException {
+        return parseExpression(GlslLexer.createTokens(input));
+    }
+
+    public static GlslNode parseExpression(GlslLexer.Token[] tokens) throws GlslSyntaxException {
+        GlslTokenReader reader = new GlslTokenReader(tokens);
+        GlslNode expression = parseConditionalExpression(reader);
+        if (expression == null) {
+            reader.throwError();
+        }
+        while (reader.canRead()) {
+            if (reader.peek().type() != GlslLexer.TokenType.SEMICOLON) {
+                break;
+            }
+            reader.skip();
+        }
+        if (reader.canRead()) {
+            throw reader.error("Too many tokens provided");
+        }
+        return expression;
+    }
+
+    public static List<GlslNode> parseExpressionList(String input) throws GlslSyntaxException {
+        return parseExpressionList(GlslLexer.createTokens(input));
+    }
+
+    public static List<GlslNode> parseExpressionList(GlslLexer.Token[] tokens) throws GlslSyntaxException {
+        GlslTokenReader reader = new GlslTokenReader(tokens);
+        List<GlslNode> expressions = parseStatementList(reader);
+        if (reader.canRead()) {
+            throw reader.error("Too many tokens provided");
+        }
+        return expressions;
     }
 
     private static @Nullable GlslNode parsePrimaryExpression(GlslTokenReader reader) {
@@ -227,14 +186,19 @@ public final class GlslParser {
                 if (reader.tryConsume(GlslLexer.TokenType.LEFT_BRACKET)) {
                     GlslNode integerExpression = parseIntegerExpression(reader);
                     if (integerExpression != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACKET)) {
-                        return new GlslArrayNode(functionCall, integerExpression);
+                        functionCall = new GlslArrayNode(functionCall, integerExpression);
+                        functionCursor = reader.getCursor();
                     }
                 }
                 reader.setCursor(functionCursor);
 
                 // function_call DOT FIELD_SELECTION
                 if (reader.tryConsume(GlslLexer.TokenType.DOT, GlslLexer.TokenType.IDENTIFIER)) {
-                    return new GlslFieldNode(functionCall, reader.peek(-1).value());
+                    StringBuilder fieldSelection = new StringBuilder(reader.peek(-1).value());
+                    while (reader.tryConsume(GlslLexer.TokenType.DOT, GlslLexer.TokenType.IDENTIFIER)) {
+                        fieldSelection.append('.').append(reader.peek(-1).value());
+                    }
+                    return new GlslFieldNode(functionCall, fieldSelection.toString());
                 }
                 reader.setCursor(functionCursor);
 
@@ -263,14 +227,19 @@ public final class GlslParser {
             if (reader.tryConsume(GlslLexer.TokenType.LEFT_BRACKET)) {
                 GlslNode integerExpression = parseIntegerExpression(reader);
                 if (integerExpression != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACKET)) {
-                    return new GlslArrayNode(primaryExpression, integerExpression);
+                    primaryExpression = new GlslArrayNode(primaryExpression, integerExpression);
+                    expressionCursor = reader.getCursor();
                 }
             }
             reader.setCursor(expressionCursor);
 
             // primary_expression DOT FIELD_SELECTION
             if (reader.tryConsume(GlslLexer.TokenType.DOT, GlslLexer.TokenType.IDENTIFIER)) {
-                return new GlslFieldNode(primaryExpression, reader.peek(-1).value());
+                StringBuilder fieldSelection = new StringBuilder(reader.peek(-1).value());
+                while (reader.tryConsume(GlslLexer.TokenType.DOT, GlslLexer.TokenType.IDENTIFIER)) {
+                    fieldSelection.append('.').append(reader.peek(-1).value());
+                }
+                return new GlslFieldNode(primaryExpression, fieldSelection.toString());
             }
             reader.setCursor(expressionCursor);
             // primary_expression INC_OP
@@ -293,7 +262,7 @@ public final class GlslParser {
     }
 
     private static @Nullable GlslNode parseIntegerExpression(GlslTokenReader reader) {
-        return parseCondition(reader);
+        return parseExpression(reader);
     }
 
     private static @Nullable GlslNode parseFunctionCallGeneric(GlslTokenReader reader) {
@@ -339,6 +308,7 @@ public final class GlslParser {
             return new GlslInvokeFunctionNode(functionCallHeader, Collections.emptyList());
         }
 
+        reader.markError("Expected ')'");
         reader.setCursor(cursor);
         return null;
     }
@@ -393,6 +363,7 @@ public final class GlslParser {
         if (reader.canRead()) {
             GlslUnaryNode.Operand operator = reader.peek().type().asUnaryOperator();
             if (operator != null) {
+                reader.skip();
                 GlslNode right = parseUnaryExpression(reader);
                 if (right != null) {
                     return new GlslUnaryNode(right, operator);
@@ -799,40 +770,80 @@ public final class GlslParser {
         if (reader.tryConsume(GlslLexer.TokenType.IDENTIFIER, GlslLexer.TokenType.LEFT_BRACE)) {
             String identifier = reader.peek(-2).value();
 
-            GlslStructSpecifier structDeclaration = parseStructDeclaration(reader);
-            if (structDeclaration != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACE)) {
-                // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE SEMICOLON
-                if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                    // SUCCESS
-                }
+            List<GlslStructField> structFields = parseStructDeclarationList(reader);
+            if (structFields != null) {
+                if (reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACE)) {
+                    GlslSpecifiedType structSpecifier = new GlslSpecifiedType(new GlslStructSpecifier(identifier, structFields), typeQualifier);
 
-                if (reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
-                    String label = reader.peek(-1).value();
-
-                    // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER SEMICOLON
+                    // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE SEMICOLON
                     if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                        // SUCCESS
+                        return new GlslStructNode(structSpecifier);
                     }
 
-                    // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER array_specifier SEMICOLON
-                    GlslTypeSpecifier arraySpecifier = parseArraySpecifier(reader, structDeclaration);
-                    if (arraySpecifier != null && reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                        // SUCCESS
+                    if (reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
+                        String label = reader.peek(-1).value();
+
+                        // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER SEMICOLON
+                        if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
+                            return new GlslNewNode(structSpecifier, label, null);
+                        }
+
+                        // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER array_specifier SEMICOLON
+                        GlslSpecifiedType arraySpecifier = parseArraySpecifier(reader, structSpecifier);
+                        if (arraySpecifier != null && reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
+                            return new GlslNewNode(arraySpecifier, label, null);
+                        }
                     }
                 }
+                reader.markError("Expected '}'");
             }
         }
         reader.setCursor(cursor);
 
         // type_qualifier SEMICOLON
         if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-            // FIXME struct declaration
+            return new GlslDeclaration(typeQualifier, Collections.emptyList());
         }
 
         // type_qualifier IDENTIFIER SEMICOLON
         // type_qualifier IDENTIFIER identifier_list SEMICOLON
+        List<String> identifiers = parseIdentifierList(reader);
+        if (identifiers == null) {
+            reader.markError("Expected ';'");
+            reader.setCursor(cursor);
+            return null;
+        }
 
-        return null; // FIXME
+        if (!reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
+            reader.markError("Expected ';'");
+            reader.setCursor(cursor);
+            return null;
+        }
+
+        return new GlslDeclaration(typeQualifier, identifiers);
+    }
+
+    private static @Nullable List<String> parseIdentifierList(GlslTokenReader reader) {
+        List<String> identifiers = new ArrayList<>();
+        int cursor = reader.getCursor();
+        while (reader.canRead()) {
+            if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
+                reader.setCursor(cursor);
+                break;
+            }
+
+            identifiers.add(reader.peek(-1).value());
+            cursor = reader.getCursor();
+            if (!reader.tryConsume(GlslLexer.TokenType.COMMA)) {
+                break;
+            }
+        }
+
+        if (identifiers.isEmpty()) {
+            return null;
+        }
+
+        return identifiers;
     }
 
     private static @Nullable GlslFunctionHeader parseFunctionPrototype(GlslTokenReader reader) {
@@ -876,12 +887,6 @@ public final class GlslParser {
         reader.setCursor(cursor);
         return null;
     }
-
-//    private static @Nullable GlslNode parseFunctionDeclarator(GlslTokenReader reader) {
-//        // function_header
-//        // function_header_with_parameters
-//        return null; // TODO
-//    }
 
     private static List<GlslParameterDeclaration> parseParameterList(GlslTokenReader reader) {
         List<GlslParameterDeclaration> parameters = new ArrayList<>();
@@ -1009,12 +1014,12 @@ public final class GlslParser {
         int cursor = reader.getCursor();
         GlslSpecifiedType fullySpecifiedType = parseFullySpecifiedType(reader);
         if (fullySpecifiedType == null) {
-            return null; // TODO
+            return null;
         }
 
         if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
             reader.setCursor(cursor);
-            return null; // TODO
+            return null;
         }
 
         cursor = reader.getCursor();
@@ -1117,7 +1122,7 @@ public final class GlslParser {
                 qualifier = GlslTypeQualifier.identifierLayoutId(identifier, expression);
             }
 
-            if (qualifier != null && reader.tryConsume(GlslLexer.TokenType.SHARED)) {
+            if (qualifier == null && reader.tryConsume(GlslLexer.TokenType.SHARED)) {
                 qualifier = GlslTypeQualifier.sharedLayoutId();
             }
 
@@ -1133,6 +1138,7 @@ public final class GlslParser {
 
         // RIGHT_PAREN
         if (!reader.tryConsume(GlslLexer.TokenType.RIGHT_PAREN)) {
+            reader.markError("Expected ')'");
             reader.setCursor(layoutCursor);
             return null;
         }
@@ -1194,13 +1200,14 @@ public final class GlslParser {
 
     private static @Nullable GlslTypeQualifier parseStorageQualifier(GlslTokenReader reader) {
         GlslTypeQualifier.StorageType storageQualifier = reader.peek().type().asStorageQualifier();
-        if (storageQualifier == null) {
-            return null;
+        if (storageQualifier != null) {
+            reader.skip();
+            return storageQualifier;
         }
-        reader.skip();
 
         // SUBROUTINE LEFT_PAREN type_name_list RIGHT_PAREN
-        if (storageQualifier == GlslTypeQualifier.StorageType.SUBROUTINE) {
+        int cursor = reader.getCursor();
+        if (reader.tryConsume(GlslLexer.TokenType.SUBROUTINE)) {
             if (reader.tryConsume(GlslLexer.TokenType.LEFT_PAREN)) {
                 List<String> typeNames = new ArrayList<>();
                 while (reader.canRead()) {
@@ -1213,12 +1220,18 @@ public final class GlslParser {
                         break;
                     }
                 }
+                if (!reader.tryConsume(GlslLexer.TokenType.RIGHT_PAREN)) {
+                    reader.markError("Expected ')'");
+                    reader.setCursor(cursor);
+                    return null;
+                }
                 return GlslTypeQualifier.storage(typeNames.toArray(String[]::new));
             }
             return GlslTypeQualifier.storage(new String[0]);
         }
 
-        return GlslTypeQualifier.storage(storageQualifier);
+        reader.setCursor(cursor);
+        return null;
     }
 
     private static @Nullable GlslNode parseTypeNameList(GlslTokenReader reader) {
@@ -1316,31 +1329,119 @@ public final class GlslParser {
     private static @Nullable GlslStructSpecifier parseStructSpecifier(GlslTokenReader reader) {
         // STRUCT IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE
         // STRUCT LEFT_BRACE struct_declaration_list RIGHT_BRACE
-        return null; // TODO
+
+        int cursor = reader.getCursor();
+        if (!reader.tryConsume(GlslLexer.TokenType.STRUCT)) {
+            return null;
+        }
+
+        String name = null;
+        if (reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
+            name = reader.peek(-1).value();
+        }
+
+        if (!reader.tryConsume(GlslLexer.TokenType.LEFT_BRACE)) {
+            reader.setCursor(cursor);
+            return null;
+        }
+
+        List<GlslStructField> fields = parseStructDeclarationList(reader);
+        if (fields == null) {
+            return null;
+        }
+
+        if (!reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACE)) {
+            reader.markError("Expected '}'");
+            reader.setCursor(cursor);
+            return null;
+        }
+
+        return new GlslStructSpecifier(name, fields);
     }
 
-    private static @Nullable GlslNode parseStructDeclarationList(GlslTokenReader reader) {
+    private static @Nullable List<GlslStructField> parseStructDeclarationList(GlslTokenReader reader) {
         // struct_declaration
         // struct_declaration_list struct_declaration
-        return null; // TODO
+
+        List<GlslStructField> declarations = new ArrayList<>();
+        while (reader.canRead()) {
+            List<GlslStructField> fields = parseStructDeclaration(reader);
+            if (fields == null) {
+                break;
+            }
+
+            declarations.addAll(fields);
+        }
+
+        if (declarations.isEmpty()) {
+            return null;
+        }
+
+        return declarations;
     }
 
-    private static @Nullable GlslStructSpecifier parseStructDeclaration(GlslTokenReader reader) {
+    private static @Nullable List<GlslStructField> parseStructDeclaration(GlslTokenReader reader) {
         // type_specifier struct_declarator_list SEMICOLON
         // type_qualifier type_specifier struct_declarator_list SEMICOLON
-        return null; // TODO
+
+        int cursor = reader.getCursor();
+        GlslSpecifiedType fullySpecifiedType = parseFullySpecifiedType(reader);
+        if (fullySpecifiedType == null) {
+            return null;
+        }
+
+        List<GlslStructField> structDeclaration = parseStructDeclaratorList(fullySpecifiedType, reader);
+        if (structDeclaration == null) {
+            return null;
+        }
+
+        if (!reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
+            reader.markError("Expected ';'");
+            reader.setCursor(cursor);
+            return null;
+        }
+
+        return structDeclaration;
     }
 
-    private static @Nullable GlslNode parseStructDeclaratorList(GlslTokenReader reader) {
+    private static @Nullable List<GlslStructField> parseStructDeclaratorList(GlslSpecifiedType type, GlslTokenReader reader) {
         // struct_declarator
         // struct_declarator_list COMMA struct_declarator
-        return null; // TODO
+
+        int cursor = reader.getCursor();
+        List<GlslStructField> fields = new ArrayList<>();
+        while (reader.canRead()) {
+            GlslStructField field = parseStructDeclarator(type, reader);
+            if (field == null) {
+                reader.setCursor(cursor);
+                break;
+            }
+
+            fields.add(field);
+            cursor = reader.getCursor();
+
+            if (!reader.tryConsume(GlslLexer.TokenType.COMMA)) {
+                break;
+            }
+        }
+
+        if (fields.isEmpty()) {
+            return null;
+        }
+
+        return fields;
     }
 
-    private static @Nullable GlslNode parseStructDeclarator(GlslTokenReader reader) {
+    private static @Nullable GlslStructField parseStructDeclarator(GlslSpecifiedType type, GlslTokenReader reader) {
+        if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
+            return null;
+        }
+
         // IDENTIFIER
         // IDENTIFIER array_specifier
-        return null; // TODO
+        String name = reader.peek(-1).value();
+        GlslSpecifiedType arraySpecifier = parseArraySpecifier(reader, type);
+        return new GlslStructField(Objects.requireNonNullElse(arraySpecifier, type), name);
     }
 
     private static @Nullable GlslNode parseInitializer(GlslTokenReader reader) {
@@ -1519,6 +1620,7 @@ public final class GlslParser {
 
         List<GlslNode> statements = parseStatementList(reader);
         if (!reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACE)) {
+            reader.markError("Expected '}'");
             reader.setCursor(cursor);
             return null;
         }
@@ -1558,19 +1660,25 @@ public final class GlslParser {
         // IF LEFT_PAREN condition RIGHT_PAREN statement ELSE statement
         // IF LEFT_PAREN condition RIGHT_PAREN statement
 
+        if (!reader.tryConsume(GlslLexer.TokenType.IF)) {
+            return null;
+        }
+
         int cursor = reader.getCursor();
-        if (!reader.tryConsume(GlslLexer.TokenType.IF, GlslLexer.TokenType.LEFT_PAREN)) {
+        if (!reader.tryConsume(GlslLexer.TokenType.LEFT_PAREN)) {
+            reader.markError("Expected '('");
             reader.setCursor(cursor);
             return null;
         }
 
-        GlslNode expression = parseExpressionStatement(reader);
+        GlslNode expression = parseCondition(reader);
         if (expression == null) {
             reader.setCursor(cursor);
             return null;
         }
 
         if (!reader.tryConsume(GlslLexer.TokenType.RIGHT_PAREN)) {
+            reader.markError("Expected ')'");
             reader.setCursor(cursor);
             return null;
         }
@@ -1596,7 +1704,7 @@ public final class GlslParser {
         }
 
         reader.setCursor(cursor);
-        return new GlslSelectionNode(expression, statement, null);
+        return new GlslSelectionNode(expression, statement, GlslEmptyNode.INSTANCE);
     }
 
     private static @Nullable GlslNode parseCondition(GlslTokenReader reader) {

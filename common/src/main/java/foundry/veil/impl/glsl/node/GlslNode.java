@@ -1,16 +1,15 @@
 package foundry.veil.impl.glsl.node;
 
-import foundry.veil.impl.glsl.visitor.GlslNodeVisitor;
+import foundry.veil.impl.glsl.node.primary.GlslBoolConstantNode;
+import foundry.veil.impl.glsl.node.primary.GlslFloatConstantNode;
+import foundry.veil.impl.glsl.node.primary.GlslIntConstantNode;
+import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
 
 import java.util.*;
 
 public interface GlslNode {
 
     String getSourceString();
-
-    default void visit(GlslNodeVisitor visitor) {
-        visitor.visitNode(this);
-    }
 
     /**
      * @return A new list with the child contents of this node
@@ -19,10 +18,20 @@ public interface GlslNode {
         return new ArrayList<>(Collections.singleton(this));
     }
 
-    static void visitAll(Collection<GlslNode> nodes, GlslNodeVisitor visitor) {
-        for (GlslNode node : nodes) {
-            node.visit(visitor);
-        }
+    static GlslIntConstantNode intConstant(int value) {
+        return new GlslIntConstantNode(GlslIntFormat.DECIMAL, true, value);
+    }
+
+    static GlslIntConstantNode unsignedIntConstant(int value) {
+        return new GlslIntConstantNode(GlslIntFormat.DECIMAL, false, value);
+    }
+
+    static GlslFloatConstantNode floatConstant(float value) {
+        return new GlslFloatConstantNode(value);
+    }
+
+    static GlslBoolConstantNode booleanConstant(boolean value) {
+        return new GlslBoolConstantNode(value);
     }
 
     static GlslNode compound(Collection<GlslNode> nodes) {
