@@ -16,8 +16,10 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static org.lwjgl.opengl.GL11C.glDrawArrays;
+import static org.lwjgl.opengl.GL11C.glGetInteger;
 import static org.lwjgl.opengl.GL15C.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15C.glBindBuffer;
+import static org.lwjgl.opengl.GL20C.GL_CURRENT_PROGRAM;
 import static org.lwjgl.opengl.GL31C.glDrawArraysInstanced;
 import static org.lwjgl.opengl.GL31C.glDrawElementsInstanced;
 import static org.lwjgl.opengl.GL40C.GL_PATCHES;
@@ -75,7 +77,7 @@ public abstract class VertexBufferMixin implements VertexBufferExtension {
         }
 
         ShaderProgram shader = VeilRenderSystem.getShader();
-        if (shader != null && shader.hasTesselation()) {
+        if (shader != null && shader.hasTesselation() && shader.getProgram() == glGetInteger(GL_CURRENT_PROGRAM)) {
             // Quads are internally switched to triangles with indices in vanilla mc, so just use draw arrays
             // This will be wrong if custom indices are used! (transparent objects)
             glDrawArrays(GL_PATCHES, 0, this.indexCount * 4 / 6);
@@ -91,7 +93,7 @@ public abstract class VertexBufferMixin implements VertexBufferExtension {
     @Unique
     private int veil$getDrawMode(int defaultMode) {
         ShaderProgram shader = VeilRenderSystem.getShader();
-        if (shader != null && shader.hasTesselation()) {
+        if (shader != null && shader.hasTesselation() && shader.getProgram() == glGetInteger(GL_CURRENT_PROGRAM)) {
             return GL_PATCHES;
         }
         return defaultMode;
@@ -101,7 +103,7 @@ public abstract class VertexBufferMixin implements VertexBufferExtension {
     private void _veil$drawInstanced(int instances) {
         if (this.mode == VertexFormat.Mode.QUADS) {
             ShaderProgram shader = VeilRenderSystem.getShader();
-            if (shader != null && shader.hasTesselation()) {
+            if (shader != null && shader.hasTesselation() && shader.getProgram() == glGetInteger(GL_CURRENT_PROGRAM)) {
                 // Quads are internally switched to triangles with indices in vanilla mc, so just use draw arrays
                 // This will be wrong if custom indices are used! (transparent objects)
                 glDrawArraysInstanced(GL_PATCHES, 0, this.indexCount * 4 / 6, instances);
