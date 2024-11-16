@@ -362,6 +362,26 @@ public final class VeilRenderSystem {
     }
 
     /**
+     * Consumes all OpenGL errors and prints them to console.
+     *
+     * @param glCall The name of the OpenGL call made for extra logging or <code>null</code> to not include
+     */
+    public static void printGlErrors(@Nullable String glCall) {
+        while (true) {
+            int error = GlStateManager._getError();
+            if (error == GL_NO_ERROR) {
+                break;
+            }
+
+            if (glCall != null) {
+                Veil.LOGGER.error("[OpenGL Error] '{}' 0x{}", glCall, Integer.toHexString(error).toUpperCase(Locale.ROOT));
+            } else {
+                Veil.LOGGER.error("[OpenGL Error] 0x{}", Integer.toHexString(error).toUpperCase(Locale.ROOT));
+            }
+        }
+    }
+
+    /**
      * Retrieves the number of indices in the specified vertex buffer.
      *
      * @param vbo The vertex buffer to query
@@ -439,7 +459,8 @@ public final class VeilRenderSystem {
             case GL_UNIFORM_BUFFER -> maxUniformBuffersBindings();
             case GL_ATOMIC_COUNTER_BUFFER -> maxAtomicCounterBufferBindings();
             case GL_SHADER_STORAGE_BUFFER -> maxShaderStorageBufferBindings();
-            default -> throw new IllegalArgumentException("Invalid Target: 0x" + Integer.toHexString(target).toUpperCase(Locale.ROOT));
+            default ->
+                    throw new IllegalArgumentException("Invalid Target: 0x" + Integer.toHexString(target).toUpperCase(Locale.ROOT));
         };
     }
 
@@ -457,7 +478,8 @@ public final class VeilRenderSystem {
             case GL_GEOMETRY_SHADER -> GL_GEOMETRY_SHADER_LIMITS.get();
             case GL_FRAGMENT_SHADER -> GL_FRAGMENT_SHADER_LIMITS.get();
             case GL_COMPUTE_SHADER -> GL_COMPUTE_SHADER_LIMITS.get();
-            default -> throw new IllegalArgumentException("Invalid Shader Type: 0x" + Integer.toHexString(shader).toUpperCase(Locale.ROOT));
+            default ->
+                    throw new IllegalArgumentException("Invalid Shader Type: 0x" + Integer.toHexString(shader).toUpperCase(Locale.ROOT));
         };
     }
 

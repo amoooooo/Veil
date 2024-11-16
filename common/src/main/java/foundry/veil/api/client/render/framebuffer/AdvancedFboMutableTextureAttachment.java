@@ -1,6 +1,10 @@
 package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
+import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -24,6 +28,10 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
     public void attach(int attachment) {
         int attachmentType = this.getAttachmentType();
         Validate.isTrue(attachmentType < GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
+
+        if (Minecraft.ON_OSX) {
+            VeilRenderSystem.printGlErrors(null);
+        }
         if (this.layer == -1) {
             GlStateManager._glFramebufferTexture2D(
                     GL_FRAMEBUFFER,
@@ -32,6 +40,9 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
                     this.textureId,
                     0
             );
+            if (Minecraft.ON_OSX) {
+                VeilRenderSystem.printGlErrors("glFramebufferTexture2D");
+            }
         } else {
             glFramebufferTextureLayer(
                     GL_FRAMEBUFFER,
@@ -40,6 +51,9 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
                     0,
                     this.layer
             );
+            if (Minecraft.ON_OSX) {
+                VeilRenderSystem.printGlErrors("glFramebufferTextureLayer");
+            }
         }
     }
 
