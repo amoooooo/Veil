@@ -135,19 +135,27 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#computeSupported()" class="member-name-link">computeSupported</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawIndirect(com.mojang.blaze3d.vertex.VertexBuffer,long,int,int)" class="member-name-link">drawIndirect</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#directStateAccessSupported()" class="member-name-link">directStateAccessSupported</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawIndirect(com.mojang.blaze3d.vertex.VertexBuffer,long,int,int)" class="member-name-link">drawIndirect</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
  long&nbsp;indirect,
  int&nbsp;drawCount,
  int&nbsp;stride)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Draws indirect instances of the specified vertex buffer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawInstanced(com.mojang.blaze3d.vertex.VertexBuffer,int)" class="member-name-link">drawInstanced</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawInstanced(com.mojang.blaze3d.vertex.VertexBuffer,int)" class="member-name-link">drawInstanced</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
  int&nbsp;instances)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Draws instances of the specified vertex buffer.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawScreenQuad()" class="member-name-link">drawScreenQuad</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Draws a quad onto the full screen using <code>DefaultVertexFormat.POSITION</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endFrame()" class="member-name-link">endFrame</a>()</code></div>
@@ -342,6 +350,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="drawScreenQuad()">
+<h3>drawScreenQuad</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawScreenQuad</span>()</div>
+<div class="block">Draws a quad onto the full screen using <code>DefaultVertexFormat.POSITION</code>.</div>
+</section>
+</li>
+<li>
 <section class="detail" id="setShader(net.minecraft.resources.ResourceLocation)">
 <h3>setShader</h3>
 <div class="member-signature"><span class="annotations">@Nullable
@@ -514,6 +529,16 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Whether <code>ARBSparseBuffer</code> is supported</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="directStateAccessSupported()">
+<h3>directStateAccessSupported</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">directStateAccessSupported</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether <code>ARBDirectStateAccess</code> is supported</dd>
 </dl>
 </section>
 </li>
