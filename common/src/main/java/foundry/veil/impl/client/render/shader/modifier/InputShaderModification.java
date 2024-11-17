@@ -6,8 +6,6 @@ import foundry.veil.impl.glsl.GlslSyntaxException;
 import foundry.veil.impl.glsl.node.GlslTree;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.io.IOException;
-
 @ApiStatus.Internal
 public class InputShaderModification implements ShaderModification {
 

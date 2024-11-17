@@ -7,8 +7,10 @@ import foundry.veil.impl.glsl.node.expression.GlslAssignmentNode;
 import foundry.veil.impl.glsl.visitor.GlslFunctionVisitor;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Defines a function in a GLSL file with an optional body.

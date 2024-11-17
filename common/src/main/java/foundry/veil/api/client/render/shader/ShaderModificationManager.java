@@ -7,7 +7,6 @@ import foundry.veil.impl.client.render.shader.modifier.ShaderModification;
 import foundry.veil.impl.client.render.shader.modifier.SimpleShaderModification;
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
 import foundry.veil.impl.glsl.GlslParser;
-import foundry.veil.impl.glsl.GlslSyntaxException;
 import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.impl.glsl.visitor.GlslStringWriter;
 import net.minecraft.resources.FileToIdConverter;

@@ -1,9 +1,7 @@
 package foundry.veil.api.client.render.shader;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Default shader names.

@@ -2,8 +2,6 @@ package foundry.veil.impl.glsl.node.expression;
 
 import foundry.veil.impl.glsl.node.GlslNode;
 
-import java.util.Objects;
-
 /**
  * Equality; A == B, A != B
  * <br>

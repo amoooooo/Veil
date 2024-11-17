@@ -1,7 +1,6 @@
 package foundry.veil.impl.glsl.node.branch;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;

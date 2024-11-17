@@ -1,6 +1,5 @@
 package foundry.veil.impl.glsl.node;
 
-import foundry.veil.impl.glsl.grammar.GlslStructSpecifier;
 import foundry.veil.impl.glsl.grammar.GlslVersion;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
