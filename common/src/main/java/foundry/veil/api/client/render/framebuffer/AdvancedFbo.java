@@ -351,9 +351,8 @@ public interface AdvancedFbo extends NativeResource {
         AdvancedFboAttachment advancedFboAttachment = this.getColorAttachment(attachment);
         Validate.isTrue(this.isMutableColorTextureAttachment(attachment), "Color attachment " + attachment + " must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
-        if (mutableTextureAttachment.setTexture(textureId, layer)) {
-            mutableTextureAttachment.attach(attachment);
-        }
+        mutableTextureAttachment.setTexture(textureId, layer);
+        mutableTextureAttachment.attach(attachment);
     }
 
     /**
@@ -443,9 +442,8 @@ public interface AdvancedFbo extends NativeResource {
         AdvancedFboAttachment advancedFboAttachment = this.getDepthAttachment();
         Validate.isTrue(this.isDepthMutableTextureAttachment(), "Depth attachment must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
-        if (mutableTextureAttachment.setTexture(textureId, layer)) {
-            mutableTextureAttachment.attach(0);
-        }
+        mutableTextureAttachment.setTexture(textureId, layer);
+        mutableTextureAttachment.attach(0);
     }
 
     /**

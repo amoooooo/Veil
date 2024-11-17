@@ -106,6 +106,7 @@ public class DeviceInfoViewer extends SingleWindowEditor {
         flagText("editor.veil.device_info.opengl.feature_flag.transform_feedback", VeilRenderSystem.transformFeedbackSupported(), "Whether transform feedback can be used");
         flagText("editor.veil.device_info.opengl.feature_flag.texture_multi_bind", VeilRenderSystem.textureMultibindSupported(), "Whether glBindTextures can be used instead of glBindTexture");
         flagText("editor.veil.device_info.opengl.feature_flag.sparse_buffers", VeilRenderSystem.sparseBuffersSupported(), "Whether sparse buffers can be used");
+        flagText("editor.veil.device_info.opengl.feature_flag.direct_state_access", VeilRenderSystem.directStateAccessSupported(), "Whether direct state accesss can be used");
         ImGui.separator();
 
         GLCapabilities caps = GL.getCapabilities();

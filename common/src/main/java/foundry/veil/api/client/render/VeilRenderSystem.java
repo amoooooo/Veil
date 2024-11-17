@@ -3,8 +3,7 @@ package foundry.veil.api.client.render;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
@@ -60,6 +59,7 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier TRANSFORM_FEEDBACK_SUPPORTED = glCapability(caps -> caps.OpenGL40 || caps.GL_ARB_transform_feedback3);
     private static final BooleanSupplier TEXTURE_MULTIBIND_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.glBindTextures != 0L);
     private static final BooleanSupplier SPARSE_BUFFERS_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_sparse_buffer);
+    private static final BooleanSupplier DIRECT_STATE_ACCESS_SUPPORTED = glCapability(caps -> caps.OpenGL45 || caps.GL_ARB_direct_state_access);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
     private static final IntSupplier MAX_COLOR_ATTACHMENTS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COLOR_ATTACHMENTS));
     private static final IntSupplier MAX_SAMPLES = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SAMPLES));
@@ -185,6 +185,8 @@ public final class VeilRenderSystem {
 
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
+    private static VertexBuffer vbo;
+
 
     private VeilRenderSystem() {
     }
@@ -245,6 +247,20 @@ public final class VeilRenderSystem {
 
         renderer = new VeilRenderer(resourceManager);
         VeilImGuiImpl.init(client.getWindow().getWindow());
+
+        Tesselator tesselator = RenderSystem.renderThreadTesselator();
+        BufferBuilder bufferBuilder = tesselator.getBuilder();
+
+        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
+        bufferBuilder.vertex(-1, 1, 0).endVertex();
+        bufferBuilder.vertex(-1, -1, 0).endVertex();
+        bufferBuilder.vertex(1, 1, 0).endVertex();
+        bufferBuilder.vertex(1, -1, 0).endVertex();
+
+        vbo = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        vbo.bind();
+        vbo.upload(bufferBuilder.end());
+        VertexBuffer.unbind();
     }
 
     private static void invalidateTextures(int first, int count) {
@@ -274,6 +290,15 @@ public final class VeilRenderSystem {
     public static void bindTextures(int first, int... textures) {
         invalidateTextures(first, textures.length);
         glBindTextures(first, textures);
+    }
+
+    /**
+     * Draws a quad onto the full screen using {@link DefaultVertexFormat#POSITION}.
+     */
+    public static void drawScreenQuad() {
+        vbo.bind();
+        vbo.draw();
+        VertexBuffer.unbind();
     }
 
     /**
@@ -404,6 +429,13 @@ public final class VeilRenderSystem {
      */
     public static boolean sparseBuffersSupported() {
         return VeilRenderSystem.SPARSE_BUFFERS_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBDirectStateAccess} is supported
+     */
+    public static boolean directStateAccessSupported() {
+        return VeilRenderSystem.DIRECT_STATE_ACCESS_SUPPORTED.getAsBoolean();
     }
 
     /**
@@ -669,6 +701,7 @@ public final class VeilRenderSystem {
         if (renderer != null) {
             renderer.free();
         }
+        vbo.close();
     }
 
     @ApiStatus.Internal

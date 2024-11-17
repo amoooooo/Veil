@@ -61,13 +61,8 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
         return this.textureId;
     }
 
-    public boolean setTexture(int textureId, int layer) {
-        if (this.textureId == textureId && this.layer == layer) {
-            return false;
-        }
-
+    public void setTexture(int textureId, int layer) {
         this.textureId = textureId;
         this.layer = layer;
-        return true;
     }
 }

@@ -51,6 +51,7 @@
   "editor.veil.device_info.opengl.feature_flag.transform_feedback": "Transform Feedback? %s",
   "editor.veil.device_info.opengl.feature_flag.texture_multi_bind": "Texture Multi-bind? %s",
   "editor.veil.device_info.opengl.feature_flag.sparse_buffers": "Sparse Buffers? %s",
+  "editor.veil.device_info.opengl.feature_flag.direct_state_access": "Direct Space Access? %s",
 
   "editor.veil.device_info.opengl.shader.max_uniform_components": "Max Uniform Components: %s",
   "editor.veil.device_info.opengl.shader.max_uniform_blocks": "Max Uniform Blocks: %s",

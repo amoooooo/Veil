@@ -293,7 +293,6 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
     public void free() {
         this.pipelines.values().forEach(PostPipeline::free);
         this.pipelines.clear();
-        this.context.free();
     }
 
     /**
