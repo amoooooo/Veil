@@ -40,6 +40,7 @@
   "editor.veil.device_info.opengl.transform_feedback": "Transform Feedback:",
   "editor.veil.device_info.opengl.atomic_counter": "Atomic Counter:",
   "editor.veil.device_info.opengl.shader_storage": "Shader Storage:",
+  "editor.veil.device_info.opengl.texture": "Texture:",
   "editor.veil.device_info.opengl.framebuffer": "Framebuffer:",
 
   "editor.veil.device_info.opengl.vendor": "Vendor: %s",
@@ -79,6 +80,9 @@
   "editor.veil.device_info.opengl.shader_storage.max_bindings": "Max Shader Storage Buffer Bindings: %s",
   "editor.veil.device_info.opengl.shader_storage.max_combined_blocks": "Max Combined Shader Storage Blocks: %s",
   "editor.veil.device_info.opengl.shader_storage.max_output_resources": "Max Combined Shader Output Resources: %s",
+
+  "editor.veil.device_info.opengl.texture.max_texture_size": "Max Texture Size: %1$sx%1$s",
+  "editor.veil.device_info.opengl.texture.max_array_texture_layers": "Max Array Texture Layers: %s",
 
   "editor.veil.device_info.opengl.framebuffer.max_color_attachments": "Max Framebuffer Color Attachments: %s",
   "editor.veil.device_info.opengl.framebuffer.max_samples": "Max Framebuffer Samples: %s",

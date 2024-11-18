@@ -67,15 +67,16 @@ public final class VeilRenderSystem {
     private static final IntSupplier MAX_UNIFORM_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_UNIFORM_BUFFER_BINDINGS));
     private static final IntSupplier MAX_ATOMIC_COUNTER_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS));
     private static final IntSupplier MAX_SHADER_STORAGE_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS));
+    private static final IntSupplier MAX_ARRAY_TEXTURE_LAYERS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ARRAY_TEXTURE_LAYERS));
 
     private static final Supplier<VeilShaderLimits> VERTEX_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_VERTEX_UNIFORM_COMPONENTS,
-                GL_MAX_VERTEX_UNIFORM_BLOCKS,
-                GL_MAX_VERTEX_ATTRIBS * 4,
-                GL_MAX_VERTEX_OUTPUT_COMPONENTS,
-                GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_VERTEX_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_VERTEX_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_VERTEX_ATTRIBS) * 4,
+                glGetInteger(GL_MAX_VERTEX_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS),
                 GL_MAX_VERTEX_IMAGE_UNIFORMS,
                 GL_MAX_VERTEX_ATOMIC_COUNTERS,
                 GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS,
@@ -84,11 +85,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_TESS_CONTROL_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS,
-                GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS,
-                GL_MAX_TESS_CONTROL_INPUT_COMPONENTS,
-                GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS,
-                GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_TESS_CONTROL_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS),
                 GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS,
                 GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS,
                 GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS,
@@ -97,11 +98,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_TESS_EVALUATION_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS,
-                GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS,
-                GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS,
-                GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS,
-                GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS),
                 GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS,
                 GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS,
                 GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS,
@@ -110,11 +111,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_GEOMETRY_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_GEOMETRY_UNIFORM_COMPONENTS,
-                GL_MAX_GEOMETRY_UNIFORM_BLOCKS,
-                GL_MAX_GEOMETRY_INPUT_COMPONENTS,
-                GL_MAX_GEOMETRY_OUTPUT_COMPONENTS,
-                GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_GEOMETRY_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_GEOMETRY_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_GEOMETRY_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_GEOMETRY_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS),
                 GL_MAX_GEOMETRY_IMAGE_UNIFORMS,
                 GL_MAX_GEOMETRY_ATOMIC_COUNTERS,
                 GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS,
@@ -123,11 +124,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_FRAGMENT_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_FRAGMENT_UNIFORM_COMPONENTS,
-                GL_MAX_FRAGMENT_UNIFORM_BLOCKS,
-                GL_MAX_FRAGMENT_INPUT_COMPONENTS,
-                GL_MAX_DRAW_BUFFERS * 4,
-                GL_MAX_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_FRAGMENT_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_FRAGMENT_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_DRAW_BUFFERS) * 4,
+                glGetInteger(GL_MAX_TEXTURE_IMAGE_UNITS),
                 GL_MAX_FRAGMENT_IMAGE_UNIFORMS,
                 GL_MAX_FRAGMENT_ATOMIC_COUNTERS,
                 GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS,
@@ -136,11 +137,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_COMPUTE_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_COMPUTE_UNIFORM_COMPONENTS,
-                GL_MAX_COMPUTE_UNIFORM_BLOCKS,
+                glGetInteger(GL_MAX_COMPUTE_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_COMPUTE_UNIFORM_BLOCKS),
                 0,
                 0,
-                GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS),
                 GL_MAX_COMPUTE_IMAGE_UNIFORMS,
                 GL_MAX_COMPUTE_ATOMIC_COUNTERS,
                 GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS,
@@ -541,6 +542,13 @@ public final class VeilRenderSystem {
      */
     public static int maxShaderStorageBufferBindings() {
         return VeilRenderSystem.MAX_SHADER_STORAGE_BUFFER_BINDINGS.getAsInt();
+    }
+
+    /**
+     * @return The GL maximum number of array texture layers available
+     */
+    public static int maxArrayTextureLayers() {
+        return VeilRenderSystem.MAX_ARRAY_TEXTURE_LAYERS.getAsInt();
     }
 
     /**
