@@ -3,6 +3,7 @@
 [![Veil 1.20](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.blamejared.com%2Ffoundry%2Fveil%2FVeil-common-1.20.1%2Fmaven-metadata.xml&label=Veil%201.20)](https://maven.blamejared.com/foundry/veil/Veil-common-1.20.1/)
 [![Veil 1.20.4](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.blamejared.com%2Ffoundry%2Fveil%2FVeil-common-1.20.4%2Fmaven-metadata.xml&label=Veil%201.20.4)](https://maven.blamejared.com/foundry/veil/Veil-common-1.20.4/)
 [![Javadoc](https://img.shields.io/badge/javadoc-latest-blue)](https://foundrymc.github.io/Veil/)
+[![Discord](https://img.shields.io/discord/1022254439836430386.svg?label=Discord&logo=discord&color=blue)](https://discord.com/invite/2aqTX9QWKU)
 
 Veil is a sophisticated collection of tools and utilities designed to facilitate advanced rendering for Minecraft mod developers. Our goal is to enable more modern game-engine level content in Java Minecraft, pushing the boundaries of what is possible in modding.
 
