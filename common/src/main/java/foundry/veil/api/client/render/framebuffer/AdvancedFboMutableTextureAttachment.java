@@ -1,10 +1,6 @@
 package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import foundry.veil.Veil;
-import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
-import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 
