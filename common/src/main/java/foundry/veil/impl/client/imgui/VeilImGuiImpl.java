@@ -14,6 +14,7 @@ import imgui.glfw.ImGuiImplGlfw;
 import imgui.internal.ImGuiContext;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.system.NativeResource;
 
 import java.util.function.ObjIntConsumer;
 
@@ -24,7 +25,7 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
  * Manages the internal ImGui state.
  */
 @ApiStatus.Internal
-public class VeilImGuiImpl implements VeilImGui {
+public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
     private static VeilImGui instance;
 

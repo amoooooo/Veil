@@ -21,6 +21,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.system.NativeResource;
 
 import java.lang.Math;
 import java.nio.IntBuffer;
@@ -723,7 +724,9 @@ public final class VeilRenderSystem {
 
     @ApiStatus.Internal
     public static void close() {
-        VeilImGuiImpl.get().free();
+        if (VeilImGuiImpl.get() instanceof NativeResource resource) {
+            resource.free();
+        }
         VeilOpenCL.tryFree();
         if (renderer != null) {
             renderer.free();

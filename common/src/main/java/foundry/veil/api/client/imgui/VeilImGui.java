@@ -12,7 +12,7 @@ import java.util.function.ObjIntConsumer;
  * @author Ocelot
  */
 @ApiStatus.Internal
-public interface VeilImGui extends NativeResource {
+public interface VeilImGui {
 
     void begin();
 

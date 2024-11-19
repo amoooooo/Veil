@@ -7,8 +7,7 @@
   "mixins": [
     "debug.SimpleReloadInstanceMixin",
     "resource.PathPackResourcesMixin",
-    "resource.VanillaPackResourcesMixin",
-    "tooltip.BlockEntityMixin"
+    "resource.VanillaPackResourcesMixin"
   ],
   "client": [
     "accessor.BufferSourceAccessor",

@@ -65,8 +65,4 @@ public class InactiveVeilImGuiImpl implements VeilImGui {
     public boolean shouldHideMouse() {
         return false;
     }
-
-    @Override
-    public void free() {
-    }
 }

@@ -19,9 +19,6 @@ public abstract class PoseStackMixin implements MatrixStack {
     private static final Matrix3f veil$IDENTITY_NORMAL = new Matrix3f();
 
     @Shadow
-    public abstract void shadow$translate(float x, float y, float z);
-
-    @Shadow
     public abstract void shadow$scale(float x, float y, float z);
 
     @Shadow

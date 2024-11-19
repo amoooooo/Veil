@@ -17,7 +17,7 @@ public class ShaderStateMixin extends RenderStateShard {
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     @Shadow
     @Final
-    public Optional<Supplier<ShaderInstance>> shader;
+    private Optional<Supplier<ShaderInstance>> shader;
 
     @Unique
     private final DeferredShaderStateCache veil$cache = new DeferredShaderStateCache();
