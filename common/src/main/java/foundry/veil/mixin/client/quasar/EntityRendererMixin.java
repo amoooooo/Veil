@@ -1,6 +1,7 @@
 package foundry.veil.mixin.client.quasar;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.quasar.particle.ParticleEmitter;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
@@ -19,11 +20,16 @@ public abstract class EntityRendererMixin<T extends Entity> {
 
     @Inject(method = "render", at = @At("HEAD"))
     public void render(T entity, float pEntityYaw, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, CallbackInfo ci) {
+        // FIXME move to example mod
+        if (!Veil.DEBUG) {
+            return;
+        }
+
         EntityExtension extension = (EntityExtension) entity;
         if (entity.isOnFire()) {
             if (extension.veil$getEmitters().isEmpty()) {
                 ParticleSystemManager particleManager = VeilRenderSystem.renderer().getParticleManager();
-                ParticleEmitter instance = particleManager.createEmitter(new ResourceLocation("veil:basic_smoke"));
+                ParticleEmitter instance = particleManager.createEmitter(Veil.veilPath("basic_smoke"));
                 if (instance == null) {
                     return;
                 }

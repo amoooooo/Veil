@@ -1,6 +1,6 @@
 package foundry.veil.api.quasar.data.module.init;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public record InitSubEmitterModuleData(ResourceLocation subEmitter) implements ParticleModuleData {
 
-    public static final Codec<InitSubEmitterModuleData> CODEC = ResourceLocation.CODEC.fieldOf("subemitter").xmap(InitSubEmitterModuleData::new, InitSubEmitterModuleData::subEmitter).codec();
+    public static final MapCodec<InitSubEmitterModuleData> CODEC = ResourceLocation.CODEC.fieldOf("subemitter").xmap(InitSubEmitterModuleData::new, InitSubEmitterModuleData::subEmitter);
 
     @Override
     public void addModules(ParticleModuleSet.Builder builder) {

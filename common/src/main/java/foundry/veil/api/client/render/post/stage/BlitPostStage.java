@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.post.stage;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.Veil;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
@@ -21,7 +22,7 @@ import java.util.Optional;
  */
 public class BlitPostStage extends FramebufferPostStage {
 
-    public static final Codec<BlitPostStage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<BlitPostStage> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("shader").forGetter(BlitPostStage::getShaderId),
             FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("in").forGetter(stage -> Optional.ofNullable(stage.getIn())),
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("out").forGetter(BlitPostStage::getOut),

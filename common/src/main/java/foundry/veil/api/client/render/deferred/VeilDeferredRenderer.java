@@ -2,6 +2,7 @@ package foundry.veil.api.client.render.deferred;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
+import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.deferred.light.renderer.LightRenderer;
@@ -91,7 +92,7 @@ public class VeilDeferredRenderer implements PreparableReloadListener, NativeRes
             boolean selected = Minecraft.getInstance().getResourcePackRepository().getSelectedIds().contains(PACK_ID.toString()) || resourceManager.listPacks().anyMatch(pack -> pack.packId().equals(PACK_ID.toString()));
             boolean active = selected && isSupported();
             if (selected && Minecraft.useShaderTransparency()) {
-                SystemToast.add(Minecraft.getInstance().getToasts(), SystemToast.SystemToastIds.PERIODIC_NOTIFICATION, UNSUPPORTED_TITLE, UNSUPPORTED_FABULOUS_DESC);
+                SystemToast.add(Minecraft.getInstance().getToasts(), VeilClient.UNSUPPORTED_NOTIFICATION, UNSUPPORTED_TITLE, UNSUPPORTED_FABULOUS_DESC);
             }
             if (this.enabled != active) {
                 this.enabled = active;

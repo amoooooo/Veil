@@ -1,6 +1,7 @@
 package foundry.veil.api.client.registry;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.rendertype.layer.*;
 import foundry.veil.platform.registry.RegistrationProvider;
@@ -28,14 +29,14 @@ public class RenderTypeLayerRegistry {
     public static void bootstrap() {
     }
 
-    private static <T extends RenderTypeLayer> RegistryObject<LayerType<T>> register(String name, Codec<T> codec) {
+    private static <T extends RenderTypeLayer> RegistryObject<LayerType<T>> register(String name, MapCodec<T> codec) {
         return VANILLA_PROVIDER.register(name, () -> new LayerType<>(codec));
     }
 
-    private static <T extends RenderTypeLayer> RegistryObject<LayerType<T>> register(ResourceLocation id, Codec<T> codec) {
+    private static <T extends RenderTypeLayer> RegistryObject<LayerType<T>> register(ResourceLocation id, MapCodec<T> codec) {
         return VANILLA_PROVIDER.register(id, () -> new LayerType<>(codec));
     }
 
-    public record LayerType<T extends RenderTypeLayer>(Codec<T> codec) {
+    public record LayerType<T extends RenderTypeLayer>(MapCodec<T> codec) {
     }
 }

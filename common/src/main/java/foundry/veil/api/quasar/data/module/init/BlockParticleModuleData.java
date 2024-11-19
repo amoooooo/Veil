@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.init;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public record BlockParticleModuleData(boolean dynamic) implements ParticleModuleData {
 
-    public static final Codec<BlockParticleModuleData> CODEC = Codec.BOOL.optionalFieldOf("dynamic", true).xmap(BlockParticleModuleData::new, BlockParticleModuleData::dynamic).codec();
+    public static final MapCodec<BlockParticleModuleData> CODEC = Codec.BOOL.optionalFieldOf("dynamic", true).xmap(BlockParticleModuleData::new, BlockParticleModuleData::dynamic);
 
     @Override
     public void addModules(ParticleModuleSet.Builder builder) {

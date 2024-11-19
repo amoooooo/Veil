@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.init;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -15,7 +16,7 @@ public record InitialVelocityModuleData(Vector3dc velocityDirection,
                                         boolean takesParentRotation,
                                         float strength) implements ParticleModuleData {
 
-    public static final Codec<InitialVelocityModuleData> CODEC = RecordCodecBuilder.create(instance ->
+    public static final MapCodec<InitialVelocityModuleData> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     CodecUtil.VECTOR3D_CODEC.fieldOf("direction").forGetter(InitialVelocityModuleData::velocityDirection),
                     Codec.BOOL.fieldOf("take_parent_rotation").orElse(true).forGetter(InitialVelocityModuleData::takesParentRotation),

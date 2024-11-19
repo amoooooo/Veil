@@ -1,5 +1,6 @@
 package foundry.veil.fabric;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.CachedBufferSource;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
@@ -33,7 +34,7 @@ public class FabricQuasarParticleHandler {
                 if (cachedBufferSource == null) {
                     cachedBufferSource = new CachedBufferSource();
                 }
-                VeilRenderSystem.renderer().getParticleManager().render(poseStack, cachedBufferSource, camera, VeilRenderer.getCullingFrustum(), partialTicks);
+                VeilRenderSystem.renderer().getParticleManager().render(new PoseStack(), cachedBufferSource, camera, VeilRenderer.getCullingFrustum(), partialTicks);
                 cachedBufferSource.endBatch();
             }
         });

@@ -8,6 +8,7 @@ import foundry.veil.api.client.tooltip.Tooltippable;
 import foundry.veil.api.client.tooltip.VeilUIItemTooltipDataHolder;
 import foundry.veil.api.client.util.SpaceHelper;
 import foundry.veil.api.client.util.UIUtils;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -38,7 +39,7 @@ public class VeilUITooltipRenderer {
     public static Vec3 currentPos = null;
     public static Vec3 desiredPos = null;
 
-    public static void renderOverlay(Gui gui, GuiGraphics graphics, float partialTicks, int width, int height) {
+    public static void renderOverlay(Gui gui, GuiGraphics graphics, DeltaTracker deltaTracker, int width, int height) {
         PoseStack stack = graphics.pose();
         stack.pushPose();
         Minecraft mc = Minecraft.getInstance();
@@ -97,6 +98,7 @@ public class VeilUITooltipRenderer {
         tooltipX = Math.min(tooltipX, width - tooltipTextWidth - 20);
         tooltipY = Math.min(tooltipY, height - tooltipHeight - 20);
 
+        float partialTicks = deltaTracker.getRealtimeDeltaTicks();
         float fade = Mth.clamp((hoverTicks + partialTicks) / 24f, 0, 1);
         Color background = tooltippable.getTheme().getColor("background");
         Color borderTop = tooltippable.getTheme().getColor("topBorder");
@@ -152,14 +154,13 @@ public class VeilUITooltipRenderer {
             RenderSystem.defaultBlendFunc();
             RenderSystem.lineWidth(2);
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
-            BufferBuilder buffer = Tesselator.getInstance().getBuilder();
+            BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
             // draw a quad of thickness thickness from desiredX, desiredY to tooltipX, tooltipY with a z value of 399, starting from the top right corner and going anti-clockwise
-            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-            buffer.vertex(mat, desiredX + thickness, desiredY, 399).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-            buffer.vertex(mat, desiredX - thickness, desiredY, 399).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-            buffer.vertex(mat, tooltipX - thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-            buffer.vertex(mat, tooltipX + thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()).endVertex();
-            Tesselator.getInstance().end();
+            buffer.addVertex(mat, desiredX + thickness, desiredY, 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+            buffer.addVertex(mat, desiredX - thickness, desiredY, 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+            buffer.addVertex(mat, tooltipX - thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+            buffer.addVertex(mat, tooltipX + thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+            BufferUploader.drawWithShader(buffer.buildOrThrow());
             RenderSystem.disableBlend();
             stack.popPose();
         }

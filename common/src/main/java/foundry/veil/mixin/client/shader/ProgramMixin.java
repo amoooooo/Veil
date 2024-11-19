@@ -23,9 +23,9 @@ public class ProgramMixin {
 
     @Inject(method = "compileShaderInternal", at = @At("HEAD"))
     private static void veil$captureId(Program.Type type, String name, InputStream stream, String pack, GlslPreprocessor glslPreprocessor, CallbackInfoReturnable<Integer> cir) {
-        ResourceLocation loc = new ResourceLocation(name);
+        ResourceLocation loc = ResourceLocation.parse(name);
         String s = "shaders/core/" + loc.getPath() + type.getExtension();
-        veil$captureId = new ResourceLocation(loc.getNamespace(), s);
+        veil$captureId = ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), s);
     }
 
     @Inject(method = "compileShaderInternal", at = @At("RETURN"))

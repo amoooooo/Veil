@@ -22,7 +22,7 @@ import java.util.Map;
 public class CompositePostPipeline implements PostPipeline {
 
     private static final Codec<Map<ResourceLocation, FramebufferDefinition>> FRAMEBUFFER_CODEC = Codec.unboundedMap(
-            Codec.STRING.xmap(name -> new ResourceLocation("temp", name), ResourceLocation::getPath),
+            ResourceLocation.CODEC.xmap(name -> ResourceLocation.fromNamespaceAndPath("temp", name.getPath()), loc -> loc),
             FramebufferDefinition.CODEC);
     public static final Codec<CompositePostPipeline> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             PostPipeline.CODEC.listOf().fieldOf("stages").forGetter(pipeline -> Arrays.asList(pipeline.getStages())),

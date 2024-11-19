@@ -1,17 +1,40 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven {
-            name = 'Forge'
-            url = 'https://maven.minecraftforge.net/'
+        mavenCentral()
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = 'Fabric'
+                    url = uri('https://maven.fabricmc.net')
+                }
+            }
+            filter {
+                includeGroup('net.fabricmc')
+                includeGroup('fabric-loom')
+            }
         }
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = 'Sponge'
+                    url = uri('https://repo.spongepowered.org/repository/maven-public')
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("org.spongepowered")
+            }
         }
-        maven {
-            name = 'Sponge Snapshots'
-            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = 'Forge'
+                    url = uri('https://maven.minecraftforge.net')
+                }
+            }
+            filter {
+                includeGroupAndSubgroups('net.minecraftforge')
+            }
         }
     }
 }
@@ -22,6 +45,6 @@ plugins {
 
 rootProject.name = 'Veil'
 include("common")
-include("common:mojmap")
 include("fabric")
-include("forge")
+//FIXME re-enable
+//include("neoforge")

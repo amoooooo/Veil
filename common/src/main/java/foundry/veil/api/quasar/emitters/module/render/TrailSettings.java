@@ -138,8 +138,10 @@ public class TrailSettings {
 
     public void renderImGuiSettings() {
         ImString trailTextureString = new ImString(this.trailTexture.toString());
-        ImGui.inputText("Trail Texture" + this.hashCode(), trailTextureString);
-        this.trailTexture = new ResourceLocation(trailTextureString.get());
+        if (ImGui.inputText("Trail Texture" + this.hashCode(), trailTextureString)) {
+            this.trailTexture = ResourceLocation.parse(trailTextureString.get());
+        }
+
         ImInt trailFrequencyInt = new ImInt(this.trailFrequency);
         ImGui.inputInt("Trail Frequency" + this.hashCode(), trailFrequencyInt);
         this.trailFrequency = trailFrequencyInt.get();

@@ -37,11 +37,11 @@ public abstract class ModNioResourcePackMixin implements ModResourcePack, PackRe
 
     @Shadow
     @Final
-    private ModMetadata modInfo;
+    private Map<PackType, Set<String>> namespaces;
 
     @Shadow
     @Final
-    private Map<PackType, Set<String>> namespaces;
+    private ModContainer mod;
 
     @Override
     public void veil$listResources(PackResourceConsumer consumer) {
@@ -72,7 +72,7 @@ public abstract class ModNioResourcePackMixin implements ModResourcePack, PackRe
                             }
                         });
                     } catch (IOException e) {
-                        Veil.LOGGER.warn("findResources in namespace {}, mod {} failed!", namespace, this.modInfo.getId(), e);
+                        Veil.LOGGER.warn("findResources in namespace {}, mod {} failed!", namespace, this.mod.getMetadata().getId(), e);
                     }
                 }
             }
@@ -81,14 +81,16 @@ public abstract class ModNioResourcePackMixin implements ModResourcePack, PackRe
 
     @Override
     public @Nullable IoSupplier<InputStream> veil$getIcon() {
-        ModContainer modContainer = FabricLoader.getInstance().getModContainer(this.modInfo.getId()).orElseThrow();
-        return this.modInfo.getIconPath(20).flatMap(modContainer::findPath).<IoSupplier<InputStream>>map(path -> () -> Files.newInputStream(path)).orElse(null);
+        ModMetadata metadata = this.mod.getMetadata();
+        ModContainer modContainer = FabricLoader.getInstance().getModContainer(metadata.getId()).orElseThrow();
+        return metadata.getIconPath(20).flatMap(modContainer::findPath).<IoSupplier<InputStream>>map(path -> () -> Files.newInputStream(path)).orElse(null);
     }
 
     @Override
     public Stream<PackResources> veil$listPacks() {
-        String id = this.modInfo.getId();
-        if (!"fabric-api".equalsIgnoreCase(id) && id.startsWith("fabric") && this.modInfo.containsCustomValue("fabric-api:module-lifecycle")) {
+        ModMetadata metadata = this.mod.getMetadata();
+        String id = metadata.getId();
+        if (!"fabric-api".equalsIgnoreCase(id) && id.startsWith("fabric") && metadata.containsCustomValue("fabric-api:module-lifecycle")) {
             // Skip fabric apis
             return Stream.empty();
         }

@@ -123,7 +123,7 @@ public class OpenCLEditor extends SingleWindowEditor {
             return;
         }
 
-        ResourceLocation name = new ResourceLocation("test");
+        ResourceLocation name = Veil.veilPath("test");
         this.environment.loadProgram(name, source);
 
         try {

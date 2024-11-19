@@ -1,38 +1,28 @@
 plugins {
-    id 'fabric-loom'
-}
-base {
-    archivesName = "${mod_name}-common-${minecraft_version}"
-}
-loom {
-    if (file("src/main/resources/${mod_id}.accesswidener").exists()) {
-        accessWidenerPath.set(file("src/main/resources/${mod_id}.accesswidener"))
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
-    }
-
-    runConfigs.configureEach {
-        ideConfigGenerated = false
-    }
-}
-if (System.getenv('BUILD_NUMBER') != null) {
-    version += "." + System.getenv('BUILD_NUMBER')
+    id 'multiloader-common'
+    id 'net.neoforged.moddev'
 }
 
-test {
-    useJUnitPlatform()
+neoForge {
+    neoFormVersion = neo_form_version
+    // Automatically enable AccessTransformers if the file exists
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.add(at.absolutePath)
+    }
+    parchment {
+        minecraftVersion = parchment_minecraft
+        mappingsVersion = parchment_version
+    }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    // Need this for mixin deps
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-
     compileOnly 'org.spongepowered:mixin:0.8.5'
-    compileOnly 'org.jetbrains:annotations:24.0.1'
+    // fabric and neoforge both bundle mixinextras, so it is safe to use it in common
+    compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
+    annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 
+    compileOnly 'org.jetbrains:annotations:24.0.1'
     implementation "gg.moonflower:molang-compiler:${molang_compiler_version}"
 
     implementation "io.github.spair:imgui-java-binding:$imgui_version"
@@ -41,7 +31,6 @@ dependencies {
         exclude group: 'org.lwjgl.lwjgl'
     }
 
-    // VanillaGradle makes this impossible... https://github.com/SpongePowered/VanillaGradle/commit/ccc45765d9881747b2c922be7a13c453c32ce9ed
     implementation "org.lwjgl:lwjgl-opencl:$lwjgl_version"
     implementation "org.lwjgl:lwjgl-shaderc:$lwjgl_version"
 
@@ -49,16 +38,22 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId base.archivesName.get()
-            from components.java
-        }
+test {
+    useJUnitPlatform()
+}
+
+configurations {
+    commonJava {
+        canBeResolved = false
+        canBeConsumed = true
     }
-    repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
-        }
+    commonResources {
+        canBeResolved = false
+        canBeConsumed = true
     }
+}
+
+artifacts {
+    commonJava sourceSets.main.java.sourceDirectories.singleFile
+    commonResources sourceSets.main.resources.sourceDirectories.singleFile
 }

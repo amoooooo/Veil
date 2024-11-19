@@ -41,10 +41,10 @@ public class Sphere implements EmitterShape {
                 Vector3f v2 = parametricSphere((float) Math.toRadians((i + 1) * 11.25f), (float) Math.toRadians(j * 11.25f), radius);
                 Vector3f v3 = parametricSphere((float) Math.toRadians(i * 11.25f), (float) Math.toRadians((j + 1) * 11.25f), radius);
                 Vector3f v4 = parametricSphere((float) Math.toRadians((i + 1) * 11.25f), (float) Math.toRadians((j + 1) * 11.25f), radius);
-                consumer.vertex(matrix4f, v1.x(), v1.y(), v1.z()).color(0.15f, 0.15f, 1, 1).normal(0, 1, 0).endVertex();
-                consumer.vertex(matrix4f, v2.x(), v2.y(), v2.z()).color(0.15f, 0.15f, 1, 1).normal(0, 1, 0).endVertex();
-                consumer.vertex(matrix4f, v3.x(), v3.y(), v3.z()).color(0.15f, 0.15f, 1, 1).normal(0, 1, 0).endVertex();
-                consumer.vertex(matrix4f, v4.x(), v4.y(), v4.z()).color(0.15f, 0.15f, 1, 1).normal(0, 1, 0).endVertex();
+                consumer.addVertex(matrix4f, v1.x(), v1.y(), v1.z()).setColor(0.15f, 0.15f, 1, 1).setNormal(0, 1, 0);
+                consumer.addVertex(matrix4f, v2.x(), v2.y(), v2.z()).setColor(0.15f, 0.15f, 1, 1).setNormal(0, 1, 0);
+                consumer.addVertex(matrix4f, v3.x(), v3.y(), v3.z()).setColor(0.15f, 0.15f, 1, 1).setNormal(0, 1, 0);
+                consumer.addVertex(matrix4f, v4.x(), v4.y(), v4.z()).setColor(0.15f, 0.15f, 1, 1).setNormal(0, 1, 0);
             }
         }
     }

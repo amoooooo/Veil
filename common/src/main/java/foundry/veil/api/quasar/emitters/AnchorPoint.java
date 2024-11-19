@@ -16,7 +16,7 @@ import org.joml.Vector4f;
 import java.util.List;
 
 public class AnchorPoint {
-    public static AnchorPoint TEST_POINT = new AnchorPoint(new ResourceLocation("quasar", "test_point"));
+    public static AnchorPoint TEST_POINT = new AnchorPoint(ResourceLocation.fromNamespaceAndPath("quasar", "test_point"));
     private final ResourceLocation id;
     public Vector3f localOffset = new Vector3f(0,0,0);
     public Vector3f worldOffset = new Vector3f(0,0,0);

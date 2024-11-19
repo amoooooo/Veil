@@ -9,6 +9,7 @@ import foundry.veil.api.client.render.VeilVertexFormat;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.mixin.accessor.RenderTypeAccessor;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -120,16 +121,12 @@ public final class VeilRenderType extends RenderType {
         }
 
         @Override
-        public void end(BufferBuilder builder, VertexSorting sorting) {
-            BufferUploader.invalidate();
-            super.end(builder, sorting);
+        public void draw(MeshData meshData) {
+            super.draw(meshData);
             if (BufferUploader.lastImmediateBuffer != null) {
                 for (RenderType layer : this.layers) {
                     layer.setupRenderState();
-                    ShaderInstance shader = RenderSystem.getShader();
-                    shader.apply();
-                    BufferUploader.lastImmediateBuffer.draw();
-                    shader.clear();
+                    BufferUploader.lastImmediateBuffer.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), RenderSystem.getShader());
                     layer.clearRenderState();
                 }
             }

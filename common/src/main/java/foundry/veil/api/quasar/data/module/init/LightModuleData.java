@@ -1,6 +1,6 @@
 package foundry.veil.api.quasar.data.module.init;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.molang.MolangExpressionCodec;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
@@ -16,7 +16,7 @@ public record LightModuleData(ColorGradient color,
                               MolangExpression brightness,
                               MolangExpression radius) implements ParticleModuleData {
 
-    public static final Codec<LightModuleData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<LightModuleData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ColorGradient.CODEC.fieldOf("gradient").forGetter(LightModuleData::color),
             MolangExpressionCodec.CODEC.fieldOf("brightness").forGetter(LightModuleData::brightness),
             MolangExpressionCodec.CODEC.fieldOf("radius").forGetter(LightModuleData::radius)

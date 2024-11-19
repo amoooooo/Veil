@@ -1,6 +1,6 @@
 package foundry.veil.api.quasar.data.module.collision;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
@@ -10,7 +10,7 @@ import foundry.veil.api.quasar.particle.QuasarParticle;
 
 public class DieOnCollisionModuleData implements ParticleModuleData {
 
-    public static final Codec<DieOnCollisionModuleData> CODEC = Codec.unit(new DieOnCollisionModuleData());
+    public static final MapCodec<DieOnCollisionModuleData> CODEC = MapCodec.unit(new DieOnCollisionModuleData());
 
     @Override
     public void addModules(ParticleModuleSet.Builder builder) {

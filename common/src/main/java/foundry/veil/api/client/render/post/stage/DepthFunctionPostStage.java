@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.post.stage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
 import foundry.veil.api.client.render.post.PostPipeline;
 
@@ -16,7 +17,7 @@ import static org.lwjgl.opengl.GL11C.*;
  */
 public record DepthFunctionPostStage(DepthFunc func) implements PostPipeline {
 
-    public static final Codec<DepthFunctionPostStage> CODEC = DepthFunc.CODEC.fieldOf("function").xmap(DepthFunctionPostStage::new, DepthFunctionPostStage::func).codec();
+    public static final MapCodec<DepthFunctionPostStage> CODEC = DepthFunc.CODEC.fieldOf("function").xmap(DepthFunctionPostStage::new, DepthFunctionPostStage::func);
 
     @Override
     public void apply(Context context) {

@@ -29,18 +29,14 @@ public class Skin {
     }
 
     private void build() {
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder bufferbuilder = tesselator.getBuilder();
-
-        VeilRenderSystem.setShader(shader);
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, VeilVertexFormat.SKINNED_MESH);
 
         this.mesh = new VertexBuffer(VertexBuffer.Usage.STATIC);
 
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, VeilVertexFormat.SKINNED_MESH);
         for (Map.Entry<Integer, SkinnedMesh> meshEntry : this.boneToMesh.entrySet()) {
             meshEntry.getValue().build(bufferbuilder, meshEntry.getKey());
         }
-        BufferBuilder.RenderedBuffer renderedBuffer = bufferbuilder.end();
+        MeshData renderedBuffer = bufferbuilder.buildOrThrow();
         this.mesh.bind();
         this.mesh.upload(renderedBuffer);
         VertexBuffer.unbind();

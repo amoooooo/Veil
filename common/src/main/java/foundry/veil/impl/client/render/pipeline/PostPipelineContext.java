@@ -37,16 +37,15 @@ public class PostPipelineContext implements PostPipeline.Context, NativeResource
 
     private void setupScreenQuad() {
         Tesselator tesselator = RenderSystem.renderThreadTesselator();
-        BufferBuilder bufferBuilder = tesselator.getBuilder();
+        BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
 
-        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
-        bufferBuilder.vertex(-1, 1, 0).endVertex();
-        bufferBuilder.vertex(-1, -1, 0).endVertex();
-        bufferBuilder.vertex(1, 1, 0).endVertex();
-        bufferBuilder.vertex(1, -1, 0).endVertex();
+        bufferBuilder.addVertex(-1, 1, 0);
+        bufferBuilder.addVertex(-1, -1, 0);
+        bufferBuilder.addVertex(1, 1, 0);
+        bufferBuilder.addVertex(1, -1, 0);
 
         this.vbo.bind();
-        this.vbo.upload(bufferBuilder.end());
+        this.vbo.upload(bufferBuilder.buildOrThrow());
         VertexBuffer.unbind();
     }
 

@@ -1,7 +1,7 @@
 package foundry.veil.api.client.render.rendertype.layer;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.registry.RenderTypeLayerRegistry;
 import foundry.veil.api.client.render.VeilRenderBridge;
@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public record VeilShaderLayer(ResourceLocation shaderId) implements RenderTypeLayer {
 
-    public static final Codec<VeilShaderLayer> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<VeilShaderLayer> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceLocation.CODEC.comapFlatMap(name -> VeilRenderSystem.renderer().getShaderManager().getShader(name) != null ? DataResult.success(name) : DataResult.error(() -> "Unknown Veil Shader: " + name), s -> s)
                     .fieldOf("name")
                     .forGetter(VeilShaderLayer::shaderId)

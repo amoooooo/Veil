@@ -33,15 +33,17 @@ import static org.lwjgl.opengl.GL30.glBindFramebuffer;
  */
 public class FramebufferManager extends CodecReloadListener<FramebufferDefinition> implements NativeResource {
 
-    private static final ResourceLocation MAIN = new ResourceLocation("main");
+    private static final ResourceLocation MAIN = ResourceLocation.withDefaultNamespace("main");
 
     public static final Codec<ResourceLocation> FRAMEBUFFER_CODEC = Codec.STRING.comapFlatMap(name -> {
         try {
             if (!name.contains(":")) {
-                return DataResult.success(new ResourceLocation("temp", name));
+                ResourceLocation id = ResourceLocation.tryBuild("temp", name);
+                return id != null ? DataResult.success(id) : DataResult.error(() -> "Invalid path: " + name);
             }
 
-            return DataResult.success(new ResourceLocation(name));
+            ResourceLocation id = ResourceLocation.tryParse(name);
+            return id != null ? DataResult.success(id) : DataResult.error(() -> "Invalid path: " + name);
         } catch (ResourceLocationException e) {
             return DataResult.error(() -> "Not a valid resource location: " + name + ". " + e.getMessage());
         }

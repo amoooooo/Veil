@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.fabric.ext.LevelRendererExtension;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
+import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderMatrices;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SodiumWorldRendererMixin {
 
     @Inject(method = "drawChunkLayer", at = @At("TAIL"), remap = false)
-    public void postRenderChunkLayer(RenderType renderType, PoseStack matrixStack, double x, double y, double z, CallbackInfo ci) {
-        ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).veil$renderStage(renderType, matrixStack, RenderSystem.getProjectionMatrix());
+    public void postRenderChunkLayer(RenderType renderLayer, ChunkRenderMatrices matrices, double x, double y, double z, CallbackInfo ci) {
+        ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).veil$renderStage(renderLayer, matrices.modelView(), matrices.projection());
     }
 }

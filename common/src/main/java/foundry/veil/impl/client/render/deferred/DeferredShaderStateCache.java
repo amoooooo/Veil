@@ -70,7 +70,7 @@ public class DeferredShaderStateCache {
 
         if (!Objects.equals(this.veil$oldShader, shaderInstance)) {
             this.veil$oldShader = shaderInstance;
-            ResourceLocation id = new ResourceLocation(shaderInstance.getName());
+            ResourceLocation id = ResourceLocation.parse(shaderInstance.getName());
             this.veil$deferredShader = VeilRenderSystem.renderer().getDeferredRenderer().getDeferredShaderManager().getShader(id);
 
             if (Veil.platform().isDevelopmentEnvironment()) {

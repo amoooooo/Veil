@@ -195,9 +195,9 @@ public final class ShaderModificationParser {
                 throw error("Unexpected Token", reader);
             }
 
-            return new ResourceLocation(namespace, path.toString());
+            return ResourceLocation.fromNamespaceAndPath(namespace, path.toString());
         }
-        return new ResourceLocation(namespace);
+        return ResourceLocation.parse(namespace);
     }
 
     private static int consumeInt(TokenReader reader) throws ShaderModificationSyntaxException {

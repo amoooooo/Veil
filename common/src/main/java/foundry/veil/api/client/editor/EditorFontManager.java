@@ -86,9 +86,13 @@ public class EditorFontManager implements PreparableReloadListener {
                     continue;
                 }
 
-                ResourceLocation name = new ResourceLocation(id.getNamespace(), parts[0]);
-                String type = parts[1];
+                ResourceLocation name = ResourceLocation.tryBuild(id.getNamespace(), parts[0]);
+                if (name == null) {
+                    Veil.LOGGER.error("Invalid font name: {}:{}", id.getNamespace(), parts[0]);
+                    continue;
+                }
 
+                String type = parts[1];
                 FontPackBuilder builder = this.fontBuilders.computeIfAbsent(name, FontPackBuilder::new);
                 switch (type) {
                     case "regular" -> builder.main = entry.getValue();

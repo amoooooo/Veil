@@ -2,6 +2,7 @@ package foundry.veil.api.client.render.post.stage;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
 import foundry.veil.api.client.render.post.PostPipeline;
@@ -22,7 +23,7 @@ public record MaskPostStage(boolean red,
                             boolean alpha,
                             boolean depth) implements PostPipeline {
 
-    public static final Codec<MaskPostStage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<MaskPostStage> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.BOOL.optionalFieldOf("red", true).forGetter(MaskPostStage::red),
             Codec.BOOL.optionalFieldOf("green", true).forGetter(MaskPostStage::green),
             Codec.BOOL.optionalFieldOf("blue", true).forGetter(MaskPostStage::blue),

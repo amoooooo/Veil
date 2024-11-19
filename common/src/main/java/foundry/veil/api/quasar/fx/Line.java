@@ -266,10 +266,10 @@ public class Line {
                 u = (float) i / (corners.length - 1);
                 u1 = (float) (i + 1) / (corners.length - 1);
             }
-            consumer.vertex(stack.last().pose(), bottom.x(), bottom.y(), bottom.z()).color(r, g, b, a).uv(u, 0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
-            consumer.vertex(stack.last().pose(), top.x(), top.y(), top.z()).color(r, g, b, a).uv(u, 1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
-            consumer.vertex(stack.last().pose(), nextTop.x(), nextTop.y(), nextTop.z()).color(r, g, b, a).uv(u1, 1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
-            consumer.vertex(stack.last().pose(), nextBottom.x(), nextBottom.y(), nextBottom.z()).color(r, g, b, a).uv(u1, 0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
+            consumer.addVertex(stack.last().pose(), bottom.x(), bottom.y(), bottom.z()).setColor(r, g, b, a).setUv(u, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
+            consumer.addVertex(stack.last().pose(), top.x(), top.y(), top.z()).setColor(r, g, b, a).setUv(u, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
+            consumer.addVertex(stack.last().pose(), nextTop.x(), nextTop.y(), nextTop.z()).setColor(r, g, b, a).setUv(u1, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
+            consumer.addVertex(stack.last().pose(), nextBottom.x(), nextBottom.y(), nextBottom.z()).setColor(r, g, b, a).setUv(u1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
         }
         stack.popPose();
     }

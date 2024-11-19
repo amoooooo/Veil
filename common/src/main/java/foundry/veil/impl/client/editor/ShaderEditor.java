@@ -434,11 +434,11 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 Map<String, ShaderInstance> shaders = gameRenderer.getShaders();
                 for (ShaderInstance shader : shaders.values()) {
                     String name = shader.getName().isBlank() ? Integer.toString(shader.getId()) : shader.getName();
-                    registry.accept(new ResourceLocation(name), shader.getId());
+                    registry.accept(ResourceLocation.parse(name), shader.getId());
                 }
 
                 ShaderInstance blitShader = gameRenderer.getBlitShader();
-                registry.accept(new ResourceLocation(blitShader.getName()), blitShader.getId());
+                registry.accept(ResourceLocation.parse(blitShader.getName()), blitShader.getId());
             }
         },
         VANILLA_POST(Component.translatable("editor.veil.shader.source.vanilla_post")) {
@@ -459,7 +459,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 List<PostPass> passes = ((PostChainAccessor) chain).getPasses();
                 for (PostPass pass : passes) {
                     EffectInstance effect = pass.getEffect();
-                    registry.accept(new ResourceLocation(effect.getName()), effect.getId());
+                    registry.accept(ResourceLocation.parse(effect.getName()), effect.getId());
                 }
             }
         },
@@ -487,7 +487,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 for (ShaderInstance shader : IrisShaderMap.getLoadedShaders()) {
                     String name = shader.getName().isBlank() ? Integer.toString(shader.getId()) : shader.getName();
-                    registry.accept(new ResourceLocation(name), shader.getId());
+                    registry.accept(ResourceLocation.parse(name), shader.getId());
                 }
             }
         },
@@ -520,7 +520,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 }
 
                 for (int program : programs) {
-                    registry.accept(new ResourceLocation("unknown", Integer.toString(program)), program);
+                    registry.accept(ResourceLocation.fromNamespaceAndPath("unknown", Integer.toString(program)), program);
                 }
             }
         };

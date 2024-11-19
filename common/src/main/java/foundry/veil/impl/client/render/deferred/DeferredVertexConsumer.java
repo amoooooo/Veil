@@ -16,64 +16,49 @@ public class DeferredVertexConsumer implements VertexConsumer {
     }
 
     @Override
-    public VertexConsumer vertex(double pX, double pY, double pZ) {
-        this.delegate.vertex(pX, pY, pZ);
+    public VertexConsumer addVertex(float pX, float pY, float pZ) {
+        this.delegate.addVertex(pX, pY, pZ);
         return this;
     }
 
     @Override
-    public VertexConsumer color(int pRed, int pGreen, int pBlue, int pAlpha) {
-        this.delegate.color(pRed, pGreen, pBlue, pAlpha);
+    public VertexConsumer setColor(int pRed, int pGreen, int pBlue, int pAlpha) {
+        this.delegate.setColor(pRed, pGreen, pBlue, pAlpha);
         return this;
     }
 
     @Override
-    public VertexConsumer uv(float pU, float pV) {
-        this.delegate.uv(pU, pV);
+    public VertexConsumer setUv(float pU, float pV) {
+        this.delegate.setUv(pU, pV);
         return this;
     }
 
     @Override
-    public VertexConsumer overlayCoords(int pU, int pV) {
-        this.delegate.overlayCoords(pU, pV);
+    public VertexConsumer setUv1(int pU, int pV) {
+        this.delegate.setUv1(pU, pV);
         return this;
     }
 
     @Override
-    public VertexConsumer uv2(int pU, int pV) {
-        this.delegate.uv2(pU, pV);
+    public VertexConsumer setUv2(int pU, int pV) {
+        this.delegate.setUv2(pU, pV);
         return this;
     }
 
     @Override
-    public VertexConsumer normal(float pX, float pY, float pZ) {
+    public VertexConsumer setNormal(float pNormalX, float pNormalY, float pNormalZ) {
         if (this.verticalNormal) {
-            this.delegate.normal(0, 1, 0);
+            this.delegate.setNormal(0, 1, 0);
         } else {
-            this.delegate.normal(pX, pY, pZ);
+            this.delegate.setNormal(pNormalX, pNormalY, pNormalZ);
         }
         return this;
     }
 
     @Override
-    public void endVertex() {
-        this.delegate.endVertex();
-    }
-
-    @Override
-    public void defaultColor(int pDefaultR, int pDefaultG, int pDefaultB, int pDefaultA) {
-        this.delegate.defaultColor(pDefaultR, pDefaultG, pDefaultB, pDefaultA);
-    }
-
-    @Override
-    public void unsetDefaultColor() {
-        this.delegate.unsetDefaultColor();
-    }
-
-    @Override
-    public void putBulkData(PoseStack.Pose pPoseEntry, BakedQuad pQuad, float[] pColorMuls, float pRed, float pGreen, float pBlue, int[] pCombinedLights, int pCombinedOverlay, boolean pMulColor) {
+    public void putBulkData(PoseStack.Pose pPose, BakedQuad pQuad, float[] pBrightness, float pRed, float pGreen, float pBlue, float pAlpha, int[] pLightmap, int pPackedOverlay, boolean p_331268_) {
         this.verticalNormal = !pQuad.isShade();
-        VertexConsumer.super.putBulkData(pPoseEntry, pQuad, pColorMuls, pRed, pGreen, pBlue, pCombinedLights, pCombinedOverlay, pMulColor);
+        VertexConsumer.super.putBulkData(pPose, pQuad, pBrightness, pRed, pGreen, pBlue, pAlpha, pLightmap, pPackedOverlay, p_331268_);
         this.verticalNormal = false;
     }
 }

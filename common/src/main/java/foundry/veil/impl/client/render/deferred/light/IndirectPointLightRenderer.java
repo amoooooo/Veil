@@ -1,10 +1,7 @@
 package foundry.veil.impl.client.render.deferred.light;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.deferred.light.PointLight;
 import foundry.veil.api.client.render.deferred.light.renderer.IndirectLightRenderer;
@@ -29,22 +26,21 @@ public class IndirectPointLightRenderer extends IndirectLightRenderer<PointLight
     }
 
     @Override
-    protected BufferBuilder.RenderedBuffer createMesh() {
+    protected MeshData createMesh() {
         Tesselator tesselator = RenderSystem.renderThreadTesselator();
-        BufferBuilder bufferBuilder = tesselator.getBuilder();
-        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
+        BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
 
         // High-res mesh
         LightTypeRenderer.createInvertedCube(bufferBuilder);
 
         // Low-res mesh
         float sqrt2 = (float) Math.sqrt(2.0);
-        bufferBuilder.vertex(-sqrt2, -sqrt2, 0).endVertex();
-        bufferBuilder.vertex(sqrt2, -sqrt2, 0).endVertex();
-        bufferBuilder.vertex(-sqrt2, sqrt2, 0).endVertex();
-        bufferBuilder.vertex(sqrt2, sqrt2, 0).endVertex();
+        bufferBuilder.addVertex(-sqrt2, -sqrt2, 0);
+        bufferBuilder.addVertex(sqrt2, -sqrt2, 0);
+        bufferBuilder.addVertex(-sqrt2, sqrt2, 0);
+        bufferBuilder.addVertex(sqrt2, sqrt2, 0);
 
-        return bufferBuilder.end();
+        return bufferBuilder.buildOrThrow();
     }
 
     @Override

@@ -114,7 +114,13 @@ public class StaticMesh implements ModelMesh {
                 matrix4f.transformPosition(position);
                 normal.set(face.normal.x(), face.normal.y(), face.normal.z());
                 matrix3f.transform(normal);
-                pVertexConsumer.vertex(position.x(), position.y(), position.z(), pRed, pGreen, pBlue, pAlpha, uv.u(), uv.v(), pPackedOverlay, pPackedLight, normal.x(), normal.y(), normal.z());
+
+                pVertexConsumer.addVertex(position.x(), position.y(), position.z());
+                pVertexConsumer.setColor(pRed, pGreen, pBlue, pAlpha);
+                pVertexConsumer.setUv(uv.u(), uv.v());
+                pVertexConsumer.setOverlay(pPackedOverlay);
+                pVertexConsumer.setLight(pPackedLight);
+                pVertexConsumer.setNormal(normal.x(), normal.y(), normal.z());
             }
         }
     }

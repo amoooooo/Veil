@@ -1,11 +1,9 @@
 package foundry.veil.api.resource;
 
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Lifecycle;
 import foundry.veil.mixin.accessor.RegistryDataAccessor;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.WritableRegistry;
 import net.minecraft.resources.RegistryDataLoader;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
@@ -38,25 +36,33 @@ public class VeilDynamicRegistry {
      * @param registries      The registries to load
      * @return All loaded registries and their errors
      */
+    @SuppressWarnings("RedundantOperationOnEmptyContainer")
     public static Data loadRegistries(ResourceManager resourceManager, Collection<RegistryDataLoader.RegistryData<?>> registries) {
         Map<ResourceKey<?>, Exception> errors = new HashMap<>();
 
         LOADING.set(true);
-        List<Pair<WritableRegistry<?>, RegistryDataLoader.Loader>> loaders = registries.stream().map(data -> ((RegistryDataAccessor) (Object) data).invokeCreate(Lifecycle.stable(), errors)).toList();
-        RegistryOps.RegistryInfoLookup lookup = RegistryDataLoader.createContext(RegistryAccess.EMPTY, loaders);
-        loaders.forEach(pair -> pair.getSecond().load(resourceManager, lookup));
-        loaders.forEach(pair -> {
-            Registry<?> registry = pair.getFirst();
+        Map<ResourceKey<?>, Exception> map = new HashMap<>();
+        List<RegistryDataLoader.Loader<?>> list = registries.stream()
+                .map(data -> ((RegistryDataAccessor) (Object) data).invokeCreate(Lifecycle.stable(), map))
+                .collect(Collectors.toUnmodifiableList());
+        RegistryOps.RegistryInfoLookup ctx = RegistryDataLoader.createContext(RegistryAccess.EMPTY, list);
+        list.forEach(loader -> loader.loadFromResources(resourceManager, ctx));
+        list.forEach(loader -> {
+            Registry<?> registry = loader.registry();
 
             try {
                 registry.freeze();
             } catch (Exception e) {
-                errors.put(registry.key(), e);
+                map.put(registry.key(), e);
+            }
+
+            if (loader.data().requiredNonEmpty() && registry.size() == 0) {
+                map.put(registry.key(), new IllegalStateException("Registry must be non-empty"));
             }
         });
         LOADING.set(false);
 
-        RegistryAccess.Frozen registryAccess = new RegistryAccess.ImmutableRegistryAccess(loaders.stream().map(Pair::getFirst).toList()).freeze();
+        RegistryAccess.Frozen registryAccess = new RegistryAccess.ImmutableRegistryAccess(list.stream().map(RegistryDataLoader.Loader::registry).toList()).freeze();
         return new Data(registryAccess, errors);
     }
 

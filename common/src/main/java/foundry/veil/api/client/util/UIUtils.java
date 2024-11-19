@@ -27,6 +27,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,9 @@ public class UIUtils {
                                      int maxTextWidth, int backgroundColor, int borderColorStart, int borderColorEnd, Font font,
                                      int tooltipTextWidthBonus, int tooltipTextHeightBonus, List<VeilUIItemTooltipDataHolder> items,
                                      int desiredX, int desiredY) {
-        if (textLines.isEmpty())
+        if (textLines.isEmpty()) {
             return;
+        }
 
         List<ClientTooltipComponent> list = gatherTooltipComponents(stack, textLines,
                 stack.getTooltipImage(), mouseX, screenWidth, screenHeight, font, font);
@@ -51,8 +53,9 @@ public class UIUtils {
 
         for (FormattedText textLine : textLines) {
             int textLineWidth = font.width(textLine);
-            if (textLineWidth > tooltipTextWidth)
+            if (textLineWidth > tooltipTextWidth) {
                 tooltipTextWidth = textLineWidth;
+            }
         }
 
         boolean needsWrap = false;
@@ -63,10 +66,11 @@ public class UIUtils {
             tooltipX = mouseX - 16 - tooltipTextWidth;
             if (tooltipX < 4) // if the tooltip doesn't fit on the screen
             {
-                if (mouseX > screenWidth / 2)
+                if (mouseX > screenWidth / 2) {
                     tooltipTextWidth = mouseX - 12 - 8;
-                else
+                } else {
                     tooltipTextWidth = screenWidth - 16 - mouseX;
+                }
                 needsWrap = true;
             }
         }
@@ -83,23 +87,26 @@ public class UIUtils {
                 FormattedText textLine = textLines.get(i);
                 List<FormattedText> wrappedLine = font.getSplitter()
                         .splitLines(textLine, tooltipTextWidth, Style.EMPTY);
-                if (i == 0)
+                if (i == 0) {
                     titleLinesCount = wrappedLine.size();
+                }
 
                 for (FormattedText line : wrappedLine) {
                     int lineWidth = font.width(line);
-                    if (lineWidth > wrappedTooltipWidth)
+                    if (lineWidth > wrappedTooltipWidth) {
                         wrappedTooltipWidth = lineWidth;
+                    }
                     wrappedTextLines.add(line);
                 }
             }
             tooltipTextWidth = wrappedTooltipWidth;
             textLines = wrappedTextLines;
 
-            if (mouseX > screenWidth / 2)
+            if (mouseX > screenWidth / 2) {
                 tooltipX = mouseX - 16 - tooltipTextWidth;
-            else
+            } else {
                 tooltipX = mouseX + 12;
+            }
         }
 
         int tooltipY = mouseY - 12;
@@ -107,14 +114,16 @@ public class UIUtils {
 
         if (textLines.size() > 1) {
             tooltipHeight += (textLines.size() - 1) * 10;
-            if (textLines.size() > titleLinesCount)
+            if (textLines.size() > titleLinesCount) {
                 tooltipHeight += 2; // gap between title lines and next lines
+            }
         }
 
-        if (tooltipY < 4)
+        if (tooltipY < 4) {
             tooltipY = 4;
-        else if (tooltipY + tooltipHeight + 4 > screenHeight)
+        } else if (tooltipY + tooltipHeight + 4 > screenHeight) {
             tooltipY = screenHeight - tooltipHeight - 4;
+        }
 
         final int zLevel = 400;
         tooltipTextWidth += tooltipTextWidthBonus;
@@ -157,8 +166,7 @@ public class UIUtils {
         }
         pStack.popPose();
 
-        MultiBufferSource.BufferSource renderType = MultiBufferSource.immediate(Tesselator.getInstance()
-                .getBuilder());
+        MultiBufferSource.BufferSource renderType = Minecraft.getInstance().renderBuffers().bufferSource();
         pStack.translate(0.0D, 0.0D, z);
 
         for (int lineNumber = 0; lineNumber < list.size(); ++lineNumber) {
@@ -211,10 +219,11 @@ public class UIUtils {
             tooltipX = mouseX - 16 - tooltipTextWidth;
             if (tooltipX < 4) // if the tooltip doesn't fit on the screen
             {
-                if (mouseX > screenWidth / 2)
+                if (mouseX > screenWidth / 2) {
                     tooltipTextWidth = mouseX - 12 - 8;
-                else
+                } else {
                     tooltipTextWidth = screenWidth - 16 - mouseX;
+                }
                 needsWrap = true;
             }
         }
@@ -257,14 +266,12 @@ public class UIUtils {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder buffer = tessellator.getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        buffer.vertex(mat, right, top, zLevel).color(startRed, startGreen, startBlue, startAlpha).endVertex();
-        buffer.vertex(mat, left, top, zLevel).color(startRed, startGreen, startBlue, startAlpha).endVertex();
-        buffer.vertex(mat, left, bottom, zLevel).color(endRed, endGreen, endBlue, endAlpha).endVertex();
-        buffer.vertex(mat, right, bottom, zLevel).color(endRed, endGreen, endBlue, endAlpha).endVertex();
-        tessellator.end();
+        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        buffer.addVertex(mat, right, top, zLevel).setColor(startRed, startGreen, startBlue, startAlpha);
+        buffer.addVertex(mat, left, top, zLevel).setColor(startRed, startGreen, startBlue, startAlpha);
+        buffer.addVertex(mat, left, bottom, zLevel).setColor(endRed, endGreen, endBlue, endAlpha);
+        buffer.addVertex(mat, right, bottom, zLevel).setColor(endRed, endGreen, endBlue, endAlpha);
+        BufferUploader.drawWithShader(buffer.buildOrThrow());
 
         RenderSystem.disableBlend();
     }
@@ -274,14 +281,12 @@ public class UIUtils {
         RenderSystem.setShaderTexture(0, texture);
         float f = 1.0F / textureWidth;
         float f1 = 1.0F / textureHeight;
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder buffer = tessellator.getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        buffer.vertex(mat, x, y + height, zLevel).uv(u * f, (v + vHeight) * f1).endVertex();
-        buffer.vertex(mat, x + width, y + height, zLevel).uv((u + uWidth) * f, (v + vHeight) * f1).endVertex();
-        buffer.vertex(mat, x + width, y, zLevel).uv((u + uWidth) * f, v * f1).endVertex();
-        buffer.vertex(mat, x, y, zLevel).uv(u * f, v * f1).endVertex();
-        tessellator.end();
+        BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        buffer.addVertex(mat, x, y + height, zLevel).setUv(u * f, (v + vHeight) * f1);
+        buffer.addVertex(mat, x + width, y + height, zLevel).setUv((u + uWidth) * f, (v + vHeight) * f1);
+        buffer.addVertex(mat, x + width, y, zLevel).setUv((u + uWidth) * f, v * f1);
+        buffer.addVertex(mat, x, y, zLevel).setUv(u * f, v * f1);
+        BufferUploader.drawWithShader(buffer.buildOrThrow());
     }
 
     public static void tryRenderGuiItem(LivingEntity $$0, ItemStack $$1, float $$2, float $$3, int $$4, float $$5) {
@@ -319,10 +324,10 @@ public class UIUtils {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        PoseStack $$4 = RenderSystem.getModelViewStack();
-        $$4.pushPose();
+        Matrix4fStack $$4 = RenderSystem.getModelViewStack();
+        $$4.pushMatrix();
 //        $$4.translate((double) x, (double) y, (double) (100.0F + Minecraft.getInstance().getItemRenderer().blitOffset));
-        $$4.translate(8.0, 8.0, 0.0);
+        $$4.translate(8, 8, 0);
         $$4.scale(1.0F, -1.0F, 1.0F);
         $$4.scale(16.0F, 16.0F, 16.0F);
         RenderSystem.applyModelViewMatrix();
@@ -342,7 +347,7 @@ public class UIUtils {
             Lighting.setupFor3DItems();
         }
 
-        $$4.popPose();
+        $$4.popMatrix();
         RenderSystem.applyModelViewMatrix();
     }
 }

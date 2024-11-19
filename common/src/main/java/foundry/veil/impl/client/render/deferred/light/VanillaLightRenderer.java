@@ -24,12 +24,11 @@ public class VanillaLightRenderer implements NativeResource {
         VertexBuffer.unbind();
     }
 
-    private static BufferBuilder.RenderedBuffer createMesh() {
+    private static MeshData createMesh() {
         Tesselator tesselator = RenderSystem.renderThreadTesselator();
-        BufferBuilder bufferBuilder = tesselator.getBuilder();
-        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
+        BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
         LightTypeRenderer.createQuad(bufferBuilder);
-        return bufferBuilder.end();
+        return bufferBuilder.buildOrThrow();
     }
 
     public void render(LightRenderer lightRenderer, ClientLevel level) {

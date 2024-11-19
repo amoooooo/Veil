@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.shader.texture;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import net.minecraft.client.Minecraft;
@@ -18,7 +19,7 @@ import java.util.Optional;
  *
  * @author Ocelot
  */
-public interface ShaderTextureSource {
+public sealed interface ShaderTextureSource permits LocationSource, FramebufferSource {
 
     Codec<Type> TYPE_CODEC = Codec.STRING.flatXmap(name -> Optional.ofNullable(Type.byName(name))
                     .map(DataResult::success)
@@ -55,16 +56,16 @@ public interface ShaderTextureSource {
         LOCATION(LocationSource.CODEC),
         FRAMEBUFFER(FramebufferSource.CODEC);
 
-        private final Codec<? extends ShaderTextureSource> codec;
+        private final MapCodec<? extends ShaderTextureSource> codec;
 
-        Type(Codec<? extends ShaderTextureSource> codec) {
+        Type(MapCodec<? extends ShaderTextureSource> codec) {
             this.codec = codec;
         }
 
         /**
          * @return The codec for this specific type
          */
-        public Codec<? extends ShaderTextureSource> getCodec() {
+        public MapCodec<? extends ShaderTextureSource> getCodec() {
             return this.codec;
         }
 

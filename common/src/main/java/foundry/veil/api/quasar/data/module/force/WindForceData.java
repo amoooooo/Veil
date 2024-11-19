@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.force;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -27,7 +28,7 @@ public record WindForceData(Vector3dc windDirection,
                             float windSpeed,
                             float strength) implements ParticleModuleData {
 
-    public static final Codec<WindForceData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<WindForceData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             CodecUtil.VECTOR3D_CODEC.fieldOf("wind_direction").forGetter(WindForceData::windDirection),
             Codec.FLOAT.fieldOf("wind_speed").forGetter(WindForceData::windSpeed),
             Codec.FLOAT.fieldOf("strength").forGetter(WindForceData::strength)

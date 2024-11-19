@@ -5,6 +5,7 @@ import foundry.veil.api.client.color.ColorTheme;
 import foundry.veil.api.client.tooltip.Tooltippable;
 import foundry.veil.api.client.tooltip.VeilUIItemTooltipDataHolder;
 import foundry.veil.api.client.tooltip.anim.TooltipTimeline;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -192,13 +193,13 @@ public class BlockEntityMixin implements Tooltippable {
     }
 
     @Inject(method = "saveAdditional", at = @At("RETURN"))
-    public void saveAdditional(CompoundTag $$0, CallbackInfo ci) {
-        $$0.put("tooltipData", this.saveTooltipData());
+    public void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries, CallbackInfo ci) {
+        pTag.put("tooltipData", this.saveTooltipData());
     }
 
-    @Inject(method = "load", at = @At("RETURN"))
-    public void loadAdditional(CompoundTag $$0, CallbackInfo ci) {
-        this.loadTooltipData($$0.getCompound("tooltipData"));
+    @Inject(method = "loadAdditional", at = @At("RETURN"))
+    public void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries, CallbackInfo ci) {
+        this.loadTooltipData(pTag.getCompound("tooltipData"));
     }
 
 }

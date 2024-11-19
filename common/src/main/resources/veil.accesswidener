@@ -66,3 +66,7 @@ accessible class net/minecraft/client/renderer/RenderStateShard$OffsetTexturingS
 accessible class net/minecraft/client/renderer/RenderStateShard$MultiTextureStateShard
 accessible class net/minecraft/client/renderer/RenderType$OutlineProperty
 accessible class net/minecraft/client/renderer/RenderType$CompositeState
+
+# VertexFormat
+accessible field com/mojang/blaze3d/vertex/VertexFormatElement BY_ID [Lcom/mojang/blaze3d/vertex/VertexFormatElement;
+mutable field com/mojang/blaze3d/vertex/VertexFormatElement BY_ID [Lcom/mojang/blaze3d/vertex/VertexFormatElement;

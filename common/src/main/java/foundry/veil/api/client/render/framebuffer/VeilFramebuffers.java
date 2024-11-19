@@ -13,7 +13,7 @@ public final class VeilFramebuffers {
     private VeilFramebuffers() {
     }
 
-    public static final ResourceLocation MAIN = new ResourceLocation("main");
+    public static final ResourceLocation MAIN = ResourceLocation.withDefaultNamespace("main");
     public static final ResourceLocation FIRST_PERSON = buffer("first_person");
     public static final ResourceLocation OPAQUE = buffer("opaque");
     public static final ResourceLocation OPAQUE_FINAL = buffer("opaque_final");
@@ -24,6 +24,6 @@ public final class VeilFramebuffers {
     public static final ResourceLocation POST = buffer("post");
 
     private static ResourceLocation buffer(String name) {
-        return new ResourceLocation(Veil.MODID, name);
+        return Veil.veilPath(name);
     }
 }

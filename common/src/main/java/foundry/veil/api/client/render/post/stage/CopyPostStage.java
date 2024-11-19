@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.post.stage;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
@@ -22,7 +23,7 @@ import static org.lwjgl.opengl.GL11C.GL_DEPTH_BUFFER_BIT;
  */
 public class CopyPostStage extends FramebufferPostStage {
 
-    public static final Codec<CopyPostStage> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<CopyPostStage> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("in").forGetter(CopyPostStage::getIn),
             FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("out").forGetter(CopyPostStage::getOut),
             Codec.BOOL.optionalFieldOf("color", true).forGetter(CopyPostStage::copyColor),

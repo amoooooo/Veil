@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.Veil;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
@@ -72,19 +73,19 @@ public class ParticleModuleTypeRegistry {
     public static void bootstrap() {
     }
 
-    private static <T extends ParticleModuleData> ModuleType<T> registerUpdateModule(String name, Codec<T> codec) {
+    private static <T extends ParticleModuleData> ModuleType<T> registerUpdateModule(String name, MapCodec<T> codec) {
         ModuleType<T> type = () -> codec;
         UPDATE_MODULES_PROVIDER.register(name, () -> type);
         return type;
     }
 
-    private static <T extends ParticleModuleData> ModuleType<T> registerRenderModule(String name, Codec<T> codec) {
+    private static <T extends ParticleModuleData> ModuleType<T> registerRenderModule(String name, MapCodec<T> codec) {
         ModuleType<T> type = () -> codec;
         RENDER_MODULES_PROVIDER.register(name, () -> type);
         return type;
     }
 
-    private static <T extends ParticleModuleData> ModuleType<T> registerInitModule(String name, Codec<T> codec) {
+    private static <T extends ParticleModuleData> ModuleType<T> registerInitModule(String name, MapCodec<T> codec) {
         ModuleType<T> type = () -> codec;
         INIT_MODULES_PROVIDER.register(name, () -> type);
         return type;

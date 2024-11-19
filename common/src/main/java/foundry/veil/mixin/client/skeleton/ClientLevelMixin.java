@@ -19,10 +19,10 @@ public class ClientLevelMixin {
     private Minecraft minecraft;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @Inject(method = "addEntity(ILnet/minecraft/world/entity/Entity;)V", at = @At("TAIL"))
-    private void addEntity(int pEntityId, Entity pEntityToSpawn, CallbackInfo ci) {
-        if (this.minecraft.getEntityRenderDispatcher().getRenderer(pEntityToSpawn) instanceof InterpolatedEntityRenderer renderer) {
-            renderer.createSkeleton((LivingEntity) pEntityToSpawn);
+    @Inject(method = "addEntity", at = @At("TAIL"))
+    private void addEntity(Entity pEntity, CallbackInfo ci) {
+        if (this.minecraft.getEntityRenderDispatcher().getRenderer(pEntity) instanceof InterpolatedEntityRenderer renderer) {
+            renderer.createSkeleton((LivingEntity) pEntity);
         }
     }
 }

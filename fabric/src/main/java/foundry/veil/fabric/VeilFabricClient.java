@@ -7,7 +7,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.quasar.data.QuasarParticles;
 import foundry.veil.api.quasar.particle.ParticleEmitter;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
-import foundry.veil.fabric.mixin.compat.iris.NewWorldRenderingPipelineAccessor;
+import foundry.veil.fabric.mixin.compat.iris.IrisRenderingPipelineAccessor;
 import foundry.veil.fabric.mixin.compat.sodium.RenderSectionManagerAccessor;
 import foundry.veil.fabric.mixin.compat.sodium.ShaderChunkRendererAccessor;
 import foundry.veil.fabric.mixin.compat.sodium.SodiumWorldRendererAccessor;
@@ -20,8 +20,6 @@ import foundry.veil.impl.compat.IrisShaderMap;
 import foundry.veil.impl.compat.SodiumShaderMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
-import net.coderbot.iris.Iris;
-import net.coderbot.iris.pipeline.WorldRenderingPipeline;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -35,6 +33,9 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.irisshaders.iris.Iris;
+import net.irisshaders.iris.pipeline.IrisRenderingPipeline;
+import net.irisshaders.iris.pipeline.WorldRenderingPipeline;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
@@ -57,14 +58,14 @@ public class VeilFabricClient implements ClientModInitializer {
             Minecraft client = Minecraft.getInstance();
             VeilUITooltipRenderer.renderOverlay(client.gui, matrices, tickDelta, client.getWindow().getGuiScaledWidth(), client.getWindow().getGuiScaledHeight());
         });
-        ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getFrameTime()));
+        ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getTimer().getRealtimeDeltaTicks()));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(VeilRenderSystem.renderer().getDeferredRenderer()::reset));
         FabricQuasarParticleHandler.init();
         if (IrisShaderMap.isEnabled()) {
             IrisShaderMap.setLoadedShadersSupplier(() -> {
                 WorldRenderingPipeline pipeline = Iris.getPipelineManager().getPipelineNullable();
-                if (pipeline instanceof NewWorldRenderingPipelineAccessor) {
-                    return ((NewWorldRenderingPipelineAccessor) pipeline).getLoadedShaders();
+                if (pipeline instanceof IrisRenderingPipelineAccessor) {
+                    return ((IrisRenderingPipelineAccessor) pipeline).getLoadedShaders();
                 }
                 return Collections.emptySet();
             });
@@ -75,7 +76,7 @@ public class VeilFabricClient implements ClientModInitializer {
                 if (worldRenderer != null) {
                     RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
                     if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererAccessor accessor) {
-                        return Object2IntMaps.singleton(new ResourceLocation("sodium", "chunk_shader"), accessor.getPrograms().values().iterator().next().handle());
+                        return Object2IntMaps.singleton(ResourceLocation.fromNamespaceAndPath("sodium", "chunk_shader"), accessor.getPrograms().values().iterator().next().handle());
                     }
                 }
                 return Object2IntMaps.emptyMap();

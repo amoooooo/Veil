@@ -47,8 +47,8 @@ public class Torus implements EmitterShape {
             float z1 = (float) (z + Math.sin(Math.toRadians(angle)) * radius);
             float x2 = (float) (x + Math.cos(Math.toRadians(angle + angleStep)) * radius);
             float z2 = (float) (z + Math.sin(Math.toRadians(angle + angleStep)) * radius);
-            consumer.vertex(stack.last().pose(), x1, y, z1).color(0.15f, 0.15f, 1, 1).normal(0, 1, 0).endVertex();
-            consumer.vertex(stack.last().pose(), x2, y, z2).color(0.15f, 0.15f, 1, 1).normal(0, 1, 0).endVertex();
+            consumer.addVertex(stack.last().pose(), x1, y, z1).setColor(0.15f, 0.15f, 1, 1).setNormal(0, 1, 0);
+            consumer.addVertex(stack.last().pose(), x2, y, z2).setColor(0.15f, 0.15f, 1, 1).setNormal(0, 1, 0);
             angle += angleStep;
         }
     }

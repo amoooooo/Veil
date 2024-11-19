@@ -46,14 +46,12 @@ public class DebugFrustumRenderer {
         Vector3fc pos1 = POSITIONS[getIndex(x1, y1, z1)];
         Vector3fc norm = pos1.sub(pos0, new Vector3f()).normalize();
 
-        consumer.vertex(pos0.x(), pos0.y(), pos0.z())
-                .color(red, green, blue, alpha)
-                .normal(norm.x(), norm.y(), norm.z())
-                .endVertex();
-        consumer.vertex(pos1.x(), pos1.y(), pos1.z())
-                .color(red, green, blue, alpha)
-                .normal(norm.x(), norm.y(), norm.z())
-                .endVertex();
+        consumer.addVertex(pos0.x(), pos0.y(), pos0.z())
+                .setColor(red, green, blue, alpha)
+                .setNormal(norm.x(), norm.y(), norm.z());
+        consumer.addVertex(pos1.x(), pos1.y(), pos1.z())
+                .setColor(red, green, blue, alpha)
+                .setNormal(norm.x(), norm.y(), norm.z());
     }
 
     public static void renderFrustum(@NotNull MultiBufferSource source,

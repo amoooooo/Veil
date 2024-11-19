@@ -1,6 +1,6 @@
 package foundry.veil.api.quasar.data.module.render;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
@@ -22,10 +22,9 @@ import java.util.List;
  */
 public record TrailParticleModuleData(List<TrailSettings> settings) implements ParticleModuleData {
 
-    public static final Codec<TrailParticleModuleData> CODEC = TrailSettings.CODEC.listOf()
+    public static final MapCodec<TrailParticleModuleData> CODEC = TrailSettings.CODEC.listOf()
             .fieldOf("settings")
-            .xmap(TrailParticleModuleData::new, TrailParticleModuleData::settings)
-            .codec();
+            .xmap(TrailParticleModuleData::new, TrailParticleModuleData::settings);
 
     @Override
     public void addModules(ParticleModuleSet.Builder builder) {

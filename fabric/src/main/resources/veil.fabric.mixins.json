@@ -6,7 +6,6 @@
   "refmap": "${mod_id}.refmap.json",
   "plugin": "foundry.veil.fabric.VeilMixinPlugin",
   "mixins": [
-    "resource.GroupResourcePackMixin",
     "resource.ModNioResourcePackMixin"
   ],
   "client": [
@@ -21,7 +20,7 @@
     "client.stage.LevelRendererMixin",
     "client.stage.sodium.SodiumWorldRendererMixin",
     "client.stage.vanilla.LevelRendererMixin",
-    "compat.iris.NewWorldRenderingPipelineAccessor",
+    "compat.iris.IrisRenderingPipelineAccessor",
     "compat.replaymod.PipelineMixin",
     "compat.sodium.RenderSectionManagerAccessor",
     "compat.sodium.ShaderChunkRendererAccessor",

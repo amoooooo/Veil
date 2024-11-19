@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.force;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
@@ -17,7 +18,7 @@ import foundry.veil.api.quasar.particle.ParticleModuleSet;
  */
 public record DragForceData(double strength) implements ParticleModuleData {
 
-    public static final Codec<DragForceData> CODEC = Codec.DOUBLE.fieldOf("strength").xmap(DragForceData::new, DragForceData::strength).codec();
+    public static final MapCodec<DragForceData> CODEC = Codec.DOUBLE.fieldOf("strength").xmap(DragForceData::new, DragForceData::strength);
 
     @Override
     public void addModules(ParticleModuleSet.Builder builder) {

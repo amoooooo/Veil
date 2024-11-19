@@ -1,11 +1,10 @@
 package foundry.veil.api.event;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
-import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 
 import java.util.Locale;
 
@@ -24,14 +23,14 @@ public interface VeilRenderLevelStageEvent {
      * @param stage            The stage rendering
      * @param levelRenderer    The level renderer instance
      * @param bufferSource     The buffer source instance
-     * @param poseStack        The current stack of matrix transformations
+     * @param frustumMatrix    The current state of view matrix transformations
      * @param projectionMatrix The current projection matrix being used to render
      * @param renderTick       The current tick of rendering
      * @param partialTicks     The percentage from last tick to this tick
      * @param camera           The camera the level is rendered from
      * @param frustum          The view frustum instance
      */
-    void onRenderLevelStage(Stage stage, LevelRenderer levelRenderer, MultiBufferSource.BufferSource bufferSource, PoseStack poseStack, Matrix4f projectionMatrix, int renderTick, float partialTicks, Camera camera, Frustum frustum);
+    void onRenderLevelStage(Stage stage, LevelRenderer levelRenderer, MultiBufferSource.BufferSource bufferSource, Matrix4fc frustumMatrix, Matrix4fc projectionMatrix, int renderTick, float partialTicks, Camera camera, Frustum frustum);
 
     /**
      * Stages for rendering specific render types.

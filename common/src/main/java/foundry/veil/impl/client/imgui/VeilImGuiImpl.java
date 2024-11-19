@@ -140,7 +140,7 @@ public class VeilImGuiImpl implements VeilImGui {
 
     @Override
     public void addImguiShaders(ObjIntConsumer<ResourceLocation> registry) {
-        registry.accept(new ResourceLocation("imgui", "blit"), ((ImGuiImplGl3Mixin) (Object) this.implGl3).getGShaderHandle());
+        registry.accept(ResourceLocation.fromNamespaceAndPath("imgui", "blit"), ((ImGuiImplGl3Mixin) (Object) this.implGl3).getGShaderHandle());
     }
 
     @Override

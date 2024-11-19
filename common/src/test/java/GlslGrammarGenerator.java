@@ -1,7 +1,3 @@
-import foundry.veil.impl.glsl.GlslTokenReader;
-import foundry.veil.impl.glsl.node.GlslNode;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;

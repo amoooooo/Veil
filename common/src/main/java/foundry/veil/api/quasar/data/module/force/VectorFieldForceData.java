@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.force;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -18,7 +19,7 @@ import foundry.veil.api.quasar.particle.ParticleModuleSet;
 public record VectorFieldForceData(VectorField vectorField,
                                    float strength) implements ParticleModuleData {
 
-    public static final Codec<VectorFieldForceData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<VectorFieldForceData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             VectorField.CODEC.fieldOf("vector_field").forGetter(VectorFieldForceData::vectorField),
             Codec.FLOAT.fieldOf("strength").forGetter(VectorFieldForceData::strength)
     ).apply(instance, VectorFieldForceData::new));

@@ -1,7 +1,5 @@
 package foundry.veil.mixin.client.pipeline;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.CameraMatrices;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderBridge;
@@ -14,6 +12,7 @@ import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,16 +31,22 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     @Nullable
     private Frustum capturedFrustum;
 
+    @Unique
+    private final Matrix4f veil$tempFrustum = new Matrix4f();
+
+    @Unique
+    private final Matrix4f veil$tempProjection = new Matrix4f();
+
     @Shadow
-    protected abstract void renderChunkLayer(RenderType p_172994_, PoseStack p_172995_, double p_172996_, double p_172997_, double p_172998_, Matrix4f p_254039_);
+    protected abstract void renderSectionLayer(RenderType pRenderType, double pX, double pY, double pZ, Matrix4f pFrustrumMatrix, Matrix4f pProjectionMatrix);
 
     @Unique
     private final Vector3f veil$tempCameraPos = new Vector3f();
 
     @Inject(method = "prepareCullFrustum", at = @At("HEAD"))
-    public void veil$setupLevelCamera(PoseStack modelViewStack, Vec3 pos, Matrix4f projection, CallbackInfo ci) {
+    public void veil$setupLevelCamera(Vec3 pos, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
         CameraMatrices matrices = VeilRenderSystem.renderer().getCameraMatrices();
-        matrices.update(RenderSystem.getProjectionMatrix(), modelViewStack.last().pose(), this.veil$tempCameraPos.set(pos.x(), pos.y(), pos.z()), 0.05F, Minecraft.getInstance().gameRenderer.getDepthFar());
+        matrices.update(projectionMatrix, frustumMatrix, this.veil$tempCameraPos.set(pos.x(), pos.y(), pos.z()), 0.05F, Minecraft.getInstance().gameRenderer.getDepthFar());
     }
 
     @Override
@@ -50,7 +55,7 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     }
 
     @Override
-    public void veil$drawBlockLayer(RenderType renderType, PoseStack poseStack, double x, double y, double z, Matrix4f projection) {
-        this.renderChunkLayer(renderType, poseStack, x, y, z, projection);
+    public void veil$drawBlockLayer(RenderType renderType, double x, double y, double z, Matrix4fc frustum, Matrix4fc projection) {
+        this.renderSectionLayer(renderType, x, y, z, this.veil$tempFrustum.set(frustum), this.veil$tempProjection.set(projection));
     }
 }

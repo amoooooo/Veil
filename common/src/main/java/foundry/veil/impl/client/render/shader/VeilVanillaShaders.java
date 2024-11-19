@@ -2,7 +2,6 @@ package foundry.veil.impl.client.render.shader;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import foundry.veil.Veil;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -18,10 +17,7 @@ public final class VeilVanillaShaders {
     private static ShaderInstance worldborder;
 
     public static void registerShaders(Context context) throws IOException {
-        if (!Veil.SODIUM) {
-            context.register(new ResourceLocation("clouds"), DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL, value -> clouds = value);
-        }
-        context.register(new ResourceLocation("worldborder"), DefaultVertexFormat.POSITION_TEX, value -> worldborder = value);
+        context.register(ResourceLocation.withDefaultNamespace("worldborder"), DefaultVertexFormat.POSITION_TEX, value -> worldborder = value);
     }
 
     public static @Nullable ShaderInstance getClouds() {

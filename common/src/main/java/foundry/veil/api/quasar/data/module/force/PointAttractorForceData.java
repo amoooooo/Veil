@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.force;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -37,7 +38,7 @@ public record PointAttractorForceData(Vector3dc position,
                                       boolean strengthByDistance,
                                       boolean invertDistanceModifier) implements ParticleModuleData {
 
-    public static final Codec<PointAttractorForceData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<PointAttractorForceData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             CodecUtil.VECTOR3D_CODEC.fieldOf("position").forGetter(PointAttractorForceData::position),
             Codec.BOOL.optionalFieldOf("localPosition", false).forGetter(PointAttractorForceData::invertDistanceModifier),
             Codec.FLOAT.fieldOf("range").forGetter(PointAttractorForceData::range),

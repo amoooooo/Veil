@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.shader.texture;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import net.minecraft.resources.ResourceLocation;
@@ -17,13 +18,13 @@ public record FramebufferSource(ResourceLocation name,
                                 int sampler,
                                 boolean depth) implements ShaderTextureSource {
 
-    public static final Codec<FramebufferSource> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<FramebufferSource> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Codec.STRING.fieldOf("name").forGetter(source -> source.name.toString()),
             Codec.INT.optionalFieldOf("sampler", 0).forGetter(FramebufferSource::sampler)
     ).apply(instance, (name, sampler) -> {
         boolean depth = name.endsWith(":depth");
         String path = depth ? name.substring(0, name.length() - 6) : name;
-        ResourceLocation location = name.contains(":") ? new ResourceLocation(path) : new ResourceLocation("temp", name);
+        ResourceLocation location = name.contains(":") ? ResourceLocation.parse(path) : ResourceLocation.fromNamespaceAndPath("temp", name);
         return new FramebufferSource(location, depth ? 0 : sampler, depth);
     }));
 

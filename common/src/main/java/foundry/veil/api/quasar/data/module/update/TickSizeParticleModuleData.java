@@ -1,6 +1,6 @@
 package foundry.veil.api.quasar.data.module.update;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.molang.MolangExpressionCodec;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -12,7 +12,7 @@ import gg.moonflower.molangcompiler.api.exception.MolangRuntimeException;
 
 public record TickSizeParticleModuleData(MolangExpression size) implements ParticleModuleData {
 
-    public static final Codec<TickSizeParticleModuleData> CODEC = MolangExpressionCodec.CODEC.fieldOf("size").xmap(TickSizeParticleModuleData::new, TickSizeParticleModuleData::size).codec();
+    public static final MapCodec<TickSizeParticleModuleData> CODEC = MolangExpressionCodec.CODEC.fieldOf("size").xmap(TickSizeParticleModuleData::new, TickSizeParticleModuleData::size);
 
     @Override
     public void addModules(ParticleModuleSet.Builder builder) {

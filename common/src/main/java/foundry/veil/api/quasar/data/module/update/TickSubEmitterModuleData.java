@@ -1,6 +1,7 @@
 package foundry.veil.api.quasar.data.module.update;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -11,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public record TickSubEmitterModuleData(ResourceLocation subEmitter, int frequency) implements ParticleModuleData {
 
-    public static final Codec<TickSubEmitterModuleData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<TickSubEmitterModuleData> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("subemitter").forGetter(TickSubEmitterModuleData::subEmitter),
             Codec.INT.fieldOf("frequency").forGetter(TickSubEmitterModuleData::frequency)
     ).apply(instance, TickSubEmitterModuleData::new));

@@ -57,7 +57,7 @@ public class ShaderImportProcessor implements ShaderPreProcessor {
 
             try {
                 String trimmedImport = line.substring(ShaderImportProcessor.INCLUDE_KEY.length()).trim();
-                ResourceLocation include = new ResourceLocation(trimmedImport);
+                ResourceLocation include = ResourceLocation.parse(trimmedImport);
                 context.addInclude(include);
 
                 // Only read and process the import if it hasn't been added yet

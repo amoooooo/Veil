@@ -1,6 +1,7 @@
 package foundry.veil.api.client.registry;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.stage.BlitPostStage;
@@ -32,10 +33,10 @@ public class PostPipelineStageRegistry {
     public static void bootstrap() {
     }
 
-    private static <T extends PostPipeline> Supplier<PipelineType<T>> register(String name, Codec<T> codec) {
+    private static <T extends PostPipeline> Supplier<PipelineType<T>> register(String name, MapCodec<T> codec) {
         return PROVIDER.register(name, () -> new PipelineType<>(codec));
     }
 
-    public record PipelineType<T extends PostPipeline>(Codec<T> codec) {
+    public record PipelineType<T extends PostPipeline>(MapCodec<T> codec) {
     }
 }

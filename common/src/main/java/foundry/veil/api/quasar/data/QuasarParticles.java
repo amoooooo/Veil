@@ -31,13 +31,13 @@ public final class QuasarParticles {
 
     private static final SuggestionProvider<?> EMITTER_SUGGESTION_PROVIDER = (unused, builder) -> registryAccess().registry(EMITTER).map(registry -> SharedSuggestionProvider.suggestResource(registry.keySet(), builder)).orElseGet(Suggestions::empty);
     private static final List<RegistryDataLoader.RegistryData<?>> REGISTRIES = List.of(
-            new RegistryDataLoader.RegistryData<>(INIT_MODULES, ParticleModuleData.INIT_DIRECT_CODEC),
-            new RegistryDataLoader.RegistryData<>(UPDATE_MODULES, ParticleModuleData.UPDATE_DIRECT_CODEC),
-            new RegistryDataLoader.RegistryData<>(RENDER_MODULES, ParticleModuleData.RENDER_DIRECT_CODEC),
-            new RegistryDataLoader.RegistryData<>(PARTICLE_DATA, QuasarParticleData.DIRECT_CODEC),
-            new RegistryDataLoader.RegistryData<>(PARTICLE_SETTINGS, ParticleSettings.DIRECT_CODEC),
-            new RegistryDataLoader.RegistryData<>(EMITTER_SHAPE_SETTINGS, EmitterShapeSettings.DIRECT_CODEC),
-            new RegistryDataLoader.RegistryData<>(EMITTER, ParticleEmitterData.DIRECT_CODEC)
+            new RegistryDataLoader.RegistryData<>(INIT_MODULES, ParticleModuleData.INIT_DIRECT_CODEC, false),
+            new RegistryDataLoader.RegistryData<>(UPDATE_MODULES, ParticleModuleData.UPDATE_DIRECT_CODEC, false),
+            new RegistryDataLoader.RegistryData<>(RENDER_MODULES, ParticleModuleData.RENDER_DIRECT_CODEC, false),
+            new RegistryDataLoader.RegistryData<>(PARTICLE_DATA, QuasarParticleData.DIRECT_CODEC, false),
+            new RegistryDataLoader.RegistryData<>(PARTICLE_SETTINGS, ParticleSettings.DIRECT_CODEC, false),
+            new RegistryDataLoader.RegistryData<>(EMITTER_SHAPE_SETTINGS, EmitterShapeSettings.DIRECT_CODEC, false),
+            new RegistryDataLoader.RegistryData<>(EMITTER, ParticleEmitterData.DIRECT_CODEC, false)
     );
     private static RegistryAccess registryAccess = RegistryAccess.EMPTY;
 

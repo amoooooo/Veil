@@ -106,7 +106,7 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
         while (extension != null) {
             extension = NEXT_STAGES.get(extension);
 
-            ResourceLocation nextShader = new ResourceLocation(shader.getNamespace(), shader.getPath().substring(0, shader.getPath().length() - 3) + extension);
+            ResourceLocation nextShader = ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), shader.getPath().substring(0, shader.getPath().length() - 3) + extension);
             if (resourceProvider.getResource(nextShader).isPresent()) {
                 return nextShader;
             }
@@ -130,7 +130,7 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
                     continue;
                 }
 
-                ResourceLocation shaderId = new ResourceLocation(parts[0], parts[1]);
+                ResourceLocation shaderId = ResourceLocation.fromNamespaceAndPath(parts[0], parts[1]);
                 try (Reader reader = entry.getValue().openAsReader()) {
                     ShaderModification modification = ShaderModification.parse(IOUtils.toString(reader), shaderId.getPath().endsWith(".vsh"));
                     List<ShaderModification> modifications = modifiers.computeIfAbsent(shaderId, name -> new LinkedList<>());
@@ -139,7 +139,7 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
                         // TODO This doesn't respect priority
                         modifications.clear();
                     }
-                    if (modifications.size() != 1 || !(modifications.get(0) instanceof ReplaceShaderModification)) {
+                    if (modifications.size() != 1 || !(modifications.getFirst() instanceof ReplaceShaderModification)) {
                         modifications.add(modification);
                     }
                     names.put(modification, id);

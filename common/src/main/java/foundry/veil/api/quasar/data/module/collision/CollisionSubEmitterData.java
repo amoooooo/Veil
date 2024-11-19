@@ -1,6 +1,6 @@
 package foundry.veil.api.quasar.data.module.collision;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.data.module.ModuleType;
@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public record CollisionSubEmitterData(ResourceLocation subEmitter) implements ParticleModuleData {
 
-    public static final Codec<CollisionSubEmitterData> CODEC = ResourceLocation.CODEC.fieldOf("subemitter").xmap(CollisionSubEmitterData::new, CollisionSubEmitterData::subEmitter).codec();
+    public static final MapCodec<CollisionSubEmitterData> CODEC = ResourceLocation.CODEC.fieldOf("subemitter").xmap(CollisionSubEmitterData::new, CollisionSubEmitterData::subEmitter);
 
     @Override
     public void addModules(ParticleModuleSet.Builder builder) {

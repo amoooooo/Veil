@@ -65,7 +65,7 @@ public interface RegistrationProvider<T> {
      * on the wrapper might result in crashes!</strong>
      */
     default <I extends T> RegistryObject<I> register(String name, Supplier<? extends I> supplier) {
-        return this.register(new ResourceLocation(this.getModId(), name), supplier);
+        return this.register(ResourceLocation.fromNamespaceAndPath(this.getModId(), name), supplier);
     }
 
     /**

@@ -71,7 +71,7 @@ public class Veil {
     }
 
     public static ResourceLocation veilPath(String path) {
-        return new ResourceLocation(MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
     public static VeilPlatform platform() {

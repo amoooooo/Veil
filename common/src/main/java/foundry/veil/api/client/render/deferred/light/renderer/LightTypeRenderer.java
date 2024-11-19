@@ -48,10 +48,10 @@ public interface LightTypeRenderer<T extends Light> extends NativeResource {
      * @param builder The builder to draw into
      */
     static void createQuad(VertexConsumer builder) {
-        builder.vertex(-1, -1, 0).endVertex();
-        builder.vertex(1, -1, 0).endVertex();
-        builder.vertex(-1, 1, 0).endVertex();
-        builder.vertex(1, 1, 0).endVertex();
+        builder.addVertex(-1, -1, 0);
+        builder.addVertex(1, -1, 0);
+        builder.addVertex(-1, 1, 0);
+        builder.addVertex(1, 1, 0);
     }
 
     /**
@@ -60,19 +60,19 @@ public interface LightTypeRenderer<T extends Light> extends NativeResource {
      * @param builder The builder to draw into
      */
     static void createInvertedCube(VertexConsumer builder) {
-        builder.vertex(-1, 1, 1).endVertex(); // Front-top-left
-        builder.vertex(1, 1, 1).endVertex(); // Front-top-right
-        builder.vertex(-1, -1, 1).endVertex(); // Front-bottom-left
-        builder.vertex(1, -1, 1).endVertex(); // Front-bottom-right
-        builder.vertex(1, -1, -1).endVertex(); // Back-bottom-right
-        builder.vertex(1, 1, 1).endVertex(); // Front-top-right
-        builder.vertex(1, 1, -1).endVertex(); // Back-top-right
-        builder.vertex(-1, 1, 1).endVertex(); // Front-top-left
-        builder.vertex(-1, 1, -1).endVertex(); // Back-top-left
-        builder.vertex(-1, -1, 1).endVertex(); // Front-bottom-left
-        builder.vertex(-1, -1, -1).endVertex(); // Back-bottom-left
-        builder.vertex(1, -1, -1).endVertex(); // Back-bottom-right
-        builder.vertex(-1, 1, -1).endVertex(); // Back-top-left
-        builder.vertex(1, 1, -1).endVertex(); // Back-top-right
+        builder.addVertex(-1, 1, 1); // Front-top-left
+        builder.addVertex(1, 1, 1); // Front-top-right
+        builder.addVertex(-1, -1, 1); // Front-bottom-left
+        builder.addVertex(1, -1, 1); // Front-bottom-right
+        builder.addVertex(1, -1, -1); // Back-bottom-right
+        builder.addVertex(1, 1, 1); // Front-top-right
+        builder.addVertex(1, 1, -1); // Back-top-right
+        builder.addVertex(-1, 1, 1); // Front-top-left
+        builder.addVertex(-1, 1, -1); // Back-top-left
+        builder.addVertex(-1, -1, 1); // Front-bottom-left
+        builder.addVertex(-1, -1, -1); // Back-bottom-left
+        builder.addVertex(1, -1, -1); // Back-bottom-right
+        builder.addVertex(-1, 1, -1); // Back-top-left
+        builder.addVertex(1, 1, -1); // Back-top-right
     }
 }

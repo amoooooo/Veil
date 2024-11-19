@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.deferred.light.renderer;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.CullFrustum;
@@ -115,7 +116,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     /**
      * @return The mesh data each instanced light will be rendered with use
      */
-    protected abstract BufferBuilder.RenderedBuffer createMesh();
+    protected abstract MeshData createMesh();
 
     /**
      * Sets up the instanced buffer state.

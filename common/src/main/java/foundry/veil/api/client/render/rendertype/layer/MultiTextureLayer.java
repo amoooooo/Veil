@@ -1,7 +1,6 @@
 package foundry.veil.api.client.render.rendertype.layer;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import foundry.veil.api.client.registry.RenderTypeLayerRegistry;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -10,9 +9,9 @@ import java.util.Arrays;
 
 public record MultiTextureLayer(TextureLayer[] textures) implements RenderTypeLayer {
 
-    public static final Codec<MultiTextureLayer> CODEC = TextureLayer.CODEC.listOf()
-            .flatXmap(textures -> textures.size() < 2 ? DataResult.error(() -> "At least 2 textures must be specified") : DataResult.success(new MultiTextureLayer(textures.toArray(TextureLayer[]::new))),
-                    layer -> DataResult.success(Arrays.asList(layer.textures))).fieldOf("textures").codec();
+    public static final MapCodec<MultiTextureLayer> CODEC = TextureLayer.CODEC.codec().listOf(2, Integer.MAX_VALUE)
+            .xmap(textures -> new MultiTextureLayer(textures.toArray(TextureLayer[]::new)),
+                    layer -> Arrays.asList(layer.textures)).fieldOf("textures");
 
     @Override
     public void addLayer(VeilRenderTypeBuilder builder) {

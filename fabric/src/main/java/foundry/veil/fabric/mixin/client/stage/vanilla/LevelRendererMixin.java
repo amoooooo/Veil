@@ -1,6 +1,5 @@
 package foundry.veil.fabric.mixin.client.stage.vanilla;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.fabric.ext.LevelRendererExtension;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
@@ -13,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
 
-    @Inject(method = "renderChunkLayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;clearRenderState()V", shift = At.Shift.BEFORE))
-    public void postRenderChunkLayer(RenderType renderType, PoseStack poseStack, double d, double e, double f, Matrix4f projection, CallbackInfo ci) {
-        ((LevelRendererExtension) this).veil$renderStage(renderType, poseStack, projection);
+    @Inject(method = "renderSectionLayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;clearRenderState()V", shift = At.Shift.BEFORE))
+    public void postRenderSectionLayer(RenderType renderType, double x, double y, double z, Matrix4f frustrumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
+        ((LevelRendererExtension) this).veil$renderStage(renderType, frustrumMatrix, projectionMatrix);
     }
 }

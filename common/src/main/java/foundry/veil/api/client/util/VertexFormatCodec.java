@@ -13,20 +13,20 @@ import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.renderer.RenderType;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class VertexFormatCodec {
 
     private static final Map<String, VertexFormatElement> DEFAULT_ELEMENTS = Map.of(
-            "POSITION", DefaultVertexFormat.ELEMENT_POSITION,
-            "COLOR", DefaultVertexFormat.ELEMENT_COLOR,
-            "UV0", DefaultVertexFormat.ELEMENT_UV0,
-            "UV1", DefaultVertexFormat.ELEMENT_UV1,
-            "UV2", DefaultVertexFormat.ELEMENT_UV2,
-            "NORMAL", DefaultVertexFormat.ELEMENT_NORMAL,
-            "PADDING", DefaultVertexFormat.ELEMENT_PADDING,
-            "UV", DefaultVertexFormat.ELEMENT_UV);
+            "POSITION", VertexFormatElement.POSITION,
+            "COLOR", VertexFormatElement.COLOR,
+            "UV0", VertexFormatElement.UV0,
+            "UV1", VertexFormatElement.UV1,
+            "UV2", VertexFormatElement.UV2,
+            "NORMAL", VertexFormatElement.NORMAL,
+            "UV", VertexFormatElement.UV);
     private static final Map<String, VertexFormat> DEFAULT_FORMATS = Map.ofEntries(
             Map.entry("BLIT_SCREEN", DefaultVertexFormat.BLIT_SCREEN),
             Map.entry("BLOCK", DefaultVertexFormat.BLOCK),
@@ -37,14 +37,12 @@ public class VertexFormatCodec {
             Map.entry("POSITION_COLOR_NORMAL", DefaultVertexFormat.POSITION_COLOR_NORMAL),
             Map.entry("POSITION_COLOR_LIGHTMAP", DefaultVertexFormat.POSITION_COLOR_LIGHTMAP),
             Map.entry("POSITION_TEX", DefaultVertexFormat.POSITION_TEX),
-            Map.entry("POSITION_COLOR_TEX", DefaultVertexFormat.POSITION_COLOR_TEX),
             Map.entry("POSITION_TEX_COLOR", DefaultVertexFormat.POSITION_TEX_COLOR),
             Map.entry("POSITION_COLOR_TEX_LIGHTMAP", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP),
             Map.entry("POSITION_TEX_LIGHTMAP_COLOR", DefaultVertexFormat.POSITION_TEX_LIGHTMAP_COLOR),
             Map.entry("POSITION_TEX_COLOR_NORMAL", DefaultVertexFormat.POSITION_TEX_COLOR_NORMAL));
     private static final Object2IntMap<String> DEFAULT_BUFFER_SIZES = new Object2IntArrayMap<>(Map.of(
             "BIG", RenderType.BIG_BUFFER_SIZE,
-            "MEDIUM", RenderType.MEDIUM_BUFFER_SIZE,
             "SMALL", RenderType.SMALL_BUFFER_SIZE,
             "TRANSIENT", RenderType.TRANSIENT_BUFFER_SIZE));
 
@@ -85,12 +83,13 @@ public class VertexFormatCodec {
         }
         return DataResult.error(() -> "Unknown default element for: " + element);
     });
-    private static final Codec<VertexFormatElement> FULL_ELEMENT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("index").forGetter(VertexFormatElement::getIndex),
-            ELEMENT_TYPE_CODEC.fieldOf("type").forGetter(VertexFormatElement::getType),
-            ELEMENT_USAGE_CODEC.fieldOf("usage").forGetter(VertexFormatElement::getUsage),
-            Codec.intRange(0, Integer.MAX_VALUE).fieldOf("count").forGetter(VertexFormatElement::getCount)
-    ).apply(instance, VertexFormatElement::new));
+    // FIXME
+    private static final Codec<VertexFormatElement> FULL_ELEMENT_CODEC = null;/*= RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("index").forGetter(VertexFormatElement::index),
+            ELEMENT_TYPE_CODEC.fieldOf("type").forGetter(VertexFormatElement::type),
+            ELEMENT_USAGE_CODEC.fieldOf("usage").forGetter(VertexFormatElement::usage),
+            Codec.intRange(0, Integer.MAX_VALUE).fieldOf("count").forGetter(VertexFormatElement::count)
+    ).apply(instance, VertexFormatElement::new));*/
 
     public static final Codec<VertexFormatElement> ELEMENT_CODEC = Codec.either(DEFAULT_ELEMENT_CODEC, FULL_ELEMENT_CODEC).xmap(either -> either.map(a -> a, a -> a), element -> {
         for (Map.Entry<String, VertexFormatElement> entry : DEFAULT_ELEMENTS.entrySet()) {
@@ -113,16 +112,15 @@ public class VertexFormatCodec {
         }
         return DataResult.error(() -> "Unknown default vertex format for: " + format);
     });
-    @SuppressWarnings("UnstableApiUsage")
-    private static final Codec<VertexFormat> FULL_CODEC = Codec.unboundedMap(Codec.STRING, ELEMENT_CODEC).xmap(map -> new VertexFormat(ImmutableMap.copyOf(map)), format -> {
-        ImmutableList<String> keys = format.getElementAttributeNames();
-        ImmutableList<VertexFormatElement> values = format.getElements();
+    private static final Codec<VertexFormat> FULL_CODEC = null;/*Codec.unboundedMap(Codec.STRING, ELEMENT_CODEC).xmap(map -> new VertexFormat(ImmutableMap.copyOf(map)), format -> {
+        List<String> keys = format.getElementAttributeNames();
+        List<VertexFormatElement> values = format.getElements();
         ImmutableMap.Builder<String, VertexFormatElement> map = ImmutableMap.builderWithExpectedSize(keys.size());
         for (int i = 0; i < keys.size(); i++) {
             map.put(keys.get(i), values.get(i));
         }
         return map.build();
-    });
+    });*/
 
     public static final Codec<VertexFormat> CODEC = Codec.either(DEFAULT_CODEC, FULL_CODEC).xmap(either -> either.map(a -> a, a -> a), format -> {
         for (Map.Entry<String, VertexFormat> entry : DEFAULT_FORMATS.entrySet()) {

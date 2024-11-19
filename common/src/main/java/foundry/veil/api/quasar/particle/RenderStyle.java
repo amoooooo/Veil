@@ -65,11 +65,10 @@ public interface RenderStyle {
                         v = spriteData.v(renderData.getRenderAge(), renderData.getAgePercent(), v);
                     }
 
-                    builder.vertex(matrix4f, vec.x, vec.y, vec.z);
-                    builder.uv(u, v);
-                    builder.color(renderData.getRed(), renderData.getGreen(), renderData.getBlue(), renderData.getAlpha());
-                    builder.uv2(renderData.getLightColor());
-                    builder.endVertex();
+                    builder.addVertex(matrix4f, vec.x, vec.y, vec.z);
+                    builder.setUv(u, v);
+                    builder.setColor(renderData.getRed(), renderData.getGreen(), renderData.getBlue(), renderData.getAlpha());
+                    builder.setLight(renderData.getLightColor());
                 }
             }
         }
@@ -132,11 +131,10 @@ public interface RenderStyle {
 //                        u1 = u;
 //                        v1 = v;
 //                    }
-                builder.vertex(matrix4f, vec.x, vec.y, vec.z);
-                builder.uv(u, v);
-                builder.color(red, green, blue, alpha);
-                builder.uv2(renderData.getLightColor());
-                builder.endVertex();
+                builder.addVertex(matrix4f, vec.x, vec.y, vec.z);
+                builder.setUv(u, v);
+                builder.setColor(red, green, blue, alpha);
+                builder.setLight(renderData.getLightColor());
             }
         }
     }

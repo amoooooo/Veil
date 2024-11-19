@@ -5,6 +5,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.CompiledShader;
@@ -26,6 +27,7 @@ import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.resources.Resource;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -401,17 +403,18 @@ public class ShaderProgramImpl implements ShaderProgram {
             }
 
             @Override
-            public boolean isBuiltin() {
-                return true;
+            public Optional<KnownPack> knownPackInfo() {
+                return Optional.empty();
             }
         };
+        private static final VertexFormat DUMMY_FORMAT = VertexFormat.builder().build();
 
         public static boolean constructing = false;
 
         private final ShaderProgram program;
 
         private Wrapper(ShaderProgram program) throws IOException {
-            super(name -> Optional.of(RESOURCE), "", null);
+            super(name -> Optional.of(RESOURCE), "", DUMMY_FORMAT);
             this.program = program;
         }
 
@@ -456,12 +459,12 @@ public class ShaderProgramImpl implements ShaderProgram {
         @Override
         public void setSampler(String name, Object value) {
             int sampler = -1;
-            if (value instanceof RenderTarget target) {
-                sampler = target.getColorTextureId();
-            } else if (value instanceof AbstractTexture texture) {
-                sampler = texture.getId();
-            } else if (value instanceof Integer id) {
-                sampler = id;
+            switch (value) {
+                case RenderTarget target -> sampler = target.getColorTextureId();
+                case AbstractTexture texture -> sampler = texture.getId();
+                case Integer id -> sampler = id;
+                default -> {
+                }
             }
 
             if (sampler != -1) {

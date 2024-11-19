@@ -271,8 +271,8 @@ public class Trail {
                 u = (float) i / (corners.length - 1);
             }
             Matrix4f matrix4f = stack.last().pose();
-            consumer.vertex(matrix4f, bottom.x(), bottom.y(), bottom.z()).color(r, g, b, a).uv(u, 0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
-            consumer.vertex(matrix4f, top.x(), top.y(), top.z()).color(r, g, b, a).uv(u, 1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
+            consumer.addVertex(matrix4f, bottom.x(), bottom.y(), bottom.z()).setColor(r, g, b, a).setUv(u, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
+            consumer.addVertex(matrix4f, top.x(), top.y(), top.z()).setColor(r, g, b, a).setUv(u, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
 //            consumer.vertex(matrix4f, nextTop.x(), nextTop.y(), nextTop.z()).color(r, g, b, a).uv(u1, 1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
 //            consumer.vertex(matrix4f, nextBottom.x(), nextBottom.y(), nextBottom.z()).color(r, g, b, a).uv(u1, 0).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();
         }

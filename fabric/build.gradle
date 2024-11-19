@@ -1,17 +1,12 @@
 plugins {
+    id 'multiloader-loader'
     id 'fabric-loom'
-    id 'com.github.johnrengelman.shadow'
-}
-base {
-    archivesName = "${mod_name}-fabric-${minecraft_version}"
-}
-if (System.getenv('BUILD_NUMBER') != null) {
-    version += "." + System.getenv('BUILD_NUMBER')
 }
 
 loom {
-    if (project(":common").file("src/main/resources/${mod_id}.accesswidener").exists()) {
-        accessWidenerPath.set(project(":common").file("src/main/resources/${mod_id}.accesswidener"))
+    def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
     }
     mixin {
         defaultRefmapName.set("${mod_id}.refmap.json")
@@ -19,51 +14,37 @@ loom {
     runs {
         client {
             client()
-            setConfigName("Fabric Client")
+            setConfigName('Fabric Client')
             ideConfigGenerated(true)
-            runDir("run")
+            runDir('runs/client')
         }
         server {
             server()
-            setConfigName("Fabric Server")
+            setConfigName('Fabric Server')
             ideConfigGenerated(true)
-            runDir("run")
-        }
-    }
-}
-
-configurations {
-    shade
-}
-
-repositories {
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
+            runDir('runs/server')
         }
     }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.officialMojangMappings()
+    mappings loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+    }
+
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     implementation 'org.jetbrains:annotations:24.0.1'
-    implementation project(path: ":common", configuration: "namedElements")
+//    implementation project(path: ":common", configuration: "namedElements")
 
-    modCompileOnly "maven.modrinth:sodium:mc1.20.1-0.5.3"
-    modCompileOnly "maven.modrinth:iris:1.6.11+1.20.1"
-    modCompileOnly "maven.modrinth:replaymod:1.20.1-2.6.15"
-//    modRuntimeOnly "maven.modrinth:sodium:mc1.20.1-0.5.3"
-//    modRuntimeOnly "maven.modrinth:iris:1.6.11+1.20.1"
-//    modRuntimeOnly "maven.modrinth:replaymod:1.20.1-2.6.15"
+    modCompileOnly "maven.modrinth:sodium:mc1.21-0.5.11"
+    modCompileOnly "maven.modrinth:iris:1.7.5+1.20.1"
+    modCompileOnly "maven.modrinth:replaymod:1.21-2.6.20"
+//    modRuntimeOnly "maven.modrinth:sodium:mc1.21-0.5.11"
+//    modRuntimeOnly "maven.modrinth:iris:1.7.5+1.20.1"
+//    modRuntimeOnly "maven.modrinth:replaymod:1.21-2.6.20"
 
     api(include("gg.moonflower:molang-compiler:${molang_compiler_version}"))
 
@@ -90,50 +71,4 @@ dependencies {
     runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-macos-arm64"))
     runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-windows"))
     runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-windows-arm64"))
-}
-
-tasks.withType(JavaCompile).configureEach {
-    source(project(":common").sourceSets.main.allSource)
-}
-tasks.named("sourcesJar", Jar) {
-    from(project(":common").sourceSets.main.allSource)
-}
-
-shadowJar {
-    archiveClassifier = 'dev'
-    configurations = [project.configurations.shade]
-//    relocate "org.objectweb.asm", "${project.group}.lib.asm"
-//    relocate "org.lwjgl.opencl", "${project.group}.lib.opencl"
-//    relocate "gg.moonflower.molangcompiler", "${project.group}.lib.molangcompiler"
-//    relocate "imgui", "${project.group}.lib.imgui"
-//    relocate "io.imgui", "${project.group}.lib.imgui-natives"
-//    relocate "io.github.spair:imgui-java-binding:$imgui_version", "${project.group}.relocated.imgui-java-binding"
-//    relocate "io.github.spair:imgui-java-lwjgl3:$imgui_version", "${project.group}.relocated.imgui-java-lwjgl3"
-//    relocate "io.github.spair:imgui-java-natives-linux:$imgui_version", "${project.group}.relocated.imgui-java-natives-linux"
-//    relocate "io.github.spair:imgui-java-natives-windows:$imgui_version", "${project.group}.relocated.imgui-java-natives-windows"
-//    relocate "io.github.spair:imgui-java-natives-macos:$imgui_version", "${project.group}.relocated.imgui-java-natives-macos"
-//    relocate ":imgui-binding-natives-macosarm64-1.86.11", "${project.group}.relocated.imgui-java-natives-macosarm64"
-}
-
-remapJar {
-    dependsOn(shadowJar)
-    inputFile = tasks.shadowJar.archiveFile
-}
-
-processResources {
-    from project(":common").sourceSets.main.resources
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId base.archivesName.get()
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
-        }
-    }
 }
