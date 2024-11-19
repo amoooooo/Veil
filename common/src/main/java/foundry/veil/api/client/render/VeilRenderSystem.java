@@ -249,18 +249,15 @@ public final class VeilRenderSystem {
         renderer = new VeilRenderer(resourceManager);
         VeilImGuiImpl.init(client.getWindow().getWindow());
 
-        Tesselator tesselator = RenderSystem.renderThreadTesselator();
-        BufferBuilder bufferBuilder = tesselator.getBuilder();
-
-        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
-        bufferBuilder.vertex(-1, 1, 0).endVertex();
-        bufferBuilder.vertex(-1, -1, 0).endVertex();
-        bufferBuilder.vertex(1, 1, 0).endVertex();
-        bufferBuilder.vertex(1, -1, 0).endVertex();
+        BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
+        bufferBuilder.addVertex(-1, 1, 0);
+        bufferBuilder.addVertex(-1, -1, 0);
+        bufferBuilder.addVertex(1, 1, 0);
+        bufferBuilder.addVertex(1, -1, 0);
 
         vbo = new VertexBuffer(VertexBuffer.Usage.STATIC);
         vbo.bind();
-        vbo.upload(bufferBuilder.end());
+        vbo.upload(bufferBuilder.buildOrThrow());
         VertexBuffer.unbind();
     }
 
