@@ -1,6 +1,5 @@
 package foundry.veil.api.client.render.post;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.serialization.Codec;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
 import foundry.veil.api.client.render.VeilRenderSystem;
@@ -250,11 +249,6 @@ public interface PostPipeline extends MutableUniformAccess, NativeResource {
      * @author Ocelot
      */
     interface Context extends ShaderTextureSource.Context {
-
-        /**
-         * Draws a quad onto the full screen using {@link DefaultVertexFormat#POSITION}.
-         */
-        void drawScreenQuad();
 
         /**
          * Binds a named sampler id. All samplers can be applied with {@link #applySamplers(ShaderProgram)} for adding them to shaders.

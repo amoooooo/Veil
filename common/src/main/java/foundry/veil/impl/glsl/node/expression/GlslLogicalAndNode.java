@@ -1,7 +1,6 @@
 package foundry.veil.impl.glsl.node.expression;
 
 import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 
 import java.util.List;
 import java.util.stream.Collectors;

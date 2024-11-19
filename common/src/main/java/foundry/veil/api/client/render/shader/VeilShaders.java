@@ -24,6 +24,8 @@ public final class VeilShaders {
 
     public static final ResourceLocation SKINNED_MESH = necromancer("skinned_mesh");
 
+    public static final ResourceLocation DEBUG_CUBEMAP = debug("cubemap");
+
     private static ResourceLocation quasar(String name) {
         return Veil.veilPath("quasar/" + name);
     }
@@ -34,5 +36,9 @@ public final class VeilShaders {
 
     private static ResourceLocation necromancer(String name) {
         return Veil.veilPath("necromancer/" + name);
+    }
+
+    private static ResourceLocation debug(String name) {
+        return Veil.veilPath("debug/" + name);
     }
 }

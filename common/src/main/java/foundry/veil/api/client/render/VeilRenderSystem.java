@@ -3,8 +3,7 @@ package foundry.veil.api.client.render;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.VertexBuffer;
+import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
@@ -60,6 +59,7 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier TRANSFORM_FEEDBACK_SUPPORTED = glCapability(caps -> caps.OpenGL40 || caps.GL_ARB_transform_feedback3);
     private static final BooleanSupplier TEXTURE_MULTIBIND_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.glBindTextures != 0L);
     private static final BooleanSupplier SPARSE_BUFFERS_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_sparse_buffer);
+    private static final BooleanSupplier DIRECT_STATE_ACCESS_SUPPORTED = glCapability(caps -> caps.OpenGL45 || caps.GL_ARB_direct_state_access);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
     private static final IntSupplier MAX_COLOR_ATTACHMENTS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COLOR_ATTACHMENTS));
     private static final IntSupplier MAX_SAMPLES = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SAMPLES));
@@ -67,15 +67,16 @@ public final class VeilRenderSystem {
     private static final IntSupplier MAX_UNIFORM_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_UNIFORM_BUFFER_BINDINGS));
     private static final IntSupplier MAX_ATOMIC_COUNTER_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS));
     private static final IntSupplier MAX_SHADER_STORAGE_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS));
+    private static final IntSupplier MAX_ARRAY_TEXTURE_LAYERS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ARRAY_TEXTURE_LAYERS));
 
     private static final Supplier<VeilShaderLimits> VERTEX_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_VERTEX_UNIFORM_COMPONENTS,
-                GL_MAX_VERTEX_UNIFORM_BLOCKS,
-                GL_MAX_VERTEX_ATTRIBS * 4,
-                GL_MAX_VERTEX_OUTPUT_COMPONENTS,
-                GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_VERTEX_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_VERTEX_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_VERTEX_ATTRIBS) * 4,
+                glGetInteger(GL_MAX_VERTEX_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS),
                 GL_MAX_VERTEX_IMAGE_UNIFORMS,
                 GL_MAX_VERTEX_ATOMIC_COUNTERS,
                 GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS,
@@ -84,11 +85,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_TESS_CONTROL_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS,
-                GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS,
-                GL_MAX_TESS_CONTROL_INPUT_COMPONENTS,
-                GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS,
-                GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_TESS_CONTROL_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS),
                 GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS,
                 GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS,
                 GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS,
@@ -97,11 +98,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_TESS_EVALUATION_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS,
-                GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS,
-                GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS,
-                GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS,
-                GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS),
                 GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS,
                 GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS,
                 GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS,
@@ -110,11 +111,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_GEOMETRY_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_GEOMETRY_UNIFORM_COMPONENTS,
-                GL_MAX_GEOMETRY_UNIFORM_BLOCKS,
-                GL_MAX_GEOMETRY_INPUT_COMPONENTS,
-                GL_MAX_GEOMETRY_OUTPUT_COMPONENTS,
-                GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_GEOMETRY_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_GEOMETRY_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_GEOMETRY_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_GEOMETRY_OUTPUT_COMPONENTS),
+                glGetInteger(GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS),
                 GL_MAX_GEOMETRY_IMAGE_UNIFORMS,
                 GL_MAX_GEOMETRY_ATOMIC_COUNTERS,
                 GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS,
@@ -123,11 +124,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_FRAGMENT_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_FRAGMENT_UNIFORM_COMPONENTS,
-                GL_MAX_FRAGMENT_UNIFORM_BLOCKS,
-                GL_MAX_FRAGMENT_INPUT_COMPONENTS,
-                GL_MAX_DRAW_BUFFERS * 4,
-                GL_MAX_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_FRAGMENT_UNIFORM_BLOCKS),
+                glGetInteger(GL_MAX_FRAGMENT_INPUT_COMPONENTS),
+                glGetInteger(GL_MAX_DRAW_BUFFERS) * 4,
+                glGetInteger(GL_MAX_TEXTURE_IMAGE_UNITS),
                 GL_MAX_FRAGMENT_IMAGE_UNIFORMS,
                 GL_MAX_FRAGMENT_ATOMIC_COUNTERS,
                 GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS,
@@ -136,11 +137,11 @@ public final class VeilRenderSystem {
     private static final Supplier<VeilShaderLimits> GL_COMPUTE_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
         return new VeilShaderLimits(caps,
-                GL_MAX_COMPUTE_UNIFORM_COMPONENTS,
-                GL_MAX_COMPUTE_UNIFORM_BLOCKS,
+                glGetInteger(GL_MAX_COMPUTE_UNIFORM_COMPONENTS),
+                glGetInteger(GL_MAX_COMPUTE_UNIFORM_BLOCKS),
                 0,
                 0,
-                GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS,
+                glGetInteger(GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS),
                 GL_MAX_COMPUTE_IMAGE_UNIFORMS,
                 GL_MAX_COMPUTE_ATOMIC_COUNTERS,
                 GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS,
@@ -185,6 +186,8 @@ public final class VeilRenderSystem {
 
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
+    private static VertexBuffer vbo;
+
 
     private VeilRenderSystem() {
     }
@@ -245,6 +248,20 @@ public final class VeilRenderSystem {
 
         renderer = new VeilRenderer(resourceManager);
         VeilImGuiImpl.init(client.getWindow().getWindow());
+
+        Tesselator tesselator = RenderSystem.renderThreadTesselator();
+        BufferBuilder bufferBuilder = tesselator.getBuilder();
+
+        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
+        bufferBuilder.vertex(-1, 1, 0).endVertex();
+        bufferBuilder.vertex(-1, -1, 0).endVertex();
+        bufferBuilder.vertex(1, 1, 0).endVertex();
+        bufferBuilder.vertex(1, -1, 0).endVertex();
+
+        vbo = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        vbo.bind();
+        vbo.upload(bufferBuilder.end());
+        VertexBuffer.unbind();
     }
 
     private static void invalidateTextures(int first, int count) {
@@ -274,6 +291,15 @@ public final class VeilRenderSystem {
     public static void bindTextures(int first, int... textures) {
         invalidateTextures(first, textures.length);
         glBindTextures(first, textures);
+    }
+
+    /**
+     * Draws a quad onto the full screen using {@link DefaultVertexFormat#POSITION}.
+     */
+    public static void drawScreenQuad() {
+        vbo.bind();
+        vbo.draw();
+        VertexBuffer.unbind();
     }
 
     /**
@@ -362,6 +388,26 @@ public final class VeilRenderSystem {
     }
 
     /**
+     * Consumes all OpenGL errors and prints them to console.
+     *
+     * @param glCall The name of the OpenGL call made for extra logging or <code>null</code> to not include
+     */
+    public static void printGlErrors(@Nullable String glCall) {
+        while (true) {
+            int error = GlStateManager._getError();
+            if (error == GL_NO_ERROR) {
+                break;
+            }
+
+            if (glCall != null) {
+                Veil.LOGGER.error("[OpenGL Error] '{}' 0x{}", glCall, Integer.toHexString(error).toUpperCase(Locale.ROOT));
+            } else {
+                Veil.LOGGER.error("[OpenGL Error] 0x{}", Integer.toHexString(error).toUpperCase(Locale.ROOT));
+            }
+        }
+    }
+
+    /**
      * Retrieves the number of indices in the specified vertex buffer.
      *
      * @param vbo The vertex buffer to query
@@ -407,6 +453,13 @@ public final class VeilRenderSystem {
     }
 
     /**
+     * @return Whether {@link ARBDirectStateAccess} is supported
+     */
+    public static boolean directStateAccessSupported() {
+        return VeilRenderSystem.DIRECT_STATE_ACCESS_SUPPORTED.getAsBoolean();
+    }
+
+    /**
      * @return The GL maximum number of texture units that can be bound
      */
     public static int maxCombinedTextureUnits() {
@@ -439,7 +492,8 @@ public final class VeilRenderSystem {
             case GL_UNIFORM_BUFFER -> maxUniformBuffersBindings();
             case GL_ATOMIC_COUNTER_BUFFER -> maxAtomicCounterBufferBindings();
             case GL_SHADER_STORAGE_BUFFER -> maxShaderStorageBufferBindings();
-            default -> throw new IllegalArgumentException("Invalid Target: 0x" + Integer.toHexString(target).toUpperCase(Locale.ROOT));
+            default ->
+                    throw new IllegalArgumentException("Invalid Target: 0x" + Integer.toHexString(target).toUpperCase(Locale.ROOT));
         };
     }
 
@@ -457,7 +511,8 @@ public final class VeilRenderSystem {
             case GL_GEOMETRY_SHADER -> GL_GEOMETRY_SHADER_LIMITS.get();
             case GL_FRAGMENT_SHADER -> GL_FRAGMENT_SHADER_LIMITS.get();
             case GL_COMPUTE_SHADER -> GL_COMPUTE_SHADER_LIMITS.get();
-            default -> throw new IllegalArgumentException("Invalid Shader Type: 0x" + Integer.toHexString(shader).toUpperCase(Locale.ROOT));
+            default ->
+                    throw new IllegalArgumentException("Invalid Shader Type: 0x" + Integer.toHexString(shader).toUpperCase(Locale.ROOT));
         };
     }
 
@@ -487,6 +542,13 @@ public final class VeilRenderSystem {
      */
     public static int maxShaderStorageBufferBindings() {
         return VeilRenderSystem.MAX_SHADER_STORAGE_BUFFER_BINDINGS.getAsInt();
+    }
+
+    /**
+     * @return The GL maximum number of array texture layers available
+     */
+    public static int maxArrayTextureLayers() {
+        return VeilRenderSystem.MAX_ARRAY_TEXTURE_LAYERS.getAsInt();
     }
 
     /**
@@ -669,6 +731,7 @@ public final class VeilRenderSystem {
         if (renderer != null) {
             renderer.free();
         }
+        vbo.close();
     }
 
     @ApiStatus.Internal

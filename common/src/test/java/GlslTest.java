@@ -4,6 +4,7 @@ import foundry.veil.impl.glsl.GlslSyntaxException;
 import foundry.veil.impl.glsl.grammar.GlslVersion;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.visitor.GlslStringWriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -281,6 +282,18 @@ public class GlslTest {
                     0.0, 0.0, 0.0, 1.0
                 );
                 """);
+
+        GlslStringWriter writer = new GlslStringWriter();
+        tree.visit(writer);
+        System.out.println(writer);
+    }
+
+    @Test
+    void testSmall() throws GlslSyntaxException {
+        GlslTree tree = GlslParser.parse("void mainImage(out vec4 z,vec2 I){z*=0.;for(vec3 R=iResolution;dot(z,z)<9.;z.z+=.1)z.xy=vec2(z.x*z.x-z.y*z.y,2.*z.x*z.y)+2.*(I+I-R.xy)/R.x;}");
+
+        GlslFunctionNode mainImage = tree.functions().filter(fun -> fun.getHeader().getName().equals("mainImage")).findFirst().orElseThrow();
+        mainImage.getBody().addAll(GlslParser.parseExpressionList("return 42;"));
 
         GlslStringWriter writer = new GlslStringWriter();
         tree.visit(writer);

@@ -2,6 +2,7 @@ package foundry.veil.mixin.debug;
 
 import foundry.veil.Veil;
 import foundry.veil.platform.VeilPlatform;
+import net.minecraft.Util;
 import net.minecraft.client.main.Main;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -32,7 +33,7 @@ public class RenderDocker {
         String path = System.getProperty("java.library.path");
         String name = System.mapLibraryName("renderdoc");
         boolean detected = false;
-        for (String folder : path.split(";")) {
+        for (String folder : path.split(Util.getPlatform() == Util.OS.WINDOWS ? ";" : ":")) {
             if (Files.exists(Path.of(folder + "/" + name))) {
                 detected = true;
                 break;
