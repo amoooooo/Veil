@@ -14,9 +14,9 @@ import net.fabricmc.fabric.api.event.EventFactory;
 @FunctionalInterface
 public interface FabricVeilRenderLevelStageEvent extends VeilRenderLevelStageEvent {
 
-    Event<VeilRenderLevelStageEvent> EVENT = EventFactory.createArrayBacked(VeilRenderLevelStageEvent.class, events -> (stage, levelRenderer, bufferSource, poseStack, projectionMatrix, renderTick, partialTicks, camera, frustum) -> {
+    Event<VeilRenderLevelStageEvent> EVENT = EventFactory.createArrayBacked(VeilRenderLevelStageEvent.class, events -> (stage, levelRenderer, bufferSource, matrixStack, frustumMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum) -> {
         for (VeilRenderLevelStageEvent event : events) {
-            event.onRenderLevelStage(stage, levelRenderer, bufferSource, poseStack, projectionMatrix, renderTick, partialTicks, camera, frustum);
+            event.onRenderLevelStage(stage, levelRenderer, bufferSource, matrixStack, frustumMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum);
         }
     });
 }

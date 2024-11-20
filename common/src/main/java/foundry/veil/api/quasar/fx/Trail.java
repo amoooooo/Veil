@@ -1,9 +1,9 @@
 package foundry.veil.api.quasar.fx;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import foundry.veil.api.client.render.MatrixStack;
 import foundry.veil.api.quasar.emitters.module.render.TrailSettings;
 import foundry.veil.impl.quasar.MathUtil;
 import net.minecraft.client.Minecraft;
@@ -209,7 +209,7 @@ public class Trail {
         this.rotations = newRotations;
     }
 
-    public void render(PoseStack stack, VertexConsumer consumer, int light) {
+    public void render(MatrixStack stack, VertexConsumer consumer, int light) {
         Vector3f[][] corners = new Vector3f[this.points.length][2];
         for (int i = 0; i < this.points.length; i++) {
             if (i % this.frequency != 0) {
@@ -253,7 +253,7 @@ public class Trail {
         this.renderPoints(stack, consumer, light, corners, this.color);
     }
 
-    private void renderPoints(PoseStack stack, VertexConsumer consumer, int light, Vector3f[][] corners, int color) {
+    private void renderPoints(MatrixStack stack, VertexConsumer consumer, int light, Vector3f[][] corners, int color) {
         int r = color >> 16 & 255;
         int g = color >> 8 & 255;
         int b = color & 255;
@@ -270,7 +270,7 @@ public class Trail {
             if (this.tilingMode == TilingMode.STRETCH) {
                 u = (float) i / (corners.length - 1);
             }
-            Matrix4f matrix4f = stack.last().pose();
+            Matrix4f matrix4f = stack.position();
             consumer.addVertex(matrix4f, bottom.x(), bottom.y(), bottom.z()).setColor(r, g, b, a).setUv(u, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
             consumer.addVertex(matrix4f, top.x(), top.y(), top.z()).setColor(r, g, b, a).setUv(u, 1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(0, 1, 0);
 //            consumer.vertex(matrix4f, nextTop.x(), nextTop.y(), nextTop.z()).color(r, g, b, a).uv(u1, 1).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(0, 1, 0).endVertex();

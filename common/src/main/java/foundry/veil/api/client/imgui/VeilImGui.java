@@ -2,7 +2,6 @@ package foundry.veil.api.client.imgui;
 
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
-import org.lwjgl.system.NativeResource;
 
 import java.util.function.ObjIntConsumer;
 

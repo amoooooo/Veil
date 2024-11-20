@@ -1,6 +1,5 @@
 package foundry.veil.api.client.registry;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.post.PostPipeline;

@@ -6,9 +6,8 @@
   "refmap": "${mod_id}.refmap.json",
   "plugin": "foundry.veil.forge.VeilMixinPlugin",
   "mixins": [
-    "RegistryDataLoaderMixin",
-    "resources.DelegatingPackResourcesMixin",
-    "resources.ForgePathPackResourcesMixin"
+    "DeferredRegisterMixin",
+    "RegistriesMixin"
   ],
   "client": [
     "client.MinecraftMixin",

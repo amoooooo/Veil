@@ -10,7 +10,6 @@ import foundry.veil.api.client.util.SpaceHelper;
 import foundry.veil.api.client.util.UIUtils;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
@@ -39,8 +38,11 @@ public class VeilUITooltipRenderer {
     public static Vec3 currentPos = null;
     public static Vec3 desiredPos = null;
 
-    public static void renderOverlay(Gui gui, GuiGraphics graphics, DeltaTracker deltaTracker, int width, int height) {
+    public static void renderOverlay(GuiGraphics graphics, DeltaTracker deltaTracker) {
         PoseStack stack = graphics.pose();
+        int width = graphics.guiWidth();
+        int height = graphics.guiHeight();
+
         stack.pushPose();
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.hideGui || mc.gameMode.getPlayerMode() == GameType.SPECTATOR) {

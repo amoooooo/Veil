@@ -2,7 +2,6 @@ package foundry.veil.mixin.client.deferred;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.render.deferred.DeferredShaderStateCache;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
@@ -19,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.function.Supplier;
 

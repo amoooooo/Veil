@@ -1,8 +1,8 @@
 package foundry.veil.api.quasar.particle;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
+import foundry.veil.api.client.render.MatrixStack;
 import foundry.veil.api.quasar.data.QuasarParticleData;
 import foundry.veil.api.quasar.registry.RenderStyleRegistry;
 import foundry.veil.api.util.CodecUtil;
@@ -15,7 +15,7 @@ import org.joml.Vector3fc;
 public interface RenderStyle {
     Codec<RenderStyle> CODEC = CodecUtil.registryOrLegacyCodec(RenderStyleRegistry.REGISTRY);
 
-    void render(PoseStack poseStack, QuasarParticle particle, RenderData renderData, Vector3fc renderOffset, VertexConsumer builder, double ageModifier, float partialTicks);
+    void render(MatrixStack matrixStack, QuasarParticle particle, RenderData renderData, Vector3fc renderOffset, VertexConsumer builder, double ageModifier, float partialTicks);
 
     final class Cube implements RenderStyle {
         private static final Vector3fc[] CUBE_POSITIONS = {
@@ -38,8 +38,8 @@ public interface RenderStyle {
                 new Vector3f(1, -1, 1), new Vector3f(1, 1, 1), new Vector3f(1, 1, -1), new Vector3f(1, -1, -1)};
 
         @Override
-        public void render(PoseStack poseStack, QuasarParticle particle, RenderData renderData, Vector3fc renderOffset, VertexConsumer builder, double ageModifier, float partialTicks) {
-            Matrix4f matrix4f = poseStack.last().pose();
+        public void render(MatrixStack matrixStack, QuasarParticle particle, RenderData renderData, Vector3fc renderOffset, VertexConsumer builder, double ageModifier, float partialTicks) {
+            Matrix4f matrix4f = matrixStack.position();
             Vector3fc rotation = renderData.getRenderRotation();
             Vector3f vec = new Vector3f();
             SpriteData spriteData = renderData.getSpriteData();
@@ -81,9 +81,9 @@ public interface RenderStyle {
         };
 
         @Override
-        public void render(PoseStack poseStack, QuasarParticle particle, RenderData renderData, Vector3fc renderOffset, VertexConsumer builder, double ageModifier, float partialTicks) {
+        public void render(MatrixStack matrixStack, QuasarParticle particle, RenderData renderData, Vector3fc renderOffset, VertexConsumer builder, double ageModifier, float partialTicks) {
             //TODO fix UVs theyre fucked
-            Matrix4f matrix4f = poseStack.last().pose();
+            Matrix4f matrix4f = matrixStack.position();
             Vector3fc rotation = renderData.getRenderRotation();
 
             Quaternionf faceCameraRotation = Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation();

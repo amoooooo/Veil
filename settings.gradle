@@ -46,5 +46,4 @@ plugins {
 rootProject.name = 'Veil'
 include("common")
 include("fabric")
-//FIXME re-enable
-//include("neoforge")
+include("neoforge")

@@ -34,9 +34,7 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.irisshaders.iris.Iris;
-import net.irisshaders.iris.pipeline.IrisRenderingPipeline;
 import net.irisshaders.iris.pipeline.WorldRenderingPipeline;
-import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.coordinates.WorldCoordinates;
@@ -54,10 +52,7 @@ public class VeilFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         VeilClient.init();
-        HudRenderCallback.EVENT.register((matrices, tickDelta) -> {
-            Minecraft client = Minecraft.getInstance();
-            VeilUITooltipRenderer.renderOverlay(client.gui, matrices, tickDelta, client.getWindow().getGuiScaledWidth(), client.getWindow().getGuiScaledHeight());
-        });
+        HudRenderCallback.EVENT.register(VeilUITooltipRenderer::renderOverlay);
         ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getTimer().getRealtimeDeltaTicks()));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(VeilRenderSystem.renderer().getDeferredRenderer()::reset));
         FabricQuasarParticleHandler.init();

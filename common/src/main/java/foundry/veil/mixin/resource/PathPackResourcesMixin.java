@@ -25,7 +25,7 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
 
     @Shadow
     @Nullable
-    public abstract IoSupplier<InputStream> getRootResource(String... $$0);
+    public abstract IoSupplier<InputStream> getRootResource(String... elements);
 
     @Shadow
     @Final
@@ -53,7 +53,7 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
                         ResourceLocation name = ResourceLocation.tryBuild(namespace, path);
 
                         if (name != null) {
-                            consumer.accept(type, name, assetPath, file, null);
+                            consumer.accept(type, name, assetPath, file, PackResourcesExtension.findDevPath(root, file));
                         }
 
                         return FileVisitResult.CONTINUE;

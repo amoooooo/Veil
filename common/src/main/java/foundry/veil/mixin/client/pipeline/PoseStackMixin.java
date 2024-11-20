@@ -117,4 +117,9 @@ public abstract class PoseStackMixin implements MatrixStack {
     public PoseStack.Pose pose() {
         return this.poseStack.getLast();
     }
+
+    @Override
+    public PoseStack toPoseStack() {
+        return (PoseStack) (Object) this;
+    }
 }

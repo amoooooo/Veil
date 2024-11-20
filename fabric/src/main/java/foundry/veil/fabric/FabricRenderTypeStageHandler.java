@@ -3,11 +3,13 @@ package foundry.veil.fabric;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import foundry.veil.api.client.render.VeilRenderBridge;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.ext.LevelRendererBlockLayerExtension;
 import foundry.veil.fabric.event.FabricVeilRenderLevelStageEvent;
 import foundry.veil.mixin.accessor.BufferSourceAccessor;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,7 +19,6 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 
 import java.util.*;
@@ -31,16 +32,19 @@ public class FabricRenderTypeStageHandler {
 
     public static void register(@Nullable VeilRenderLevelStageEvent.Stage stage, RenderType renderType) {
         SequencedMap<RenderType, ByteBufferBuilder> fixedBuffers = ((BufferSourceAccessor) Minecraft.getInstance().renderBuffers().bufferSource()).getFixedBuffers();
-        fixedBuffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize()));
+        ByteBufferBuilder old = fixedBuffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize()));
+        if (old != null) {
+            old.close();
+        }
 
         if (stage != null) {
             STAGE_RENDER_TYPES.computeIfAbsent(stage, unused -> new HashSet<>()).add(renderType);
         }
     }
 
-    public static void renderStage(LevelRendererBlockLayerExtension extension, ProfilerFiller profiler, VeilRenderLevelStageEvent.Stage stage, LevelRenderer levelRenderer, MultiBufferSource.BufferSource bufferSource, Matrix4fc frustumMatrix, Matrix4fc projectionMatrix, int renderTick, float partialTicks, Camera camera, Frustum frustum) {
+    public static void renderStage(LevelRendererBlockLayerExtension extension, ProfilerFiller profiler, VeilRenderLevelStageEvent.Stage stage, LevelRenderer levelRenderer, MultiBufferSource.BufferSource bufferSource, @Nullable PoseStack poseStack, Matrix4fc frustumMatrix, Matrix4fc projectionMatrix, int renderTick, DeltaTracker deltaTracker, Camera camera, Frustum frustum) {
         profiler.push(stage.getName());
-        FabricVeilRenderLevelStageEvent.EVENT.invoker().onRenderLevelStage(stage, levelRenderer, bufferSource, frustumMatrix, projectionMatrix, renderTick, partialTicks, camera, frustum);
+        FabricVeilRenderLevelStageEvent.EVENT.invoker().onRenderLevelStage(stage, levelRenderer, bufferSource, VeilRenderBridge.create(poseStack != null ? poseStack : new PoseStack()), frustumMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum);
         profiler.pop();
 
         Set<RenderType> stages = STAGE_RENDER_TYPES.get(stage);

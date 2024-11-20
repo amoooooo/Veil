@@ -1,6 +1,8 @@
 package foundry.veil.api.event;
 
+import foundry.veil.api.client.render.MatrixStack;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -23,14 +25,15 @@ public interface VeilRenderLevelStageEvent {
      * @param stage            The stage rendering
      * @param levelRenderer    The level renderer instance
      * @param bufferSource     The buffer source instance
+     * @param matrixStack      The current render transformations
      * @param frustumMatrix    The current state of view matrix transformations
      * @param projectionMatrix The current projection matrix being used to render
      * @param renderTick       The current tick of rendering
-     * @param partialTicks     The percentage from last tick to this tick
+     * @param deltaTracker     The delta time tracker for rendering
      * @param camera           The camera the level is rendered from
      * @param frustum          The view frustum instance
      */
-    void onRenderLevelStage(Stage stage, LevelRenderer levelRenderer, MultiBufferSource.BufferSource bufferSource, Matrix4fc frustumMatrix, Matrix4fc projectionMatrix, int renderTick, float partialTicks, Camera camera, Frustum frustum);
+    void onRenderLevelStage(Stage stage, LevelRenderer levelRenderer, MultiBufferSource.BufferSource bufferSource, MatrixStack matrixStack, Matrix4fc frustumMatrix, Matrix4fc projectionMatrix, int renderTick, DeltaTracker deltaTracker, Camera camera, Frustum frustum);
 
     /**
      * Stages for rendering specific render types.

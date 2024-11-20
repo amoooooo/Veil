@@ -1,6 +1,5 @@
 package foundry.veil.api.client.registry;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.rendertype.layer.*;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.ApiStatus;
 public class RenderTypeLayerRegistry {
 
     public static final ResourceKey<Registry<LayerType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(Veil.veilPath("render_type_layer"));
-    private static final RegistrationProvider<LayerType<?>> VANILLA_PROVIDER = RegistrationProvider.get(REGISTRY_KEY, "minecraft");
+    private static final RegistrationProvider<LayerType<?>> VANILLA_PROVIDER = RegistrationProvider.get(REGISTRY_KEY, Veil.MODID);
     public static final Registry<LayerType<?>> REGISTRY = VANILLA_PROVIDER.asVanillaRegistry();
 
     public static final RegistryObject<LayerType<TextureLayer>> TEXTURE = register("texture", TextureLayer.CODEC);
@@ -30,7 +29,7 @@ public class RenderTypeLayerRegistry {
     }
 
     private static <T extends RenderTypeLayer> RegistryObject<LayerType<T>> register(String name, MapCodec<T> codec) {
-        return VANILLA_PROVIDER.register(name, () -> new LayerType<>(codec));
+        return VANILLA_PROVIDER.register(ResourceLocation.withDefaultNamespace(name), () -> new LayerType<>(codec));
     }
 
     private static <T extends RenderTypeLayer> RegistryObject<LayerType<T>> register(ResourceLocation id, MapCodec<T> codec) {

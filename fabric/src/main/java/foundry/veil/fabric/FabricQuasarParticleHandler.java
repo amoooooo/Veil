@@ -1,6 +1,5 @@
 package foundry.veil.fabric;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.CachedBufferSource;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
@@ -29,12 +28,12 @@ public class FabricQuasarParticleHandler {
 
     public static void init() {
         FabricFreeNativeResourcesEvent.EVENT.register(FabricQuasarParticleHandler::free);
-        FabricVeilRenderLevelStageEvent.EVENT.register((stage, levelRenderer, bufferSource, poseStack, projectionMatrix, renderTick, partialTicks, camera, frustum) -> {
+        FabricVeilRenderLevelStageEvent.EVENT.register((stage, levelRenderer, bufferSource, poseStack, modelMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum) -> {
             if (stage == VeilRenderLevelStageEvent.Stage.AFTER_PARTICLES) {
                 if (cachedBufferSource == null) {
                     cachedBufferSource = new CachedBufferSource();
                 }
-                VeilRenderSystem.renderer().getParticleManager().render(new PoseStack(), cachedBufferSource, camera, VeilRenderer.getCullingFrustum(), partialTicks);
+                VeilRenderSystem.renderer().getParticleManager().render(poseStack, cachedBufferSource, camera, VeilRenderer.getCullingFrustum(), deltaTracker.getRealtimeDeltaTicks());
                 cachedBufferSource.endBatch();
             }
         });

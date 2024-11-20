@@ -1,8 +1,8 @@
 package foundry.veil.forge.event;
 
 import foundry.veil.api.client.render.VeilRenderer;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.fml.event.IModBusEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.fml.event.IModBusEvent;
 
 /**
  * Fired when Veil has finished initialization and the renderer is safe to use.

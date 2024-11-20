@@ -252,4 +252,9 @@ public interface MatrixStack {
     default Matrix3f normal() {
         return this.pose().normal();
     }
+
+    /**
+     * @return This matrix stack as a vanilla mc {@link PoseStack}
+     */
+    PoseStack toPoseStack();
 }

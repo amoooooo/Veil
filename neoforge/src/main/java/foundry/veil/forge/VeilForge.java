@@ -1,17 +1,17 @@
 package foundry.veil.forge;
 
 import foundry.veil.Veil;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
+import foundry.veil.forge.platform.ForgeVeilEventPlatform;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 @Mod(Veil.MODID)
 public class VeilForge {
 
-    public VeilForge() {
+    public VeilForge(IEventBus bus) {
+        ForgeVeilEventPlatform.init(bus);
         Veil.init();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> VeilForgeClient::init);
     }
 }

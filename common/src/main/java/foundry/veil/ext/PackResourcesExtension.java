@@ -1,7 +1,6 @@
 package foundry.veil.ext;
 
 import foundry.veil.Veil;
-import foundry.veil.platform.VeilPlatform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -16,7 +15,7 @@ import java.util.stream.Stream;
 
 public interface PackResourcesExtension {
 
-    String BUILD_RESOURCES_NAME = Veil.platform().getPlatformType() == VeilPlatform.PlatformType.FABRIC ? "resources" : "sourcesSets";
+    String BUILD_RESOURCES_NAME = "resources";
 
     void veil$listResources(PackResourceConsumer consumer);
 

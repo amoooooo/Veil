@@ -1,7 +1,5 @@
 package foundry.veil.fabric.mixin.client.stage.sodium;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.fabric.ext.LevelRendererExtension;
 import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderMatrices;

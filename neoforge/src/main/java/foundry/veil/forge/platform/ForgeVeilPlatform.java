@@ -1,7 +1,7 @@
 package foundry.veil.forge.platform;
 
 import foundry.veil.platform.VeilPlatform;
-import net.minecraftforge.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLLoader;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.shaders.EffectProgram;
 import com.mojang.blaze3d.shaders.Program;
 import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import net.minecraft.client.renderer.EffectInstance;
-import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

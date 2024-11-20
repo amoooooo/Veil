@@ -2,18 +2,20 @@ package foundry.veil.forge.platform;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.mojang.blaze3d.vertex.PoseStack;
+import foundry.veil.api.client.render.MatrixStack;
+import foundry.veil.api.client.render.VeilRenderBridge;
 import foundry.veil.api.event.*;
 import foundry.veil.forge.event.*;
 import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix4f;
 
@@ -36,29 +38,35 @@ public class ForgeVeilEventPlatform implements VeilEventPlatform {
             Map.entry(VeilRenderLevelStageEvent.Stage.AFTER_LEVEL, RenderLevelStageEvent.Stage.AFTER_LEVEL)
     ));
 
+    private static IEventBus bus;
+
+    public static void init(IEventBus bus) {
+        ForgeVeilEventPlatform.bus = bus;
+    }
+
     @Override
     public void onFreeNativeResources(FreeNativeResourcesEvent event) {
-        MinecraftForge.EVENT_BUS.<ForgeFreeNativeResourcesEvent>addListener(forgeEvent -> event.onFree());
+        NeoForge.EVENT_BUS.<ForgeFreeNativeResourcesEvent>addListener(forgeEvent -> event.onFree());
     }
 
     @Override
     public void onVeilRendererAvailable(VeilRendererEvent event) {
-        FMLJavaModLoadingContext.get().getModEventBus().<ForgeVeilRendererEvent>addListener(forgeEvent -> event.onVeilRendererAvailable(forgeEvent.getRenderer()));
+        bus.<ForgeVeilRendererEvent>addListener(forgeEvent -> event.onVeilRendererAvailable(forgeEvent.getRenderer()));
     }
 
     @Override
     public void preVeilPostProcessing(VeilPostProcessingEvent.Pre event) {
-        MinecraftForge.EVENT_BUS.<ForgeVeilPostProcessingEvent.Pre>addListener(forgeEvent -> event.preVeilPostProcessing(forgeEvent.getName(), forgeEvent.getPipeline(), forgeEvent.getContext()));
+        NeoForge.EVENT_BUS.<ForgeVeilPostProcessingEvent.Pre>addListener(forgeEvent -> event.preVeilPostProcessing(forgeEvent.getName(), forgeEvent.getPipeline(), forgeEvent.getContext()));
     }
 
     @Override
     public void postVeilPostProcessing(VeilPostProcessingEvent.Post event) {
-        MinecraftForge.EVENT_BUS.<ForgeVeilPostProcessingEvent.Post>addListener(forgeEvent -> event.postVeilPostProcessing(forgeEvent.getName(), forgeEvent.getPipeline(), forgeEvent.getContext()));
+        NeoForge.EVENT_BUS.<ForgeVeilPostProcessingEvent.Post>addListener(forgeEvent -> event.postVeilPostProcessing(forgeEvent.getName(), forgeEvent.getPipeline(), forgeEvent.getContext()));
     }
 
     @Override
     public void onVeilRegisterFixedBuffers(VeilRegisterFixedBuffersEvent event) {
-        FMLJavaModLoadingContext.get().getModEventBus().<ForgeVeilRegisterFixedBuffersEvent>addListener(forgeEvent -> event.onRegisterFixedBuffers((stage, renderType) -> {
+        bus.<ForgeVeilRegisterFixedBuffersEvent>addListener(forgeEvent -> event.onRegisterFixedBuffers((stage, renderType) -> {
             if (stage == null) {
                 forgeEvent.register(null, renderType);
                 return;
@@ -73,12 +81,12 @@ public class ForgeVeilEventPlatform implements VeilEventPlatform {
 
     @Override
     public void onVeilRegisterBlockLayers(VeilRegisterBlockLayerEvent event) {
-        FMLJavaModLoadingContext.get().getModEventBus().<ForgeVeilRegisterBlockLayerEvent>addListener(event::onRegisterBlockLayers);
+        bus.<ForgeVeilRegisterBlockLayerEvent>addListener(event::onRegisterBlockLayers);
     }
 
     @Override
     public void onVeilRenderTypeStageRender(VeilRenderLevelStageEvent event) {
-        MinecraftForge.EVENT_BUS.<RenderLevelStageEvent>addListener(forgeEvent -> {
+        NeoForge.EVENT_BUS.<RenderLevelStageEvent>addListener(forgeEvent -> {
             VeilRenderLevelStageEvent.Stage stage = STAGE_MAPPING.inverse().get(forgeEvent.getStage());
             if (stage == null) {
                 return;
@@ -86,13 +94,14 @@ public class ForgeVeilEventPlatform implements VeilEventPlatform {
 
             LevelRenderer levelRenderer = forgeEvent.getLevelRenderer();
             MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-            PoseStack poseStack = forgeEvent.getPoseStack();
+            MatrixStack poseStack = VeilRenderBridge.create(forgeEvent.getPoseStack());
+            Matrix4f modelViewMatrix = forgeEvent.getModelViewMatrix();
             Matrix4f projectionMatrix = forgeEvent.getProjectionMatrix();
             int renderTick = forgeEvent.getRenderTick();
-            float partialTicks = forgeEvent.getPartialTick();
+            DeltaTracker deltaTracker = forgeEvent.getPartialTick();
             Camera camera = forgeEvent.getCamera();
             Frustum frustum = forgeEvent.getFrustum();
-            event.onRenderLevelStage(stage, levelRenderer, bufferSource, poseStack, projectionMatrix, renderTick, partialTicks, camera, frustum);
+            event.onRenderLevelStage(stage, levelRenderer, bufferSource, poseStack, modelViewMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum);
         });
     }
 }

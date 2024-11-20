@@ -4,12 +4,18 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
+configurations {
+    shade
+    implementation.extendsFrom shade
+    additionalRuntimeClasspath.extendsFrom(shade)
+}
+
 neoForge {
     version = neoforge_version
     // Automatically enable neoforge AccessTransformers if the file exists
     def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
-        accessTransformers.add(at.absolutePath)
+        accessTransformers.from(at.absolutePath)
     }
     parchment {
         minecraftVersion = parchment_minecraft
@@ -38,11 +44,6 @@ neoForge {
 }
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
-
-configurations {
-    shade
-    implementation.extendsFrom shade
-}
 
 //minecraft.runs.configureEach {
 //    lazyToken('minecraft_classpath') {

@@ -1,9 +1,9 @@
 package foundry.veil.api.quasar.particle;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.Veil;
 import foundry.veil.api.TickTaskScheduler;
 import foundry.veil.api.client.render.CullFrustum;
+import foundry.veil.api.client.render.MatrixStack;
 import foundry.veil.api.quasar.data.ParticleEmitterData;
 import foundry.veil.api.quasar.data.QuasarParticles;
 import foundry.veil.impl.TickTaskSchedulerImpl;
@@ -102,12 +102,12 @@ public class ParticleSystemManager {
     }
 
     @ApiStatus.Internal
-    public void render(PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, CullFrustum frustum, float partialTicks) {
+    public void render(MatrixStack matrixStack, MultiBufferSource bufferSource, Camera camera, CullFrustum frustum, float partialTicks) {
         // TODO store emitters per-chunk and fetch them from the renderer
 
         this.particleEmitters.sort(Comparator.comparingDouble(a -> -a.getPosition().distanceSquared(camera.getPosition().x, camera.getPosition().y, camera.getPosition().z)));
         for (ParticleEmitter emitter : this.particleEmitters) {
-            emitter.render(poseStack, bufferSource, camera, partialTicks);
+            emitter.render(matrixStack, bufferSource, camera, partialTicks);
         }
     }
 

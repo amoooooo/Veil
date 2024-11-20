@@ -1,6 +1,6 @@
 package foundry.veil.forge.event;
 
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.bus.api.Event;
 
 /**
  * Fired when Minecraft frees all native resources on the client.

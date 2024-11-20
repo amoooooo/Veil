@@ -1,9 +1,9 @@
 package foundry.veil.api.quasar.particle;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import foundry.veil.Veil;
 import foundry.veil.api.TickTaskScheduler;
+import foundry.veil.api.client.render.MatrixStack;
 import foundry.veil.api.quasar.data.*;
 import foundry.veil.api.quasar.data.module.CodeModule;
 import foundry.veil.api.quasar.data.module.ParticleModuleData;
@@ -212,7 +212,7 @@ public class ParticleEmitter {
 
     // TODO move to renderer
     @ApiStatus.Internal
-    public void render(PoseStack poseStack, MultiBufferSource bufferSource, Camera camera, float partialTicks) {
+    public void render(MatrixStack matrixStack, MultiBufferSource bufferSource, Camera camera, float partialTicks) {
         Vec3 projectedView = camera.getPosition();
         RenderStyle renderStyle = this.particleData.renderStyle();
 
@@ -253,7 +253,7 @@ public class ParticleEmitter {
 //                ps.popPose();
 //            });
 //        }
-            renderData.renderTrails(poseStack, bufferSource, projectedView, LightTexture.FULL_BRIGHT);
+            renderData.renderTrails(matrixStack, bufferSource, projectedView, LightTexture.FULL_BRIGHT);
 
             Vector3dc renderPosition = renderData.getRenderPosition();
             renderOffset.set(
@@ -272,7 +272,7 @@ public class ParticleEmitter {
                 }
             }
 
-            renderStyle.render(poseStack, particle, renderData, renderOffset, builder, 1, partialTicks);
+            renderStyle.render(matrixStack, particle, renderData, renderOffset, builder, 1, partialTicks);
         }
     }
 

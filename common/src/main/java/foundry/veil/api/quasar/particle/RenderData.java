@@ -1,7 +1,7 @@
 package foundry.veil.api.quasar.particle;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.MatrixStack;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.quasar.data.QuasarParticleData;
 import foundry.veil.api.quasar.fx.Trail;
@@ -148,18 +148,18 @@ public class RenderData {
     }
 
     // TODO move to renderer
-    public void renderTrails(PoseStack poseStack, MultiBufferSource bufferSource, Vec3 cameraPos, int packedLight) {
+    public void renderTrails(MatrixStack matrixStack, MultiBufferSource bufferSource, Vec3 cameraPos, int packedLight) {
         if (this.trails.isEmpty()) {
             return;
         }
 
-        poseStack.pushPose();
-        poseStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
+        matrixStack.matrixPush();
+        matrixStack.translate(-cameraPos.x(), -cameraPos.y(), -cameraPos.z());
         for (Trail trail : this.trails) {
             trail.pushRotatedPoint(new Vec3(this.prevPosition.x, this.prevPosition.y, this.prevPosition.z), new Vec3(this.prevRotation.x, this.prevRotation.y, this.prevRotation.z));
-            trail.render(poseStack, bufferSource.getBuffer(VeilRenderType.quasarTrail(trail.getTexture())), packedLight);
+            trail.render(matrixStack, bufferSource.getBuffer(VeilRenderType.quasarTrail(trail.getTexture())), packedLight);
         }
-        poseStack.popPose();
+        matrixStack.matrixPop();
     }
 
     public void setRed(float red) {

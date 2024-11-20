@@ -39,7 +39,7 @@ import static org.lwjgl.opengl.GL11C.GL_LEQUAL;
 /**
  * <p>Manages all post pipelines.</p>
  * <p>Post Pipelines are a single "effect" that can be applied.
- * For example, a vanilla Minecraft creeper effect can be a added using {@link #add(int, ResourceLocation)}</p>
+ * For example, a vanilla Minecraft creeper effect can be added using {@link #add(int, ResourceLocation)}</p>
  *
  * @author Ocelot
  */
@@ -298,7 +298,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
     /**
      * @return The default context for post-processing
      */
-    public PostPipeline.Context getContext() {
+    public PostPipeline.Context getPostPipelineContext() {
         return this.context;
     }
 
