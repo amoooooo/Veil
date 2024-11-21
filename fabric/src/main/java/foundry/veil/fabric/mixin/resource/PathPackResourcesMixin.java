@@ -1,4 +1,4 @@
-package foundry.veil.mixin.resource;
+package foundry.veil.fabric.mixin.resource;
 
 import foundry.veil.Veil;
 import foundry.veil.ext.PackResourcesExtension;

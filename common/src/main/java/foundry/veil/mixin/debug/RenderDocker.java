@@ -26,14 +26,14 @@ public class RenderDocker {
     @Inject(method = "main", at = @At("HEAD"), remap = false)
     private static void preMain(String[] pArgs, CallbackInfo ci) {
         VeilPlatform platform = Veil.platform();
-        if (!platform.isDevelopmentEnvironment() || platform.isModLoaded("tracky")) {
+        if (!platform.isDevelopmentEnvironment() || platform.isModLoaded("tracky") || Util.getPlatform() != Util.OS.WINDOWS) {
             return;
         }
 
         String path = System.getProperty("java.library.path");
         String name = System.mapLibraryName("renderdoc");
         boolean detected = false;
-        for (String folder : path.split(Util.getPlatform() == Util.OS.WINDOWS ? ";" : ":")) {
+        for (String folder : path.split(";")) {
             if (Files.exists(Path.of(folder + "/" + name))) {
                 detected = true;
                 break;

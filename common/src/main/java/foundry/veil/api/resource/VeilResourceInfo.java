@@ -8,7 +8,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
 /**
- * @param location            The resource location path this resource is located at
+ * @param location        The resource location path this resource is located at
  * @param filePath        The file path of this resource
  * @param modResourcePath The path to this resource in the build folder if in a dev environment
  * @param hidden          Whether this resource should appear in the resource panel

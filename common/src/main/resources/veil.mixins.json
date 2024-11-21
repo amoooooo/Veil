@@ -6,7 +6,6 @@
   "refmap": "${mod_id}.refmap.json",
   "mixins": [
     "debug.SimpleReloadInstanceMixin",
-    "resource.PathPackResourcesMixin",
     "resource.VanillaPackResourcesMixin"
   ],
   "client": [

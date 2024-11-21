@@ -308,17 +308,21 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
             }
 
             this.resources.put(listenPath, resource);
-            if (this.watchedDirectories.add(folder)) {
+            if (this.watchService != null && this.watchedDirectories.add(folder)) {
                 folder.register(this.watchService, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
             }
         }
 
         @Override
         public void close() throws IOException {
-            this.watchService.close();
+            if (this.watchService != null) {
+                this.watchService.close();
+            }
 
             try {
-                this.watchThread.join();
+                if (this.watchThread != null) {
+                    this.watchThread.join();
+                }
             } catch (InterruptedException e) {
                 throw new IOException("Failed to stop watcher thread", e);
             }
