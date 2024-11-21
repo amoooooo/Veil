@@ -40,7 +40,6 @@
     "client.pipeline.RenderTargetMixin",
     "client.pipeline.VertexBufferMixin",
     "client.quasar.EntityMixin",
-    "client.quasar.EntityRendererMixin",
     "client.quasar.ParticleEngineMixin",
     "client.shader.EffectInstanceMixin",
     "client.shader.GameRendererMixin",
