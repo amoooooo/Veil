@@ -4,7 +4,6 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.imgui.VeilImGui;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.imgui.style.VeilImGuiStylesheet;
-import foundry.veil.mixin.client.imgui.ImGuiImplGl3Mixin;
 import imgui.ImGui;
 import imgui.extension.implot.ImPlot;
 import imgui.extension.implot.ImPlotContext;
@@ -16,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.NativeResource;
 
+import java.lang.reflect.Field;
 import java.util.function.ObjIntConsumer;
 
 import static org.lwjgl.glfw.GLFW.glfwGetCurrentContext;
@@ -141,7 +141,14 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
     @Override
     public void addImguiShaders(ObjIntConsumer<ResourceLocation> registry) {
-        registry.accept(ResourceLocation.fromNamespaceAndPath("imgui", "blit"), ((ImGuiImplGl3Mixin) (Object) this.implGl3).getGShaderHandle());
+        try {
+            Field field = ImGuiImplGl3.class.getDeclaredField("gShaderHandle");
+            field.setAccessible(true);
+            int handle = field.getInt(this.implGl3);
+            registry.accept(ResourceLocation.fromNamespaceAndPath("imgui", "blit"), handle);
+        } catch (Exception e) {
+            Veil.LOGGER.warn("Failed to add ImGui shader", e);
+        }
     }
 
     @Override

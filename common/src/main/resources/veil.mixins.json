@@ -26,7 +26,6 @@
     "client.deferred.ShaderStateMixin",
     "client.deferred.VertexBufferMixin",
     "client.deferred.WindowMixin",
-    "client.imgui.ImGuiImplGl3Mixin",
     "client.imgui.ImGuiImplGlfwMixin",
     "client.imgui.KeyboardHandlerMixin",
     "client.imgui.MouseHandlerMixin",
