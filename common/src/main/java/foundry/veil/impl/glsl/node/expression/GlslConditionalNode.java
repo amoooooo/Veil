@@ -3,8 +3,6 @@ package foundry.veil.impl.glsl.node.expression;
 import foundry.veil.impl.glsl.node.GlslNode;
 
 /**
- * ?:
- *
  * @author Ocelot
  */
 public class GlslConditionalNode implements GlslNode {

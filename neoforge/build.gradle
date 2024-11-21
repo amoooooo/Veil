@@ -84,8 +84,6 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:rubidium-574856:4767529")
 }
 
-jar.finalizedBy('reobfJar')
-
 jar {
     archiveClassifier = 'slim'
 }
@@ -105,16 +103,12 @@ shadowJar {
     relocate "org.abego.treelayout", "${project.group}.lib.abego.treelayout"
     relocate "com.ibm.icu", "${project.group}.lib.ibm.icu"
 
-    relocate "io.github.douira.glsl_transformer", "${project.group}.lib.douira.glsl_transformer"
-
     relocate "io.github.spair:imgui-java-binding:$imgui_version", "${project.group}.lib.imgui-java-binding"
     relocate "io.github.spair:imgui-java-lwjgl3:$imgui_version", "${project.group}.lib.imgui-java-lwjgl3"
     relocate "io.github.spair:imgui-java-natives-linux:$imgui_version", "${project.group}.lib.imgui-java-natives-linux"
     relocate "io.github.spair:imgui-java-natives-windows:$imgui_version", "${project.group}.lib.imgui-java-natives-windows"
     relocate "io.github.spair:imgui-java-natives-macos:$imgui_version", "${project.group}.lib.imgui-java-natives-macos"
     relocate ":imgui-binding-natives-macosarm64-1.86.11", "${project.group}.lib.imgui-java-natives-macosarm64"
-
-    finalizedBy 'reobfShadowJar'
 }
 
 assemble.dependsOn shadowJar

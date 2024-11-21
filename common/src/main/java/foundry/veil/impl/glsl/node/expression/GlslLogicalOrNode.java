@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Logical OR; A || B || C
- *
- * @param expressions
  * @author Ocelot
  */
 public record GlslLogicalOrNode(List<GlslNode> expressions) implements GlslNode {

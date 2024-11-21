@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Exclusive OR; A ^ B ^ C
- *
- * @param expressions
  * @author Ocelot
  */
 public record GlslExclusiveOrNode(List<GlslNode> expressions) implements GlslNode {

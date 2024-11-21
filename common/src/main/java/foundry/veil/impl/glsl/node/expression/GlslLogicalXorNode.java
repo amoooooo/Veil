@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Logical XOR; A ^^ B ^^ C
- *
- * @param expressions
  * @author Ocelot
  */
 public record GlslLogicalXorNode(List<GlslNode> expressions) implements GlslNode {

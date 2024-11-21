@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.List;
 
 @Mixin(PathPackResources.class)
 public abstract class PathPackResourcesMixin implements PackResources, PackResourcesExtension {

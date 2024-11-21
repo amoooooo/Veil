@@ -3,10 +3,6 @@ package foundry.veil.impl.glsl.node.expression;
 import foundry.veil.impl.glsl.node.GlslNode;
 
 /**
- * Equality; A == B, A != B
- * <br>
- * Relational; A < B, A > B, A <= B, A >= B
- *
  * @author Ocelot
  */
 public class GlslCompareNode implements GlslNode {

@@ -3,18 +3,6 @@ package foundry.veil.impl.glsl.node.expression;
 import foundry.veil.impl.glsl.node.GlslNode;
 
 /**
- * Shift; A << B, A >> B
- * <br>
- * Add; A + B
- * <br>
- * Subtract; A - B
- * <br>
- * Multiply; A * B
- * <br>
- * Divide; A / B
- * <br>
- * Modulo; A % B
- *
  * @author Ocelot
  */
 public final class GlslOperationNode implements GlslNode {

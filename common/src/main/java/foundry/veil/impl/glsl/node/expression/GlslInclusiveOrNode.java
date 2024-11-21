@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Inclusive OR; A | B | C
- *
- * @param expressions
  * @author Ocelot
  */
 public record GlslInclusiveOrNode(List<GlslNode> expressions) implements GlslNode {

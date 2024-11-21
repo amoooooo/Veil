@@ -3,28 +3,6 @@ package foundry.veil.impl.glsl.node.expression;
 import foundry.veil.impl.glsl.node.GlslNode;
 
 /**
- * Equal; A = B
- * <br>
- * Multiply Assign; A *= B
- * <br>
- * Divide Assign; A /= B
- * <br>
- * Modulo Assign; A %= B
- * <br>
- * Add Assign; A += B
- * <br>
- * Subtract Assign; A -= B
- * <br>
- * Left Assign; A <<= B
- * <br>
- * Right Assign; A >>= B
- * <br>
- * And Assign; A &= B
- * <br>
- * Exclusive Or Assign; A ^= B
- * <br>
- * Or Assign; A |= B
- *
  * @author Ocelot
  */
 public class GlslAssignmentNode implements GlslNode {

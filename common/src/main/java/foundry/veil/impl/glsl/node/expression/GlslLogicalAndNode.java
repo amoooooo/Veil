@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Logical AND; A && B && C
- *
- * @param expressions
  * @author Ocelot
  */
 public record GlslLogicalAndNode(List<GlslNode> expressions) implements GlslNode {

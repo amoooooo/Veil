@@ -17,7 +17,7 @@ public interface VeilResourceLoader {
      * @param location        The path to load the resource from
      * @param filePath        The file path of the resource
      * @param modResourcePath The path to this resource in the build folder if in a dev environment
-     * @return If this resource loader recognizes & can load the specified extension
+     * @return If this resource loader recognizes and can load the specified extension
      */
     boolean canLoad(PackType packType, ResourceLocation location, @Nullable Path filePath, @Nullable Path modResourcePath);
 

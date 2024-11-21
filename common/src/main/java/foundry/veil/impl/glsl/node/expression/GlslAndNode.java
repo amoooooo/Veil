@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * AND; A & B & C
- *
  * @author Ocelot
  */
 public class GlslAndNode implements GlslNode {
