@@ -42,16 +42,16 @@ public abstract class Animator<P extends SkeletonParent, T extends Skeleton<P>> 
         return entry;
     }
 
-    public void tick(P parent) {
+    public void tick() {
         this.skeleton.tick();
         this.skeleton.bones.forEach((name, bone) -> bone.reset());
-        this.animate(parent);
+        this.animate();
         this.animations.forEach(animation -> animation.apply(this.parent, this.skeleton));
         this.constraints.forEach(constraintEntry -> constraintEntry.constraint.apply());
-        this.animatePostConstraints(parent);
+        this.animatePostConstraints();
     }
-    public void animate(P parent) {}
-    public void animatePostConstraints(P parent) {}
+    public void animate() {}
+    public void animatePostConstraints() {}
 
     record ConstraintEntry(Constraint constraint, int priority) {}
 

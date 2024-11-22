@@ -21,7 +21,7 @@ public class LevelRendererMixin {
         if (this.level == null) return;
         for (Entity entity : this.level.entitiesForRendering()) {
             if (entity instanceof SkeletonParent parent) {
-                if (parent.getAnimator() != null) parent.getAnimator().tick(parent);
+                if (parent.getAnimator() != null) parent.getAnimator().tick();
             }
         }
     }
