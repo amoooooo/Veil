@@ -1,6 +1,7 @@
 package foundry.veil.mixin.client.skeleton;
 
-import foundry.veil.api.client.graveyard.render.InterpolatedEntityRenderer;
+import foundry.veil.api.client.necromancer.SkeletonParent;
+import foundry.veil.api.client.necromancer.render.NecromancerEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
@@ -21,8 +22,8 @@ public class ClientLevelMixin {
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Inject(method = "addEntity", at = @At("TAIL"))
     private void addEntity(Entity pEntity, CallbackInfo ci) {
-        if (this.minecraft.getEntityRenderDispatcher().getRenderer(pEntity) instanceof InterpolatedEntityRenderer renderer) {
-            renderer.createSkeleton((LivingEntity) pEntity);
+        if (this.minecraft.getEntityRenderDispatcher().getRenderer(pEntity) instanceof NecromancerEntityRenderer renderer) {
+            renderer.setupEntity(pEntity);
         }
     }
 }
