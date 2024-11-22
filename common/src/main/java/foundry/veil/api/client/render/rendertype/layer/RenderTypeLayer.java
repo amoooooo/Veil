@@ -8,7 +8,7 @@ public interface RenderTypeLayer {
 
     Codec<RenderTypeLayer> CODEC = RenderTypeLayerRegistry.REGISTRY.byNameCodec().dispatch(RenderTypeLayer::getType, RenderTypeLayerRegistry.LayerType::codec);
 
-    void addLayer(VeilRenderTypeBuilder builder);
+    void addShard(VeilRenderTypeBuilder builder, Object... params);
 
     RenderTypeLayerRegistry.LayerType<?> getType();
 }

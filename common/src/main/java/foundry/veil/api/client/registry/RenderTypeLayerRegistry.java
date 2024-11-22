@@ -23,6 +23,18 @@ public class RenderTypeLayerRegistry {
     public static final RegistryObject<LayerType<MultiTextureLayer>> MULTI_TEXTURE = register("multi_texture", MultiTextureLayer.CODEC);
     public static final RegistryObject<LayerType<VanillaShaderLayer>> VANILLA_SHADER = register("shader", VanillaShaderLayer.CODEC);
     public static final RegistryObject<LayerType<VeilShaderLayer>> VEIL_SHADER = register(Veil.veilPath("shader"), VeilShaderLayer.CODEC);
+    public static final RegistryObject<LayerType<TransparencyLayer>> TRANSPARENCY = register("transparency", TransparencyLayer.CODEC);
+    public static final RegistryObject<LayerType<DepthTestLayer>> DEPTH_TEST = register("depth_test", DepthTestLayer.CODEC);
+    public static final RegistryObject<LayerType<CullLayer>> CULL = register("cull", CullLayer.CODEC);
+    public static final RegistryObject<LayerType<LightmapLayer>> LIGHTMAP = register("lightmap", LightmapLayer.CODEC);
+    public static final RegistryObject<LayerType<OverlayLayer>> OVERLAY = register("overlay", OverlayLayer.CODEC);
+    public static final RegistryObject<LayerType<LayeringLayer>> LAYERING = register("layering", LayeringLayer.CODEC);
+    public static final RegistryObject<LayerType<OutputLayer>> OUTPUT = register("output", OutputLayer.CODEC);
+    public static final RegistryObject<LayerType<TexturingLayer>> TEXTURING = register("texturing", TexturingLayer.CODEC);
+    public static final RegistryObject<LayerType<WriteMaskLayer>> WRITE_MASK = register("write_mask", WriteMaskLayer.CODEC);
+    public static final RegistryObject<LayerType<LineLayer>> LINE = register("line", LineLayer.CODEC);
+    public static final RegistryObject<LayerType<ColorLogicLayer>> COLOR_LOGIC = register("color_logic", ColorLogicLayer.CODEC);
+    public static final RegistryObject<LayerType<PatchesLayer>> PATCHES = register(Veil.veilPath("patches"), PatchesLayer.CODEC);
 
     @ApiStatus.Internal
     public static void bootstrap() {

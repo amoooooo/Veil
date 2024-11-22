@@ -8,17 +8,20 @@ import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.resources.ResourceLocation;
 
-public record TextureLayer(ResourceLocation texture, boolean blur, boolean mipmap) implements RenderTypeLayer {
+public record TextureLayer(LayerTemplateValue<ResourceLocation> texture,
+                           boolean blur,
+                           boolean mipmap) implements RenderTypeLayer {
 
     public static final MapCodec<TextureLayer> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ResourceLocation.CODEC.fieldOf("texture").forGetter(TextureLayer::texture),
+            LayerTemplateValue.LOCATION_CODEC.fieldOf("texture").forGetter(TextureLayer::texture),
             Codec.BOOL.optionalFieldOf("blur", false).forGetter(TextureLayer::blur),
             Codec.BOOL.optionalFieldOf("mipmap", false).forGetter(TextureLayer::mipmap)
     ).apply(instance, TextureLayer::new));
 
     @Override
-    public void addLayer(VeilRenderTypeBuilder builder) {
-        builder.textureState(new RenderStateShard.TextureStateShard(this.texture, this.blur, this.blur));
+    public void addShard(VeilRenderTypeBuilder builder, Object... params) {
+        ResourceLocation location = this.texture.parse(params);
+        builder.textureState(new RenderStateShard.TextureStateShard(location, this.blur, this.blur));
     }
 
     @Override

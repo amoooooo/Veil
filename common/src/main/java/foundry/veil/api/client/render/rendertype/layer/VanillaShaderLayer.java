@@ -1,25 +1,21 @@
 package foundry.veil.api.client.render.rendertype.layer;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.registry.RenderTypeLayerRegistry;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 
-public record VanillaShaderLayer(String shaderName) implements RenderTypeLayer {
+public record VanillaShaderLayer(LayerTemplateValue<String> shaderName) implements RenderTypeLayer {
 
-    public static final MapCodec<VanillaShaderLayer> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.STRING.comapFlatMap(name -> Minecraft.getInstance().gameRenderer.getShader(name) != null ? DataResult.success(name) : DataResult.error(() -> "Unknown Vanilla Shader: " + name), s -> s)
-                    .fieldOf("name")
-                    .forGetter(VanillaShaderLayer::shaderName)
-    ).apply(instance, VanillaShaderLayer::new));
+    public static final MapCodec<VanillaShaderLayer> CODEC = LayerTemplateValue.STRING_CODEC
+            .fieldOf("name")
+            .xmap(VanillaShaderLayer::new, VanillaShaderLayer::shaderName);
 
     @Override
-    public void addLayer(VeilRenderTypeBuilder builder) {
-        builder.shaderState(new RenderStateShard.ShaderStateShard(() -> Minecraft.getInstance().gameRenderer.getShader(this.shaderName)));
+    public void addShard(VeilRenderTypeBuilder builder, Object... params) {
+        String shaderId = this.shaderName.parse(params);
+        builder.shaderState(new RenderStateShard.ShaderStateShard(() -> Minecraft.getInstance().gameRenderer.getShader(shaderId)));
     }
 
     @Override

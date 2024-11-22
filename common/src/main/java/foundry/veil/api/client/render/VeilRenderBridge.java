@@ -5,8 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.impl.client.render.pipeline.PatchState;
-import foundry.veil.impl.client.render.pipeline.ShaderProgramState;
+import foundry.veil.impl.client.render.pipeline.AdvancedFboShard;
+import foundry.veil.impl.client.render.pipeline.PatchStateShard;
+import foundry.veil.impl.client.render.pipeline.ShaderProgramShard;
 import foundry.veil.impl.client.render.wrapper.VanillaAdvancedFboWrapper;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -79,7 +80,7 @@ public interface VeilRenderBridge {
      * @return A new shader state shard for that shader
      */
     static RenderStateShard.ShaderStateShard shaderState(ResourceLocation shader) {
-        return new ShaderProgramState(() -> VeilRenderSystem.renderer().getShaderManager().getShader(shader));
+        return new ShaderProgramShard(() -> VeilRenderSystem.renderer().getShaderManager().getShader(shader));
     }
 
     /**
@@ -89,7 +90,7 @@ public interface VeilRenderBridge {
      * @return A new shader state shard for that shader
      */
     static RenderStateShard.ShaderStateShard shaderState(ShaderProgram shader) {
-        return new ShaderProgramState(() -> shader);
+        return new ShaderProgramShard(() -> shader);
     }
 
     /**
@@ -99,7 +100,7 @@ public interface VeilRenderBridge {
      * @return A new shader state shard for that shader
      */
     static RenderStateShard.ShaderStateShard shaderState(Supplier<ShaderProgram> shader) {
-        return new ShaderProgramState(shader);
+        return new ShaderProgramShard(shader);
     }
 
     /**
@@ -109,7 +110,7 @@ public interface VeilRenderBridge {
      * @return A new shader state shard for that shader
      */
     static RenderStateShard.OutputStateShard outputState(ResourceLocation framebuffer) {
-        return VeilRenderBridge.outputState(() -> VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(framebuffer));
+        return new AdvancedFboShard(framebuffer, () -> VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(framebuffer));
     }
 
     /**
@@ -119,7 +120,7 @@ public interface VeilRenderBridge {
      * @return A new shader state shard for that shader
      */
     static RenderStateShard.OutputStateShard outputState(AdvancedFbo framebuffer) {
-        return VeilRenderBridge.outputState(() -> framebuffer);
+        return new AdvancedFboShard(null, () -> framebuffer);
     }
 
     /**
@@ -129,12 +130,7 @@ public interface VeilRenderBridge {
      * @return A new shader state shard for that shader
      */
     static RenderStateShard.OutputStateShard outputState(Supplier<AdvancedFbo> framebuffer) {
-        return new RenderStateShard.OutputStateShard("advanced_fbo", () -> {
-            AdvancedFbo fbo = framebuffer.get();
-            if (fbo != null) {
-                fbo.bindDraw(true);
-            }
-        }, AdvancedFbo::unbindDraw);
+        return new AdvancedFboShard(null, framebuffer);
     }
 
     /**
@@ -143,7 +139,7 @@ public interface VeilRenderBridge {
      * @param patchVertices The number of vertices per patch
      * @return A new patch state
      */
-    static PatchState patchState(int patchVertices) {
-        return new PatchState(patchVertices);
+    static PatchStateShard patchState(int patchVertices) {
+        return new PatchStateShard(patchVertices);
     }
 }

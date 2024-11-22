@@ -5,7 +5,7 @@ import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
-import foundry.veil.api.client.render.rendertype.layer.DynamicRenderTypeManager;
+import foundry.veil.api.client.render.rendertype.DynamicRenderTypeManager;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.ShaderModificationManager;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
