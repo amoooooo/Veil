@@ -139,7 +139,7 @@ public interface VeilRenderBridge {
      * @param patchVertices The number of vertices per patch
      * @return A new patch state
      */
-    static PatchStateShard patchState(int patchVertices) {
+    static RenderStateShard patchState(int patchVertices) {
         return new PatchStateShard(patchVertices);
     }
 }

@@ -9,7 +9,7 @@ import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 public record PatchesLayer(int patchVertices) implements RenderTypeLayer {
 
     public static final MapCodec<PatchesLayer> CODEC = Codec.intRange(1, Integer.MAX_VALUE)
-            .fieldOf("patch_vertices")
+            .fieldOf("patchVertices")
             .xmap(PatchesLayer::new, PatchesLayer::patchVertices);
 
     @Override
