@@ -42,16 +42,16 @@ public abstract class Animator<P extends SkeletonParent, T extends Skeleton<P>> 
         return entry;
     }
 
-    public void tick(P parent) {
+    public void tick() {
         this.skeleton.tick();
         this.skeleton.bones.forEach((name, bone) -> bone.reset());
-        this.animate(parent);
+        this.animate();
         this.animations.forEach(animation -> animation.apply(this.parent, this.skeleton));
         this.constraints.forEach(constraintEntry -> constraintEntry.constraint.apply());
-        this.animatePostConstraints(parent);
+        this.animatePostConstraints();
     }
-    public void animate(P parent) {}
-    public void animatePostConstraints(P parent) {}
+    public void animate() {}
+    public void animatePostConstraints() {}
 
     record ConstraintEntry(Constraint constraint, int priority) {}
 
@@ -89,13 +89,16 @@ public abstract class Animator<P extends SkeletonParent, T extends Skeleton<P>> 
         }
 
         public void begin() { this.time = 0; this.resume(); }
-        public void resume() { this.playing = true; }
+        public void resume() {
+            if (!this.playing && this.time > this.lengthInTicks) this.time = 0; // restart an animation if it is past its length and resumed.
+            this.playing = true;
+        }
         public void rewind() { this.rewinding = true; }
         public void stop() { this.playing = false; this.rewinding = false; }
 
         private void updateTime(P parent, T skeleton) {
-            if (this.playing && this.animation.running(parent, skeleton, mixFactor, time)) this.time += (this.rewinding ? -1.0F : 1.0F) / lengthInTicks;
-            if ((this.time > 1 && !rewinding) || (time < 0 && rewinding)) this.stop();
+            if (this.playing && this.animation.running(parent, skeleton, mixFactor, time)) this.time += (this.rewinding ? -1.0F : 1.0F);
+            if ((this.time > lengthInTicks && !rewinding) || (time < 0 && rewinding)) this.stop();
         }
 
         @Override
