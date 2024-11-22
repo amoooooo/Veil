@@ -34,7 +34,7 @@ public class DynamicCubemapTexture extends CubemapTexture {
         this.width[face] = width;
         this.height[face] = height;
         RenderSystem.assertOnRenderThreadOrInit();
-        glTexImage2D(face, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0L);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0L);
     }
 
     /**
