@@ -10,7 +10,7 @@ import java.util.Arrays;
 public record MultiTextureLayer(TextureLayer[] textures) implements RenderTypeLayer {
 
     public static final MapCodec<MultiTextureLayer> CODEC = TextureLayer.CODEC.codec()
-            .listOf(2, Integer.MAX_VALUE)
+            .listOf(2, 12)
             .fieldOf("textures")
             .xmap(textures -> new MultiTextureLayer(textures.toArray(TextureLayer[]::new)),
                     layer -> Arrays.asList(layer.textures));

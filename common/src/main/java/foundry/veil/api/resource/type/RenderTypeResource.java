@@ -13,10 +13,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public record FramebufferResource(VeilResourceInfo resourceInfo) implements VeilTextResource<FramebufferResource> {
+public record RenderTypeResource(VeilResourceInfo resourceInfo) implements VeilTextResource<RenderTypeResource> {
 
     @Override
-    public List<VeilResourceAction<FramebufferResource>> getActions() {
+    public List<VeilResourceAction<RenderTypeResource>> getActions() {
         return List.of(new TextEditAction<>());
     }
 
@@ -28,7 +28,7 @@ public record FramebufferResource(VeilResourceInfo resourceInfo) implements Veil
     @Override
     public void hotReload() {
         Minecraft client = Minecraft.getInstance();
-        VeilRenderSystem.renderer().getFramebufferManager().reload(CompletableFuture::completedFuture, client.getResourceManager(), InactiveProfiler.INSTANCE, InactiveProfiler.INSTANCE, Util.backgroundExecutor(), client);
+        VeilRenderSystem.renderer().getDynamicRenderTypeManager().reload(CompletableFuture::completedFuture, client.getResourceManager(), InactiveProfiler.INSTANCE, InactiveProfiler.INSTANCE, Util.backgroundExecutor(), client);
     }
 
     @Override
