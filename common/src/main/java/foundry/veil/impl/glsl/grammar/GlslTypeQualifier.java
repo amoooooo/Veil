@@ -3,8 +3,7 @@ package foundry.veil.impl.glsl.grammar;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Locale;
+import java.util.*;
 
 public sealed interface GlslTypeQualifier {
 
@@ -14,8 +13,8 @@ public sealed interface GlslTypeQualifier {
         return new StorageSubroutine(typeNames);
     }
 
-    static Layout layout(LayoutId... ids) {
-        return new Layout(ids);
+    static Layout layout(Collection<LayoutId> ids) {
+        return new Layout(new ArrayList<>(ids));
     }
 
     static LayoutId identifierLayoutId(String identifier, @Nullable GlslNode constantExpression) {
@@ -48,7 +47,7 @@ public sealed interface GlslTypeQualifier {
         }
     }
 
-    record Layout(LayoutId[] layoutIds) implements GlslTypeQualifier {
+    record Layout(List<LayoutId> layoutIds) implements GlslTypeQualifier {
         @Override
         public String getSourceString() {
             StringBuilder builder = new StringBuilder();

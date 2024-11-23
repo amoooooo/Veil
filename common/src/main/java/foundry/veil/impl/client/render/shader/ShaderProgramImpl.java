@@ -125,6 +125,10 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     private void link() throws ShaderException {
+        this.uniforms.clear();
+        this.uniformBlocks.clear();
+        this.textures.clear();
+
         glLinkProgram(this.program);
         if (glGetProgrami(this.program, GL_LINK_STATUS) != GL_TRUE) {
             String log = glGetProgramInfoLog(this.program);

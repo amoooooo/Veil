@@ -1145,7 +1145,7 @@ public final class GlslParser {
             return null;
         }
 
-        return GlslTypeQualifier.layout(layoutQualifierIds.toArray(GlslTypeQualifier.LayoutId[]::new));
+        return GlslTypeQualifier.layout(layoutQualifierIds);
     }
 
     private static @Nullable List<GlslTypeQualifier> parseTypeQualifiers(GlslTokenReader reader) {

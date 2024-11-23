@@ -1,9 +1,9 @@
 package foundry.veil.impl.glsl.grammar;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import foundry.veil.impl.glsl.node.GlslNode;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 /**
  * Specifies the full operand of something in GLSL in addition to all qualifiers.
@@ -33,6 +33,24 @@ public class GlslSpecifiedType implements GlslType {
      */
     public GlslTypeSpecifier getSpecifier() {
         return this.specifier;
+    }
+
+    /**
+     * Adds a layout id to the qualifier list, or adds to an existing layout.
+     *
+     * @param identifier The name of the identifier
+     * @param expression The value to assign it to
+     */
+    public GlslSpecifiedType addLayoutId(String identifier, @Nullable GlslNode expression) {
+        for (GlslTypeQualifier qualifier : this.qualifiers) {
+            if (qualifier instanceof GlslTypeQualifier.Layout(List<GlslTypeQualifier.LayoutId> layoutIds)) {
+                layoutIds.add(new GlslTypeQualifier.LayoutId(identifier, expression));
+                return this;
+            }
+        }
+
+        this.qualifiers.addFirst(GlslTypeQualifier.layout(Collections.singleton(new GlslTypeQualifier.LayoutId(identifier, expression))));
+        return this;
     }
 
     /**
