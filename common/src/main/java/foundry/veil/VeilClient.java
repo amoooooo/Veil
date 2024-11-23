@@ -5,22 +5,27 @@ import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.registry.*;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
-import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.registry.EmitterShapeRegistry;
 import foundry.veil.api.quasar.registry.RenderStyleRegistry;
 import foundry.veil.impl.client.editor.*;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferShard;
 import foundry.veil.impl.resource.VeilResourceManagerImpl;
+import foundry.veil.mixin.accessor.CompositeStateAccessor;
+import foundry.veil.mixin.accessor.RenderStateShardAccessor;
 import foundry.veil.platform.VeilClientPlatform;
 import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.SystemToast;
-import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ServiceLoader;
 
@@ -43,16 +48,20 @@ public class VeilClient {
             RESOURCE_MANAGER.free();
         });
         VeilEventPlatform.INSTANCE.onVeilRendererAvailable(renderer -> {
-            if (Veil.SODIUM) {
-                SystemToast.add(Minecraft.getInstance().getToasts(), UNSUPPORTED_NOTIFICATION, VeilDeferredRenderer.UNSUPPORTED_TITLE, VeilDeferredRenderer.UNSUPPORTED_SODIUM_DESC);
-            }
+//            if (Veil.SODIUM) {
+//                SystemToast.add(Minecraft.getInstance().getToasts(), UNSUPPORTED_NOTIFICATION, VeilDeferredRenderer.UNSUPPORTED_TITLE, VeilDeferredRenderer.UNSUPPORTED_SODIUM_DESC);
+//            }
 
             RESOURCE_MANAGER.addVeilLoaders(renderer);
             if (VeilRenderer.hasImGui()) {
                 EditorManager editorManager = renderer.getEditorManager();
 
-                // debug editors
-                editorManager.add(new DemoEditor());
+                // Example for devs
+                if (Veil.platform().isDevelopmentEnvironment()) {
+                    editorManager.add(new DemoEditor());
+                }
+
+                // Debug editors
                 editorManager.add(new PostEditor());
                 if (Veil.DEBUG) {
                     editorManager.add(new ShaderEditor());
@@ -60,7 +69,7 @@ public class VeilClient {
                 editorManager.add(new TextureEditor());
                 editorManager.add(new OpenCLEditor());
                 editorManager.add(new DeviceInfoViewer());
-                editorManager.add(new DeferredEditor());
+//                editorManager.add(new DeferredEditor());
                 editorManager.add(new LightEditor());
                 editorManager.add(new FramebufferEditor());
                 editorManager.add(new ResourceManagerEditor());
@@ -70,8 +79,13 @@ public class VeilClient {
 
         // This fixes moving transparent blocks drawing too early
         VeilEventPlatform.INSTANCE.onVeilRegisterFixedBuffers(registry -> registry.registerFixedBuffer(VeilRenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS, RenderType.translucentMovingBlock()));
-        RenderTypeStageRegistry.addGenericStage(renderType -> true, new RenderStateShard(Veil.MODID + ":deferred", () -> VeilRenderSystem.renderer().getDeferredRenderer().setup(), () -> VeilRenderSystem.renderer().getDeferredRenderer().clear()) {
-        });
+        RenderTypeStageRegistry.addGenericStage(renderType -> "main_target".equals(getOutputName(renderType)), new DynamicBufferShard(DynamicBufferManger.MAIN_WRAPPER, () -> Minecraft.getInstance().getMainRenderTarget()));
+        RenderTypeStageRegistry.addGenericStage(renderType -> "outline_target".equals(getOutputName(renderType)), new DynamicBufferShard("outline", () -> null));
+        RenderTypeStageRegistry.addGenericStage(renderType -> "translucent_target".equals(getOutputName(renderType)), new DynamicBufferShard("translucent", () -> Minecraft.getInstance().levelRenderer.getTranslucentTarget()));
+        RenderTypeStageRegistry.addGenericStage(renderType -> "particles_target".equals(getOutputName(renderType)), new DynamicBufferShard("particles", () -> Minecraft.getInstance().levelRenderer.getParticlesTarget()));
+        RenderTypeStageRegistry.addGenericStage(renderType -> "weather_target".equals(getOutputName(renderType)), new DynamicBufferShard("weather", () -> Minecraft.getInstance().levelRenderer.getWeatherTarget()));
+        RenderTypeStageRegistry.addGenericStage(renderType -> "clouds_target".equals(getOutputName(renderType)), new DynamicBufferShard("clouds", () -> Minecraft.getInstance().levelRenderer.getCloudsTarget()));
+        RenderTypeStageRegistry.addGenericStage(renderType -> "item_entity_target".equals(getOutputName(renderType)), new DynamicBufferShard("item_entity", () -> Minecraft.getInstance().levelRenderer.getItemEntityTarget()));
         PostPipelineStageRegistry.bootstrap();
         LightTypeRegistry.bootstrap();
         RenderTypeLayerRegistry.bootstrap();
@@ -79,6 +93,10 @@ public class VeilClient {
         EmitterShapeRegistry.bootstrap();
         RenderStyleRegistry.bootstrap();
         ParticleModuleTypeRegistry.bootstrap();
+    }
+
+    private static String getOutputName(RenderType.CompositeRenderType renderType) {
+        return ((RenderStateShardAccessor) ((CompositeStateAccessor) (Object) renderType.state()).getOutputState()).getName();
     }
 
     @ApiStatus.Internal

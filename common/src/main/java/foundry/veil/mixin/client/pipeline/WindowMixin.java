@@ -1,4 +1,4 @@
-package foundry.veil.mixin.client.deferred;
+package foundry.veil.mixin.client.pipeline;
 
 import com.mojang.blaze3d.platform.Window;
 import org.spongepowered.asm.mixin.Mixin;

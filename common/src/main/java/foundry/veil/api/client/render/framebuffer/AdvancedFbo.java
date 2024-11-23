@@ -682,7 +682,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param layer     The layer of the texture to use
          */
         public Builder addColorTextureWrapper(int textureId, int layer) {
-            return this.addColorBuffer(new AdvancedFboMutableTextureAttachment(GL_COLOR_ATTACHMENT0, textureId, layer));
+            return this.addColorBuffer(new AdvancedFboMutableTextureAttachment(GL_COLOR_ATTACHMENT0, textureId, layer, this.name));
         }
 
         /**
@@ -781,7 +781,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param layer     The layer of the texture to use
          */
         public Builder setDepthTextureWrapper(int textureId, int layer) {
-            return this.setDepthBuffer(new AdvancedFboMutableTextureAttachment(GL_DEPTH_ATTACHMENT, textureId, layer));
+            return this.setDepthBuffer(new AdvancedFboMutableTextureAttachment(GL_DEPTH_ATTACHMENT, textureId, layer, this.name));
         }
 
         /**

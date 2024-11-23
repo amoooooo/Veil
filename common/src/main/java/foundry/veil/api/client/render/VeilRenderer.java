@@ -1,5 +1,6 @@
 package foundry.veil.api.client.render;
 
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
@@ -45,8 +46,8 @@ public class VeilRenderer implements NativeResource {
     private final GuiInfo guiInfo;
 
     @ApiStatus.Internal
-    public VeilRenderer(ReloadableResourceManager resourceManager) {
-        this.dynamicBufferManger = new DynamicBufferManger();
+    public VeilRenderer(ReloadableResourceManager resourceManager, Window window) {
+        this.dynamicBufferManger = new DynamicBufferManger(window.getWidth(), window.getHeight());
         this.shaderModificationManager = new ShaderModificationManager();
         this.shaderPreDefinitions = new ShaderPreDefinitions();
         this.shaderManager = new ShaderManager(ShaderManager.PROGRAM_SET, this.shaderPreDefinitions, this.dynamicBufferManger);
@@ -68,7 +69,7 @@ public class VeilRenderer implements NativeResource {
         listeners.add(1, this.shaderManager);
         resourceManager.registerReloadListener(this.framebufferManager);
         resourceManager.registerReloadListener(this.postProcessingManager);
-        resourceManager.registerReloadListener(this.deferredRenderer);
+//        resourceManager.registerReloadListener(this.deferredRenderer);
         resourceManager.registerReloadListener(this.dynamicRenderTypeManager);
     }
 
@@ -102,6 +103,13 @@ public class VeilRenderer implements NativeResource {
 
         int active = this.dynamicBufferManger.getActiveBuffers() & ~DynamicBufferType.encode(buffers);
         return this.dynamicBufferManger.setActiveBuffers(active);
+    }
+
+    /**
+     * @return The manger for all dynamically added framebuffer attachments
+     */
+    public DynamicBufferManger getDynamicBufferManger() {
+        return this.dynamicBufferManger;
     }
 
     /**
@@ -197,6 +205,7 @@ public class VeilRenderer implements NativeResource {
 
     @Override
     public void free() {
+        this.dynamicBufferManger.free();
         this.shaderManager.close();
         this.framebufferManager.free();
         this.postProcessingManager.free();

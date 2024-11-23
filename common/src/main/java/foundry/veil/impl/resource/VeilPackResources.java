@@ -6,13 +6,15 @@ import foundry.veil.api.resource.VeilResource;
 import foundry.veil.impl.resource.tree.VeilResourceFolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
 import static org.lwjgl.opengl.GL11C.glDeleteTextures;
 import static org.lwjgl.opengl.GL11C.glGenTextures;
 
-public final class VeilPackResources implements NativeResource {
+@ApiStatus.Internal
+public class VeilPackResources implements NativeResource {
 
     private final String name;
     private final VeilResourceFolder root;

@@ -15,8 +15,8 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
     private int textureId;
     private int layer;
 
-    public AdvancedFboMutableTextureAttachment(int attachmentType, int textureId, int layer) {
-        super(attachmentType, 0, 0, 0, 0, 0, 0, false, null);
+    public AdvancedFboMutableTextureAttachment(int attachmentType, int textureId, int layer, String name) {
+        super(attachmentType, 0, 0, 0, 0, 0, 0, false, name);
         this.setTexture(textureId, layer);
     }
 
@@ -50,7 +50,7 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
 
     @Override
     public AdvancedFboMutableTextureAttachment clone() {
-        return new AdvancedFboMutableTextureAttachment(this.textureId, this.getAttachmentType(), this.layer);
+        return new AdvancedFboMutableTextureAttachment(this.getAttachmentType(), this.textureId, this.layer, this.getName());
     }
 
     @Override

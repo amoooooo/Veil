@@ -8,7 +8,6 @@ import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
-import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.util.TextureDownloader;
 import imgui.ImGui;
 import net.minecraft.Util;
@@ -24,6 +23,8 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -36,7 +37,12 @@ public class FramebufferEditor extends SingleWindowEditor {
 
     private static final Component SAVE = Component.translatable("gui.veil.save");
 
+    private final Set<ResourceLocation> framebuffers;
     private AdvancedFbo downloadBuffer;
+
+    public FramebufferEditor() {
+        this.framebuffers = new TreeSet<>();
+    }
 
     @Override
     public Component getDisplayName() {
@@ -53,8 +59,10 @@ public class FramebufferEditor extends SingleWindowEditor {
         VeilRenderer renderer = VeilRenderSystem.renderer();
 
         if (ImGui.beginTabBar("##framebuffers")) {
-            FramebufferManager framebufferManager = renderer.getFramebufferManager();
-            for (ResourceLocation id : framebufferManager.getFramebuffers().keySet()) {
+            // Sort ids
+            this.framebuffers.clear();
+            this.framebuffers.addAll(renderer.getFramebufferManager().getFramebuffers().keySet());
+            for (ResourceLocation id : this.framebuffers) {
                 drawBuffers(id, fbo -> this.downloadBuffer = fbo);
             }
             ImGui.endTabBar();

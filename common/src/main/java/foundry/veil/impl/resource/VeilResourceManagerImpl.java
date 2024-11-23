@@ -19,6 +19,7 @@ import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.*;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
@@ -38,6 +39,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 /**
  * Manages all veil resources
  */
+@ApiStatus.Internal
 public class VeilResourceManagerImpl implements VeilResourceManager, NativeResource {
 
     private static final AtomicInteger WATCHER_ID = new AtomicInteger(1);

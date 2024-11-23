@@ -5,7 +5,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
@@ -36,6 +35,8 @@ import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import static org.lwjgl.opengl.GL11C.glGetInteger;
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 import static org.lwjgl.opengl.GL30C.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL31C.GL_MAX_UNIFORM_BUFFER_BINDINGS;
 import static org.lwjgl.opengl.GL43C.*;
@@ -248,7 +249,7 @@ public final class VeilRenderSystem {
             throw new IllegalStateException("Client resource manager is " + client.getResourceManager().getClass());
         }
 
-        renderer = new VeilRenderer(resourceManager);
+        renderer = new VeilRenderer(resourceManager, client.getWindow());
         VeilImGuiImpl.init(client.getWindow().getWindow());
 
         BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
@@ -707,7 +708,12 @@ public final class VeilRenderSystem {
     @ApiStatus.Internal
     public static void endFrame() {
         VeilImGuiImpl.get().endFrame();
+
+        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
         renderer.getFramebufferManager().clear();
+        renderer.getDynamicBufferManger().clear();
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // Manual unbind to restore the default mc state
+
         UNIFORM_BLOCK_STATE.clear();
     }
 
@@ -720,6 +726,7 @@ public final class VeilRenderSystem {
     public static void resize(int width, int height) {
         if (renderer != null) {
             renderer.getFramebufferManager().resizeFramebuffers(width, height);
+            renderer.getDynamicBufferManger().resizeFramebuffers(width, height);
         }
     }
 

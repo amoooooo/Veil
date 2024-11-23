@@ -4,7 +4,9 @@ import foundry.veil.api.resource.VeilResource;
 import imgui.ImGui;
 import imgui.flag.ImGuiCond;
 import imgui.flag.ImGuiDragDropFlags;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public class VeilResourceRenderer {
 
     public static void renderFilename(VeilResource<?> resource) {

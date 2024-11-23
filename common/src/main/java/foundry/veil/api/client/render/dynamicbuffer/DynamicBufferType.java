@@ -1,23 +1,29 @@
 package foundry.veil.api.client.render.dynamicbuffer;
 
+import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
+
 public enum DynamicBufferType {
-    ALBEDO("albedo", "Albedo", false, 4),
-    NORMAL("normal", "Normal", false, 3),
-    LIGHT_COLOR("light_color", "LightColor", false, 4),
-    LIGHT_UV("light_uv", "LightUv", true, 2),
-    DEBUG("debug", "Debug", false, 4);
+    ALBEDO("albedo", "Albedo", false, 4, FramebufferAttachmentDefinition.Format.RGBA8),
+    NORMAL("normal", "Normal", false, 3, FramebufferAttachmentDefinition.Format.RGB8_SNORM),
+    LIGHT_COLOR("light_color", "LightColor", false, 3, FramebufferAttachmentDefinition.Format.RGB8),
+    LIGHT_UV("light_uv", "LightUv", true, 2, FramebufferAttachmentDefinition.Format.RG8UI),
+    DEBUG("debug", "Debug", false, 4, FramebufferAttachmentDefinition.Format.RGBA16F);
 
     private final String name;
     private final String sourceName;
     private final boolean integer;
     private final int components;
+    private final int internalFormat;
+    private final int texelFormat;
     private final int mask;
 
-    DynamicBufferType(String name, String sourceName, boolean integer, int components) {
+    DynamicBufferType(String name, String sourceName, boolean integer, int components, FramebufferAttachmentDefinition.Format format) {
         this.name = name;
-        this.sourceName = "VeilDynamic"+sourceName;
+        this.sourceName = "VeilDynamic" + sourceName;
         this.integer = integer;
         this.components = components;
+        this.internalFormat = format.getInternalId();
+        this.texelFormat = format.getId();
         this.mask = 1 << this.ordinal();
     }
 
@@ -42,6 +48,14 @@ public enum DynamicBufferType {
 
     public int getComponents() {
         return this.components;
+    }
+
+    public int getInternalFormat() {
+        return this.internalFormat;
+    }
+
+    public int getTexelFormat() {
+        return this.texelFormat;
     }
 
     public int getMask() {

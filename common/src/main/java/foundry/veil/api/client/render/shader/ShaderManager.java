@@ -322,14 +322,13 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         return this.sourceSet;
     }
 
-    private ReloadState prepare(ResourceManager resourceManager, Collection<ResourceLocation> shaders) {
+    private ReloadState prepare(ResourceManager resourceManager, Collection<ResourceLocation> shaders, int activeBuffers) {
         Map<ResourceLocation, ProgramDefinition> definitions = new HashMap<>();
         Map<ResourceLocation, VeilShaderSource> shaderSources = new HashMap<>();
 
         this.addProcessors(resourceManager);
-        int flags = this.dynamicBufferManager.getActiveBuffers();
         for (ResourceLocation key : shaders) {
-            this.readShader(resourceManager, definitions, shaderSources, key, flags);
+            this.readShader(resourceManager, definitions, shaderSources, key, activeBuffers);
         }
 
         // Delete all processors
@@ -389,7 +388,8 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                 shaders = new HashSet<>(this.dirtyShaders);
                 this.dirtyShaders.clear();
             }
-            this.recompileFuture = CompletableFuture.supplyAsync(() -> this.prepare(client.getResourceManager(), shaders), Util.backgroundExecutor())
+            int activeBuffers = this.dynamicBufferManager.getActiveBuffers();
+            this.recompileFuture = CompletableFuture.supplyAsync(() -> this.prepare(client.getResourceManager(), shaders, activeBuffers), Util.backgroundExecutor())
                     .thenAcceptAsync(state -> this.applyRecompile(state, shaders), client)
                     .handle((value, e) -> {
                         if (e != null) {
@@ -447,7 +447,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
             if (!shaders.isEmpty()) {
                 this.updateBuffersFuture = this.updateBuffersFuture
-                        .thenApplyAsync(unused -> this.prepare(Minecraft.getInstance().getResourceManager(), shaders), Util.backgroundExecutor())
+                        .thenApplyAsync(unused -> this.prepare(Minecraft.getInstance().getResourceManager(), shaders, activeBuffers), Util.backgroundExecutor())
                         .thenAcceptAsync(reloadState -> {
                             try (ShaderCompiler compiler = ShaderCompiler.direct(reloadState.shaderSources::get)) {
                                 for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
@@ -459,7 +459,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                                     }
 
                                     try {
-                                        impl.updateActiveBuffers(new ShaderCompiler.Context(this.dynamicBufferManager.getActiveBuffers(), this.sourceSet, null), compiler);
+                                        impl.updateActiveBuffers(new ShaderCompiler.Context(activeBuffers, this.sourceSet, null), compiler);
                                     } catch (ShaderException e) {
                                         Veil.LOGGER.error("Failed to create shader {}: {}", id, e.getMessage());
                                         String error = e.getGlError();
@@ -494,6 +494,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         if (this.reloadFuture != null && !this.reloadFuture.isDone()) {
             return this.reloadFuture.thenCompose(preparationBarrier::wait);
         }
+        int activeBuffers = this.dynamicBufferManager.getActiveBuffers();
         return this.reloadFuture = CompletableFuture.allOf(this.recompileFuture, this.updateBuffersFuture).thenCompose(
                 unused -> CompletableFuture.supplyAsync(() -> {
                             FileToIdConverter lister = this.sourceSet.getShaderDefinitionLister();
@@ -501,7 +502,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                                     .stream()
                                     .map(lister::fileToId)
                                     .collect(Collectors.toSet());
-                            return this.prepare(resourceManager, shaderIds);
+                            return this.prepare(resourceManager, shaderIds, activeBuffers);
                         }, backgroundExecutor)
                         .thenCompose(preparationBarrier::wait)
                         .thenAcceptAsync(this::apply, gameExecutor));

@@ -107,7 +107,6 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
 
     @ApiStatus.Internal
     public void clear() {
-        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
         this.framebuffers.forEach((name, fbo) -> {
             if (this.manualFramebuffers.contains(name)) {
                 return;
@@ -116,9 +115,6 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
             fbo.bindDraw(false);
             fbo.clear();
         });
-
-        // Manual unbind to restore the default mc state
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     /**

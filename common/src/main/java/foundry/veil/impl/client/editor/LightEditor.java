@@ -45,7 +45,7 @@ public class LightEditor extends SingleWindowEditor {
 
     @Override
     public @Nullable Component getGroup() {
-        return DEFERRED_GROUP;
+        return RENDERER_GROUP;
     }
 
     @Override
