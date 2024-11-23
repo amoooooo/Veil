@@ -8,7 +8,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.CompiledShader;
 import foundry.veil.api.client.render.shader.ShaderCompiler;
 import foundry.veil.api.client.render.shader.ShaderException;
@@ -181,21 +180,19 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.compileInternal(context, compiler);
     }
 
-    public void setActiveBuffers(ShaderCompiler.Context context, ShaderCompiler compiler, int activeBuffers) throws ShaderException, IOException {
-        if (!Objects.equals(this.definition, context.definition())) {
-            throw new IllegalArgumentException("Cannot set active buffers when shader definition is not compatible");
+    public boolean setActiveBuffers(int activeBuffers) throws ShaderException {
+        if (this.activeBuffers == activeBuffers) {
+            return false;
         }
 
-        int[] shaders = this.attachedShaders.keySet().toIntArray();
-        for (int shaderType : shaders) {
+        for (int shaderType : this.attachedShaders.keySet()) {
             if (!this.shaders.containsKey(DynamicBufferManger.getShaderIndex(shaderType, activeBuffers))) {
-                this.detachShaders();
                 this.activeBuffers = activeBuffers;
-                this.compileInternal(context, compiler);
-                return;
+                return true;
             }
         }
 
+        int[] shaders = this.attachedShaders.keySet().toIntArray();
         this.detachShaders();
         this.activeBuffers = activeBuffers;
         for (int shaderType : shaders) {
@@ -205,6 +202,16 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
 
         this.link();
+        return false;
+    }
+
+    public void updateActiveBuffers(ShaderCompiler.Context context, ShaderCompiler compiler) throws ShaderException, IOException {
+        if (!Objects.equals(this.definition, context.definition())) {
+            throw new IllegalArgumentException("Cannot set active buffers when shader definition is not compatible");
+        }
+
+        this.detachShaders();
+        this.compileInternal(context, compiler);
     }
 
     @Override

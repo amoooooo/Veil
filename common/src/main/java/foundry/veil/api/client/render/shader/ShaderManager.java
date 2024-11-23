@@ -6,9 +6,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.VeilRenderer;
-import foundry.veil.api.client.render.framebuffer.FramebufferManager;
-import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.processor.ShaderCustomProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderModifyProcessor;
@@ -29,7 +26,6 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.util.profiling.InactiveProfiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -84,6 +80,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     private final Set<ResourceLocation> dirtyShaders;
     private CompletableFuture<Void> reloadFuture;
     private CompletableFuture<Void> recompileFuture;
+    private CompletableFuture<Void> updateBuffersFuture;
 
     /**
      * Creates a new shader manager.
@@ -102,6 +99,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         this.dirtyShaders = new HashSet<>();
         this.reloadFuture = CompletableFuture.completedFuture(null);
         this.recompileFuture = CompletableFuture.completedFuture(null);
+        this.updateBuffersFuture = CompletableFuture.completedFuture(null);
     }
 
     private void onDefinitionChanged(String definition) {
@@ -381,30 +379,60 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
     @ApiStatus.Internal
     public void setActiveBuffers(int activeBuffers) {
-        ResourceProvider sourceProvider = Minecraft.getInstance().getResourceManager();
         ShaderProgram active = null;
-        try (ShaderCompiler compiler = this.addProcessors(ShaderCompiler.direct(sourceProvider), sourceProvider)) {
+
+        try {
+            Set<ResourceLocation> shaders = new HashSet<>();
             for (ShaderProgram program : this.shaders.values()) {
                 active = program;
                 if (program instanceof ShaderProgramImpl impl) {
-                    if (impl.getActiveBuffers() != activeBuffers) {
-                        impl.setActiveBuffers(new ShaderCompiler.Context(this.definitions, this.sourceSet, this.dynamicBufferManager.getActiveBuffers(), program.getDefinition()), compiler, activeBuffers);
+                    if (impl.setActiveBuffers(activeBuffers)) {
+                        shaders.add(program.getId());
                     }
                 }
             }
+
+            if (!shaders.isEmpty()) {
+                this.updateBuffersFuture = this.updateBuffersFuture
+                        .thenApplyAsync(unused -> this.prepare(Minecraft.getInstance().getResourceManager(), shaders), Util.backgroundExecutor())
+                        .thenAcceptAsync(reloadState -> {
+                            ResourceProvider sourceProvider = loc -> Optional.ofNullable(reloadState.shaderSources().get(loc));
+                            try (ShaderCompiler compiler = this.addProcessors(ShaderCompiler.direct(sourceProvider), sourceProvider)) {
+                                for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
+                                    ResourceLocation id = entry.getKey();
+                                    ShaderProgram program = this.getShader(id);
+                                    if (!(program instanceof ShaderProgramImpl impl)) {
+                                        Veil.LOGGER.warn("Failed to set shader active buffers: {}", id);
+                                        continue;
+                                    }
+
+                                    try {
+                                        impl.updateActiveBuffers(new ShaderCompiler.Context(this.definitions, this.sourceSet, this.dynamicBufferManager.getActiveBuffers(), program.getDefinition()), compiler);
+                                    } catch (ShaderException e) {
+                                        Veil.LOGGER.error("Failed to create shader {}: {}", id, e.getMessage());
+                                        String error = e.getGlError();
+                                        if (error != null) {
+                                            Veil.LOGGER.warn(error);
+                                        }
+                                    } catch (Exception e) {
+                                        Veil.LOGGER.error("Failed to create shader: {}", id, e);
+                                    }
+                                }
+                            }
+
+                            VeilRenderSystem.finalizeShaderCompilation();
+
+                            Veil.LOGGER.info("Compiled {} shaders from: {}", shaders.size(), this.sourceSet.getFolder());
+                        }, Minecraft.getInstance());
+            }
         } catch (ShaderException e) {
             CrashReport crashreport = CrashReport.forThrowable(e, "Setting Active Buffers");
-            CrashReportCategory crashreportcategory = crashreport.addCategory("Compiling Program");
+            CrashReportCategory crashreportcategory = crashreport.addCategory("Linking Program");
             crashreportcategory.setDetail("Name", active.getId());
             String glError = e.getGlError();
             if (glError != null) {
                 Veil.LOGGER.error(glError);
             }
-            throw new ReportedException(crashreport);
-        } catch (Exception e) {
-            CrashReport crashreport = CrashReport.forThrowable(e, "Setting Active Buffers");
-            CrashReportCategory crashreportcategory = crashreport.addCategory("Compiling Program");
-            crashreportcategory.setDetail("Name", active != null ? active.getId() : "null");
             throw new ReportedException(crashreport);
         }
     }
@@ -414,7 +442,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         if (this.reloadFuture != null && !this.reloadFuture.isDone()) {
             return this.reloadFuture.thenCompose(preparationBarrier::wait);
         }
-        return this.reloadFuture = this.recompileFuture.thenCompose(
+        return this.reloadFuture = CompletableFuture.allOf(this.recompileFuture, this.updateBuffersFuture).thenCompose(
                 unused -> CompletableFuture.supplyAsync(() -> {
                             FileToIdConverter lister = this.sourceSet.getShaderDefinitionLister();
                             Set<ResourceLocation> shaderIds = lister.listMatchingResources(resourceManager).keySet()
@@ -430,34 +458,6 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     @Override
     public String getName() {
         return this.getClass().getSimpleName() + " " + this.getSourceSet().getFolder();
-    }
-
-    /**
-     * Recompiles all shaders in the background.
-     *
-     * @param resourceManager    The manager for resources. Shader files and definitions are loaded from this manager
-     * @param backgroundExecutor The executor for preparation tasks
-     * @param gameExecutor       The executor for applying the shaders
-     * @return A future representing when shader compilation will be done
-     */
-    public CompletableFuture<Void> reload(ResourceManager resourceManager, Executor backgroundExecutor, Executor gameExecutor) {
-        VeilRenderer renderer = VeilRenderSystem.renderer();
-        FramebufferManager framebufferManager = renderer.getFramebufferManager();
-        PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
-
-        return this.reloadFuture = CompletableFuture.allOf(
-                this.reload(this, resourceManager, backgroundExecutor, gameExecutor),
-                this.reload(framebufferManager, resourceManager, backgroundExecutor, gameExecutor),
-                this.reload(postProcessingManager, resourceManager, backgroundExecutor, gameExecutor));
-    }
-
-    private CompletableFuture<Void> reload(PreparableReloadListener listener, ResourceManager resourceManager, Executor backgroundExecutor, Executor gameExecutor) {
-        return listener.reload(CompletableFuture::completedFuture,
-                resourceManager,
-                InactiveProfiler.INSTANCE,
-                InactiveProfiler.INSTANCE,
-                backgroundExecutor,
-                gameExecutor);
     }
 
     /**

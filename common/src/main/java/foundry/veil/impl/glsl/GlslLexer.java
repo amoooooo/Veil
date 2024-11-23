@@ -47,6 +47,7 @@ public final class GlslLexer {
         return tokens.toArray(Token[]::new);
     }
 
+    // FIXME Make this faster
     private static @Nullable Token getToken(StringReader reader) {
         String word = reader.getString().substring(reader.getCursor());
         Token longest = null;
