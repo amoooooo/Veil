@@ -80,12 +80,12 @@ public final class GlslParser {
     }
 
     public static GlslNode parseExpression(String input) throws GlslSyntaxException {
-        return parseExpression(GlslLexer.createTokens(input));
+        return parseExpression(GlslLexer.createTokens(input + ";"));
     }
 
     public static GlslNode parseExpression(GlslLexer.Token[] tokens) throws GlslSyntaxException {
         GlslTokenReader reader = new GlslTokenReader(tokens);
-        GlslNode expression = parseConditionalExpression(reader);
+        GlslNode expression = parseStatement(reader);
         if (expression == null) {
             reader.throwError();
         }

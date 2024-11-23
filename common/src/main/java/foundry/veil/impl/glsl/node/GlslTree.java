@@ -1,5 +1,6 @@
 package foundry.veil.impl.glsl.node;
 
+import foundry.veil.impl.glsl.GlslInjectionPoint;
 import foundry.veil.impl.glsl.grammar.GlslVersion;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
@@ -85,6 +86,66 @@ public class GlslTree {
 
     public void add(GlslNode node) {
         this.body.add(node);
+    }
+
+    public void addAll(Collection<GlslNode> nodes) {
+        this.body.addAll(nodes);
+    }
+
+    public void add(GlslInjectionPoint point, GlslNode node) {
+        this.body.add(this.getInjectionIndex(point), node);
+    }
+
+    public void addAll(GlslInjectionPoint point, Collection<GlslNode> nodes) {
+        this.body.addAll(this.getInjectionIndex(point), nodes);
+    }
+
+    public int getInjectionIndex(GlslInjectionPoint point) {
+        switch (point) {
+            case BEFORE_DECLARATIONS -> {
+                for (int i = 0; i < this.body.size(); i++) {
+                    if (!(this.body.get(i) instanceof GlslFunctionNode)) {
+                        return i;
+                    }
+                }
+            }
+            case AFTER_DECLARATIONS -> {
+                for (int i = 0; i < this.body.size(); i++) {
+                    if (this.body.get(i) instanceof GlslFunctionNode) {
+                        return i + 1;
+                    }
+                }
+            }
+            case BEFORE_MAIN -> {
+                for (int i = 0; i < this.body.size(); i++) {
+                    if (this.body.get(i) instanceof GlslFunctionNode functionNode && functionNode.getHeader().getName().equals("main")) {
+                        return i;
+                    }
+                }
+            }
+            case AFTER_MAIN -> {
+                for (int i = 0; i < this.body.size(); i++) {
+                    if (this.body.get(i) instanceof GlslFunctionNode functionNode && functionNode.getHeader().getName().equals("main")) {
+                        return i + 1;
+                    }
+                }
+            }
+            case BEFORE_FUNCTIONS -> {
+                for (int i = 0; i < this.body.size(); i++) {
+                    if (!(this.body.get(i) instanceof GlslFunctionNode)) {
+                        return i;
+                    }
+                }
+            }
+            case AFTER_FUNCTIONS -> {
+                for (int i = 0; i < this.body.size(); i++) {
+                    if (!(this.body.get(i) instanceof GlslFunctionNode)) {
+                        return i + 1;
+                    }
+                }
+            }
+        }
+        return 0;
     }
 
     public GlslVersion getVersion() {

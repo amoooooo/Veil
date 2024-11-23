@@ -140,6 +140,6 @@ public class ShaderPreDefinitions {
      * @return A view of all definitions
      */
     public Map<String, String> getDefinitions() {
-        return this.definitions;
+        return this.definitionsView;
     }
 }

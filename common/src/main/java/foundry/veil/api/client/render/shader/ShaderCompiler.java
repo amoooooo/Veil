@@ -29,11 +29,12 @@ public interface ShaderCompiler extends NativeResource {
      * @param context The context for compiling the shader
      * @param type    The type of shader to create
      * @param id      The id of the shader to attach
+     * @param flags   Additional compilation flags
      * @return A new shader that can be attached to programs
      * @throws IOException     If the file could not be found.
      * @throws ShaderException If an error occurs compiling the shader
      */
-    CompiledShader compile(Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation id) throws IOException, ShaderException;
+    CompiledShader compile(Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation id, int flags) throws IOException, ShaderException;
 
     /**
      * Creates a new shader and attempts to attach the specified sources to it.
@@ -42,11 +43,12 @@ public interface ShaderCompiler extends NativeResource {
      * @param context The context for compiling the shader
      * @param type    The type of shader to create
      * @param source  The source of the shader to attach
+     * @param flags   Additional compilation flags
      * @return A new shader that can be attached to programs
      * @throws IOException     If an error occurs processing the shader source
      * @throws ShaderException If an error occurs compiling the shader
      */
-    CompiledShader compile(Context context, int type, ProgramDefinition.SourceType sourceType, String source) throws IOException, ShaderException;
+    CompiledShader compile(Context context, int type, ProgramDefinition.SourceType sourceType, String source, int flags) throws IOException, ShaderException;
 
     /**
      * Adds the specified pre-processor to the end of the stack.
@@ -95,10 +97,12 @@ public interface ShaderCompiler extends NativeResource {
      *
      * @param preDefinitions The set of all shader pre-definitions
      * @param sourceSet      The location to load relative shader files from
+     * @param activeBuffers  The currently active buffers
      * @param definition     The definition the shader is being compiled for or <code>null</code> if there is no program
      */
     record Context(ShaderPreDefinitions preDefinitions,
                    ShaderSourceSet sourceSet,
+                   int activeBuffers,
                    @Nullable ProgramDefinition definition) {
     }
 }

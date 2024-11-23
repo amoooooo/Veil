@@ -30,18 +30,18 @@ public class SimpleShaderProcessor {
         processor = null;
     }
 
-    public static String modify(@Nullable ResourceLocation name, String source) throws IOException {
+    public static String modify(@Nullable ResourceLocation name, int type, String source) throws IOException {
         if (processor == null) {
             throw new NullPointerException("Processor not initialized");
         }
-        return processor.modify(new Context(name), source);
+        return processor.modify(new Context(name, type), source);
     }
 
-    private record Context(ResourceLocation name) implements ShaderPreProcessor.Context {
+    private record Context(ResourceLocation name, int type) implements ShaderPreProcessor.Context {
 
         @Override
         public String modify(@Nullable ResourceLocation name, String source) throws IOException {
-            return processor.modify(new Context(name), source);
+            return processor.modify(new Context(name, this.type), source);
         }
 
         @Override

@@ -23,13 +23,15 @@ import java.io.IOException;
 public class ShaderLoaderMixin {
 
     @Unique
+    private static int veil$shaderType;
+    @Unique
     private static ResourceLocation veil$shaderName;
 
     @ModifyArg(method = "loadShader", at = @At(value = "INVOKE", target = "Lme/jellysquid/mods/sodium/client/gl/shader/GlShader;<init>(Lme/jellysquid/mods/sodium/client/gl/shader/ShaderType;Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;)V"), index = 2)
     private static String modifySource(String src) {
         try {
             SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager());
-            return SimpleShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), src);
+            return SimpleShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), veil$shaderType, src);
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", veil$shaderName, e);
             return src;
@@ -40,6 +42,7 @@ public class ShaderLoaderMixin {
 
     @Inject(method = "loadShader", at = @At("HEAD"))
     private static void preLoadShader(ShaderType type, ResourceLocation name, ShaderConstants constants, CallbackInfoReturnable<GlShader> cir) throws IOException {
+        veil$shaderType = type.id;
         veil$shaderName = name;
     }
 

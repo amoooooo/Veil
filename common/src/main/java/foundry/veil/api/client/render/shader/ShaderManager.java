@@ -14,7 +14,12 @@ import foundry.veil.api.client.render.shader.processor.ShaderCustomProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderModifyProcessor;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
+import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.FileToIdConverter;
@@ -26,6 +31,7 @@ import net.minecraft.server.packs.resources.ResourceProvider;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.InactiveProfiler;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -70,6 +76,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
             GL_COMPUTE_SHADER, "compute"
     );
 
+    private final DynamicBufferManger dynamicBufferManager;
     private final ShaderSourceSet sourceSet;
     private final ShaderPreDefinitions definitions;
     private final Map<ResourceLocation, ShaderProgram> shaders;
@@ -83,8 +90,10 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
      *
      * @param sourceSet            The source set to load all shaders from
      * @param shaderPreDefinitions The set of shader pre-definitions
+     * @param dynamicBufferManager The manager for dynamic buffers
      */
-    public ShaderManager(ShaderSourceSet sourceSet, ShaderPreDefinitions shaderPreDefinitions) {
+    public ShaderManager(ShaderSourceSet sourceSet, ShaderPreDefinitions shaderPreDefinitions, DynamicBufferManger dynamicBufferManager) {
+        this.dynamicBufferManager = dynamicBufferManager;
         this.sourceSet = sourceSet;
         this.definitions = shaderPreDefinitions;
         this.definitions.addListener(this::onDefinitionChanged);
@@ -183,7 +192,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     private void compile(ShaderProgram program, ProgramDefinition definition, ShaderCompiler compiler) {
         ResourceLocation id = program.getId();
         try {
-            program.compile(new ShaderCompiler.Context(this.definitions, this.sourceSet, definition), compiler);
+            program.compile(new ShaderCompiler.Context(this.definitions, this.sourceSet, this.dynamicBufferManager.getActiveBuffers(), definition), compiler);
         } catch (ShaderException e) {
             Veil.LOGGER.error("Failed to create shader {}: {}", id, e.getMessage());
             String error = e.getGlError();
@@ -284,7 +293,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         this.shaders.clear();
 
         ResourceProvider sourceProvider = loc -> Optional.ofNullable(reloadState.shaderSources().get(loc));
-        try (ShaderCompiler compiler = this.addProcessors(ShaderCompiler.cached(sourceProvider), sourceProvider)) {
+        try (ShaderCompiler compiler = this.addProcessors(ShaderCompiler.direct(sourceProvider), sourceProvider)) {
             for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
                 ResourceLocation id = entry.getKey();
                 ShaderProgram program = ShaderProgram.create(id);
@@ -300,7 +309,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
     private void applyRecompile(ShaderManager.ReloadState reloadState, Collection<ResourceLocation> shaders) {
         ResourceProvider sourceProvider = loc -> Optional.ofNullable(reloadState.shaderSources().get(loc));
-        try (ShaderCompiler compiler = this.addProcessors(ShaderCompiler.cached(sourceProvider), sourceProvider)) {
+        try (ShaderCompiler compiler = this.addProcessors(ShaderCompiler.direct(sourceProvider), sourceProvider)) {
             for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
                 ResourceLocation id = entry.getKey();
                 ShaderProgram program = this.getShader(id);
@@ -368,6 +377,36 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         }
 
         this.scheduleRecompile(0);
+    }
+
+    @ApiStatus.Internal
+    public void setActiveBuffers(int activeBuffers) {
+        ResourceProvider sourceProvider = Minecraft.getInstance().getResourceManager();
+        ShaderProgram active = null;
+        try (ShaderCompiler compiler = this.addProcessors(ShaderCompiler.direct(sourceProvider), sourceProvider)) {
+            for (ShaderProgram program : this.shaders.values()) {
+                active = program;
+                if (program instanceof ShaderProgramImpl impl) {
+                    if (impl.getActiveBuffers() != activeBuffers) {
+                        impl.setActiveBuffers(new ShaderCompiler.Context(this.definitions, this.sourceSet, this.dynamicBufferManager.getActiveBuffers(), program.getDefinition()), compiler, activeBuffers);
+                    }
+                }
+            }
+        } catch (ShaderException e) {
+            CrashReport crashreport = CrashReport.forThrowable(e, "Setting Active Buffers");
+            CrashReportCategory crashreportcategory = crashreport.addCategory("Compiling Program");
+            crashreportcategory.setDetail("Name", active.getId());
+            String glError = e.getGlError();
+            if (glError != null) {
+                Veil.LOGGER.error(glError);
+            }
+            throw new ReportedException(crashreport);
+        } catch (Exception e) {
+            CrashReport crashreport = CrashReport.forThrowable(e, "Setting Active Buffers");
+            CrashReportCategory crashreportcategory = crashreport.addCategory("Compiling Program");
+            crashreportcategory.setDetail("Name", active != null ? active.getId() : "null");
+            throw new ReportedException(crashreport);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.shader.program;
 import com.mojang.blaze3d.shaders.Uniform;
 import foundry.veil.api.client.render.shader.CompiledShader;
 import foundry.veil.api.client.render.shader.ShaderCompiler;
+import foundry.veil.api.client.render.shader.ShaderException;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -13,6 +14,7 @@ import org.joml.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
 
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Set;
@@ -60,9 +62,10 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
      *
      * @param context  The context to use when compiling shaders
      * @param compiler The compiler to use
-     * @throws Exception If an error occurs while compiling or linking shaders
+     * @throws IOException     If an error occurs while loading shaders
+     * @throws ShaderException If an error occurs while compiling or linking shaders
      */
-    void compile(ShaderCompiler.Context context, ShaderCompiler compiler) throws Exception;
+    void compile(ShaderCompiler.Context context, ShaderCompiler compiler) throws ShaderException, IOException;
 
     /**
      * @return The OpenGL id of this program

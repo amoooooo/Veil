@@ -42,8 +42,8 @@ public interface ShaderPreProcessor {
     static ShaderPreProcessor allOf(Collection<ShaderPreProcessor> processors) {
         List<ShaderPreProcessor> list = new ArrayList<>(processors.size());
         for (ShaderPreProcessor processor : processors) {
-            if (processor instanceof ShaderMultiProcessor multiProcessor) {
-                list.addAll(Arrays.asList(multiProcessor.processors()));
+            if (processor instanceof ShaderMultiProcessor(ShaderPreProcessor[] values)) {
+                list.addAll(Arrays.asList(values));
             } else if (processor != NOOP) {
                 list.add(processor);
             }
@@ -53,9 +53,9 @@ public interface ShaderPreProcessor {
             return NOOP;
         }
         if (list.size() == 1) {
-            return list.get(0);
+            return list.getFirst();
         }
-        return new ShaderMultiProcessor(list.toArray(new ShaderPreProcessor[0]));
+        return new ShaderMultiProcessor(list.toArray(ShaderPreProcessor[]::new));
     }
 
     /**
@@ -121,5 +121,10 @@ public interface ShaderPreProcessor {
          */
         @Nullable
         ShaderPreDefinitions preDefinitions();
+
+        /**
+         * @return The OpenGL type of the compiling shader
+         */
+        int type();
     }
 }

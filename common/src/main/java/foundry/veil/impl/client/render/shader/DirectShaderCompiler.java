@@ -3,6 +3,7 @@ package foundry.veil.impl.client.render.shader;
 import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.CompiledShader;
 import foundry.veil.api.client.render.shader.ShaderCompiler;
 import foundry.veil.api.client.render.shader.ShaderException;
@@ -10,6 +11,7 @@ import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.processor.*;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import foundry.veil.impl.client.render.pipeline.VeilShaderUploader;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -19,7 +21,6 @@ import net.minecraft.server.packs.resources.ResourceProvider;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.opengl.GL20C;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -30,7 +31,7 @@ import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 /**
- * Creates a new shader and compiles each time {@link #compile(Context, int, ProgramDefinition.SourceType, String)} is called.
+ * Creates a new shader and compiles each time {@link #compile(Context, int, ProgramDefinition.SourceType, String, int)} is called.
  * This should only be used for compiling single shaders.
  *
  * @author Ocelot
@@ -41,7 +42,6 @@ public class DirectShaderCompiler implements ShaderCompiler {
     private final ResourceProvider provider;
     private final List<ShaderPreProcessor> processors;
     private final List<ShaderPreProcessor> importProcessors;
-    private final Set<Integer> shaders;
     private ResourceLocation compilingName;
     private ShaderPreProcessor processor;
     private ShaderPreProcessor importProcessor;
@@ -50,7 +50,6 @@ public class DirectShaderCompiler implements ShaderCompiler {
         this.provider = provider;
         this.processors = new LinkedList<>();
         this.importProcessors = new LinkedList<>();
-        this.shaders = new HashSet<>();
     }
 
     private ShaderPreProcessor getProcessor() {
@@ -74,7 +73,7 @@ public class DirectShaderCompiler implements ShaderCompiler {
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation id) throws IOException, ShaderException {
+    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation id, int flags) throws IOException, ShaderException {
         if (this.provider == null) {
             throw new IOException("Failed to read " + ShaderManager.getTypeName(type) + " from " + id + " because no provider was specified");
         }
@@ -83,14 +82,14 @@ public class DirectShaderCompiler implements ShaderCompiler {
         ResourceLocation location = context.sourceSet().getTypeConverter(type).idToFile(id);
         try (Reader reader = this.provider.openAsReader(location)) {
             this.compilingName = id;
-            return this.compile(context, type, sourceType, IOUtils.toString(reader));
+            return this.compile(context, type, sourceType, IOUtils.toString(reader), flags);
         } finally {
             this.compilingName = null;
         }
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, String source) throws IOException, ShaderException {
+    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, String source, int flags) throws IOException, ShaderException {
         this.validateType(type);
         ShaderPreProcessor processor = this.getProcessor();
         ShaderPreProcessor importProcessor = this.getImportProcessor();
@@ -101,13 +100,22 @@ public class DirectShaderCompiler implements ShaderCompiler {
         Set<String> dependencies = new HashSet<>();
         Set<ResourceLocation> includes = new HashSet<>();
         Set<ResourceLocation> includesView = Collections.unmodifiableSet(includes);
-        String transformed = processor.modify(new PreProcessorContext(importProcessor, context, uniformBindings, dependencies, includes, includesView, this.compilingName, true), source);
+        PreProcessorContext preProcessorContext = new PreProcessorContext(importProcessor, context, type, uniformBindings, dependencies, includes, includesView, this.compilingName, true);
+        String transformed = processor.modify(preProcessorContext, source);
+
+        if (flags != 0) {
+            DynamicBufferType[] types = DynamicBufferType.decode(flags);
+            DynamicBufferProcessor bufferProcessor = new DynamicBufferProcessor(types);
+            transformed = bufferProcessor.modify(preProcessorContext, transformed);
+        }
 
         int shader = glCreateShader(type);
         switch (sourceType) {
             case GLSL -> GlStateManager.glShaderSource(shader, List.of(transformed));
-            case GLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, this.compilingName != null ? this.compilingName.toString() : "Shader #" + context, transformed, false);
-            case HLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, this.compilingName != null ? this.compilingName.toString() : "Shader #" + context, transformed, true);
+            case GLSL_SPIRV ->
+                    VeilShaderUploader.get().compile(shader, type, this.compilingName != null ? this.compilingName.toString() : "Shader #" + context, transformed, false);
+            case HLSL_SPIRV ->
+                    VeilShaderUploader.get().compile(shader, type, this.compilingName != null ? this.compilingName.toString() : "Shader #" + context, transformed, true);
             case SPIRV -> throw new UnsupportedOperationException("TODO implement");
         }
 
@@ -121,7 +129,6 @@ public class DirectShaderCompiler implements ShaderCompiler {
             throw new ShaderException("Failed to compile " + ShaderManager.getTypeName(type) + " shader", log);
         }
 
-        this.shaders.add(shader);
         return new CompiledShader(this.compilingName, shader, Object2IntMaps.unmodifiable(uniformBindings), Collections.unmodifiableSet(dependencies), includesView);
     }
 
@@ -151,12 +158,11 @@ public class DirectShaderCompiler implements ShaderCompiler {
     public void free() {
         this.processors.clear();
         this.importProcessors.clear();
-        this.shaders.forEach(GL20C::glDeleteShader);
-        this.shaders.clear();
     }
 
     private record PreProcessorContext(ShaderPreProcessor preProcessor,
                                        ShaderCompiler.Context context,
+                                       int type,
                                        Map<String, Integer> uniformBindings,
                                        Set<String> dependencies,
                                        Set<ResourceLocation> includes,
@@ -166,7 +172,7 @@ public class DirectShaderCompiler implements ShaderCompiler {
 
         @Override
         public String modify(@Nullable ResourceLocation name, String source) throws IOException {
-            PreProcessorContext context = new PreProcessorContext(this.preProcessor, this.context, this.uniformBindings, this.dependencies, this.includes, this.includesView, name, false);
+            PreProcessorContext context = new PreProcessorContext(this.preProcessor, this.context, this.type, this.uniformBindings, this.dependencies, this.includes, this.includesView, name, false);
             return this.preProcessor.modify(context, source);
         }
 

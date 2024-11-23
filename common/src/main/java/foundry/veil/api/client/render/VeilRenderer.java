@@ -1,7 +1,9 @@
 package foundry.veil.api.client.render;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
@@ -12,6 +14,7 @@ import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.mixin.accessor.ReloadableResourceManagerAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -28,6 +31,7 @@ import java.util.List;
  */
 public class VeilRenderer implements NativeResource {
 
+    private final DynamicBufferManger dynamicBufferManger;
     private final ShaderModificationManager shaderModificationManager;
     private final ShaderPreDefinitions shaderPreDefinitions;
     private final ShaderManager shaderManager;
@@ -42,12 +46,13 @@ public class VeilRenderer implements NativeResource {
 
     @ApiStatus.Internal
     public VeilRenderer(ReloadableResourceManager resourceManager) {
+        this.dynamicBufferManger = new DynamicBufferManger();
         this.shaderModificationManager = new ShaderModificationManager();
         this.shaderPreDefinitions = new ShaderPreDefinitions();
-        this.shaderManager = new ShaderManager(ShaderManager.PROGRAM_SET, this.shaderPreDefinitions);
+        this.shaderManager = new ShaderManager(ShaderManager.PROGRAM_SET, this.shaderPreDefinitions, this.dynamicBufferManger);
         this.framebufferManager = new FramebufferManager();
         this.postProcessingManager = new PostProcessingManager();
-        ShaderManager deferredShaderManager = new ShaderManager(ShaderManager.DEFERRED_SET, this.shaderPreDefinitions);
+        ShaderManager deferredShaderManager = new ShaderManager(ShaderManager.DEFERRED_SET, this.shaderPreDefinitions, this.dynamicBufferManger);
         this.deferredRenderer = new VeilDeferredRenderer(deferredShaderManager, this.shaderPreDefinitions, this.framebufferManager, this.postProcessingManager);
         this.dynamicRenderTypeManager = new DynamicRenderTypeManager();
         this.quasarParticleManager = new ParticleSystemManager();
@@ -65,6 +70,38 @@ public class VeilRenderer implements NativeResource {
         resourceManager.registerReloadListener(this.postProcessingManager);
         resourceManager.registerReloadListener(this.deferredRenderer);
         resourceManager.registerReloadListener(this.dynamicRenderTypeManager);
+    }
+
+    /**
+     * Enables the specified dynamic render buffers.
+     *
+     * @param buffers The buffers to enable
+     * @return Whether any change occurred
+     */
+    public boolean enableBuffers(DynamicBufferType... buffers) {
+        RenderSystem.assertOnRenderThreadOrInit();
+        if (buffers.length == 0) {
+            return false;
+        }
+
+        int active = this.dynamicBufferManger.getActiveBuffers() | DynamicBufferType.encode(buffers);
+        return this.dynamicBufferManger.setActiveBuffers(active);
+    }
+
+    /**
+     * Disables the specified dynamic render buffers.
+     *
+     * @param buffers The buffers to disable
+     * @return Whether any change occurred
+     */
+    public boolean disableBuffers(DynamicBufferType... buffers) {
+        RenderSystem.assertOnRenderThreadOrInit();
+        if (buffers.length == 0) {
+            return false;
+        }
+
+        int active = this.dynamicBufferManger.getActiveBuffers() & ~DynamicBufferType.encode(buffers);
+        return this.dynamicBufferManger.setActiveBuffers(active);
     }
 
     /**

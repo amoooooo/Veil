@@ -48,7 +48,7 @@ public class GlslStringWriter implements GlslTreeVisitor {
     public void visitField(GlslNewNode newNode) {
         String marker = this.markedNodes.get(newNode);
         if (marker != null) {
-            this.builder.append("/* #").append(marker).append("*/\n");
+            this.builder.append("/* #").append(marker).append(" */\n");
         }
         this.builder.append(this.formatExpression(newNode)).append(";\n");
     }
@@ -57,7 +57,7 @@ public class GlslStringWriter implements GlslTreeVisitor {
     public void visitStruct(GlslStructNode structSpecifier) {
         String marker = this.markedNodes.get(structSpecifier);
         if (marker != null) {
-            this.builder.append("/* #").append(marker).append("*/\n");
+            this.builder.append("/* #").append(marker).append(" */\n");
         }
         this.builder.append(this.formatExpression(structSpecifier)).append(";\n");
     }
@@ -66,7 +66,7 @@ public class GlslStringWriter implements GlslTreeVisitor {
     public void visitDeclaration(GlslDeclaration declaration) {
         String marker = this.markedNodes.get(declaration);
         if (marker != null) {
-            this.builder.append("/* #").append(marker).append("*/\n");
+            this.builder.append("/* #").append(marker).append(" */\n");
         }
         this.builder.append(this.formatExpression(declaration)).append(";\n");
     }
@@ -75,7 +75,7 @@ public class GlslStringWriter implements GlslTreeVisitor {
     public @Nullable GlslFunctionVisitor visitFunction(GlslFunctionNode node) {
         String marker = this.markedNodes.get(node);
         if (marker != null) {
-            this.builder.append("/* #").append(marker).append("*/\n");
+            this.builder.append("/* #").append(marker).append(" */\n");
         }
         this.builder.append(node.getSourceString());
         return null;
