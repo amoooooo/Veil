@@ -33,7 +33,7 @@ public class FabricQuasarParticleHandler {
                 if (cachedBufferSource == null) {
                     cachedBufferSource = new CachedBufferSource();
                 }
-                VeilRenderSystem.renderer().getParticleManager().render(poseStack, cachedBufferSource, camera, VeilRenderer.getCullingFrustum(), deltaTracker.getRealtimeDeltaTicks());
+                VeilRenderSystem.renderer().getParticleManager().render(poseStack, cachedBufferSource, camera, VeilRenderer.getCullingFrustum(), deltaTracker.getGameTimeDeltaPartialTick(false));
                 cachedBufferSource.endBatch();
             }
         });

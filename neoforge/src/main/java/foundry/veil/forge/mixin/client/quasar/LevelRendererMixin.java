@@ -48,7 +48,7 @@ public class LevelRendererMixin {
         if (this.veil$cachedBufferSource == null) {
             this.veil$cachedBufferSource = new CachedBufferSource();
         }
-        VeilRenderSystem.renderer().getParticleManager().render(VeilRenderBridge.create(poseStack), this.veil$cachedBufferSource, pCamera, VeilRenderer.getCullingFrustum(), pDeltaTracker.getRealtimeDeltaTicks());
+        VeilRenderSystem.renderer().getParticleManager().render(VeilRenderBridge.create(poseStack), this.veil$cachedBufferSource, pCamera, VeilRenderer.getCullingFrustum(), pDeltaTracker.getGameTimeDeltaPartialTick(false));
         this.veil$cachedBufferSource.endBatch();
     }
 }

@@ -36,6 +36,7 @@ public interface RenderStyle {
 
                 // RIGHT
                 new Vector3f(1, -1, 1), new Vector3f(1, 1, 1), new Vector3f(1, 1, -1), new Vector3f(1, -1, -1)};
+        private static final float[] CUBE_UVS = {0, 0, 0, 1, 1, 1, 1, 0};
 
         @Override
         public void render(MatrixStack matrixStack, QuasarParticle particle, RenderData renderData, Vector3fc renderOffset, VertexConsumer builder, double ageModifier, float partialTicks) {
@@ -57,8 +58,8 @@ public interface RenderStyle {
                             .mul((float) (renderData.getRenderRadius() * ageModifier))
                             .add(renderOffset);
 
-                    float u = (int) (j / 2.0F);
-                    float v = j % 2;
+                    float u = CUBE_UVS[j * 2];
+                    float v = CUBE_UVS[j * 2 + 1];
 
                     if (spriteData != null) {
                         u = spriteData.u(renderData.getRenderAge(), renderData.getAgePercent(), u);
