@@ -3,35 +3,24 @@ package foundry.veil.impl.client.render.shader;
 import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
-import foundry.veil.api.client.render.shader.CompiledShader;
-import foundry.veil.api.client.render.shader.ShaderCompiler;
-import foundry.veil.api.client.render.shader.ShaderException;
-import foundry.veil.api.client.render.shader.ShaderManager;
-import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
-import foundry.veil.api.client.render.shader.processor.*;
+import foundry.veil.api.client.render.shader.*;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import foundry.veil.impl.client.render.pipeline.VeilShaderUploader;
-import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceProvider;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11C.GL_TRUE;
 import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 /**
- * Creates a new shader and compiles each time {@link #compile(Context, int, ProgramDefinition.SourceType, String, int)} is called.
+ * Creates a new shader and compiles each time {@link #compile(Context, int, ProgramDefinition.SourceType, VeilShaderSource)} is called.
  * This should only be used for compiling single shaders.
  *
  * @author Ocelot
@@ -39,31 +28,10 @@ import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 @ApiStatus.Internal
 public class DirectShaderCompiler implements ShaderCompiler {
 
-    private final ResourceProvider provider;
-    private final List<ShaderPreProcessor> processors;
-    private final List<ShaderPreProcessor> importProcessors;
-    private ResourceLocation compilingName;
-    private ShaderPreProcessor processor;
-    private ShaderPreProcessor importProcessor;
+    private final ShaderProvider provider;
 
-    public DirectShaderCompiler(@Nullable ResourceProvider provider) {
+    public DirectShaderCompiler(@Nullable ShaderProvider provider) {
         this.provider = provider;
-        this.processors = new LinkedList<>();
-        this.importProcessors = new LinkedList<>();
-    }
-
-    private ShaderPreProcessor getProcessor() {
-        if (this.processor == null) {
-            this.processor = ShaderPreProcessor.allOf(this.processors);
-        }
-        return this.processor;
-    }
-
-    private ShaderPreProcessor getImportProcessor() {
-        if (this.importProcessor == null) {
-            this.importProcessor = ShaderPreProcessor.allOf(this.importProcessors);
-        }
-        return this.importProcessor;
     }
 
     private void validateType(int type) throws ShaderException {
@@ -73,49 +41,28 @@ public class DirectShaderCompiler implements ShaderCompiler {
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation id, int flags) throws IOException, ShaderException {
+    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException {
         if (this.provider == null) {
-            throw new IOException("Failed to read " + ShaderManager.getTypeName(type) + " from " + id + " because no provider was specified");
+            throw new IOException("Failed to read " + ShaderManager.getTypeName(type) + " from " + path + " because no provider was specified");
         }
-        this.validateType(type);
-
-        ResourceLocation location = context.sourceSet().getTypeConverter(type).idToFile(id);
-        try (Reader reader = this.provider.openAsReader(location)) {
-            this.compilingName = id;
-            return this.compile(context, type, sourceType, IOUtils.toString(reader), flags);
-        } finally {
-            this.compilingName = null;
+        VeilShaderSource source = this.provider.getShader(path);
+        if (source == null) {
+            throw new IOException("Unknown shader: " + path);
         }
+        return this.compile(context, type, sourceType, source);
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, String source, int flags) throws IOException, ShaderException {
+    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException {
         this.validateType(type);
-        ShaderPreProcessor processor = this.getProcessor();
-        ShaderPreProcessor importProcessor = this.getImportProcessor();
-        processor.prepare();
-        importProcessor.prepare();
 
-        Object2IntMap<String> uniformBindings = new Object2IntArrayMap<>();
-        Set<String> dependencies = new HashSet<>();
-        Set<ResourceLocation> includes = new HashSet<>();
-        Set<ResourceLocation> includesView = Collections.unmodifiableSet(includes);
-        PreProcessorContext preProcessorContext = new PreProcessorContext(importProcessor, context, type, uniformBindings, dependencies, includes, includesView, this.compilingName, true);
-        String transformed = processor.modify(preProcessorContext, source);
-
-        if (flags != 0) {
-            DynamicBufferType[] types = DynamicBufferType.decode(flags);
-            DynamicBufferProcessor bufferProcessor = new DynamicBufferProcessor(types);
-            transformed = bufferProcessor.modify(preProcessorContext, transformed);
-        }
-
+        String sourceCode = source.sourceCode();
+        ResourceLocation sourceId = source.sourceId();
         int shader = glCreateShader(type);
         switch (sourceType) {
-            case GLSL -> GlStateManager.glShaderSource(shader, List.of(transformed));
-            case GLSL_SPIRV ->
-                    VeilShaderUploader.get().compile(shader, type, this.compilingName != null ? this.compilingName.toString() : "Shader #" + context, transformed, false);
-            case HLSL_SPIRV ->
-                    VeilShaderUploader.get().compile(shader, type, this.compilingName != null ? this.compilingName.toString() : "Shader #" + context, transformed, true);
+            case GLSL -> GlStateManager.glShaderSource(shader, List.of(sourceCode));
+            case GLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, sourceId.toString(), sourceCode, false);
+            case HLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, sourceId.toString(), sourceCode, true);
             case SPIRV -> throw new UnsupportedOperationException("TODO implement");
         }
 
@@ -123,92 +70,16 @@ public class DirectShaderCompiler implements ShaderCompiler {
         if (glGetShaderi(shader, GL_COMPILE_STATUS) != GL_TRUE) {
             String log = glGetShaderInfoLog(shader);
             if (Veil.VERBOSE_SHADER_ERRORS) {
-                log += "\n" + transformed;
+                log += "\n" + sourceCode;
             }
             glDeleteShader(shader); // Delete to prevent leaks
             throw new ShaderException("Failed to compile " + ShaderManager.getTypeName(type) + " shader", log);
         }
 
-        return new CompiledShader(this.compilingName, shader, Object2IntMaps.unmodifiable(uniformBindings), Collections.unmodifiableSet(dependencies), includesView);
-    }
-
-    @Override
-    public ShaderCompiler addPreprocessor(ShaderPreProcessor processor, boolean modifyImports) {
-        this.processors.add(processor);
-        this.processor = null;
-        if (modifyImports) {
-            this.importProcessors.add(processor);
-            this.importProcessor = null;
-        }
-        return this;
-    }
-
-    @Override
-    public ShaderCompiler addDefaultProcessors() {
-        if (this.provider != null) {
-            this.addPreprocessor(new ShaderImportProcessor(this.provider));
-        }
-        this.addPreprocessor(new ShaderBindingProcessor());
-        this.addPreprocessor(new ShaderPredefinitionProcessor(), false);
-        this.addPreprocessor(new ShaderVersionProcessor(), false);
-        return this;
+        return new CompiledShader(sourceId, shader, Object2IntMaps.unmodifiable(source.uniformBindings()), Collections.unmodifiableSet(source.definitionDependencies()), Collections.unmodifiableSet(source.includes()));
     }
 
     @Override
     public void free() {
-        this.processors.clear();
-        this.importProcessors.clear();
-    }
-
-    private record PreProcessorContext(ShaderPreProcessor preProcessor,
-                                       ShaderCompiler.Context context,
-                                       int type,
-                                       Map<String, Integer> uniformBindings,
-                                       Set<String> dependencies,
-                                       Set<ResourceLocation> includes,
-                                       Set<ResourceLocation> includesView,
-                                       @Nullable ResourceLocation name,
-                                       boolean sourceFile) implements ShaderPreProcessor.Context {
-
-        @Override
-        public String modify(@Nullable ResourceLocation name, String source) throws IOException {
-            PreProcessorContext context = new PreProcessorContext(this.preProcessor, this.context, this.type, this.uniformBindings, this.dependencies, this.includes, this.includesView, name, false);
-            return this.preProcessor.modify(context, source);
-        }
-
-        @Override
-        public void addUniformBinding(String name, int binding) {
-            this.uniformBindings.put(name, binding);
-        }
-
-        @Override
-        public void addDefinitionDependency(String name) {
-            this.dependencies.add(name);
-        }
-
-        @Override
-        public void addInclude(ResourceLocation name) {
-            this.includes.add(name);
-        }
-
-        @Override
-        public Set<ResourceLocation> includes() {
-            return this.includesView;
-        }
-
-        @Override
-        public boolean isSourceFile() {
-            return this.sourceFile;
-        }
-
-        @Override
-        public @Nullable ProgramDefinition definition() {
-            return this.context.definition();
-        }
-
-        @Override
-        public ShaderPreDefinitions preDefinitions() {
-            return this.context.preDefinitions();
-        }
     }
 }

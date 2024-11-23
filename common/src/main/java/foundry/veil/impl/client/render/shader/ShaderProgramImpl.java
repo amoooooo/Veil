@@ -8,9 +8,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.CompiledShader;
-import foundry.veil.api.client.render.shader.ShaderCompiler;
-import foundry.veil.api.client.render.shader.ShaderException;
+import foundry.veil.api.client.render.shader.*;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
@@ -61,7 +59,7 @@ import static org.lwjgl.opengl.GL43C.*;
 @ApiStatus.Internal
 public class ShaderProgramImpl implements ShaderProgram {
 
-    private static final String DUMMY_FRAGMENT_SHADER = "out vec4 fragColor;void main(){fragColor=vec4(1.0);}";
+    private static final VeilShaderSource DUMMY_FRAGMENT_SHADER = new VeilShaderSource(Veil.veilPath("builtin/dummy_fragment"), "out vec4 fragColor;void main(){fragColor=vec4(1.0);}");
 
     private final ResourceLocation id;
     private final Int2ObjectMap<CompiledShader> shaders;
@@ -75,7 +73,6 @@ public class ShaderProgramImpl implements ShaderProgram {
     private final Supplier<Wrapper> wrapper;
 
     private ProgramDefinition definition;
-    private int activeBuffers;
     private int program;
 
     public ShaderProgramImpl(ResourceLocation id) {
@@ -100,8 +97,8 @@ public class ShaderProgramImpl implements ShaderProgram {
         });
     }
 
-    private void attachShader(int glType, CompiledShader shader) {
-        CompiledShader old = this.shaders.put(DynamicBufferManger.getShaderIndex(glType, this.activeBuffers), shader);
+    private void attachShader(int glType, CompiledShader shader, int activeBuffers) {
+        CompiledShader old = this.shaders.put(DynamicBufferManger.getShaderIndex(glType, activeBuffers), shader);
         if (old != null) {
             old.free();
         }
@@ -146,18 +143,20 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
 
         try {
+            int activeBuffers = context.activeBuffers();
+            ShaderSourceSet sourceSet = context.sourceSet();
             Int2ObjectMap<ProgramDefinition.ShaderSource> shaders = this.definition.shaders();
             for (Int2ObjectMap.Entry<ProgramDefinition.ShaderSource> entry : shaders.int2ObjectEntrySet()) {
                 int glType = entry.getIntKey();
                 ProgramDefinition.ShaderSource source = entry.getValue();
-                this.attachShader(glType, compiler.compile(context, glType, source.sourceType(), source.location(), this.activeBuffers));
+                this.attachShader(glType, compiler.compile(context, glType, source.sourceType(), sourceSet.getTypeConverter(glType).idToFile(source.location())), activeBuffers);
             }
 
             // Fragment shaders aren't strictly necessary if the fragment output isn't used,
             // however mac shaders don't work without a fragment shader. This adds a "dummy" fragment shader
             // on mac specifically for all rendering shaders.
             if (Minecraft.ON_OSX && !shaders.containsKey(GL_COMPUTE_SHADER) && !shaders.containsKey(GL_FRAGMENT_SHADER)) {
-                this.attachShader(GL_FRAGMENT_SHADER, compiler.compile(context, GL_FRAGMENT_SHADER, ProgramDefinition.SourceType.GLSL, DUMMY_FRAGMENT_SHADER, this.activeBuffers));
+                this.attachShader(GL_FRAGMENT_SHADER, compiler.compile(context, GL_FRAGMENT_SHADER, ProgramDefinition.SourceType.GLSL, DUMMY_FRAGMENT_SHADER), activeBuffers);
             }
 
             this.link();
@@ -169,32 +168,25 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public void compile(ShaderCompiler.Context context, ShaderCompiler compiler) throws ShaderException, IOException {
-        this.definition = Objects.requireNonNull(context.definition());
+        this.definition = context.definition();
         this.clearShader();
         this.textureSources.putAll(this.definition.textures());
         for (CompiledShader shader : this.shaders.values()) {
             shader.free();
         }
         this.shaders.clear();
-        this.activeBuffers = context.activeBuffers();
         this.compileInternal(context, compiler);
     }
 
     public boolean setActiveBuffers(int activeBuffers) throws ShaderException {
-        if (this.activeBuffers == activeBuffers) {
-            return false;
-        }
-
         for (int shaderType : this.attachedShaders.keySet()) {
             if (!this.shaders.containsKey(DynamicBufferManger.getShaderIndex(shaderType, activeBuffers))) {
-                this.activeBuffers = activeBuffers;
                 return true;
             }
         }
 
         int[] shaders = this.attachedShaders.keySet().toIntArray();
         this.detachShaders();
-        this.activeBuffers = activeBuffers;
         for (int shaderType : shaders) {
             CompiledShader shader = this.shaders.get(DynamicBufferManger.getShaderIndex(shaderType, activeBuffers));
             glAttachShader(this.program, shader.id());
@@ -206,10 +198,6 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     public void updateActiveBuffers(ShaderCompiler.Context context, ShaderCompiler compiler) throws ShaderException, IOException {
-        if (!Objects.equals(this.definition, context.definition())) {
-            throw new IllegalArgumentException("Cannot set active buffers when shader definition is not compatible");
-        }
-
         this.detachShaders();
         this.compileInternal(context, compiler);
     }
@@ -225,10 +213,6 @@ public class ShaderProgramImpl implements ShaderProgram {
             glDeleteProgram(this.program);
             this.program = 0;
         }
-    }
-
-    public int getActiveBuffers() {
-        return this.activeBuffers;
     }
 
     @Override
