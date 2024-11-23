@@ -1,19 +1,45 @@
 package foundry.veil.impl.glsl;
 
+import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GlslTokenReader {
 
+    private static final Pattern MARKER_PATTERN = Pattern.compile(" *#\\s*(.+)");
+
+    private final Map<String, Integer> markers;
+    private final Map<String, GlslNode> markedNodes;
     private final GlslLexer.Token[] tokens;
     private int cursor;
     private final List<GlslSyntaxException> errors;
     private final List<GlslSyntaxException> errorsView;
 
+    public GlslTokenReader(String source) throws GlslSyntaxException {
+        this.markers = new HashMap<>();
+        this.markedNodes = new HashMap<>();
+        this.tokens = GlslLexer.createTokens(source, (index, comment) -> {
+            String value = comment.value().substring(2);
+            if (comment.type() == GlslLexer.TokenType.MULTI_COMMENT) {
+                value = value.substring(0, value.length() - 2);
+            }
+
+            Matcher matcher = MARKER_PATTERN.matcher(value);
+            if (matcher.find()) {
+                this.markers.put(matcher.group(1).toLowerCase(Locale.ROOT), index);
+            }
+        });
+        this.cursor = 0;
+        this.errors = new ArrayList<>();
+        this.errorsView = Collections.unmodifiableList(this.errors);
+    }
+
     public GlslTokenReader(GlslLexer.Token[] tokens) {
+        this.markers = Collections.emptyMap();
+        this.markedNodes = new HashMap<>();
         this.tokens = tokens;
         this.cursor = 0;
         this.errors = new ArrayList<>();
@@ -88,7 +114,7 @@ public class GlslTokenReader {
 
     public void throwError() throws GlslSyntaxException {
         if (this.errors.isEmpty()) {
-            return;
+            throw new GlslSyntaxException("Failed", this.getString(), this.getCursorOffset(this.cursor));
         }
 
         GlslSyntaxException exception = new GlslSyntaxException("Failed", this.getString(), this.getCursorOffset(this.cursor));
@@ -110,6 +136,14 @@ public class GlslTokenReader {
         this.errors.add(new GlslSyntaxException(message, this.getString(), this.getCursorOffset(this.cursor)));
     }
 
+    public void markNode(int cursor, GlslNode node) {
+        for (Map.Entry<String, Integer> entry : this.markers.entrySet()) {
+            if (entry.getValue() == cursor) {
+                this.markedNodes.put(entry.getKey(), node);
+            }
+        }
+    }
+
     /**
      * @return All errors marked from reading tokens
      */
@@ -119,6 +153,10 @@ public class GlslTokenReader {
 
     public int getCursor() {
         return this.cursor;
+    }
+
+    public Map<String, GlslNode> getMarkedNodes() {
+        return this.markedNodes;
     }
 
     public void setCursor(int cursor) {

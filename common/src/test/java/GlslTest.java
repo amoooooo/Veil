@@ -9,6 +9,10 @@ import foundry.veil.impl.glsl.visitor.GlslStringWriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+import java.util.OptionalInt;
+
 public class GlslTest {
 
     private String toString(GlslLexer.Token[] tokens) {
@@ -27,17 +31,13 @@ public class GlslTest {
     private void testSpeed(String source) throws GlslSyntaxException {
         // Load classes
         for (int i = 0; i < 10; i++) {
-            GlslLexer.Token[] tokens = GlslLexer.createTokens(source);
-            GlslTree tree = GlslParser.parse(tokens);
+            GlslTree tree = GlslParser.parse(source);
             GlslStringWriter stringWriter = new GlslStringWriter();
             tree.visit(stringWriter);
         }
 
         long start = System.nanoTime();
-        GlslLexer.Token[] tokens = GlslLexer.createTokens(source);
-
-        long parseStart = System.nanoTime();
-        GlslTree tree = GlslParser.parse(tokens);
+        GlslTree tree = GlslParser.parse(source);
         long parseEnd = System.nanoTime();
 
         GlslStringWriter stringWriter = new GlslStringWriter();
@@ -45,7 +45,7 @@ public class GlslTest {
         long end = System.nanoTime();
 
         System.out.println(stringWriter);
-        System.out.printf("Took %.1fms to tokenize, %.1fms to parse, %.1fms to stringify%n", (parseStart - start) / 1_000_000.0F, (parseEnd - parseStart) / 1_000_000.0F, (end - parseEnd) / 1_000_000.0F);
+        System.out.printf("Took %.1fms to parse, %.1fms to stringify%n", (parseEnd - start) / 1_000_000.0F, (end - parseEnd) / 1_000_000.0F);
     }
 
     @Test
@@ -150,19 +150,6 @@ public class GlslTest {
     }
 
     @Test
-    void testStruct() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
-                struct Test {
-                    float a;
-                };
-                """);
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
-    }
-
-    @Test
     void testCompute() throws GlslSyntaxException {
         GlslTree tree = GlslParser.parse("""
                 #version 430 core
@@ -223,7 +210,10 @@ public class GlslTest {
                 
                     bool visible = testSphere(dx, dy, dz, range * 1.414);
                     if (visible) {
-                        uint i = atomicCounterIncrement(VeilLightCount) * 5;
+                        uint i = atomicCounterIncrement(
+                        /*#test*/
+                        VeilLightCount
+                        ) * 5;
                         bool highRes = dx * dx + dy * dy + dz * dz <= range * range;
                         commands[i] = highRes ? HighResSize : LowResSize;
                         commands[i + 1] = 1;
@@ -241,7 +231,12 @@ public class GlslTest {
     @Test
     void testArray() throws GlslSyntaxException {
         GlslTree tree = GlslParser.parse("""
+                // #test
                 void main() {
+                    // test not going to be detected
+                    // #slider 1    2 3    4
+                    // test
+                    // #cheezzit
                     float fragmentDistance = -ProjMat[3].z / ((gl_FragCoord.z) * -2.0 + 1.0 - ProjMat[2].z);
                 }
                 """);
@@ -249,6 +244,10 @@ public class GlslTest {
         GlslStringWriter writer = new GlslStringWriter();
         tree.visit(writer);
         System.out.println(writer);
+
+        for (Map.Entry<String, GlslNode> entry : tree.getMarkers().entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue().getSourceString());
+        }
     }
 
     @Test

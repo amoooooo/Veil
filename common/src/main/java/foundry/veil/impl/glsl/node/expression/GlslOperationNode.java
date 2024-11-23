@@ -5,7 +5,7 @@ import foundry.veil.impl.glsl.node.GlslNode;
 /**
  * @author Ocelot
  */
-public final class GlslOperationNode implements GlslNode {
+public class GlslOperationNode implements GlslNode {
 
     private GlslNode first;
     private GlslNode second;

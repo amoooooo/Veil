@@ -1,15 +1,16 @@
 package foundry.veil.impl.glsl;
 
-import com.mojang.brigadier.StringReader;
 import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
 import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 import foundry.veil.impl.glsl.node.expression.GlslAssignmentNode;
 import foundry.veil.impl.glsl.node.expression.GlslUnaryNode;
+import gg.moonflower.molangcompiler.core.compiler.StringReader;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,10 @@ import java.util.regex.Pattern;
 public final class GlslLexer {
 
     public static Token[] createTokens(String input) throws GlslSyntaxException {
+        return createTokens(input, null);
+    }
+
+    public static Token[] createTokens(String input, @Nullable BiConsumer<Integer, Token> commentConsumer) throws GlslSyntaxException {
         StringReader reader = new StringReader(input);
         List<Token> tokens = new ArrayList<>();
 
@@ -29,6 +34,8 @@ public final class GlslLexer {
             if (token != null) {
                 if (token.type != TokenType.COMMENT && token.type != TokenType.MULTI_COMMENT) {
                     tokens.add(token);
+                } else if (commentConsumer != null) {
+                    commentConsumer.accept(tokens.size(), token);
                 }
                 reader.skipWhitespace();
                 continue;
@@ -41,7 +48,7 @@ public final class GlslLexer {
     }
 
     private static @Nullable Token getToken(StringReader reader) {
-        String word = reader.getRemaining();
+        String word = reader.getString().substring(reader.getCursor());
         Token longest = null;
         int length = 0;
         for (TokenType type : TokenType.values()) {

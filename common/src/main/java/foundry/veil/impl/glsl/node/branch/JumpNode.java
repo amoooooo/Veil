@@ -5,7 +5,6 @@ import foundry.veil.impl.glsl.node.GlslNode;
 import java.util.Locale;
 
 public enum JumpNode implements GlslNode {
-
     CONTINUE, BREAK, DISCARD;
 
     @Override

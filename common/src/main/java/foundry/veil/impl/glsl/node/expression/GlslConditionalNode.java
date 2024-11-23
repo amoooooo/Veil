@@ -7,9 +7,9 @@ import foundry.veil.impl.glsl.node.GlslNode;
  */
 public class GlslConditionalNode implements GlslNode {
 
-    private  GlslNode condition;
-    private  GlslNode first;
-    private  GlslNode second;
+    private GlslNode condition;
+    private GlslNode first;
+    private GlslNode second;
 
     public GlslConditionalNode(GlslNode condition, GlslNode first, GlslNode second) {
         this.condition = condition;

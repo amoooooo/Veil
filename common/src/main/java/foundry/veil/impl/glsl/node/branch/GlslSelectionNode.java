@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Ocelot
  */
-public final class GlslSelectionNode implements GlslNode {
+public class GlslSelectionNode implements GlslNode {
 
     private GlslNode expression;
     private final List<GlslNode> first;

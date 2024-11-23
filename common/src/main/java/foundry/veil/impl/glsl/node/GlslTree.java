@@ -8,9 +8,7 @@ import foundry.veil.impl.glsl.node.variable.GlslStructNode;
 import foundry.veil.impl.glsl.visitor.GlslFunctionVisitor;
 import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class GlslTree {
@@ -18,11 +16,13 @@ public class GlslTree {
     private final GlslVersion version;
     private final List<GlslNode> body;
     private final List<String> directives;
+    private final Map<String, GlslNode> markers;
 
-    public GlslTree(GlslVersion version, Collection<GlslNode> body, Collection<String> directives) {
+    public GlslTree(GlslVersion version, Collection<GlslNode> body, Collection<String> directives, Map<String, GlslNode> markers) {
         this.version = version;
         this.body = new ArrayList<>(body);
         this.directives = new ArrayList<>(directives);
+        this.markers = Collections.unmodifiableMap(markers);
     }
 
     private void visit(GlslTreeVisitor visitor, GlslNode node) {
@@ -49,6 +49,7 @@ public class GlslTree {
     }
 
     public void visit(GlslTreeVisitor visitor) {
+        visitor.visitMarkers(this.markers);
         visitor.visitVersion(this.version);
         for (String directive : this.directives) {
             visitor.visitDirective(directive);
@@ -68,6 +69,10 @@ public class GlslTree {
         }
 
         visitor.visitTreeEnd();
+    }
+
+    public Optional<GlslFunctionNode> mainFunction() {
+        return this.functions().filter(node -> node.getHeader().getName().equals("main")).findFirst();
     }
 
     public Stream<GlslFunctionNode> functions() {
@@ -92,6 +97,10 @@ public class GlslTree {
 
     public List<String> getDirectives() {
         return this.directives;
+    }
+
+    public Map<String, GlslNode> getMarkers() {
+        return this.markers;
     }
 
     @Override

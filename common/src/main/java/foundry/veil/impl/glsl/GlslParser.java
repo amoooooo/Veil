@@ -25,17 +25,13 @@ import java.util.function.Function;
 public final class GlslParser {
 
     public static GlslTree parse(String input) throws GlslSyntaxException {
-        return parse(GlslLexer.createTokens(input));
-    }
-
-    public static GlslTree parse(GlslLexer.Token[] tokens) throws GlslSyntaxException {
-        GlslTokenReader reader = new GlslTokenReader(tokens);
+        GlslTokenReader reader = new GlslTokenReader(input);
 
         GlslVersion version = new GlslVersion(110, true);
 
         // Try to parse version statements
         GlslLexer.Token token = reader.peek();
-        if (token.type() == GlslLexer.TokenType.DIRECTIVE && token.value().startsWith("#version ")) {
+        if (token != null && token.type() == GlslLexer.TokenType.DIRECTIVE && token.value().startsWith("#version ")) {
             reader.skip();
             String[] parts = token.value().substring(9).split(" +", 2);
             try {
@@ -50,20 +46,25 @@ public final class GlslParser {
 
         List<String> directives = new ArrayList<>();
         List<GlslNode> body = new ArrayList<>();
+
         while (reader.canRead()) {
             if (reader.tryConsume(GlslLexer.TokenType.DIRECTIVE)) {
                 directives.add(reader.peek(-1).value());
                 continue;
             }
 
+            int cursor = reader.getCursor();
             GlslFunctionNode functionDefinition = parseFunctionDefinition(reader);
             if (functionDefinition != null) {
+                reader.markNode(cursor, functionDefinition);
                 body.add(functionDefinition);
                 continue;
             }
 
+            cursor = reader.getCursor();
             GlslNode declaration = parseDeclaration(reader);
             if (declaration != null) {
+                reader.markNode(cursor, declaration);
                 body.add(declaration);
                 continue;
             }
@@ -75,7 +76,7 @@ public final class GlslParser {
             reader.throwError();
         }
 
-        return new GlslTree(version, body, directives);
+        return new GlslTree(version, body, directives, reader.getMarkedNodes());
     }
 
     public static GlslNode parseExpression(String input) throws GlslSyntaxException {
@@ -285,6 +286,7 @@ public final class GlslParser {
             }
 
             parameters.add(parameter);
+            reader.markNode(parameterCursor, parameter);
             parameterCursor = reader.getCursor();
 
             if (!reader.tryConsume(GlslLexer.TokenType.COMMA)) {
@@ -627,7 +629,7 @@ public final class GlslParser {
     private static @Nullable GlslNode parseInclusiveOrExpression(GlslTokenReader reader) {
         // exclusive_or_expression
         // inclusive_or_expression VERTICAL_BAR exclusive_or_expression
-        return parseSimpleExpression(reader, GlslParser::parseExclusiveOrExpression, GlslLexer.TokenType.VERTICAL_BAR, GlslLogicalAndNode::new);
+        return parseSimpleExpression(reader, GlslParser::parseExclusiveOrExpression, GlslLexer.TokenType.VERTICAL_BAR, GlslInclusiveOrNode::new);
     }
 
     private static @Nullable GlslNode parseLogicalAndExpression(GlslTokenReader reader) {
@@ -1499,6 +1501,7 @@ public final class GlslParser {
         // compound_statement
         GlslNode compoundStatement = parseCompoundStatement(reader);
         if (compoundStatement != null) {
+            reader.markNode(cursor, compoundStatement);
             return compoundStatement;
         }
         reader.setCursor(cursor);
@@ -1506,6 +1509,7 @@ public final class GlslParser {
         // simple_statement
         GlslNode simpleStatement = parseSimpleStatement(reader);
         if (simpleStatement != null) {
+            reader.markNode(cursor, simpleStatement);
             return simpleStatement;
         }
         reader.setCursor(cursor);
