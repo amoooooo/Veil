@@ -5,27 +5,27 @@ import foundry.veil.impl.glsl.node.GlslNode;
 
 public class GlslPrimitiveConstructorNode implements GlslNode {
 
-    private GlslTypeSpecifier type;
+    private GlslTypeSpecifier primitiveType;
 
-    public GlslPrimitiveConstructorNode(GlslTypeSpecifier type) {
-        this.type = type;
+    public GlslPrimitiveConstructorNode(GlslTypeSpecifier primitiveType) {
+        this.primitiveType = primitiveType;
     }
 
-    public GlslTypeSpecifier getType() {
-        return this.type;
+    public GlslTypeSpecifier getPrimitiveType() {
+        return this.primitiveType;
     }
 
-    public void setType(GlslTypeSpecifier type) {
-        this.type = type;
+    public void setPrimitiveType(GlslTypeSpecifier primitiveType) {
+        this.primitiveType = primitiveType;
     }
 
     @Override
     public String toString() {
-        return "PrimitiveConstructorNode{operand=" + this.type + '}';
+        return "PrimitiveConstructorNode{operand=" + this.primitiveType + '}';
     }
 
     @Override
     public String getSourceString() {
-        return this.type.getSourceString() + this.type.getPostSourceString();
+        return this.primitiveType.getSourceString() + this.primitiveType.getPostSourceString();
     }
 }

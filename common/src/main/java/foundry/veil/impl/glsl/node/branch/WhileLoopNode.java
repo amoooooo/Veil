@@ -11,12 +11,12 @@ public class WhileLoopNode implements GlslNode {
 
     private GlslNode condition;
     private GlslNode body;
-    private Type type;
+    private Type loopType;
 
-    public WhileLoopNode(GlslNode condition, GlslNode body, Type type) {
+    public WhileLoopNode(GlslNode condition, GlslNode body, Type loopType) {
         this.condition = condition;
         this.body = body;
-        this.type = type;
+        this.loopType = loopType;
     }
 
     public GlslNode getCondition() {
@@ -27,8 +27,8 @@ public class WhileLoopNode implements GlslNode {
         return this.body;
     }
 
-    public Type getType() {
-        return this.type;
+    public Type getLoopType() {
+        return this.loopType;
     }
 
     public WhileLoopNode setCondition(GlslNode condition) {
@@ -41,8 +41,8 @@ public class WhileLoopNode implements GlslNode {
         return this;
     }
 
-    public WhileLoopNode setType(Type type) {
-        this.type = type;
+    public WhileLoopNode setLoopType(Type loopType) {
+        this.loopType = loopType;
         return this;
     }
 

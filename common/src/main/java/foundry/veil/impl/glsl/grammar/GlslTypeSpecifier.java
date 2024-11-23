@@ -191,6 +191,80 @@ public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpe
             this.source = source;
         }
 
+        public boolean isPrimitive() {
+            return switch (this) {
+                case FLOAT, DOUBLE, INT, UINT, BOOL, ATOMIC_UINT -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isFloat() {
+            return switch (this) {
+                case FLOAT, VEC2, VEC3, VEC4 -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isDouble() {
+            return switch (this) {
+                case DOUBLE, DVEC2, DVEC3, DVEC4 -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isInteger() {
+            return switch (this) {
+                case INT, IVEC2, IVEC3, IVEC4 -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isUnsignedInteger() {
+            return switch (this) {
+                case UINT, UVEC2, UVEC3, UVEC4 -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isBool() {
+            return switch (this) {
+                case BOOL, BVEC2, BVEC3, BVEC4 -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isVector() {
+            return switch (this) {
+                case VEC2, DVEC2, BVEC2, IVEC2, UVEC2, VEC3, DVEC3, BVEC3, IVEC3, UVEC3, VEC4, DVEC4, BVEC4, IVEC4,
+                     UVEC4 -> true;
+                default -> false;
+            };
+        }
+
+        public boolean isMatrix() {
+            return switch (this) {
+                case MAT2, MAT2X2, DMAT2, DMAT2X2, MAT3, MAT3X3, DMAT3, DMAT3X3, MAT4, DMAT4, MAT4X4, DMAT4X4, MAT2X3,
+                     MAT3X2, DMAT2X3, DMAT3X2, MAT2X4, MAT4X2, DMAT2X4, DMAT4X2, MAT3X4, MAT4X3, DMAT3X4, DMAT4X3 ->
+                        true;
+                default -> false;
+            };
+        }
+
+        public int getComponents() {
+            return switch (this) {
+                case FLOAT, DOUBLE, INT, UINT, BOOL, ATOMIC_UINT -> 1;
+                case VEC2, DVEC2, BVEC2, IVEC2, UVEC2 -> 2;
+                case VEC3, DVEC3, BVEC3, IVEC3, UVEC3 -> 3;
+                case VEC4, DVEC4, BVEC4, IVEC4, UVEC4, MAT2, MAT2X2, DMAT2, DMAT2X2 -> 4;
+                case MAT3, MAT3X3, DMAT3, DMAT3X3 -> 9;
+                case MAT4, DMAT4, MAT4X4, DMAT4X4 -> 16;
+                case MAT2X3, MAT3X2, DMAT2X3, DMAT3X2 -> 6;
+                case MAT2X4, MAT4X2, DMAT2X4, DMAT4X2 -> 8;
+                case MAT3X4, MAT4X3, DMAT3X4, DMAT4X3 -> 12;
+                default -> 0;
+            };
+        }
+
         @Override
         public String getSourceString() {
             return this.source;

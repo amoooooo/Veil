@@ -1,15 +1,24 @@
 package foundry.veil.impl.glsl.node;
 
+import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.node.primary.GlslBoolConstantNode;
 import foundry.veil.impl.glsl.node.primary.GlslFloatConstantNode;
 import foundry.veil.impl.glsl.node.primary.GlslIntConstantNode;
 import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public interface GlslNode {
 
     String getSourceString();
+
+    /**
+     * @return The type of this node if it is a field
+     */
+    default @Nullable GlslSpecifiedType getType() {
+        return null;
+    }
 
     /**
      * @return A new list with the child contents of this node

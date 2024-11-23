@@ -1,6 +1,8 @@
 package foundry.veil.impl.glsl.node.expression;
 
+import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.node.GlslNode;
+import org.jetbrains.annotations.Nullable;
 
 public class GlslUnaryNode implements GlslNode {
 
@@ -10,6 +12,11 @@ public class GlslUnaryNode implements GlslNode {
     public GlslUnaryNode(GlslNode expression, Operand operand) {
         this.expression = expression;
         this.operand = operand;
+    }
+
+    @Override
+    public @Nullable GlslSpecifiedType getType() {
+        return this.expression.getType();
     }
 
     public GlslNode getExpression() {

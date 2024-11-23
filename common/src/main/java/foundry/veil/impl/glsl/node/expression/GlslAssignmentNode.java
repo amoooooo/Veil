@@ -1,6 +1,8 @@
 package foundry.veil.impl.glsl.node.expression;
 
+import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.node.GlslNode;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Ocelot
@@ -20,6 +22,11 @@ public class GlslAssignmentNode implements GlslNode {
         this.first = first;
         this.second = second;
         this.operand = operand;
+    }
+
+    @Override
+    public @Nullable GlslSpecifiedType getType() {
+        return this.first.getType();
     }
 
     /**

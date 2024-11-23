@@ -17,6 +17,7 @@ public class GlslNewNode implements GlslNode {
         this.initializer = initializer;
     }
 
+    @Override
     public GlslSpecifiedType getType() {
         return this.type;
     }

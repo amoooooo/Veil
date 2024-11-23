@@ -1,27 +1,26 @@
 package foundry.veil.api.client.render.dynamicbuffer;
 
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
+import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 
 public enum DynamicBufferType {
-    ALBEDO("albedo", "Albedo", false, 4, FramebufferAttachmentDefinition.Format.RGBA8),
-    NORMAL("normal", "Normal", false, 3, FramebufferAttachmentDefinition.Format.RGB8_SNORM),
-    LIGHT_COLOR("light_color", "LightColor", false, 3, FramebufferAttachmentDefinition.Format.RGB8),
-    LIGHT_UV("light_uv", "LightUv", true, 2, FramebufferAttachmentDefinition.Format.RG8UI),
-    DEBUG("debug", "Debug", false, 4, FramebufferAttachmentDefinition.Format.RGBA16F);
+    ALBEDO("albedo", "Albedo", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA8),
+    NORMAL("normal", "Normal", GlslTypeSpecifier.BuiltinType.IVEC3, FramebufferAttachmentDefinition.Format.RGB8_SNORM),
+    LIGHT_COLOR("light_color", "LightColor", GlslTypeSpecifier.BuiltinType.VEC3, FramebufferAttachmentDefinition.Format.RGB8),
+    LIGHT_UV("light_uv", "LightUv", GlslTypeSpecifier.BuiltinType.UVEC2, FramebufferAttachmentDefinition.Format.RG8UI),
+    DEBUG("debug", "Debug", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA16F);
 
     private final String name;
     private final String sourceName;
-    private final boolean integer;
-    private final int components;
+    private final GlslTypeSpecifier.BuiltinType type;
     private final int internalFormat;
     private final int texelFormat;
     private final int mask;
 
-    DynamicBufferType(String name, String sourceName, boolean integer, int components, FramebufferAttachmentDefinition.Format format) {
+    DynamicBufferType(String name, String sourceName, GlslTypeSpecifier.BuiltinType type, FramebufferAttachmentDefinition.Format format) {
         this.name = name;
         this.sourceName = "VeilDynamic" + sourceName;
-        this.integer = integer;
-        this.components = components;
+        this.type=type;
         this.internalFormat = format.getInternalId();
         this.texelFormat = format.getId();
         this.mask = 1 << this.ordinal();
@@ -35,19 +34,8 @@ public enum DynamicBufferType {
         return this.sourceName;
     }
 
-    public String getType() {
-        if (this.components == 1) {
-            return this.isInteger() ? "int" : "float";
-        }
-        return (this.isInteger() ? "u" : "") + "vec" + this.components;
-    }
-
-    public boolean isInteger() {
-        return this.integer;
-    }
-
-    public int getComponents() {
-        return this.components;
+    public GlslTypeSpecifier.BuiltinType getType() {
+        return this.type;
     }
 
     public int getInternalFormat() {
