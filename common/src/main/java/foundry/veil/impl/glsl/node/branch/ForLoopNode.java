@@ -1,11 +1,13 @@
 package foundry.veil.impl.glsl.node.branch;
 
+import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Represents for loops.
@@ -87,5 +89,10 @@ public class ForLoopNode implements GlslNode {
         }
         builder.append('}');
         return builder.toString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Streams.concat(this.init.stream(), this.condition.stream(), this.increment.stream());
     }
 }

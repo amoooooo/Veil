@@ -1,6 +1,9 @@
 package foundry.veil.impl.glsl.node.expression;
 
+import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
+
+import java.util.stream.Stream;
 
 /**
  * @author Ocelot
@@ -39,6 +42,11 @@ public class GlslOperationNode implements GlslNode {
             builder.append(')');
         }
         return builder.toString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Streams.concat(Stream.of(this), this.first.stream(), this.second.stream());
     }
 
     /**

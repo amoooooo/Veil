@@ -3,6 +3,8 @@ package foundry.veil.impl.glsl.node.branch;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.stream.Stream;
+
 public class GlslCaseLabelNode implements GlslNode {
 
     private GlslNode condition;
@@ -31,5 +33,10 @@ public class GlslCaseLabelNode implements GlslNode {
     @Override
     public String getSourceString() {
         return "case: " + this.condition.getSourceString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.condition.stream());
     }
 }

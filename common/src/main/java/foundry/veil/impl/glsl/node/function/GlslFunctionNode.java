@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Defines a function in a GLSL file with an optional body.
@@ -33,7 +34,7 @@ public class GlslFunctionNode implements GlslNode {
                 visitor.visitReturn(returnNode);
                 return;
             }
-            if(node instanceof GlslAssignmentNode assignmentNode) {
+            if (node instanceof GlslAssignmentNode assignmentNode) {
                 visitor.visitAssignment(assignmentNode);
                 return;
             }
@@ -107,6 +108,11 @@ public class GlslFunctionNode implements GlslNode {
         builder.append("}\n");
 
         return builder.toString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.body.stream().flatMap(GlslNode::stream));
     }
 
     @Override

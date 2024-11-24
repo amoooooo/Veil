@@ -1,5 +1,7 @@
 package foundry.veil.impl.glsl.node;
 
+import java.util.stream.Stream;
+
 public interface GlslConstantNode extends GlslNode {
 
     Number numberValue();
@@ -23,4 +25,9 @@ public interface GlslConstantNode extends GlslNode {
     boolean booleanValue();
 
     boolean isNumber();
+
+    @Override
+    default Stream<GlslNode> stream() {
+        return Stream.of(this);
+    }
 }

@@ -3,6 +3,8 @@ package foundry.veil.impl.glsl.node.function;
 import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 import foundry.veil.impl.glsl.node.GlslNode;
 
+import java.util.stream.Stream;
+
 public class GlslPrimitiveConstructorNode implements GlslNode {
 
     private GlslTypeSpecifier primitiveType;
@@ -27,5 +29,10 @@ public class GlslPrimitiveConstructorNode implements GlslNode {
     @Override
     public String getSourceString() {
         return this.primitiveType.getSourceString() + this.primitiveType.getPostSourceString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.of(this);
     }
 }

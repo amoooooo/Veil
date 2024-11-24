@@ -449,22 +449,7 @@ public class ShaderProgramImpl implements ShaderProgram {
                     "fragment": "dummy"
                 }
                 """.getBytes(StandardCharsets.UTF_8);
-        private static final Resource RESOURCE = new Resource(null, () -> new ByteArrayInputStream(DUMMY_SHADER)) {
-            @Override
-            public PackResources source() {
-                throw new UnsupportedOperationException("No pack source");
-            }
-
-            @Override
-            public String sourcePackId() {
-                return "dummy";
-            }
-
-            @Override
-            public Optional<KnownPack> knownPackInfo() {
-                return Optional.empty();
-            }
-        };
+        private static final Resource RESOURCE = new DummyResource(() -> new ByteArrayInputStream(DUMMY_SHADER));
         private static final VertexFormat DUMMY_FORMAT = VertexFormat.builder().build();
 
         public static boolean constructing = false;

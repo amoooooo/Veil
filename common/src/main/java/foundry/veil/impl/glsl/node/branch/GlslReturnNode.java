@@ -3,6 +3,8 @@ package foundry.veil.impl.glsl.node.branch;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.stream.Stream;
+
 public class GlslReturnNode implements GlslNode {
 
     private GlslNode value;
@@ -27,5 +29,10 @@ public class GlslReturnNode implements GlslNode {
     @Override
     public String getSourceString() {
         return this.value != null ? "return " + this.value.getSourceString() : "return";
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.value.stream());
     }
 }

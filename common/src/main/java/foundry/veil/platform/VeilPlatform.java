@@ -34,7 +34,7 @@ public interface VeilPlatform {
     boolean isDevelopmentEnvironment();
 
     enum PlatformType {
-        FORGE("Forge"),
+        NEOFORGE("Forge"),
         FABRIC("Fabric");
 
         private final String platformName;

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Ocelot
@@ -37,6 +38,11 @@ public class GlslAndNode implements GlslNode {
     @Override
     public String getSourceString() {
         return this.expressions.stream().map(GlslNode::getSourceString).collect(Collectors.joining(" & "));
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.expressions.stream().flatMap(GlslNode::stream));
     }
 
     @Override

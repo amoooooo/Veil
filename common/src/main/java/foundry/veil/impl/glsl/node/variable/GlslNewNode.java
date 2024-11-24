@@ -5,6 +5,8 @@ import foundry.veil.impl.glsl.grammar.GlslType;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.stream.Stream;
+
 public class GlslNewNode implements GlslNode {
 
     private GlslSpecifiedType type;
@@ -20,6 +22,11 @@ public class GlslNewNode implements GlslNode {
     @Override
     public GlslSpecifiedType getType() {
         return this.type;
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.initializer.stream());
     }
 
     public @Nullable String getName() {

@@ -1,6 +1,9 @@
 package foundry.veil.impl.glsl.node.branch;
 
+import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
+
+import java.util.stream.Stream;
 
 /**
  * Represents both while and do/while loops.
@@ -49,6 +52,11 @@ public class WhileLoopNode implements GlslNode {
     @Override
     public String getSourceString() {
         return "while (" + this.condition.getSourceString() + ") {\n" + this.body.getSourceString().replaceAll("\n", "\n\t") + "\n}";
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Streams.concat(Stream.of(this), this.condition.stream(), this.body.stream());
     }
 
     public enum Type {

@@ -2,6 +2,8 @@ package foundry.veil.impl.glsl.node.variable;
 
 import foundry.veil.impl.glsl.node.GlslNode;
 
+import java.util.stream.Stream;
+
 public class GlslVariableNode implements GlslNode {
 
     private String name;
@@ -22,6 +24,11 @@ public class GlslVariableNode implements GlslNode {
     @Override
     public String getSourceString() {
         return this.name;
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.of(this);
     }
 
     @Override

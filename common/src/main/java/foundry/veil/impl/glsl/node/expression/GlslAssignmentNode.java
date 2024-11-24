@@ -1,8 +1,11 @@
 package foundry.veil.impl.glsl.node.expression;
 
+import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.stream.Stream;
 
 /**
  * @author Ocelot
@@ -68,6 +71,11 @@ public class GlslAssignmentNode implements GlslNode {
     @Override
     public String getSourceString() {
         return this.first.getSourceString() + ' ' + this.operand.getDelimiter() + ' ' + this.second.getSourceString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Streams.concat(Stream.of(this), this.first.stream(), this.second.stream());
     }
 
     @Override

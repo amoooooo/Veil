@@ -1,10 +1,14 @@
 package foundry.veil.impl.client.render.shader;
 
+import com.mojang.blaze3d.vertex.VertexFormat;
+import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.processor.ShaderCustomProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderModifyProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.jetbrains.annotations.ApiStatus;
@@ -12,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -20,28 +25,46 @@ import java.util.Set;
 @ApiStatus.Internal
 public class SimpleShaderProcessor {
 
-    private static ShaderPreProcessor processor;
+    private static final ThreadLocal<ShaderPreProcessor> PROCESSOR = new ThreadLocal<>();
+    private static final Set<String> LAST_FRAME_SHADERS = new HashSet<>();
 
     public static void setup(ResourceProvider resourceProvider) {
-        processor = ShaderPreProcessor.allOf(new ShaderModifyProcessor(), new ShaderCustomProcessor(resourceProvider));
+        int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
+        SimpleShaderProcessor.PROCESSOR.set(ShaderPreProcessor.allOf(new ShaderModifyProcessor(), new ShaderCustomProcessor(resourceProvider), new DynamicBufferProcessor(DynamicBufferType.decode(activeBuffers))));
     }
 
     public static void free() {
-        processor = null;
+        SimpleShaderProcessor.PROCESSOR.remove();
     }
 
-    public static String modify(@Nullable ResourceLocation name, int type, String source) throws IOException {
+    public static String modify(@Nullable String shaderInstance, @Nullable ResourceLocation name, @Nullable VertexFormat vertexFormat, int type, String source) throws IOException {
+        ShaderPreProcessor processor = SimpleShaderProcessor.PROCESSOR.get();
         if (processor == null) {
             throw new NullPointerException("Processor not initialized");
         }
-        return processor.modify(new Context(name, type), source);
+        return processor.modify(new Context(shaderInstance, name, type, vertexFormat), source);
     }
 
-    private record Context(ResourceLocation name, int type) implements ShaderPreProcessor.Context {
+    public static void markRendered(String shaderInstace) {
+        if (VeilRenderSystem.renderer().getDynamicBufferManger().isCompilingShaders()) {
+            LAST_FRAME_SHADERS.add(shaderInstace);
+        }
+    }
+
+    public static void clear() {
+        LAST_FRAME_SHADERS.clear();
+    }
+
+    public static Set<String> getLastFrameShaders() {
+        return LAST_FRAME_SHADERS;
+    }
+
+    private record Context(String shaderInstance, ResourceLocation name, int type,
+                           VertexFormat vertexFormat) implements ShaderPreProcessor.Context {
 
         @Override
         public String modify(@Nullable ResourceLocation name, String source) throws IOException {
-            return processor.modify(new Context(name, this.type), source);
+            return SimpleShaderProcessor.PROCESSOR.get().modify(new Context(this.shaderInstance, name, this.type, this.vertexFormat), source);
         }
 
         @Override

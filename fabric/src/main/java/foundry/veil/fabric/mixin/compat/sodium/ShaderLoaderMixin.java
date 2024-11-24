@@ -31,7 +31,7 @@ public class ShaderLoaderMixin {
     private static String modifySource(String src) {
         try {
             SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager());
-            return SimpleShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), veil$shaderType, src);
+            return SimpleShaderProcessor.modify(null, ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), null, veil$shaderType, src);
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", veil$shaderName, e);
             return src;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GlslInvokeFunctionNode implements GlslNode {
 
@@ -38,5 +39,10 @@ public class GlslInvokeFunctionNode implements GlslNode {
     public String getSourceString() {
         String parameters = this.parameters.stream().map(GlslNode::getSourceString).collect(Collectors.joining(", "));
         return this.header.getSourceString() + "(" + parameters + ")";
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.parameters.stream().flatMap(GlslNode::stream));
     }
 }

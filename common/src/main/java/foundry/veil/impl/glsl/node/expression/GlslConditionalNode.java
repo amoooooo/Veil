@@ -1,6 +1,9 @@
 package foundry.veil.impl.glsl.node.expression;
 
+import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
+
+import java.util.stream.Stream;
 
 /**
  * @author Ocelot
@@ -47,6 +50,11 @@ public class GlslConditionalNode implements GlslNode {
     @Override
     public String getSourceString() {
         return this.condition.getSourceString() + " ? " + this.first.getSourceString() + " : " + this.second.getSourceString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Streams.concat(Stream.of(this), this.first.stream(), this.second.stream());
     }
 
     @Override

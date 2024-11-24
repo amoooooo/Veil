@@ -39,16 +39,13 @@ public class GameRendererMixin {
 
         VeilRenderer renderer = VeilRenderSystem.renderer();
         Collection<ShaderModification> modifiers = renderer.getShaderModificationManager().getModifiers(id);
-        if (modifiers.size() == 1) {
-            ShaderModification modification = modifiers.iterator().next();
-            if (modification instanceof ReplaceShaderModification replaceModification) {
-                ShaderProgram shader = renderer.getShaderManager().getShader(replaceModification.veilShader());
-                if (shader == null) {
-                    LOGGER.error("Failed to replace vanilla shader '{}' with veil shader: {}", loc, replaceModification.veilShader());
-                } else {
-                    return shader.toShaderInstance();
-                }
+        if (modifiers.size() == 1 && modifiers.iterator().next() instanceof ReplaceShaderModification replaceModification) {
+            ShaderProgram shader = renderer.getShaderManager().getShader(replaceModification.veilShader());
+            if (shader != null) {
+                return shader.toShaderInstance();
             }
+
+            LOGGER.error("Failed to replace vanilla shader '{}' with veil shader: {}", loc, replaceModification.veilShader());
         }
 
         return new ShaderInstance(resourceProvider, name, vertexFormat);

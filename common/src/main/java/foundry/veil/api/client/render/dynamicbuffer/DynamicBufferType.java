@@ -5,9 +5,9 @@ import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 
 public enum DynamicBufferType {
     ALBEDO("albedo", "Albedo", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA8),
-    NORMAL("normal", "Normal", GlslTypeSpecifier.BuiltinType.IVEC3, FramebufferAttachmentDefinition.Format.RGB8_SNORM),
-    LIGHT_COLOR("light_color", "LightColor", GlslTypeSpecifier.BuiltinType.VEC3, FramebufferAttachmentDefinition.Format.RGB8),
-    LIGHT_UV("light_uv", "LightUv", GlslTypeSpecifier.BuiltinType.UVEC2, FramebufferAttachmentDefinition.Format.RG8UI),
+    NORMAL("normal", "Normal", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8_SNORM),
+    LIGHT_UV("light_uv", "LightUV", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RG8),
+    LIGHT_COLOR("light_color", "LightColor", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8),
     DEBUG("debug", "Debug", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA16F);
 
     private final String name;

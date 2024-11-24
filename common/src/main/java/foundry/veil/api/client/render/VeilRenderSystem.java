@@ -13,6 +13,7 @@ import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.pipeline.VeilUniformBlockState;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
+import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -190,7 +191,6 @@ public final class VeilRenderSystem {
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
     private static VertexBuffer vbo;
-
 
     private VeilRenderSystem() {
     }
@@ -715,6 +715,7 @@ public final class VeilRenderSystem {
         glBindFramebuffer(GL_FRAMEBUFFER, 0); // Manual unbind to restore the default mc state
 
         UNIFORM_BLOCK_STATE.clear();
+        SimpleShaderProcessor.clear();
     }
 
     @ApiStatus.Internal

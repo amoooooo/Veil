@@ -6,6 +6,7 @@ import foundry.veil.impl.glsl.node.GlslNode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class GlslDeclaration implements GlslNode {
 
@@ -38,5 +39,10 @@ public class GlslDeclaration implements GlslNode {
             builder.delete(builder.length() - 2, builder.length());
         }
         return builder.toString().trim();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.of(this);
     }
 }

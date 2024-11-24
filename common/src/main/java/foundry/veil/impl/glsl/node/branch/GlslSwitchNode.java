@@ -1,11 +1,13 @@
 package foundry.veil.impl.glsl.node.branch;
 
+import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Switch statement.
@@ -84,5 +86,10 @@ public class GlslSwitchNode implements GlslNode {
         }
         builder.append('}');
         return builder.toString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Streams.concat(Stream.of(this), this.condition.stream(), this.branches.stream().flatMap(GlslNode::stream));
     }
 }

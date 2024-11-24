@@ -48,7 +48,7 @@ public class ProgramMixin {
                 source.append(sourceLine);
             }
 
-            return List.of(SimpleShaderProcessor.modify(veil$captureId, veil$captureType, source.toString()));
+            return List.of(SimpleShaderProcessor.modify(null, veil$captureId, null, veil$captureType, source.toString()));
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to modify vanilla source for shader: {}", veil$captureId, e);
         }

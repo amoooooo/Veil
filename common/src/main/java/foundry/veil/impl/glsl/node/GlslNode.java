@@ -8,6 +8,7 @@ import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public interface GlslNode {
 
@@ -26,6 +27,8 @@ public interface GlslNode {
     default List<GlslNode> toList() {
         return new ArrayList<>(Collections.singleton(this));
     }
+
+    Stream<GlslNode> stream();
 
     static GlslIntConstantNode intConstant(int value) {
         return new GlslIntConstantNode(GlslIntFormat.DECIMAL, true, value);

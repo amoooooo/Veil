@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
@@ -578,6 +579,16 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         @Override
         public boolean isSourceFile() {
             return this.sourceFile;
+        }
+
+        @Override
+        public @Nullable String shaderInstance() {
+            return null;
+        }
+
+        @Override
+        public @Nullable VertexFormat vertexFormat() {
+            return null;
         }
     }
 

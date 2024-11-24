@@ -1,5 +1,6 @@
 package foundry.veil.api.client.render.shader.processor;
 
+import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import net.minecraft.resources.ResourceLocation;
@@ -117,10 +118,22 @@ public interface ShaderPreProcessor {
         ProgramDefinition definition();
 
         /**
+         * @return The name of the shader instance this was compiled with or <code>null</code> if not a vanilla shader
+         */
+        @Nullable
+        String shaderInstance();
+
+        /**
          * @return The set of pre-definitions for shaders
          */
         @Nullable
         ShaderPreDefinitions preDefinitions();
+
+        /**
+         * @return The vertex format specified in the shader or <code>null</code> if a vanilla shader
+         */
+        @Nullable
+        VertexFormat vertexFormat();
 
         /**
          * @return The OpenGL type of the compiling shader

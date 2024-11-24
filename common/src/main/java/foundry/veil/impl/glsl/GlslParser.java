@@ -137,13 +137,25 @@ public final class GlslParser {
             return new GlslIntConstantNode(GlslIntFormat.OCTAL, true, Integer.parseUnsignedInt(reader.peek(-1).value(), 8));
         }
         if (reader.tryConsume(GlslLexer.TokenType.UINTEGER_DECIMAL_CONSTANT)) {
-            return new GlslIntConstantNode(GlslIntFormat.DECIMAL, false, Integer.parseUnsignedInt(reader.peek(-1).value(), 10));
+            String value = reader.peek(-1).value();
+            if (value.endsWith("u")) {
+                value = value.substring(0, value.length() - 1);
+            }
+            return new GlslIntConstantNode(GlslIntFormat.DECIMAL, false, Integer.parseUnsignedInt(value, 10));
         }
         if (reader.tryConsume(GlslLexer.TokenType.UINTEGER_HEXADECIMAL_CONSTANT)) {
-            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, false, Integer.parseUnsignedInt(reader.peek(-1).value(), 16));
+            String value = reader.peek(-1).value();
+            if (value.endsWith("u")) {
+                value = value.substring(0, value.length() - 1);
+            }
+            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, false, Integer.parseUnsignedInt(value, 16));
         }
         if (reader.tryConsume(GlslLexer.TokenType.UINTEGER_OCTAL_CONSTANT)) {
-            return new GlslIntConstantNode(GlslIntFormat.OCTAL, false, Integer.parseUnsignedInt(reader.peek(-1).value(), 8));
+            String value = reader.peek(-1).value();
+            if (value.endsWith("u")) {
+                value = value.substring(0, value.length() - 1);
+            }
+            return new GlslIntConstantNode(GlslIntFormat.OCTAL, false, Integer.parseUnsignedInt(value, 8));
         }
         if (reader.tryConsume(GlslLexer.TokenType.FLOATING_CONSTANT)) {
             return new GlslFloatConstantNode(Float.parseFloat(reader.peek(-1).value()));

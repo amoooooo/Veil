@@ -80,6 +80,10 @@ public class GlslTree {
         return this.body.stream().filter(node -> node instanceof GlslFunctionNode).map(node -> (GlslFunctionNode) node);
     }
 
+    public Optional<GlslNewNode> field(String name) {
+        return this.body.stream().filter(node -> node instanceof GlslNewNode newNode && name.equals(newNode.getName())).findFirst().map(newNode -> (GlslNewNode) newNode);
+    }
+
     public Stream<GlslNewNode> fields() {
         return this.body.stream().filter(node -> node instanceof GlslNewNode).map(node -> (GlslNewNode) node);
     }

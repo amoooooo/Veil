@@ -2,6 +2,8 @@ package foundry.veil.impl.glsl.node.variable;
 
 import foundry.veil.impl.glsl.node.GlslNode;
 
+import java.util.stream.Stream;
+
 public class GlslFieldNode implements GlslNode {
 
     private GlslNode expression;
@@ -36,6 +38,11 @@ public class GlslFieldNode implements GlslNode {
             return this.expression.getSourceString() + '.' + this.fieldSelection;
         }
         return '(' + this.expression.getSourceString() + ")." + this.fieldSelection;
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.expression.stream());
     }
 
     @Override

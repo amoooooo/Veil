@@ -9,7 +9,7 @@ public class ForgeVeilPlatform implements VeilPlatform {
 
     @Override
     public PlatformType getPlatformType() {
-        return PlatformType.FORGE;
+        return PlatformType.NEOFORGE;
     }
 
     @Override

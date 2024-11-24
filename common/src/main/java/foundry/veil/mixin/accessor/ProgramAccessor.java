@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface ProgramAccessor {
 
     @Accessor
-    void setId(int id);
+    int getId();
 }

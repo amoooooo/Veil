@@ -4,6 +4,8 @@ import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
 import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 import foundry.veil.impl.glsl.node.GlslNode;
 
+import java.util.stream.Stream;
+
 public class GlslPrecisionNode implements GlslNode {
 
     private GlslTypeQualifier.Precision precision;
@@ -35,5 +37,10 @@ public class GlslPrecisionNode implements GlslNode {
     @Override
     public String getSourceString() {
         return "precision " + this.precision.getSourceString() + " " + this.typeSpecifier.getSourceString();
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.of(this);
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class GlslCompoundNode implements GlslNode {
 
@@ -16,6 +17,11 @@ public class GlslCompoundNode implements GlslNode {
     @Override
     public List<GlslNode> toList() {
         return new ArrayList<>(this.children);
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Stream.concat(Stream.of(this), this.children.stream().flatMap(GlslNode::stream));
     }
 
     public List<GlslNode> getChildren() {

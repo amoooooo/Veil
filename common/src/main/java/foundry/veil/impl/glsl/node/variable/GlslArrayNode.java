@@ -1,6 +1,9 @@
 package foundry.veil.impl.glsl.node.variable;
 
+import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
+
+import java.util.stream.Stream;
 
 public class GlslArrayNode implements GlslNode {
 
@@ -33,6 +36,11 @@ public class GlslArrayNode implements GlslNode {
     @Override
     public String getSourceString() {
         return this.expression.getSourceString() + '[' + this.index.getSourceString() + ']';
+    }
+
+    @Override
+    public Stream<GlslNode> stream() {
+        return Streams.concat(Stream.of(this), this.expression.stream(), this.index.stream());
     }
 
     @Override
