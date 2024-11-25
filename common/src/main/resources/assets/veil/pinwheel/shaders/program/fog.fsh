@@ -4,7 +4,7 @@
 uniform sampler2D DiffuseSampler0;
 uniform sampler2D DiffuseDepthSampler;
 
-const float FogStart = 0;
+const float FogStart = -10;
 const float FogEnd = 100;
 uniform vec4 FogColor;
 uniform int FogShape;

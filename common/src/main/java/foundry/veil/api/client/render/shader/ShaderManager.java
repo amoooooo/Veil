@@ -12,10 +12,14 @@ import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.processor.*;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.impl.ThreadTaskScheduler;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.Util;
@@ -37,6 +41,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -81,11 +86,6 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     private final Map<ResourceLocation, ShaderProgram> shadersView;
     private final Set<ResourceLocation> dirtyShaders;
 
-    private final List<ShaderPreProcessor> processors;
-    private final List<ShaderPreProcessor> importProcessors;
-    private ShaderPreProcessor processor;
-    private ShaderPreProcessor importProcessor;
-
     private CompletableFuture<Void> reloadFuture;
     private CompletableFuture<Void> recompileFuture;
     private CompletableFuture<Void> updateBuffersFuture;
@@ -106,28 +106,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         this.shadersView = Collections.unmodifiableMap(this.shaders);
         this.dirtyShaders = new HashSet<>();
 
-        this.processors = new LinkedList<>();
-        this.importProcessors = new LinkedList<>();
-        this.processor = null;
-        this.importProcessor = null;
-
         this.reloadFuture = CompletableFuture.completedFuture(null);
         this.recompileFuture = CompletableFuture.completedFuture(null);
         this.updateBuffersFuture = CompletableFuture.completedFuture(null);
-    }
-
-    private ShaderPreProcessor getProcessor() {
-        if (this.processor == null) {
-            this.processor = ShaderPreProcessor.allOf(this.processors);
-        }
-        return this.processor;
-    }
-
-    private ShaderPreProcessor getImportProcessor() {
-        if (this.importProcessor == null) {
-            this.importProcessor = ShaderPreProcessor.allOf(this.importProcessors);
-        }
-        return this.importProcessor;
     }
 
     private void onDefinitionChanged(String definition) {
@@ -137,6 +118,18 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                 this.scheduleRecompile(shader.getId());
             }
         });
+    }
+
+    private void addProcessors(ShaderProcessorList processorList, ResourceProvider provider) {
+        if (provider != null) {
+            processorList.addPreprocessor(new ShaderImportProcessor(provider));
+        }
+        processorList.addPreprocessor(new ShaderBindingProcessor());
+        processorList.addPreprocessor(new ShaderPredefinitionProcessor(), false);
+        processorList.addPreprocessor(new ShaderVersionProcessor(), false);
+        processorList.addPreprocessor(new ShaderModifyProcessor(), false);
+        processorList.addPreprocessor(new ShaderCustomProcessor(provider), false);
+        // TODO add event to add custom processors
     }
 
     private ProgramDefinition parseDefinition(ResourceLocation id, ResourceProvider provider) throws IOException {
@@ -157,14 +150,14 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         }
     }
 
-    private void readShader(ResourceManager resourceManager, Map<ResourceLocation, ProgramDefinition> definitions, Map<ResourceLocation, VeilShaderSource> shaderSources, ResourceLocation definitionId, int flags) {
+    private void readShader(ShaderProcessorList processorList, ResourceProvider resourceProvider, Map<ResourceLocation, ProgramDefinition> definitions, Map<ResourceLocation, VeilShaderSource> shaderSources, ResourceLocation definitionId, int flags) {
         Set<ResourceLocation> checkedSources = new HashSet<>();
 
-        ShaderPreProcessor processor = this.getProcessor();
-        ShaderPreProcessor importProcessor = this.getImportProcessor();
+        ShaderPreProcessor processor = processorList.getProcessor();
+        ShaderPreProcessor importProcessor = processorList.getImportProcessor();
 
         try {
-            ProgramDefinition definition = this.parseDefinition(definitionId, resourceManager);
+            ProgramDefinition definition = this.parseDefinition(definitionId, resourceProvider);
             if (definitions.put(definitionId, definition) != null) {
                 throw new IllegalStateException("Duplicate shader ignored with ID " + definitionId);
             }
@@ -180,7 +173,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                     continue;
                 }
 
-                Resource resource = resourceManager.getResourceOrThrow(location);
+                Resource resource = resourceProvider.getResourceOrThrow(location);
                 try (Reader reader = resource.openAsReader()) {
                     String source = IOUtils.toString(reader);
 
@@ -191,7 +184,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                     Set<String> dependencies = new HashSet<>();
                     Set<ResourceLocation> includes = new HashSet<>();
                     PreProcessorContext preProcessorContext = new PreProcessorContext(importProcessor, definition, this.definitions, type, uniformBindings, dependencies, includes, shaderId, true);
-                    String transformed = this.processor.modify(preProcessorContext, source);
+                    String transformed = processor.modify(preProcessorContext, source);
 
                     if (flags != 0) {
                         DynamicBufferType[] types = DynamicBufferType.decode(flags);
@@ -251,42 +244,6 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         }
     }
 
-    private void addProcessors(ResourceProvider provider) {
-        if (provider != null) {
-            this.addPreprocessor(new ShaderImportProcessor(provider));
-        }
-        this.addPreprocessor(new ShaderBindingProcessor());
-        this.addPreprocessor(new ShaderPredefinitionProcessor(), false);
-        this.addPreprocessor(new ShaderVersionProcessor(), false);
-        this.addPreprocessor(new ShaderModifyProcessor(), false);
-        this.addPreprocessor(new ShaderCustomProcessor(provider), false);
-        // TODO add event to add custom processors
-    }
-
-    /**
-     * Adds the specified pre-processor to the end of the stack.
-     *
-     * @param processor     The processor to add
-     * @param modifyImports Whether the processor will also be run on imports
-     */
-    public void addPreprocessor(ShaderPreProcessor processor, boolean modifyImports) {
-        this.processors.add(processor);
-        this.processor = null;
-        if (modifyImports) {
-            this.importProcessors.add(processor);
-            this.importProcessor = null;
-        }
-    }
-
-    /**
-     * Adds the specified pre-processor to the end of the stack.
-     *
-     * @param processor The processor to add
-     */
-    public void addPreprocessor(ShaderPreProcessor processor) {
-        this.addPreprocessor(processor, true);
-    }
-
     /**
      * Sets a global shader value.
      *
@@ -320,22 +277,29 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         return this.sourceSet;
     }
 
-    private ReloadState prepare(ResourceManager resourceManager, Collection<ResourceLocation> shaders, int activeBuffers) {
-        Map<ResourceLocation, ProgramDefinition> definitions = new HashMap<>();
-        Map<ResourceLocation, VeilShaderSource> shaderSources = new HashMap<>();
+    private CompletableFuture<ReloadState> prepare(ResourceManager resourceManager, Collection<ResourceLocation> shaders, int activeBuffers, Executor executor) {
+        Map<ResourceLocation, ProgramDefinition> definitions = new ConcurrentHashMap<>();
+        Map<ResourceLocation, VeilShaderSource> shaderSources = new ConcurrentHashMap<>();
 
-        this.addProcessors(resourceManager);
-        for (ResourceLocation key : shaders) {
-            this.readShader(resourceManager, definitions, shaderSources, key, activeBuffers);
-        }
+        Long2ObjectMap<ShaderProcessorList> processorList = Long2ObjectMaps.synchronize(new Long2ObjectArrayMap<>());
+        ThreadTaskScheduler scheduler = new ThreadTaskScheduler("VeilShaderCompiler", Math.max(1, Runtime.getRuntime().availableProcessors() / 4), () -> {
+            Iterator<ResourceLocation> iterator = shaders.iterator();
+            if (iterator.hasNext()) {
+                ResourceLocation key = iterator.next();
+                iterator.remove();
+                return () -> {
+                    ShaderProcessorList shaderProcessor = processorList.computeIfAbsent(Thread.currentThread().threadId(), id -> {
+                        ShaderProcessorList list = new ShaderProcessorList();
+                        this.addProcessors(list, resourceManager);
+                        return list;
+                    });
+                    this.readShader(shaderProcessor, resourceManager, definitions, shaderSources, key, activeBuffers);
+                };
+            }
+            return null;
+        });
 
-        // Delete all processors
-        this.processors.clear();
-        this.processor = null;
-        this.importProcessors.clear();
-        this.importProcessor = null;
-
-        return new ReloadState(definitions, shaderSources);
+        return scheduler.getCompletedFuture().thenApplyAsync(unused -> new ReloadState(definitions, shaderSources), executor);
     }
 
     private void apply(ShaderManager.ReloadState reloadState) {
@@ -356,7 +320,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         Veil.LOGGER.info("Loaded {} shaders from: {}", this.shaders.size(), this.sourceSet.getFolder());
     }
 
-    private void applyRecompile(ShaderManager.ReloadState reloadState, Collection<ResourceLocation> shaders) {
+    private void applyRecompile(ShaderManager.ReloadState reloadState, int shaderCount) {
         try (ShaderCompiler compiler = ShaderCompiler.direct(reloadState.shaderSources::get)) {
             for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
                 ResourceLocation id = entry.getKey();
@@ -371,7 +335,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
         VeilRenderSystem.finalizeShaderCompilation();
 
-        Veil.LOGGER.info("Recompiled {} shaders from: {}", shaders.size(), this.sourceSet.getFolder());
+        Veil.LOGGER.info("Recompiled {} shaders from: {}", shaderCount, this.sourceSet.getFolder());
     }
 
     private void scheduleRecompile(int attempt) {
@@ -383,12 +347,14 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
             Set<ResourceLocation> shaders;
             synchronized (this.dirtyShaders) {
-                shaders = new HashSet<>(this.dirtyShaders);
+                shaders = ConcurrentHashMap.newKeySet(this.dirtyShaders.size());
+                shaders.addAll(this.dirtyShaders);
                 this.dirtyShaders.clear();
             }
+            int shaderCount = shaders.size();
             int activeBuffers = this.dynamicBufferManager.getActiveBuffers();
-            this.recompileFuture = CompletableFuture.supplyAsync(() -> this.prepare(client.getResourceManager(), shaders, activeBuffers), Util.backgroundExecutor())
-                    .thenAcceptAsync(state -> this.applyRecompile(state, shaders), client)
+            this.recompileFuture = this.prepare(client.getResourceManager(), shaders, activeBuffers, Util.backgroundExecutor())
+                    .thenAcceptAsync(state -> this.applyRecompile(state, shaderCount), client)
                     .handle((value, e) -> {
                         if (e != null) {
                             Veil.LOGGER.error("Error recompiling shaders", e);
@@ -433,7 +399,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         ShaderProgram active = null;
 
         try {
-            Set<ResourceLocation> shaders = new HashSet<>();
+            Set<ResourceLocation> shaders = ConcurrentHashMap.newKeySet(this.shaders.size());
             for (ShaderProgram program : this.shaders.values()) {
                 active = program;
                 if (program instanceof ShaderProgramImpl impl) {
@@ -444,8 +410,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
             }
 
             if (!shaders.isEmpty()) {
+                int shaderCount = shaders.size();
                 this.updateBuffersFuture = this.updateBuffersFuture
-                        .thenApplyAsync(unused -> this.prepare(Minecraft.getInstance().getResourceManager(), shaders, activeBuffers), Util.backgroundExecutor())
+                        .thenComposeAsync(unused -> this.prepare(Minecraft.getInstance().getResourceManager(), shaders, activeBuffers, Util.backgroundExecutor()), Util.backgroundExecutor())
                         .thenAcceptAsync(reloadState -> {
                             try (ShaderCompiler compiler = ShaderCompiler.direct(reloadState.shaderSources::get)) {
                                 for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
@@ -472,7 +439,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
                             VeilRenderSystem.finalizeShaderCompilation();
 
-                            Veil.LOGGER.info("Compiled {} shaders from: {}", shaders.size(), this.sourceSet.getFolder());
+                            Veil.LOGGER.info("Compiled {} shaders from: {}", shaderCount, this.sourceSet.getFolder());
                         }, Minecraft.getInstance());
             }
         } catch (ShaderException e) {
@@ -496,9 +463,10 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                             Set<ResourceLocation> shaderIds = lister.listMatchingResources(resourceManager).keySet()
                                     .stream()
                                     .map(lister::fileToId)
-                                    .collect(Collectors.toSet());
-                            return this.prepare(resourceManager, shaderIds, activeBuffers);
+                                    .collect(Collectors.toCollection(ConcurrentHashMap::newKeySet));
+                            return this.prepare(resourceManager, shaderIds, activeBuffers, backgroundExecutor);
                         }, backgroundExecutor)
+                        .thenCompose(future -> future)
                         .thenCompose(preparationBarrier::wait)
                         .thenAcceptAsync(this::apply, gameExecutor));
     }
@@ -588,5 +556,58 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
     private record ReloadState(Map<ResourceLocation, ProgramDefinition> definitions,
                                Map<ResourceLocation, VeilShaderSource> shaderSources) {
+    }
+
+    private static class ShaderProcessorList {
+
+        private final List<ShaderPreProcessor> processors;
+        private final List<ShaderPreProcessor> importProcessors;
+        private ShaderPreProcessor processor;
+        private ShaderPreProcessor importProcessor;
+
+        public ShaderProcessorList() {
+            this.processors = new LinkedList<>();
+            this.importProcessors = new LinkedList<>();
+            this.processor = null;
+            this.importProcessor = null;
+        }
+
+        /**
+         * Adds the specified pre-processor to the end of the stack.
+         *
+         * @param processor     The processor to add
+         * @param modifyImports Whether the processor will also be run on imports
+         */
+        public void addPreprocessor(ShaderPreProcessor processor, boolean modifyImports) {
+            this.processors.add(processor);
+            this.processor = null;
+            if (modifyImports) {
+                this.importProcessors.add(processor);
+                this.importProcessor = null;
+            }
+        }
+
+        /**
+         * Adds the specified pre-processor to the end of the stack.
+         *
+         * @param processor The processor to add
+         */
+        public void addPreprocessor(ShaderPreProcessor processor) {
+            this.addPreprocessor(processor, true);
+        }
+
+        public ShaderPreProcessor getProcessor() {
+            if (this.processor == null) {
+                this.processor = ShaderPreProcessor.allOf(this.processors);
+            }
+            return this.processor;
+        }
+
+        public ShaderPreProcessor getImportProcessor() {
+            if (this.importProcessor == null) {
+                this.importProcessor = ShaderPreProcessor.allOf(this.importProcessors);
+            }
+            return this.importProcessor;
+        }
     }
 }

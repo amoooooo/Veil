@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.ext.ShaderInstanceExtension;
+import foundry.veil.impl.ThreadTaskScheduler;
 import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
@@ -17,14 +18,12 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
@@ -33,14 +32,12 @@ public class VanillaShaderCompiler {
 
     private static final Set<String> LAST_FRAME_SHADERS = ConcurrentHashMap.newKeySet();
 
-    private AtomicBoolean cancelled;
-    private CompletableFuture<?> reloadFuture;
+    private ThreadTaskScheduler scheduler;
 
     public VanillaShaderCompiler() {
-        this.reloadFuture = CompletableFuture.completedFuture(null);
     }
 
-    private void compileShader(AtomicBoolean cancelled, ShaderInstance shader) {
+    private void compileShader(ShaderInstance shader) {
         ShaderInstanceExtension extension = (ShaderInstanceExtension) shader;
         Collection<ResourceLocation> shaderSources = extension.veil$getShaderSources();
         VertexFormat vertexFormat = shader.getVertexFormat();
@@ -50,9 +47,6 @@ public class VanillaShaderCompiler {
         for (ResourceLocation path : shaderSources) {
             try (Reader reader = resourceManager.openAsReader(path)) {
                 String source = IOUtils.toString(reader);
-                if (cancelled.get()) {
-                    return;
-                }
                 GlslPreprocessor preprocessor = new GlslPreprocessor() {
                     private final Set<String> importedPaths = Sets.newHashSet();
 
@@ -79,9 +73,6 @@ public class VanillaShaderCompiler {
                     }
                 };
                 source = String.join("", preprocessor.process(source));
-                if (cancelled.get()) {
-                    return;
-                }
 
                 boolean vertex = path.getPath().endsWith(".vsh");
                 String processed = SimpleShaderProcessor.modify(shader.getName(), path, vertexFormat, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
@@ -100,9 +91,9 @@ public class VanillaShaderCompiler {
      * @return A future for when vanilla shaders have reloaded
      */
     public CompletableFuture<?> reload(Collection<ShaderInstance> shaders) {
-        if (this.cancelled != null) {
+        if (this.scheduler != null) {
             // Cancel the previous tasks and move on
-            this.cancelled.set(true);
+            this.scheduler.cancel();
         }
 
         Map<String, ShaderInstance> shaderMap = new ConcurrentHashMap<>(shaders.size());
@@ -110,17 +101,11 @@ public class VanillaShaderCompiler {
             shaderMap.put(shader.getName(), shader);
         }
 
-        AtomicBoolean cancelled = new AtomicBoolean(false);
-        this.cancelled = cancelled;
-        TaskScheduler scheduler = new TaskScheduler("VeilShaderCompile", Math.max(1, Runtime.getRuntime().availableProcessors() / 2), () -> {
-            if (cancelled.get()) {
-                return null;
-            }
-
+        ThreadTaskScheduler scheduler = new ThreadTaskScheduler("VeilShaderCompile", Math.max(1, Runtime.getRuntime().availableProcessors() / 4), () -> {
             for (String lastFrameShader : LAST_FRAME_SHADERS) {
                 ShaderInstance shader = shaderMap.remove(lastFrameShader);
                 if (shader != null) {
-                    return () -> this.compileShader(cancelled, shader);
+                    return () -> this.compileShader(shader);
                 }
             }
 
@@ -128,21 +113,22 @@ public class VanillaShaderCompiler {
             if (iterator.hasNext()) {
                 ShaderInstance shader = iterator.next();
                 iterator.remove();
-                return () -> this.compileShader(cancelled, shader);
+                return () -> this.compileShader(shader);
             }
             return null;
         });
+        this.scheduler = scheduler;
         CompletableFuture<?> future = scheduler.getCompletedFuture();
         future.thenRunAsync(() -> {
-            if (!cancelled.get()) {
+            if (!scheduler.isCancelled()) {
                 Veil.LOGGER.info("Compiled {} vanilla shaders", shaders.size());
             }
         }, Minecraft.getInstance());
-        return this.reloadFuture = future;
+        return future;
     }
 
     public boolean isCompilingShaders() {
-        return !this.reloadFuture.isDone();
+        return this.scheduler != null && !this.scheduler.getCompletedFuture().isDone();
     }
 
     public static void markRendered(String shaderInstace) {
@@ -153,89 +139,5 @@ public class VanillaShaderCompiler {
 
     public static void clear() {
         LAST_FRAME_SHADERS.clear();
-    }
-
-    private static class TaskScheduler {
-
-        private final int threadCount;
-        private final Semaphore semaphore;
-
-        private final CompletableFuture<?> completedFuture;
-        private final Supplier<Runnable> source;
-        private final Deque<Runnable> queue;
-        private final AtomicBoolean running;
-        private final AtomicInteger finished;
-
-        public TaskScheduler(String name, int threadCount, Supplier<Runnable> source) {
-            this.threadCount = threadCount;
-            this.semaphore = new Semaphore(0);
-
-            this.completedFuture = new CompletableFuture<>();
-            this.source = source;
-            this.queue = new ConcurrentLinkedDeque<>();
-            this.running = new AtomicBoolean(true);
-            this.finished = new AtomicInteger(0);
-
-            for (int i = 0; i < this.threadCount; i++) {
-                Thread thread = new Thread(this::run, name + "Thread#" + i);
-                thread.setPriority(Math.max(0, Thread.NORM_PRIORITY - 2));
-                thread.start();
-            }
-
-            for (int i = 0; i < this.threadCount; i++) {
-                Runnable work = source.get();
-                if (work == null) {
-                    this.running.set(false);
-                    this.semaphore.release(this.threadCount);
-                    return;
-                }
-
-                this.queue.add(work);
-                this.semaphore.release();
-            }
-        }
-
-        private void run() {
-            while (this.running.get()) {
-                Runnable task;
-
-                try {
-                    this.semaphore.acquire();
-
-                    // Pull off existing work from the queue, then try to populate it again
-                    task = this.queue.poll();
-                    if (task != null) {
-                        Runnable next = this.source.get();
-                        if (next == null) {
-                            this.running.set(false);
-                            this.semaphore.release(this.threadCount);
-                        } else {
-                            this.queue.add(next);
-                            this.semaphore.release();
-                        }
-                    }
-                } catch (InterruptedException ignored) {
-                    continue;
-                }
-
-                if (task == null) {
-                    continue;
-                }
-
-                try {
-                    task.run();
-                } catch (Throwable t) {
-                    Veil.LOGGER.error("Error running task", t);
-                }
-            }
-
-            if (this.finished.incrementAndGet() >= this.threadCount) {
-                this.completedFuture.complete(null);
-            }
-        }
-
-        public CompletableFuture<?> getCompletedFuture() {
-            return this.completedFuture;
-        }
     }
 }
