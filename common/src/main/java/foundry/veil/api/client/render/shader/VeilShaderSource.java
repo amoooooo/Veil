@@ -3,7 +3,6 @@ package foundry.veil.api.client.render.shader;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.Set;

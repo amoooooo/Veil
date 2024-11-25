@@ -15,6 +15,7 @@ import imgui.type.ImFloat;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.DebugEntityNameGenerator;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -23,20 +24,24 @@ import org.joml.Vector3fc;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 public class LightEditor extends SingleWindowEditor {
 
-    public static final Component TITLE = Component.translatable("editor.veil.deferred_light.title");
+    public static final Component TITLE = Component.translatable("editor.veil.light.title");
 
-    private static final Component ADD = Component.translatable("editor.veil.deferred_light.button.add");
-    private static final Component REMOVE = Component.translatable("editor.veil.deferred_light.button.remove");
-    private static final Component REMOVE_ALL = Component.translatable("editor.veil.deferred_light.button.remove_all");
-    private static final Component REMOVE_ALL_DESC = Component.translatable("editor.veil.deferred_light.button.remove_all.desc");
-    private static final Component SET_POSITION = Component.translatable("editor.veil.deferred_light.button.set_position");
-    private static final Component ATTRIBUTES = Component.translatable("editor.veil.deferred_light.attributes");
+    private static final Component ADD = Component.translatable("editor.veil.light.button.add");
+    private static final Component REMOVE = Component.translatable("editor.veil.light.button.remove");
+    private static final Component REMOVE_ALL = Component.translatable("editor.veil.light.button.remove_all");
+    private static final Component REMOVE_ALL_DESC = Component.translatable("editor.veil.light.button.remove_all.desc");
+    private static final Component SET_POSITION = Component.translatable("editor.veil.light.button.set_position");
+    private static final Component ATTRIBUTES = Component.translatable("editor.veil.light.attributes");
+    private static final Component ENABLE_AO = Component.translatable("editor.veil.light.toggle.ao");
 
     private final List<ResourceKey<LightTypeRegistry.LightType<?>>> lightTypes = new ArrayList<>();
     private ResourceKey<LightTypeRegistry.LightType<?>> selectedTab;
+
+    private final ImBoolean enableAmbientOcclusion = new ImBoolean();
 
     @Override
     public Component getDisplayName() {
@@ -71,7 +76,7 @@ public class LightEditor extends SingleWindowEditor {
         }
         ImGui.endDisabled();
         if (ImGui.isItemHovered(ImGuiHoveredFlags.None)) {
-            VeilImGuiUtil.setTooltip(Component.translatable("editor.veil.deferred_light.button.add.desc", this.selectedTab.location().toString()));
+            VeilImGuiUtil.setTooltip(Component.translatable("editor.veil.light.button.add.desc", this.selectedTab.location().toString()));
         }
 
         ImGui.sameLine();
@@ -83,7 +88,7 @@ public class LightEditor extends SingleWindowEditor {
         }
         ImGui.endDisabled();
         if (ImGui.isItemHovered(ImGuiHoveredFlags.None)) {
-            VeilImGuiUtil.setTooltip(Component.translatable("editor.veil.deferred_light.button.remove.desc", this.selectedTab.location().toString()));
+            VeilImGuiUtil.setTooltip(Component.translatable("editor.veil.light.button.remove.desc", this.selectedTab.location().toString()));
         }
 
         ImGui.sameLine();
@@ -92,6 +97,16 @@ public class LightEditor extends SingleWindowEditor {
         }
         if (ImGui.isItemHovered(ImGuiHoveredFlags.None)) {
             VeilImGuiUtil.setTooltip(REMOVE_ALL_DESC);
+        }
+
+        ImGui.sameLine();
+        this.enableAmbientOcclusion.set(lightRenderer.isAmbientOcclusionEnabled());
+        if (ImGui.checkbox(ENABLE_AO.getString(), this.enableAmbientOcclusion)) {
+            if (this.enableAmbientOcclusion.get()) {
+                lightRenderer.enableAmbientOcclusion();
+            } else {
+                lightRenderer.disableAmbientOcclusion();
+            }
         }
 
         ImGui.beginTabBar("##lights");
@@ -121,7 +136,7 @@ public class LightEditor extends SingleWindowEditor {
     private static void renderLightComponents(Light light) {
         ImBoolean visible = new ImBoolean(true);
         ImGui.pushID(light.hashCode());
-        if (ImGui.collapsingHeader("0x%X".formatted(light.hashCode()), visible)) {
+        if (ImGui.collapsingHeader(DebugEntityNameGenerator.getEntityName(new UUID(light.hashCode(), 0L)), visible)) {
             renderLightAttributeComponents(light);
         }
         ImGui.popID();

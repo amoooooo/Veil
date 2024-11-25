@@ -1,14 +1,10 @@
 package foundry.veil.api.client.render.rendertype.layer;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import foundry.veil.api.client.registry.RenderTypeLayerRegistry;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
-import net.minecraft.client.renderer.RenderStateShard;
-
-import java.util.Locale;
 
 public record LightmapLayer(boolean enabled) implements RenderTypeLayer {
 

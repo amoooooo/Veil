@@ -1,11 +1,9 @@
 package foundry.veil.mixin.client.skeleton;
 
-import foundry.veil.api.client.necromancer.SkeletonParent;
 import foundry.veil.api.client.necromancer.render.NecromancerEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -2,7 +2,6 @@ package foundry.veil.api.quasar.emitters.module.render;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.deferred.light.PointLight;
-import foundry.veil.api.client.render.deferred.light.renderer.LightRenderer;
 import foundry.veil.api.quasar.emitters.module.RenderParticleModule;
 import foundry.veil.api.quasar.emitters.module.UpdateParticleModule;
 import foundry.veil.api.quasar.particle.QuasarParticle;

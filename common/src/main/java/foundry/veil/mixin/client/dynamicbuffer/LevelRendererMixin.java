@@ -3,23 +3,16 @@ package foundry.veil.mixin.client.dynamicbuffer;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.deferred.DeferredShaderStateCache;
-import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.ShaderInstance;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.function.Supplier;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {

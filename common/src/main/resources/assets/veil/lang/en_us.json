@@ -147,7 +147,6 @@
   "editor.veil.shader.source.vanilla": "Vanilla",
   "editor.veil.shader.source.vanilla_post": "Vanilla Post",
   "editor.veil.shader.source.veil": "Veil",
-  "editor.veil.shader.source.veil_deferred": "Veil Deferred",
   "editor.veil.shader.source.iris": "Iris",
   "editor.veil.shader.source.sodium": "Sodium",
   "editor.veil.shader.source.unknown": "Unknown",
@@ -164,19 +163,15 @@
   "editor.veil.framebuffer.color_attachment": "Attachment %d",
   "editor.veil.framebuffer.depth_attachment": "Depth",
 
-  "editor.veil.deferred_light.title": "Light Editor",
-  "editor.veil.deferred_light.button.add": "Add Light",
-  "editor.veil.deferred_light.button.add.desc": "Add a new %s light to the world",
-  "editor.veil.deferred_light.button.remove": "Remove Lights",
-  "editor.veil.deferred_light.button.remove.desc": "Removes all %s lights",
-  "editor.veil.deferred_light.button.remove_all": "Remove All Lights",
-  "editor.veil.deferred_light.button.remove_all.desc": "Removes all light types",
-  "editor.veil.deferred_light.button.set_position": "Set Position/Rotation to View",
-  "editor.veil.deferred_light.attributes": "Attributes:",
-
-  "editor.veil.deferred.title": "Deferred Renderer",
-  "editor.veil.deferred.toggle.pipeline": "Enable Pipeline",
-  "editor.veil.deferred.toggle.ao": "Enable Ambient Occlusion",
-  "editor.veil.deferred.toggle.vanilla_light": "Enable Vanilla Light",
-  "editor.veil.deferred.toggle.vanilla_entity_light": "Enable Vanilla Entity Lights"
+  "editor.veil.light.title": "Light Editor",
+  "editor.veil.light.button.add": "Add Light",
+  "editor.veil.light.button.add.desc": "Add a new %s light to the world",
+  "editor.veil.light.button.remove": "Remove Lights",
+  "editor.veil.light.button.remove.desc": "Removes all %s lights",
+  "editor.veil.light.button.remove_all": "Remove All Lights",
+  "editor.veil.light.button.remove_all.desc": "Removes all light types",
+  "editor.veil.light.button.set_position": "Set Position/Rotation to View",
+  "editor.veil.light.attributes": "Attributes:",
+  "editor.veil.light.toggle.pipeline": "Enable Pipeline",
+  "editor.veil.light.toggle.ao": "Enable Ambient Occlusion"
 }

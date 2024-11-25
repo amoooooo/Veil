@@ -1,6 +1,9 @@
 package foundry.veil.mixin.client.pipeline;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.CameraMatrices;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderBridge;
@@ -8,13 +11,15 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.ext.LevelRendererExtension;
+import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.PostChain;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
@@ -26,7 +31,10 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.function.Supplier;
 
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin implements LevelRendererExtension {
@@ -73,6 +81,23 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     public void veil$setupLevelCamera(Vec3 pos, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
         CameraMatrices matrices = VeilRenderSystem.renderer().getCameraMatrices();
         matrices.update(projectionMatrix, frustumMatrix, this.veil$tempCameraPos.set(pos.x(), pos.y(), pos.z()), 0.05F, Minecraft.getInstance().gameRenderer.getDepthFar());
+    }
+
+    @Inject(method = "renderLevel", at = @At("TAIL"))
+    public void blit(DeltaTracker pDeltaTracker, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pFrustumMatrix, Matrix4f pProjectionMatrix, CallbackInfo ci, @Local ProfilerFiller profiler) {
+        VeilRenderSystem.blit(profiler);
+    }
+
+    // This sets the blend function for rain correctly
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V", shift = At.Shift.BEFORE))
+    public void setRainBlend(DeltaTracker pDeltaTracker, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pFrustumMatrix, Matrix4f pProjectionMatrix, CallbackInfo ci) {
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+    }
+
+    // Add custom world border shader
+    @ModifyArg(method = "renderWorldBorder", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShader(Ljava/util/function/Supplier;)V"))
+    public Supplier<ShaderInstance> setWorldBorderShader(Supplier<ShaderInstance> supplier) {
+        return VeilVanillaShaders::getWorldborder;
     }
 
     @Inject(method = "deinitTransparency", at = @At("RETURN"))

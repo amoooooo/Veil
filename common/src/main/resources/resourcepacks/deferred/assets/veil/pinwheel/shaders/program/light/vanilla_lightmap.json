@@ -1,4 +1,0 @@
-{
-  "vertex": "veil:blit_screen",
-  "fragment": "veil:light/vanilla_lightmap"
-}

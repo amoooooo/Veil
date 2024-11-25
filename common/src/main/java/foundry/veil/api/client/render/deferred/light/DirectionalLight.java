@@ -57,7 +57,7 @@ public class DirectionalLight extends Light implements EditorAttributeProvider {
      * @param z The new z direction
      */
     public DirectionalLight setDirection(float x, float y, float z) {
-        this.direction.set(x, y, z).normalize();
+        this.direction.set(x, y, z);
         this.markDirty();
         return this;
     }
@@ -85,10 +85,7 @@ public class DirectionalLight extends Light implements EditorAttributeProvider {
         float[] editDirection = new float[]{this.direction.x(), this.direction.y(), this.direction.z()};
 
         if (ImGui.sliderFloat3("##direction", editDirection, -1.0F, 1.0F)) {
-            Vector3f vector = new Vector3f(editDirection).normalize();
-            if (!Float.isNaN(vector.x) && !Float.isNaN(vector.y) && !Float.isNaN(vector.z)) {
-                this.setDirection(vector);
-            }
+            this.setDirection(editDirection[0], editDirection[1], editDirection[2]);
         }
         ImGui.sameLine(0, ImGui.getStyle().getItemInnerSpacingX());
         ImGui.text("direction");

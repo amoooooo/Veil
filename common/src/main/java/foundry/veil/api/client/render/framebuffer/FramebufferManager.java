@@ -21,9 +21,6 @@ import org.lwjgl.system.NativeResource;
 
 import java.util.*;
 
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30.glBindFramebuffer;
-
 /**
  * <p>Manages all framebuffers and custom definitions specified in files.
  * All framebuffers except for the main one can be customized from the

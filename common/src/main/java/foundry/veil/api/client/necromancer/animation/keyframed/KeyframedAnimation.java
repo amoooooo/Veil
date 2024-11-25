@@ -5,7 +5,10 @@ import foundry.veil.api.client.necromancer.Skeleton;
 import foundry.veil.api.client.necromancer.SkeletonParent;
 import foundry.veil.api.client.necromancer.animation.Animation;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class KeyframedAnimation<P extends SkeletonParent, T extends Skeleton<P>> extends Animation<P, T> {
     final boolean looped;

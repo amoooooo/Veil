@@ -2,7 +2,6 @@ package foundry.veil.api.client.necromancer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import foundry.veil.api.client.necromancer.render.Skin;
 import foundry.veil.api.client.necromancer.render.mesh.Mesh;
 import net.minecraft.core.Direction;

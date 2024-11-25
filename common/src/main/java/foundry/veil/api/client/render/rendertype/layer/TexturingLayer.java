@@ -2,18 +2,14 @@ package foundry.veil.api.client.render.rendertype.layer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import foundry.veil.Veil;
 import foundry.veil.api.client.registry.RenderTypeLayerRegistry;
-import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import org.joml.Matrix4f;
-
-import java.util.Locale;
 
 public record TexturingLayer(float scale) implements RenderTypeLayer {
 

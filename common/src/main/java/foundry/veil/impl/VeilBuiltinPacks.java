@@ -1,7 +1,6 @@
 package foundry.veil.impl;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 

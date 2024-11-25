@@ -5,7 +5,6 @@ import com.mojang.blaze3d.shaders.Program;
 import foundry.veil.Veil;
 import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL20C;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;

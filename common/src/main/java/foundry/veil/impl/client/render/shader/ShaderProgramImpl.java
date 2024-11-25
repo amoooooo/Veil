@@ -25,8 +25,6 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackResources;
-import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.resources.Resource;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;

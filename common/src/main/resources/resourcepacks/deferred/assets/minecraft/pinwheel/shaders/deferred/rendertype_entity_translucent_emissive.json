@@ -1,7 +1,0 @@
-{
-  "vertex": "entity",
-  "fragment": "rendertype_entity_translucent_emissive",
-  "definitions": [
-    "DISABLE_VANILLA_ENTITY_LIGHT"
-  ]
-}

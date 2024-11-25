@@ -9,7 +9,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
-import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import foundry.veil.mixin.accessor.ProgramAccessor;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;

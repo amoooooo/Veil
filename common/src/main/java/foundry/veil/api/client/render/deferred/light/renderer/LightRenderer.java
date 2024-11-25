@@ -9,8 +9,9 @@ import foundry.veil.api.client.render.deferred.light.Light;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.impl.client.render.deferred.light.VanillaLightRenderer;
+import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
+import foundry.veil.impl.client.render.light.VanillaLightRenderer;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,6 @@ public class LightRenderer implements NativeResource {
 
     private final Map<LightTypeRegistry.LightType<?>, LightData<?>> lights;
 
-    private VanillaLightRenderer vanillaLightRenderer;
     private boolean ambientOcclusionEnabled;
     private AdvancedFbo framebuffer;
 
@@ -154,7 +154,7 @@ public class LightRenderer implements NativeResource {
     public void enableAmbientOcclusion() {
         if (!this.ambientOcclusionEnabled) {
             this.ambientOcclusionEnabled = true;
-            Minecraft.getInstance().levelRenderer.allChanged();
+            ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).markChunksDirty();
         }
     }
 
@@ -164,7 +164,7 @@ public class LightRenderer implements NativeResource {
     public void disableAmbientOcclusion() {
         if (this.ambientOcclusionEnabled) {
             this.ambientOcclusionEnabled = false;
-            Minecraft.getInstance().levelRenderer.allChanged();
+            ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).markChunksDirty();
         }
     }
 
@@ -186,10 +186,6 @@ public class LightRenderer implements NativeResource {
     public void free() {
         this.lights.values().forEach(LightData::free);
         this.lights.clear();
-        if (this.vanillaLightRenderer != null) {
-            this.vanillaLightRenderer.free();
-            this.vanillaLightRenderer = null;
-        }
     }
 
     @ApiStatus.Internal
