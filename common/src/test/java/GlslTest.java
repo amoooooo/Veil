@@ -296,4 +296,24 @@ public class GlslTest {
         tree.visit(writer);
         System.out.println(writer);
     }
+
+    @Test
+    void testStruct() throws GlslSyntaxException {
+        GlslTree tree = GlslParser.parse("""
+                out vec4 fragColor;
+                
+                struct AreaLightResult { vec3 position; float angle; };
+                AreaLightResult closestPointOnPlaneAndAngle(vec3 point, mat4 planeMatrix, vec2 planeSize) {
+                    return AreaLightResult((inverse(planeMatrix) * vec4(localSpacePointOnPlane, 1.0)).xyz, angle);
+                }
+                
+                void main() {
+                    AreaLightResult areaLightInfo = closestPointOnPlaneAndAngle(pos, lightMat, size);
+                }
+                """);
+
+        GlslStringWriter writer = new GlslStringWriter();
+        tree.visit(writer);
+        System.out.println(writer);
+    }
 }

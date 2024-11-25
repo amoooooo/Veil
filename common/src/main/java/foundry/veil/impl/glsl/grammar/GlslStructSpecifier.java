@@ -39,6 +39,11 @@ public final class GlslStructSpecifier implements GlslTypeSpecifier {
     }
 
     @Override
+    public boolean isStruct() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "GlslStructSpecifier{name=" + this.name + '}';
     }

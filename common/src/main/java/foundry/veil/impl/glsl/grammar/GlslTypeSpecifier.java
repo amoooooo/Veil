@@ -3,7 +3,10 @@ package foundry.veil.impl.glsl.grammar;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
-public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpecifier, GlslTypeSpecifier.Array, GlslTypeSpecifier.BuiltinType, GlslTypeSpecifier.Name, GlslTypeSpecifier.Struct {
+import java.util.ArrayList;
+import java.util.Collection;
+
+public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpecifier, GlslTypeSpecifier.Array, GlslTypeSpecifier.BuiltinType, GlslTypeSpecifier.Name {
 
     String getSourceString();
 
@@ -12,7 +15,11 @@ public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpe
     }
 
     default boolean isNamed() {
-        return this instanceof Name;
+        return false;
+    }
+
+    default boolean isStruct() {
+        return false;
     }
 
     static GlslTypeSpecifier named(String name) {
@@ -21,6 +28,10 @@ public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpe
 
     static GlslTypeSpecifier array(GlslTypeSpecifier specifier, @Nullable GlslNode size) {
         return new Array(specifier, size);
+    }
+
+    static GlslStructSpecifier struct(String name, Collection<GlslStructField> fields) {
+        return new GlslStructSpecifier(name, new ArrayList<>(fields));
     }
 
     @Override
@@ -32,6 +43,11 @@ public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpe
         @Override
         public String getSourceString() {
             return this.name;
+        }
+
+        @Override
+        public boolean isNamed() {
+            return true;
         }
     }
 
@@ -50,17 +66,10 @@ public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpe
         public boolean isNamed() {
             return this.specifier.isNamed();
         }
-    }
-
-    record Struct(GlslStructSpecifier structSpecifier) implements GlslTypeSpecifier {
-        @Override
-        public String getSourceString() {
-            return this.structSpecifier.getSourceString();
-        }
 
         @Override
-        public boolean isNamed() {
-            return false;
+        public boolean isStruct() {
+            return this.specifier.isStruct();
         }
     }
 

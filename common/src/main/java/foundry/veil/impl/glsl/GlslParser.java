@@ -1028,12 +1028,15 @@ public final class GlslParser {
         int cursor = reader.getCursor();
         GlslSpecifiedType fullySpecifiedType = parseFullySpecifiedType(reader);
         if (fullySpecifiedType == null) {
+            reader.setCursor(cursor);
             return null;
         }
 
         if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
-            reader.setCursor(cursor);
-            return null;
+            if (fullySpecifiedType.getSpecifier().isStruct()) {
+                return new GlslStructNode(fullySpecifiedType);
+            }
+            return new GlslNewNode(fullySpecifiedType, null, null);
         }
 
         cursor = reader.getCursor();
