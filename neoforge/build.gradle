@@ -1,7 +1,8 @@
+import java.nio.charset.StandardCharsets
+
 plugins {
     id 'multiloader-loader'
     id 'net.neoforged.moddev'
-    id 'com.github.johnrengelman.shadow'
 }
 
 configurations {
@@ -45,70 +46,64 @@ neoForge {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
-//minecraft.runs.configureEach {
-//    lazyToken('minecraft_classpath') {
-//        configurations.shade.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
-//    }
-//}
+def shaderCPlatforms = [
+        "linux",
+        "linux-arm64",
+        "macos",
+        "macos-arm64",
+        "windows",
+        "windows-arm64",
+]
 
 dependencies {
-    // runtimeOnly fg.deobf("maven.modrinth:embeddium:0.3.4+mc1.20.1")
+    jarJar(api(additionalRuntimeClasspath("gg.moonflower:molang-compiler:$molang_compiler_version")))
 
-    shade "gg.moonflower:molang-compiler:$molang_compiler_version"
+    jarJar(api(additionalRuntimeClasspath("io.github.spair:imgui-java-binding:$imgui_version")))
+    jarJar(api(additionalRuntimeClasspath("io.github.spair:imgui-java-lwjgl3:$imgui_version")))
+    jarJar(api(additionalRuntimeClasspath("org.lwjgl:lwjgl-opencl:$lwjgl_version")))
+    jarJar(api(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version")))
 
-    shade "io.github.spair:imgui-java-binding:$imgui_version"
-    shade("io.github.spair:imgui-java-lwjgl3:$imgui_version") {
-        exclude group: 'org.lwjgl'
-        exclude group: 'org.lwjgl.lwjgl'
+    jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-linux:$imgui_version"))
+    jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))
+    jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-windows:$imgui_version"))
+
+    for (final def name in shaderCPlatforms) {
+        jarJar(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-$name"))
     }
-
-    shade "io.github.spair:imgui-java-natives-linux:$imgui_version"
-    shade "io.github.spair:imgui-java-natives-macos-ft:$imgui_version"
-    shade "io.github.spair:imgui-java-natives-windows:$imgui_version"
-
-    shade("org.lwjgl:lwjgl-opencl:$lwjgl_version") {
-        transitive false
-    }
-    shade("org.lwjgl:lwjgl-shaderc:$lwjgl_version") {
-        transitive false
-    }
-
-    shade "org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-linux"
-    shade "org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-linux-arm64"
-    shade "org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-macos"
-    shade "org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-macos-arm64"
-    shade "org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-windows"
-    shade "org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-windows-arm64"
 
 //    runtimeOnly fg.deobf("curse.maven:oculus-581495:4767500")
 //    runtimeOnly fg.deobf("curse.maven:rubidium-574856:4767529")
 }
 
 jar {
-    archiveClassifier = 'slim'
+    // This is a dirty hack to make sure neoforge can detect the jars since they have the same "artifact" name
+    eachFile {
+        if (it.path.endsWith("jarjar/metadata.json")) {
+            StringBuilder contents = new StringBuilder();
+            try (Scanner scanner = new Scanner(it.open())) {
+                def i = -1;
+                while (scanner.hasNextLine()) {
+                    def line = scanner.nextLine()
+                    if (line.contains("\"artifact\": \"lwjgl-shaderc\"")) {
+                        if (i >= 0) {
+                            contents.append("        \"artifact\": \"lwjgl-shaderc-natives-").append(shaderCPlatforms[i]).append("\"\n")
+                        } else {
+                            contents.append("        \"artifact\": \"lwjgl-shaderc\"\n")
+                        }
+                        i++
+                    } else {
+                        contents.append(line).append('\n')
+                    }
+                }
+            }
+
+            try (FileOutputStream os = new FileOutputStream(it.getFile())) {
+                os.write(contents.toString().getBytes(StandardCharsets.UTF_8))
+            }
+        }
+    }
 }
 
-shadowJar {
-    archiveClassifier = ''
-    configurations = [project.configurations.shade]
-    relocate "org.objectweb.asm", "${project.group}.lib.asm"
-    relocate "org.lwjgl.opencl", "${project.group}.lib.opencl"
-//    relocate "gg.moonflower.molangcompiler", "${project.group}.lib.molangcompiler"
-//    relocate "imgui", "${project.group}.lib.imgui"
-//    relocate "io.imgui", "${project.group}.lib.imgui-natives"
-
-    relocate "org.antlr", "${project.group}.lib.antlr"
-    relocate "org.stringtemplate", "${project.group}.lib.stringtemplate"
-    relocate "org.apache.commons.collections4", "${project.group}.lib.apache.commons.collections4"
-    relocate "org.abego.treelayout", "${project.group}.lib.abego.treelayout"
-    relocate "com.ibm.icu", "${project.group}.lib.ibm.icu"
-
-    relocate "io.github.spair:imgui-java-binding:$imgui_version", "${project.group}.lib.imgui-java-binding"
-    relocate "io.github.spair:imgui-java-lwjgl3:$imgui_version", "${project.group}.lib.imgui-java-lwjgl3"
-    relocate "io.github.spair:imgui-java-natives-linux:$imgui_version", "${project.group}.lib.imgui-java-natives-linux"
-    relocate "io.github.spair:imgui-java-natives-windows:$imgui_version", "${project.group}.lib.imgui-java-natives-windows"
-    relocate "io.github.spair:imgui-java-natives-macos:$imgui_version", "${project.group}.lib.imgui-java-natives-macos"
-    relocate ":imgui-binding-natives-macosarm64-1.86.11", "${project.group}.lib.imgui-java-natives-macosarm64"
+tasks.register('fixJarJar') {
+    println "test"
 }
-
-assemble.dependsOn shadowJar

@@ -3,5 +3,4 @@ plugins {
     id 'fabric-loom' version '1.7-SNAPSHOT' apply false
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
     id 'net.neoforged.moddev' version '2.0.44-beta' apply false
-    id "com.github.johnrengelman.shadow" version "8.1.1" apply false
 }
