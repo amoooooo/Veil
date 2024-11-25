@@ -22,6 +22,6 @@ public class GameRendererMixin {
 
     @Inject(method = "reloadShaders", at = @At("RETURN"))
     public void reloadShaders(ResourceProvider resourceProvider, CallbackInfo ci) {
-        VeilRenderSystem.renderer().getDynamicBufferManger().reloadVanillaShaders(this.shaders.values());
+        VeilRenderSystem.renderer().getVanillaShaderCompiler().reload(this.shaders.values());
     }
 }

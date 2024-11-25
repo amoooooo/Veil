@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+@Deprecated
 @ApiStatus.Internal
 public class DeferredShaderStateCache {
 

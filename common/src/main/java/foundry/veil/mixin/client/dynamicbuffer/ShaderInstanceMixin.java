@@ -8,6 +8,7 @@ import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.ext.ShaderInstanceExtension;
+import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import foundry.veil.mixin.accessor.ProgramAccessor;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -77,7 +78,7 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
 
     @Inject(method = "apply", at = @At("HEAD"))
     public void apply(CallbackInfo ci) {
-        SimpleShaderProcessor.markRendered(this.name);
+        VanillaShaderCompiler.markRendered(this.name);
         if (this.veil$vertexSource != null && this.veil$fragmentSource != null) {
             try {
                 ProgramAccessor vertexAccessor = (ProgramAccessor) this.vertexProgram;

@@ -5,7 +5,6 @@ import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.registry.*;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
-import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.registry.EmitterShapeRegistry;
@@ -23,9 +22,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.ServiceLoader;
 
@@ -106,7 +103,6 @@ public class VeilClient {
 
     @ApiStatus.Internal
     public static void tickClient(float partialTick) {
-
     }
 
     public static VeilClientPlatform clientPlatform() {

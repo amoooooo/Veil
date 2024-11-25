@@ -5,19 +5,26 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.deferred.light.renderer.LightRenderer;
+import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.client.render.framebuffer.FramebufferManager;
+import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
+import foundry.veil.api.client.render.post.PostPipeline;
+import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.opencl.VeilOpenCL;
 import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
+import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.impl.client.render.pipeline.VeilUniformBlockState;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
-import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
@@ -715,7 +722,7 @@ public final class VeilRenderSystem {
         glBindFramebuffer(GL_FRAMEBUFFER, 0); // Manual unbind to restore the default mc state
 
         UNIFORM_BLOCK_STATE.clear();
-        SimpleShaderProcessor.clear();
+        VanillaShaderCompiler.clear();
     }
 
     @ApiStatus.Internal
@@ -752,5 +759,52 @@ public final class VeilRenderSystem {
     public static void setShaderLights(Vector3fc light0, Vector3fc light1) {
         LIGHT0_POSITION.set(light0);
         LIGHT1_POSITION.set(light1);
+    }
+
+    @ApiStatus.Internal
+    public static void blit(ProfilerFiller profiler) {
+        LightRenderer lightRenderer = renderer.getLightRenderer();
+        PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
+        FramebufferManager framebufferManager = renderer.getFramebufferManager();
+
+        profiler.push("lights");
+        profiler.push("setup_lights");
+        lightRenderer.setup(VeilRenderer.getCullingFrustum());
+        profiler.popPush("draw_lights");
+        AdvancedFbo lightFbo = framebufferManager.getFramebuffer(VeilFramebuffers.LIGHT);
+        if (lightFbo != null) {
+            lightFbo.bind(true);
+            lightRenderer.render();
+        }
+        lightRenderer.clear();
+        profiler.pop();
+
+        // Applies effects to the final light image
+        PostPipeline lightPipeline = postProcessingManager.getPipeline(VeilRenderer.LIGHT_POST);
+        if (lightPipeline != null) {
+            profiler.push("light_post");
+            postProcessingManager.runPipeline(lightPipeline, false);
+            profiler.pop();
+        } else if (lightFbo != null) {
+            // Resolve the light to the post one for later post-processing
+            AdvancedFbo postFramebuffer = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
+            if (postFramebuffer != null) {
+                lightFbo.resolveToAdvancedFbo(postFramebuffer);
+            }
+        }
+
+        PostPipeline compositePipeline = postProcessingManager.getPipeline(VeilRenderer.COMPOSITE);
+        if (compositePipeline != null) {
+            profiler.push("composite");
+            postProcessingManager.runPipeline(compositePipeline, true);
+            profiler.pop();
+        } else {
+            AdvancedFbo postFramebuffer = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
+            if (postFramebuffer != null) {
+                AdvancedFbo.getMainFramebuffer().resolveToAdvancedFbo(postFramebuffer);
+            }
+        }
+
+        profiler.pop();
     }
 }

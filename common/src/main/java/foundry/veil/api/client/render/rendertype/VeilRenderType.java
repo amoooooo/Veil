@@ -56,19 +56,17 @@ public final class VeilRenderType extends RenderType {
     }
 
     private static final ShaderStateShard PARTICLE = VeilRenderBridge.shaderState(VeilShaders.PARTICLE);
-    private static final ShaderStateShard PARTICLE_ADD = VeilRenderBridge.shaderState(VeilShaders.PARTICLE_ADD);
-
     private static final ShaderStateShard SKINNED_MESH = VeilRenderBridge.shaderState(VeilShaders.SKINNED_MESH);
 
     private static final BiFunction<ResourceLocation, Boolean, RenderType> QUASAR_PARTICLE = Util.memoize((texture, additive) -> {
         CompositeState state = RenderType.CompositeState.builder()
-                .setShaderState(additive ? PARTICLE_ADD : PARTICLE)
+                .setShaderState(PARTICLE)
                 .setTextureState(new TextureStateShard(texture, false, false))
                 .setTransparencyState(additive ? ADDITIVE_TRANSPARENCY : TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
                 .setWriteMaskState(additive ? COLOR_WRITE : COLOR_DEPTH_WRITE)
                 .createCompositeState(false);
-        return create(Veil.MODID + ":quasar_particle", DefaultVertexFormat.PARTICLE, VertexFormat.Mode.QUADS, SMALL_BUFFER_SIZE, false, !additive, state);
+        return create(Veil.MODID + ":quasar_particle", VeilVertexFormat.QUASAR_PARTICLE, VertexFormat.Mode.QUADS, SMALL_BUFFER_SIZE, false, !additive, state);
     });
     private static final Function<ResourceLocation, RenderType> QUASAR_TRAIL = Util.memoize((texture) -> {
         CompositeState state = CompositeState.builder()

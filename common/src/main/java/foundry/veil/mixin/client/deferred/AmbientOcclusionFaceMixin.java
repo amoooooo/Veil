@@ -25,13 +25,8 @@ public class AmbientOcclusionFaceMixin {
 
     @Inject(method = "calculate", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/BlockAndTintGetter;getShade(Lnet/minecraft/core/Direction;Z)F", shift = At.Shift.BEFORE), cancellable = true)
     public void removeShade(BlockAndTintGetter blockAndTintGetter, BlockState blockState, BlockPos blockPos, Direction direction, float[] fs, BitSet bitSet, boolean bl, CallbackInfo ci) {
-        VeilDeferredRenderer deferredRenderer = VeilRenderSystem.renderer().getDeferredRenderer();
-        if (!deferredRenderer.getLightRenderer().isAmbientOcclusionEnabled()) {
+        if (!VeilRenderSystem.renderer().getLightRenderer().isAmbientOcclusionEnabled()) {
             Arrays.fill(this.brightness, 1.0F);
-        }
-
-        if (deferredRenderer.isEnabled() && deferredRenderer.getRendererState() != VeilDeferredRenderer.RendererState.DISABLED) {
-            ci.cancel();
         }
     }
 }

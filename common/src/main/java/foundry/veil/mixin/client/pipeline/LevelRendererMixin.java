@@ -8,16 +8,19 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.ext.LevelRendererExtension;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -56,6 +59,9 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     @Shadow
     private @Nullable RenderTarget cloudsTarget;
 
+    @Shadow
+    @Final
+    private ObjectArrayList<SectionRenderDispatcher.RenderSection> visibleSections;
     @Unique
     private final Matrix4f veil$tempFrustum = new Matrix4f();
     @Unique
@@ -101,5 +107,12 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     @Override
     public void veil$drawBlockLayer(RenderType renderType, double x, double y, double z, Matrix4fc frustum, Matrix4fc projection) {
         this.renderSectionLayer(renderType, x, y, z, this.veil$tempFrustum.set(frustum), this.veil$tempProjection.set(projection));
+    }
+
+    @Override
+    public void markChunksDirty() {
+        for (SectionRenderDispatcher.RenderSection section : this.visibleSections) {
+            section.setDirty(false);
+        }
     }
 }

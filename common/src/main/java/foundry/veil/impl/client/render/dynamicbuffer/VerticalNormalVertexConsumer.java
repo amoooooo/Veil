@@ -1,4 +1,4 @@
-package foundry.veil.impl.client.render.deferred;
+package foundry.veil.impl.client.render.dynamicbuffer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -6,12 +6,12 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class DeferredVertexConsumer implements VertexConsumer {
+public class VerticalNormalVertexConsumer implements VertexConsumer {
 
     private final VertexConsumer delegate;
     private boolean verticalNormal;
 
-    public DeferredVertexConsumer(VertexConsumer delegate) {
+    public VerticalNormalVertexConsumer(VertexConsumer delegate) {
         this.delegate = delegate;
     }
 

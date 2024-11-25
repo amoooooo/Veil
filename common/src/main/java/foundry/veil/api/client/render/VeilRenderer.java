@@ -2,9 +2,12 @@ package foundry.veil.api.client.render;
 
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
+import foundry.veil.Veil;
 import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
+import foundry.veil.api.client.render.deferred.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
+import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
@@ -16,14 +19,19 @@ import foundry.veil.api.quasar.particle.ParticleSystemManager;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
+import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
+import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 import foundry.veil.mixin.accessor.ReloadableResourceManagerAccessor;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.NativeResource;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Manages the render pipeline for Veil.
@@ -32,6 +40,16 @@ import java.util.List;
  */
 public class VeilRenderer implements NativeResource {
 
+    public static final ResourceLocation ALBEDO_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/albedo");
+    public static final ResourceLocation NORMAL_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/normal");
+    public static final ResourceLocation LIGHT_UV_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/light_uv");
+    public static final ResourceLocation LIGHT_COLOR_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/light_color");
+    public static final ResourceLocation DEBUG_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/debug");
+
+    public static final ResourceLocation LIGHT_POST = Veil.veilPath("core/light_post");
+    public static final ResourceLocation COMPOSITE = Veil.veilPath("core/composite");
+
+    private final VanillaShaderCompiler vanillaShaderCompiler;
     private final DynamicBufferManger dynamicBufferManger;
     private final ShaderModificationManager shaderModificationManager;
     private final ShaderPreDefinitions shaderPreDefinitions;
@@ -43,10 +61,12 @@ public class VeilRenderer implements NativeResource {
     private final ParticleSystemManager quasarParticleManager;
     private final EditorManager editorManager;
     private final CameraMatrices cameraMatrices;
+    private final LightRenderer lightRenderer;
     private final GuiInfo guiInfo;
 
     @ApiStatus.Internal
     public VeilRenderer(ReloadableResourceManager resourceManager, Window window) {
+        this.vanillaShaderCompiler = new VanillaShaderCompiler();
         this.dynamicBufferManger = new DynamicBufferManger(window.getWidth(), window.getHeight());
         this.shaderModificationManager = new ShaderModificationManager();
         this.shaderPreDefinitions = new ShaderPreDefinitions();
@@ -59,6 +79,7 @@ public class VeilRenderer implements NativeResource {
         this.quasarParticleManager = new ParticleSystemManager();
         this.editorManager = new EditorManager(resourceManager);
         this.cameraMatrices = new CameraMatrices();
+        this.lightRenderer = new LightRenderer();
         this.guiInfo = new GuiInfo();
 
         List<PreparableReloadListener> listeners = ((ReloadableResourceManagerAccessor) resourceManager).getListeners();
@@ -71,6 +92,17 @@ public class VeilRenderer implements NativeResource {
         resourceManager.registerReloadListener(this.postProcessingManager);
 //        resourceManager.registerReloadListener(this.deferredRenderer);
         resourceManager.registerReloadListener(this.dynamicRenderTypeManager);
+    }
+
+    @ApiStatus.Internal
+    public void addDebugInfo(Consumer<String> consumer) {
+        boolean ambientOcclusion = this.lightRenderer.isAmbientOcclusionEnabled();
+//        boolean vanillaLights = this.lightRenderer.isVanillaLightEnabled();
+//        boolean vanillaEntityLights = this.shaderPreDefinitions.getDefinition(DISABLE_VANILLA_ENTITY_LIGHT_KEY) == null;
+        consumer.accept("Ambient Occlusion: " + (ambientOcclusion ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off"));
+//        consumer.accept("Vanilla Light: " + (vanillaLights ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off"));
+//        consumer.accept("Vanilla Entity Light: " + (vanillaEntityLights ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off"));
+        this.lightRenderer.addDebugInfo(consumer);
     }
 
     /**
@@ -103,6 +135,13 @@ public class VeilRenderer implements NativeResource {
 
         int active = this.dynamicBufferManger.getActiveBuffers() & ~DynamicBufferType.encode(buffers);
         return this.dynamicBufferManger.setActiveBuffers(active);
+    }
+
+    /**
+     * @return The Veil compiler for vanilla shaders
+     */
+    public VanillaShaderCompiler getVanillaShaderCompiler() {
+        return this.vanillaShaderCompiler;
     }
 
     /**
@@ -150,6 +189,7 @@ public class VeilRenderer implements NativeResource {
     /**
      * @return The deferred renderer instance
      */
+    @Deprecated
     public VeilDeferredRenderer getDeferredRenderer() {
         return this.deferredRenderer;
     }
@@ -183,6 +223,13 @@ public class VeilRenderer implements NativeResource {
     }
 
     /**
+     * @return The Veil light renderer instance
+     */
+    public LightRenderer getLightRenderer() {
+        return this.lightRenderer;
+    }
+
+    /**
      * @return The gui info instance
      */
     public GuiInfo getGuiInfo() {
@@ -212,6 +259,7 @@ public class VeilRenderer implements NativeResource {
         this.deferredRenderer.free();
         this.quasarParticleManager.clear();
         this.cameraMatrices.free();
+        this.lightRenderer.free();
         this.guiInfo.free();
     }
 }

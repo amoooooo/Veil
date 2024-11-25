@@ -1,0 +1,8 @@
+{
+  "depth": false,
+  "color_buffers": [
+    {
+      "format": "RGB16F"
+    }
+  ]
+}

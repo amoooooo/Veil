@@ -56,7 +56,6 @@ public class VeilFabricClient implements ClientModInitializer {
         VeilClient.init();
         HudRenderCallback.EVENT.register(VeilUITooltipRenderer::renderOverlay);
         ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getTimer().getRealtimeDeltaTicks()));
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(VeilRenderSystem.renderer().getDeferredRenderer()::reset));
         FabricQuasarParticleHandler.init();
         if (IrisShaderMap.isEnabled()) {
             IrisShaderMap.setLoadedShadersSupplier(() -> {

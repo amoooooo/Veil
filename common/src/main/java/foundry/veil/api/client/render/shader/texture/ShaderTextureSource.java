@@ -4,10 +4,13 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.VeilRenderer;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,8 +111,27 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
          * @param name The name of the texture to retrieve
          * @return The texture with that id or the missing texture if it was not found
          */
-        default AbstractTexture getTexture(ResourceLocation name) {
-            return Minecraft.getInstance().getTextureManager().getTexture(name);
+        default int getTexture(ResourceLocation name) {
+            if (Veil.MODID.equals(name.getNamespace()) && name.getPath().startsWith("dynamic_buffer")) {
+                DynamicBufferManger bufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
+                int activeBuffers = bufferManger.getActiveBuffers();
+                if (name.equals(VeilRenderer.ALBEDO_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.ALBEDO.getMask()) != 0) {
+                    return bufferManger.getBufferTexture(DynamicBufferType.ALBEDO);
+                }
+                if (name.equals(VeilRenderer.NORMAL_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.NORMAL.getMask()) != 0) {
+                    return bufferManger.getBufferTexture(DynamicBufferType.NORMAL);
+                }
+                if (name.equals(VeilRenderer.LIGHT_UV_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.LIGHT_UV.getMask()) != 0) {
+                    return bufferManger.getBufferTexture(DynamicBufferType.LIGHT_UV);
+                }
+                if (name.equals(VeilRenderer.LIGHT_COLOR_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.LIGHT_COLOR.getMask()) != 0) {
+                    return bufferManger.getBufferTexture(DynamicBufferType.LIGHT_COLOR);
+                }
+                if (name.equals(VeilRenderer.DEBUG_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.DEBUG.getMask()) != 0) {
+                    return bufferManger.getBufferTexture(DynamicBufferType.DEBUG);
+                }
+            }
+            return Minecraft.getInstance().getTextureManager().getTexture(name).getId();
         }
     }
 }

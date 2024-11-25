@@ -50,12 +50,12 @@ public class LightEditor extends SingleWindowEditor {
 
     @Override
     public boolean isEnabled() {
-        return VeilRenderSystem.renderer().getDeferredRenderer().isEnabled() && Minecraft.getInstance().level != null && LightTypeRegistry.REGISTRY.size() > 0;
+        return Minecraft.getInstance().level != null && LightTypeRegistry.REGISTRY.size() > 0;
     }
 
     @Override
     protected void renderComponents() {
-        LightRenderer lightRenderer = VeilRenderSystem.renderer().getDeferredRenderer().getLightRenderer();
+        LightRenderer lightRenderer = VeilRenderSystem.renderer().getLightRenderer();
 
         if (this.selectedTab == null || !LightTypeRegistry.REGISTRY.containsKey(this.selectedTab)) {
             this.selectedTab = this.lightTypes.get(0);
@@ -126,7 +126,7 @@ public class LightEditor extends SingleWindowEditor {
         }
         ImGui.popID();
         if (!visible.get()) {
-            VeilRenderSystem.renderer().getDeferredRenderer().getLightRenderer().removeLight(light);
+            VeilRenderSystem.renderer().getLightRenderer().removeLight(light);
         }
         ImGui.separator();
     }

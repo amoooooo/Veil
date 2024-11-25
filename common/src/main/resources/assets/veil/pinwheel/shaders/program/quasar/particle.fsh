@@ -9,7 +9,13 @@ uniform vec4 FogColor;
 
 in float vertexDistance;
 in vec2 texCoord0;
+// #veil:light_uv
+in vec2 texCoord2;
 in vec4 vertexColor;
+// #veil:light_color
+in vec4 lightmapColor;
+// #veil:normal
+in vec3 normal;
 
 out vec4 fragColor;
 
@@ -19,6 +25,6 @@ void main() {
     if (color.a < 0.01) {
         discard;
     }
-    fragColor = linear_fog(color, vertexDistance, FogStart, FogEnd, FogColor);
+    fragColor = linear_fog(color * lightmapColor, vertexDistance, FogStart, FogEnd, FogColor);
 }
 

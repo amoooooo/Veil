@@ -21,6 +21,13 @@ public class VeilVertexFormat {
             .add("Normal", NORMAL)
             .add("BoneIndex", BONE_INDEX)
             .build();
+    public static final VertexFormat QUASAR_PARTICLE = VertexFormat.builder()
+            .add("Position", POSITION)
+            .add("Color", COLOR)
+            .add("UV0", UV0)
+            .add("UV2", UV2)
+            .add("Normal", NORMAL)
+            .build();
 
     /**
      * Registers a new vertex format element by assigning it to the next open ID, expanding the array if necessary.

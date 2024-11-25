@@ -1,7 +1,6 @@
 package foundry.veil.api.quasar.emitters.module.render;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
 import foundry.veil.api.client.render.deferred.light.PointLight;
 import foundry.veil.api.quasar.data.module.init.LightModuleData;
 import foundry.veil.api.quasar.emitters.module.RenderParticleModule;
@@ -22,7 +21,6 @@ public class DynamicLightModule implements UpdateParticleModule, RenderParticleM
     private final Vector4f renderColor;
     private float lastBrightness;
     private PointLight light;
-    private boolean enabled;
 
     private final boolean constantColor;
     private final boolean constantBrightness;
@@ -49,13 +47,6 @@ public class DynamicLightModule implements UpdateParticleModule, RenderParticleM
 
     @Override
     public void update(QuasarParticle particle) {
-        VeilDeferredRenderer deferredRenderer = VeilRenderSystem.renderer().getDeferredRenderer();
-        this.enabled = deferredRenderer.isEnabled();
-        if (!this.enabled) {
-            this.onRemove();
-            return;
-        }
-
         if (!this.constantColor) {
             this.lastColor.set(this.color);
             this.data.color().getColor((float) particle.getAge() / (float) particle.getLifetime(), this.color);
@@ -86,7 +77,7 @@ public class DynamicLightModule implements UpdateParticleModule, RenderParticleM
             if (this.constantRadius) {
                 this.light.setBrightness(this.radius);
             }
-            deferredRenderer.getLightRenderer().addLight(this.light);
+            VeilRenderSystem.renderer().getLightRenderer().addLight(this.light);
         }
         this.lastBrightness = brightness;
     }
@@ -114,16 +105,8 @@ public class DynamicLightModule implements UpdateParticleModule, RenderParticleM
     @Override
     public void onRemove() {
         if (this.light != null) {
-            VeilDeferredRenderer deferredRenderer = VeilRenderSystem.renderer().getDeferredRenderer();
-            if (deferredRenderer.isEnabled()) {
-                deferredRenderer.getLightRenderer().removeLight(this.light);
-            }
+            VeilRenderSystem.renderer().getLightRenderer().removeLight(this.light);
             this.light = null;
         }
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled || VeilRenderSystem.renderer().getDeferredRenderer().isEnabled();
     }
 }

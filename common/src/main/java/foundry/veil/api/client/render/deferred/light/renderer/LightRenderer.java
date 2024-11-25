@@ -6,11 +6,12 @@ import foundry.veil.api.client.registry.LightTypeRegistry;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.deferred.light.Light;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.impl.client.render.deferred.light.VanillaLightRenderer;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
@@ -21,7 +22,7 @@ import java.util.function.Consumer;
 /**
  * Renders all lights in a scene.
  * <p>Lights can be added with {@link #addLight(Light)}, and subsequently removed with
- * {@link #removeLight(Light)}. Lights are automatically updated the next time {@link #render(AdvancedFbo)}
+ * {@link #removeLight(Light)}. Lights are automatically updated the next time {@link #render()}
  * is called if {@link Light#isDirty()} is <code>true</code>.
  * </p>
  * <p>There is no way to retrieve a light, so care should be taken to keep track of what lights
@@ -34,7 +35,6 @@ public class LightRenderer implements NativeResource {
     private final Map<LightTypeRegistry.LightType<?>, LightData<?>> lights;
 
     private VanillaLightRenderer vanillaLightRenderer;
-    private boolean vanillaLightEnabled;
     private boolean ambientOcclusionEnabled;
     private AdvancedFbo framebuffer;
 
@@ -43,7 +43,6 @@ public class LightRenderer implements NativeResource {
      */
     public LightRenderer() {
         this.lights = new HashMap<>();
-        this.vanillaLightEnabled = true;
         this.ambientOcclusionEnabled = true;
     }
 
@@ -57,22 +56,24 @@ public class LightRenderer implements NativeResource {
         }
 
         shader.bind();
-        if (this.framebuffer != null) {
-            shader.setFramebufferSamplers(this.framebuffer);
-            shader.setVector("ScreenSize", this.framebuffer.getWidth(), this.framebuffer.getHeight());
-        } else {
-            shader.setVector("ScreenSize", 1.0F, 1.0F);
+        AdvancedFbo fbo = AdvancedFbo.getMainFramebuffer();
+        shader.setFramebufferSamplers(fbo);
+        shader.setVector("ScreenSize", fbo.getWidth(), fbo.getHeight());
+
+        DynamicBufferManger bufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
+        for (DynamicBufferType dynamicBuffer : DynamicBufferType.values()) {
+            if ((bufferManger.getActiveBuffers() & dynamicBuffer.getMask()) != 0) {
+                shader.addSampler(dynamicBuffer.getSourceName() + "Sampler", bufferManger.getBufferTexture(dynamicBuffer));
+            }
         }
+
         shader.applyShaderSamplers(0);
     }
 
     @ApiStatus.Internal
     public void setup(CullFrustum frustum) {
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ONE,
-                GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO);
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
         RenderSystem.depthMask(false);
 
         for (Map.Entry<LightTypeRegistry.LightType<?>, LightData<?>> entry : this.lights.entrySet()) {
@@ -87,21 +88,19 @@ public class LightRenderer implements NativeResource {
     }
 
     @ApiStatus.Internal
-    public void render(AdvancedFbo framebuffer) {
-        this.framebuffer = framebuffer;
+    public void render() {
+        this.framebuffer = AdvancedFbo.getMainFramebuffer();
 
         for (LightData<?> value : this.lights.values()) {
-            value.render(this);
-        }
-        if (this.vanillaLightEnabled) {
-            ClientLevel level = Minecraft.getInstance().level;
-            if (level != null) {
-                if (this.vanillaLightRenderer == null) {
-                    this.vanillaLightRenderer = new VanillaLightRenderer();
-                }
-                this.vanillaLightRenderer.render(this, level);
+            if (value.renderer.getVisibleLights() > 0) {
+                value.render(this);
+                VeilRenderSystem.renderer().enableBuffers(DynamicBufferType.ALBEDO, DynamicBufferType.NORMAL);
             }
         }
+        // TODO stack system + vanilla shader cache
+//        if (!hasRendered) {
+//            VeilRenderSystem.renderer().disableBuffers(DynamicBufferType.ALBEDO, DynamicBufferType.NORMAL);
+//        }
 
         this.framebuffer = null;
     }
@@ -150,24 +149,6 @@ public class LightRenderer implements NativeResource {
     }
 
     /**
-     * Enables the vanilla lightmap and directional shading.
-     */
-    public void enableVanillaLight() {
-        this.vanillaLightEnabled = true;
-    }
-
-    /**
-     * Disables the vanilla lightmap and directional shading.
-     */
-    public void disableVanillaLight() {
-        this.vanillaLightEnabled = false;
-        if (this.vanillaLightRenderer != null) {
-            this.vanillaLightRenderer.free();
-            this.vanillaLightRenderer = null;
-        }
-    }
-
-    /**
      * Enables ambient occlusion.
      */
     public void enableAmbientOcclusion() {
@@ -192,13 +173,6 @@ public class LightRenderer implements NativeResource {
      */
     public @Nullable AdvancedFbo getFramebuffer() {
         return this.framebuffer;
-    }
-
-    /**
-     * @return Whether the vanilla lighting is enabled
-     */
-    public boolean isVanillaLightEnabled() {
-        return this.vanillaLightEnabled;
     }
 
     /**

@@ -15,7 +15,7 @@ public record LocationSource(ResourceLocation location) implements ShaderTexture
 
     @Override
     public int getId(Context context) {
-        return context.getTexture(this.location).getId();
+        return context.getTexture(this.location);
     }
 
     @Override

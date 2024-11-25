@@ -479,14 +479,11 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                         }, Minecraft.getInstance());
             }
         } catch (ShaderException e) {
-            CrashReport crashreport = CrashReport.forThrowable(e, "Setting Active Buffers");
-            CrashReportCategory crashreportcategory = crashreport.addCategory("Linking Program");
-            crashreportcategory.setDetail("Name", active.getId());
-            String glError = e.getGlError();
-            if (glError != null) {
-                Veil.LOGGER.error(glError);
+            Veil.LOGGER.error("Failed to set shader active buffers {}: {}", active.getId(), e.getMessage());
+            String error = e.getGlError();
+            if (error != null) {
+                Veil.LOGGER.warn(error);
             }
-            throw new ReportedException(crashreport);
         }
     }
 

@@ -26,7 +26,6 @@ import java.util.Set;
 public class SimpleShaderProcessor {
 
     private static final ThreadLocal<ShaderPreProcessor> PROCESSOR = new ThreadLocal<>();
-    private static final Set<String> LAST_FRAME_SHADERS = new HashSet<>();
 
     public static void setup(ResourceProvider resourceProvider) {
         int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
@@ -43,20 +42,6 @@ public class SimpleShaderProcessor {
             throw new NullPointerException("Processor not initialized");
         }
         return processor.modify(new Context(shaderInstance, name, type, vertexFormat), source);
-    }
-
-    public static void markRendered(String shaderInstace) {
-        if (VeilRenderSystem.renderer().getDynamicBufferManger().isCompilingShaders()) {
-            LAST_FRAME_SHADERS.add(shaderInstace);
-        }
-    }
-
-    public static void clear() {
-        LAST_FRAME_SHADERS.clear();
-    }
-
-    public static Set<String> getLastFrameShaders() {
-        return LAST_FRAME_SHADERS;
     }
 
     private record Context(String shaderInstance, ResourceLocation name, int type,

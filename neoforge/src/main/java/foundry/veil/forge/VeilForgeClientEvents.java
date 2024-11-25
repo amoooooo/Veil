@@ -20,7 +20,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
@@ -81,10 +80,5 @@ public class VeilForgeClientEvents {
         if (event.getAction() == GLFW_PRESS && VeilClient.EDITOR_KEY.matchesMouse(event.getButton())) {
             VeilImGuiImpl.get().toggle();
         }
-    }
-
-    @SubscribeEvent
-    public static void leaveGame(ClientPlayerNetworkEvent.LoggingOut event) {
-        VeilRenderSystem.renderer().getDeferredRenderer().reset();
     }
 }

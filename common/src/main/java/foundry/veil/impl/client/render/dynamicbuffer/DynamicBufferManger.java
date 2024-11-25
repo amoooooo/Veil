@@ -1,38 +1,24 @@
 package foundry.veil.impl.client.render.dynamicbuffer;
 
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.preprocessor.GlslPreprocessor;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
-import foundry.veil.ext.ShaderInstanceExtension;
-import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
+import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
-import net.minecraft.FileUtil;
-import net.minecraft.ReportedException;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceProvider;
-import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.nio.IntBuffer;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL12C.*;
@@ -61,8 +47,6 @@ public class DynamicBufferManger implements NativeResource {
     private final int[] clearBuffers;
     private final Map<ResourceLocation, AdvancedFbo> framebuffers;
     private final EnumMap<DynamicBufferType, DynamicBuffer> dynamicBuffers;
-    private final AtomicBoolean vanillaCancelled;
-    private CompletableFuture<?> vanillaLoadFuture;
 
     public DynamicBufferManger(int width, int height) {
         this.activeBuffers = 0;
@@ -80,9 +64,6 @@ public class DynamicBufferManger implements NativeResource {
                 this.dynamicBuffers.put(value, buffer);
             }
         }
-
-        this.vanillaCancelled = new AtomicBoolean(false);
-        this.vanillaLoadFuture = CompletableFuture.completedFuture(null);
     }
 
     private void deleteFramebuffers() {
@@ -91,118 +72,6 @@ public class DynamicBufferManger implements NativeResource {
             VeilRenderSystem.renderer().getFramebufferManager().removeFramebuffer(entry.getKey());
         }
         this.framebuffers.clear();
-    }
-
-    /**
-     * Attempts to preload all vanilla minecraft shader files before creating the shaders on the CPU.
-     *
-     * @param shaders The shaders to reload
-     * @return A future for when vanilla shaders have reloaded
-     */
-    public CompletableFuture<?> reloadVanillaShaders(Collection<ShaderInstance> shaders) {
-        this.vanillaCancelled.set(true);
-        return this.vanillaLoadFuture = CompletableFuture.runAsync(() -> {
-            this.vanillaCancelled.set(false);
-            ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
-
-            Veil.LOGGER.info("Compiling {} vanilla shaders", shaders.size());
-            SimpleShaderProcessor.setup(resourceManager);
-
-            Map<String, ShaderInstance> shaderMap = new HashMap<>(shaders.size());
-            for (ShaderInstance shader : shaders) {
-                shaderMap.put(shader.getName(), shader);
-            }
-
-            while (!shaderMap.isEmpty()) {
-                if (this.vanillaCancelled.get()) {
-                    return;
-                }
-
-                Set<String> lastFrameShaders = SimpleShaderProcessor.getLastFrameShaders();
-                boolean compiled = false;
-
-                for (String lastFrameShader : lastFrameShaders) {
-                    ShaderInstance shader = shaderMap.remove(lastFrameShader);
-                    if (shader != null) {
-                        if (!shader.getName().startsWith("rendertype_")) {
-                            continue;
-                        }
-
-                        this.compileShader(resourceManager, shader);
-                        compiled = true;
-                        break;
-                    }
-                }
-
-                if (compiled) {
-                    continue;
-                }
-
-                Iterator<ShaderInstance> iterator = shaderMap.values().iterator();
-                while (iterator.hasNext()) {
-                    ShaderInstance shader = iterator.next();
-                    iterator.remove();
-                    if (!shader.getName().startsWith("rendertype_")) {
-                        continue;
-                    }
-
-                    this.compileShader(resourceManager, shader);
-                    break;
-                }
-            }
-
-            SimpleShaderProcessor.free();
-            if (!this.vanillaCancelled.get()) {
-                Veil.LOGGER.info("Compiled {} vanilla shaders", shaders.size());
-            }
-        }, Util.backgroundExecutor());
-    }
-
-    private void compileShader(ResourceProvider resourceProvider, ShaderInstance shader) {
-        ShaderInstanceExtension extension = (ShaderInstanceExtension) shader;
-        Collection<ResourceLocation> shaderSources = extension.veil$getShaderSources();
-        VertexFormat vertexFormat = shader.getVertexFormat();
-        for (ResourceLocation path : shaderSources) {
-            try (Reader reader = resourceProvider.openAsReader(path)) {
-                String source = IOUtils.toString(reader);
-                GlslPreprocessor preprocessor = new GlslPreprocessor() {
-                    private final Set<String> importedPaths = Sets.newHashSet();
-
-                    @Override
-                    public String applyImport(boolean useFullPath, String directory) {
-                        directory = FileUtil.normalizeResourcePath((useFullPath ? path.getPath() : "shaders/include/") + directory);
-                        if (!this.importedPaths.add(directory)) {
-                            return null;
-                        } else {
-                            ResourceLocation resourcelocation = ResourceLocation.parse(directory);
-
-                            try {
-                                String s2;
-                                try (Reader reader = resourceProvider.openAsReader(resourcelocation)) {
-                                    s2 = IOUtils.toString(reader);
-                                }
-
-                                return s2;
-                            } catch (IOException e) {
-                                Veil.LOGGER.error("Could not open GLSL import {}: {}", directory, e.getMessage());
-                                return "#error " + e.getMessage();
-                            }
-                        }
-                    }
-                };
-                source = String.join("", preprocessor.process(source));
-
-                boolean vertex = path.getPath().endsWith(".vsh");
-                String processed = SimpleShaderProcessor.modify(shader.getName(), path, vertexFormat, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
-                RenderSystem.recordRenderCall(() -> extension.veil$recompile(vertex, processed));
-            } catch (Throwable t) {
-                Veil.LOGGER.error("Couldn't load vanilla shader from {}", path, t);
-            }
-        }
-    }
-
-    public boolean isCompilingShaders() {
-        return !this.vanillaLoadFuture.isDone();
     }
 
     public int getActiveBuffers() {
@@ -219,11 +88,17 @@ public class DynamicBufferManger implements NativeResource {
         }
 
         this.activeBuffers = activeBuffers;
-        this.reloadVanillaShaders(((GameRendererAccessor) Minecraft.getInstance().gameRenderer).getShaders().values());
+        VeilRenderer renderer = VeilRenderSystem.renderer();
+        renderer.getVanillaShaderCompiler().reload(((GameRendererAccessor) Minecraft.getInstance().gameRenderer).getShaders().values());
         this.deleteFramebuffers();
 
+        // This rebuild all chunks in view without clearing them if normals need to be corrected
+        if ((this.activeBuffers & DynamicBufferType.NORMAL.getMask()) != (activeBuffers & DynamicBufferType.NORMAL.getMask())) {
+            ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).markChunksDirty();
+        }
+
         try {
-            VeilRenderSystem.renderer().getShaderManager().setActiveBuffers(activeBuffers);
+            renderer.getShaderManager().setActiveBuffers(activeBuffers);
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {

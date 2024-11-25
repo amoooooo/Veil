@@ -1,0 +1,9 @@
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "veil:core/composite",
+      "out": "veil:post"
+    }
+  ]
+}

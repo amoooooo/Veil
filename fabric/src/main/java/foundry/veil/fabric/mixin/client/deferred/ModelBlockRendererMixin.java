@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
-import foundry.veil.impl.client.render.deferred.DeferredVertexConsumer;
+import foundry.veil.impl.client.render.dynamicbuffer.VerticalNormalVertexConsumer;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
@@ -58,6 +58,6 @@ public class ModelBlockRendererMixin {
 
     @ModifyVariable(method = "tesselateBlock", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     public VertexConsumer modifyConsumer(VertexConsumer value) {
-        return veil$DEFERRED.get() ? new DeferredVertexConsumer(value) : value;
+        return veil$DEFERRED.get() ? new VerticalNormalVertexConsumer(value) : value;
     }
 }

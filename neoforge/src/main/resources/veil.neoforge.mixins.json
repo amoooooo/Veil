@@ -13,9 +13,9 @@
   "client": [
     "client.MinecraftMixin",
     "client.RenderTypeMixin",
-    "client.deferred.ModelBlockRendererMixin",
+    "client.dynamicbuffer.ModelBlockRendererMixin",
     "client.deferred.ParticleEngineMixin",
-    "client.deferred.vanilla.LevelRendererMixin",
+    "client.pipeline.LevelRendererMixin",
     "client.quasar.LevelRendererMixin"
   ],
   "injectors": {

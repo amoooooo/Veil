@@ -20,6 +20,7 @@ public class DeferredEditor extends SingleWindowEditor {
     public static final Component TITLE = Component.translatable("editor.veil.deferred.title");
 
     private static final Component ENABLE_PIPELINE = Component.translatable("editor.veil.deferred.toggle.pipeline");
+    // TODO move to light editor
     private static final Component ENABLE_AO = Component.translatable("editor.veil.deferred.toggle.ao");
     private static final Component ENABLE_VANILLA_LIGHT = Component.translatable("editor.veil.deferred.toggle.vanilla_light");
     private static final Component ENABLE_VANILLA_ENTITY_LIGHT = Component.translatable("editor.veil.deferred.toggle.vanilla_entity_light");
@@ -44,7 +45,7 @@ public class DeferredEditor extends SingleWindowEditor {
         VeilRenderer renderer = VeilRenderSystem.renderer();
         ShaderPreDefinitions definitions = renderer.getShaderDefinitions();
         VeilDeferredRenderer deferredRenderer = renderer.getDeferredRenderer();
-        LightRenderer lightRenderer = deferredRenderer.getLightRenderer();
+        LightRenderer lightRenderer =  VeilRenderSystem.renderer().getLightRenderer();
 
         this.enableDeferredPipeline.set(deferredRenderer.getRendererState() != VeilDeferredRenderer.RendererState.DISABLED);
         if (ImGui.checkbox(ENABLE_PIPELINE.getString(), this.enableDeferredPipeline)) {
@@ -66,36 +67,36 @@ public class DeferredEditor extends SingleWindowEditor {
             }
         }
 
-        ImGui.sameLine();
-        this.enableVanillaLight.set(lightRenderer.isVanillaLightEnabled());
-        if (ImGui.checkbox(ENABLE_VANILLA_LIGHT.getString(), this.enableVanillaLight)) {
-            if (this.enableVanillaLight.get()) {
-                lightRenderer.enableVanillaLight();
-            } else {
-                lightRenderer.disableVanillaLight();
-            }
-        }
-
-        ImGui.sameLine();
-        this.enableEntityLight.set(definitions.getDefinition(VeilDeferredRenderer.DISABLE_VANILLA_ENTITY_LIGHT_KEY) == null);
-        if (ImGui.checkbox(ENABLE_VANILLA_ENTITY_LIGHT.getString(), this.enableEntityLight)) {
-            if (this.enableEntityLight.get()) {
-                definitions.remove(VeilDeferredRenderer.DISABLE_VANILLA_ENTITY_LIGHT_KEY);
-            } else {
-                definitions.define(VeilDeferredRenderer.DISABLE_VANILLA_ENTITY_LIGHT_KEY);
-            }
-        }
-
-        VeilImGuiUtil.component(FramebufferEditor.TITLE);
-        if (ImGui.beginTabBar("##framebuffers")) {
-            FramebufferEditor.drawBuffers(VeilFramebuffers.OPAQUE, null);
-            FramebufferEditor.drawBuffers(VeilFramebuffers.OPAQUE_LIGHT, null);
-            FramebufferEditor.drawBuffers(VeilFramebuffers.OPAQUE_FINAL, null);
-            FramebufferEditor.drawBuffers(VeilFramebuffers.TRANSPARENT, null);
-            FramebufferEditor.drawBuffers(VeilFramebuffers.TRANSPARENT_LIGHT, null);
-            FramebufferEditor.drawBuffers(VeilFramebuffers.TRANSPARENT_FINAL, null);
-            ImGui.endTabBar();
-        }
+//        ImGui.sameLine();
+//        this.enableVanillaLight.set(lightRenderer.isVanillaLightEnabled());
+//        if (ImGui.checkbox(ENABLE_VANILLA_LIGHT.getString(), this.enableVanillaLight)) {
+//            if (this.enableVanillaLight.get()) {
+//                lightRenderer.enableVanillaLight();
+//            } else {
+//                lightRenderer.disableVanillaLight();
+//            }
+//        }
+//
+//        ImGui.sameLine();
+//        this.enableEntityLight.set(definitions.getDefinition(VeilDeferredRenderer.DISABLE_VANILLA_ENTITY_LIGHT_KEY) == null);
+//        if (ImGui.checkbox(ENABLE_VANILLA_ENTITY_LIGHT.getString(), this.enableEntityLight)) {
+//            if (this.enableEntityLight.get()) {
+//                definitions.remove(VeilDeferredRenderer.DISABLE_VANILLA_ENTITY_LIGHT_KEY);
+//            } else {
+//                definitions.define(VeilDeferredRenderer.DISABLE_VANILLA_ENTITY_LIGHT_KEY);
+//            }
+//        }
+//
+//        VeilImGuiUtil.component(FramebufferEditor.TITLE);
+//        if (ImGui.beginTabBar("##framebuffers")) {
+//            FramebufferEditor.drawBuffers(VeilFramebuffers.OPAQUE, null);
+//            FramebufferEditor.drawBuffers(VeilFramebuffers.OPAQUE_LIGHT, null);
+//            FramebufferEditor.drawBuffers(VeilFramebuffers.OPAQUE_FINAL, null);
+//            FramebufferEditor.drawBuffers(VeilFramebuffers.TRANSPARENT, null);
+//            FramebufferEditor.drawBuffers(VeilFramebuffers.TRANSPARENT_LIGHT, null);
+//            FramebufferEditor.drawBuffers(VeilFramebuffers.TRANSPARENT_FINAL, null);
+//            ImGui.endTabBar();
+//        }
     }
 
     @Override
