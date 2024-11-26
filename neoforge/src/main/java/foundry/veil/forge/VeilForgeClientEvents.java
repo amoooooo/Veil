@@ -20,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
@@ -31,6 +32,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 @ApiStatus.Internal
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME, modid = Veil.MODID, value = Dist.CLIENT)
 public class VeilForgeClientEvents {
+
+    @SubscribeEvent
+    public static void clientDisconnected(ClientPlayerNetworkEvent.LoggingOut event) {
+        VeilRenderSystem.renderer().getLightRenderer().free();
+    }
 
     @SubscribeEvent
     public static void clientTick(ClientTickEvent.Post event) {
