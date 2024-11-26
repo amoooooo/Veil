@@ -18,11 +18,6 @@ public class ForgeVeilPlatform implements VeilPlatform {
     }
 
     @Override
-    public boolean isSodiumLoaded() {
-        return this.isModLoaded("rubidium");
-    }
-
-    @Override
     public boolean isDevelopmentEnvironment() {
         return !FMLLoader.isProduction();
     }

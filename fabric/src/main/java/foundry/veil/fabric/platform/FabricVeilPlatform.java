@@ -18,11 +18,6 @@ public class FabricVeilPlatform implements VeilPlatform {
     }
 
     @Override
-    public boolean isSodiumLoaded() {
-        return this.isModLoaded("sodium");
-    }
-
-    @Override
     public boolean isDevelopmentEnvironment() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
     }

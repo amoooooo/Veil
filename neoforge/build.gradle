@@ -71,8 +71,9 @@ dependencies {
         jarJar(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-$name"))
     }
 
-//    runtimeOnly fg.deobf("curse.maven:oculus-581495:4767500")
-//    runtimeOnly fg.deobf("curse.maven:rubidium-574856:4767529")
+    compileOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
+    compileOnly "maven.modrinth:iris:1.8.0+1.21.1-neoforge"
+    runtimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
 }
 
 jar {

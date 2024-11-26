@@ -22,11 +22,6 @@ public interface VeilPlatform {
     boolean isModLoaded(String modId);
 
     /**
-     * @return Whether Sodium is present
-     */
-    boolean isSodiumLoaded();
-
-    /**
      * Check if the game is currently in a development environment.
      *
      * @return True if in a development environment, false otherwise.

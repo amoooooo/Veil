@@ -5,14 +5,17 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class VeilMixinPlugin implements IMixinConfigPlugin {
 
     private static final Set<String> COMPAT = Set.of(
-            "foundry.veil.fabric.mixin.client.deferred",
-            "foundry.veil.fabric.mixin.client.stage");
+            "foundry.veil.fabric.mixin.client.stage",
+            "foundry.veil.fabric.mixin.client.pipeline");
+    private final Map<String, Boolean> loadedMods = new HashMap<>();
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -29,6 +32,10 @@ public class VeilMixinPlugin implements IMixinConfigPlugin {
             if (mixinClassName.startsWith(compat)) {
                 return Veil.SODIUM ? !mixinClassName.startsWith(compat + ".vanilla") : !mixinClassName.startsWith(compat + ".sodium");
             }
+        }
+        if (mixinClassName.startsWith("foundry.veil.fabric.mixin.compat")) {
+            String[] parts = mixinClassName.split("\\.");
+            return this.loadedMods.computeIfAbsent(parts[5], Veil.platform()::isModLoaded);
         }
         return true;
     }

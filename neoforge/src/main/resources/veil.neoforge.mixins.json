@@ -14,8 +14,13 @@
     "client.MinecraftMixin",
     "client.RenderTypeMixin",
     "client.dynamicbuffer.ModelBlockRendererMixin",
-    "client.pipeline.LevelRendererMixin",
-    "client.quasar.LevelRendererMixin"
+    "client.pipeline.vanilla.LevelRendererMixin",
+    "client.quasar.LevelRendererMixin",
+    "compat.iris.IrisRenderingPipelineAccessor",
+    "compat.sodium.RenderSectionManagerAccessor",
+    "compat.sodium.ShaderChunkRendererAccessor",
+    "compat.sodium.ShaderLoaderMixin",
+    "compat.sodium.SodiumWorldRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -19,7 +19,7 @@ import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
 import foundry.veil.impl.compat.IrisShaderMap;
 import foundry.veil.impl.compat.SodiumShaderMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;

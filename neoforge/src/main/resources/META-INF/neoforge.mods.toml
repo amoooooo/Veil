@@ -21,18 +21,15 @@ description='''${description}'''
 [[accessTransformers]]
     file="META-INF/accesstransformer.cfg"
 
-[[dependencies.veil]] #optional
-    modId = "neoforge" #mandatory
-    type = "required" #mandatory
-    versionRange = "${neoforge_loader_version_range}" #mandatory
-    ordering = "NONE"
-    side = "BOTH"
+[[dependencies.veil]]
+    modId = "neoforge"
+    versionRange = "${neoforge_loader_version_range}"
 [[dependencies.veil]]
     modId = "minecraft"
-    type = "required"
     versionRange = "${minecraft_version_range}"
-    ordering = "NONE"
-    side = "BOTH"
+[[dependencies.veil]]
+    modId = "rubidium"
+    type = "incompatible"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't

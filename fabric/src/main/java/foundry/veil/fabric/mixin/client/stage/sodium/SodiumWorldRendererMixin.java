@@ -1,8 +1,8 @@
 package foundry.veil.fabric.mixin.client.stage.sodium;
 
 import foundry.veil.fabric.ext.LevelRendererExtension;
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
-import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderMatrices;
+import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderMatrices;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import org.spongepowered.asm.mixin.Mixin;
