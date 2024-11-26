@@ -1,8 +1,6 @@
 package foundry.veil.mixin.client.dynamicbuffer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Program;
-import com.mojang.blaze3d.shaders.ProgramManager;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -12,7 +10,6 @@ import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.mixin.accessor.ProgramAccessor;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,12 +26,10 @@ import static org.lwjgl.opengl.GL20C.*;
 @Mixin(ShaderInstance.class)
 public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExtension {
 
-    @Mutable
     @Shadow
     @Final
     private Program vertexProgram;
 
-    @Mutable
     @Shadow
     @Final
     private Program fragmentProgram;
@@ -77,38 +72,45 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
             try {
                 ProgramAccessor vertexAccessor = (ProgramAccessor) this.vertexProgram;
                 ProgramAccessor fragmentAccessor = (ProgramAccessor) this.fragmentProgram;
+                int vertexShader = vertexAccessor.getId();
+                int fragmentShader = fragmentAccessor.getId();
 
-                glDetachShader(this.programId, vertexAccessor.getId());
-                glDetachShader(this.programId, fragmentAccessor.getId());
-
-                GlStateManager.glShaderSource(vertexAccessor.getId(), List.of(this.veil$vertexSource));
-                GlStateManager.glCompileShader(vertexAccessor.getId());
-                if (GlStateManager.glGetShaderi(vertexAccessor.getId(), GL_COMPILE_STATUS) != GL_TRUE) {
-                    String error = StringUtils.trim(glGetShaderInfoLog(vertexAccessor.getId()));
+                glShaderSource(vertexShader, this.veil$vertexSource);
+                glCompileShader(vertexShader);
+                if (glGetShaderi(vertexShader, GL_COMPILE_STATUS) != GL_TRUE) {
+                    String error = StringUtils.trim(glGetShaderInfoLog(vertexShader));
                     throw new IOException("Couldn't compile vertex program (" + this.vertexProgram.getName() + ", " + this.name + ") : " + error);
                 }
 
-                GlStateManager.glShaderSource(fragmentAccessor.getId(), List.of(this.veil$fragmentSource));
-                GlStateManager.glCompileShader(fragmentAccessor.getId());
-                if (GlStateManager.glGetShaderi(fragmentAccessor.getId(), GL_COMPILE_STATUS) != GL_TRUE) {
-                    String error = StringUtils.trim(glGetShaderInfoLog(fragmentAccessor.getId()));
+                glShaderSource(fragmentShader, this.veil$fragmentSource);
+                glCompileShader(fragmentShader);
+                if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) != GL_TRUE) {
+                    String error = StringUtils.trim(glGetShaderInfoLog(fragmentShader));
                     throw new IOException("Couldn't compile fragment program (" + this.fragmentProgram.getName() + ", " + this.name + ") : " + error);
                 }
 
                 int i = 0;
                 for (String name : this.vertexFormat.getElementAttributeNames()) {
-                    Uniform.glBindAttribLocation(this.programId, i, name);
+                    glBindAttribLocation(this.programId, i, name);
                     i++;
+                }
+
+                glLinkProgram(this.programId);
+                if (glGetProgrami(this.programId, GL_LINK_STATUS) != GL_TRUE) {
+                    String error = StringUtils.trim(glGetProgramInfoLog(this.programId));
+                    throw new IOException("Couldn't link shader (" + this.name + ") : " + error);
+                }
+
+                glValidateProgram(this.programId);
+                if (glGetProgrami(this.programId, GL_VALIDATE_STATUS) != GL_TRUE) {
+                    String log = StringUtils.trim(glGetProgramInfoLog(this.programId));
+                    Veil.LOGGER.warn("Couldn't validate shader ({}) : {}", this.name, log);
                 }
 
                 this.uniformLocations.clear();
                 this.samplerLocations.clear();
                 this.uniformMap.clear();
-
-                // Force re-link
-                ProgramManager.linkShader(this);
                 this.updateLocations();
-
                 this.markDirty();
             } catch (Throwable t) {
                 Veil.LOGGER.error("Failed to recompile vanilla shader: {}", this.name, t);

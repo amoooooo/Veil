@@ -26,6 +26,7 @@ import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -129,8 +130,14 @@ public class ShaderProgramImpl implements ShaderProgram {
 
         glLinkProgram(this.program);
         if (glGetProgrami(this.program, GL_LINK_STATUS) != GL_TRUE) {
-            String log = glGetProgramInfoLog(this.program);
+            String log = StringUtils.trim(glGetProgramInfoLog(this.program));
             throw new ShaderException("Failed to link shader", log);
+        }
+
+        glValidateProgram(this.program);
+        if (glGetProgrami(this.program, GL_VALIDATE_STATUS) != GL_TRUE) {
+            String log = StringUtils.trim(glGetProgramInfoLog(this.program));
+            Veil.LOGGER.warn("Failed to validate shader ({}) : {}", this.id, log);
         }
 
         this.attachedShaders.values().forEach(shader -> {
