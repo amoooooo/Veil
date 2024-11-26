@@ -3,6 +3,7 @@
     {
       "type": "veil:blit",
       "shader": "veil:core/composite",
+      "in": "minecraft:main",
       "out": "veil:post"
     }
   ]

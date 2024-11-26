@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
 
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11C.GL_ALWAYS;
 import static org.lwjgl.opengl.GL11C.GL_LEQUAL;
 
@@ -143,37 +144,39 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
 
     @ApiStatus.Internal
     public void runPipeline() {
-        if (!this.activePipelines.isEmpty()) {
-            VeilClientPlatform platform = VeilClient.clientPlatform();
-            this.context.begin();
-            this.setup();
-            int activeTexture = GlStateManager._getActiveTexture();
-
-            this.activePipelines.sort(PIPELINE_SORTER);
-            for (ProfileEntry entry : this.activePipelines) {
-                ResourceLocation id = entry.getPipeline();
-                PostPipeline pipeline = this.pipelines.get(id);
-                if (pipeline != null) {
-                    platform.preVeilPostProcessing(id, pipeline, this.context);
-                    try {
-                        pipeline.apply(this.context);
-                        this.clearPipeline();
-                    } catch (Exception e) {
-                        Veil.LOGGER.error("Error running pipeline {}", id, e);
-                    }
-                    platform.postVeilPostProcessing(id, pipeline, this.context);
-                }
-            }
-
-            RenderSystem.activeTexture(activeTexture);
-            this.clear();
-            this.context.end();
+        if (this.activePipelines.isEmpty()) {
+            return;
         }
 
         AdvancedFbo postFramebuffer = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
-        if (postFramebuffer != null) {
-            postFramebuffer.resolveToFramebuffer(Minecraft.getInstance().getMainRenderTarget());
+        VeilClientPlatform platform = VeilClient.clientPlatform();
+        this.context.begin();
+        this.setup();
+        int activeTexture = GlStateManager._getActiveTexture();
+
+        this.activePipelines.sort(PIPELINE_SORTER);
+        for (ProfileEntry entry : this.activePipelines) {
+            ResourceLocation id = entry.getPipeline();
+            PostPipeline pipeline = this.pipelines.get(id);
+            if (pipeline != null) {
+                platform.preVeilPostProcessing(id, pipeline, this.context);
+                try {
+                    pipeline.apply(this.context);
+                    this.clearPipeline();
+                    // Resolve back to main for the next pipeline
+                    if (postFramebuffer != null) {
+                        postFramebuffer.resolveToFramebuffer(Minecraft.getInstance().getMainRenderTarget());
+                    }
+                } catch (Exception e) {
+                    Veil.LOGGER.error("Error running pipeline {}", id, e);
+                }
+                platform.postVeilPostProcessing(id, pipeline, this.context);
+            }
         }
+
+        RenderSystem.activeTexture(activeTexture);
+        this.clear();
+        this.context.end();
     }
 
     /**
@@ -192,11 +195,6 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
      * @param resolvePost Whether to copy the main buffer into the post framebuffer before running the pipeline
      */
     public void runPipeline(PostPipeline pipeline, boolean resolvePost) {
-        AdvancedFbo postFramebuffer = resolvePost ? VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST) : null;
-        if (postFramebuffer != null) {
-            AdvancedFbo.getMainFramebuffer().resolveToAdvancedFbo(postFramebuffer);
-        }
-
         this.context.begin();
         this.setup();
         int activeTexture = GlStateManager._getActiveTexture();
@@ -212,8 +210,13 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         this.clear();
         this.context.end();
 
+        AdvancedFbo postFramebuffer = resolvePost ? VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST) : null;
         if (postFramebuffer != null) {
-            postFramebuffer.resolveToFramebuffer(Minecraft.getInstance().getMainRenderTarget());
+            postFramebuffer.resolveToFramebuffer(
+                    Minecraft.getInstance().getMainRenderTarget(),
+                    GL_COLOR_BUFFER_BIT,
+                    GL_NEAREST
+            );
         }
     }
 
@@ -283,8 +286,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
 
     @Override
     protected void apply(@NotNull Map<ResourceLocation, CompositePostPipeline> data, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
-        this.pipelines.values().forEach(PostPipeline::free);
-        this.pipelines.clear();
+        this.free();
         this.pipelines.putAll(data);
         Veil.LOGGER.info("Loaded {} post pipelines", this.pipelines.size());
     }

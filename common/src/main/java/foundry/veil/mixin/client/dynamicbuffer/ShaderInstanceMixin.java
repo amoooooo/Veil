@@ -29,11 +29,6 @@ import static org.lwjgl.opengl.GL20C.*;
 @Mixin(ShaderInstance.class)
 public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExtension {
 
-    @Shadow
-    private static Program getOrCreate(ResourceProvider resourceProvider, Program.Type programType, String name) throws IOException {
-        return null;
-    }
-
     @Mutable
     @Shadow
     @Final
@@ -88,14 +83,14 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
 
                 GlStateManager.glShaderSource(vertexAccessor.getId(), List.of(this.veil$vertexSource));
                 GlStateManager.glCompileShader(vertexAccessor.getId());
-                if (GlStateManager.glGetShaderi(vertexAccessor.getId(), GL_COMPILE_STATUS) == 0) {
+                if (GlStateManager.glGetShaderi(vertexAccessor.getId(), GL_COMPILE_STATUS) != GL_TRUE) {
                     String error = StringUtils.trim(glGetShaderInfoLog(vertexAccessor.getId()));
                     throw new IOException("Couldn't compile vertex program (" + this.vertexProgram.getName() + ", " + this.name + ") : " + error);
                 }
 
                 GlStateManager.glShaderSource(fragmentAccessor.getId(), List.of(this.veil$fragmentSource));
                 GlStateManager.glCompileShader(fragmentAccessor.getId());
-                if (GlStateManager.glGetShaderi(fragmentAccessor.getId(), GL_COMPILE_STATUS) == 0) {
+                if (GlStateManager.glGetShaderi(fragmentAccessor.getId(), GL_COMPILE_STATUS) != GL_TRUE) {
                     String error = StringUtils.trim(glGetShaderInfoLog(fragmentAccessor.getId()));
                     throw new IOException("Couldn't compile fragment program (" + this.fragmentProgram.getName() + ", " + this.name + ") : " + error);
                 }

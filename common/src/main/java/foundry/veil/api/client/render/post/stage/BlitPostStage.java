@@ -7,6 +7,7 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.registry.PostPipelineStageRegistry;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
+import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +26,7 @@ public class BlitPostStage extends FramebufferPostStage {
     public static final MapCodec<BlitPostStage> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("shader").forGetter(BlitPostStage::getShaderId),
             FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("in").forGetter(stage -> Optional.ofNullable(stage.getIn())),
-            FramebufferManager.FRAMEBUFFER_CODEC.fieldOf("out").forGetter(BlitPostStage::getOut),
+            FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("out", VeilFramebuffers.POST).forGetter(BlitPostStage::getOut),
             Codec.BOOL.optionalFieldOf("clear", true).forGetter(BlitPostStage::clearOut)
     ).apply(instance, (shader, in, out, clear) -> new BlitPostStage(shader, in.orElse(null), out, clear)));
 

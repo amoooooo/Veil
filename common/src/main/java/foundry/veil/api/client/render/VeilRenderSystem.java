@@ -785,12 +785,6 @@ public final class VeilRenderSystem {
             profiler.push("light_post");
             postProcessingManager.runPipeline(lightPipeline, false);
             profiler.pop();
-        } else if (lightFbo != null) {
-            // Resolve the light to the post one for later post-processing
-            AdvancedFbo postFramebuffer = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
-            if (postFramebuffer != null) {
-                lightFbo.resolveToAdvancedFbo(postFramebuffer);
-            }
         }
 
         PostPipeline compositePipeline = postProcessingManager.getPipeline(VeilRenderer.COMPOSITE);
@@ -798,11 +792,6 @@ public final class VeilRenderSystem {
             profiler.push("composite");
             postProcessingManager.runPipeline(compositePipeline, true);
             profiler.pop();
-        } else {
-            AdvancedFbo postFramebuffer = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
-            if (postFramebuffer != null) {
-                AdvancedFbo.getMainFramebuffer().resolveToAdvancedFbo(postFramebuffer);
-            }
         }
 
         profiler.pop();

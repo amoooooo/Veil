@@ -2,10 +2,6 @@
   "vertex": "veil:blit_screen",
   "fragment": "veil:core/composite",
   "textures": {
-    "MainSampler": {
-      "type": "framebuffer",
-      "name": "minecraft:main"
-    },
     "LightSampler": {
       "type": "framebuffer",
       "name": "veil:light"

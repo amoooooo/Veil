@@ -16,7 +16,7 @@
       "type": "veil:blit",
       "shader": "veil:blit_depth",
       "in": "veil:first_person",
-      "out": "veil:post",
+      "out": "minecraft:main",
       "clear": false
     }
   ]

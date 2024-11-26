@@ -3,19 +3,7 @@
     {
       "type": "veil:blit",
       "shader": "veil:fog",
-      "in": "veil:post",
-      "out": "swap"
-    },
-    {
-      "type": "veil:copy",
-      "in": "swap",
-      "out": "veil:post"
+      "in": "minecraft:main"
     }
-  ],
-  "framebuffers": {
-    "swap": {
-      "depth": true,
-      "format": "RGBA16F"
-    }
-  }
+  ]
 }

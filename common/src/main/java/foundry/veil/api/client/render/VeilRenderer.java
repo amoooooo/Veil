@@ -84,7 +84,6 @@ public class VeilRenderer implements NativeResource {
         listeners.add(1, this.shaderManager);
         resourceManager.registerReloadListener(this.framebufferManager);
         resourceManager.registerReloadListener(this.postProcessingManager);
-//        resourceManager.registerReloadListener(this.deferredRenderer);
         resourceManager.registerReloadListener(this.dynamicRenderTypeManager);
     }
 
