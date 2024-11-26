@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.shader;
 
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.impl.client.render.shader.modifier.InputShaderModification;
 import foundry.veil.impl.client.render.shader.modifier.ReplaceShaderModification;
 import foundry.veil.impl.client.render.shader.modifier.ShaderModification;
@@ -40,10 +41,12 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
     );
     private static final Pattern OUT_PATTERN = Pattern.compile("out ");
 
+    private final ShaderPreDefinitions preDefinitions;
     private Map<ResourceLocation, List<ShaderModification>> shaders;
     private Map<ShaderModification, ResourceLocation> names;
 
-    public ShaderModificationManager() {
+    public ShaderModificationManager(ShaderPreDefinitions preDefinitions) {
+        this.preDefinitions = preDefinitions;
         this.shaders = Collections.emptyMap();
     }
 
@@ -63,7 +66,7 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
         }
 
         try {
-            GlslTree tree = GlslParser.parse(source);
+            GlslTree tree = GlslParser.preprocessParse(source, this.preDefinitions.getDefinitions());
             VeilJobParameters parameters = new VeilJobParameters(this, shaderId, flags);
             for (ShaderModification modifier : modifiers) {
                 modifier.inject(tree, parameters);

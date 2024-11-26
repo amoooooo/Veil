@@ -6,6 +6,7 @@ import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.visitor.GlslStringWriter;
+import org.anarres.cpp.LexerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -341,6 +342,30 @@ public class GlslTest {
                     }
                 }
                 """);
+
+        GlslStringWriter writer = new GlslStringWriter();
+        tree.visit(writer);
+        System.out.println(writer);
+    }
+
+    @Test
+    void testPreprocessor() throws GlslSyntaxException, LexerException {
+        Map<String, String> macros = Map.of();
+        GlslTree tree = GlslParser.preprocessParse("""
+                #version 110 compatibility
+                
+                #ifdef GL_compatibility_profile
+                const int a = 4;
+                #endif
+                
+                void main() {
+                    if (ProjMat[2][3] != 0.) {
+                        shadeColor = vec4(0.);
+                        vertexColor = vec4(-1.);
+                        lightMapColor = vec4(1.);
+                    }
+                }
+                """, macros);
 
         GlslStringWriter writer = new GlslStringWriter();
         tree.visit(writer);

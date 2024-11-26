@@ -62,6 +62,7 @@ dependencies {
     jarJar(api(additionalRuntimeClasspath("io.github.spair:imgui-java-lwjgl3:$imgui_version")))
     jarJar(api(additionalRuntimeClasspath("org.lwjgl:lwjgl-opencl:$lwjgl_version")))
     jarJar(api(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version")))
+    jarJar(api(additionalRuntimeClasspath("org.anarres:jcpp:1.4.14")))
 
     jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-linux:$imgui_version"))
     jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))

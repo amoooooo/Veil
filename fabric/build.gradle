@@ -65,6 +65,9 @@ dependencies {
     api(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version")) {
         transitive false
     }
+    api(include("org.anarres:jcpp:1.4.14")) {
+        transitive false
+    }
 
     runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-linux"))
     runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-linux-arm64"))

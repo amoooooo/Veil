@@ -64,8 +64,8 @@ public class VeilRenderer implements NativeResource {
     public VeilRenderer(ReloadableResourceManager resourceManager, Window window) {
         this.vanillaShaderCompiler = new VanillaShaderCompiler();
         this.dynamicBufferManger = new DynamicBufferManger(window.getWidth(), window.getHeight());
-        this.shaderModificationManager = new ShaderModificationManager();
         this.shaderPreDefinitions = new ShaderPreDefinitions();
+        this.shaderModificationManager = new ShaderModificationManager(this.shaderPreDefinitions);
         this.shaderManager = new ShaderManager(ShaderManager.PROGRAM_SET, this.shaderPreDefinitions, this.dynamicBufferManger);
         this.framebufferManager = new FramebufferManager();
         this.postProcessingManager = new PostProcessingManager();

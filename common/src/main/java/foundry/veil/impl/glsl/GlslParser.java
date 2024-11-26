@@ -14,15 +14,76 @@ import foundry.veil.impl.glsl.node.primary.GlslFloatConstantNode;
 import foundry.veil.impl.glsl.node.primary.GlslIntConstantNode;
 import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
 import foundry.veil.impl.glsl.node.variable.*;
+import org.anarres.cpp.*;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class GlslParser {
+
+    private static final Pattern VERSION_PATTERN = Pattern.compile("#version\\s+(\\d+)\\s*(\\w+)?");
+    private static final Pattern STRIP_PATTERN = Pattern.compile("#version\\s+(\\d+)\\s*(\\w+)?|#line\\s+(\\d+)\\s*(\\d+)?|#extension\\s+(\\w+)\\s*:\\s*(\\w+)|#include\\s+(\\S+)");
+    private static final Pattern UNSTRIP_PATTERN = Pattern.compile("// #veil:stripped ");
+
+    public static GlslTree preprocessParse(String input, Map<String, String> macros) throws GlslSyntaxException, LexerException {
+        Matcher versionMatcher = VERSION_PATTERN.matcher(input);
+        int version = 110;
+        boolean core = true;
+        if (versionMatcher.find()) {
+            try {
+                version = Integer.parseInt(versionMatcher.group(1));
+                String profile = versionMatcher.group(2);
+                core = profile == null || profile.equals("core");
+            } catch (NumberFormatException e) {
+                throw new LexerException("Invalid Version: " + versionMatcher.group(0) + ". " + e.getMessage());
+            }
+        }
+
+        String strippedSource;
+        Matcher matcher = STRIP_PATTERN.matcher(input);
+        if (matcher.find()) {
+            StringBuilder sb = new StringBuilder();
+            boolean result;
+            do {
+                matcher.appendReplacement(sb, "// #veil:stripped " + matcher.group(0));
+                result = matcher.find();
+            } while (result);
+            matcher.appendTail(sb);
+            strippedSource = sb.toString();
+        } else {
+            strippedSource = input;
+        }
+
+        try (Preprocessor preprocessor = new Preprocessor()) {
+            preprocessor.addFeature(Feature.KEEPCOMMENTS);
+            for (Map.Entry<String, String> entry : macros.entrySet()) {
+                preprocessor.addMacro(entry.getKey(), entry.getValue());
+            }
+            preprocessor.addMacro("GL_core_profile");
+            if (!core) {
+                preprocessor.addMacro("GL_compatibility_profile");
+            }
+            preprocessor.addMacro("__VERSION__", Integer.toString(version));
+
+            preprocessor.addInput(new InputLexerSource(new StringReader(strippedSource)));
+            StringBuilder processedSource = new StringBuilder();
+            while (true) {
+                Token tok = preprocessor.token();
+                if (tok.getType() == Token.EOF) {
+                    break;
+                }
+                processedSource.append(tok.getText());
+            }
+            return parse(UNSTRIP_PATTERN.matcher(processedSource.toString()).replaceAll(""));
+        } catch (IOException e) {
+            throw new AssertionError("Can't Happen", e);
+        }
+    }
 
     public static GlslTree parse(String input) throws GlslSyntaxException {
         GlslTokenReader reader = new GlslTokenReader(input);
@@ -1693,7 +1754,7 @@ public final class GlslParser {
 
         // simple_statement
         List<GlslNode> statements = parseSimpleStatement(reader);
-        return statements!=null?GlslNode.compound(statements):null;
+        return statements != null ? GlslNode.compound(statements) : null;
     }
 
     private static @Nullable GlslNode parseCompoundStatementNoNewScope(GlslTokenReader reader) {
