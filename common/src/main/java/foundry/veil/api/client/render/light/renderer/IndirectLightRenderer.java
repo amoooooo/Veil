@@ -1,12 +1,12 @@
-package foundry.veil.api.client.render.deferred.light.renderer;
+package foundry.veil.api.client.render.light.renderer;
 
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.deferred.light.IndirectLight;
-import foundry.veil.api.client.render.deferred.light.Light;
+import foundry.veil.api.client.render.light.IndirectLight;
+import foundry.veil.api.client.render.light.Light;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;

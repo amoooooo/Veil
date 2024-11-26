@@ -4,10 +4,9 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import foundry.veil.api.client.editor.EditorManager;
-import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
-import foundry.veil.api.client.render.deferred.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
+import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.api.client.render.rendertype.DynamicRenderTypeManager;
@@ -54,7 +53,6 @@ public class VeilRenderer implements NativeResource {
     private final ShaderManager shaderManager;
     private final FramebufferManager framebufferManager;
     private final PostProcessingManager postProcessingManager;
-    private final VeilDeferredRenderer deferredRenderer;
     private final DynamicRenderTypeManager dynamicRenderTypeManager;
     private final ParticleSystemManager quasarParticleManager;
     private final EditorManager editorManager;
@@ -71,8 +69,6 @@ public class VeilRenderer implements NativeResource {
         this.shaderManager = new ShaderManager(ShaderManager.PROGRAM_SET, this.shaderPreDefinitions, this.dynamicBufferManger);
         this.framebufferManager = new FramebufferManager();
         this.postProcessingManager = new PostProcessingManager();
-        ShaderManager deferredShaderManager = new ShaderManager(ShaderManager.DEFERRED_SET, this.shaderPreDefinitions, this.dynamicBufferManger);
-        this.deferredRenderer = new VeilDeferredRenderer(deferredShaderManager, this.shaderPreDefinitions, this.framebufferManager, this.postProcessingManager);
         this.dynamicRenderTypeManager = new DynamicRenderTypeManager();
         this.quasarParticleManager = new ParticleSystemManager();
         this.editorManager = new EditorManager(resourceManager);
@@ -185,14 +181,6 @@ public class VeilRenderer implements NativeResource {
     }
 
     /**
-     * @return The deferred renderer instance
-     */
-    @Deprecated
-    public VeilDeferredRenderer getDeferredRenderer() {
-        return this.deferredRenderer;
-    }
-
-    /**
      * @return The manager for all data-driven render types
      */
     public DynamicRenderTypeManager getDynamicRenderTypeManager() {
@@ -254,7 +242,6 @@ public class VeilRenderer implements NativeResource {
         this.shaderManager.close();
         this.framebufferManager.free();
         this.postProcessingManager.free();
-        this.deferredRenderer.free();
         this.quasarParticleManager.clear();
         this.cameraMatrices.free();
         this.lightRenderer.free();

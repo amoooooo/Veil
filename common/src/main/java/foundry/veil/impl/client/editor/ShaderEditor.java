@@ -1,6 +1,5 @@
 package foundry.veil.impl.client.editor;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.editor.SingleWindowEditor;
 import foundry.veil.api.client.imgui.CodeEditor;
@@ -42,7 +41,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.BooleanSupplier;
 import java.util.function.ObjIntConsumer;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -58,15 +56,11 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
     public static final Component TITLE = Component.translatable("editor.veil.shader.title");
 
     private static final Component REFRESH = Component.translatable("editor.veil.shader.button.refresh");
-    private static final Component UPLOAD = Component.translatable("editor.veil.shader.button.upload");
     private static final Component SEARCH = Component.translatable("editor.veil.shader.search");
     private static final Component SHADER_PROGRAMS = Component.translatable("editor.veil.shader.shader_programs");
     private static final Component SHADER_DEFINITIONS = Component.translatable("editor.veil.shader.definitions");
     private static final Component SHADER_DEFINITIONS_HINT = Component.translatable("editor.veil.shader.definitions.hint");
     private static final Component OPEN_SOURCE = Component.translatable("editor.veil.shader.open_source");
-
-    private static final Pattern ERROR_PARSER = Pattern.compile("ERROR: (\\d+):(\\d+): (.+)");
-    private static final Pattern LINE_DIRECTIVE_PARSER = Pattern.compile("#line\\s+(\\d+)\\s*(\\d+)?");
 
     private final CodeEditor codeEditor;
     private final Object2IntMap<ResourceLocation> shaders;
@@ -80,8 +74,6 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
     private final Set<String> removedDefinitions;
 
     private final ImBoolean editSourceOpen;
-    private int editProgramId;
-    private int editShaderId;
 
     public ShaderEditor() {
         this.shaders = new Object2IntRBTreeMap<>((a, b) -> {
@@ -92,29 +84,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
             return compare;
         });
 
-        this.codeEditor = new CodeEditor(UPLOAD);
-        this.codeEditor.setSaveCallback((source, errorConsumer) -> {
-            if (this.selectedProgram == null || !glIsShader(this.editShaderId)) {
-                errorConsumer.accept(0, "Invalid Shader");
-                return;
-            }
-
-            GlStateManager.glShaderSource(this.editShaderId, List.of(source));
-            glCompileShader(this.editShaderId);
-            if (glGetShaderi(this.editShaderId, GL_COMPILE_STATUS) != GL_TRUE) {
-                String log = glGetShaderInfoLog(this.editShaderId);
-                parseErrors(source, log).forEach(errorConsumer);
-                System.out.println(log);
-                return;
-            }
-
-            glLinkProgram(this.editProgramId);
-            if (glGetProgrami(this.editProgramId, GL_LINK_STATUS) != GL_TRUE) {
-                String log = glGetProgramInfoLog(this.editProgramId);
-                parseErrors(source, log).forEach(errorConsumer);
-                System.out.println(log);
-            }
-        });
+        this.codeEditor = new CodeEditor(null);
         this.codeEditor.getEditor().setLanguageDefinition(VeilLanguageDefinitions.glsl());
 
         this.programFilterText = new ImString(128);
@@ -126,8 +96,6 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
         this.removedDefinitions = new HashSet<>(1);
 
         this.editSourceOpen = new ImBoolean();
-        this.editProgramId = 0;
-        this.editShaderId = 0;
     }
 
     private void setSelectedProgram(@Nullable ResourceLocation name) {
@@ -152,72 +120,9 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
         this.selectedProgram = null;
     }
 
-    private void setEditShaderSource(int program, int shader) {
+    private void setEditShaderSource(int shader) {
         this.editSourceOpen.set(true);
-        this.editProgramId = program;
-        this.editShaderId = shader;
         this.codeEditor.show(null, glGetShaderSource(shader));
-    }
-
-    private static Map<Integer, String> parseErrors(String source, String log) {
-        Map<Integer, Map<Integer, String>> logErrors = parseLogErrors(log);
-
-        Map<Integer, String> foundErrors = new HashMap<>();
-        int sourceId = 0;
-        int lineNumber = 0;
-        int sourceLineNumber = -1;
-        for (String line : source.split("\n")) {
-            sourceLineNumber++;
-
-            Matcher matcher = LINE_DIRECTIVE_PARSER.matcher(line);
-            if (matcher.find()) {
-                try {
-                    lineNumber = Integer.parseInt(matcher.group(1));
-                    if (matcher.groupCount() > 1) {
-                        sourceId = Integer.parseInt(matcher.group(2));
-                    }
-                } catch (Throwable ignored) {
-                }
-                continue;
-            }
-
-            Map<Integer, String> errors = logErrors.get(sourceId);
-            if (errors != null) {
-                String error = errors.remove(lineNumber);
-                if (error != null) {
-                    foundErrors.put(sourceLineNumber, error);
-                }
-            }
-
-            lineNumber++;
-        }
-
-        return foundErrors;
-    }
-
-    private static Map<Integer, Map<Integer, String>> parseLogErrors(String log) {
-        Map<Integer, Map<Integer, String>> logErrors = new HashMap<>();
-        for (String line : log.split("\n")) {
-            Matcher matcher = ERROR_PARSER.matcher(line);
-            if (!matcher.find()) {
-                continue;
-            }
-
-            try {
-                int sourceNumber = Integer.parseInt(matcher.group(1));
-                int lineNumber = Integer.parseInt(matcher.group(2));
-
-                Map<Integer, String> errors = logErrors.computeIfAbsent(sourceNumber, unused -> new HashMap<>());
-                if (errors.containsKey(lineNumber)) {
-                    continue;
-                }
-
-                String error = matcher.group(3);
-                errors.put(lineNumber, error);
-            } catch (Throwable ignored) {
-            }
-        }
-        return logErrors;
     }
 
     private void reloadShaders() {
@@ -388,7 +293,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
         }
 
         if (ImGui.button(DeviceInfoViewer.getShaderName(type).getString())) {
-            this.setEditShaderSource(this.selectedProgram.programId, this.selectedProgram.shaders.get(type));
+            this.setEditShaderSource(this.selectedProgram.shaders.get(type));
         }
 
         if (disabled) {
@@ -471,15 +376,6 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                     registry.accept(shader.getId(), shader.getProgram());
                 }
                 VeilImGuiImpl.get().addImguiShaders(registry);
-            }
-        },
-        VEIL_DEFERRED(Component.translatable("editor.veil.shader.source.veil_deferred"), VeilRenderSystem.renderer().getDeferredRenderer()::isEnabled, () -> true) {
-            @Override
-            public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
-                Map<ResourceLocation, ShaderProgram> shaders = VeilRenderSystem.renderer().getDeferredRenderer().getDeferredShaderManager().getShaders();
-                for (ShaderProgram shader : shaders.values()) {
-                    registry.accept(shader.getId(), shader.getProgram());
-                }
             }
         },
         IRIS(Component.translatable("editor.veil.shader.source.iris"), IrisShaderMap::isEnabled, IrisShaderMap::isEnabled) {

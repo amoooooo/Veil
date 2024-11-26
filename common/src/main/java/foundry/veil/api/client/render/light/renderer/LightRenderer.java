@@ -1,17 +1,16 @@
-package foundry.veil.api.client.render.deferred.light.renderer;
+package foundry.veil.api.client.render.light.renderer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.registry.LightTypeRegistry;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.deferred.light.Light;
+import foundry.veil.api.client.render.light.Light;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
-import foundry.veil.impl.client.render.light.VanillaLightRenderer;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;

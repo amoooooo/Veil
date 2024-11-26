@@ -1,9 +1,9 @@
 package foundry.veil.api.client.registry;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.deferred.light.*;
-import foundry.veil.api.client.render.deferred.light.renderer.IndirectLightRenderer;
-import foundry.veil.api.client.render.deferred.light.renderer.LightTypeRenderer;
+import foundry.veil.api.client.render.light.*;
+import foundry.veil.api.client.render.light.renderer.IndirectLightRenderer;
+import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
 import foundry.veil.impl.client.editor.LightEditor;
 import foundry.veil.impl.client.render.light.AreaLightRenderer;
 import foundry.veil.impl.client.render.light.DirectionalLightRenderer;

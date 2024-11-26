@@ -31,16 +31,9 @@ public record VeilShaderIncludeResource(VeilResourceInfo resourceInfo) implement
         ResourceLocation id = ShaderManager.INCLUDE_LISTER.fileToId(this.resourceInfo.location());
 
         ShaderManager shaderManager = VeilRenderSystem.renderer().getShaderManager();
-        ShaderManager deferredShaderManager = VeilRenderSystem.renderer().getDeferredRenderer().getDeferredShaderManager();
         Set<ResourceLocation> programs = getShaders(id, shaderManager);
-        Set<ResourceLocation> deferredPrograms = getShaders(id, deferredShaderManager);
-
         for (ResourceLocation program : programs) {
             shaderManager.scheduleRecompile(program);
-        }
-
-        for (ResourceLocation program : deferredPrograms) {
-            deferredShaderManager.scheduleRecompile(program);
         }
     }
 

@@ -3,7 +3,6 @@ package foundry.veil.api.client.render;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import foundry.veil.api.client.render.deferred.VeilDeferredRenderer;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.impl.client.render.LevelPerspectiveCamera;
@@ -91,12 +90,6 @@ public final class VeilLevelPerspectiveRenderer {
         window.setWidth(framebuffer.getWidth());
         window.setHeight(framebuffer.getHeight());
 
-        VeilDeferredRenderer deferredRenderer = VeilRenderSystem.renderer().getDeferredRenderer();
-        boolean backupEnabled = deferredRenderer.isEnabled();
-        if (backupEnabled) {
-            deferredRenderer.disable();
-        }
-
         BACKUP_PROJECTION.set(RenderSystem.getProjectionMatrix());
         gameRenderer.resetProjectionMatrix(TRANSFORM.set(projection));
         BACKUP_LIGHT0_POSITION.set(VeilRenderSystem.getLight0Position());
@@ -123,10 +116,6 @@ public final class VeilLevelPerspectiveRenderer {
 
         window.setWidth(backupWidth);
         window.setHeight(backupHeight);
-
-        if (backupEnabled) {
-            deferredRenderer.enable();
-        }
 
         accessor.setRenderDistance(backupRenderDistance);
     }

@@ -60,13 +60,10 @@ public class VeilClient {
 
                 // Debug editors
                 editorManager.add(new PostEditor());
-                if (Veil.DEBUG) {
-                    editorManager.add(new ShaderEditor());
-                }
+                editorManager.add(new ShaderEditor());
                 editorManager.add(new TextureEditor());
                 editorManager.add(new OpenCLEditor());
                 editorManager.add(new DeviceInfoViewer());
-//                editorManager.add(new DeferredEditor());
                 editorManager.add(new LightEditor());
                 editorManager.add(new FramebufferEditor());
                 editorManager.add(new ResourceManagerEditor());

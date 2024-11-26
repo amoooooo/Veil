@@ -1,7 +1,7 @@
-package foundry.veil.api.client.render.deferred.light;
+package foundry.veil.api.client.render.light;
 
 import foundry.veil.api.client.registry.LightTypeRegistry;
-import foundry.veil.api.client.render.deferred.light.renderer.LightRenderer;
+import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import net.minecraft.client.Camera;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;

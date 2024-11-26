@@ -1,4 +1,4 @@
-package foundry.veil.api.client.render.deferred.light;
+package foundry.veil.api.client.render.light;
 
 import org.joml.Vector3d;
 import org.joml.Vector3dc;

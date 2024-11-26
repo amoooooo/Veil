@@ -136,7 +136,7 @@
   "editor.veil.resource.action.text_edit": "Open in Veil Text Editor",
   "editor.veil.resource.action.text_edit.desc": "Opens the in-game text editor",
 
-  "editor.veil.shader.title": "GPU Shader Editor",
+  "editor.veil.shader.title": "GPU Shader Inspector",
   "editor.veil.shader.button.upload": "Upload",
   "editor.veil.shader.button.refresh": "Refresh",
   "editor.veil.shader.search": "Search...",

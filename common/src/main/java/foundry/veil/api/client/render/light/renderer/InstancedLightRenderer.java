@@ -1,11 +1,11 @@
-package foundry.veil.api.client.render.deferred.light.renderer;
+package foundry.veil.api.client.render.light.renderer;
 
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.deferred.light.InstancedLight;
-import foundry.veil.api.client.render.deferred.light.Light;
+import foundry.veil.api.client.render.light.InstancedLight;
+import foundry.veil.api.client.render.light.Light;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;

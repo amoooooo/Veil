@@ -1,6 +1,6 @@
-package foundry.veil.api.client.render.deferred.light;
+package foundry.veil.api.client.render.light;
 
-import foundry.veil.api.client.render.deferred.light.renderer.InstancedLightRenderer;
+import foundry.veil.api.client.render.light.renderer.InstancedLightRenderer;
 
 import java.nio.ByteBuffer;
 

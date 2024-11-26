@@ -1,4 +1,4 @@
-package foundry.veil.api.client.render.deferred.light;
+package foundry.veil.api.client.render.light;
 
 import foundry.veil.api.client.editor.EditorAttributeProvider;
 import foundry.veil.api.client.registry.LightTypeRegistry;
