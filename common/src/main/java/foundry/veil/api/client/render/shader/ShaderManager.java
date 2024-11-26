@@ -42,6 +42,7 @@ import java.io.Reader;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -282,21 +283,21 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         Map<ResourceLocation, VeilShaderSource> shaderSources = new ConcurrentHashMap<>();
 
         Long2ObjectMap<ShaderProcessorList> processorList = Long2ObjectMaps.synchronize(new Long2ObjectArrayMap<>());
+        Deque<ResourceLocation> shaderQueue = new ConcurrentLinkedDeque<>(shaders);
         ThreadTaskScheduler scheduler = new ThreadTaskScheduler("VeilShaderCompiler", Math.max(1, Runtime.getRuntime().availableProcessors() / 4), () -> {
-            Iterator<ResourceLocation> iterator = shaders.iterator();
-            if (iterator.hasNext()) {
-                ResourceLocation key = iterator.next();
-                iterator.remove();
-                return () -> {
-                    ShaderProcessorList shaderProcessor = processorList.computeIfAbsent(Thread.currentThread().threadId(), id -> {
-                        ShaderProcessorList list = new ShaderProcessorList();
-                        this.addProcessors(list, resourceManager);
-                        return list;
-                    });
-                    this.readShader(shaderProcessor, resourceManager, definitions, shaderSources, key, activeBuffers);
-                };
+            ResourceLocation key = shaderQueue.poll();
+            if (key == null) {
+                return null;
             }
-            return null;
+
+            return () -> {
+                ShaderProcessorList shaderProcessor = processorList.computeIfAbsent(Thread.currentThread().threadId(), id -> {
+                    ShaderProcessorList list = new ShaderProcessorList();
+                    this.addProcessors(list, resourceManager);
+                    return list;
+                });
+                this.readShader(shaderProcessor, resourceManager, definitions, shaderSources, key, activeBuffers);
+            };
         });
 
         return scheduler.getCompletedFuture().thenApplyAsync(unused -> new ReloadState(definitions, shaderSources), executor);
@@ -347,8 +348,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
             Set<ResourceLocation> shaders;
             synchronized (this.dirtyShaders) {
-                shaders = ConcurrentHashMap.newKeySet(this.dirtyShaders.size());
-                shaders.addAll(this.dirtyShaders);
+                shaders = new HashSet<>(this.dirtyShaders);
                 this.dirtyShaders.clear();
             }
             int shaderCount = shaders.size();
@@ -399,7 +399,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         ShaderProgram active = null;
 
         try {
-            Set<ResourceLocation> shaders = ConcurrentHashMap.newKeySet(this.shaders.size());
+            Set<ResourceLocation> shaders = new HashSet<>(this.shaders.size());
             for (ShaderProgram program : this.shaders.values()) {
                 active = program;
                 if (program instanceof ShaderProgramImpl impl) {
@@ -463,7 +463,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                             Set<ResourceLocation> shaderIds = lister.listMatchingResources(resourceManager).keySet()
                                     .stream()
                                     .map(lister::fileToId)
-                                    .collect(Collectors.toCollection(ConcurrentHashMap::newKeySet));
+                                    .collect(Collectors.toSet());
                             return this.prepare(resourceManager, shaderIds, activeBuffers, backgroundExecutor);
                         }, backgroundExecutor)
                         .thenCompose(future -> future)
