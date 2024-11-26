@@ -26,7 +26,7 @@ public class GlslNewNode implements GlslNode {
 
     @Override
     public Stream<GlslNode> stream() {
-        return Stream.concat(Stream.of(this), this.initializer.stream());
+        return this.initializer != null ? Stream.concat(Stream.of(this), this.initializer.stream()) : Stream.of(this);
     }
 
     public @Nullable String getName() {

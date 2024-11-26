@@ -62,10 +62,12 @@ public final class GlslParser {
             }
 
             cursor = reader.getCursor();
-            GlslNode declaration = parseDeclaration(reader);
-            if (declaration != null) {
-                reader.markNode(cursor, declaration);
-                body.add(declaration);
+            List<GlslNode> declarations = parseDeclaration(reader);
+            if (declarations != null) {
+                for (GlslNode declaration : declarations) {
+                    reader.markNode(cursor, declaration);
+                    body.add(declaration);
+                }
                 continue;
             }
 
@@ -85,7 +87,7 @@ public final class GlslParser {
 
     public static GlslNode parseExpression(GlslLexer.Token[] tokens) throws GlslSyntaxException {
         GlslTokenReader reader = new GlslTokenReader(tokens);
-        GlslNode expression = parseStatement(reader);
+        List<GlslNode> expression = parseStatement(reader);
         if (expression == null) {
             reader.throwError();
         }
@@ -98,7 +100,7 @@ public final class GlslParser {
         if (reader.canRead()) {
             throw reader.error("Too many tokens provided");
         }
-        return expression;
+        return GlslNode.compound(expression);
     }
 
     public static List<GlslNode> parseExpressionList(String input) throws GlslSyntaxException {
@@ -131,7 +133,7 @@ public final class GlslParser {
             return new GlslIntConstantNode(GlslIntFormat.DECIMAL, true, Integer.parseUnsignedInt(reader.peek(-1).value(), 10));
         }
         if (reader.tryConsume(GlslLexer.TokenType.INTEGER_HEXADECIMAL_CONSTANT)) {
-            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, true, Integer.parseUnsignedInt(reader.peek(-1).value(), 16));
+            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, true, Integer.parseUnsignedInt(reader.peek(-1).value().substring(2), 16));
         }
         if (reader.tryConsume(GlslLexer.TokenType.INTEGER_OCTAL_CONSTANT)) {
             return new GlslIntConstantNode(GlslIntFormat.OCTAL, true, Integer.parseUnsignedInt(reader.peek(-1).value(), 8));
@@ -144,7 +146,7 @@ public final class GlslParser {
             return new GlslIntConstantNode(GlslIntFormat.DECIMAL, false, Integer.parseUnsignedInt(value, 10));
         }
         if (reader.tryConsume(GlslLexer.TokenType.UINTEGER_HEXADECIMAL_CONSTANT)) {
-            String value = reader.peek(-1).value();
+            String value = reader.peek(-1).value().substring(2);
             if (value.endsWith("u")) {
                 value = value.substring(0, value.length() - 1);
             }
@@ -242,6 +244,15 @@ public final class GlslParser {
                 if (integerExpression != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACKET)) {
                     primaryExpression = new GlslArrayNode(primaryExpression, integerExpression);
                     expressionCursor = reader.getCursor();
+
+                    // primary_expression LEFT_BRACKET integer_expression RIGHT_BRACKET LEFT_BRACKET integer_expression RIGHT_BRACKET
+                    if (reader.tryConsume(GlslLexer.TokenType.LEFT_BRACKET)) {
+                        GlslNode integerExpression2 = parseIntegerExpression(reader);
+                        if (integerExpression2 != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACKET)) {
+                            primaryExpression = new GlslArrayNode(primaryExpression, integerExpression);
+                            expressionCursor = reader.getCursor();
+                        }
+                    }
                 }
             }
             reader.setCursor(expressionCursor);
@@ -731,7 +742,7 @@ public final class GlslParser {
         return GlslNode.compound(expressions);
     }
 
-    private static @Nullable GlslNode parseDeclaration(GlslTokenReader reader) {
+    private static @Nullable List<GlslNode> parseDeclaration(GlslTokenReader reader) {
         // function_prototype SEMICOLON
         // init_declarator_list SEMICOLON
         // PRECISION precision_qualifier type_specifier SEMICOLON
@@ -748,13 +759,13 @@ public final class GlslParser {
         GlslFunctionHeader functionPrototype = parseFunctionPrototype(reader);
         if (functionPrototype != null) {
             if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                return new GlslFunctionNode(functionPrototype, null);
+                return Collections.singletonList(new GlslFunctionNode(functionPrototype, null));
             }
             reader.setCursor(cursor);
         }
 
         // init_declarator_list SEMICOLON
-        GlslNode initDeclaratorList = parseInitDeclaratorList(reader);
+        List<GlslNode> initDeclaratorList = parseInitDeclaratorList(reader);
         if (initDeclaratorList != null) {
             if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
                 return initDeclaratorList;
@@ -768,7 +779,7 @@ public final class GlslParser {
             if (precisionQualifier != null) {
                 GlslTypeSpecifier typeSpecifier = parseTypeSpecifier(reader);
                 if (typeSpecifier != null && reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                    return new GlslPrecisionNode(precisionQualifier, typeSpecifier);
+                    return Collections.singletonList(new GlslPrecisionNode(precisionQualifier, typeSpecifier));
                 }
             }
             reader.setCursor(cursor);
@@ -779,7 +790,6 @@ public final class GlslParser {
             return null;
         }
 
-        // FIXME
         cursor = reader.getCursor();
         if (reader.tryConsume(GlslLexer.TokenType.IDENTIFIER, GlslLexer.TokenType.LEFT_BRACE)) {
             String identifier = reader.peek(-2).value();
@@ -791,7 +801,7 @@ public final class GlslParser {
 
                     // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE SEMICOLON
                     if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                        return new GlslStructNode(structSpecifier);
+                        return Collections.singletonList(new GlslStructNode(structSpecifier));
                     }
 
                     if (reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
@@ -799,13 +809,13 @@ public final class GlslParser {
 
                         // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER SEMICOLON
                         if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                            return new GlslNewNode(structSpecifier, label, null);
+                            return Collections.singletonList(new GlslNewNode(structSpecifier, label, null));
                         }
 
                         // type_qualifier IDENTIFIER LEFT_BRACE struct_declaration_list RIGHT_BRACE IDENTIFIER array_specifier SEMICOLON
                         GlslSpecifiedType arraySpecifier = parseArraySpecifier(reader, structSpecifier);
                         if (arraySpecifier != null && reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-                            return new GlslNewNode(arraySpecifier, label, null);
+                            return Collections.singletonList(new GlslNewNode(arraySpecifier, label, null));
                         }
                     }
                 }
@@ -816,16 +826,28 @@ public final class GlslParser {
 
         // type_qualifier SEMICOLON
         if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-            return new GlslDeclaration(typeQualifier, Collections.emptyList());
+            return Collections.singletonList(new GlslDeclaration(typeQualifier, Collections.emptyList()));
         }
+
+        GlslTypeSpecifier typeSpecifier = null;
 
         // type_qualifier IDENTIFIER SEMICOLON
         // type_qualifier IDENTIFIER identifier_list SEMICOLON
         List<String> identifiers = parseIdentifierList(reader);
         if (identifiers == null) {
-            reader.markError("Expected ';'");
-            reader.setCursor(cursor);
-            return null;
+            typeSpecifier = parseTypeSpecifier(reader);
+            if (typeSpecifier == null) {
+                reader.markError("Expected ';'");
+                reader.setCursor(cursor);
+                return null;
+            }
+
+            identifiers = parseIdentifierList(reader);
+            if (identifiers == null) {
+                reader.markError("Expected ';'");
+                reader.setCursor(cursor);
+                return null;
+            }
         }
 
         if (!reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
@@ -834,7 +856,12 @@ public final class GlslParser {
             return null;
         }
 
-        return new GlslDeclaration(typeQualifier, identifiers);
+        // Small hack to detect uniform float a, b, c;
+        if (typeSpecifier != null) {
+            GlslSpecifiedType type = new GlslSpecifiedType(typeSpecifier, typeQualifier);
+            return identifiers.stream().map(name -> (GlslNode) new GlslNewNode(type, name, null)).toList();
+        }
+        return Collections.singletonList(new GlslDeclaration(typeQualifier, identifiers));
     }
 
     private static @Nullable List<String> parseIdentifierList(GlslTokenReader reader) {
@@ -995,27 +1022,65 @@ public final class GlslParser {
         return null;
     }
 
-    private static @Nullable GlslNode parseInitDeclaratorList(GlslTokenReader reader) {
+    private static @Nullable List<GlslNode> parseInitDeclaratorList(GlslTokenReader reader) {
         // single_declaration
         // init_declarator_list COMMA IDENTIFIER
         // init_declarator_list COMMA IDENTIFIER array_specifier
         // init_declarator_list COMMA IDENTIFIER array_specifier EQUAL initializer
         // init_declarator_list COMMA IDENTIFIER EQUAL initializer
 
+        int cursor = reader.getCursor();
         List<GlslNode> initDeclaratorList = new ArrayList<>();
         while (reader.canRead()) {
             GlslNode singleDeclaration = parseSingleDeclaration(reader);
             if (singleDeclaration == null) {
+                reader.setCursor(cursor);
                 break;
             }
 
             initDeclaratorList.add(singleDeclaration);
+            cursor = reader.getCursor();
+
+            if (reader.tryConsume(GlslLexer.TokenType.COMMA)) {
+                if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
+                    reader.setCursor(cursor);
+                    break;
+                }
+
+                int cursor2 = reader.getCursor();
+                String name = reader.peek(-1).value();
+                GlslSpecifiedType type = Objects.requireNonNull(singleDeclaration.getType());
+                GlslSpecifiedType arraySpecifier = parseArraySpecifier(reader, type);
+                if (arraySpecifier != null) {
+                    if (!reader.tryConsume(GlslLexer.TokenType.EQUAL)) {
+                        // IDENTIFIER array_specifier
+                        initDeclaratorList.add(new GlslNewNode(arraySpecifier, name, null));
+                        cursor = reader.getCursor();
+                        continue;
+                    }
+
+                    GlslNode initializer = parseInitializer(reader);
+                    if (initializer != null) {
+                        // IDENTIFIER array_specifier EQUAL initializer
+                        initDeclaratorList.add(new GlslNewNode(arraySpecifier, name, initializer));
+                        cursor = reader.getCursor();
+                        continue;
+                    }
+                }
+                reader.setCursor(cursor2);
+
+                if (reader.tryConsume(GlslLexer.TokenType.EQUAL)) {
+                    GlslNode initializer = parseInitializer(reader);
+                    if (initializer != null) {
+                        // IDENTIFIER EQUAL initializer
+                        initDeclaratorList.add(new GlslNewNode(type, name, initializer));
+                        cursor = reader.getCursor();
+                    }
+                }
+            }
         }
 
-        if (initDeclaratorList.isEmpty()) {
-            return null;
-        }
-        return GlslNode.compound(initDeclaratorList);
+        return !initDeclaratorList.isEmpty() ? initDeclaratorList : null;
     }
 
     private static @Nullable GlslNode parseSingleDeclaration(GlslTokenReader reader) {
@@ -1490,13 +1555,13 @@ public final class GlslParser {
         int cursor = reader.getCursor();
         List<GlslNode> initializers = new ArrayList<>();
         while (reader.canRead()) {
-            GlslNode statement = parseStatement(reader);
-            if (statement == null) {
+            List<GlslNode> statements = parseStatement(reader);
+            if (statements == null) {
                 reader.setCursor(cursor);
                 break;
             }
 
-            initializers.add(statement);
+            initializers.addAll(statements);
             cursor = reader.getCursor();
 
             if (!reader.tryConsume(GlslLexer.TokenType.COMMA)) {
@@ -1507,7 +1572,7 @@ public final class GlslParser {
         return initializers;
     }
 
-    private static @Nullable GlslNode parseStatement(GlslTokenReader reader) {
+    private static @Nullable List<GlslNode> parseStatement(GlslTokenReader reader) {
         // compound_statement
         // simple_statement
 
@@ -1517,22 +1582,24 @@ public final class GlslParser {
         GlslNode compoundStatement = parseCompoundStatement(reader);
         if (compoundStatement != null) {
             reader.markNode(cursor, compoundStatement);
-            return compoundStatement;
+            return Collections.singletonList(compoundStatement);
         }
         reader.setCursor(cursor);
 
         // simple_statement
-        GlslNode simpleStatement = parseSimpleStatement(reader);
-        if (simpleStatement != null) {
-            reader.markNode(cursor, simpleStatement);
-            return simpleStatement;
+        List<GlslNode> simpleStatements = parseSimpleStatement(reader);
+        if (simpleStatements != null) {
+            for (GlslNode simpleStatement : simpleStatements) {
+                reader.markNode(cursor, simpleStatement);
+            }
+            return simpleStatements;
         }
         reader.setCursor(cursor);
 
         return null;
     }
 
-    private static @Nullable GlslNode parseSimpleStatement(GlslTokenReader reader) {
+    private static @Nullable List<GlslNode> parseSimpleStatement(GlslTokenReader reader) {
         // declaration_statement
         // expression_statement
         // selection_statement
@@ -1545,47 +1612,47 @@ public final class GlslParser {
         GlslNode statement;
 
         // declaration_statement -> declaration
-        statement = parseDeclaration(reader);
-        if (statement != null) {
-            return statement;
+        List<GlslNode> declaration = parseDeclaration(reader);
+        if (declaration != null) {
+            return declaration;
         }
         reader.setCursor(cursor);
 
         // expression_statement
         statement = parseExpressionStatement(reader);
         if (statement != null) {
-            return statement;
+            return Collections.singletonList(statement);
         }
         reader.setCursor(cursor);
 
         // selection_statement
         statement = parseSelectionStatement(reader);
         if (statement != null) {
-            return statement;
+            return Collections.singletonList(statement);
         }
         reader.setCursor(cursor);
 
         statement = parseSwitchStatement(reader);
         if (statement != null) {
-            return statement;
+            return Collections.singletonList(statement);
         }
         reader.setCursor(cursor);
 
         statement = parseCaseLabel(reader);
         if (statement != null) {
-            return statement;
+            return Collections.singletonList(statement);
         }
         reader.setCursor(cursor);
 
         statement = parseIterationStatement(reader);
         if (statement != null) {
-            return statement;
+            return Collections.singletonList(statement);
         }
         reader.setCursor(cursor);
 
         statement = parseJumpStatement(reader);
         if (statement != null) {
-            return statement;
+            return Collections.singletonList(statement);
         }
         reader.setCursor(cursor);
 
@@ -1625,7 +1692,8 @@ public final class GlslParser {
         }
 
         // simple_statement
-        return parseSimpleStatement(reader);
+        List<GlslNode> statements = parseSimpleStatement(reader);
+        return statements!=null?GlslNode.compound(statements):null;
     }
 
     private static @Nullable GlslNode parseCompoundStatementNoNewScope(GlslTokenReader reader) {
@@ -1650,12 +1718,12 @@ public final class GlslParser {
     private static List<GlslNode> parseStatementList(GlslTokenReader reader) {
         List<GlslNode> statements = new ArrayList<>();
         while (reader.canRead()) {
-            GlslNode statement = parseStatement(reader);
+            List<GlslNode> statement = parseStatement(reader);
             if (statement == null) {
                 break;
             }
 
-            statements.add(statement);
+            statements.addAll(statement);
         }
 
         return statements;
@@ -1679,11 +1747,11 @@ public final class GlslParser {
         // IF LEFT_PAREN condition RIGHT_PAREN statement ELSE statement
         // IF LEFT_PAREN condition RIGHT_PAREN statement
 
+        int cursor = reader.getCursor();
         if (!reader.tryConsume(GlslLexer.TokenType.IF)) {
             return null;
         }
 
-        int cursor = reader.getCursor();
         if (!reader.tryConsume(GlslLexer.TokenType.LEFT_PAREN)) {
             reader.markError("Expected '('");
             reader.setCursor(cursor);
@@ -1703,8 +1771,8 @@ public final class GlslParser {
         }
 
         // selection_rest_statement
-        GlslNode statement = parseStatement(reader);
-        if (statement == null) {
+        List<GlslNode> statements = parseStatement(reader);
+        if (statements == null) {
             reader.setCursor(cursor);
             return null;
         }
@@ -1713,9 +1781,9 @@ public final class GlslParser {
         // statement ELSE statement
 
         if (reader.tryConsume(GlslLexer.TokenType.ELSE)) {
-            GlslNode otherStatement = parseStatement(reader);
-            if (otherStatement != null) {
-                return new GlslSelectionNode(expression, statement, otherStatement);
+            List<GlslNode> otherStatements = parseStatement(reader);
+            if (otherStatements != null) {
+                return new GlslSelectionNode(expression, GlslNode.compound(statements), GlslNode.compound(otherStatements));
             }
 
             reader.setCursor(cursor);
@@ -1723,7 +1791,7 @@ public final class GlslParser {
         }
 
         reader.setCursor(cursor);
-        return new GlslSelectionNode(expression, statement, GlslEmptyNode.INSTANCE);
+        return new GlslSelectionNode(expression, GlslNode.compound(statements), GlslEmptyNode.INSTANCE);
     }
 
     private static @Nullable GlslNode parseCondition(GlslTokenReader reader) {
@@ -1799,11 +1867,11 @@ public final class GlslParser {
 
         // DO statement WHILE LEFT_PAREN condition RIGHT_PAREN SEMICOLON
         if (reader.tryConsume(GlslLexer.TokenType.DO)) {
-            GlslNode body = parseStatement(reader);
+            List<GlslNode> body = parseStatement(reader);
             if (body != null && reader.tryConsume(GlslLexer.TokenType.WHILE, GlslLexer.TokenType.LEFT_PAREN)) {
                 GlslNode condition = parseCondition(reader);
                 if (condition != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_PAREN, GlslLexer.TokenType.SEMICOLON)) {
-                    return new WhileLoopNode(condition, body, WhileLoopNode.Type.DO);
+                    return new WhileLoopNode(condition, GlslNode.compound(body), WhileLoopNode.Type.DO);
                 }
             }
         }
@@ -1837,7 +1905,8 @@ public final class GlslParser {
         }
 
         // declaration_statement
-        return parseDeclaration(reader);
+        List<GlslNode> declaration = parseDeclaration(reader);
+        return declaration != null ? GlslNode.compound(declaration) : null;
     }
 
     private static GlslNode parseConditionopt(GlslTokenReader reader) {

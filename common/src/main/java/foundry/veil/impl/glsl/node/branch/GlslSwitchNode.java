@@ -82,7 +82,9 @@ public class GlslSwitchNode implements GlslNode {
         StringBuilder builder = new StringBuilder("switch(");
         builder.append(this.condition.getSourceString()).append(") {");
         for (GlslNode branch : this.branches) {
-            builder.append('\t').append(branch.getSourceString()).append('\n');
+            builder.append('\t').append(branch.getSourceString());
+            builder.append(branch instanceof GlslCaseLabelNode ? ':' : ';');
+            builder.append('\n');
         }
         builder.append('}');
         return builder.toString();

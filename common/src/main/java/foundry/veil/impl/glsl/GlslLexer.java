@@ -247,9 +247,9 @@ public final class GlslLexer {
 
         // TYPE_NAME ??
         FLOATING_CONSTANT("(?:(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+)(?:[eE][+-]?\\d+)?(?:f|F|lf|LF)?)|(?:\\d+)(?:\\.|[eE][+-]?\\d+)(?:f|F|lf|LF)?"),
-        UINTEGER_HEXADECIMAL_CONSTANT("0[xX][0-9a-fA-F]*[uU]?"),
-        UINTEGER_OCTAL_CONSTANT("0[0-7]*[uU]?"),
-        UINTEGER_DECIMAL_CONSTANT("[1-9][\\d]*[uU]?"),
+        UINTEGER_HEXADECIMAL_CONSTANT("0[xX][0-9a-fA-F]*[uU]"),
+        UINTEGER_OCTAL_CONSTANT("0[0-7]*[uU]"),
+        UINTEGER_DECIMAL_CONSTANT("[1-9][\\d]*[uU]"),
         INTEGER_HEXADECIMAL_CONSTANT("0[xX][0-9a-fA-F]*"),
         INTEGER_OCTAL_CONSTANT("0[0-7]*"),
         INTEGER_DECIMAL_CONSTANT("[1-9][\\d]*"),

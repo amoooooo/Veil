@@ -49,7 +49,7 @@ public class GlslConditionalNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return this.condition.getSourceString() + " ? " + this.first.getSourceString() + " : " + this.second.getSourceString();
+        return '(' + this.condition.getSourceString() + " ? " + this.first.getSourceString() + " : " + this.second.getSourceString() + ')';
     }
 
     @Override

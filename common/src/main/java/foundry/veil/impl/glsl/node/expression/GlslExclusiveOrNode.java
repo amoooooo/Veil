@@ -25,7 +25,7 @@ public class GlslExclusiveOrNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return this.expressions.stream().map(GlslNode::getSourceString).collect(Collectors.joining(" ^ "));
+        return '(' + this.expressions.stream().map(GlslNode::getSourceString).collect(Collectors.joining(" ^ ")) + ')';
     }
 
     @Override

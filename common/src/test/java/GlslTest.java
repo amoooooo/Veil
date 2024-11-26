@@ -316,4 +316,34 @@ public class GlslTest {
         tree.visit(writer);
         System.out.println(writer);
     }
+
+    @Test
+    void testWeird() throws GlslSyntaxException {
+        GlslTree tree = GlslParser.parse("""
+                void main() {
+                    int m0=x%2,m=m0+1;
+                }
+                """);
+
+        GlslStringWriter writer = new GlslStringWriter();
+        tree.visit(writer);
+        System.out.println(writer);
+    }
+
+    @Test
+    void testMatrix() throws GlslSyntaxException {
+        GlslTree tree = GlslParser.parse("""
+                void main() {
+                    if (ProjMat[2][3] != 0.) {
+                        shadeColor = vec4(0.);
+                        vertexColor = vec4(-1.);
+                        lightMapColor = vec4(1.);
+                    }
+                }
+                """);
+
+        GlslStringWriter writer = new GlslStringWriter();
+        tree.visit(writer);
+        System.out.println(writer);
+    }
 }

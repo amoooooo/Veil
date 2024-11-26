@@ -84,7 +84,7 @@ public class SimpleShaderModification implements ShaderModification {
                         return new IOException("Unknown function with " + paramCount + " parameters: " + name);
                     });
 
-            GlslNode insert = new GlslCompoundNode(GlslParser.parseExpressionList(this.fillPlaceholders(function.code())));
+            GlslNode insert = GlslNode.compound(GlslParser.parseExpressionList(this.fillPlaceholders(function.code())));
             if (function.head()) {
                 body.add(0, insert);
             } else {

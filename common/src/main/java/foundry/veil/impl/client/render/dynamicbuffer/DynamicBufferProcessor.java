@@ -171,8 +171,8 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
 
                     // Inject Normal passthrough into vertex and fragment shaders
                     if (type == DynamicBufferType.NORMAL && !markers.containsKey("veil:" + DynamicBufferType.NORMAL.getName())) {
-                        // Inject a normal output into the particle fragment shader
-                        if (fragmentShader && "particle".equals(ctx.shaderInstance())) {
+                        // Inject a normal output into the particle, lead, and text fragment shaders
+                        if (fragmentShader && ("particle".equals(ctx.shaderInstance()) || "rendertype_leash".equals(ctx.shaderInstance()) || "rendertype_text".equals(ctx.shaderInstance()))) {
                             tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression(output));
                             mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode(type.getSourceName()), GlslParser.parseExpression("vec4(0.0, 0.0, 1.0, 1.0)"), GlslAssignmentNode.Operand.EQUAL));
                             modified = true;

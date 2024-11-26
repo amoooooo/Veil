@@ -32,7 +32,7 @@ public class GlslCaseLabelNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return "case: " + this.condition.getSourceString();
+        return this.condition == null ? "default" : "case " + this.condition.getSourceString();
     }
 
     @Override

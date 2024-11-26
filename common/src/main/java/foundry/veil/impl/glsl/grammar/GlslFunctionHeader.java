@@ -50,13 +50,14 @@ public class GlslFunctionHeader {
     }
 
     public String getSourceString() {
-        return this.returnType.getSourceString() + ' ' + this.name + '(' +
+        return this.returnType.getSourceString() + this.returnType.getPostSourceString() + ' ' + this.name + '(' +
                 this.parameters.stream().map(parameter -> {
                     String name = parameter.getName();
+                    GlslSpecifiedType type = parameter.getType();
                     if (name != null) {
-                        return parameter.getType().getSourceString() + " " + name;
+                        return type.getSourceString() + " " + name + type.getPostSourceString();
                     }
-                    return parameter.getType().getSourceString();
+                    return type.getSourceString();
                 }).collect(Collectors.joining(", ")) + ')';
     }
 }
