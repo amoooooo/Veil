@@ -103,7 +103,3 @@ jar {
         }
     }
 }
-
-tasks.register('fixJarJar') {
-    println "test"
-}
