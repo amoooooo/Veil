@@ -126,7 +126,6 @@ public interface ShaderPreProcessor {
         /**
          * @return The set of pre-definitions for shaders
          */
-        @Nullable
         ShaderPreDefinitions preDefinitions();
 
         /**

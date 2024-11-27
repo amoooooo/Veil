@@ -8,6 +8,7 @@ import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.ext.LevelRendererExtension;
+import foundry.veil.impl.compat.SodiumCompat;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -94,6 +95,10 @@ public class DynamicBufferManger implements NativeResource {
         // This rebuild all chunks in view without clearing them if normals need to be corrected
         if ((this.activeBuffers & DynamicBufferType.NORMAL.getMask()) != (activeBuffers & DynamicBufferType.NORMAL.getMask())) {
             ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).markChunksDirty();
+        }
+
+        if (SodiumCompat.INSTANCE != null) {
+            SodiumCompat.INSTANCE.recompile();
         }
 
         try {

@@ -20,10 +20,6 @@ public class ShaderPredefinitionProcessor implements ShaderPreProcessor {
         }
 
         ShaderPreDefinitions definitions = context.preDefinitions();
-        if (definitions == null) {
-            return source;
-        }
-
         StringBuilder builder = new StringBuilder();
 
         definitions.addStaticDefinitions(value -> builder.append(value).append('\n'));

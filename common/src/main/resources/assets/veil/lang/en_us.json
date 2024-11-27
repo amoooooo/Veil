@@ -173,5 +173,9 @@
   "editor.veil.light.button.set_position": "Set Position/Rotation to View",
   "editor.veil.light.attributes": "Attributes:",
   "editor.veil.light.toggle.pipeline": "Enable Pipeline",
-  "editor.veil.light.toggle.ao": "Enable Ambient Occlusion"
+  "editor.veil.light.toggle.ao": "Enable Ambient Occlusion",
+
+  "commands.veil.arguments.enum.invalid": "Invalid value '%s'. Valid Options: %s",
+  "commands.veil.buffers.enabled": "Enabled the following dynamic buffers: %s",
+  "commands.veil.buffers.disable": "Disabled the following dynamic buffers: %s"
 }

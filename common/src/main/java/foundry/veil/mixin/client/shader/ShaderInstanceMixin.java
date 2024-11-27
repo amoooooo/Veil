@@ -16,10 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.lwjgl.opengl.GL20C.glGetUniformLocation;
 
@@ -48,7 +45,7 @@ public class ShaderInstanceMixin {
 
     @Inject(method = "getOrCreate", at = @At("HEAD"))
     private static void veil$setupFallbackProcessor(ResourceProvider provider, Program.Type type, String name, CallbackInfoReturnable<Program> cir) {
-        SimpleShaderProcessor.setup(provider);
+        SimpleShaderProcessor.setup(provider, Collections.emptySet());
     }
 
     @Inject(method = "getOrCreate", at = @At("RETURN"))

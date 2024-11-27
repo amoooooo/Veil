@@ -16,7 +16,7 @@ import foundry.veil.impl.VeilReloadListeners;
 import foundry.veil.impl.client.render.VeilUITooltipRenderer;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
 import foundry.veil.impl.compat.IrisShaderMap;
-import foundry.veil.impl.compat.SodiumShaderMap;
+import foundry.veil.impl.compat.SodiumCompat;
 import foundry.veil.mixin.accessor.RenderStateShardAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
@@ -74,18 +74,18 @@ public class VeilForgeClient {
                 return Collections.emptySet();
             });
         }
-        if (SodiumShaderMap.isEnabled()) {
-            SodiumShaderMap.setLoadedShadersSupplier(() -> {
-                SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
-                if (worldRenderer != null) {
-                    RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
-                    if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererAccessor accessor) {
-                        return Object2IntMaps.singleton(ResourceLocation.fromNamespaceAndPath("sodium", "chunk_shader"), accessor.getPrograms().values().iterator().next().handle());
-                    }
-                }
-                return Object2IntMaps.emptyMap();
-            });
-        }
+//        if (SodiumCompat.isEnabled()) {
+//            SodiumCompat.setLoadedShadersSupplier(() -> {
+//                SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
+//                if (worldRenderer != null) {
+//                    RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
+//                    if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererAccessor accessor) {
+//                        return Object2IntMaps.singleton(ResourceLocation.fromNamespaceAndPath("sodium", "chunk_shader"), accessor.getPrograms().values().iterator().next().handle());
+//                    }
+//                }
+//                return Object2IntMaps.emptyMap();
+//            });
+//        }
     }
 
     private static void registerListeners(RegisterClientReloadListenersEvent event) {

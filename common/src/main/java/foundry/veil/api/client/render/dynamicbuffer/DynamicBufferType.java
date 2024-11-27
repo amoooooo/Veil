@@ -3,12 +3,14 @@ package foundry.veil.api.client.render.dynamicbuffer;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
 import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 
+import java.util.Locale;
+
 public enum DynamicBufferType {
-    ALBEDO("albedo", "Albedo", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA8),
-    NORMAL("normal", "Normal", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8_SNORM),
-    LIGHT_UV("light_uv", "LightUV", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RG8),
-    LIGHT_COLOR("light_color", "LightColor", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8),
-    DEBUG("debug", "Debug", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA16F);
+    ALBEDO("Albedo", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA8),
+    NORMAL("Normal", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8_SNORM),
+    LIGHT_UV("LightUV", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RG8),
+    LIGHT_COLOR("LightColor", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8),
+    DEBUG("Debug", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA16F);
 
     private final String name;
     private final String sourceName;
@@ -17,8 +19,8 @@ public enum DynamicBufferType {
     private final int texelFormat;
     private final int mask;
 
-    DynamicBufferType(String name, String sourceName, GlslTypeSpecifier.BuiltinType type, FramebufferAttachmentDefinition.Format format) {
-        this.name = name;
+    DynamicBufferType(String sourceName, GlslTypeSpecifier.BuiltinType type, FramebufferAttachmentDefinition.Format format) {
+        this.name = this.name().toLowerCase(Locale.ROOT);
         this.sourceName = "VeilDynamic" + sourceName;
         this.type=type;
         this.internalFormat = format.getInternalId();

@@ -15,8 +15,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Allows vanilla and sodium shaders to use shader modifications.
@@ -26,9 +25,14 @@ public class SimpleShaderProcessor {
 
     private static final ThreadLocal<ShaderPreProcessor> PROCESSOR = new ThreadLocal<>();
 
-    public static void setup(ResourceProvider resourceProvider) {
+    public static void setup(ResourceProvider resourceProvider, Collection<ShaderPreProcessor> additional) {
         int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
-        SimpleShaderProcessor.PROCESSOR.set(ShaderPreProcessor.allOf(new ShaderModifyProcessor(), new ShaderCustomProcessor(resourceProvider), new DynamicBufferProcessor(DynamicBufferType.decode(activeBuffers))));
+        List<ShaderPreProcessor> processors = new ArrayList<>();
+        processors.add(new ShaderModifyProcessor());
+        processors.add(new ShaderCustomProcessor(resourceProvider));
+        processors.add(new DynamicBufferProcessor(DynamicBufferType.decode(activeBuffers)));
+        processors.addAll(additional);
+        SimpleShaderProcessor.PROCESSOR.set(ShaderPreProcessor.allOf(processors));
     }
 
     public static void free() {
@@ -86,8 +90,8 @@ public class SimpleShaderProcessor {
         }
 
         @Override
-        public @Nullable ShaderPreDefinitions preDefinitions() {
-            return null;
+        public ShaderPreDefinitions preDefinitions() {
+            return VeilRenderSystem.renderer().getShaderDefinitions();
         }
     }
 }

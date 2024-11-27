@@ -55,6 +55,12 @@ def shaderCPlatforms = [
         "windows-arm64",
 ]
 
+repositories {
+    maven {
+        url "https://maven.su5ed.dev/releases"
+    }
+}
+
 dependencies {
     jarJar(api(additionalRuntimeClasspath("gg.moonflower:molang-compiler:$molang_compiler_version")))
 
@@ -75,6 +81,9 @@ dependencies {
     compileOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
     compileOnly "maven.modrinth:iris:1.8.0+1.21.1-neoforge"
     runtimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
+
+    // Allows sodium compat to compile properly
+    compileOnly "org.sinytra.forgified-fabric-api:forgified-fabric-api:0.104.0+2.0.19+1.21.1"
 }
 
 jar {

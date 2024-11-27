@@ -18,10 +18,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,7 +40,7 @@ public class VanillaShaderCompiler {
         VertexFormat vertexFormat = shader.getVertexFormat();
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
-        SimpleShaderProcessor.setup(resourceManager);
+        SimpleShaderProcessor.setup(resourceManager, Collections.emptySet());
         for (ResourceLocation path : shaderSources) {
             try (Reader reader = resourceManager.openAsReader(path)) {
                 String source = IOUtils.toString(reader);
