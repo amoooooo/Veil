@@ -7,7 +7,7 @@ import net.minecraft.util.Mth;
  * A simple color class that can be used to represent a color in RGBA format with utility functions.
  */
 public class Color {
-    public static Codec<Color> CODEC = Codec.INT.xmap(Color::new, Color::getRGB);
+    public static Codec<Color> CODEC = Codec.INT.xmap(Color::new, Color::getRGBA);
 
     public static final Color WHITE = new Color(255, 255, 255, 255);
     public static final Color BLACK = new Color(0, 0, 0, 255);
