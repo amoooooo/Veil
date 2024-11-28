@@ -137,7 +137,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#preprocessParse(java.lang.String,java.util.Map)" class="member-name-link">preprocessParse</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;input,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;macros)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Runs the C preprocessor on the specified source before passing it off to the parser.</div>
+</div>
 </div>
 </div>
 </div>
@@ -176,7 +178,12 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;macros)</span>
                                 throws <span class="exceptions"><a href="GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a>,
 org.anarres.cpp.LexerException</span></div>
+<div class="block">Runs the C preprocessor on the specified source before passing it off to the parser.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>input</code> - The source code input</dd>
+<dd><code>macros</code> - All macros to evaluate during pre-processing</dd>
+<dt>Returns:</dt>
 <dt>Throws:</dt>
 <dd><code><a href="GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></code></dd>
 <dd><code>org.anarres.cpp.LexerException</code></dd>
