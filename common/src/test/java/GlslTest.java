@@ -6,7 +6,7 @@ import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.visitor.GlslStringWriter;
-import org.anarres.cpp.LexerException;
+import foundry.veil.lib.anarres.cpp.LexerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

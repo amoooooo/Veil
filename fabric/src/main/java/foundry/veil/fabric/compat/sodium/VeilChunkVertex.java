@@ -1,4 +1,4 @@
-package foundry.veil.fabric.sodium;
+package foundry.veil.fabric.compat.sodium;
 
 import foundry.veil.ext.ChunkVertexEncoderVertexExtension;
 import net.caffeinemc.mods.sodium.api.util.ColorARGB;

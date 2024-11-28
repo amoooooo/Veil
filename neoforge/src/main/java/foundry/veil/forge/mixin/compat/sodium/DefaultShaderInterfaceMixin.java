@@ -1,6 +1,6 @@
 package foundry.veil.forge.mixin.compat.sodium;
 
-import foundry.veil.forge.sodium.VeilNormalUniform;
+import foundry.veil.forge.compat.sodium.VeilNormalUniform;
 import net.caffeinemc.mods.sodium.client.render.chunk.shader.ChunkShaderOptions;
 import net.caffeinemc.mods.sodium.client.render.chunk.shader.DefaultShaderInterface;
 import net.caffeinemc.mods.sodium.client.render.chunk.shader.ShaderBindingContext;

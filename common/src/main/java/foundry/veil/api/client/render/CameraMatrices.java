@@ -75,7 +75,8 @@ public class CameraMatrices implements NativeResource {
         this.projectionMatrix.set(projection);
         this.projectionMatrix.invert(this.inverseProjectionMatrix);
 
-        this.viewMatrix.set(modelView);
+        // This moves the view bobbing from the projection matrix to the view matrix
+        this.viewMatrix.set(modelView).mulLocal(this.inverseProjectionMatrix.mul(RenderSystem.getProjectionMatrix(), new Matrix4f()));
         this.viewMatrix.invert(this.inverseViewMatrix);
         this.inverseViewMatrix.normal(this.inverseViewRotMatrix);
 

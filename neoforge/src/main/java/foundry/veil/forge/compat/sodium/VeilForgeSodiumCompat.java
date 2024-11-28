@@ -1,4 +1,4 @@
-package foundry.veil.forge.sodium;
+package foundry.veil.forge.compat.sodium;
 
 import foundry.veil.forge.mixin.compat.sodium.RenderSectionManagerAccessor;
 import foundry.veil.forge.mixin.compat.sodium.ShaderChunkRendererAccessor;

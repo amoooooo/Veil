@@ -1,6 +1,6 @@
 package foundry.veil.forge.mixin.compat.sodium;
 
-import foundry.veil.forge.sodium.VeilChunkVertex;
+import foundry.veil.forge.compat.sodium.VeilChunkVertex;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkMeshFormats;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexType;
 import org.spongepowered.asm.mixin.Final;

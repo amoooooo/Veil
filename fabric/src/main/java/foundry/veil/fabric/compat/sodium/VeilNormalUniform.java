@@ -1,4 +1,4 @@
-package foundry.veil.fabric.sodium;
+package foundry.veil.fabric.compat.sodium;
 
 import net.caffeinemc.mods.sodium.client.gl.shader.uniform.GlUniform;
 import org.joml.Matrix3fc;

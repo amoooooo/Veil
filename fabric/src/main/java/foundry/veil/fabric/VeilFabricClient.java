@@ -9,14 +9,12 @@ import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.quasar.data.QuasarParticles;
 import foundry.veil.api.quasar.particle.ParticleEmitter;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
-import foundry.veil.fabric.mixin.compat.iris.IrisRenderingPipelineAccessor;
 import foundry.veil.fabric.util.FabricReloadListener;
 import foundry.veil.impl.ClientEnumArgument;
 import foundry.veil.impl.VeilBuiltinPacks;
 import foundry.veil.impl.VeilReloadListeners;
 import foundry.veil.impl.client.render.VeilUITooltipRenderer;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
-import foundry.veil.impl.compat.IrisShaderMap;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -30,10 +28,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.irisshaders.iris.Iris;
-import net.irisshaders.iris.pipeline.WorldRenderingPipeline;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.coordinates.WorldCoordinates;
@@ -44,7 +38,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 @ApiStatus.Internal
@@ -57,15 +50,6 @@ public class VeilFabricClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getTimer().getRealtimeDeltaTicks()));
         FabricQuasarParticleHandler.init();
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> VeilRenderSystem.renderer().getLightRenderer().free());
-        if (IrisShaderMap.isEnabled()) {
-            IrisShaderMap.setLoadedShadersSupplier(() -> {
-                WorldRenderingPipeline pipeline = Iris.getPipelineManager().getPipelineNullable();
-                if (pipeline instanceof IrisRenderingPipelineAccessor) {
-                    return ((IrisRenderingPipelineAccessor) pipeline).getLoadedShaders();
-                }
-                return Collections.emptySet();
-            });
-        }
 
         KeyBindingHelper.registerKeyBinding(VeilClient.EDITOR_KEY);
 

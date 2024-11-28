@@ -9,7 +9,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
-import foundry.veil.impl.compat.IrisShaderMap;
+import foundry.veil.impl.compat.IrisCompat;
 import foundry.veil.impl.compat.SodiumCompat;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
 import foundry.veil.mixin.accessor.LevelRendererAccessor;
@@ -378,10 +378,10 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 VeilImGuiImpl.get().addImguiShaders(registry);
             }
         },
-        IRIS(Component.translatable("editor.veil.shader.source.iris"), IrisShaderMap::isEnabled, IrisShaderMap::isEnabled) {
+        IRIS(Component.translatable("editor.veil.shader.source.iris"), () -> IrisCompat.INSTANCE != null, () -> IrisCompat.INSTANCE != null) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
-                for (ShaderInstance shader : IrisShaderMap.getLoadedShaders()) {
+                for (ShaderInstance shader : IrisCompat.INSTANCE.getLoadedShaders()) {
                     String name = shader.getName().isBlank() ? Integer.toString(shader.getId()) : shader.getName();
                     registry.accept(ResourceLocation.parse(name), shader.getId());
                 }
