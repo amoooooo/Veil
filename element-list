@@ -87,6 +87,7 @@ foundry.veil.impl.resource
 foundry.veil.impl.resource.action
 foundry.veil.impl.resource.loader
 foundry.veil.impl.resource.tree
+foundry.veil.lib.anarres.cpp
 foundry.veil.mixin.accessor
 foundry.veil.mixin.client.dynamicbuffer
 foundry.veil.mixin.client.imgui
