@@ -48,6 +48,7 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
     public ShaderModificationManager(ShaderPreDefinitions preDefinitions) {
         this.preDefinitions = preDefinitions;
         this.shaders = Collections.emptyMap();
+        this.names = Collections.emptyMap();
     }
 
     /**

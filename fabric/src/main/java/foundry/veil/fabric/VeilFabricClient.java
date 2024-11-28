@@ -1,25 +1,20 @@
 package foundry.veil.fabric;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.quasar.data.QuasarParticles;
 import foundry.veil.api.quasar.particle.ParticleEmitter;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
-import foundry.veil.fabric.mixin.compat.iris.IrisRenderingPipelineAccessor;
-import foundry.veil.fabric.mixin.compat.sodium.RenderSectionManagerAccessor;
-import foundry.veil.fabric.mixin.compat.sodium.ShaderChunkRendererAccessor;
-import foundry.veil.fabric.mixin.compat.sodium.SodiumWorldRendererAccessor;
 import foundry.veil.fabric.util.FabricReloadListener;
+import foundry.veil.impl.ClientEnumArgument;
 import foundry.veil.impl.VeilBuiltinPacks;
 import foundry.veil.impl.VeilReloadListeners;
 import foundry.veil.impl.client.render.VeilUITooltipRenderer;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
-import foundry.veil.impl.compat.IrisShaderMap;
-import foundry.veil.impl.compat.SodiumShaderMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMaps;
-import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -33,8 +28,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.irisshaders.iris.Iris;
-import net.irisshaders.iris.pipeline.WorldRenderingPipeline;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.commands.arguments.coordinates.WorldCoordinates;
@@ -44,7 +37,8 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @ApiStatus.Internal
 public class VeilFabricClient implements ClientModInitializer {
@@ -56,27 +50,6 @@ public class VeilFabricClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getTimer().getRealtimeDeltaTicks()));
         FabricQuasarParticleHandler.init();
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> VeilRenderSystem.renderer().getLightRenderer().free());
-        if (IrisShaderMap.isEnabled()) {
-            IrisShaderMap.setLoadedShadersSupplier(() -> {
-                WorldRenderingPipeline pipeline = Iris.getPipelineManager().getPipelineNullable();
-                if (pipeline instanceof IrisRenderingPipelineAccessor) {
-                    return ((IrisRenderingPipelineAccessor) pipeline).getLoadedShaders();
-                }
-                return Collections.emptySet();
-            });
-        }
-        if (SodiumShaderMap.isEnabled()) {
-            SodiumShaderMap.setLoadedShadersSupplier(() -> {
-                SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
-                if (worldRenderer != null) {
-                    RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
-                    if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererAccessor accessor) {
-                        return Object2IntMaps.singleton(ResourceLocation.fromNamespaceAndPath("sodium", "chunk_shader"), accessor.getPrograms().values().iterator().next().handle());
-                    }
-                }
-                return Object2IntMaps.emptyMap();
-            });
-        }
 
         KeyBindingHelper.registerKeyBinding(VeilClient.EDITOR_KEY);
 
@@ -107,6 +80,40 @@ public class VeilFabricClient implements ClientModInitializer {
                 return 1;
             })));
             dispatcher.register(builder);
+
+            if (Veil.platform().isDevelopmentEnvironment()) {
+                LiteralArgumentBuilder<FabricClientCommandSource> debugBuilder = LiteralArgumentBuilder.literal("veil");
+                debugBuilder.then(ClientCommandManager.literal("buffers")
+                        .then(ClientCommandManager.literal("enable")
+                                .then(ClientCommandManager.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
+                                    DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
+                                    VeilRenderSystem.renderer().enableBuffers(value);
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable", value));
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                                .then(ClientCommandManager.literal("all").executes(ctx -> {
+                                    DynamicBufferType[] values = DynamicBufferType.values();
+                                    VeilRenderSystem.renderer().enableBuffers(values);
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))));
+                                    return values.length;
+                                }))
+                        )
+                        .then(ClientCommandManager.literal("disable")
+                                .then(ClientCommandManager.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
+                                    DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
+                                    VeilRenderSystem.renderer().disableBuffers(value);
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable", value));
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                                .then(ClientCommandManager.literal("all").executes(ctx -> {
+                                    DynamicBufferType[] values = DynamicBufferType.values();
+                                    VeilRenderSystem.renderer().disableBuffers(values);
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))));
+                                    return values.length;
+                                }))
+                        ));
+                dispatcher.register(debugBuilder);
+            }
         });
         ClientTickEvents.START_WORLD_TICK.register(client -> VeilRenderSystem.renderer().getParticleManager().tick());
     }

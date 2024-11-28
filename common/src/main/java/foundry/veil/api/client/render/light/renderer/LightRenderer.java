@@ -185,6 +185,7 @@ public class LightRenderer implements NativeResource {
     public void free() {
         this.lights.values().forEach(LightData::free);
         this.lights.clear();
+        VeilRenderSystem.renderer().disableBuffers(DynamicBufferType.values());
     }
 
     @ApiStatus.Internal

@@ -1,6 +1,8 @@
 package foundry.veil.impl.glsl.node;
 
 import foundry.veil.impl.glsl.GlslInjectionPoint;
+import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
+import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
 import foundry.veil.impl.glsl.grammar.GlslVersion;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
@@ -70,6 +72,63 @@ public class GlslTree {
         }
 
         visitor.visitTreeEnd();
+    }
+
+    /**
+     * Explicitly marks all outputs with a layout location if not specified.
+     */
+    public void markOutputs() {
+        List<GlslNewNode> outputs = new ArrayList<>();
+        this.fields().forEach(node -> {
+            GlslSpecifiedType type = node.getType();
+            boolean valid = false;
+            for (GlslTypeQualifier qualifier : type.getQualifiers()) {
+                if (qualifier == GlslTypeQualifier.StorageType.OUT) {
+                    valid = true;
+                    break;
+                }
+            }
+
+            if (!valid) {
+                return;
+            }
+
+            for (GlslTypeQualifier qualifier : type.getQualifiers()) {
+                if (qualifier instanceof GlslTypeQualifier.Layout(
+                        List<GlslTypeQualifier.LayoutId> layoutIds
+                )) {
+                    for (GlslTypeQualifier.LayoutId layoutId : layoutIds) {
+                        if (!"location".equals(layoutId.identifier())) {
+                            continue;
+                        }
+
+                        GlslNode expression = layoutId.expression();
+                        if (expression == null) {
+                            continue;
+                        }
+
+                        try {
+                            int location = Integer.parseInt(expression.getSourceString());
+                            if (location == 0) {
+                                outputs.clear();
+                                return;
+                            }
+                            valid = false;
+                            break;
+                        } catch (NumberFormatException ignored) {
+                        }
+                    }
+                }
+            }
+
+            if (valid) {
+                outputs.add(node);
+            }
+        });
+
+        for (GlslNewNode output : outputs) {
+            output.getType().addLayoutId("location", GlslNode.intConstant(0));
+        }
     }
 
     public Optional<GlslFunctionNode> mainFunction() {

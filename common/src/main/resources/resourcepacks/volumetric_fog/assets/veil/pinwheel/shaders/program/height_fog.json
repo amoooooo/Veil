@@ -1,0 +1,7 @@
+{
+  "vertex": "veil:blit_screen",
+  "fragment": "veil:height_fog",
+  "textures": {
+    "Noise": "veil:textures/shader/blue_noise.png"
+  }
+}

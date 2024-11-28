@@ -8,7 +8,6 @@ import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.impl.glsl.GlslInjectionPoint;
 import foundry.veil.impl.glsl.GlslParser;
 import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
-import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
 import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 import foundry.veil.impl.glsl.grammar.GlslVersion;
 import foundry.veil.impl.glsl.node.GlslConstantNode;
@@ -56,7 +55,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
         }
 
         try {
-            GlslTree tree = GlslParser.parse(source);
+            GlslTree tree = GlslParser.preprocessParse(source, ctx.preDefinitions().getDefinitions());
             Map<String, GlslNode> markers = tree.getMarkers();
             GlslFunctionNode mainFunction = tree.mainFunction().orElseThrow();
             List<GlslNode> mainFunctionBody = Objects.requireNonNull(mainFunction.getBody());
@@ -330,57 +329,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
 
             if (modified) {
                 if (fragmentShader) {
-                    List<GlslNewNode> outputs = new ArrayList<>();
-                    tree.fields().forEach(node -> {
-                        GlslSpecifiedType type = node.getType();
-                        boolean valid = false;
-                        for (GlslTypeQualifier qualifier : type.getQualifiers()) {
-                            if (qualifier == GlslTypeQualifier.StorageType.OUT) {
-                                valid = true;
-                                break;
-                            }
-                        }
-
-                        if (!valid) {
-                            return;
-                        }
-
-                        for (GlslTypeQualifier qualifier : type.getQualifiers()) {
-                            if (qualifier instanceof GlslTypeQualifier.Layout(
-                                    List<GlslTypeQualifier.LayoutId> layoutIds
-                            )) {
-                                for (GlslTypeQualifier.LayoutId layoutId : layoutIds) {
-                                    if (!"location".equals(layoutId.identifier())) {
-                                        continue;
-                                    }
-
-                                    GlslNode expression = layoutId.expression();
-                                    if (expression == null) {
-                                        continue;
-                                    }
-
-                                    try {
-                                        int location = Integer.parseInt(expression.getSourceString());
-                                        if (location == 0) {
-                                            outputs.clear();
-                                            return;
-                                        }
-                                        valid = false;
-                                        break;
-                                    } catch (NumberFormatException ignored) {
-                                    }
-                                }
-                            }
-                        }
-
-                        if (valid) {
-                            outputs.add(node);
-                        }
-                    });
-
-                    for (GlslNewNode output : outputs) {
-                        output.getType().addLayoutId("location", GlslNode.intConstant(0));
-                    }
+                    tree.markOutputs();
                 }
 
                 GlslStringWriter writer = new GlslStringWriter();

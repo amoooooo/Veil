@@ -1,0 +1,10 @@
+
+{
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "veil:height_fog",
+      "in": "minecraft:main"
+    }
+  ]
+}

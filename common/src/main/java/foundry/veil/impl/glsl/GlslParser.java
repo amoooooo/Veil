@@ -14,11 +14,10 @@ import foundry.veil.impl.glsl.node.primary.GlslFloatConstantNode;
 import foundry.veil.impl.glsl.node.primary.GlslIntConstantNode;
 import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
 import foundry.veil.impl.glsl.node.variable.*;
-import org.anarres.cpp.*;
+import foundry.veil.lib.anarres.cpp.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -30,6 +29,15 @@ public final class GlslParser {
     private static final Pattern STRIP_PATTERN = Pattern.compile("#version\\s+(\\d+)\\s*(\\w+)?|#line\\s+(\\d+)\\s*(\\d+)?|#extension\\s+(\\w+)\\s*:\\s*(\\w+)|#include\\s+(\\S+)");
     private static final Pattern UNSTRIP_PATTERN = Pattern.compile("// #veil:stripped ");
 
+    /**
+     * Runs the C preprocessor on the specified source before passing it off to the parser.
+     *
+     * @param input  The source code input
+     * @param macros All macros to evaluate during pre-processing
+     * @return
+     * @throws GlslSyntaxException
+     * @throws LexerException
+     */
     public static GlslTree preprocessParse(String input, Map<String, String> macros) throws GlslSyntaxException, LexerException {
         Matcher versionMatcher = VERSION_PATTERN.matcher(input);
         int version = 110;
@@ -70,7 +78,7 @@ public final class GlslParser {
             }
             preprocessor.addMacro("__VERSION__", Integer.toString(version));
 
-            preprocessor.addInput(new InputLexerSource(new StringReader(strippedSource)));
+            preprocessor.addInput(new StringLexerSource(strippedSource, true));
             StringBuilder processedSource = new StringBuilder();
             while (true) {
                 Token tok = preprocessor.token();

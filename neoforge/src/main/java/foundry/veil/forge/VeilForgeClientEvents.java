@@ -1,12 +1,16 @@
 package foundry.veil.forge;
 
+import com.mojang.brigadier.Command;
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.quasar.data.QuasarParticles;
 import foundry.veil.api.quasar.particle.ParticleEmitter;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
+import foundry.veil.impl.ClientEnumArgument;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.CommandSourceStack;
@@ -26,6 +30,9 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import org.jetbrains.annotations.ApiStatus;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
@@ -59,8 +66,9 @@ public class VeilForgeClientEvents {
 
     @SubscribeEvent
     public static void registerClientCommands(RegisterClientCommandsEvent event) {
-        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("quasar");
-        builder.then(Commands.argument("emitter", ResourceLocationArgument.id()).suggests(QuasarParticles.emitterSuggestionProvider()).then(Commands.argument("position", Vec3Argument.vec3()).executes(ctx -> {
+        CommandDispatcher<CommandSourceStack> dispatcher = event.getDispatcher();
+        LiteralArgumentBuilder<CommandSourceStack> quasarBuilder = Commands.literal("quasar");
+        quasarBuilder.then(Commands.argument("emitter", ResourceLocationArgument.id()).suggests(QuasarParticles.emitterSuggestionProvider()).then(Commands.argument("position", Vec3Argument.vec3()).executes(ctx -> {
             ResourceLocation id = ResourceLocationArgument.getId(ctx, "emitter");
 
             CommandSourceStack source = ctx.getSource();
@@ -78,7 +86,41 @@ public class VeilForgeClientEvents {
             source.sendSuccess(() -> Component.literal("Spawned " + id), true);
             return 1;
         })));
-        event.getDispatcher().register(builder);
+        dispatcher.register(quasarBuilder);
+
+        if (Veil.platform().isDevelopmentEnvironment()) {
+            LiteralArgumentBuilder<CommandSourceStack> debugBuilder = Commands.literal("veil");
+            debugBuilder.then(Commands.literal("buffers")
+                    .then(Commands.literal("enable")
+                            .then(Commands.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
+                                DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
+                                VeilRenderSystem.renderer().enableBuffers(value);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.enable", value), true);
+                                return Command.SINGLE_SUCCESS;
+                            }))
+                            .then(Commands.literal("all").executes(ctx -> {
+                                DynamicBufferType[] values = DynamicBufferType.values();
+                                VeilRenderSystem.renderer().enableBuffers(values);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.enable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))), true);
+                                return values.length;
+                            }))
+                    )
+                    .then(Commands.literal("disable")
+                            .then(Commands.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
+                                DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
+                                VeilRenderSystem.renderer().disableBuffers(value);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.disable", value), true);
+                                return Command.SINGLE_SUCCESS;
+                            }))
+                            .then(Commands.literal("all").executes(ctx -> {
+                                DynamicBufferType[] values = DynamicBufferType.values();
+                                VeilRenderSystem.renderer().disableBuffers(values);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.disable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))), true);
+                                return values.length;
+                            }))
+                    ));
+            dispatcher.register(debugBuilder);
+        }
     }
 
     @SubscribeEvent

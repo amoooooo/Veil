@@ -7,21 +7,11 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.forge.event.ForgeVeilRegisterBlockLayerEvent;
 import foundry.veil.forge.event.ForgeVeilRegisterFixedBuffersEvent;
 import foundry.veil.forge.event.ForgeVeilRendererEvent;
-import foundry.veil.forge.mixin.compat.iris.IrisRenderingPipelineAccessor;
-import foundry.veil.forge.mixin.compat.sodium.RenderSectionManagerAccessor;
-import foundry.veil.forge.mixin.compat.sodium.ShaderChunkRendererAccessor;
-import foundry.veil.forge.mixin.compat.sodium.SodiumWorldRendererAccessor;
 import foundry.veil.impl.VeilBuiltinPacks;
 import foundry.veil.impl.VeilReloadListeners;
 import foundry.veil.impl.client.render.VeilUITooltipRenderer;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
-import foundry.veil.impl.compat.IrisShaderMap;
-import foundry.veil.impl.compat.SodiumShaderMap;
 import foundry.veil.mixin.accessor.RenderStateShardAccessor;
-import it.unimi.dsi.fastutil.objects.Object2IntMaps;
-import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
-import net.irisshaders.iris.Iris;
-import net.irisshaders.iris.pipeline.WorldRenderingPipeline;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.network.chat.Component;
@@ -40,8 +30,6 @@ import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import org.jetbrains.annotations.ApiStatus;
-
-import java.util.Collections;
 
 @ApiStatus.Internal
 @Mod(value = Veil.MODID, dist = Dist.CLIENT)
@@ -65,27 +53,18 @@ public class VeilForgeClient {
         }));
         ForgeRenderTypeStageHandler.setBlockLayers(blockLayers);
 
-        if (IrisShaderMap.isEnabled()) {
-            IrisShaderMap.setLoadedShadersSupplier(() -> {
-                WorldRenderingPipeline pipeline = Iris.getPipelineManager().getPipelineNullable();
-                if (pipeline instanceof IrisRenderingPipelineAccessor) {
-                    return ((IrisRenderingPipelineAccessor) pipeline).getLoadedShaders();
-                }
-                return Collections.emptySet();
-            });
-        }
-        if (SodiumShaderMap.isEnabled()) {
-            SodiumShaderMap.setLoadedShadersSupplier(() -> {
-                SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
-                if (worldRenderer != null) {
-                    RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
-                    if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererAccessor accessor) {
-                        return Object2IntMaps.singleton(ResourceLocation.fromNamespaceAndPath("sodium", "chunk_shader"), accessor.getPrograms().values().iterator().next().handle());
-                    }
-                }
-                return Object2IntMaps.emptyMap();
-            });
-        }
+//        if (SodiumCompat.isEnabled()) {
+//            SodiumCompat.setLoadedShadersSupplier(() -> {
+//                SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
+//                if (worldRenderer != null) {
+//                    RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
+//                    if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererAccessor accessor) {
+//                        return Object2IntMaps.singleton(ResourceLocation.fromNamespaceAndPath("sodium", "chunk_shader"), accessor.getPrograms().values().iterator().next().handle());
+//                    }
+//                }
+//                return Object2IntMaps.emptyMap();
+//            });
+//        }
     }
 
     private static void registerListeners(RegisterClientReloadListenersEvent event) {

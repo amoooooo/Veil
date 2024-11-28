@@ -9,8 +9,8 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
-import foundry.veil.impl.compat.IrisShaderMap;
-import foundry.veil.impl.compat.SodiumShaderMap;
+import foundry.veil.impl.compat.IrisCompat;
+import foundry.veil.impl.compat.SodiumCompat;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
 import foundry.veil.mixin.accessor.LevelRendererAccessor;
 import foundry.veil.mixin.accessor.PostChainAccessor;
@@ -378,19 +378,19 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 VeilImGuiImpl.get().addImguiShaders(registry);
             }
         },
-        IRIS(Component.translatable("editor.veil.shader.source.iris"), IrisShaderMap::isEnabled, IrisShaderMap::isEnabled) {
+        IRIS(Component.translatable("editor.veil.shader.source.iris"), () -> IrisCompat.INSTANCE != null, () -> IrisCompat.INSTANCE != null) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
-                for (ShaderInstance shader : IrisShaderMap.getLoadedShaders()) {
+                for (ShaderInstance shader : IrisCompat.INSTANCE.getLoadedShaders()) {
                     String name = shader.getName().isBlank() ? Integer.toString(shader.getId()) : shader.getName();
                     registry.accept(ResourceLocation.parse(name), shader.getId());
                 }
             }
         },
-        SODIUM(Component.translatable("editor.veil.shader.source.sodium"), SodiumShaderMap::isEnabled, SodiumShaderMap::isEnabled) {
+        SODIUM(Component.translatable("editor.veil.shader.source.sodium"), () -> SodiumCompat.INSTANCE != null, () -> SodiumCompat.INSTANCE != null) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
-                for (Object2IntMap.Entry<ResourceLocation> entry : SodiumShaderMap.getLoadedShaders().object2IntEntrySet()) {
+                for (Object2IntMap.Entry<ResourceLocation> entry : SodiumCompat.INSTANCE.getLoadedShaders().object2IntEntrySet()) {
                     registry.accept(entry.getKey(), entry.getIntValue());
                 }
             }

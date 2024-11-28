@@ -12,7 +12,13 @@ import java.util.Set;
 
 public class VeilMixinPlugin implements IMixinConfigPlugin {
 
-    private static final Set<String> COMPAT = Set.of("foundry.veil.forge.mixin.client.pipeline");
+    private static final Set<String> COMPAT = Set.of(
+            "foundry.veil.forge.mixin.client.stage",
+            "foundry.veil.forge.mixin.client.pipeline");
+    private static final Set<String> SODIUM_WITHOUT_IRIS_COMPAT = Set.of(
+            "foundry.veil.forge.mixin.compat.sodium.DefaultShaderInterfaceMixin",
+            "foundry.veil.forge.mixin.compat.sodium.ChunkMeshFormatsMixin"
+    );
     private final Map<String, Boolean> loadedMods = new HashMap<>();
 
     @Override
@@ -32,6 +38,9 @@ public class VeilMixinPlugin implements IMixinConfigPlugin {
             }
         }
         if (mixinClassName.startsWith("foundry.veil.forge.mixin.compat")) {
+            if (Veil.IRIS && SODIUM_WITHOUT_IRIS_COMPAT.contains(mixinClassName)) {
+                return false;
+            }
             String[] parts = mixinClassName.split("\\.");
             return this.loadedMods.computeIfAbsent(parts[5], Veil.platform()::isModLoaded);
         }
