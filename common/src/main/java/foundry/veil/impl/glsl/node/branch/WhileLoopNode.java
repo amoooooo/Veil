@@ -3,6 +3,9 @@ package foundry.veil.impl.glsl.node.branch;
 import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -13,12 +16,12 @@ import java.util.stream.Stream;
 public class WhileLoopNode implements GlslNode {
 
     private GlslNode condition;
-    private GlslNode body;
+    private final List<GlslNode> body;
     private Type loopType;
 
-    public WhileLoopNode(GlslNode condition, GlslNode body, Type loopType) {
+    public WhileLoopNode(GlslNode condition, Collection<GlslNode> body, Type loopType) {
         this.condition = condition;
-        this.body = body;
+        this.body = new ArrayList<>(body);
         this.loopType = loopType;
     }
 
@@ -26,7 +29,8 @@ public class WhileLoopNode implements GlslNode {
         return this.condition;
     }
 
-    public GlslNode getBody() {
+    @Override
+    public List<GlslNode> getBody() {
         return this.body;
     }
 
@@ -39,11 +43,6 @@ public class WhileLoopNode implements GlslNode {
         return this;
     }
 
-    public WhileLoopNode setBody(GlslNode body) {
-        this.body = body;
-        return this;
-    }
-
     public WhileLoopNode setLoopType(Type loopType) {
         this.loopType = loopType;
         return this;
@@ -51,7 +50,12 @@ public class WhileLoopNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return "while (" + this.condition.getSourceString() + ") {\n" + this.body.getSourceString().replaceAll("\n", "\n\t") + "\n}";
+        StringBuilder builder = new StringBuilder("while (" + this.condition.getSourceString() + ") {\n");
+        for (GlslNode node : this.body) {
+            builder.append('\t').append(node.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+        }
+        builder.append('}');
+        return builder.toString();
     }
 
     @Override

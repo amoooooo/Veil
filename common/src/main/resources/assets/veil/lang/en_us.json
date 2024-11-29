@@ -176,6 +176,8 @@
   "editor.veil.light.toggle.ao": "Enable Ambient Occlusion",
 
   "commands.veil.arguments.enum.invalid": "Invalid value '%s'. Valid Options: %s",
-  "commands.veil.buffers.enabled": "Enabled the following dynamic buffers: %s",
-  "commands.veil.buffers.disable": "Disabled the following dynamic buffers: %s"
+  "commands.veil.buffers.enable": "Enabled the following dynamic buffers: %s",
+  "commands.veil.buffers.disable": "Disabled the following dynamic buffers: %s",
+  "commands.veil.buffers.enable.all": "Enabled all dynamic buffers",
+  "commands.veil.buffers.disable.all": "Disabled all dynamic buffers"
 }

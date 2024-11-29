@@ -2,6 +2,7 @@ package foundry.veil.impl.client.render.dynamicbuffer;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
+import com.mojang.datafixers.util.Pair;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
@@ -232,7 +233,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                             }
                         } else if ((this.validBuffers.getInt(ctx.shaderInstance()) & type.getMask()) != 0) {
                             tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("in vec4 Pass" + type.getSourceName()));
-                            tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression(output));
+                            tree.getBody().addFirst(GlslParser.parseExpression(output));
 
                             boolean hasColorModulator = tree.field("ColorModulator").isPresent();
                             boolean inserted = false;
@@ -279,51 +280,77 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                         continue;
                     }
 
-                    GlslSpecifiedType specifiedType = node.getType();
-                    if (specifiedType == null || !(specifiedType.getSpecifier() instanceof GlslTypeSpecifier.BuiltinType nodeType) || (!nodeType.isPrimitive() && !nodeType.isVector()) || (!nodeType.isFloat() && !nodeType.isInteger() && !nodeType.isUnsignedInteger())) {
+                    GlslSpecifiedType specifiedType = null;
+                    String copyName = null;
+                    List<GlslNode> body = null;
+                    int index = 0;
+                    if (node instanceof GlslNewNode newNode) {
+                        Optional<Pair<List<GlslNode>, Integer>> block = tree.containingBlock(newNode);
+                        if (block.isPresent()) {
+                            copyName = newNode.getName();
+                            specifiedType = newNode.getType();
+                            Pair<List<GlslNode>, Integer> pair = block.get();
+                            body = pair.getFirst();
+                            index = pair.getSecond() + 1;
+//                            pair.getFirst().add(pair.getSecond() + 1, GlslParser.parseExpression(copyName + " = " + sourceName));
+                        }
+                    } else if (node instanceof GlslAssignmentNode assignmentNode && assignmentNode.getFirst() instanceof GlslVariableNode variableNode) {
+                        Optional<Pair<List<GlslNode>, Integer>> block = tree.containingBlock(assignmentNode);
+                        if (block.isPresent()) {
+                            copyName = variableNode.getName();
+
+                            List<GlslNewNode> fields = tree.searchField(copyName).toList();
+                            if (fields.size() == 1) {
+                                specifiedType = fields.getFirst().getType();
+                                Pair<List<GlslNode>, Integer> pair = block.get();
+                                body = pair.getFirst();
+                                index = pair.getSecond() + 1;
+                            }
+                        }
+                    }
+
+                    if (copyName == null || specifiedType == null || !(specifiedType.getSpecifier() instanceof GlslTypeSpecifier.BuiltinType nodeType) || (!nodeType.isPrimitive() && !nodeType.isVector()) || (!nodeType.isFloat() && !nodeType.isInteger() && !nodeType.isUnsignedInteger())) {
                         Veil.LOGGER.warn("Invalid node marked '#veil:{}' in shader: {}", bufferType.getName(), ctx.name());
                         continue;
                     }
 
                     modified = true;
-                    String fieldName = bufferType.getSourceName();
+                    String sourceName = bufferType.getSourceName();
                     GlslTypeSpecifier.BuiltinType outType = bufferType.getType();
-                    tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("layout(location = " + (1 + i) + ") out " + outType.getSourceString() + " " + fieldName));
-                    if (node instanceof GlslNewNode newNode) {
-                        String cast = switch (outType) {
-                            case FLOAT, VEC2, VEC3, VEC4 -> !nodeType.isFloat() ? "float" : null;
-                            case INT, IVEC2, IVEC3, IVEC4 -> !nodeType.isInteger() ? "int" : null;
-                            case UINT, UVEC2, UVEC3, UVEC4 -> !nodeType.isUnsignedInteger() ? "uint" : null;
-                            default -> null;
-                        };
+                    tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("layout(location = " + (1 + i) + ") out " + outType.getSourceString() + " " + sourceName));
 
-                        GlslNode expression;
-                        String name = newNode.getName();
-                        if (nodeType == outType) {
-                            expression = new GlslVariableNode(name);
-                        } else if (nodeType.getComponents() < outType.getComponents()) {
-                            // Not enough components, so pad
-                            StringBuilder builder = new StringBuilder(outType.getSourceString()).append("(");
-                            String padding = outType.isFloat() ? "0.0" : outType.isUnsignedInteger() ? "0u" : "0";
-                            if (nodeType.getComponents() == 1) {
-                                builder.append(cast != null ? cast + "(" + name + "), " : (name + ", "));
-                            } else {
-                                for (int j = 0; j < nodeType.getComponents(); j++) {
-                                    builder.append(cast != null ? cast + "(" + name + VECTOR_ELEMENTS[j] + "), " : (name + VECTOR_ELEMENTS[j] + ", "));
-                                }
-                            }
-                            for (int j = nodeType.getComponents(); j < 3; j++) {
-                                builder.append(padding).append(", ");
-                            }
-                            builder.append(outType.isFloat() ? "1.0" : outType.isUnsignedInteger() ? "1u" : "1");
-                            builder.append(')');
-                            expression = GlslParser.parseExpression(builder.toString());
+                    String cast = switch (outType) {
+                        case FLOAT, VEC2, VEC3, VEC4 -> !nodeType.isFloat() ? "float" : null;
+                        case INT, IVEC2, IVEC3, IVEC4 -> !nodeType.isInteger() ? "int" : null;
+                        case UINT, UVEC2, UVEC3, UVEC4 -> !nodeType.isUnsignedInteger() ? "uint" : null;
+                        default -> null;
+                    };
+
+                    GlslNode expression;
+                    if (nodeType == outType) {
+                        expression = new GlslVariableNode(copyName);
+                    } else if (nodeType.getComponents() < outType.getComponents()) {
+                        // Not enough components, so pad
+                        StringBuilder builder = new StringBuilder(outType.getSourceString()).append("(");
+                        String padding = outType.isFloat() ? "0.0" : outType.isUnsignedInteger() ? "0u" : "0";
+                        if (nodeType.getComponents() == 1) {
+                            builder.append(cast != null ? cast + "(" + copyName + "), " : (copyName + ", "));
                         } else {
-                            expression = GlslParser.parseExpression((cast != null ? outType.getSourceString() : "") + '(' + name + ')');
+                            for (int j = 0; j < nodeType.getComponents(); j++) {
+                                builder.append(cast != null ? cast + "(" + copyName + VECTOR_ELEMENTS[j] + "), " : (copyName + VECTOR_ELEMENTS[j] + ", "));
+                            }
                         }
-
-                        mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode(fieldName), expression, GlslAssignmentNode.Operand.EQUAL));
+                        for (int j = nodeType.getComponents(); j < 3; j++) {
+                            builder.append(padding).append(", ");
+                        }
+                        builder.append(outType.isFloat() ? "1.0" : outType.isUnsignedInteger() ? "1u" : "1");
+                        builder.append(')');
+                        expression = GlslParser.parseExpression(builder.toString());
+                    } else {
+                        expression = GlslParser.parseExpression((cast != null ? outType.getSourceString() : "") + '(' + copyName + ')');
                     }
+
+                    body.add(index, new GlslAssignmentNode(new GlslVariableNode(sourceName), expression, GlslAssignmentNode.Operand.EQUAL));
                 }
             }
 

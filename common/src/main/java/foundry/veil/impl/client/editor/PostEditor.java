@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.editor;
 
+import foundry.veil.Veil;
 import foundry.veil.api.client.editor.SingleWindowEditor;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.VeilRenderSystem;
@@ -30,6 +31,10 @@ public class PostEditor extends SingleWindowEditor {
         this.removedPipelines = new HashSet<>(1);
     }
 
+    private static boolean isInternal(ResourceLocation id) {
+        return Veil.MODID.equals(id.getNamespace()) && id.getPath().startsWith("core/");
+    }
+
     @Override
     public void render() {
         ImGui.setNextWindowSize(600, 0);
@@ -48,7 +53,7 @@ public class PostEditor extends SingleWindowEditor {
         VeilImGuiUtil.component(INACTIVE);
         if (ImGui.beginListBox("##available_pipelines", availableWidth / 2, 0)) {
             for (ResourceLocation entry : postProcessingManager.getPipelines()) {
-                if (postProcessingManager.isActive(entry)) {
+                if (postProcessingManager.isActive(entry) || isInternal(entry)) {
                     continue;
                 }
 
@@ -66,9 +71,7 @@ public class PostEditor extends SingleWindowEditor {
         }
 
         if (ImGui.beginDragDropTarget()) {
-
             ResourceLocation payload = ImGui.acceptDragDropPayload("POST_PIPELINE");
-
             if (payload != null) {
                 this.removedPipelines.add(payload);
             }
@@ -87,6 +90,9 @@ public class PostEditor extends SingleWindowEditor {
         if (ImGui.beginListBox("##shaders", availableWidth / 2, 0)) {
             for (PostProcessingManager.ProfileEntry entry : postProcessingManager.getActivePipelines()) {
                 ResourceLocation id = entry.getPipeline();
+                if (isInternal(id)) {
+                    continue;
+                }
 
                 ImGui.pushID(id.toString());
                 VeilImGuiUtil.resourceLocation(id);
@@ -96,7 +102,7 @@ public class PostEditor extends SingleWindowEditor {
                     ImGui.endDragDropSource();
                 }
 
-                float priorityWidth = ImGui.calcTextSize("999999").x;
+                float priorityWidth = Math.max(ImGui.calcTextSize("999999").x, ImGui.calcTextSize(Integer.toString(entry.getPriority())).x);
                 ImGui.setItemAllowOverlap();
                 ImGui.sameLine(ImGui.getContentRegionAvailX() - priorityWidth - 2);
                 ImGui.setNextItemWidth(priorityWidth);
@@ -112,7 +118,6 @@ public class PostEditor extends SingleWindowEditor {
 
         if (ImGui.beginDragDropTarget()) {
             ResourceLocation payload = ImGui.acceptDragDropPayload("POST_PIPELINE");
-
             if (payload != null) {
                 postProcessingManager.add(payload);
             }
@@ -120,7 +125,6 @@ public class PostEditor extends SingleWindowEditor {
             ImGui.endDragDropTarget();
         }
         ImGui.endGroup();
-
 
         for (ResourceLocation id : this.removedPipelines) {
             postProcessingManager.remove(id);

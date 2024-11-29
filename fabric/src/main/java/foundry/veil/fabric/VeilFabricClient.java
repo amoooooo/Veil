@@ -94,7 +94,7 @@ public class VeilFabricClient implements ClientModInitializer {
                                 .then(ClientCommandManager.literal("all").executes(ctx -> {
                                     DynamicBufferType[] values = DynamicBufferType.values();
                                     VeilRenderSystem.renderer().enableBuffers(values);
-                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))));
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable.all"));
                                     return values.length;
                                 }))
                         )
@@ -108,7 +108,7 @@ public class VeilFabricClient implements ClientModInitializer {
                                 .then(ClientCommandManager.literal("all").executes(ctx -> {
                                     DynamicBufferType[] values = DynamicBufferType.values();
                                     VeilRenderSystem.renderer().disableBuffers(values);
-                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))));
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable.all"));
                                     return values.length;
                                 }))
                         ));

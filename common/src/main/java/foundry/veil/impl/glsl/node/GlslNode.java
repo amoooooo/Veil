@@ -28,6 +28,39 @@ public interface GlslNode {
         return new ArrayList<>(Collections.singleton(this));
     }
 
+    /**
+     * @return The body of this node or <code>null</code> if there is no sub-body in this node
+     */
+    default @Nullable List<GlslNode> getBody() {
+        return null;
+    }
+
+    /**
+     * Sets the body of this node.
+     *
+     * @param body The new body
+     * @return Whether the action was successful
+     */
+    default boolean setBody(Collection<GlslNode> body) {
+        List<GlslNode> nodes = this.getBody();
+        if (nodes != null) {
+            nodes.clear();
+            nodes.addAll(body);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Sets the body of this node.
+     *
+     * @param body The new body
+     * @return Whether the action was successful
+     */
+    default boolean setBody(GlslNode... body) {
+        return this.setBody(Arrays.asList(body));
+    }
+
     Stream<GlslNode> stream();
 
     static GlslIntConstantNode intConstant(int value) {

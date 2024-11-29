@@ -1,15 +1,18 @@
 package foundry.veil.impl.glsl.node;
 
+import com.mojang.datafixers.util.Pair;
 import foundry.veil.impl.glsl.GlslInjectionPoint;
 import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
 import foundry.veil.impl.glsl.grammar.GlslVersion;
+import foundry.veil.impl.glsl.node.branch.GlslSelectionNode;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
 import foundry.veil.impl.glsl.node.variable.GlslNewNode;
 import foundry.veil.impl.glsl.node.variable.GlslStructNode;
 import foundry.veil.impl.glsl.visitor.GlslFunctionVisitor;
 import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -48,7 +51,7 @@ public class GlslTree {
             visitor.visitDeclaration(declaration);
             return;
         }
-        throw new AssertionError("Not Possible");
+        throw new AssertionError("Not Possible: " + node.getClass());
     }
 
     public void visit(GlslTreeVisitor visitor) {
@@ -145,6 +148,42 @@ public class GlslTree {
 
     public Stream<GlslNewNode> fields() {
         return this.body.stream().filter(node -> node instanceof GlslNewNode).map(node -> (GlslNewNode) node);
+    }
+
+    public Stream<GlslNewNode> searchField(String name) {
+        return this.body.stream().flatMap(GlslNode::stream).filter(node -> node instanceof GlslNewNode newNode && name.equals(newNode.getName())).map(node -> (GlslNewNode) node);
+    }
+
+    public Optional<Pair<List<GlslNode>, Integer>> containingBlock(GlslNode node) {
+        return Optional.ofNullable(this.containingBlock(this.body, node));
+    }
+
+    private @Nullable Pair<List<GlslNode>, Integer> containingBlock(List<GlslNode> body, GlslNode node) {
+        for (int i = 0; i < body.size(); i++) {
+            GlslNode element = body.get(i);
+            if (element == node) {
+                return Pair.of(body, i);
+            }
+            if (element instanceof GlslSelectionNode selectionNode) {
+                Pair<List<GlslNode>, Integer> firstFound = this.containingBlock(selectionNode.getFirst(), node);
+                if (firstFound != null) {
+                    return firstFound;
+                }
+
+                Pair<List<GlslNode>, Integer> secondFound = this.containingBlock(selectionNode.getSecond(), node);
+                if (secondFound != null) {
+                    return secondFound;
+                }
+            }
+            List<GlslNode> elementBody = element.getBody();
+            if (elementBody != null) {
+                Pair<List<GlslNode>, Integer> found = this.containingBlock(elementBody, node);
+                if (found != null) {
+                    return found;
+                }
+            }
+        }
+        return null;
     }
 
     public void add(GlslNode node) {

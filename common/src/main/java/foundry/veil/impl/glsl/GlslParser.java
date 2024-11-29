@@ -1651,7 +1651,7 @@ public final class GlslParser {
         GlslNode compoundStatement = parseCompoundStatement(reader);
         if (compoundStatement != null) {
             reader.markNode(cursor, compoundStatement);
-            return Collections.singletonList(compoundStatement);
+            return compoundStatement.toList();
         }
         reader.setCursor(cursor);
 
@@ -1753,19 +1753,18 @@ public final class GlslParser {
         return GlslNode.compound(statements);
     }
 
-    private static @Nullable GlslNode parseStatementNoNewScope(GlslTokenReader reader) {
+    private static @Nullable List<GlslNode> parseStatementNoNewScope(GlslTokenReader reader) {
         // compound_statement_no_new_scope
-        GlslNode statementNoNewScope = parseCompoundStatementNoNewScope(reader);
+        List<GlslNode> statementNoNewScope = parseCompoundStatementNoNewScope(reader);
         if (statementNoNewScope != null) {
             return statementNoNewScope;
         }
 
         // simple_statement
-        List<GlslNode> statements = parseSimpleStatement(reader);
-        return statements != null ? GlslNode.compound(statements) : null;
+        return parseSimpleStatement(reader);
     }
 
-    private static @Nullable GlslNode parseCompoundStatementNoNewScope(GlslTokenReader reader) {
+    private static List<GlslNode> parseCompoundStatementNoNewScope(GlslTokenReader reader) {
         // LEFT_BRACE RIGHT_BRACE
         // LEFT_BRACE statement_list RIGHT_BRACE
 
@@ -1781,7 +1780,7 @@ public final class GlslParser {
             return null;
         }
 
-        return GlslNode.compound(statements);
+        return statements;
     }
 
     private static List<GlslNode> parseStatementList(GlslTokenReader reader) {
@@ -1852,7 +1851,7 @@ public final class GlslParser {
         if (reader.tryConsume(GlslLexer.TokenType.ELSE)) {
             List<GlslNode> otherStatements = parseStatement(reader);
             if (otherStatements != null) {
-                return new GlslSelectionNode(expression, GlslNode.compound(statements), GlslNode.compound(otherStatements));
+                return new GlslSelectionNode(expression, statements, otherStatements);
             }
 
             reader.setCursor(cursor);
@@ -1860,7 +1859,7 @@ public final class GlslParser {
         }
 
         reader.setCursor(cursor);
-        return new GlslSelectionNode(expression, GlslNode.compound(statements), GlslEmptyNode.INSTANCE);
+        return new GlslSelectionNode(expression, statements, Collections.emptyList());
     }
 
     private static @Nullable GlslNode parseCondition(GlslTokenReader reader) {
@@ -1926,7 +1925,7 @@ public final class GlslParser {
         if (reader.tryConsume(GlslLexer.TokenType.WHILE, GlslLexer.TokenType.LEFT_PAREN)) {
             GlslNode condition = parseCondition(reader);
             if (condition != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_PAREN)) {
-                GlslNode body = parseStatementNoNewScope(reader);
+                List<GlslNode> body = parseStatementNoNewScope(reader);
                 if (body != null) {
                     return new WhileLoopNode(condition, body, WhileLoopNode.Type.WHILE);
                 }
@@ -1940,7 +1939,7 @@ public final class GlslParser {
             if (body != null && reader.tryConsume(GlslLexer.TokenType.WHILE, GlslLexer.TokenType.LEFT_PAREN)) {
                 GlslNode condition = parseCondition(reader);
                 if (condition != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_PAREN, GlslLexer.TokenType.SEMICOLON)) {
-                    return new WhileLoopNode(condition, GlslNode.compound(body), WhileLoopNode.Type.DO);
+                    return new WhileLoopNode(condition, body, WhileLoopNode.Type.DO);
                 }
             }
         }
@@ -1954,7 +1953,7 @@ public final class GlslParser {
                 if (condition != null && reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
                     GlslNode increment = parseCondition(reader);
                     if (reader.tryConsume(GlslLexer.TokenType.RIGHT_PAREN)) {
-                        GlslNode body = parseStatementNoNewScope(reader);
+                        List<GlslNode> body = parseStatementNoNewScope(reader);
                         if (body != null) {
                             return new ForLoopNode(init, condition, increment, body);
                         }
@@ -2026,7 +2025,7 @@ public final class GlslParser {
             return null;
         }
 
-        GlslNode statement = parseCompoundStatementNoNewScope(reader);
+        List<GlslNode> statement = parseCompoundStatementNoNewScope(reader);
         if (statement == null) {
             reader.setCursor(cursor);
             return null;

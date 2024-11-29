@@ -8,7 +8,6 @@ import foundry.veil.impl.glsl.visitor.GlslFunctionVisitor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
@@ -23,9 +22,9 @@ public class GlslFunctionNode implements GlslNode {
     private GlslFunctionHeader header;
     private List<GlslNode> body;
 
-    public GlslFunctionNode(GlslFunctionHeader header, @Nullable GlslNode body) {
+    public GlslFunctionNode(GlslFunctionHeader header, @Nullable Collection<GlslNode> body) {
         this.header = header;
-        this.body = body != null ? body.toList() : null;
+        this.body = body != null ? new ArrayList<>(body) : null;
     }
 
     public void visit(GlslFunctionVisitor visitor) {
@@ -53,6 +52,7 @@ public class GlslFunctionNode implements GlslNode {
     /**
      * @return The body of the function or <code>null</code> if this is just a function prototype
      */
+    @Override
     public @Nullable List<GlslNode> getBody() {
         return this.body;
     }
@@ -71,25 +71,19 @@ public class GlslFunctionNode implements GlslNode {
      *
      * @param body The new function body
      */
-    public void setBody(@Nullable Collection<GlslNode> body) {
+    @Override
+    public boolean setBody(@Nullable Collection<GlslNode> body) {
         if (body != null) {
-            this.body = new ArrayList<>(body);
+            if (this.body != null) {
+                this.body.clear();
+                this.body.addAll(body);
+            } else {
+                this.body = new ArrayList<>(body);
+            }
         } else {
             this.body = null;
         }
-    }
-
-    /**
-     * Sets the body of this function or <code>null</code> to make this a function prototype.
-     *
-     * @param body The new function body
-     */
-    public void setBody(GlslNode... body) {
-        if (body != null) {
-            this.body = new ArrayList<>(Arrays.asList(body));
-        } else {
-            this.body = null;
-        }
+        return true;
     }
 
     @Override

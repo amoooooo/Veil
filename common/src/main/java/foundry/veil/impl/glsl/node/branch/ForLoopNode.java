@@ -4,6 +4,7 @@ import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -21,11 +22,11 @@ public class ForLoopNode implements GlslNode {
     private GlslNode increment;
     private final List<GlslNode> body;
 
-    public ForLoopNode(GlslNode init, GlslNode condition, @Nullable GlslNode increment, GlslNode body) {
+    public ForLoopNode(GlslNode init, GlslNode condition, @Nullable GlslNode increment, Collection<GlslNode> body) {
         this.init = init;
         this.condition = condition;
         this.increment = increment;
-        this.body = body.toList();
+        this.body = new ArrayList<>(body);
     }
 
     public GlslNode getInit() {
@@ -40,6 +41,7 @@ public class ForLoopNode implements GlslNode {
         return this.increment;
     }
 
+    @Override
     public List<GlslNode> getBody() {
         return this.body;
     }
@@ -56,18 +58,6 @@ public class ForLoopNode implements GlslNode {
 
     public ForLoopNode setIncrement(@Nullable GlslNode increment) {
         this.increment = increment;
-        return this;
-    }
-
-    public ForLoopNode setBody(Collection<GlslNode> body) {
-        this.body.clear();
-        this.body.addAll(body);
-        return this;
-    }
-
-    public ForLoopNode setBody(GlslNode... body) {
-        this.body.clear();
-        this.body.addAll(Arrays.asList(body));
         return this;
     }
 

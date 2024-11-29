@@ -18,7 +18,7 @@ import static org.lwjgl.opengl.GL11C.GL_DEPTH_BUFFER_BIT;
 @ApiStatus.Internal
 public final class VeilFirstPersonRenderer {
 
-    private static final ResourceLocation FIRST_PERSON = Veil.veilPath("first_person");
+    private static final ResourceLocation FIRST_PERSON = Veil.veilPath("core/first_person");
 
     private static boolean printedError;
     private static AdvancedFbo firstPerson;
