@@ -109,9 +109,9 @@ implements <a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(foundry.veil.impl.glsl.node.GlslNode,foundry.veil.impl.glsl.node.GlslNode,foundry.veil.impl.glsl.node.GlslNode)" class="member-name-link">GlslSelectionNode</a><wbr>(<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&nbsp;expression,
- <a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&nbsp;first,
- <a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&nbsp;second)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(foundry.veil.impl.glsl.node.GlslNode,java.util.Collection,java.util.Collection)" class="member-name-link">GlslSelectionNode</a><wbr>(<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&nbsp;expression,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&gt;&nbsp;first,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&gt;&nbsp;second)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -162,7 +162,7 @@ implements <a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.impl.glsl.node.GlslNode">Methods inherited from interface&nbsp;foundry.veil.impl.glsl.node.<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a></h3>
-<code><a href="../GlslNode.html#getType()">getType</a>, <a href="../GlslNode.html#toList()">toList</a></code></div>
+<code><a href="../GlslNode.html#getBody()">getBody</a>, <a href="../GlslNode.html#getType()">getType</a>, <a href="../GlslNode.html#setBody(foundry.veil.impl.glsl.node.GlslNode...)">setBody</a>, <a href="../GlslNode.html#setBody(java.util.Collection)">setBody</a>, <a href="../GlslNode.html#toList()">toList</a></code></div>
 </section>
 </li>
 </ul>
@@ -175,11 +175,11 @@ implements <a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(foundry.veil.impl.glsl.node.GlslNode,foundry.veil.impl.glsl.node.GlslNode,foundry.veil.impl.glsl.node.GlslNode)">
+<section class="detail" id="&lt;init&gt;(foundry.veil.impl.glsl.node.GlslNode,java.util.Collection,java.util.Collection)">
 <h3>GlslSelectionNode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GlslSelectionNode</span><wbr><span class="parameters">(<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&nbsp;expression,
- <a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&nbsp;first,
- <a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&nbsp;second)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&gt;&nbsp;first,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../GlslNode.html" title="interface in foundry.veil.impl.glsl.node">GlslNode</a>&gt;&nbsp;second)</span></div>
 </section>
 </li>
 </ul>
