@@ -1,6 +1,8 @@
 # Veil: Advanced Rendering for Minecraft 🖼️✨
 
 [![Veil 1.20](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.blamejared.com%2Ffoundry%2Fveil%2FVeil-common-1.20.1%2Fmaven-metadata.xml&label=Veil%201.20)](https://maven.blamejared.com/foundry/veil/Veil-common-1.20.1/)
+[![Veil 1.20.4](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.blamejared.com%2Ffoundry%2Fveil%2FVeil-common-1.20.4%2Fmaven-metadata.xml&label=Veil%201.20.4)](https://maven.blamejared.com/foundry/veil/Veil-common-1.20.4/)
+[![Veil 1.21](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.blamejared.com%2Ffoundry%2Fveil%2Fveil-common-1.21%2Fmaven-metadata.xml&label=Veil%201.21)](https://maven.blamejared.com/foundry/veil/veil-common-1.21/)
 [![Veil 1.21.1](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.blamejared.com%2Ffoundry%2Fveil%2Fveil-common-1.21.1%2Fmaven-metadata.xml&label=Veil%201.21.1)](https://maven.blamejared.com/foundry/veil/veil-common-1.21.1/)
 [![Javadoc](https://img.shields.io/badge/javadoc-latest-blue)](https://foundrymc.github.io/Veil/)
 [![Discord](https://img.shields.io/discord/1022254439836430386.svg?label=Discord&color=blue)](https://discord.com/invite/2aqTX9QWKU)
