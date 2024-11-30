@@ -31,9 +31,6 @@ import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 @ApiStatus.Internal
@@ -89,33 +86,34 @@ public class VeilForgeClientEvents {
         dispatcher.register(quasarBuilder);
 
         if (Veil.platform().isDevelopmentEnvironment()) {
+            ResourceLocation bufferId = Veil.veilPath("forced");
             LiteralArgumentBuilder<CommandSourceStack> debugBuilder = Commands.literal("veil");
             debugBuilder.then(Commands.literal("buffers")
                     .then(Commands.literal("enable")
                             .then(Commands.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                 DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
-                                VeilRenderSystem.renderer().enableBuffers(value);
+                                VeilRenderSystem.renderer().enableBuffers(bufferId, value);
                                 ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.enable", value), true);
                                 return Command.SINGLE_SUCCESS;
                             }))
                             .then(Commands.literal("all").executes(ctx -> {
                                 DynamicBufferType[] values = DynamicBufferType.values();
-                                VeilRenderSystem.renderer().enableBuffers(values);
-                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.enable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))), true);
+                                VeilRenderSystem.renderer().enableBuffers(bufferId, values);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.enable.all"), true);
                                 return values.length;
                             }))
                     )
                     .then(Commands.literal("disable")
                             .then(Commands.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                 DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
-                                VeilRenderSystem.renderer().disableBuffers(value);
+                                VeilRenderSystem.renderer().disableBuffers(bufferId, value);
                                 ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.disable", value), true);
                                 return Command.SINGLE_SUCCESS;
                             }))
                             .then(Commands.literal("all").executes(ctx -> {
                                 DynamicBufferType[] values = DynamicBufferType.values();
-                                VeilRenderSystem.renderer().disableBuffers(values);
-                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.disable", Arrays.stream(values).map(DynamicBufferType::getName).collect(Collectors.joining(", "))), true);
+                                VeilRenderSystem.renderer().disableBuffers(bufferId, values);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.disable.all"), true);
                                 return values.length;
                             }))
                     ));

@@ -10,6 +10,8 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.compat.SodiumCompat;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -43,6 +45,7 @@ public class DynamicBufferManger implements NativeResource {
     public static final ResourceLocation MAIN_WRAPPER = Veil.veilPath("dynamic_main");
 
     private int activeBuffers;
+    private final Object2IntMap<ResourceLocation> activeBufferLayers;
     private boolean enabled;
     private final int[] clearBuffers;
     private final Map<ResourceLocation, AdvancedFbo> framebuffers;
@@ -50,6 +53,7 @@ public class DynamicBufferManger implements NativeResource {
 
     public DynamicBufferManger(int width, int height) {
         this.activeBuffers = 0;
+        this.activeBufferLayers = new Object2IntArrayMap<>();
         this.enabled = false;
         this.clearBuffers = Arrays.stream(DynamicBufferType.values()).mapToInt(type -> GL_COLOR_ATTACHMENT1 + type.ordinal()).toArray();
         this.framebuffers = new HashMap<>();
@@ -74,6 +78,10 @@ public class DynamicBufferManger implements NativeResource {
         this.framebuffers.clear();
     }
 
+    public int getActiveBuffers(ResourceLocation name) {
+        return this.activeBufferLayers.getOrDefault(name, 0);
+    }
+
     public int getActiveBuffers() {
         return this.activeBuffers;
     }
@@ -82,12 +90,27 @@ public class DynamicBufferManger implements NativeResource {
         return this.dynamicBuffers.get(type).textureId;
     }
 
-    public boolean setActiveBuffers(int activeBuffers) {
-        if (this.activeBuffers == activeBuffers) {
+    public boolean setActiveBuffers(ResourceLocation name, int activeBuffers) {
+        int buffers = this.activeBufferLayers.getOrDefault(name, 0);
+        if (buffers == activeBuffers) {
             return false;
         }
 
-        this.activeBuffers = activeBuffers;
+        if (activeBuffers == 0) {
+            this.activeBufferLayers.removeInt(name);
+        } else {
+            this.activeBufferLayers.put(name, activeBuffers);
+        }
+
+        int flags = 0;
+        for (int value : this.activeBufferLayers.values()) {
+            flags |= value;
+        }
+        if (flags == this.activeBuffers) {
+            return false;
+        }
+
+        this.activeBuffers = flags;
         VeilRenderer renderer = VeilRenderSystem.renderer();
         renderer.getVanillaShaderCompiler().reload(((GameRendererAccessor) Minecraft.getInstance().gameRenderer).getShaders().values());
         this.deleteFramebuffers();

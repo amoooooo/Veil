@@ -37,9 +37,6 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 @ApiStatus.Internal
 public class VeilFabricClient implements ClientModInitializer {
 
@@ -82,18 +79,19 @@ public class VeilFabricClient implements ClientModInitializer {
             dispatcher.register(builder);
 
             if (Veil.platform().isDevelopmentEnvironment()) {
+                ResourceLocation bufferId = Veil.veilPath("forced");
                 LiteralArgumentBuilder<FabricClientCommandSource> debugBuilder = LiteralArgumentBuilder.literal("veil");
                 debugBuilder.then(ClientCommandManager.literal("buffers")
                         .then(ClientCommandManager.literal("enable")
                                 .then(ClientCommandManager.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                     DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
-                                    VeilRenderSystem.renderer().enableBuffers(value);
+                                    VeilRenderSystem.renderer().enableBuffers(bufferId, value);
                                     ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable", value));
                                     return Command.SINGLE_SUCCESS;
                                 }))
                                 .then(ClientCommandManager.literal("all").executes(ctx -> {
                                     DynamicBufferType[] values = DynamicBufferType.values();
-                                    VeilRenderSystem.renderer().enableBuffers(values);
+                                    VeilRenderSystem.renderer().enableBuffers(bufferId, values);
                                     ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable.all"));
                                     return values.length;
                                 }))
@@ -101,13 +99,13 @@ public class VeilFabricClient implements ClientModInitializer {
                         .then(ClientCommandManager.literal("disable")
                                 .then(ClientCommandManager.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                     DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
-                                    VeilRenderSystem.renderer().disableBuffers(value);
+                                    VeilRenderSystem.renderer().disableBuffers(bufferId, value);
                                     ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable", value));
                                     return Command.SINGLE_SUCCESS;
                                 }))
                                 .then(ClientCommandManager.literal("all").executes(ctx -> {
                                     DynamicBufferType[] values = DynamicBufferType.values();
-                                    VeilRenderSystem.renderer().disableBuffers(values);
+                                    VeilRenderSystem.renderer().disableBuffers(bufferId, values);
                                     ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable.all"));
                                     return values.length;
                                 }))

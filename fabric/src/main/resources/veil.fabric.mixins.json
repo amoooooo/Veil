@@ -28,7 +28,7 @@
     "compat.sodium.DefaultFluidRendererMixin",
     "compat.sodium.DefaultShaderInterfaceMixin",
     "compat.sodium.RenderSectionManagerAccessor",
-    "compat.sodium.ShaderChunkRendererAccessor",
+    "compat.sodium.ShaderChunkRendererMixin",
     "compat.sodium.ShaderLoaderMixin",
     "compat.sodium.SodiumWorldRendererAccessor"
   ],

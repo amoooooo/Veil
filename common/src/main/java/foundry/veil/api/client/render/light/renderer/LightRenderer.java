@@ -2,16 +2,18 @@ package foundry.veil.api.client.render.light.renderer;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import foundry.veil.Veil;
 import foundry.veil.api.client.registry.LightTypeRegistry;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.light.Light;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.client.render.light.Light;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
@@ -32,6 +34,7 @@ import java.util.function.Consumer;
  */
 public class LightRenderer implements NativeResource {
 
+    private static final ResourceLocation BUFFER_ID = Veil.veilPath("lights");
     private final Map<LightTypeRegistry.LightType<?>, LightData<?>> lights;
 
     private boolean ambientOcclusionEnabled;
@@ -90,17 +93,20 @@ public class LightRenderer implements NativeResource {
     public void render() {
         this.framebuffer = AdvancedFbo.getMainFramebuffer();
 
+        boolean hasRendered = false;
         for (LightData<?> value : this.lights.values()) {
             // If there are no visible lights, then don't render anything
             if (value.renderer.getVisibleLights() > 0) {
+                hasRendered = true;
+                if (VeilRenderSystem.renderer().enableBuffers(BUFFER_ID, DynamicBufferType.ALBEDO, DynamicBufferType.NORMAL)) {
+                    break;
+                }
                 value.render(this);
-                VeilRenderSystem.renderer().enableBuffers(DynamicBufferType.ALBEDO, DynamicBufferType.NORMAL);
             }
         }
-        // TODO stack system + vanilla shader cache
-//        if (!hasRendered) {
-//            VeilRenderSystem.renderer().disableBuffers(DynamicBufferType.ALBEDO, DynamicBufferType.NORMAL);
-//        }
+        if (!hasRendered) {
+            VeilRenderSystem.renderer().disableBuffers(BUFFER_ID, DynamicBufferType.ALBEDO, DynamicBufferType.NORMAL);
+        }
 
         this.framebuffer = null;
     }
@@ -186,7 +192,6 @@ public class LightRenderer implements NativeResource {
     public void free() {
         this.lights.values().forEach(LightData::free);
         this.lights.clear();
-        VeilRenderSystem.renderer().disableBuffers(DynamicBufferType.values());
     }
 
     @ApiStatus.Internal

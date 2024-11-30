@@ -101,33 +101,44 @@ public class VeilRenderer implements NativeResource {
     /**
      * Enables the specified dynamic render buffers.
      *
+     * @param name    The name of the "source" of the buffer change
      * @param buffers The buffers to enable
      * @return Whether any change occurred
      */
-    public boolean enableBuffers(DynamicBufferType... buffers) {
+    public boolean enableBuffers(ResourceLocation name, DynamicBufferType... buffers) {
         RenderSystem.assertOnRenderThreadOrInit();
         if (buffers.length == 0) {
             return false;
         }
-
-        int active = this.dynamicBufferManger.getActiveBuffers() | DynamicBufferType.encode(buffers);
-        return this.dynamicBufferManger.setActiveBuffers(active);
+        return this.dynamicBufferManger.setActiveBuffers(name, DynamicBufferType.encode(buffers));
     }
 
     /**
      * Disables the specified dynamic render buffers.
      *
+     * @param name    The name of the "source" of the buffer change
      * @param buffers The buffers to disable
      * @return Whether any change occurred
      */
-    public boolean disableBuffers(DynamicBufferType... buffers) {
+    public boolean disableBuffers(ResourceLocation name, DynamicBufferType... buffers) {
         RenderSystem.assertOnRenderThreadOrInit();
         if (buffers.length == 0) {
             return false;
         }
 
-        int active = this.dynamicBufferManger.getActiveBuffers() & ~DynamicBufferType.encode(buffers);
-        return this.dynamicBufferManger.setActiveBuffers(active);
+        int active = this.dynamicBufferManger.getActiveBuffers(name) & ~DynamicBufferType.encode(buffers);
+        return this.dynamicBufferManger.setActiveBuffers(name, active);
+    }
+
+    /**
+     * Disables the specified dynamic render buffers.
+     *
+     * @param name    The name of the "source" of the buffer change
+     * @return Whether any change occurred
+     */
+    public boolean disableBuffers(ResourceLocation name) {
+        RenderSystem.assertOnRenderThreadOrInit();
+        return this.dynamicBufferManger.setActiveBuffers(name, 0);
     }
 
     /**
