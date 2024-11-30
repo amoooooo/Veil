@@ -6,7 +6,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public interface LevelRendererExtension extends LevelRendererBlockLayerExtension {
 
-    void markChunksDirty();
+    void veil$markChunksDirty();
 
     CullFrustum veil$getCullFrustum();
 }

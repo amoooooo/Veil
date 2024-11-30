@@ -76,6 +76,7 @@ public interface AdvancedFbo extends NativeResource {
     /**
      * Binds the main Minecraft framebuffer for writing and reading.
      */
+    @SuppressWarnings("ConstantValue")
     static void unbind() {
         RenderTarget mainTarget = Minecraft.getInstance().getMainRenderTarget();
         if (mainTarget != null) {
@@ -237,7 +238,7 @@ public interface AdvancedFbo extends NativeResource {
     int getHeight();
 
     /**
-     * @return The amount of color attachments in this framebuffer
+     * @return The number of color attachments in this framebuffer
      */
     int getColorAttachments();
 
@@ -510,8 +511,7 @@ public interface AdvancedFbo extends NativeResource {
         private final int height;
         private final List<AdvancedFboAttachment> colorAttachments;
         private AdvancedFboAttachment depthAttachment;
-        private int mipmaps;
-        private int samples;
+        private int levels;
         private int format;
         private int internalFormat;
         private boolean linear;
@@ -528,8 +528,15 @@ public interface AdvancedFbo extends NativeResource {
             this.height = height;
             this.colorAttachments = new LinkedList<>();
             this.depthAttachment = null;
-            this.mipmaps = 0;
-            this.samples = 1;
+            this.levels = 1;
+            this.format = GL_RGBA;
+            this.internalFormat = GL_RGBA8;
+            this.linear = false;
+            this.name = null;
+        }
+
+        private void reset() {
+            this.levels = 1;
             this.format = GL_RGBA;
             this.internalFormat = GL_RGBA8;
             this.linear = false;
@@ -582,34 +589,28 @@ public interface AdvancedFbo extends NativeResource {
          * @param parent The parent to add the attachments for
          */
         public Builder addAttachments(RenderTarget parent) {
-            this.setMipmaps(0);
+            this.setFormat(FramebufferAttachmentDefinition.Format.RGBA8);
+            this.setLevels(1);
+            this.setLinear(false);
+            this.setName(null);
             this.addColorTextureBuffer(parent.width, parent.height, GL_UNSIGNED_BYTE);
             if (parent.useDepth) {
                 Validate.isTrue(this.depthAttachment == null, "Only one depth attachment can be applied to an FBO.");
-                this.setSamples(1);
+                this.setLevels(1);
+                this.setName(null);
                 this.setDepthRenderBuffer(parent.width, parent.height);
             }
             return this;
         }
 
         /**
-         * Sets the number of mipmaps levels to use for texture attachments. <code>0</code> is the default for none.
-         *
-         * @param mipmaps The levels to have
-         */
-        public Builder setMipmaps(int mipmaps) {
-            this.mipmaps = mipmaps;
-            return this;
-        }
-
-        /**
-         * Sets the number of samples to use for render buffer attachments.
+         * Sets the number of samples to use for render buffer and texture attachments.
          * <code>1</code> is the default for single sample buffers.
          *
-         * @param samples The samples to have
+         * @param levels The samples to have
          */
-        public Builder setSamples(int samples) {
-            this.samples = samples;
+        public Builder setLevels(int levels) {
+            this.levels = levels;
             return this;
         }
 
@@ -661,7 +662,7 @@ public interface AdvancedFbo extends NativeResource {
          */
         public Builder addColorBuffer(AdvancedFboAttachment attachment) {
             this.colorAttachments.add(attachment);
-            this.name = null;
+            this.reset();
             this.validateColorSize();
             return this;
         }
@@ -725,7 +726,7 @@ public interface AdvancedFbo extends NativeResource {
                     dataType,
                     width,
                     height,
-                    this.mipmaps,
+                    this.levels,
                     this.linear,
                     this.name));
         }
@@ -747,10 +748,10 @@ public interface AdvancedFbo extends NativeResource {
          */
         public Builder addColorRenderBuffer(int width, int height) {
             return this.addColorBuffer(new AdvancedFboRenderAttachment(GL_COLOR_ATTACHMENT0,
-                    this.format,
+                    this.internalFormat,
                     width,
                     height,
-                    this.samples));
+                    this.levels));
         }
 
         /**
@@ -761,7 +762,7 @@ public interface AdvancedFbo extends NativeResource {
         public Builder setDepthBuffer(@Nullable AdvancedFboAttachment attachment) {
             Validate.isTrue(attachment == null || this.depthAttachment == null, "Only one depth attachment can be applied to an FBO.");
             this.depthAttachment = attachment;
-            this.name = null;
+            this.reset();
             return this;
         }
 
@@ -824,7 +825,7 @@ public interface AdvancedFbo extends NativeResource {
                     dataType,
                     width,
                     height,
-                    this.mipmaps,
+                    this.levels,
                     this.linear,
                     this.name));
         }
@@ -849,7 +850,7 @@ public interface AdvancedFbo extends NativeResource {
                     GL_DEPTH_COMPONENT24,
                     width,
                     height,
-                    this.samples));
+                    this.levels));
         }
 
         /**

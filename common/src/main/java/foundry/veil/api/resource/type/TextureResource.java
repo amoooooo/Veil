@@ -1,15 +1,29 @@
 package foundry.veil.api.resource.type;
 
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
+import foundry.veil.api.resource.VeilResourceManager;
+import foundry.veil.ext.TextureAtlasExtension;
+import foundry.veil.mixin.accessor.AtlasSetAccessor;
+import foundry.veil.mixin.accessor.ModelManagerAccessor;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.SpriteLoader;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.atlas.SpriteSource;
+import net.minecraft.client.resources.model.AtlasSet;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public record TextureResource(VeilResourceInfo resourceInfo) implements VeilResource<TextureResource> {
 
@@ -51,7 +65,27 @@ public record TextureResource(VeilResourceInfo resourceInfo) implements VeilReso
     }
 
     @Override
-    public void hotReload() {
+    public void hotReload(VeilResourceManager resourceManager) throws IOException {
+        ResourceLocation location = this.resourceInfo.location();
+        ResourceManager resources = resourceManager.resources(this.resourceInfo);
+        Minecraft client = Minecraft.getInstance();
+        client.getTextureManager().release(location);
+
+        ModelManagerAccessor modelManager = (ModelManagerAccessor) client.getModelManager();
+        int mipLevel = modelManager.getMaxMipmapLevels();
+        AtlasSet atlases = modelManager.getAtlases();
+        ResourceLocation id = SpriteSource.TEXTURE_ID_CONVERTER.fileToId(location);
+
+        for (Map.Entry<ResourceLocation, AtlasSet.AtlasEntry> entry : ((AtlasSetAccessor) atlases).getAtlases().entrySet()) {
+            TextureAtlas atlas = entry.getValue().atlas();
+            if (((TextureAtlasExtension) atlas).veil$hasTexture(id)) {
+                SpriteLoader.create(atlas)
+                        .loadAndStitch(resources, entry.getValue().atlasInfoLocation(), mipLevel, Util.backgroundExecutor())
+                        .thenAcceptAsync(atlas::upload, VeilRenderSystem.renderThreadExecutor());
+            }
+        }
+
+        VeilRenderSystem.rebuildChunks();
     }
 
     @Override

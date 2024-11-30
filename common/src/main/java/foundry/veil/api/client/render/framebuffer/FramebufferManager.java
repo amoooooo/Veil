@@ -70,9 +70,14 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
             AdvancedFbo fbo = definition.createBuilder(runtime).build(true);
             fbo.bindDraw(false);
             fbo.clear();
-            this.framebuffers.put(name, fbo);
+            AdvancedFbo old = this.framebuffers.put(name, fbo);
+            if (old != null) {
+                old.free();
+            }
             if (!definition.autoClear()) {
                 this.manualFramebuffers.add(name);
+            } else {
+                this.manualFramebuffers.remove(name);
             }
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to initialize framebuffer: {}", name, e);
@@ -88,12 +93,6 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
 
         RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
         for (ResourceLocation name : this.screenFramebuffers) {
-            this.manualFramebuffers.remove(name);
-            AdvancedFbo fbo = this.framebuffers.remove(name);
-            if (fbo != null) {
-                fbo.free();
-            }
-
             FramebufferDefinition definition = this.framebufferDefinitions.get(name);
             if (definition != null) {
                 this.initFramebuffer(name, definition, runtime);
@@ -112,6 +111,24 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
             fbo.bindDraw(false);
             fbo.clear();
         });
+    }
+
+    public void setDefinition(ResourceLocation name, FramebufferDefinition definition) {
+        Window window = Minecraft.getInstance().getWindow();
+        MolangRuntime runtime = MolangRuntime.runtime()
+                .setQuery("screen_width", window.getWidth())
+                .setQuery("screen_height", window.getHeight())
+                .create();
+
+        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
+        this.framebufferDefinitions.put(name, definition);
+        this.initFramebuffer(name, definition, runtime);
+        if (!definition.width().isConstant() || !definition.height().isConstant()) {
+            this.screenFramebuffers.add(name);
+        } else {
+            this.screenFramebuffers.remove(name);
+        }
+        AdvancedFbo.unbind();
     }
 
     /**
@@ -149,11 +166,21 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
     /**
      * Retrieves a framebuffer by the specified name.
      *
-     * @param name The name of the framebuffer to retrieve.
+     * @param name The name of the framebuffer to retrieve
      * @return The framebuffer by that name
      */
     public @Nullable AdvancedFbo getFramebuffer(ResourceLocation name) {
         return this.framebuffers.get(name);
+    }
+
+    /**
+     * Retrieves a framebuffer definition by the specified name.
+     *
+     * @param name The name of the definition to retrieve
+     * @return The definition by that name
+     */
+    public @Nullable FramebufferDefinition getFramebufferDefinition(ResourceLocation name) {
+        return this.framebufferDefinitions.get(name);
     }
 
     /**

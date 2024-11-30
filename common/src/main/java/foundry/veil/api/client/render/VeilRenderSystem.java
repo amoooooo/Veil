@@ -5,16 +5,17 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
+import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.opencl.VeilOpenCL;
+import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
@@ -392,6 +393,13 @@ public final class VeilRenderSystem {
      */
     public static void drawIndirect(VertexBuffer vbo, long indirect, int drawCount, int stride) {
         ((VertexBufferExtension) vbo).veil$drawIndirect(indirect, drawCount, stride);
+    }
+
+    /**
+     * Rebuilds all chunks in view without deleting the old chunks.
+     */
+    public static void rebuildChunks() {
+        ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).veil$markChunksDirty();
     }
 
     /**

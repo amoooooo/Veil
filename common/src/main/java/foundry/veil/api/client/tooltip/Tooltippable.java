@@ -15,9 +15,7 @@ import java.util.List;
  * @author amo
  * @see VeilUITooltipRenderer
  * @since 1.0.0
- * @deprecated Use component instead
  */
-@Deprecated
 public interface Tooltippable {
 
     /**

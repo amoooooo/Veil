@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.nio.file.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -73,7 +74,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
         this.loaders.add(loader);
     }
 
-    private void loadPack(ResourceManager resourceManager, VeilPackResources resources, Object2ObjectMap<Path, PackResourceListener> watchers, PackType type, PackResources packResources) {
+    private void loadPack(ResourceManager resourceManager, VeilPackResources resources, Map<Path, PackResourceListener> watchers, PackType type, PackResources packResources) {
         if (packResources instanceof PackResourcesExtension ext) {
             try {
                 ext.veil$listResources((packType, loc, packPath, path, modResourcePath) -> {
@@ -89,7 +90,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                             Path listenPath = modResourcePath != null ? modResourcePath : path;
                             if (listenPath != null) {
                                 try {
-                                    watchers.computeIfAbsent(packPath, PackResourceListener::new).listen(resource, listenPath);
+                                    watchers.computeIfAbsent(packPath, p -> new PackResourceListener(this, p)).listen(resource, listenPath);
                                 } catch (Exception e) {
                                     Veil.LOGGER.error("Failed to listen to resource: {}", resource.resourceInfo().location(), e);
                                 }
@@ -240,6 +241,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
 
     private static class PackResourceListener implements Closeable {
 
+        private final VeilResourceManager resourceManager;
         private final Path path;
         private final WatchService watchService;
         private final ObjectSet<Path> watchedDirectories;
@@ -247,7 +249,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
         private final Object2ObjectMap<Path, VeilResource<?>> resources;
         private final Thread watchThread;
 
-        public PackResourceListener(Path path) {
+        public PackResourceListener(VeilResourceManager resourceManager, Path path) {
             WatchService watchService;
             try {
                 watchService = path.getFileSystem().newWatchService();
@@ -255,6 +257,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                 watchService = null;
             }
 
+            this.resourceManager = resourceManager;
             this.path = path;
             this.watchService = watchService;
             this.watchedDirectories = ObjectSets.synchronize(new ObjectArraySet<>());
@@ -294,7 +297,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                     if (this.ignoredPaths.add(path)) {
                         VeilResource<?> resource = this.resources.get(path);
                         if (resource != null) {
-                            resource.onFileSystemChange(pathWatchEvent).thenRun(() -> this.ignoredPaths.remove(path));
+                            resource.onFileSystemChange(this.resourceManager, pathWatchEvent).thenRun(() -> this.ignoredPaths.remove(path));
                         }
                     }
                 }

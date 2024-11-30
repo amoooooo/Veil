@@ -46,10 +46,11 @@ public interface VeilResource<T extends VeilResource<?>> {
     /**
      * Called from the watcher thread when this resource updates on disc.
      *
-     * @param event The event received from the file watcher
+     * @param resourceManager The resource manager this event was triggered from
+     * @param event           The event received from the file watcher
      * @return A future for when the key can be reset. All events are ignored until this future completes
      */
-    default CompletableFuture<?> onFileSystemChange(WatchEvent<Path> event) {
+    default CompletableFuture<?> onFileSystemChange(VeilResourceManager resourceManager, WatchEvent<Path> event) {
         if (this.canHotReload() && (event.kind() == ENTRY_CREATE || event.kind() == ENTRY_MODIFY)) {
             Veil.LOGGER.info("Hot swapping {} after file system change", this.resourceInfo().location());
 
@@ -60,7 +61,16 @@ public interface VeilResource<T extends VeilResource<?>> {
                 } catch (IOException e) {
                     throw new CompletionException(e);
                 }
-            }, task -> client.tell(() -> Util.ioPool().execute(task))).thenRunAsync(this::hotReload, client).exceptionally(e -> {
+            }, task -> client.tell(() -> Util.ioPool().execute(task))).thenRunAsync(() -> {
+                try {
+                    this.hotReload(resourceManager);
+                } catch (IOException e) {
+                    throw new CompletionException(e);
+                }
+            }, client).exceptionally(e -> {
+                while (e instanceof CompletionException) {
+                    e = e.getCause();
+                }
                 Veil.LOGGER.error("Failed to hot swap file system change", e);
                 return null;
             });
@@ -81,9 +91,12 @@ public interface VeilResource<T extends VeilResource<?>> {
     boolean canHotReload();
 
     /**
-     * Hot-reloads the resource
+     * Hot-reloads the resource.
+     *
+     * @param resourceManager The resource manager reloading the resource
+     * @throws IOException If any error occurs while trying to reload
      */
-    void hotReload();
+    void hotReload(VeilResourceManager resourceManager) throws IOException;
 
     default void copyToResources() throws IOException {
         VeilResourceInfo info = this.resourceInfo();

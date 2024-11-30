@@ -70,3 +70,6 @@ accessible class net/minecraft/client/renderer/RenderType$CompositeState
 # VertexFormat
 accessible field com/mojang/blaze3d/vertex/VertexFormatElement BY_ID [Lcom/mojang/blaze3d/vertex/VertexFormatElement;
 mutable field com/mojang/blaze3d/vertex/VertexFormatElement BY_ID [Lcom/mojang/blaze3d/vertex/VertexFormatElement;
+
+# Resource Manager
+accessible class net/minecraft/client/resources/model/AtlasSet$AtlasEntry

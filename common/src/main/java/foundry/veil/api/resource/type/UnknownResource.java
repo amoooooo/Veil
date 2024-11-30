@@ -3,7 +3,9 @@ package foundry.veil.api.resource.type;
 import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
+import foundry.veil.api.resource.VeilResourceManager;
 
+import java.io.IOException;
 import java.util.List;
 
 public record UnknownResource(VeilResourceInfo resourceInfo) implements VeilResource<UnknownResource> {
@@ -19,7 +21,8 @@ public record UnknownResource(VeilResourceInfo resourceInfo) implements VeilReso
     }
 
     @Override
-    public void hotReload() {
+    public void hotReload(VeilResourceManager resourceManager) throws IOException {
+        throw new UnsupportedOperationException();
     }
 
     @Override

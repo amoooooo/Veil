@@ -67,14 +67,14 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     public void create() {
         this.bindAttachment();
         this.setFilter(this.linear, this.mipmapLevels > 1);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, this.mipmapLevels);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, this.mipmapLevels-1);
         GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, this.mipmapLevels);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, this.mipmapLevels-1);
         GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
         GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        for (int i = 0; i <= this.mipmapLevels; i++) {
+        for (int i = 0; i < this.mipmapLevels; i++) {
             GlStateManager._texImage2D(GL_TEXTURE_2D, i, this.format, this.width >> i, this.height >> i, 0, this.texelFormat, this.dataType, null);
         }
         this.unbindAttachment();

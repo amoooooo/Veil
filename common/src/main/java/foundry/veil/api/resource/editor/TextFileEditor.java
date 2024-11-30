@@ -64,7 +64,7 @@ public class TextFileEditor implements ResourceFileEditor<VeilTextResource<?>> {
             }
 
             this.editor.show(info.fileName(), contents);
-            this.editor.setSaveCallback((source, errorConsumer) -> this.save(source.getBytes(StandardCharsets.UTF_8), resource));
+            this.editor.setSaveCallback((source, errorConsumer) -> this.save(source.getBytes(StandardCharsets.UTF_8), resourceManager, resource));
 
             TextEditor textEditor = this.editor.getEditor();
             textEditor.setReadOnly(resource.resourceInfo().isStatic());

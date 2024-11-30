@@ -10,9 +10,7 @@ import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.light.Light;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -160,7 +158,7 @@ public class LightRenderer implements NativeResource {
     public void enableAmbientOcclusion() {
         if (!this.ambientOcclusionEnabled) {
             this.ambientOcclusionEnabled = true;
-            ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).markChunksDirty();
+            VeilRenderSystem.rebuildChunks();
         }
     }
 
@@ -170,7 +168,7 @@ public class LightRenderer implements NativeResource {
     public void disableAmbientOcclusion() {
         if (this.ambientOcclusionEnabled) {
             this.ambientOcclusionEnabled = false;
-            ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).markChunksDirty();
+            VeilRenderSystem.rebuildChunks();
         }
     }
 

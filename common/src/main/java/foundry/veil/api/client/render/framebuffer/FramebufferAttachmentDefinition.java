@@ -49,7 +49,7 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
                             .forGetter(FramebufferAttachmentDefinition::dataType),
                     Codec.BOOL.optionalFieldOf("linear", false)
                             .forGetter(FramebufferAttachmentDefinition::linear),
-                    Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("levels", 0)
+                    Codec.intRange(1, Integer.MAX_VALUE).optionalFieldOf("levels", 1)
                             .forGetter(FramebufferAttachmentDefinition::levels),
                     Codec.STRING.optionalFieldOf("name")
                             .forGetter(attachment -> Optional.ofNullable(attachment.name()))
@@ -65,7 +65,7 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
                             .forGetter(FramebufferAttachmentDefinition::dataType),
                     Codec.BOOL.optionalFieldOf("linear", false)
                             .forGetter(FramebufferAttachmentDefinition::linear),
-                    Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("levels", 0)
+                    Codec.intRange(1, Integer.MAX_VALUE).optionalFieldOf("levels", 1)
                             .forGetter(FramebufferAttachmentDefinition::levels),
                     Codec.STRING.optionalFieldOf("name")
                             .forGetter(attachment -> Optional.ofNullable(attachment.name()))
@@ -76,7 +76,7 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
      * @return Whether this attachment can be represented as <code>"depth": true</code> in the JSON
      */
     public boolean isCompactDepthAttachment() {
-        return this.type == Type.TEXTURE && this.format == Format.DEPTH_COMPONENT && this.dataType == DataType.FLOAT && !this.linear && this.levels == 0 && this.name == null;
+        return this.type == Type.TEXTURE && this.format == Format.DEPTH_COMPONENT && this.dataType == DataType.FLOAT && !this.linear && this.levels == 1 && this.name == null;
     }
 
     /**
@@ -96,14 +96,14 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
             return DataResult.error(() -> "Unknown attachment type: " + name);
         }, type -> DataResult.success(type.name()));
 
-        private final String dislpayName;
+        private final String displayName;
 
-        Type(String dislpayName) {
-            this.dislpayName = dislpayName;
+        Type(String displayName) {
+            this.displayName = displayName;
         }
 
         public String getDisplayName() {
-            return dislpayName;
+            return displayName;
         }
     }
 

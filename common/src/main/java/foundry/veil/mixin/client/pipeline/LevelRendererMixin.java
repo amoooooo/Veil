@@ -135,7 +135,7 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     }
 
     @Override
-    public void markChunksDirty() {
+    public void veil$markChunksDirty() {
         for (SectionRenderDispatcher.RenderSection section : this.visibleSections) {
             section.setDirty(false);
         }

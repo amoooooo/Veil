@@ -2,10 +2,16 @@ package foundry.veil.api.resource;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.Resource;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.Optional;
 
 /**
  * @param location        The resource location path this resource is located at
@@ -19,6 +25,21 @@ public record VeilResourceInfo(PackType packType,
                                @Nullable Path modResourcePath,
                                boolean hidden) {
 
+    public Optional<Resource> getResource(VeilResourceManager resourceManager) {
+        return resourceManager.resources(this).getResource(this.location);
+    }
+
+    public Resource getResourceOrThrow(VeilResourceManager resourceManager) throws FileNotFoundException {
+        return this.getResource(resourceManager).orElseThrow(() -> new FileNotFoundException(this.location.toString()));
+    }
+
+    public InputStream open(VeilResourceManager resourceManager) throws IOException {
+        return this.getResourceOrThrow(resourceManager).open();
+    }
+
+    public BufferedReader openAsReader(VeilResourceManager resourceManager) throws IOException {
+        return this.getResourceOrThrow(resourceManager).openAsReader();
+    }
 
     /**
      * @return The file name of this resource

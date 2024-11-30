@@ -55,7 +55,7 @@ public record FramebufferDefinition(MolangExpression width,
                                                     FramebufferAttachmentDefinition.DataType.FLOAT,
                                                     true,
                                                     false,
-                                                    0,
+                                                    1,
                                                     null)) :
                                             Optional.empty()),
                             optional -> {
@@ -105,7 +105,7 @@ public record FramebufferDefinition(MolangExpression width,
                             .forGetter(definition -> definition.colorBuffers[0].dataType()),
                     Codec.BOOL.optionalFieldOf("linear", false)
                             .forGetter(definition -> definition.colorBuffers[0].linear()),
-                    Codec.INT.optionalFieldOf("levels", 0)
+                    Codec.INT.optionalFieldOf("levels", 1)
                             .forGetter(definition -> definition.colorBuffers[0].levels()),
                     Codec.STRING.optionalFieldOf("name")
                             .forGetter(definition -> Optional.ofNullable(definition.colorBuffers[0].name())),
@@ -181,10 +181,11 @@ public record FramebufferDefinition(MolangExpression width,
 
         for (FramebufferAttachmentDefinition definition : this.colorBuffers) {
             if (definition.type() == FramebufferAttachmentDefinition.Type.RENDER_BUFFER) {
-                builder.setSamples(definition.levels())
+                builder.setLevels(definition.levels())
+                        .setFormat(definition.format())
                         .addColorRenderBuffer();
             } else {
-                builder.setMipmaps(definition.levels())
+                builder.setLevels(definition.levels())
                         .setLinear(definition.linear())
                         .setName(definition.name())
                         .setFormat(definition.format())
@@ -194,10 +195,10 @@ public record FramebufferDefinition(MolangExpression width,
 
         if (this.depthBuffer != null) {
             if (this.depthBuffer.type() == FramebufferAttachmentDefinition.Type.RENDER_BUFFER) {
-                builder.setSamples(this.depthBuffer.levels())
+                builder.setLevels(this.depthBuffer.levels())
                         .setDepthRenderBuffer();
             } else {
-                builder.setMipmaps(this.depthBuffer.levels())
+                builder.setLevels(this.depthBuffer.levels())
                         .setLinear(this.depthBuffer.linear())
                         .setName(this.depthBuffer.name())
                         .setFormat(this.depthBuffer.format())

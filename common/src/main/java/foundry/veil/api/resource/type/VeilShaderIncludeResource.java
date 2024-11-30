@@ -6,6 +6,7 @@ import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
+import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.impl.resource.action.TextEditAction;
 import net.minecraft.resources.ResourceLocation;
 
@@ -27,7 +28,7 @@ public record VeilShaderIncludeResource(VeilResourceInfo resourceInfo) implement
     }
 
     @Override
-    public void hotReload() {
+    public void hotReload(VeilResourceManager resourceManager) {
         ResourceLocation id = ShaderManager.INCLUDE_LISTER.fileToId(this.resourceInfo.location());
 
         ShaderManager shaderManager = VeilRenderSystem.renderer().getShaderManager();
