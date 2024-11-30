@@ -155,7 +155,8 @@ public class GlslTree {
     }
 
     public Optional<Pair<List<GlslNode>, Integer>> containingBlock(GlslNode node) {
-        return Optional.ofNullable(this.containingBlock(this.body, node));
+        Pair<List<GlslNode>, Integer> block = this.containingBlock(this.body, node);
+        return block != null && block.getFirst() == this.body ? Optional.of(Pair.of(this.mainFunction().orElseThrow().getBody(), 0)) : Optional.ofNullable(block);
     }
 
     private @Nullable Pair<List<GlslNode>, Integer> containingBlock(List<GlslNode> body, GlslNode node) {

@@ -371,4 +371,20 @@ public class GlslTest {
         tree.visit(writer);
         System.out.println(writer);
     }
+
+    @Test
+    void testMatrix2() throws GlslSyntaxException {
+        GlslTree tree = GlslParser.parse("""
+                void main() {
+                    vec3 size = Position * Distance;
+                    size.x *= length(VeilCamera.ViewMat[0].xyz);// Basis vector X
+                    size.y *= length(VeilCamera.ViewMat[1].xyz);// Basis vector Y
+                    size.z *= length(VeilCamera.ViewMat[2].xyz);// Basis vector Z
+                }
+                """);
+
+        GlslStringWriter writer = new GlslStringWriter();
+        tree.visit(writer);
+        System.out.println(writer);
+    }
 }

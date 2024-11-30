@@ -91,6 +91,7 @@ public class LightRenderer implements NativeResource {
         this.framebuffer = AdvancedFbo.getMainFramebuffer();
 
         for (LightData<?> value : this.lights.values()) {
+            // If there are no visible lights, then don't render anything
             if (value.renderer.getVisibleLights() > 0) {
                 value.render(this);
                 VeilRenderSystem.renderer().enableBuffers(DynamicBufferType.ALBEDO, DynamicBufferType.NORMAL);

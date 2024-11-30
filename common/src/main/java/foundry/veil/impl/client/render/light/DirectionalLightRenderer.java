@@ -45,10 +45,6 @@ public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLi
 
     @Override
     public void renderLights(LightRenderer lightRenderer, List<DirectionalLight> lights) {
-        if (this.visibleLights <= 0) {
-            return;
-        }
-
         VeilRenderSystem.setShader(VeilShaders.LIGHT_DIRECTIONAL);
         lightRenderer.applyShader();
 

@@ -160,10 +160,6 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
 
     @Override
     public void renderLights(LightRenderer lightRenderer, List<T> lights) {
-        if (this.visibleLights.isEmpty()) {
-            return;
-        }
-
         this.vbo.bind();
         this.setupRenderState(lightRenderer, this.visibleLights);
         lightRenderer.applyShader();

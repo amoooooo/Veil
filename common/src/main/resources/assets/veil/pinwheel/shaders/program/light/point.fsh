@@ -30,12 +30,12 @@ void main() {
     vec3 offset = lightPos - pos;
 
     vec3 normalVS = texture(VeilDynamicNormalSampler, screenUv).xyz;
-    vec3 lightDirection = (VeilCamera.ViewMat * vec4(normalize(offset), 0.0)).xyz;
+    vec3 lightDirection = normalize((VeilCamera.ViewMat * vec4(offset, 0.0)).xyz);
     float diffuse = clamp(0.0, 1.0, dot(normalVS, lightDirection));
     diffuse = (diffuse + MINECRAFT_AMBIENT_LIGHT) / (1.0 + MINECRAFT_AMBIENT_LIGHT);
     diffuse *= attenuate_no_cusp(length(offset), radius);
 
-    float reflectivity = 0.1;
+    float reflectivity = 0.2;
     vec3 diffuseColor = diffuse * lightColor;
     fragColor = vec4(albedoColor.rgb * diffuseColor * (1.0 - reflectivity) + diffuseColor * reflectivity, 1.0);
 }

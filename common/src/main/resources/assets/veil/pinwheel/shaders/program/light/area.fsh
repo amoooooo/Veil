@@ -62,7 +62,7 @@ void main() {
     float angle = areaLightInfo.angle;
 
     vec3 offset = lightPos - pos;
-    vec3 lightDirection = (VeilCamera.ViewMat * vec4(normalize(offset), 0.0)).xyz;
+    vec3 lightDirection = normalize((VeilCamera.ViewMat * vec4(offset, 0.0)).xyz);
     float diffuse = (dot(normalVS, lightDirection) + 1.0) * 0.5;
     diffuse = (diffuse + MINECRAFT_AMBIENT_LIGHT) / (1.0 + MINECRAFT_AMBIENT_LIGHT);
     diffuse *= attenuate_no_cusp(length(offset), maxDistance);

@@ -296,11 +296,6 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
     @Override
     public void renderLights(LightRenderer lightRenderer, List<T> lights) {
-        // If there are no visible lights, then don't render anything
-        if (this.visibleLights <= 0) {
-            return;
-        }
-
         this.vbo.bind();
         glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
 

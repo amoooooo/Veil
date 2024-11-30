@@ -305,23 +305,14 @@ public final class GlslParser {
 
         // primary_expression
         GlslNode primaryExpression = parsePrimaryExpression(reader);
-        if (primaryExpression != null) {
+        while (primaryExpression != null) {
             // primary_expression LEFT_BRACKET integer_expression RIGHT_BRACKET
             int expressionCursor = reader.getCursor();
             if (reader.tryConsume(GlslLexer.TokenType.LEFT_BRACKET)) {
                 GlslNode integerExpression = parseIntegerExpression(reader);
                 if (integerExpression != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACKET)) {
                     primaryExpression = new GlslArrayNode(primaryExpression, integerExpression);
-                    expressionCursor = reader.getCursor();
-
-                    // primary_expression LEFT_BRACKET integer_expression RIGHT_BRACKET LEFT_BRACKET integer_expression RIGHT_BRACKET
-                    if (reader.tryConsume(GlslLexer.TokenType.LEFT_BRACKET)) {
-                        GlslNode integerExpression2 = parseIntegerExpression(reader);
-                        if (integerExpression2 != null && reader.tryConsume(GlslLexer.TokenType.RIGHT_BRACKET)) {
-                            primaryExpression = new GlslArrayNode(primaryExpression, integerExpression);
-                            expressionCursor = reader.getCursor();
-                        }
-                    }
+                    continue;
                 }
             }
             reader.setCursor(expressionCursor);
@@ -332,18 +323,21 @@ public final class GlslParser {
                 while (reader.tryConsume(GlslLexer.TokenType.DOT, GlslLexer.TokenType.IDENTIFIER)) {
                     fieldSelection.append('.').append(reader.peek(-1).value());
                 }
-                return new GlslFieldNode(primaryExpression, fieldSelection.toString());
+                primaryExpression= new GlslFieldNode(primaryExpression, fieldSelection.toString());
+                continue;
             }
             reader.setCursor(expressionCursor);
             // primary_expression INC_OP
             if (reader.tryConsume(GlslLexer.TokenType.INC_OP)) {
-                return new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_INCREMENT);
+                primaryExpression= new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_INCREMENT);
+                continue;
             }
             reader.setCursor(expressionCursor);
 
             // primary_expression DEC_OP
             if (reader.tryConsume(GlslLexer.TokenType.DEC_OP)) {
-                return new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_DECREMENT);
+                primaryExpression= new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_DECREMENT);
+                continue;
             }
             reader.setCursor(expressionCursor);
 
