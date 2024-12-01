@@ -1,7 +1,7 @@
 #include veil:fog
 #include veil:deferred_utils
 
-#define FOG_Y 69.99
+#define FOG_Y 64.99
 #define THICKNESS 0.1
 
 uniform sampler2D DiffuseSampler0;
@@ -73,3 +73,4 @@ void main() {
     float thickness = clamp(exp(THICKNESS * -distance), 0.0, 1.0);
     fragColor = mix(FogColor, baseColor, thickness);
 }
+

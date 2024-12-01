@@ -33,7 +33,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11C.GL_ALWAYS;
 import static org.lwjgl.opengl.GL11C.GL_LEQUAL;
 
@@ -165,7 +166,11 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
                     this.clearPipeline();
                     // Resolve back to main for the next pipeline
                     if (postFramebuffer != null) {
-                        postFramebuffer.resolveToFramebuffer(Minecraft.getInstance().getMainRenderTarget());
+                        postFramebuffer.resolveToFramebuffer(
+                                Minecraft.getInstance().getMainRenderTarget(),
+                                GL_COLOR_BUFFER_BIT,
+                                GL_NEAREST
+                        );
                     }
                 } catch (Exception e) {
                     Veil.LOGGER.error("Error running pipeline {}", id, e);
