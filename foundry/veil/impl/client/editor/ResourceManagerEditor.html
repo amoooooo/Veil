@@ -157,9 +157,9 @@ implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="int
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../api/resource/VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResourceManager()" class="member-name-link">getResourceManager</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#open(foundry.veil.api.resource.VeilResource,net.minecraft.resources.ResourceLocation)" class="member-name-link">open</a><wbr>(<a href="../../../api/resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource,
- net.minecraft.resources.ResourceLocation&nbsp;editorName)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T extends <a href="../../../api/resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;<br>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#open(T,foundry.veil.api.resource.editor.ResourceFileEditor)" class="member-name-link">open</a><wbr>(T&nbsp;resource,
+ <a href="../../../api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;T&gt;&nbsp;editor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#renderComponents()" class="member-name-link">renderComponents</a>()</code></div>
@@ -181,6 +181,9 @@ implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="int
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.lwjgl.system.NativeResource">Methods inherited from interface&nbsp;org.lwjgl.system.NativeResource</h3>
 <code>close</code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-foundry.veil.api.resource.VeilEditorEnvironment">Methods inherited from interface&nbsp;foundry.veil.api.resource.<a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></h3>
+<code><a href="../../../api/resource/VeilEditorEnvironment.html#open(foundry.veil.api.resource.VeilResource,net.minecraft.resources.ResourceLocation)">open</a></code></div>
 </section>
 </li>
 </ul>
@@ -257,13 +260,13 @@ implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="int
 </section>
 </li>
 <li>
-<section class="detail" id="open(foundry.veil.api.resource.VeilResource,net.minecraft.resources.ResourceLocation)">
-<h3>open</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">open</span><wbr><span class="parameters">(<a href="../../../api/resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource,
- net.minecraft.resources.ResourceLocation&nbsp;editorName)</span></div>
+<section class="detail" id="open(T,foundry.veil.api.resource.editor.ResourceFileEditor)">
+<h3 id="open(foundry.veil.api.resource.VeilResource,foundry.veil.api.resource.editor.ResourceFileEditor)">open</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="../../../api/resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">open</span><wbr><span class="parameters">(T&nbsp;resource,
+ <a href="../../../api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;T&gt;&nbsp;editor)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../api/resource/VeilEditorEnvironment.html#open(foundry.veil.api.resource.VeilResource,net.minecraft.resources.ResourceLocation)">open</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code></dd>
+<dd><code><a href="../../../api/resource/VeilEditorEnvironment.html#open(T,foundry.veil.api.resource.editor.ResourceFileEditor)">open</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code></dd>
 </dl>
 </section>
 </li>
