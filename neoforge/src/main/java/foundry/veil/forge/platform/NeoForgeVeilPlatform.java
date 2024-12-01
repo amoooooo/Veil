@@ -5,7 +5,7 @@ import net.neoforged.fml.loading.FMLLoader;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class ForgeVeilPlatform implements VeilPlatform {
+public class NeoForgeVeilPlatform implements VeilPlatform {
 
     @Override
     public PlatformType getPlatformType() {

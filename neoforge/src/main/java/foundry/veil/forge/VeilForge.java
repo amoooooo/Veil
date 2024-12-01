@@ -1,7 +1,7 @@
 package foundry.veil.forge;
 
 import foundry.veil.Veil;
-import foundry.veil.forge.platform.ForgeVeilEventPlatform;
+import foundry.veil.forge.platform.NeoForgeVeilEventPlatform;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import org.jetbrains.annotations.ApiStatus;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.ApiStatus;
 public class VeilForge {
 
     public VeilForge(IEventBus bus) {
-        ForgeVeilEventPlatform.init(bus);
+        NeoForgeVeilEventPlatform.init(bus);
         Veil.init();
     }
 }

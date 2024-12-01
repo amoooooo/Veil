@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 @ApiStatus.Internal
-public class ForgeRegistrationFactory implements RegistrationProvider.Factory {
+public class NeoForgeRegistrationFactory implements RegistrationProvider.Factory {
 
     @Override
     public <T> RegistrationProvider<T> create(ResourceKey<? extends Registry<T>> resourceKey, String modId) {

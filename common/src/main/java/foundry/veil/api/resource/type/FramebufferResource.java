@@ -10,6 +10,7 @@ import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.api.resource.VeilResourceManager;
+import foundry.veil.impl.resource.action.FramebufferEditAction;
 import foundry.veil.impl.resource.action.TextEditAction;
 import imgui.extension.texteditor.TextEditorLanguageDefinition;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +23,7 @@ public record FramebufferResource(VeilResourceInfo resourceInfo) implements Veil
 
     @Override
     public List<VeilResourceAction<FramebufferResource>> getActions() {
-        return List.of(new TextEditAction<>());
+        return List.of(new TextEditAction<>(), new FramebufferEditAction());
     }
 
     @Override

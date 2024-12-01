@@ -23,7 +23,6 @@ import java.util.function.Supplier;
  *
  * @param <T> the operand of the objects that this class registers
  */
-@ApiStatus.Internal
 public interface RegistrationProvider<T> {
 
     /**

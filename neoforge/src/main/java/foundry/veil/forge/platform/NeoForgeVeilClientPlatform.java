@@ -8,7 +8,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class ForgeVeilClientPlatform implements VeilClientPlatform {
+public class NeoForgeVeilClientPlatform implements VeilClientPlatform {
 
     @Override
     public void preVeilPostProcessing(ResourceLocation name, PostPipeline pipeline, PostPipeline.Context context) {

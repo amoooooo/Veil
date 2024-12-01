@@ -2,7 +2,6 @@ package foundry.veil.api.resource.editor;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import foundry.veil.Veil;
@@ -24,21 +23,26 @@ import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiInputTextFlags;
 import imgui.flag.ImGuiStyleVar;
 import imgui.type.ImBoolean;
+import imgui.type.ImInt;
 import imgui.type.ImString;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 public class FramebufferFileEditor implements ResourceFileEditor<FramebufferResource> {
 
     private static final StringBuilder BUILDER = new StringBuilder();
+    private static final MolangRuntime RUNTIME = MolangRuntime.runtime()
+            .setQuery("screen_width", MolangExpression.of(() -> (float) Minecraft.getInstance().getWindow().getWidth()))
+            .setQuery("screen_height", MolangExpression.of(() -> (float) Minecraft.getInstance().getWindow().getHeight()))
+            .create();
 
     private final ImBoolean open;
     private FramebufferResource resource;
@@ -51,10 +55,13 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
     private int attachmentIndex;
     private FramebufferAttachmentDefinition.Type type;
     private FramebufferAttachmentDefinition.Format format;
+    private final ImString formatInput = new ImString();
     private FramebufferAttachmentDefinition.DataType dataType;
-    private boolean linear;
+    private final ImString dataTypeInput = new ImString();
+    private final ImBoolean linear = new ImBoolean();
     private int levels;
-    private String name;
+    private final ImInt levelsInput = new ImInt();
+    private final ImString name = new ImString();
 
     public FramebufferFileEditor() {
         this.open = new ImBoolean(false);
@@ -67,25 +74,29 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         }
 
         if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName() + "###framebuffer_editor")) {
-            Window window = Minecraft.getInstance().getWindow();
-            MolangRuntime runtime = MolangRuntime.runtime()
-                    .setQuery("screen_width", window.getWidth())
-                    .setQuery("screen_height", window.getHeight())
-                    .create();
-
             float definitionWidth = 1;
             float definitionHeight = 1;
             try {
-                definitionWidth = runtime.resolve(this.builder.getWidth());
-                definitionHeight = runtime.resolve(this.builder.getHeight());
-            } catch (MolangRuntimeException e) {
-                e.printStackTrace(); // TODO handle
+                definitionWidth = RUNTIME.resolve(this.builder.getWidth());
+                definitionHeight = RUNTIME.resolve(this.builder.getHeight());
+            } catch (MolangRuntimeException ignored) {
             }
 
-            float aspectRatio = definitionHeight / definitionWidth;
             float lineHeight = ImGui.getTextLineHeightWithSpacing();
-            float boxWidth = ImGui.getContentRegionAvailX() / 2;
-            float boxHeight = boxWidth * aspectRatio;
+            float boxWidth;
+            float boxHeight;
+            if (definitionWidth >= definitionHeight) {
+                boxWidth = ImGui.getContentRegionAvailX() / 2;
+                boxHeight = boxWidth * definitionHeight / definitionWidth;
+
+                if (boxHeight > ImGui.getContentRegionAvailY() - 225) {
+                    boxHeight = ImGui.getContentRegionAvailY() - 225;
+                    boxWidth = Math.max(1, boxHeight * definitionWidth / definitionHeight);
+                }
+            } else {
+                boxHeight = ImGui.getContentRegionAvailY() / 2;
+                boxWidth = Math.max(1, boxHeight * definitionWidth / definitionHeight);
+            }
 
             ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0, 0);
             if (ImGui.beginChild("##size", boxWidth, boxHeight, true)) {
@@ -173,6 +184,10 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
                 if (this.attachmentIndex == 0 && !this.enabledBuffers.get(0)) {
                     this.setAttachment(1);
                 }
+            }
+            ImGui.sameLine();
+            if (ImGui.checkbox("Auto Clear", this.builder.isAutoClear())) {
+                this.builder.setAutoClear(!this.builder.isAutoClear());
             }
 
             ImGui.endGroup();
@@ -263,16 +278,14 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         if (ImGui.inputText("Width", this.widthInput, ImGuiInputTextFlags.EnterReturnsTrue)) {
             try {
                 this.builder.setWidth(VeilMolang.get().compile(this.widthInput.get()));
-            } catch (MolangSyntaxException e) {
-                e.printStackTrace();
+            } catch (MolangSyntaxException ignored) {
             }
             this.updateSize();
         }
         if (ImGui.inputText("Height", this.heightInput, ImGuiInputTextFlags.EnterReturnsTrue)) {
             try {
                 this.builder.setHeight(VeilMolang.get().compile(this.heightInput.get()));
-            } catch (MolangSyntaxException e) {
-                e.printStackTrace();
+            } catch (MolangSyntaxException ignored) {
             }
             this.updateSize();
         }
@@ -287,6 +300,34 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
                 }
             }
             ImGui.endCombo();
+        }
+        if (ImGui.inputText("Format", this.formatInput, ImGuiInputTextFlags.EnterReturnsTrue)) {
+            try {
+                this.format = FramebufferAttachmentDefinition.Format.valueOf(this.formatInput.get().toUpperCase(Locale.ROOT));
+                this.saveAttachment();
+            } catch (IllegalArgumentException ignored) {
+            }
+            this.formatInput.set(this.format.name());
+        }
+        ImGui.beginDisabled(this.type == FramebufferAttachmentDefinition.Type.RENDER_BUFFER);
+        if (ImGui.inputText("Data Type", this.dataTypeInput, ImGuiInputTextFlags.EnterReturnsTrue)) {
+            try {
+                this.dataType = FramebufferAttachmentDefinition.DataType.valueOf(this.dataTypeInput.get().toUpperCase(Locale.ROOT));
+                this.saveAttachment();
+            } catch (IllegalArgumentException ignored) {
+            }
+            this.dataTypeInput.set(this.dataType.name());
+        }
+        if (ImGui.checkbox("Linear", this.linear)) {
+            this.saveAttachment();
+        }
+        ImGui.endDisabled();
+        if (ImGui.sliderInt(this.type == FramebufferAttachmentDefinition.Type.RENDER_BUFFER ? "Samples" : "Mipmaps", this.levelsInput.getData(), 1, VeilRenderSystem.maxSamples())) {
+            this.levels = this.levelsInput.get();
+            this.saveAttachment();
+        }
+        if (ImGui.inputText("Name", this.name, ImGuiInputTextFlags.EnterReturnsTrue)) {
+            this.saveAttachment();
         }
 //        this.type = buffer.type();
 //        this.format = buffer.format();
@@ -310,14 +351,16 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         } else {
             this.heightInput.set(height);
         }
+        this.createFramebuffer();
     }
 
     private void saveAttachment() {
         if (this.attachmentIndex == 0) {
-            this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, true, this.linear, this.levels, this.name));
+            this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, true, this.linear.get(), this.levels, this.name.get()));
         } else {
-            this.builder.setColorBuffer(this.attachmentIndex - 1, new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, false, this.linear, this.levels, this.name));
+            this.builder.setColorBuffer(this.attachmentIndex - 1, new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, false, this.linear.get(), this.levels, this.name.get()));
         }
+        this.createFramebuffer();
     }
 
     private void setAttachment(int attachmentIndex) {
@@ -338,11 +381,18 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         if (buffer != null) {
             this.type = buffer.type();
             this.format = buffer.format();
+            this.formatInput.set(this.format.name());
             this.dataType = buffer.dataType();
-            this.linear = buffer.linear();
+            this.dataTypeInput.set(this.dataType.name());
+            this.linear.set(buffer.linear());
             this.levels = buffer.levels();
-            this.name = buffer.name();
+            this.name.set(buffer.name());
         }
+    }
+
+    private void createFramebuffer() {
+        ResourceLocation id = FramebufferManager.FRAMEBUFFER_LISTER.fileToId(this.resource.resourceInfo().location());
+        VeilRenderSystem.renderer().getFramebufferManager().setDefinition(id, this.builder.create());
     }
 
     @Override
@@ -350,16 +400,14 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         this.open.set(true);
         this.resource = resource;
 
-        ResourceManager resourceManager = environment.getResourceManager().clientResources();
-        ResourceLocation location = resource.resourceInfo().location();
-        try (BufferedReader reader = resourceManager.getResourceOrThrow(location).openAsReader()) {
+        try (BufferedReader reader = resource.resourceInfo().openAsReader(environment.getResourceManager())) {
             DataResult<FramebufferDefinition> result = FramebufferDefinition.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(reader));
             if (result.error().isPresent()) {
                 throw new JsonParseException(result.error().get().message());
             }
             this.builder = new FramebufferDefinitionBuilder(result.result().orElseThrow());
         } catch (IOException e) {
-            Veil.LOGGER.error("Failed to open resource: {}", location, e);
+            Veil.LOGGER.error("Failed to open resource: {}", resource.resourceInfo().location(), e);
             this.builder = new FramebufferDefinitionBuilder();
         }
 
@@ -440,6 +488,10 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
 
         public boolean isAutoClear() {
             return this.autoClear;
+        }
+
+        public FramebufferDefinition create() {
+            return new FramebufferDefinition(this.width, this.height, this.colorBuffers, this.depthBuffer, this.autoClear);
         }
     }
 }

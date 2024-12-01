@@ -22,7 +22,7 @@ import org.joml.Matrix4f;
 import java.util.Map;
 
 @ApiStatus.Internal
-public class ForgeVeilEventPlatform implements VeilEventPlatform {
+public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
 
     private static final BiMap<VeilRenderLevelStageEvent.Stage, RenderLevelStageEvent.Stage> STAGE_MAPPING = HashBiMap.create(Map.ofEntries(
             Map.entry(VeilRenderLevelStageEvent.Stage.AFTER_SKY, RenderLevelStageEvent.Stage.AFTER_SKY),
@@ -41,7 +41,7 @@ public class ForgeVeilEventPlatform implements VeilEventPlatform {
     private static IEventBus bus;
 
     public static void init(IEventBus bus) {
-        ForgeVeilEventPlatform.bus = bus;
+        NeoForgeVeilEventPlatform.bus = bus;
     }
 
     @Override
