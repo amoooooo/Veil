@@ -25,7 +25,9 @@ public interface RegistryObject<T> extends Supplier<T> {
      *
      * @return the id of the object
      */
-    ResourceLocation getId();
+    default ResourceLocation getId() {
+        return this.getResourceKey().location();
+    }
 
     /**
      * @return If the initializer has been registered and assigned

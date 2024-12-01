@@ -53,32 +53,7 @@ public class NeoForgeRegistrationFactory implements RegistrationProvider.Factory
         @SuppressWarnings("unchecked")
         public <I extends T> RegistryObject<I> register(String name, Supplier<? extends I> supplier) {
             DeferredHolder<I, I> obj = (DeferredHolder<I, I>) this.registry.register(name, supplier);
-            RegistryObject<I> ro = new RegistryObject<>() {
-                @Override
-                public ResourceKey<I> getResourceKey() {
-                    return obj.getKey();
-                }
-
-                @Override
-                public ResourceLocation getId() {
-                    return obj.getId();
-                }
-
-                @Override
-                public I get() {
-                    return obj.get();
-                }
-
-                @Override
-                public Holder<I> asHolder() {
-                    return obj;
-                }
-
-                @Override
-                public boolean isPresent() {
-                    return obj.isBound();
-                }
-            };
+            RegistryObject<I> ro = new NeoForgeRegistryObject<>(obj);
             this.entries.add((RegistryObject<T>) ro);
             return ro;
         }
@@ -87,32 +62,7 @@ public class NeoForgeRegistrationFactory implements RegistrationProvider.Factory
         @Override
         public <I extends T> RegistryObject<I> register(ResourceLocation id, Supplier<? extends I> supplier) {
             DeferredHolder<I, I> obj = (DeferredHolder<I, I>) ((DeferredRegisterExtensions<T>) this.registry).register(id, supplier);
-            RegistryObject<I> ro = new RegistryObject<>() {
-                @Override
-                public ResourceKey<I> getResourceKey() {
-                    return obj.getKey();
-                }
-
-                @Override
-                public ResourceLocation getId() {
-                    return obj.getId();
-                }
-
-                @Override
-                public I get() {
-                    return obj.get();
-                }
-
-                @Override
-                public Holder<I> asHolder() {
-                    return obj;
-                }
-
-                @Override
-                public boolean isPresent() {
-                    return obj.isBound();
-                }
-            };
+            RegistryObject<I> ro = new NeoForgeRegistryObject<>(obj);
             this.entries.add((RegistryObject<T>) ro);
             return ro;
         }
@@ -130,6 +80,29 @@ public class NeoForgeRegistrationFactory implements RegistrationProvider.Factory
         @Override
         public String getModId() {
             return this.modId;
+        }
+    }
+
+    private record NeoForgeRegistryObject<T, I extends T>(DeferredHolder<I, I> holder) implements RegistryObject<I> {
+
+        @Override
+        public ResourceKey<I> getResourceKey() {
+            return this.holder.getKey();
+        }
+
+        @Override
+        public boolean isPresent() {
+            return this.holder.isBound();
+        }
+
+        @Override
+        public I get() {
+            return this.holder.get();
+        }
+
+        @Override
+        public Holder<I> asHolder() {
+            return this.holder;
         }
     }
 }

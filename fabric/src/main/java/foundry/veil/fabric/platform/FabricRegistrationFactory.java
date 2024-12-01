@@ -50,43 +50,11 @@ public class FabricRegistrationFactory implements RegistrationProvider.Factory {
         @Override
         @SuppressWarnings("unchecked")
         public <I extends T> RegistryObject<I> register(ResourceLocation id, Supplier<? extends I> supplier) {
-            RegistryObject<I> old = (RegistryObject<I>) this.registry.get(id);
-            if (old != null) {
-                return old;
-            }
-
-            I obj = Registry.register(this.registry, id, supplier.get());
+            I value = Registry.register(this.registry, id, supplier.get());
             ResourceKey<I> key = ResourceKey.create((ResourceKey<? extends Registry<I>>) this.registry.key(), id);
-
-            RegistryObject<I> ro = new RegistryObject<>() {
-
-                @Override
-                public ResourceKey<I> getResourceKey() {
-                    return key;
-                }
-
-                @Override
-                public ResourceLocation getId() {
-                    return id;
-                }
-
-                @Override
-                public boolean isPresent() {
-                    return true;
-                }
-
-                @Override
-                public I get() {
-                    return obj;
-                }
-
-                @Override
-                public Holder<I> asHolder() {
-                    return (Holder<I>) Provider.this.registry.getHolderOrThrow((ResourceKey<T>) key);
-                }
-            };
-            this.entries.add((RegistryObject<T>) ro);
-            return ro;
+            RegistryObject<I> object = new FabricRegistryObject<>(this.registry, key, value);
+            this.entries.add((RegistryObject<T>) object);
+            return object;
         }
 
         @Override
@@ -102,6 +70,32 @@ public class FabricRegistrationFactory implements RegistrationProvider.Factory {
         @Override
         public String getModId() {
             return this.modId;
+        }
+    }
+
+    private record FabricRegistryObject<T, I>(Registry<T> registry,
+                                              ResourceKey<I> key,
+                                              I value) implements RegistryObject<I> {
+
+        @Override
+        public ResourceKey<I> getResourceKey() {
+            return this.key;
+        }
+
+        @Override
+        public boolean isPresent() {
+            return true;
+        }
+
+        @Override
+        public I get() {
+            return this.value;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Holder<I> asHolder() {
+            return (Holder<I>) this.registry.getHolderOrThrow((ResourceKey<T>) this.key);
         }
     }
 }
