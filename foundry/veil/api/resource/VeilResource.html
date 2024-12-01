@@ -125,12 +125,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Gets the icon code for this resource (ex.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hotReload()" class="member-name-link">hotReload</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hotReload(foundry.veil.api.resource.VeilResourceManager)" class="member-name-link">hotReload</a><wbr>(<a href="VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Hot-reloads the resource</div>
+<div class="block">Hot-reloads the resource.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;?&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onFileSystemChange(java.nio.file.WatchEvent)" class="member-name-link">onFileSystemChange</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/WatchEvent.html" title="class or interface in java.nio.file" class="external-link">WatchEvent</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&gt;&nbsp;event)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#onFileSystemChange(foundry.veil.api.resource.VeilResourceManager,java.nio.file.WatchEvent)" class="member-name-link">onFileSystemChange</a><wbr>(<a href="VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/WatchEvent.html" title="class or interface in java.nio.file" class="external-link">WatchEvent</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&gt;&nbsp;event)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Called from the watcher thread when this resource updates on disc.</div>
 </div>
@@ -168,12 +169,14 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="onFileSystemChange(java.nio.file.WatchEvent)">
+<section class="detail" id="onFileSystemChange(foundry.veil.api.resource.VeilResourceManager,java.nio.file.WatchEvent)">
 <h3>onFileSystemChange</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;?&gt;</span>&nbsp;<span class="element-name">onFileSystemChange</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/WatchEvent.html" title="class or interface in java.nio.file" class="external-link">WatchEvent</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&gt;&nbsp;event)</span></div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;?&gt;</span>&nbsp;<span class="element-name">onFileSystemChange</span><wbr><span class="parameters">(<a href="VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/WatchEvent.html" title="class or interface in java.nio.file" class="external-link">WatchEvent</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Path.html" title="class or interface in java.nio.file" class="external-link">Path</a>&gt;&nbsp;event)</span></div>
 <div class="block">Called from the watcher thread when this resource updates on disc.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
+<dd><code>resourceManager</code> - The resource manager this event was triggered from</dd>
 <dd><code>event</code> - The event received from the file watcher</dd>
 <dt>Returns:</dt>
 <dd>A future for when the key can be reset. All events are ignored until this future completes</dd>
@@ -207,10 +210,17 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="hotReload()">
+<section class="detail" id="hotReload(foundry.veil.api.resource.VeilResourceManager)">
 <h3>hotReload</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">hotReload</span>()</div>
-<div class="block">Hot-reloads the resource</div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">hotReload</span><wbr><span class="parameters">(<a href="VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager)</span>
+        throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<div class="block">Hot-reloads the resource.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>resourceManager</code> - The resource manager reloading the resource</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If any error occurs while trying to reload</dd>
+</dl>
 </section>
 </li>
 <li>

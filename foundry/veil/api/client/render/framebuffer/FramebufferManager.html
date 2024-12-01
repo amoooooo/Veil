@@ -179,17 +179,26 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieves a framebuffer by the specified name.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;net.minecraft.resources.ResourceLocation,<wbr><a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFramebuffers()" class="member-name-link">getFramebuffers</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeFramebuffer(net.minecraft.resources.ResourceLocation)" class="member-name-link">removeFramebuffer</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFramebufferDefinition(net.minecraft.resources.ResourceLocation)" class="member-name-link">getFramebufferDefinition</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves a framebuffer definition by the specified name.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;net.minecraft.resources.ResourceLocation,<wbr><a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFramebuffers()" class="member-name-link">getFramebuffers</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeFramebuffer(net.minecraft.resources.ResourceLocation)" class="member-name-link">removeFramebuffer</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Removes the specified manual framebuffer without freeing it</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resizeFramebuffers(int,int)" class="member-name-link">resizeFramebuffers</a><wbr>(int&nbsp;width,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resizeFramebuffers(int,int)" class="member-name-link">resizeFramebuffers</a><wbr>(int&nbsp;width,
  int&nbsp;height)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDefinition(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.framebuffer.FramebufferDefinition)" class="member-name-link">setDefinition</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
+ <a href="FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a>&nbsp;definition)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFramebuffer(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">setFramebuffer</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
@@ -277,6 +286,13 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
+<section class="detail" id="setDefinition(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.framebuffer.FramebufferDefinition)">
+<h3>setDefinition</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDefinition</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;name,
+ <a href="FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a>&nbsp;definition)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="setFramebuffer(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.framebuffer.AdvancedFbo)">
 <h3>setFramebuffer</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFramebuffer</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;name,
@@ -312,9 +328,23 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="block">Retrieves a framebuffer by the specified name.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>name</code> - The name of the framebuffer to retrieve.</dd>
+<dd><code>name</code> - The name of the framebuffer to retrieve</dd>
 <dt>Returns:</dt>
 <dd>The framebuffer by that name</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getFramebufferDefinition(net.minecraft.resources.ResourceLocation)">
+<h3>getFramebufferDefinition</h3>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a></span>&nbsp;<span class="element-name">getFramebufferDefinition</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;name)</span></div>
+<div class="block">Retrieves a framebuffer definition by the specified name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the definition to retrieve</dd>
+<dt>Returns:</dt>
+<dd>The definition by that name</dd>
 </dl>
 </section>
 </li>

@@ -166,9 +166,9 @@ implements <a href="VeilTextResource.html" title="interface in foundry.veil.api.
 <div class="block">Returns a hash code value for this object.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hotReload()" class="member-name-link">hotReload</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hotReload(foundry.veil.api.resource.VeilResourceManager)" class="member-name-link">hotReload</a><wbr>(<a href="../VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Hot-reloads the resource</div>
+<div class="block">Hot-reloads the resource.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable imgui.extension.texteditor.TextEditorLanguageDefinition</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#languageDefinition()" class="member-name-link">languageDefinition</a>()</code></div>
@@ -196,7 +196,7 @@ implements <a href="VeilTextResource.html" title="interface in foundry.veil.api.
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.resource.VeilResource">Methods inherited from interface&nbsp;foundry.veil.api.resource.<a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a></h3>
-<code><a href="../VeilResource.html#copyToResources()">copyToResources</a>, <a href="../VeilResource.html#onFileSystemChange(java.nio.file.WatchEvent)">onFileSystemChange</a>, <a href="../VeilResource.html#render(boolean)">render</a></code></div>
+<code><a href="../VeilResource.html#copyToResources()">copyToResources</a>, <a href="../VeilResource.html#onFileSystemChange(foundry.veil.api.resource.VeilResourceManager,java.nio.file.WatchEvent)">onFileSystemChange</a>, <a href="../VeilResource.html#render(boolean)">render</a></code></div>
 </section>
 </li>
 </ul>
@@ -254,14 +254,19 @@ implements <a href="VeilTextResource.html" title="interface in foundry.veil.api.
 </section>
 </li>
 <li>
-<section class="detail" id="hotReload()">
+<section class="detail" id="hotReload(foundry.veil.api.resource.VeilResourceManager)">
 <h3>hotReload</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">hotReload</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../VeilResource.html#hotReload()">VeilResource</a></code></span></div>
-<div class="block">Hot-reloads the resource</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">hotReload</span><wbr><span class="parameters">(<a href="../VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager)</span>
+               throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../VeilResource.html#hotReload(foundry.veil.api.resource.VeilResourceManager)">VeilResource</a></code></span></div>
+<div class="block">Hot-reloads the resource.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../VeilResource.html#hotReload()">hotReload</a></code>&nbsp;in interface&nbsp;<code><a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;<a href="TextResource.html" title="class in foundry.veil.api.resource.type">TextResource</a>&gt;</code></dd>
+<dd><code><a href="../VeilResource.html#hotReload(foundry.veil.api.resource.VeilResourceManager)">hotReload</a></code>&nbsp;in interface&nbsp;<code><a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;<a href="TextResource.html" title="class in foundry.veil.api.resource.type">TextResource</a>&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>resourceManager</code> - The resource manager reloading the resource</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If any error occurs while trying to reload</dd>
 </dl>
 </section>
 </li>

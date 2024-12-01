@@ -264,24 +264,19 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the format to use for texture attachments.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLinear(boolean)" class="member-name-link">setLinear</a><wbr>(boolean&nbsp;linear)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLevels(int)" class="member-name-link">setLevels</a><wbr>(int&nbsp;levels)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the sampling mode for textures.</div>
+<div class="block">Sets the number of samples to use for render buffer and texture attachments.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMipmaps(int)" class="member-name-link">setMipmaps</a><wbr>(int&nbsp;mipmaps)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLinear(boolean)" class="member-name-link">setLinear</a><wbr>(boolean&nbsp;linear)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the number of mipmaps levels to use for texture attachments.</div>
+<div class="block">Sets the sampling mode for textures.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setName(java.lang.String)" class="member-name-link">setName</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets the uniform name for textures.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSamples(int)" class="member-name-link">setSamples</a><wbr>(int&nbsp;samples)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the number of samples to use for render buffer attachments.</div>
 </div>
 </div>
 </div>
@@ -344,25 +339,14 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="setMipmaps(int)">
-<h3>setMipmaps</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></span>&nbsp;<span class="element-name">setMipmaps</span><wbr><span class="parameters">(int&nbsp;mipmaps)</span></div>
-<div class="block">Sets the number of mipmaps levels to use for texture attachments. <code>0</code> is the default for none.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>mipmaps</code> - The levels to have</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setSamples(int)">
-<h3>setSamples</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></span>&nbsp;<span class="element-name">setSamples</span><wbr><span class="parameters">(int&nbsp;samples)</span></div>
-<div class="block">Sets the number of samples to use for render buffer attachments.
+<section class="detail" id="setLevels(int)">
+<h3>setLevels</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></span>&nbsp;<span class="element-name">setLevels</span><wbr><span class="parameters">(int&nbsp;levels)</span></div>
+<div class="block">Sets the number of samples to use for render buffer and texture attachments.
  <code>1</code> is the default for single sample buffers.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>samples</code> - The samples to have</dd>
+<dd><code>levels</code> - The samples to have</dd>
 </dl>
 </section>
 </li>

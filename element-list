@@ -34,6 +34,8 @@ foundry.veil.api.client.ui.util
 foundry.veil.api.client.util
 foundry.veil.api.event
 foundry.veil.api.molang
+foundry.veil.api.network
+foundry.veil.api.network.handler
 foundry.veil.api.opencl
 foundry.veil.api.opencl.event
 foundry.veil.api.quasar.data
@@ -82,6 +84,7 @@ foundry.veil.impl.glsl.node.function
 foundry.veil.impl.glsl.node.primary
 foundry.veil.impl.glsl.node.variable
 foundry.veil.impl.glsl.visitor
+foundry.veil.impl.network
 foundry.veil.impl.quasar
 foundry.veil.impl.resource
 foundry.veil.impl.resource.action

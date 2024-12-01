@@ -118,7 +118,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Renders this editor to the screen.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#save(byte%5B%5D,foundry.veil.api.resource.VeilResource)" class="member-name-link">save</a><wbr>(byte[]&nbsp;data,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#save(byte%5B%5D,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)" class="member-name-link">save</a><wbr>(byte[]&nbsp;data,
+ <a href="../VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager,
  <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Saves the specified data to the specified resource and hot reloads it.</div>
@@ -158,14 +159,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="save(byte[],foundry.veil.api.resource.VeilResource)">
+<section class="detail" id="save(byte[],foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)">
 <h3>save</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">save</span><wbr><span class="parameters">(byte[]&nbsp;data,
+ <a href="../VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager,
  <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</span></div>
 <div class="block">Saves the specified data to the specified resource and hot reloads it.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>data</code> - The data to write to the resource file</dd>
+<dd><code>resourceManager</code> - The resource manager to write the file to</dd>
 <dd><code>resource</code> - The resource to write to</dd>
 </dl>
 </section>
