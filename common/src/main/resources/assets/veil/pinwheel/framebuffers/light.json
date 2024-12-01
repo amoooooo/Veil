@@ -1,8 +1,6 @@
 {
-  "depth": false,
-  "color_buffers": [
-    {
-      "format": "RGB16F"
-    }
-  ]
+  "depth": {
+    "format": "DEPTH_COMPONENT32"
+  },
+  "format": "RGBA16F"
 }

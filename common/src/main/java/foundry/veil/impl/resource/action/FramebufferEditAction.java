@@ -30,6 +30,6 @@ public class FramebufferEditAction implements VeilResourceAction<FramebufferReso
 
     @Override
     public void perform(VeilEditorEnvironment environment, FramebufferResource resource) {
-        environment.open(resource, VeilResourceEditorRegistry.FRAMEBUFFER.getId());
+        environment.open(resource, VeilResourceEditorRegistry.FRAMEBUFFER.get());
     }
 }

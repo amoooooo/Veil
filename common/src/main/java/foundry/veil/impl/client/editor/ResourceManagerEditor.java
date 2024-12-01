@@ -4,7 +4,6 @@ import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.editor.SingleWindowEditor;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
-import foundry.veil.api.client.registry.VeilResourceEditorRegistry;
 import foundry.veil.api.resource.*;
 import foundry.veil.api.resource.editor.ResourceFileEditor;
 import foundry.veil.impl.resource.VeilPackResources;
@@ -18,7 +17,6 @@ import imgui.flag.ImGuiTreeNodeFlags;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.file.Path;
@@ -186,23 +184,12 @@ public class ResourceManagerEditor extends SingleWindowEditor implements VeilEdi
     }
 
     @Override
-    public void open(VeilResource<?> resource, ResourceLocation editorName) {
-        ResourceFileEditor<?> editor = VeilResourceEditorRegistry.REGISTRY.get(editorName);
-        if (editor == null) {
-            Veil.LOGGER.error("Failed to find editor for resource: {}", resource.resourceInfo().location());
-            return;
-        }
-
+    public <T extends VeilResource<?>> void open(T resource, ResourceFileEditor<T> editor) {
         try {
-            this.open(editor, resource);
+            editor.open(this, resource);
         } catch (Throwable t) {
             Veil.LOGGER.error("Failed to open editor for resource: {}", resource.resourceInfo().location(), t);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T extends VeilResource<?>> void open(ResourceFileEditor<T> editor, VeilResource<?> resource) {
-        editor.open(this, (T) resource);
     }
 
     @Override

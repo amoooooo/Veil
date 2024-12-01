@@ -1,5 +1,8 @@
 package foundry.veil.api.resource;
 
+import foundry.veil.Veil;
+import foundry.veil.api.client.registry.VeilResourceEditorRegistry;
+import foundry.veil.api.resource.editor.ResourceFileEditor;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -7,7 +10,18 @@ import net.minecraft.resources.ResourceLocation;
  */
 public interface VeilEditorEnvironment {
 
-    void open(VeilResource<?> resource, ResourceLocation editor);
+    <T extends VeilResource<?>> void open(T resource, ResourceFileEditor<T> editor);
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    default void open(VeilResource<?> resource, ResourceLocation editorName){
+        ResourceFileEditor editor = VeilResourceEditorRegistry.REGISTRY.get(editorName);
+        if (editor == null) {
+            Veil.LOGGER.error("Failed to find editor for resource: {}", resource.resourceInfo().location());
+            return;
+        }
+
+        this.open(resource, editor);
+    }
 
     VeilResourceManager getResourceManager();
 }

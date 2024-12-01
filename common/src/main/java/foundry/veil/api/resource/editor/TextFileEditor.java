@@ -49,7 +49,7 @@ public class TextFileEditor implements ResourceFileEditor<VeilTextResource<?>> {
         this.editor.getEditor().setReadOnly(true);
         this.editor.getEditor().setColorizerEnable(false);
 
-        resourceManager.resources(info).getResource(info.location()).ifPresentOrElse(data -> CompletableFuture.supplyAsync(() -> {
+        info.getResource(resourceManager).ifPresentOrElse(data -> CompletableFuture.supplyAsync(() -> {
             try (InputStream stream = data.open()) {
                 return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
             } catch (IOException e) {

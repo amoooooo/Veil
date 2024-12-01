@@ -2,13 +2,13 @@ package foundry.veil.impl.resource.action;
 
 import foundry.veil.api.client.registry.VeilResourceEditorRegistry;
 import foundry.veil.api.resource.VeilEditorEnvironment;
-import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceAction;
+import foundry.veil.api.resource.type.VeilTextResource;
 import net.minecraft.network.chat.Component;
 
 import java.util.OptionalInt;
 
-public record TextEditAction<T extends VeilResource<?>>() implements VeilResourceAction<T> {
+public record TextEditAction<T extends VeilTextResource<?>>() implements VeilResourceAction<T> {
 
     private static final Component NAME = Component.translatable("editor.veil.resource.action.text_edit");
     private static final Component DESC = Component.translatable("editor.veil.resource.action.text_edit.desc");
@@ -30,6 +30,6 @@ public record TextEditAction<T extends VeilResource<?>>() implements VeilResourc
 
     @Override
     public void perform(VeilEditorEnvironment environment, T resource) {
-        environment.open(resource, VeilResourceEditorRegistry.TEXT.getId());
+        environment.open(resource, VeilResourceEditorRegistry.TEXT.get());
     }
 }

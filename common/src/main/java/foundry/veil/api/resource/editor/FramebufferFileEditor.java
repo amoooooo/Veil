@@ -1,7 +1,11 @@
 package foundry.veil.api.resource.editor;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.internal.Streams;
+import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import foundry.veil.Veil;
@@ -13,6 +17,7 @@ import foundry.veil.api.client.render.framebuffer.FramebufferDefinition;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.molang.VeilMolang;
 import foundry.veil.api.resource.VeilEditorEnvironment;
+import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.api.resource.type.FramebufferResource;
 import gg.moonflower.molangcompiler.api.MolangExpression;
 import gg.moonflower.molangcompiler.api.MolangRuntime;
@@ -31,10 +36,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Locale;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 public class FramebufferFileEditor implements ResourceFileEditor<FramebufferResource> {
 
@@ -45,6 +53,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             .create();
 
     private final ImBoolean open;
+    private VeilResourceManager resourceManager;
     private FramebufferResource resource;
     private FramebufferDefinitionBuilder builder;
 
@@ -73,7 +82,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             return;
         }
 
-        if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName() + "###framebuffer_editor")) {
+        if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName() + "###framebuffer_editor", this.open)) {
             float definitionWidth = 1;
             float definitionHeight = 1;
             try {
@@ -155,7 +164,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
                     }
 
                     if (this.builder.getDepthBuffer() == null) {
-                        this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT, FramebufferAttachmentDefinition.DataType.FLOAT, true, false, 0, null));
+                        this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT, FramebufferAttachmentDefinition.DataType.FLOAT, true, false, 1, null));
                     }
                     drawBuffer("Depth Buffer", this.builder.getDepthBuffer(), itemWidth, this.attachmentIndex == 0);
                 }
@@ -172,7 +181,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
 
                     FramebufferAttachmentDefinition[] colorBuffers = this.builder.getColorBuffers();
                     if (colorBuffers[i] == null) {
-                        this.builder.setColorBuffer(i, new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.RGBA8, FramebufferAttachmentDefinition.DataType.UNSIGNED_BYTE, false, false, 0, null));
+                        this.builder.setColorBuffer(i, new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.RGBA8, FramebufferAttachmentDefinition.DataType.UNSIGNED_BYTE, false, false, 1, null));
                     }
                     drawBuffer("Color Buffer " + i, colorBuffers[i], itemWidth, this.attachmentIndex == i + 1);
                 }
@@ -184,10 +193,12 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
                 if (this.attachmentIndex == 0 && !this.enabledBuffers.get(0)) {
                     this.setAttachment(1);
                 }
+                this.save();
             }
             ImGui.sameLine();
             if (ImGui.checkbox("Auto Clear", this.builder.isAutoClear())) {
                 this.builder.setAutoClear(!this.builder.isAutoClear());
+                this.save();
             }
 
             ImGui.endGroup();
@@ -351,16 +362,17 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         } else {
             this.heightInput.set(height);
         }
-        this.createFramebuffer();
+        this.save();
     }
 
     private void saveAttachment() {
+        String name = this.name.get().isBlank() ? null : this.name.get();
         if (this.attachmentIndex == 0) {
-            this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, true, this.linear.get(), this.levels, this.name.get()));
+            this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, true, this.linear.get(), this.levels, name));
         } else {
-            this.builder.setColorBuffer(this.attachmentIndex - 1, new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, false, this.linear.get(), this.levels, this.name.get()));
+            this.builder.setColorBuffer(this.attachmentIndex - 1, new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, false, this.linear.get(), this.levels, name));
         }
-        this.createFramebuffer();
+        this.save();
     }
 
     private void setAttachment(int attachmentIndex) {
@@ -386,21 +398,41 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             this.dataTypeInput.set(this.dataType.name());
             this.linear.set(buffer.linear());
             this.levels = buffer.levels();
-            this.name.set(buffer.name());
+            this.levelsInput.set(this.levels);
+            if (buffer.name() != null) {
+                this.name.set(buffer.name());
+            } else {
+                this.name.clear();
+            }
         }
     }
 
-    private void createFramebuffer() {
-        ResourceLocation id = FramebufferManager.FRAMEBUFFER_LISTER.fileToId(this.resource.resourceInfo().location());
-        VeilRenderSystem.renderer().getFramebufferManager().setDefinition(id, this.builder.create());
+    private void save() {
+        try {
+            FramebufferDefinition definition = this.builder.create(this.enabledBuffers);
+            DataResult<JsonElement> result = FramebufferDefinition.CODEC.encodeStart(JsonOps.INSTANCE, definition);
+            if (result.error().isPresent()) {
+                throw new JsonSyntaxException(result.error().get().message());
+            }
+
+            StringWriter stringWriter = new StringWriter();
+            JsonWriter jsonWriter = new JsonWriter(stringWriter);
+            jsonWriter.setLenient(true);
+            jsonWriter.setIndent("  ");
+            Streams.write(result.getOrThrow(), jsonWriter);
+            this.save(stringWriter.toString().getBytes(StandardCharsets.UTF_8), this.resourceManager, this.resource);
+        } catch (Exception e) {
+            Veil.LOGGER.error("Failed to save resource: {}", this.resource.resourceInfo().location(), e);
+        }
     }
 
     @Override
     public void open(VeilEditorEnvironment environment, FramebufferResource resource) {
         this.open.set(true);
         this.resource = resource;
+        this.resourceManager = environment.getResourceManager();
 
-        try (BufferedReader reader = resource.resourceInfo().openAsReader(environment.getResourceManager())) {
+        try (BufferedReader reader = resource.resourceInfo().openAsReader(this.resourceManager)) {
             DataResult<FramebufferDefinition> result = FramebufferDefinition.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(reader));
             if (result.error().isPresent()) {
                 throw new JsonParseException(result.error().get().message());
@@ -490,8 +522,12 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             return this.autoClear;
         }
 
-        public FramebufferDefinition create() {
-            return new FramebufferDefinition(this.width, this.height, this.colorBuffers, this.depthBuffer, this.autoClear);
+        public FramebufferDefinition create(BitSet enabledBuffers) {
+            FramebufferAttachmentDefinition[] colorBuffers = IntStream.range(0, this.colorBuffers.length)
+                    .filter(i -> enabledBuffers.get(i + 1) && this.colorBuffers[i] != null)
+                    .mapToObj(i -> this.colorBuffers[i])
+                    .toArray(FramebufferAttachmentDefinition[]::new);
+            return new FramebufferDefinition(this.width, this.height, colorBuffers, enabledBuffers.get(0) ? this.depthBuffer : null, this.autoClear);
         }
     }
 }

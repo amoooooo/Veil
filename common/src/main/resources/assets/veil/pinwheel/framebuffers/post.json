@@ -1,6 +1,5 @@
 {
-  "depth": true,
-  "format": "RGBA16F"
+  "depth": false,
+  "autoClear": false,
+  "format": "RGB16F"
 }
-
-
