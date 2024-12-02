@@ -1,6 +1,9 @@
 package foundry.veil.api.client.render.shader.program;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Direction;
 import org.joml.*;
 
 import java.lang.Math;
@@ -26,6 +29,14 @@ public interface MutableUniformAccess extends UniformAccess {
         this.setInt("FogShape", RenderSystem.getShaderFogShape().getIndex());
         this.setMatrix("TextureMatrix", RenderSystem.getTextureMatrix());
         this.setFloat("GameTime", RenderSystem.getShaderGameTime());
+
+        // TODO move to uniform block
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level != null) {
+            for (Direction value : Direction.values()) {
+                this.setFloat("VeilBlockFaceBrightness[" + value.get3DDataValue() + "]", level.getShade(value, true));
+            }
+        }
     }
 
     /**
