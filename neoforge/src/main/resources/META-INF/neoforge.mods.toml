@@ -23,7 +23,7 @@ description='''${description}'''
 
 [[dependencies.veil]]
     modId = "neoforge"
-    versionRange = "${neoforge_loader_version_range}"
+    versionRange = "${neoforge_version_range}"
 [[dependencies.veil]]
     modId = "minecraft"
     versionRange = "${minecraft_version_range}"
