@@ -13,6 +13,8 @@
   "editor_group.veil.info": "Info",
   "editor_group.veil.resource": "Resource",
 
+  "editor.veil.default": "Editor",
+
   "editor.veil.shader.vertex_shader": "Vertex Shader",
   "editor.veil.shader.tess_control_shader": "Tesselation Control Shader",
   "editor.veil.shader.tess_eval_shader": "Tesselation Evaluation Shader",

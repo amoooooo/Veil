@@ -84,7 +84,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
             return compare;
         });
 
-        this.codeEditor = new CodeEditor(null);
+        this.codeEditor = new CodeEditor(TITLE, null);
         this.codeEditor.getEditor().setLanguageDefinition(VeilLanguageDefinitions.glsl());
 
         this.programFilterText = new ImString(128);
@@ -145,6 +145,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
 
     @Override
     protected void renderComponents() {
+        this.codeEditor.getEditor().setReadOnly(true);
         this.removedDefinitions.clear();
 
         ImGui.beginChild("##shader_programs", ImGui.getContentRegionAvailX() * 2 / 3, 0);

@@ -49,7 +49,7 @@ public class OpenCLEditor extends SingleWindowEditor {
     private final ImInt workGroups = new ImInt(1);
 
     public OpenCLEditor() {
-        this.codeEditor = new CodeEditor(Component.translatable("gui.veil.save"));
+        this.codeEditor = new CodeEditor(TITLE, Component.translatable("gui.veil.save"));
         this.codeEditor.setSaveCallback((source, errorConsumer) -> this.compileProgram(source));
         this.source = """
                 void kernel example(global const int* A, global const int* B, global const int* C, global int* D) {

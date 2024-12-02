@@ -23,7 +23,10 @@ import java.util.function.BiConsumer;
  */
 public class CodeEditor implements NativeResource {
 
+    private static final Component EDITOR = Component.translatable("editor.veil.default");
+
     // TODO reimplement in Java
+    private final Component name;
     private final TextEditor editor;
     private final Component saveText;
     private String oldSource;
@@ -33,6 +36,11 @@ public class CodeEditor implements NativeResource {
     private final ImBoolean open;
 
     public CodeEditor(@Nullable Component saveText) {
+        this(EDITOR, saveText);
+    }
+
+    public CodeEditor(Component name, @Nullable Component saveText) {
+        this.name = name;
         this.editor = new TextEditor();
         this.editor.setShowWhitespaces(false);
         this.saveText = saveText;
@@ -102,7 +110,7 @@ public class CodeEditor implements NativeResource {
      */
     public void renderWindow() {
         int flags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoSavedSettings;
-        if (this.hasTextChanged()) {
+        if (!this.editor.isReadOnly() && this.hasTextChanged()) {
             flags |= ImGuiWindowFlags.UnsavedDocument;
         }
 
@@ -113,7 +121,7 @@ public class CodeEditor implements NativeResource {
         int id = this.hashCode();
         ImGui.pushID(id);
         ImGui.setNextWindowSizeConstraints(800, 600, Float.MAX_VALUE, Float.MAX_VALUE);
-        if (ImGui.begin((this.fileName != null ? "Editor: " + this.fileName : "Editor") + "###editor" + id, this.open, flags)) {
+        if (ImGui.begin(this.name.getString() + (this.fileName != null ? ": " + this.fileName : "") + "###editor" + id, this.open, flags)) {
             this.render();
         }
 
