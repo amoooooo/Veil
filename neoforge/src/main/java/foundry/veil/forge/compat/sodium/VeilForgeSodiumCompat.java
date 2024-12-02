@@ -4,9 +4,12 @@ import foundry.veil.forge.ext.ShaderChunkRendererExtension;
 import foundry.veil.forge.mixin.compat.sodium.RenderSectionManagerAccessor;
 import foundry.veil.forge.mixin.compat.sodium.SodiumWorldRendererAccessor;
 import foundry.veil.impl.compat.SodiumCompat;
+import it.unimi.dsi.fastutil.longs.Long2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.RenderSection;
+import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 
 public class VeilForgeSodiumCompat implements SodiumCompat {
@@ -30,6 +33,22 @@ public class VeilForgeSodiumCompat implements SodiumCompat {
             RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
             if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererExtension extension) {
                 extension.veil$recompile();
+            }
+        }
+    }
+
+    @Override
+    public void markChunksDirty() {
+        SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
+        if (worldRenderer != null) {
+            RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
+
+            Long2ReferenceMap<RenderSection> map = renderSectionManager.getSectionByPosition();
+
+            for (long longPos : map.keySet()) {
+                SectionPos sectionPos = SectionPos.of(longPos);
+
+                ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager().scheduleRebuild(sectionPos.x(), sectionPos.y(), sectionPos.z(), true);
             }
         }
     }

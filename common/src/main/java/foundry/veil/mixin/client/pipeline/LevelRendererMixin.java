@@ -12,10 +12,12 @@ import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
+import foundry.veil.impl.compat.SodiumCompat;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -136,8 +138,14 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
 
     @Override
     public void veil$markChunksDirty() {
-        for (SectionRenderDispatcher.RenderSection section : this.visibleSections) {
-            section.setDirty(false);
+        SodiumCompat sodiumCompat = SodiumCompat.INSTANCE;
+
+        if (sodiumCompat != null) {
+            sodiumCompat.markChunksDirty();
+        } else {
+            for (SectionRenderDispatcher.RenderSection section : this.visibleSections) {
+                section.setDirty(false);
+            }
         }
     }
 }

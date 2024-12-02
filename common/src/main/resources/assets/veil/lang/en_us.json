@@ -137,6 +137,8 @@
   "editor.veil.resource.action.framebuffer_edit.desc": "Opens the in-game framebuffer editor",
   "editor.veil.resource.action.text_edit": "Open in Veil Text Editor",
   "editor.veil.resource.action.text_edit.desc": "Opens the in-game text editor",
+  "editor.veil.resource.action.model_edit": "Open in Veil Model Editor",
+  "editor.veil.resource.action.model_edit.desc": "Opens the in-game model editor",
 
   "editor.veil.shader.title": "GPU Shader Inspector",
   "editor.veil.shader.button.upload": "Upload",
