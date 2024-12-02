@@ -156,10 +156,6 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 this.reloadShaders();
             }
             for (TabSource source : sources) {
-                if (!source.visible.getAsBoolean()) {
-                    continue;
-                }
-
                 ImGui.beginDisabled(!source.active.getAsBoolean());
                 if (ImGui.beginTabItem(source.displayName.getString())) {
                     if (this.selectedTab != source.ordinal()) {
@@ -378,7 +374,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 VeilImGuiImpl.get().addImguiShaders(registry);
             }
         },
-        IRIS(Component.translatable("editor.veil.shader.source.iris"), () -> IrisCompat.INSTANCE != null, () -> IrisCompat.INSTANCE != null) {
+        IRIS(Component.translatable("editor.veil.shader.source.iris"), () -> IrisCompat.INSTANCE != null) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 for (ShaderInstance shader : IrisCompat.INSTANCE.getLoadedShaders()) {
@@ -387,7 +383,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 }
             }
         },
-        SODIUM(Component.translatable("editor.veil.shader.source.sodium"), () -> SodiumCompat.INSTANCE != null, () -> SodiumCompat.INSTANCE != null) {
+        SODIUM(Component.translatable("editor.veil.shader.source.sodium"), () -> SodiumCompat.INSTANCE != null) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 for (Object2IntMap.Entry<ResourceLocation> entry : SodiumCompat.INSTANCE.getLoadedShaders().object2IntEntrySet()) {
@@ -408,7 +404,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
                 }
 
                 for (TabSource value : TabSource.values()) {
-                    if (value == this) {
+                    if (value == this || !value.active.getAsBoolean()) {
                         continue;
                     }
 
@@ -423,16 +419,14 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
 
         private final Component displayName;
         private final BooleanSupplier active;
-        private final BooleanSupplier visible;
 
         TabSource(Component displayName) {
-            this(displayName, () -> true, () -> true);
+            this(displayName, () -> true);
         }
 
-        TabSource(Component displayName, BooleanSupplier active, BooleanSupplier visible) {
+        TabSource(Component displayName, BooleanSupplier active) {
             this.displayName = displayName;
             this.active = active;
-            this.visible = visible;
         }
 
         public abstract void addShaders(ObjIntConsumer<ResourceLocation> registry);
