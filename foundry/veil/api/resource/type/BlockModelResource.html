@@ -93,12 +93,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;<a href="BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a>&gt;</code></dd>
+<dd><code><a href="VeilTextResource.html" title="interface in foundry.veil.api.resource.type">VeilTextResource</a>&lt;<a href="BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a>&gt;</code>, <code><a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;<a href="BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a>&gt;</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">BlockModelResource</span>(<a href="../VeilResourceInfo.html" title="class in foundry.veil.api.resource">VeilResourceInfo</a>&nbsp;resourceInfo)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a>
-implements <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;<a href="BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a>&gt;</span></div>
+implements <a href="VeilTextResource.html" title="interface in foundry.veil.api.resource.type">VeilTextResource</a>&lt;<a href="BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a>&gt;</span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -154,14 +154,17 @@ implements <a href="../VeilResource.html" title="interface in foundry.veil.api.r
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Hot-reloads the resource.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../VeilResourceInfo.html" title="class in foundry.veil.api.resource">VeilResourceInfo</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resourceInfo()" class="member-name-link">resourceInfo</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable imgui.extension.texteditor.TextEditorLanguageDefinition</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#languageDefinition()" class="member-name-link">languageDefinition</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../VeilResourceInfo.html" title="class in foundry.veil.api.resource">VeilResourceInfo</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resourceInfo()" class="member-name-link">resourceInfo</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <code>resourceInfo</code> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -253,6 +256,17 @@ implements <a href="../VeilResource.html" title="interface in foundry.veil.api.r
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../VeilResource.html#getIconCode()">getIconCode</a></code>&nbsp;in interface&nbsp;<code><a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;<a href="BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a>&gt;</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="languageDefinition()">
+<h3>languageDefinition</h3>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable imgui.extension.texteditor.TextEditorLanguageDefinition</span>&nbsp;<span class="element-name">languageDefinition</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="VeilTextResource.html#languageDefinition()">languageDefinition</a></code>&nbsp;in interface&nbsp;<code><a href="VeilTextResource.html" title="interface in foundry.veil.api.resource.type">VeilTextResource</a>&lt;<a href="BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a>&gt;</code></dd>
 </dl>
 </section>
 </li>
