@@ -31,6 +31,14 @@ public class GlslSyntaxException extends Exception {
         return message;
     }
 
+    public String getRawMessage() {
+        return this.message;
+    }
+
+    public int getCursor() {
+        return this.cursor;
+    }
+
     private String getContext() {
         if (this.input == null || this.cursor < 0) {
             return null;

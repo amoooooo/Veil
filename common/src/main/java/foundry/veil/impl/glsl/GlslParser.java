@@ -323,20 +323,20 @@ public final class GlslParser {
                 while (reader.tryConsume(GlslLexer.TokenType.DOT, GlslLexer.TokenType.IDENTIFIER)) {
                     fieldSelection.append('.').append(reader.peek(-1).value());
                 }
-                primaryExpression= new GlslFieldNode(primaryExpression, fieldSelection.toString());
+                primaryExpression = new GlslFieldNode(primaryExpression, fieldSelection.toString());
                 continue;
             }
             reader.setCursor(expressionCursor);
             // primary_expression INC_OP
             if (reader.tryConsume(GlslLexer.TokenType.INC_OP)) {
-                primaryExpression= new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_INCREMENT);
+                primaryExpression = new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_INCREMENT);
                 continue;
             }
             reader.setCursor(expressionCursor);
 
             // primary_expression DEC_OP
             if (reader.tryConsume(GlslLexer.TokenType.DEC_OP)) {
-                primaryExpression= new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_DECREMENT);
+                primaryExpression = new GlslUnaryNode(primaryExpression, GlslUnaryNode.Operand.POST_DECREMENT);
                 continue;
             }
             reader.setCursor(expressionCursor);
@@ -1041,6 +1041,7 @@ public final class GlslParser {
         }
 
         if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
+            reader.markError("Expected identifier");
             reader.setCursor(cursor);
             return null;
         }

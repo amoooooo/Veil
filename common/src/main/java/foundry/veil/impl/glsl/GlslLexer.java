@@ -317,6 +317,14 @@ public final class GlslLexer {
             this.pattern = Pattern.compile(regex);
         }
 
+        public boolean matches(CharSequence input) {
+            return this.pattern.matcher(input).matches();
+        }
+
+        public Pattern getPattern() {
+            return this.pattern;
+        }
+
         public @Nullable GlslTypeSpecifier.BuiltinType asBuiltinType() {
             return switch (this) {
                 case VOID -> GlslTypeSpecifier.BuiltinType.VOID;

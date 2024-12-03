@@ -101,6 +101,9 @@ public class GlslTokenReader {
 
         for (int i = 0; i < tokens.length; i++) {
             if (this.peek(i).type() != tokens[i]) {
+                if (tokens[i] == GlslLexer.TokenType.IDENTIFIER && GlslLexer.TokenType.IDENTIFIER.matches(this.peek(i).value())) {
+                    continue;
+                }
                 return false;
             }
         }
@@ -133,6 +136,11 @@ public class GlslTokenReader {
     }
 
     public void markError(String message) {
+        for (GlslSyntaxException error : this.errors) {
+            if (error.getCursor() == this.getCursorOffset(this.cursor) && error.getRawMessage().equals(message)) {
+                return;
+            }
+        }
         this.errors.add(new GlslSyntaxException(message, this.getString(), this.getCursorOffset(this.cursor)));
     }
 
