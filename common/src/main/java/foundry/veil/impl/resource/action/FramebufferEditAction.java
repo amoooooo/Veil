@@ -25,7 +25,7 @@ public class FramebufferEditAction implements VeilResourceAction<FramebufferReso
 
     @Override
     public OptionalInt getIcon() {
-        return OptionalInt.empty();
+        return OptionalInt.of(0xEBCA);
     }
 
     @Override

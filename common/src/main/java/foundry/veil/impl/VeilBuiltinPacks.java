@@ -9,8 +9,9 @@ public class VeilBuiltinPacks {
 
     public static void registerPacks(VeilBuiltinPacks.Context context) {
         if (Veil.platform().isDevelopmentEnvironment()) {
-            context.register(Veil.veilPath("test_shaders"), false);
+            context.register(Veil.veilPath("test_font"), false);
             context.register(Veil.veilPath("test_particles"), false);
+            context.register(Veil.veilPath("test_shaders"), false);
             context.register(Veil.veilPath("volumetric_fog"), false);
         }
 
