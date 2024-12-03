@@ -23,7 +23,7 @@ public record VeilShaderDefinitionResource(VeilResourceInfo resourceInfo,
     public void render(boolean dragging) {
         ShaderManager shaderManager = VeilRenderSystem.renderer().getShaderManager();
         ShaderProgram shader = shaderManager.getShader(shaderManager.getSourceSet().getShaderDefinitionLister().fileToId(this.resourceInfo.location()));
-        if (shader != null) {
+        if (shader != null && shader.getFormat() != null) {
             float size = ImGui.getTextLineHeight();
             if (dragging) {
                 VeilShaderDefinitionResourceRenderer.render(shader, this, size * 8, size * 8);

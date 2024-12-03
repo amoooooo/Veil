@@ -4,31 +4,31 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
-import foundry.veil.api.client.render.framebuffer.*;
+import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.resource.VeilEditorEnvironment;
 import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.api.resource.type.BlockModelResource;
-import imgui.*;
-import imgui.flag.ImGuiCol;
+import imgui.ImGui;
 import imgui.flag.ImGuiCond;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.type.ImBoolean;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.*;
+import net.minecraft.client.resources.model.BlockModelRotation;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.Direction;
 import org.joml.*;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.Math;
-import java.util.*;
-
-import static org.lwjgl.opengl.GL11C.glClearColor;
+import java.util.List;
 
 /**
  * Viewer for block models
@@ -42,7 +42,6 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
     private final VeilResourceManager resourceManager;
     private final BlockModelResource resource;
 
-    private AdvancedFbo fbo;
     private ObjectArrayList<BakedQuad> quads;
 
     public BlockModelEditor(VeilEditorEnvironment environment, BlockModelResource resource) {
@@ -59,21 +58,14 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
         }
 
         ImGui.setNextWindowSize(256.0F, 256.0F, ImGuiCond.Once);
-        if (ImGui.begin("Model Viewer" + "###model_editor_" + this.resource.resourceInfo().fileName(), this.open)) {
+        if (ImGui.begin("Model Viewer" + "###model_editor_" + this.resource.resourceInfo().fileName(), this.open, ImGuiWindowFlags.NoScrollbar)) {
             VeilImGuiUtil.resourceLocation(resource.resourceInfo().location());
             int desiredWidth = ((int) ImGui.getContentRegionAvailX() - 2) * 2;
             int desiredHeight = ((int) ImGui.getContentRegionAvailY() - 2) * 2;
 
-
             if (desiredWidth <= 0 || desiredHeight <= 0) {
                 ImGui.end();
                 return;
-            }
-
-            if (fbo == null || fbo.getWidth() != desiredWidth || fbo.getHeight() != desiredHeight) {
-                if (fbo != null) fbo.free();
-
-                fbo = AdvancedFbo.withSize(desiredWidth, desiredHeight).addColorTextureBuffer().setDepthRenderBuffer().build(true);
             }
 
             double time = ImGui.getTime();
@@ -83,50 +75,43 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
             Quaterniond cameraOrientation = new Quaterniond().rotateX(pitch).rotateY(yaw);
             Vector3d cameraPos = cameraOrientation.transformInverse(new Vector3d(0.0, 0.0, 2.8)).add(0.5, 0.5, 0.5);
 
-            fbo.bind(true);
+            int texture = VeilImGuiUtil.renderArea(desiredWidth, desiredHeight, fbo -> {
+                Matrix4f viewMatrix = new Matrix4f().rotate(new Quaternionf(cameraOrientation)).translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
 
-            ImVec4 clearColor = new ImVec4();
-            ImGui.getStyleColorVec4(ImGuiCol.FrameBg, clearColor);
+                float aspect = (float) desiredWidth / (float) desiredHeight;
+                Matrix4f projMat = new Matrix4f().perspective((float) Math.toRadians(40.0), aspect, 0.3f, 1000.0f);
+                Matrix4f modelView = new Matrix4f().mul(viewMatrix);
 
-            glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
-            fbo.clear();
+                BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
 
-            Matrix4f viewMatrix = new Matrix4f().rotate(new Quaternionf(cameraOrientation)).translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
+                for (BakedQuad quad : quads) {
+                    builder.putBulkData(POSE, quad, 1.0F, 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+                }
 
-            float aspect = (float) desiredWidth / (float) desiredHeight;
-            Matrix4f projMat = new Matrix4f().perspective((float) Math.toRadians(40.0), aspect, 0.3f, 1000.0f);
-            Matrix4f modelView = new Matrix4f().mul(viewMatrix);
+                // draw!
+                MeshData data = builder.build();
 
-            BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.BLOCK);
+                if (data != null) {
+                    RenderType renderType = RenderType.translucent();
+                    Matrix4fStack stack = RenderSystem.getModelViewStack();
 
-            for (BakedQuad quad : quads) {
-                builder.putBulkData(POSE, quad, 1.0F, 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
-            }
+                    stack.pushMatrix();
+                    stack.set(modelView);
+                    RenderSystem.applyModelViewMatrix();
+                    RenderSystem.backupProjectionMatrix();
+                    RenderSystem.setProjectionMatrix(projMat, VertexSorting.ORTHOGRAPHIC_Z);
 
-            RenderType renderType = RenderType.translucent();
-            Matrix4fStack stack = RenderSystem.getModelViewStack();
+                    renderType.draw(data);
 
-            stack.pushMatrix();
-            stack.set(modelView);
-            RenderSystem.applyModelViewMatrix();
-            RenderSystem.backupProjectionMatrix();
-            RenderSystem.setProjectionMatrix(projMat, VertexSorting.ORTHOGRAPHIC_Z);
+                    stack.popMatrix();
+                    RenderSystem.restoreProjectionMatrix();
+                    RenderSystem.applyModelViewMatrix();
+                    renderType.clearRenderState();
+                }
+            });
 
-            // draw!
-            MeshData data = builder.build();
-
-            if (data != null) {
-                renderType.draw(data);
-            }
-
-            stack.popMatrix();
-            RenderSystem.restoreProjectionMatrix();
-            RenderSystem.applyModelViewMatrix();
-            renderType.clearRenderState();
-
-            AdvancedFboTextureAttachment attachment = fbo.getColorTextureAttachment(0);
-            if (ImGui.beginChild("3D View", desiredWidth / 2 + 2, desiredHeight / 2 + 2, false, ImGuiWindowFlags.NoMove)) {
-                ImGui.image(attachment.getId(), desiredWidth / 2, desiredHeight / 2, 0, 1, 1, 0, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.1F);
+            if (ImGui.beginChild("3D View", desiredWidth / 2.0F + 2, desiredHeight / 2.0F + 2, false, ImGuiWindowFlags.NoScrollbar)) {
+                ImGui.image(texture, desiredWidth / 2.0F, desiredHeight / 2.0F, 0, 1, 1, 0, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.1F);
             }
             ImGui.endChild();
 
@@ -138,11 +123,6 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
     @Override
     public boolean isClosed() {
         return !this.open.get();
-    }
-
-    @Override
-    public void close() {
-        this.fbo.free();
     }
 
     @Override

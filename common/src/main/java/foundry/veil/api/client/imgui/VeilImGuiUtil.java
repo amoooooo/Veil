@@ -1,10 +1,13 @@
 package foundry.veil.api.client.imgui;
 
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import foundry.veil.api.client.color.Color;
 import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.impl.client.imgui.AdvancedFboImGuiAreaImpl;
 import imgui.ImFont;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
@@ -25,6 +28,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 
 /**
  * Extra components and helpers for ImGui.
@@ -150,6 +154,25 @@ public class VeilImGuiUtil {
             ImGui.text("Copy Location");
             ImGui.endPopup();
         }
+    }
+
+    /**
+     * Creates a rendering area of the specified size.
+     *
+     * @param width    The width of the area
+     * @param height   The height of the area
+     * @param renderer The renderer inside the area
+     * @return A texture ID that can be displayed in ImGui
+     */
+    public static int renderArea(int width, int height, Consumer<AdvancedFbo> renderer) {
+        float[] colors = ImGui.getStyle().getColors()[ImGuiCol.FrameBg];
+        AdvancedFbo fbo = AdvancedFboImGuiAreaImpl.allocate(width, height);
+        fbo.bind(true);
+        RenderSystem.clearColor(colors[0], colors[1], colors[2], colors[3]);
+        fbo.clear();
+        renderer.accept(fbo);
+        AdvancedFbo.unbind();
+        return fbo.getColorTextureAttachment(0).getId();
     }
 
     /**
