@@ -1,5 +1,6 @@
 package foundry.veil.impl.resource.action;
 
+import foundry.veil.api.client.registry.VeilResourceEditorRegistry;
 import foundry.veil.api.resource.VeilEditorEnvironment;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.type.BlockModelResource;
@@ -29,6 +30,6 @@ public record ModelEditAction<T extends BlockModelResource>() implements VeilRes
 
     @Override
     public void perform(VeilEditorEnvironment environment, T resource) {
-        // TODO add a screen for model viewing
+        environment.open(resource, VeilResourceEditorRegistry.BLOCK_MODEL.get());
     }
 }

@@ -65,8 +65,8 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
 
         if (ImGui.beginMainMenuBar()) {
             ImFont font = ImGui.getFont();
-            float dingleWidth = font.calcTextSizeAX(ImGui.getFontSize(), Float.MAX_VALUE, 0, " Veil ") + 4;
-            float dingleHeight = ImGui.getTextLineHeightWithSpacing() + 2;
+            float dingleWidth = font.calcTextSizeAX(ImGui.getFontSize(), Float.MAX_VALUE, 0, " Veil ") + 1;
+            float dingleHeight = ImGui.getTextLineHeightWithSpacing() + 4;
             ImGui.getWindowDrawList().addRectFilled(0f, 0f, dingleWidth, dingleHeight, ImGui.getColorU32(ImGuiCol.FrameBgHovered));
             ImGui.text("Veil ");
 

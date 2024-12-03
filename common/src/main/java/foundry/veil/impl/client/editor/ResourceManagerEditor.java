@@ -1,18 +1,18 @@
 package foundry.veil.impl.client.editor;
 
-import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.editor.SingleWindowEditor;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.resource.*;
-import foundry.veil.api.resource.editor.ResourceFileEditor;
 import foundry.veil.impl.resource.VeilPackResources;
 import foundry.veil.impl.resource.VeilResourceManagerImpl;
 import foundry.veil.impl.resource.VeilResourceRenderer;
 import foundry.veil.impl.resource.tree.VeilResourceFolder;
 import imgui.ImGui;
+import imgui.ImVec2;
 import imgui.flag.ImGuiCol;
+import imgui.flag.ImGuiSelectableFlags;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiTreeNodeFlags;
 import net.minecraft.Util;
@@ -28,6 +28,8 @@ import java.util.concurrent.CompletableFuture;
 @ApiStatus.Internal
 public class ResourceManagerEditor extends SingleWindowEditor {
 
+    private float cellHeight = 0.0f;
+    public static final float ITEM_VERTICAL_PADDING = 5.0f;
     public static final Component TITLE = Component.translatable("editor.veil.resource.title");
 
     private static final Component RELOAD_BUTTON = Component.translatable("editor.veil.resource.button.reload");
@@ -51,6 +53,12 @@ public class ResourceManagerEditor extends SingleWindowEditor {
         ImGui.endDisabled();
 
         VeilResourceManagerImpl resourceManager = VeilClient.resourceManager();
+        ImGui.pushStyleColor(ImGuiCol.ChildBg, 0xFF0000FF);
+        ImGui.pushStyleVar(ImGuiStyleVar.FramePadding, 1f, ITEM_VERTICAL_PADDING);
+        ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 3f, 0f);
+
+        this.cellHeight = ImGui.getTextLineHeight() + 2.0f * ITEM_VERTICAL_PADDING;
+
         if (ImGui.beginListBox("##file_tree", ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY())) {
             List<VeilPackResources> packs = resourceManager.getAllPacks();
             for (int i = packs.size() - 1; i >= 0; i--) {
@@ -58,17 +66,26 @@ public class ResourceManagerEditor extends SingleWindowEditor {
                 String modid = pack.getName();
                 int color = VeilImGuiUtil.colorOf(modid);
 
-                boolean open = ImGui.treeNodeEx("##" + modid, ImGuiTreeNodeFlags.SpanAvailWidth);
+                boolean open = ImGui.treeNodeEx("##" + modid, ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.FramePadding);
+
 
                 ImGui.pushStyleColor(ImGuiCol.Text, color);
                 ImGui.sameLine();
                 int icon = pack.getTexture();
+
+                ImVec2 cursorScreenPos = ImGui.getCursorScreenPos();
+                VeilImGuiUtil.icon(0xF523, color);
+
                 if (icon != 0) {
                     float size = ImGui.getTextLineHeight();
-                    ImGui.image(icon, size, size);
-                } else {
-                    VeilImGuiUtil.icon(0xEA7D, color);
+
+                    float minX = cursorScreenPos.x;
+                    float minY = cursorScreenPos.y + ITEM_VERTICAL_PADDING + 1.0f;
+
+                    ImGui.getWindowDrawList().addRectFilled(minX, minY, minX + size, minY + size, 0xff000000);
+                    ImGui.getWindowDrawList().addImage(icon, minX, minY, minX + size, minY + size);
                 }
+
                 ImGui.sameLine();
                 ImGui.text(modid);
                 ImGui.popStyleColor();
@@ -78,29 +95,45 @@ public class ResourceManagerEditor extends SingleWindowEditor {
                     ImGui.treePop();
                 }
 
-                ImGui.separator();
+//                ImGui.separator();
             }
             ImGui.endListBox();
         }
+        ImGui.popStyleVar();
+        ImGui.popStyleVar();
+        ImGui.popStyleColor();
+
     }
 
-    private void renderFolder(VeilResourceFolder folder) {
-        boolean open = ImGui.treeNodeEx("##" + folder.getName(), ImGuiTreeNodeFlags.SpanAvailWidth);
+    private int renderFolder(VeilResourceFolder folder) {
+        boolean open = ImGui.treeNodeEx("##" + folder.getName(), ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.FramePadding);
         ImGui.sameLine();
+
+        ImGui.beginDisabled();
         VeilImGuiUtil.icon(open ? 0xED6F : 0xF43B);
+        ImGui.endDisabled();
+
         ImGui.sameLine();
         ImGui.text(folder.getName());
 
+        int count = 1;
+
         if (open) {
-            this.renderFolderContents(folder);
+            count += this.renderFolderContents(folder);
             ImGui.treePop();
         }
+
+        return count;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private void renderFolderContents(VeilResourceFolder folder) {
+    private int renderFolderContents(VeilResourceFolder folder) {
+        int count = 0;
+
+        ImVec2 cursorScreenPos = ImGui.getCursorScreenPos();
+
         for (VeilResourceFolder subFolder : folder.getSubFolders()) {
-            this.renderFolder(subFolder);
+            count += this.renderFolder(subFolder);
         }
 
         ImGui.indent();
@@ -110,11 +143,19 @@ public class ResourceManagerEditor extends SingleWindowEditor {
                 continue;
             }
 
-            ImGui.selectable("##" + resource.resourceInfo().location());
+            float startX = ImGui.getCursorScreenPosX();
+            float cellHeight = this.cellHeight;
+            ImGui.selectable("##" + resource.resourceInfo().location(), false, ImGuiSelectableFlags.AllowItemOverlap, ImGui.getContentRegionAvailX(), cellHeight);
 
             ImGui.setItemAllowOverlap();
             ImGui.sameLine();
+
+            ImVec2 selectableCursorScreenPos = ImGui.getCursorScreenPos();
+
+            float shift = (cellHeight - ImGui.getTextLineHeight()) / 2.0f;
+            ImGui.setCursorScreenPos(startX, selectableCursorScreenPos.y + shift);
             VeilResourceRenderer.renderFilename(resource);
+            ImGui.setCursorScreenPos(startX, ImGui.getCursorScreenPosY() - shift);
 
             if (ImGui.beginPopupContextItem("" + resource.resourceInfo().location())) {
                 if (resource != this.contextResource) {
@@ -170,8 +211,14 @@ public class ResourceManagerEditor extends SingleWindowEditor {
 
                 ImGui.endPopup();
             }
+            count ++;
         }
+
+        float lineX = cursorScreenPos.x - 4.0f;
+        ImGui.getWindowDrawList().addRectFilled(lineX, cursorScreenPos.y, lineX + 1.5f, cursorScreenPos.y + count * cellHeight, 0x22FFFFFF);
         ImGui.unindent();
+
+        return count;
     }
 
     @Override
