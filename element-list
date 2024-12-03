@@ -89,6 +89,7 @@ foundry.veil.impl.quasar
 foundry.veil.impl.resource
 foundry.veil.impl.resource.action
 foundry.veil.impl.resource.loader
+foundry.veil.impl.resource.renderer
 foundry.veil.impl.resource.tree
 foundry.veil.lib.anarres.cpp
 foundry.veil.mixin.accessor
