@@ -35,7 +35,7 @@ void main() {
     diffuse = (diffuse + MINECRAFT_AMBIENT_LIGHT) / (1.0 + MINECRAFT_AMBIENT_LIGHT);
     diffuse *= attenuate_no_cusp(length(offset), radius);
 
-    float reflectivity = 0.2;
+    float reflectivity = 0.05;
     vec3 diffuseColor = diffuse * lightColor;
     fragColor = vec4(albedoColor.rgb * diffuseColor * (1.0 - reflectivity) + diffuseColor * reflectivity, 1.0);
 }

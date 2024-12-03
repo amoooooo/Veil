@@ -1,6 +1,4 @@
 {
-  "depth": {
-    "format": "DEPTH_COMPONENT32"
-  },
-  "format": "RGBA16F"
+  "depth": false,
+  "format": "RGB16F"
 }

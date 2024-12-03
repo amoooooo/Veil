@@ -51,7 +51,7 @@ import static org.lwjgl.opengl.GL40C.GL_TESS_EVALUATION_SHADER;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 @ApiStatus.Internal
-public class ShaderEditor extends SingleWindowEditor implements ResourceManagerReloadListener {
+public class ShaderInspector extends SingleWindowEditor implements ResourceManagerReloadListener {
 
     public static final Component TITLE = Component.translatable("editor.veil.shader.title");
 
@@ -75,7 +75,7 @@ public class ShaderEditor extends SingleWindowEditor implements ResourceManagerR
 
     private final ImBoolean editSourceOpen;
 
-    public ShaderEditor() {
+    public ShaderInspector() {
         this.shaders = new Object2IntRBTreeMap<>((a, b) -> {
             int compare = a.getNamespace().compareTo(b.getNamespace());
             if (compare == 0) {

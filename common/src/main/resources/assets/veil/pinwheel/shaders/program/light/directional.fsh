@@ -22,10 +22,9 @@ void main() {
     vec3 lightDirectionVS = worldToViewSpaceDirection(LightDirection);
 
     // lighting calculation
-    float diffuse = -dot(normalVS, lightDirectionVS);
-    diffuse = smoothstep(-0.2, 0.2, diffuse);
+    float diffuse = clamp(smoothstep(-0.2, 0.2, -dot(normalVS, lightDirectionVS)), 0.0, 1.0);
 
-    float reflectivity = 0.1;
+    float reflectivity = 0.05;
     vec3 diffuseColor = diffuse * LightColor;
     fragColor = vec4(albedoColor.rgb * diffuseColor * (1.0 - reflectivity) + diffuseColor * reflectivity, 1.0);
 }

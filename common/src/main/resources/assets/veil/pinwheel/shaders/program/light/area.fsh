@@ -71,7 +71,7 @@ void main() {
     angleFalloff = smoothstep(1.0, 0.0, angleFalloff);
     diffuse *= angleFalloff;
 
-    float reflectivity = 0.1;
+    float reflectivity = 0.05;
     vec3 diffuseColor = diffuse * lightColor;
 
     fragColor = vec4(albedoColor.rgb * diffuseColor * (1.0 - reflectivity) + diffuseColor * reflectivity, 1.0);

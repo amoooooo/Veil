@@ -101,9 +101,6 @@ public class GlslTokenReader {
 
         for (int i = 0; i < tokens.length; i++) {
             if (this.peek(i).type() != tokens[i]) {
-                if (tokens[i] == GlslLexer.TokenType.IDENTIFIER && GlslLexer.TokenType.IDENTIFIER.matches(this.peek(i).value())) {
-                    continue;
-                }
                 return false;
             }
         }

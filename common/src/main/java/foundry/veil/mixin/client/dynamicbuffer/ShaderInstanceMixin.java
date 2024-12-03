@@ -101,12 +101,6 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
                     throw new IOException("Couldn't link shader (" + this.name + ") : " + error);
                 }
 
-                glValidateProgram(this.programId);
-                if (glGetProgrami(this.programId, GL_VALIDATE_STATUS) != GL_TRUE) {
-                    String log = StringUtils.trim(glGetProgramInfoLog(this.programId));
-                    Veil.LOGGER.warn("Couldn't validate shader ({}) : {}", this.name, log);
-                }
-
                 this.uniformLocations.clear();
                 this.samplerLocations.clear();
                 this.uniformMap.clear();
