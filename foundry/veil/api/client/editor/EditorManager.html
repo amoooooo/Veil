@@ -91,12 +91,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code>net.minecraft.server.packs.resources.PreparableReloadListener</code></dd>
+<dd><code><a href="../../resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code>, <code>net.minecraft.server.packs.resources.PreparableReloadListener</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EditorManager</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements net.minecraft.server.packs.resources.PreparableReloadListener</span></div>
+implements <a href="../../resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>, net.minecraft.server.packs.resources.PreparableReloadListener</span></div>
 <div class="block"><p>Manages all editors for Veil. Editors are ImGui powered panels that can be dynamically registered and unregistered with <a href="#add(foundry.veil.api.client.editor.Editor)"><code>add(Editor)</code></a>.</p></div>
 </section>
 <section class="summary">
@@ -161,43 +161,53 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener</span><
  boolean&nbsp;bold,
  boolean&nbsp;italic)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hide(foundry.veil.api.client.editor.Editor)" class="member-name-link">hide</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../resource/VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResourceManager()" class="member-name-link">getResourceManager</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isEnabled()" class="member-name-link">isEnabled</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hide(foundry.veil.api.client.editor.Editor)" class="member-name-link">hide</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isVisible(foundry.veil.api.client.editor.Editor)" class="member-name-link">isVisible</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isEnabled()" class="member-name-link">isEnabled</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reload(net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier,net.minecraft.server.packs.resources.ResourceManager,net.minecraft.util.profiling.ProfilerFiller,net.minecraft.util.profiling.ProfilerFiller,java.util.concurrent.Executor,java.util.concurrent.Executor)" class="member-name-link">reload</a><wbr>(@NotNull net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier&nbsp;preparationBarrier,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isVisible(foundry.veil.api.client.editor.Editor)" class="member-name-link">isVisible</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onFileChange(foundry.veil.api.resource.VeilResource)" class="member-name-link">onFileChange</a><wbr>(<a href="../../resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T extends <a href="../../resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;<br>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#open(T,foundry.veil.api.resource.editor.ResourceFileEditor.Factory)" class="member-name-link">open</a><wbr>(T&nbsp;resource,
+ <a href="../../resource/editor/ResourceFileEditor.Factory.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor.Factory</a>&lt;T&gt;&nbsp;editor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reload(net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier,net.minecraft.server.packs.resources.ResourceManager,net.minecraft.util.profiling.ProfilerFiller,net.minecraft.util.profiling.ProfilerFiller,java.util.concurrent.Executor,java.util.concurrent.Executor)" class="member-name-link">reload</a><wbr>(@NotNull net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier&nbsp;preparationBarrier,
  @NotNull net.minecraft.server.packs.resources.ResourceManager&nbsp;resourceManager,
  @NotNull net.minecraft.util.profiling.ProfilerFiller&nbsp;prepareProfiler,
  @NotNull net.minecraft.util.profiling.ProfilerFiller&nbsp;applyProfiler,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;backgroundExecutor,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;gameExecutor)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(foundry.veil.api.client.editor.Editor)" class="member-name-link">remove</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render()" class="member-name-link">render</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(foundry.veil.api.client.editor.Editor)" class="member-name-link">remove</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#renderLast()" class="member-name-link">renderLast</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render()" class="member-name-link">render</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnabled(boolean)" class="member-name-link">setEnabled</a><wbr>(boolean&nbsp;enabled)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#renderLast()" class="member-name-link">renderLast</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnabled(boolean)" class="member-name-link">setEnabled</a><wbr>(boolean&nbsp;enabled)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets whether the overlay should be active.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#show(foundry.veil.api.client.editor.Editor)" class="member-name-link">show</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggle()" class="member-name-link">toggle</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#show(foundry.veil.api.client.editor.Editor)" class="member-name-link">show</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggle()" class="member-name-link">toggle</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Toggles visibility of the ImGui overlay.</div>
 </div>
 </div>
@@ -209,6 +219,9 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener</span><
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.minecraft.server.packs.resources.PreparableReloadListener">Methods inherited from interface&nbsp;net.minecraft.server.packs.resources.PreparableReloadListener</h3>
 <code>getName</code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-foundry.veil.api.resource.VeilEditorEnvironment">Methods inherited from interface&nbsp;foundry.veil.api.resource.<a href="../../resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></h3>
+<code><a href="../../resource/VeilEditorEnvironment.html#open(foundry.veil.api.resource.VeilResource,net.minecraft.resources.ResourceLocation)">open</a></code></div>
 </section>
 </li>
 </ul>
@@ -276,6 +289,13 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener</span><
 <h3>renderLast</h3>
 <div class="member-signature"><span class="annotations">@Internal
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">renderLast</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="onFileChange(foundry.veil.api.resource.VeilResource)">
+<h3>onFileChange</h3>
+<div class="member-signature"><span class="annotations">@Internal
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onFileChange</span><wbr><span class="parameters">(<a href="../../resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</span></div>
 </section>
 </li>
 <li>
@@ -355,6 +375,27 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener</span><
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code>reload</code>&nbsp;in interface&nbsp;<code>net.minecraft.server.packs.resources.PreparableReloadListener</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="open(T,foundry.veil.api.resource.editor.ResourceFileEditor.Factory)">
+<h3 id="open(foundry.veil.api.resource.VeilResource,foundry.veil.api.resource.editor.ResourceFileEditor.Factory)">open</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="../../resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">open</span><wbr><span class="parameters">(T&nbsp;resource,
+ <a href="../../resource/editor/ResourceFileEditor.Factory.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor.Factory</a>&lt;T&gt;&nbsp;editor)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../resource/VeilEditorEnvironment.html#open(T,foundry.veil.api.resource.editor.ResourceFileEditor.Factory)">open</a></code>&nbsp;in interface&nbsp;<code><a href="../../resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getResourceManager()">
+<h3>getResourceManager</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../resource/VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a></span>&nbsp;<span class="element-name">getResourceManager</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../resource/VeilEditorEnvironment.html#getResourceManager()">getResourceManager</a></code>&nbsp;in interface&nbsp;<code><a href="../../resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code></dd>
 </dl>
 </section>
 </li>

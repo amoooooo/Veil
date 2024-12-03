@@ -93,13 +93,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../../api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></code>, <code><a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a></code>, <code>org.lwjgl.system.NativeResource</code></dd>
+<dd><code><a href="../../../api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a></code>, <code>org.lwjgl.system.NativeResource</code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Internal
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">ResourceManagerEditor</span>
-<span class="extends-implements">extends <a href="../../../api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a>
-implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></span></div>
+<span class="extends-implements">extends <a href="../../../api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -154,13 +153,6 @@ implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="int
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.network.chat.Component</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGroup()" class="member-name-link">getGroup</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../api/resource/VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResourceManager()" class="member-name-link">getResourceManager</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T extends <a href="../../../api/resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;<br>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#open(T,foundry.veil.api.resource.editor.ResourceFileEditor)" class="member-name-link">open</a><wbr>(T&nbsp;resource,
- <a href="../../../api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;T&gt;&nbsp;editor)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#renderComponents()" class="member-name-link">renderComponents</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -181,9 +173,6 @@ implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="int
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.lwjgl.system.NativeResource">Methods inherited from interface&nbsp;org.lwjgl.system.NativeResource</h3>
 <code>close</code></div>
-<div class="inherited-list">
-<h3 id="methods-inherited-from-class-foundry.veil.api.resource.VeilEditorEnvironment">Methods inherited from interface&nbsp;foundry.veil.api.resource.<a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></h3>
-<code><a href="../../../api/resource/VeilEditorEnvironment.html#open(foundry.veil.api.resource.VeilResource,net.minecraft.resources.ResourceLocation)">open</a></code></div>
 </section>
 </li>
 </ul>
@@ -240,8 +229,6 @@ implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="int
 <h3>getDisplayName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">net.minecraft.network.chat.Component</span>&nbsp;<span class="element-name">getDisplayName</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../api/client/editor/Editor.html#getDisplayName()">getDisplayName</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></code></dd>
 <dt>Returns:</dt>
 <dd>The visible display name of this editor</dd>
 </dl>
@@ -252,31 +239,8 @@ implements <a href="../../../api/resource/VeilEditorEnvironment.html" title="int
 <h3>getGroup</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">net.minecraft.network.chat.Component</span>&nbsp;<span class="element-name">getGroup</span>()</div>
 <dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../api/client/editor/Editor.html#getGroup()">getGroup</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></code></dd>
 <dt>Returns:</dt>
 <dd>The name of the tab group to put this editor in</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="open(T,foundry.veil.api.resource.editor.ResourceFileEditor)">
-<h3 id="open(foundry.veil.api.resource.VeilResource,foundry.veil.api.resource.editor.ResourceFileEditor)">open</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="../../../api/resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">open</span><wbr><span class="parameters">(T&nbsp;resource,
- <a href="../../../api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;T&gt;&nbsp;editor)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../api/resource/VeilEditorEnvironment.html#open(T,foundry.veil.api.resource.editor.ResourceFileEditor)">open</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getResourceManager()">
-<h3>getResourceManager</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../api/resource/VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a></span>&nbsp;<span class="element-name">getResourceManager</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../api/resource/VeilEditorEnvironment.html#getResourceManager()">getResourceManager</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></code></dd>
 </dl>
 </section>
 </li>

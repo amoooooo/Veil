@@ -38,7 +38,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Summary:</p>
 <ul>
-<li>Nested</li>
+<li><a href="#nested-class-summary">Nested</a></li>
 <li>Field</li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
@@ -58,7 +58,7 @@ loadScripts(document, 'script');</script>
 <div id="navbar-sub-list">
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -100,6 +100,15 @@ implements <a href="ResourceFileEditor.html" title="interface in foundry.veil.ap
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="inherited-list">
+<h2 id="nested-classes-inherited-from-class-foundry.veil.api.resource.editor.ResourceFileEditor">Nested classes/interfaces inherited from interface&nbsp;foundry.veil.api.resource.editor.<a href="ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></h2>
+<code><a href="ResourceFileEditor.Factory.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor.Factory</a>&lt;<a href="ResourceFileEditor.Factory.html" title="type parameter in ResourceFileEditor.Factory">T</a> extends <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;</code></div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -108,7 +117,8 @@ implements <a href="ResourceFileEditor.html" title="interface in foundry.veil.ap
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">FramebufferFileEditor</a>()</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.FramebufferResource)" class="member-name-link">FramebufferFileEditor</a><wbr>(<a href="../VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>&nbsp;environment,
+ <a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&nbsp;resource)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -124,11 +134,16 @@ implements <a href="ResourceFileEditor.html" title="interface in foundry.veil.ap
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResource()" class="member-name-link">getResource</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isClosed()" class="member-name-link">isClosed</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#open(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.FramebufferResource)" class="member-name-link">open</a><wbr>(<a href="../VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>&nbsp;environment,
- <a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&nbsp;resource)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#loadFromDisk()" class="member-name-link">loadFromDisk</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Opens the specified resource in the environment.</div>
+<div class="block">Called to update the editor status from disk.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render()" class="member-name-link">render</a>()</code></div>
@@ -143,7 +158,7 @@ implements <a href="ResourceFileEditor.html" title="interface in foundry.veil.ap
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.resource.editor.ResourceFileEditor">Methods inherited from interface&nbsp;foundry.veil.api.resource.editor.<a href="ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></h3>
-<code><a href="ResourceFileEditor.html#save(byte%5B%5D,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)">save</a></code></div>
+<code><a href="ResourceFileEditor.html#save(byte%5B%5D,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)">save</a>, <a href="ResourceFileEditor.html#save(com.google.gson.JsonElement,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)">save</a></code></div>
 </section>
 </li>
 </ul>
@@ -156,9 +171,10 @@ implements <a href="ResourceFileEditor.html" title="interface in foundry.veil.ap
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;()">
+<section class="detail" id="&lt;init&gt;(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.FramebufferResource)">
 <h3>FramebufferFileEditor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FramebufferFileEditor</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FramebufferFileEditor</span><wbr><span class="parameters">(<a href="../VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>&nbsp;environment,
+ <a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&nbsp;resource)</span></div>
 </section>
 </li>
 </ul>
@@ -182,18 +198,38 @@ implements <a href="ResourceFileEditor.html" title="interface in foundry.veil.ap
 </section>
 </li>
 <li>
-<section class="detail" id="open(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.FramebufferResource)">
-<h3>open</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">open</span><wbr><span class="parameters">(<a href="../VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>&nbsp;environment,
- <a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&nbsp;resource)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ResourceFileEditor.html#open(foundry.veil.api.resource.VeilEditorEnvironment,T)">ResourceFileEditor</a></code></span></div>
-<div class="block">Opens the specified resource in the environment.</div>
+<section class="detail" id="loadFromDisk()">
+<h3>loadFromDisk</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">loadFromDisk</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ResourceFileEditor.html#loadFromDisk()">ResourceFileEditor</a></code></span></div>
+<div class="block">Called to update the editor status from disk.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ResourceFileEditor.html#open(foundry.veil.api.resource.VeilEditorEnvironment,T)">open</a></code>&nbsp;in interface&nbsp;<code><a href="ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;<a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&gt;</code></dd>
-<dt>Parameters:</dt>
-<dd><code>environment</code> - The environment to open the resource in</dd>
-<dd><code>resource</code> - The resource to open</dd>
+<dd><code><a href="ResourceFileEditor.html#loadFromDisk()">loadFromDisk</a></code>&nbsp;in interface&nbsp;<code><a href="ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;<a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&gt;</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isClosed()">
+<h3>isClosed</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isClosed</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="ResourceFileEditor.html#isClosed()">isClosed</a></code>&nbsp;in interface&nbsp;<code><a href="ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;<a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>Whether this editor is closed</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getResource()">
+<h3>getResource</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a></span>&nbsp;<span class="element-name">getResource</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="ResourceFileEditor.html#getResource()">getResource</a></code>&nbsp;in interface&nbsp;<code><a href="ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a>&lt;<a href="../type/FramebufferResource.html" title="class in foundry.veil.api.resource.type">FramebufferResource</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>The resource being edited</dd>
 </dl>
 </section>
 </li>

@@ -3893,7 +3893,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" class="type-name-link" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a> - Class in <a href="foundry/veil/api/resource/editor/package-summary.html">foundry.veil.api.resource.editor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#%3Cinit%3E()" class="member-name-link">FramebufferFileEditor()</a> - Constructor for class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
+<dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#%3Cinit%3E(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.FramebufferResource)" class="member-name-link">FramebufferFileEditor(VeilEditorEnvironment, FramebufferResource)</a> - Constructor for class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/layer/OutputLayer.html#framebufferId()" class="member-name-link">framebufferId()</a> - Method in record class foundry.veil.api.client.render.rendertype.layer.<a href="foundry/veil/api/client/render/rendertype/layer/OutputLayer.html" title="class in foundry.veil.api.client.render.rendertype.layer">OutputLayer</a></dt>
 <dd>
@@ -5328,6 +5328,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/render/NecromancerEntityRenderer.html#getRenderType(T,net.minecraft.resources.ResourceLocation)" class="member-name-link">getRenderType(T, ResourceLocation)</a> - Method in class foundry.veil.api.client.necromancer.render.<a href="foundry/veil/api/client/necromancer/render/NecromancerEntityRenderer.html" title="class in foundry.veil.api.client.necromancer.render">NecromancerEntityRenderer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#getResource()" class="member-name-link">getResource()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html#getResource()" class="member-name-link">getResource()</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html#getResource()" class="member-name-link">getResource()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/TextFileEditor.html" title="class in foundry.veil.api.resource.editor">TextFileEditor</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/VeilResourceInfo.html#getResource(foundry.veil.api.resource.VeilResourceManager)" class="member-name-link">getResource(VeilResourceManager)</a> - Method in record class foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceInfo.html" title="class in foundry.veil.api.resource">VeilResourceInfo</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/resource/tree/VeilResourceFolder.html#getResource(java.lang.String)" class="member-name-link">getResource(String)</a> - Method in class foundry.veil.impl.resource.tree.<a href="foundry/veil/impl/resource/tree/VeilResourceFolder.html" title="class in foundry.veil.impl.resource.tree">VeilResourceFolder</a></dt>
@@ -5336,9 +5342,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets the <code>ResourceKey</code> of the registry of the object wrapped.</div>
 </dd>
-<dt><a href="foundry/veil/api/resource/VeilEditorEnvironment.html#getResourceManager()" class="member-name-link">getResourceManager()</a> - Method in interface foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#getResourceManager()" class="member-name-link">getResourceManager()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#getResourceManager()" class="member-name-link">getResourceManager()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/api/resource/VeilEditorEnvironment.html#getResourceManager()" class="member-name-link">getResourceManager()</a> - Method in interface foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/VeilResourceManager.html#getResourceMetadata(java.lang.String,java.lang.String)" class="member-name-link">getResourceMetadata(String, String)</a> - Method in interface foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a></dt>
 <dd>&nbsp;</dd>
@@ -7374,6 +7380,12 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/ThreadTaskScheduler.html#isCancelled()" class="member-name-link">isCancelled()</a> - Method in class foundry.veil.impl.<a href="foundry/veil/impl/ThreadTaskScheduler.html" title="class in foundry.veil.impl">ThreadTaskScheduler</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#isClosed()" class="member-name-link">isClosed()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html#isClosed()" class="member-name-link">isClosed()</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html#isClosed()" class="member-name-link">isClosed()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/TextFileEditor.html" title="class in foundry.veil.api.resource.editor">TextFileEditor</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html#isColorRenderAttachment(int)" class="member-name-link">isColorRenderAttachment(int)</a> - Method in interface foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></dt>
 <dd>
 <div class="block">Checks to see if the provided attachment has been added to this framebuffer and is a render attachment.</div>
@@ -7495,6 +7507,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/impl/glsl/node/primary/GlslIntConstantNode.html#isNumber()" class="member-name-link">isNumber()</a> - Method in record class foundry.veil.impl.glsl.node.primary.<a href="foundry/veil/impl/glsl/node/primary/GlslIntConstantNode.html" title="class in foundry.veil.impl.glsl.node.primary">GlslIntConstantNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/editor/Editor.html#isOpen()" class="member-name-link">isOpen()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/imgui/CodeEditor.html#isOpen()" class="member-name-link">isOpen()</a> - Method in class foundry.veil.api.client.imgui.<a href="foundry/veil/api/client/imgui/CodeEditor.html" title="class in foundry.veil.api.client.imgui">CodeEditor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/CLEnvironment.html#isOpenGLSupported()" class="member-name-link">isOpenGLSupported()</a> - Method in class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/CLEnvironment.html" title="class in foundry.veil.api.opencl">CLEnvironment</a></dt>
 <dd>&nbsp;</dd>
@@ -8002,6 +8016,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/client/render/texture/DynamicCubemapTexture.html#load(net.minecraft.server.packs.resources.ResourceManager)" class="member-name-link">load(ResourceManager)</a> - Method in class foundry.veil.api.client.render.texture.<a href="foundry/veil/api/client/render/texture/DynamicCubemapTexture.html" title="class in foundry.veil.api.client.render.texture">DynamicCubemapTexture</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/tooltip/BlockEntityMixin.html#loadAdditional(net.minecraft.nbt.CompoundTag,net.minecraft.core.HolderLookup.Provider,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">loadAdditional(CompoundTag, HolderLookup.Provider, CallbackInfo)</a> - Method in class foundry.veil.mixin.tooltip.<a href="foundry/veil/mixin/tooltip/BlockEntityMixin.html" title="class in foundry.veil.mixin.tooltip">BlockEntityMixin</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#loadFromDisk()" class="member-name-link">loadFromDisk()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html#loadFromDisk()" class="member-name-link">loadFromDisk()</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></dt>
+<dd>
+<div class="block">Called to update the editor status from disk.</div>
+</dd>
+<dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html#loadFromDisk()" class="member-name-link">loadFromDisk()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/TextFileEditor.html" title="class in foundry.veil.api.resource.editor">TextFileEditor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/resource/VeilPackResources.html#loadIcon(com.mojang.blaze3d.platform.NativeImage)" class="member-name-link">loadIcon(NativeImage)</a> - Method in class foundry.veil.impl.resource.<a href="foundry/veil/impl/resource/VeilPackResources.html" title="class in foundry.veil.impl.resource">VeilPackResources</a></dt>
 <dd>&nbsp;</dd>
@@ -8702,6 +8724,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/pipeline/FrustumMixin.html#offsetToFullyIncludeCameraCube(int,org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">offsetToFullyIncludeCameraCube(int, CallbackInfoReturnable&lt;Frustum&gt;)</a> - Method in class foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/FrustumMixin.html" title="class in foundry.veil.mixin.client.pipeline">FrustumMixin</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#onFileChange(foundry.veil.api.resource.VeilResource)" class="member-name-link">onFileChange(VeilResource&lt;?&gt;)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/VeilResource.html#onFileSystemChange(foundry.veil.api.resource.VeilResourceManager,java.nio.file.WatchEvent)" class="member-name-link">onFileSystemChange(VeilResourceManager, WatchEvent&lt;Path&gt;)</a> - Method in interface foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a></dt>
 <dd>
 <div class="block">Called from the watcher thread when this resource updates on disc.</div>
@@ -8786,11 +8810,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html#open" class="member-name-link">open</a> - Variable in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#open(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.FramebufferResource)" class="member-name-link">open(VeilEditorEnvironment, FramebufferResource)</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html#open(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.VeilTextResource)" class="member-name-link">open(VeilEditorEnvironment, VeilTextResource&lt;?&gt;)</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/TextFileEditor.html" title="class in foundry.veil.api.resource.editor">TextFileEditor</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html#open(foundry.veil.api.resource.VeilEditorEnvironment,T)" class="member-name-link">open(VeilEditorEnvironment, T)</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></dt>
+<dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.Factory.html#open(foundry.veil.api.resource.VeilEditorEnvironment,T)" class="member-name-link">open(VeilEditorEnvironment, T)</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.Factory.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor.Factory</a></dt>
 <dd>
 <div class="block">Opens the specified resource in the environment.</div>
 </dd>
@@ -8798,9 +8818,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/VeilResourceInfo.html#open(foundry.veil.api.resource.VeilResourceManager)" class="member-name-link">open(VeilResourceManager)</a> - Method in record class foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceInfo.html" title="class in foundry.veil.api.resource">VeilResourceInfo</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/resource/VeilEditorEnvironment.html#open(T,foundry.veil.api.resource.editor.ResourceFileEditor)" class="member-name-link">open(T, ResourceFileEditor&lt;T&gt;)</a> - Method in interface foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#open(T,foundry.veil.api.resource.editor.ResourceFileEditor.Factory)" class="member-name-link">open(T, ResourceFileEditor.Factory&lt;T&gt;)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#open(T,foundry.veil.api.resource.editor.ResourceFileEditor)" class="member-name-link">open(T, ResourceFileEditor&lt;T&gt;)</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/api/resource/VeilEditorEnvironment.html#open(T,foundry.veil.api.resource.editor.ResourceFileEditor.Factory)" class="member-name-link">open(T, ResourceFileEditor.Factory&lt;T&gt;)</a> - Method in interface foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/VeilResourceInfo.html#openAsReader(foundry.veil.api.resource.VeilResourceManager)" class="member-name-link">openAsReader(VeilResourceManager)</a> - Method in record class foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceInfo.html" title="class in foundry.veil.api.resource">VeilResourceInfo</a></dt>
 <dd>&nbsp;</dd>
@@ -10433,6 +10453,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" class="type-name-link" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor&lt;T&gt;</a> - Interface in <a href="foundry/veil/api/resource/editor/package-summary.html">foundry.veil.api.resource.editor</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.Factory.html" class="type-name-link" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor.Factory&lt;T&gt;</a> - Interface in <a href="foundry/veil/api/resource/editor/package-summary.html">foundry.veil.api.resource.editor</a></dt>
+<dd>
+<div class="block">Factory for creating a new resource file editor.</div>
+</dd>
 <dt><a href="foundry/veil/api/resource/type/BlockModelResource.html#resourceInfo()" class="member-name-link">resourceInfo()</a> - Method in record class foundry.veil.api.resource.type.<a href="foundry/veil/api/resource/type/BlockModelResource.html" title="class in foundry.veil.api.resource.type">BlockModelResource</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>resourceInfo</code> record component.</div>
@@ -10817,6 +10841,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html#save(byte%5B%5D,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)" class="member-name-link">save(byte[], VeilResourceManager, VeilResource&lt;?&gt;)</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></dt>
 <dd>
 <div class="block">Saves the specified data to the specified resource and hot reloads it.</div>
+</dd>
+<dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html#save(com.google.gson.JsonElement,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)" class="member-name-link">save(JsonElement, VeilResourceManager, VeilResource&lt;?&gt;)</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor</a></dt>
+<dd>
+<div class="block">Saves the specified json element to the specified resource and hot reloads it.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/util/TextureDownloader.html#save(java.lang.String,java.nio.file.Path,int,boolean)" class="member-name-link">save(String, Path, int, boolean)</a> - Static method in class foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/TextureDownloader.html" title="class in foundry.veil.api.client.util">TextureDownloader</a></dt>
 <dd>
@@ -13087,7 +13115,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html" class="type-name-link" title="class in foundry.veil.api.resource.editor">TextFileEditor</a> - Class in <a href="foundry/veil/api/resource/editor/package-summary.html">foundry.veil.api.resource.editor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html#%3Cinit%3E()" class="member-name-link">TextFileEditor()</a> - Constructor for class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/TextFileEditor.html" title="class in foundry.veil.api.resource.editor">TextFileEditor</a></dt>
+<dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html#%3Cinit%3E(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.VeilTextResource)" class="member-name-link">TextFileEditor(VeilEditorEnvironment, VeilTextResource&lt;?&gt;)</a> - Constructor for class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/TextFileEditor.html" title="class in foundry.veil.api.resource.editor">TextFileEditor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/type/TextResource.html" class="type-name-link" title="class in foundry.veil.api.resource.type">TextResource</a> - Record Class in <a href="foundry/veil/api/resource/type/package-summary.html">foundry.veil.api.resource.type</a></dt>
 <dd>&nbsp;</dd>

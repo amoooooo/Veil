@@ -38,7 +38,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Summary:</p>
 <ul>
-<li>Nested</li>
+<li><a href="#nested-class-summary">Nested</a></li>
 <li>Field</li>
 <li>Constr</li>
 <li><a href="#method-summary">Method</a></li>
@@ -58,7 +58,7 @@ loadScripts(document, 'script');</script>
 <div id="navbar-sub-list">
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -95,6 +95,23 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Interface</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static interface&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="ResourceFileEditor.Factory.html" class="type-name-link" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor.Factory</a>&lt;<a href="ResourceFileEditor.Factory.html" title="type parameter in ResourceFileEditor.Factory">T</a> extends <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&gt;</code></div>
+<div class="col-last even-row-color">
+<div class="block">Factory for creating a new resource file editor.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -106,11 +123,16 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ResourceFileEditor.html" title="type parameter in ResourceFileEditor">T</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getResource()" class="member-name-link">getResource</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isClosed()" class="member-name-link">isClosed</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#open(foundry.veil.api.resource.VeilEditorEnvironment,T)" class="member-name-link">open</a><wbr>(<a href="../VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>&nbsp;environment,
- <a href="ResourceFileEditor.html" title="type parameter in ResourceFileEditor">T</a>&nbsp;resource)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#loadFromDisk()" class="member-name-link">loadFromDisk</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Opens the specified resource in the environment.</div>
+<div class="block">Called to update the editor status from disk.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#render()" class="member-name-link">render</a>()</code></div>
@@ -123,6 +145,13 @@ loadScripts(document, 'script');</script>
  <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Saves the specified data to the specified resource and hot reloads it.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#save(com.google.gson.JsonElement,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)" class="member-name-link">save</a><wbr>(com.google.gson.JsonElement&nbsp;element,
+ <a href="../VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager,
+ <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Saves the specified json element to the specified resource and hot reloads it.</div>
 </div>
 </div>
 </div>
@@ -146,15 +175,47 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="open(foundry.veil.api.resource.VeilEditorEnvironment,T)">
-<h3 id="open(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.VeilResource)">open</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">open</span><wbr><span class="parameters">(<a href="../VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>&nbsp;environment,
- <a href="ResourceFileEditor.html" title="type parameter in ResourceFileEditor">T</a>&nbsp;resource)</span></div>
-<div class="block">Opens the specified resource in the environment.</div>
+<section class="detail" id="loadFromDisk()">
+<h3>loadFromDisk</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">loadFromDisk</span>()</div>
+<div class="block">Called to update the editor status from disk.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isClosed()">
+<h3>isClosed</h3>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isClosed</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether this editor is closed</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getResource()">
+<h3>getResource</h3>
+<div class="member-signature"><span class="return-type"><a href="ResourceFileEditor.html" title="type parameter in ResourceFileEditor">T</a></span>&nbsp;<span class="element-name">getResource</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The resource being edited</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="save(com.google.gson.JsonElement,foundry.veil.api.resource.VeilResourceManager,foundry.veil.api.resource.VeilResource)">
+<h3>save</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">save</span><wbr><span class="parameters">(com.google.gson.JsonElement&nbsp;element,
+ <a href="../VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>&nbsp;resourceManager,
+ <a href="../VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</span>
+           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<div class="block">Saves the specified json element to the specified resource and hot reloads it.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>environment</code> - The environment to open the resource in</dd>
-<dd><code>resource</code> - The resource to open</dd>
+<dd><code>element</code> - The json to write to the resource file</dd>
+<dd><code>resourceManager</code> - The resource manager to write the file to</dd>
+<dd><code>resource</code> - The resource to write to</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
 </dl>
 </section>
 </li>
