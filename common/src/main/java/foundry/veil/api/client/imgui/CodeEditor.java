@@ -255,6 +255,10 @@ public class CodeEditor implements NativeResource {
         return this.editor;
     }
 
+    public boolean isOpen() {
+        return this.open.get();
+    }
+
     public void setSaveCallback(@Nullable SaveCallback saveCallback) {
         this.saveCallback = saveCallback;
     }

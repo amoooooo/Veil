@@ -23,10 +23,17 @@ public class TextFileEditor implements ResourceFileEditor<VeilTextResource<?>> {
 
     private static final Component SAVE = Component.translatable("gui.veil.save");
 
+    private final VeilResourceManager resourceManager;
+    private final VeilTextResource<?> resource;
     private final CodeEditor editor;
 
-    public TextFileEditor() {
+    public TextFileEditor(VeilEditorEnvironment environment, VeilTextResource<?> resource) {
         this.editor = new CodeEditor(SAVE);
+        this.editor.show(resource.resourceInfo().fileName(), "");
+        this.editor.setSaveCallback(null);
+        this.resourceManager = environment.getResourceManager();
+        this.resource = resource;
+        this.loadFromDisk();
     }
 
     @Override
@@ -39,17 +46,15 @@ public class TextFileEditor implements ResourceFileEditor<VeilTextResource<?>> {
     }
 
     @Override
-    public void open(VeilEditorEnvironment environment, VeilTextResource<?> resource) {
-        VeilResourceInfo info = resource.resourceInfo();
+    public void loadFromDisk() {
+        VeilResourceInfo info = this.resource.resourceInfo();
         TextEditorLanguageDefinition languageDefinition = resource.languageDefinition();
-        VeilResourceManager resourceManager = environment.getResourceManager();
+        TextEditor editor = this.editor.getEditor();
 
-        this.editor.show(info.fileName(), "");
-        this.editor.setSaveCallback(null);
-        this.editor.getEditor().setReadOnly(true);
-        this.editor.getEditor().setColorizerEnable(false);
+        editor.setReadOnly(true);
+        editor.setColorizerEnable(false);
 
-        info.getResource(resourceManager).ifPresentOrElse(data -> CompletableFuture.supplyAsync(() -> {
+        info.getResource(this.resourceManager).ifPresentOrElse(data -> CompletableFuture.supplyAsync(() -> {
             try (InputStream stream = data.open()) {
                 return new String(stream.readAllBytes(), StandardCharsets.UTF_8);
             } catch (IOException e) {
@@ -66,16 +71,25 @@ public class TextFileEditor implements ResourceFileEditor<VeilTextResource<?>> {
             this.editor.show(info.fileName(), contents);
             this.editor.setSaveCallback((source, errorConsumer) -> this.save(source.getBytes(StandardCharsets.UTF_8), resourceManager, resource));
 
-            TextEditor textEditor = this.editor.getEditor();
-            textEditor.setReadOnly(resource.resourceInfo().isStatic());
+            editor.setReadOnly(info.isStatic());
             if (languageDefinition != null) {
-                textEditor.setColorizerEnable(true);
-                textEditor.setLanguageDefinition(languageDefinition);
+                editor.setColorizerEnable(true);
+                editor.setLanguageDefinition(languageDefinition);
             }
             return null;
         }, Minecraft.getInstance()), () -> {
             this.editor.hide();
             ImGui.openPopup("###open_failed");
         });
+    }
+
+    @Override
+    public boolean isClosed() {
+        return !this.editor.isOpen();
+    }
+
+    @Override
+    public VeilTextResource<?> getResource() {
+        return this.resource;
     }
 }

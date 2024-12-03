@@ -1,5 +1,8 @@
 package foundry.veil.api.resource.editor;
 
+import com.google.gson.JsonElement;
+import com.google.gson.internal.Streams;
+import com.google.gson.stream.JsonWriter;
 import foundry.veil.Veil;
 import foundry.veil.api.resource.VeilEditorEnvironment;
 import foundry.veil.api.resource.VeilResource;
@@ -8,10 +11,13 @@ import foundry.veil.api.resource.VeilResourceManager;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -26,12 +32,35 @@ public interface ResourceFileEditor<T extends VeilResource<?>> {
     void render();
 
     /**
-     * Opens the specified resource in the environment.
-     *
-     * @param environment The environment to open the resource in
-     * @param resource    The resource to open
+     * Called to update the editor status from disk.
      */
-    void open(VeilEditorEnvironment environment, T resource);
+    void loadFromDisk();
+
+    /**
+     * @return Whether this editor is closed
+     */
+    boolean isClosed();
+
+    /**
+     * @return The resource being edited
+     */
+    T getResource();
+
+    /**
+     * Saves the specified json element to the specified resource and hot reloads it.
+     *
+     * @param element         The json to write to the resource file
+     * @param resourceManager The resource manager to write the file to
+     * @param resource        The resource to write to
+     */
+    default void save(JsonElement element, VeilResourceManager resourceManager, VeilResource<?> resource) throws IOException {
+        StringWriter stringWriter = new StringWriter();
+        JsonWriter jsonWriter = new JsonWriter(stringWriter);
+        jsonWriter.setLenient(true);
+        jsonWriter.setIndent("  ");
+        Streams.write(element, jsonWriter);
+        this.save(stringWriter.toString().getBytes(StandardCharsets.UTF_8), resourceManager, resource);
+    }
 
     /**
      * Saves the specified data to the specified resource and hot reloads it.
@@ -78,5 +107,23 @@ public interface ResourceFileEditor<T extends VeilResource<?>> {
             Veil.LOGGER.error("Failed to hot-swap resource: {}", info.location(), e);
             return null;
         });
+    }
+
+    /**
+     * Factory for creating a new resource file editor.
+     *
+     * @param <T> The type of resource to create an editor for
+     */
+    @FunctionalInterface
+    interface Factory<T extends VeilResource<?>> {
+
+        /**
+         * Opens the specified resource in the environment.
+         *
+         * @param environment The environment to open the resource in
+         * @param resource    The resource to open
+         */
+        @Nullable
+        ResourceFileEditor<T> open(VeilEditorEnvironment environment, T resource);
     }
 }

@@ -10,17 +10,17 @@ import net.minecraft.resources.ResourceLocation;
  */
 public interface VeilEditorEnvironment {
 
-    <T extends VeilResource<?>> void open(T resource, ResourceFileEditor<T> editor);
+    <T extends VeilResource<?>> void open(T resource, ResourceFileEditor.Factory<T> editor);
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     default void open(VeilResource<?> resource, ResourceLocation editorName){
-        ResourceFileEditor editor = VeilResourceEditorRegistry.REGISTRY.get(editorName);
-        if (editor == null) {
+        ResourceFileEditor.Factory factory = VeilResourceEditorRegistry.REGISTRY.get(editorName);
+        if (factory == null) {
             Veil.LOGGER.error("Failed to find editor for resource: {}", resource.resourceInfo().location());
             return;
         }
 
-        this.open(resource, editor);
+        this.open(resource, factory);
     }
 
     VeilResourceManager getResourceManager();

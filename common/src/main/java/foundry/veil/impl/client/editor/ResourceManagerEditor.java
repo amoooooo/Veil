@@ -4,6 +4,7 @@ import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.editor.SingleWindowEditor;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.resource.*;
 import foundry.veil.api.resource.editor.ResourceFileEditor;
 import foundry.veil.impl.resource.VeilPackResources;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @ApiStatus.Internal
-public class ResourceManagerEditor extends SingleWindowEditor implements VeilEditorEnvironment {
+public class ResourceManagerEditor extends SingleWindowEditor {
 
     public static final Component TITLE = Component.translatable("editor.veil.resource.title");
 
@@ -153,7 +154,7 @@ public class ResourceManagerEditor extends SingleWindowEditor implements VeilEdi
                 for (int i = 0; i < this.actions.size(); i++) {
                     VeilResourceAction action = this.actions.get(i);
                     if (ImGui.selectable("##action" + i)) {
-                        action.perform(this, resource);
+                        action.perform(VeilRenderSystem.renderer().getEditorManager(), resource);
                     }
 
                     ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 0, 0);
@@ -181,19 +182,5 @@ public class ResourceManagerEditor extends SingleWindowEditor implements VeilEdi
     @Override
     public Component getGroup() {
         return RESOURCE_GROUP;
-    }
-
-    @Override
-    public <T extends VeilResource<?>> void open(T resource, ResourceFileEditor<T> editor) {
-        try {
-            editor.open(this, resource);
-        } catch (Throwable t) {
-            Veil.LOGGER.error("Failed to open editor for resource: {}", resource.resourceInfo().location(), t);
-        }
-    }
-
-    @Override
-    public VeilResourceManager getResourceManager() {
-        return VeilClient.resourceManager();
     }
 }

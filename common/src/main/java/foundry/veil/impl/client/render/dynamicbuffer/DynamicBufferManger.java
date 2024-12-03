@@ -95,6 +95,7 @@ public class DynamicBufferManger implements NativeResource {
             return false;
         }
 
+        int old = this.activeBuffers; // FIXME remove
         if (activeBuffers == 0) {
             this.activeBufferLayers.removeInt(name);
         } else {
@@ -110,6 +111,7 @@ public class DynamicBufferManger implements NativeResource {
         }
 
         this.activeBuffers = flags;
+        this.activeBuffers |= old; // FIXME remove
         VeilRenderer renderer = VeilRenderSystem.renderer();
         renderer.getVanillaShaderCompiler().reload(((GameRendererAccessor) Minecraft.getInstance().gameRenderer).getShaders().values());
         this.deleteFramebuffers();

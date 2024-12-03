@@ -1,13 +1,17 @@
 package foundry.veil.api.client.editor;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.registry.VeilResourceEditorRegistry;
+import foundry.veil.VeilClient;
+import foundry.veil.api.resource.VeilEditorEnvironment;
+import foundry.veil.api.resource.VeilResource;
+import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.api.resource.editor.ResourceFileEditor;
 import foundry.veil.api.util.CompositeReloadListener;
 import imgui.ImFont;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.type.ImBoolean;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -26,17 +30,19 @@ import java.util.concurrent.Executor;
  *
  * @author Ocelot
  */
-public class EditorManager implements PreparableReloadListener {
+public class EditorManager implements VeilEditorEnvironment, PreparableReloadListener {
 
     public static final ResourceLocation DEFAULT_FONT = Veil.veilPath("jetbrains_mono");
 
     private final Map<Editor, ImBoolean> editors;
+    private final Map<ResourceLocation, ResourceFileEditor<?>> resourceFileEditors;
     private final EditorFontManager fonts;
     private boolean enabled;
 
     @ApiStatus.Internal
     public EditorManager(ReloadableResourceManager resourceManager) {
         this.editors = new TreeMap<>(Comparator.comparing(editor -> editor.getClass().getSimpleName()));
+        this.resourceFileEditors = new Object2ObjectArrayMap<>();
         this.fonts = new EditorFontManager();
         this.enabled = false;
 
@@ -115,8 +121,15 @@ public class EditorManager implements PreparableReloadListener {
             editor.render();
         }
 
-        for (ResourceFileEditor<?> editor : VeilResourceEditorRegistry.REGISTRY) {
-            editor.render();
+        Iterator<ResourceFileEditor<?>> iterator = this.resourceFileEditors.values().iterator();
+        while (iterator.hasNext()) {
+            ResourceFileEditor<?> next = iterator.next();
+            if (next.isClosed()) {
+                iterator.remove();
+                continue;
+            }
+
+            next.render();
         }
     }
 
@@ -132,6 +145,14 @@ public class EditorManager implements PreparableReloadListener {
             if (enabled.get()) {
                 editor.renderLast();
             }
+        }
+    }
+
+    @ApiStatus.Internal
+    public void onFileChange(VeilResource<?> resource) {
+        ResourceFileEditor<?> editor = this.resourceFileEditors.get(resource.resourceInfo().location());
+        if (editor != null) {
+            editor.loadFromDisk();
         }
     }
 
@@ -197,12 +218,29 @@ public class EditorManager implements PreparableReloadListener {
                 listeners.add(listener);
             }
         }
-        for (ResourceFileEditor<?> editor : VeilResourceEditorRegistry.REGISTRY) {
+        for (ResourceFileEditor<?> editor : this.resourceFileEditors.values()) {
             if (editor instanceof PreparableReloadListener listener) {
                 listeners.add(listener);
             }
         }
         PreparableReloadListener listener = CompositeReloadListener.of(listeners.toArray(PreparableReloadListener[]::new));
         return listener.reload(preparationBarrier, resourceManager, prepareProfiler, applyProfiler, backgroundExecutor, gameExecutor);
+    }
+
+    @Override
+    public <T extends VeilResource<?>> void open(T resource, ResourceFileEditor.Factory<T> editor) {
+        try {
+            ResourceFileEditor<T> open = editor.open(this, resource);
+            if (open != null) {
+                this.resourceFileEditors.put(resource.resourceInfo().location(), open);
+            }
+        } catch (Throwable t) {
+            Veil.LOGGER.error("Failed to open editor for resource: {}", resource.resourceInfo().location(), t);
+        }
+    }
+
+    @Override
+    public VeilResourceManager getResourceManager() {
+        return VeilClient.resourceManager();
     }
 }

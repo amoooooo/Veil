@@ -4,8 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.internal.Streams;
-import com.google.gson.stream.JsonWriter;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import foundry.veil.Veil;
@@ -36,8 +34,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Locale;
@@ -53,8 +49,8 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             .create();
 
     private final ImBoolean open;
-    private VeilResourceManager resourceManager;
-    private FramebufferResource resource;
+    private final VeilResourceManager resourceManager;
+    private final FramebufferResource resource;
     private FramebufferDefinitionBuilder builder;
 
     private final ImString widthInput = new ImString();
@@ -72,16 +68,15 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
     private final ImInt levelsInput = new ImInt();
     private final ImString name = new ImString();
 
-    public FramebufferFileEditor() {
-        this.open = new ImBoolean(false);
+    public FramebufferFileEditor(VeilEditorEnvironment environment, FramebufferResource resource) {
+        this.open = new ImBoolean(true);
+        this.resourceManager = environment.getResourceManager();
+        this.resource = resource;
+        this.loadFromDisk();
     }
 
     @Override
     public void render() {
-        if (this.resource == null || !this.open.get()) {
-            return;
-        }
-
         if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName() + "###framebuffer_editor", this.open)) {
             float definitionWidth = 1;
             float definitionHeight = 1;
@@ -204,6 +199,43 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             ImGui.endGroup();
         }
         ImGui.end();
+    }
+
+    @Override
+    public void loadFromDisk() {
+        try (BufferedReader reader = this.resource.resourceInfo().openAsReader(this.resourceManager)) {
+            DataResult<FramebufferDefinition> result = FramebufferDefinition.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(reader));
+            if (result.error().isPresent()) {
+                throw new JsonParseException(result.error().get().message());
+            }
+            this.builder = new FramebufferDefinitionBuilder(result.result().orElseThrow());
+        } catch (IOException e) {
+            Veil.LOGGER.error("Failed to open resource: {}", this.resource.resourceInfo().location(), e);
+            this.builder = new FramebufferDefinitionBuilder();
+        }
+
+        if (this.enabledBuffers == null) {
+            this.enabledBuffers = new BitSet(VeilRenderSystem.maxColorAttachments() + 1);
+        }
+
+        FramebufferAttachmentDefinition[] colorBuffers = this.builder.getColorBuffers();
+        this.enabledBuffers.set(0, this.builder.getDepthBuffer() != null);
+        for (int i = 0; i < colorBuffers.length; i++) {
+            this.enabledBuffers.set(i + 1, colorBuffers[i] != null);
+        }
+
+        this.updateSize();
+        this.setAttachment(1);
+    }
+
+    @Override
+    public boolean isClosed() {
+        return !this.open.get();
+    }
+
+    @Override
+    public FramebufferResource getResource() {
+        return this.resource;
     }
 
     private static void drawBuffer(String name, FramebufferAttachmentDefinition attachment, float width, boolean selected) {
@@ -415,46 +447,10 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
                 throw new JsonSyntaxException(result.error().get().message());
             }
 
-            StringWriter stringWriter = new StringWriter();
-            JsonWriter jsonWriter = new JsonWriter(stringWriter);
-            jsonWriter.setLenient(true);
-            jsonWriter.setIndent("  ");
-            Streams.write(result.getOrThrow(), jsonWriter);
-            this.save(stringWriter.toString().getBytes(StandardCharsets.UTF_8), this.resourceManager, this.resource);
+            this.save(result.getOrThrow(), this.resourceManager, this.resource);
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to save resource: {}", this.resource.resourceInfo().location(), e);
         }
-    }
-
-    @Override
-    public void open(VeilEditorEnvironment environment, FramebufferResource resource) {
-        this.open.set(true);
-        this.resource = resource;
-        this.resourceManager = environment.getResourceManager();
-
-        try (BufferedReader reader = resource.resourceInfo().openAsReader(this.resourceManager)) {
-            DataResult<FramebufferDefinition> result = FramebufferDefinition.CODEC.parse(JsonOps.INSTANCE, JsonParser.parseReader(reader));
-            if (result.error().isPresent()) {
-                throw new JsonParseException(result.error().get().message());
-            }
-            this.builder = new FramebufferDefinitionBuilder(result.result().orElseThrow());
-        } catch (IOException e) {
-            Veil.LOGGER.error("Failed to open resource: {}", resource.resourceInfo().location(), e);
-            this.builder = new FramebufferDefinitionBuilder();
-        }
-
-        if (this.enabledBuffers == null) {
-            this.enabledBuffers = new BitSet(VeilRenderSystem.maxColorAttachments() + 1);
-        }
-
-        FramebufferAttachmentDefinition[] colorBuffers = this.builder.getColorBuffers();
-        this.enabledBuffers.set(0, this.builder.getDepthBuffer() != null);
-        for (int i = 0; i < colorBuffers.length; i++) {
-            this.enabledBuffers.set(i + 1, colorBuffers[i] != null);
-        }
-
-        this.updateSize();
-        this.setAttachment(1);
     }
 
     private static class FramebufferDefinitionBuilder {

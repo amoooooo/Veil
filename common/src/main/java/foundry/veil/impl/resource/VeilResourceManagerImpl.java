@@ -3,6 +3,7 @@ package foundry.veil.impl.resource;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceInfo;
@@ -299,7 +300,10 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                     if (this.ignoredPaths.add(path)) {
                         VeilResource<?> resource = this.resources.get(path);
                         if (resource != null) {
-                            resource.onFileSystemChange(this.resourceManager, pathWatchEvent).thenRun(() -> this.ignoredPaths.remove(path));
+                            resource.onFileSystemChange(this.resourceManager, pathWatchEvent).thenRun(() -> {
+                                this.ignoredPaths.remove(path);
+                                Minecraft.getInstance().execute(() -> VeilRenderSystem.renderer().getEditorManager().onFileChange(resource));
+                            });
                         }
                     }
                 }
