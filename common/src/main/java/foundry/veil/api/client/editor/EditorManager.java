@@ -125,6 +125,7 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
         while (iterator.hasNext()) {
             ResourceFileEditor<?> next = iterator.next();
             if (next.isClosed()) {
+                next.close();
                 iterator.remove();
                 continue;
             }

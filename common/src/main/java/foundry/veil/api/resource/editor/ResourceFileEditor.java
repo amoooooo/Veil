@@ -13,10 +13,7 @@ import net.minecraft.client.Minecraft;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +21,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
-public interface ResourceFileEditor<T extends VeilResource<?>> {
+public interface ResourceFileEditor<T extends VeilResource<?>> extends Closeable {
 
     /**
      * Renders this editor to the screen.
@@ -45,6 +42,10 @@ public interface ResourceFileEditor<T extends VeilResource<?>> {
      * @return The resource being edited
      */
     T getResource();
+
+    @Override
+    default void close() {
+    }
 
     /**
      * Saves the specified json element to the specified resource and hot reloads it.

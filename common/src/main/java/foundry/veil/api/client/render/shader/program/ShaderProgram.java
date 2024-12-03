@@ -535,14 +535,4 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
      * @return A lazily loaded shader instance wrapper for this program
      */
     ShaderInstance toShaderInstance();
-
-    /**
-     * Creates a new shader program with the specified id.
-     *
-     * @param id The id of the program
-     * @return A new shader program
-     */
-    static ShaderProgram create(ResourceLocation id) {
-        return new ShaderProgramImpl(id);
-    }
 }

@@ -148,4 +148,8 @@ public class VertexFormatCodec {
         }
         return Either.right(format);
     });
+
+    public static Map<String, VertexFormat> getDefaultFormats() {
+        return DEFAULT_FORMATS;
+    }
 }

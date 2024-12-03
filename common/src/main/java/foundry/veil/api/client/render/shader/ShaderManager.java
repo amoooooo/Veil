@@ -310,7 +310,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         try (ShaderCompiler compiler = ShaderCompiler.direct(reloadState.shaderSources::get)) {
             for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
                 ResourceLocation id = entry.getKey();
-                ShaderProgram program = ShaderProgram.create(id);
+                ShaderProgram program = new ShaderProgramImpl(id);
                 this.compile(program, entry.getValue(), compiler);
                 this.shaders.put(id, program);
             }
