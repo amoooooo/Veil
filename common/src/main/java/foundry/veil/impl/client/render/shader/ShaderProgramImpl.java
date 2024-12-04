@@ -6,6 +6,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormatElement;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.*;
@@ -13,6 +14,7 @@ import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
+import foundry.veil.api.client.util.VertexFormatCodec;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -34,6 +36,7 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import java.io.ByteArrayInputStream;
@@ -71,6 +74,7 @@ public class ShaderProgramImpl implements ShaderProgram {
     private final TextureCache textures;
     private final Supplier<Wrapper> wrapper;
 
+    private VertexFormat vertexFormat;
     private ProgramDefinition definition;
     private int program;
 
@@ -94,6 +98,48 @@ public class ShaderProgramImpl implements ShaderProgram {
                 Wrapper.constructing = false;
             }
         });
+    }
+
+    private @Nullable VertexFormat detectVertexFormat() {
+        VertexFormat best = null;
+        int bestElements = 0;
+
+        int activeAttributes = glGetProgrami(this.program, GL_ACTIVE_ATTRIBUTES);
+        Int2ObjectMap<String> names = new Int2ObjectArrayMap<>(activeAttributes);
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer size = stack.mallocInt(1);
+            IntBuffer type = stack.mallocInt(1);
+            for (int i = 0; i < activeAttributes; i++) {
+                String name = glGetActiveAttrib(this.program, i, size, type);
+                names.put(glGetAttribLocation(this.program, name), name);
+            }
+        }
+
+        for (VertexFormat format : VertexFormatCodec.getDefaultFormats().values()) {
+            List<VertexFormatElement> elements = format.getElements();
+            int foundElements = 0;
+            if (elements.size() > activeAttributes) {
+                continue;
+            }
+
+            for (int i = 0; i < elements.size(); i++) {
+                if (!format.getElementName(elements.get(i)).equals(names.get(i))) {
+                    break;
+                }
+                foundElements++;
+            }
+
+            if (foundElements < elements.size()) {
+                continue;
+            }
+
+            if (bestElements <= activeAttributes && foundElements > bestElements) {
+                best = format;
+                bestElements = foundElements;
+            }
+        }
+
+        return best;
     }
 
     private void attachShader(int glType, CompiledShader shader, int activeBuffers) {
@@ -121,6 +167,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.textures.clear();
         this.textureSources.clear();
         this.definitionDependencies.clear();
+        this.vertexFormat = null;
     }
 
     private void link() throws ShaderException {
@@ -144,6 +191,8 @@ public class ShaderProgramImpl implements ShaderProgram {
             shader.apply(this);
             this.definitionDependencies.addAll(shader.definitionDependencies());
         });
+
+        this.vertexFormat = this.detectVertexFormat();
     }
 
     private void compileInternal(ShaderCompiler.Context context, ShaderCompiler compiler) throws ShaderException, IOException {
@@ -227,6 +276,11 @@ public class ShaderProgramImpl implements ShaderProgram {
     @Override
     public Int2ObjectMap<CompiledShader> getShaders() {
         return this.attachedShaders;
+    }
+
+    @Override
+    public @Nullable VertexFormat getFormat() {
+        return this.vertexFormat;
     }
 
     @Override

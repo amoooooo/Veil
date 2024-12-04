@@ -83,6 +83,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
         this.implGlfw.newFrame();
         ImGui.newFrame();
 
+        AdvancedFboImGuiAreaImpl.begin();
         VeilRenderSystem.renderer().getEditorManager().render();
 
         this.end();
@@ -90,6 +91,8 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
     @Override
     public void endFrame() {
+        AdvancedFboImGuiAreaImpl.end();
+
         if (!this.active) {
             Veil.LOGGER.error("ImGui state de-synced");
             this.end();

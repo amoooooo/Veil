@@ -1,11 +1,11 @@
 package foundry.veil.api.client.render.shader.program;
 
 import com.mojang.blaze3d.shaders.Uniform;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.shader.CompiledShader;
 import foundry.veil.api.client.render.shader.ShaderCompiler;
 import foundry.veil.api.client.render.shader.ShaderException;
 import foundry.veil.api.client.render.shader.ShaderManager;
-import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -509,6 +509,12 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         Int2ObjectMap<CompiledShader> shaders = this.getShaders();
         return shaders.containsKey(GL_TESS_CONTROL_SHADER) && shaders.containsKey(GL_TESS_EVALUATION_SHADER);
     }
+
+    /**
+     * @return A guess at the best vertex format for this program
+     */
+    @Nullable
+    VertexFormat getFormat();
 
     /**
      * @return All shader definitions this program depends on
