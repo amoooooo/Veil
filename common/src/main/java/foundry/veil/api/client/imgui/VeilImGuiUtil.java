@@ -33,7 +33,7 @@ public class VeilImGuiUtil {
 
     private static final ImGuiCharSink IM_GUI_CHAR_SINK = new ImGuiCharSink();
     private static final StringSplitter IM_GUI_SPLITTER = new StringSplitter((charId, style) -> getStyleFont(style).getCharAdvance(charId));
-    private static final ResourceLocation ICON_FONT = Veil.veilPath("remixicon");
+    public static final ResourceLocation ICON_FONT = Veil.veilPath("remixicon");
 
     /**
      * Displays a (?) with a hover tooltip. Useful for example information.

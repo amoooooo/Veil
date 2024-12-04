@@ -13,10 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +81,29 @@ public abstract class VanillaPackResourcesMixin implements PackResourcesExtensio
                 }
             }
         }
+    }
+
+    @Override
+    public boolean veil$isStatic() {
+        boolean dynamic = false;
+
+        for (Path basePath : this.pathsForType.get(PackType.CLIENT_RESOURCES)) {
+            if (basePath.getFileSystem() == FileSystems.getDefault())
+                dynamic = true;
+        }
+
+        return !dynamic;
+    }
+
+    @Override
+    public @Nullable Path veil$getModResourcePath() {
+        List<Path> paths = this.pathsForType.get(PackType.CLIENT_RESOURCES);
+
+        if (paths.size() == 1) {
+            return paths.getFirst();
+        }
+
+        return null;
     }
 
     @Override

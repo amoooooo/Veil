@@ -22,12 +22,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 public abstract class PathPackResourcesMixin implements PackResources, PackResourcesExtension {
 
     @Shadow
-    @Nullable
-    public abstract IoSupplier<InputStream> getRootResource(String... elements);
-
-    @Shadow
     @Final
     private Path root;
+
+    @Shadow
+    @Nullable
+    public abstract IoSupplier<InputStream> getRootResource(String... elements);
 
     @Override
     public void veil$listResources(PackResourceConsumer consumer) {
@@ -79,6 +79,17 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
                 Veil.LOGGER.warn("Failed to list resources in {} failed!", packId, e);
             }
         }
+    }
+
+    @Override
+    public boolean veil$isStatic() {
+        boolean dynamic = this.root.getFileSystem() == FileSystems.getDefault();
+        return !dynamic;
+    }
+
+    @Override
+    public @Nullable Path veil$getModResourcePath() {
+        return this.root;
     }
 
     @Override

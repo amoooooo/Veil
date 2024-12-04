@@ -28,7 +28,7 @@ import java.util.Map;
 public record TextureResource(VeilResourceInfo resourceInfo) implements VeilResource<TextureResource> {
 
     @Override
-    public void render(boolean dragging) {
+    public void render(boolean dragging, boolean fullName) {
         float size = ImGui.getTextLineHeight();
         int texture = Minecraft.getInstance().getTextureManager().getTexture(this.resourceInfo.location()).getId();
 
@@ -49,7 +49,12 @@ public record TextureResource(VeilResourceInfo resourceInfo) implements VeilReso
                 ImGui.endTooltip();
             }
             ImGui.sameLine();
-            ImGui.text(this.resourceInfo.fileName());
+
+            if (fullName) {
+                VeilImGuiUtil.resourceLocation(this.resourceInfo.location());
+            } else {
+                ImGui.text(this.resourceInfo.fileName());
+            }
         }
         ImGui.popStyleColor();
     }

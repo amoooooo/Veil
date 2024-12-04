@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.editor;
 
+import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.editor.SingleWindowEditor;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
@@ -8,6 +9,7 @@ import foundry.veil.api.resource.*;
 import foundry.veil.impl.resource.VeilPackResources;
 import foundry.veil.impl.resource.VeilResourceManagerImpl;
 import foundry.veil.impl.resource.VeilResourceRenderer;
+import foundry.veil.impl.resource.action.OverrideAction;
 import foundry.veil.impl.resource.tree.VeilResourceFolder;
 import imgui.ImGui;
 import imgui.ImVec2;
@@ -15,42 +17,64 @@ import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiSelectableFlags;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiTreeNodeFlags;
+import imgui.type.ImString;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.file.Path;
+import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 
 @ApiStatus.Internal
 public class ResourceManagerEditor extends SingleWindowEditor {
 
-    private float cellHeight = 0.0f;
-    public static final float ITEM_VERTICAL_PADDING = 5.0f;
+    public static final float ITEM_VERTICAL_PADDING = 3.0f;
     public static final Component TITLE = Component.translatable("editor.veil.resource.title");
-
-    private static final Component RELOAD_BUTTON = Component.translatable("editor.veil.resource.button.reload");
-    private static final Component COPY_PATH = Component.translatable("editor.veil.resource.action.copy_path");
-    private static final Component OPEN_FOLDER = Component.translatable("editor.veil.resource.action.open_folder");
-
+    private float cellHeight = 0.0f;
     private VeilResource<?> contextResource;
-    private List<? extends VeilResourceAction<?>> actions;
+    private List<VeilResourceAction<?>> actions;
 
     private CompletableFuture<?> reloadFuture;
+    private final ImString searchText = new ImString();
+
 
     @Override
     public void renderComponents() {
         this.contextResource = null;
         this.actions = Collections.emptyList();
 
+        ImGui.setNextItemWidth(ImGui.getContentRegionAvailX() - 100f);
+        // TODO: Translation key
+        ImGui.inputTextWithHint("##search", "Search", searchText);
+        ImGui.sameLine();
+
+        ImGui.pushFont(VeilRenderSystem.renderer().getEditorManager().getFont(VeilImGuiUtil.ICON_FONT, false, false));
+
+        // Add button
+        ImGui.setNextItemWidth(44f);
+        if (ImGui.button(("" + (char) 0xED59))) {
+
+        }
+
+        ImGui.sameLine();
+
+        // Reload button
+        ImGui.setNextItemWidth(44f);
         ImGui.beginDisabled(this.reloadFuture != null && !this.reloadFuture.isDone());
-        if (ImGui.button(RELOAD_BUTTON.getString())) {
+        if (ImGui.button(("" + (char) 0xF33F))) {
             this.reloadFuture = Minecraft.getInstance().reloadResourcePacks();
         }
         ImGui.endDisabled();
+
+        ImGui.popFont();
+
 
         VeilResourceManagerImpl resourceManager = VeilClient.resourceManager();
         ImGui.pushStyleColor(ImGuiCol.ChildBg, 0xFF0000FF);
@@ -60,42 +84,76 @@ public class ResourceManagerEditor extends SingleWindowEditor {
         this.cellHeight = ImGui.getTextLineHeight() + 2.0f * ITEM_VERTICAL_PADDING;
 
         if (ImGui.beginListBox("##file_tree", ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY())) {
-            List<VeilPackResources> packs = resourceManager.getAllPacks();
-            for (int i = packs.size() - 1; i >= 0; i--) {
-                VeilPackResources pack = packs.get(i);
-                String modid = pack.getName();
-                int color = VeilImGuiUtil.colorOf(modid);
+            if (searchText.getLength() == 0) {
+                List<VeilPackResources> packs = resourceManager.getAllPacks();
+                for (int i = packs.size() - 1; i >= 0; i--) {
+                    VeilPackResources pack = packs.get(i);
+                    String modid = pack.getName();
+                    int color = VeilImGuiUtil.colorOf(modid);
 
-                boolean open = ImGui.treeNodeEx("##" + modid, ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.FramePadding);
+                    boolean open = ImGui.treeNodeEx("##" + modid, ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.FramePadding);
 
 
-                ImGui.pushStyleColor(ImGuiCol.Text, color);
-                ImGui.sameLine();
-                int icon = pack.getTexture();
+                    ImGui.pushStyleColor(ImGuiCol.Text, color);
+                    ImGui.sameLine();
+                    int icon = pack.getTexture();
 
-                ImVec2 cursorScreenPos = ImGui.getCursorScreenPos();
-                VeilImGuiUtil.icon(0xF523, color);
+                    ImVec2 cursorScreenPos = ImGui.getCursorScreenPos();
+                    VeilImGuiUtil.icon(0xF523, color);
 
-                if (icon != 0) {
-                    float size = ImGui.getTextLineHeight();
+                    if (icon != 0) {
+                        float size = ImGui.getTextLineHeight();
 
-                    float minX = cursorScreenPos.x;
-                    float minY = cursorScreenPos.y + ITEM_VERTICAL_PADDING + 1.0f;
+                        float minX = cursorScreenPos.x;
+                        float minY = cursorScreenPos.y + ITEM_VERTICAL_PADDING + 1.0f;
 
-                    ImGui.getWindowDrawList().addRectFilled(minX, minY, minX + size, minY + size, 0xff000000);
-                    ImGui.getWindowDrawList().addImage(icon, minX, minY, minX + size, minY + size);
+                        ImGui.getWindowDrawList().addRectFilled(minX, minY, minX + size, minY + size, 0xff000000);
+                        ImGui.getWindowDrawList().addImage(icon, minX, minY, minX + size, minY + size);
+                    }
+
+                    ImGui.sameLine();
+                    ImGui.text(modid);
+                    ImGui.popStyleColor();
+
+                    if (open) {
+                        this.renderFolderContents(pack.getRoot());
+                        ImGui.treePop();
+                    }
+                }
+            } else {
+                // find resources that meet the search text and ONLY render those
+                Queue<VeilResourceFolder> folders = new ArrayDeque<>();
+                ObjectArrayList<VeilResource<?>> resources = new ObjectArrayList<>();
+
+                for (VeilPackResources pack : resourceManager.getAllPacks()) {
+                    folders.add(pack.getRoot());
                 }
 
-                ImGui.sameLine();
-                ImGui.text(modid);
-                ImGui.popStyleColor();
+                while (!folders.isEmpty()) {
+                    VeilResourceFolder folder = folders.poll();
 
-                if (open) {
-                    this.renderFolderContents(pack.getRoot());
-                    ImGui.treePop();
+                    for (VeilResource<?> resource : folder.getResources()) {
+                        if (resource.resourceInfo().location().toString().contains(this.searchText.get())) {
+                            resources.add(resource);
+                        }
+                    }
+
+                    folders.addAll(folder.getSubFolders());
                 }
 
-//                ImGui.separator();
+                ImGui.pushStyleVar(ImGuiStyleVar.FramePadding, 4f, 4f);
+                for (VeilResource<?> resource : resources) {
+                    float startX = ImGui.getCursorScreenPosX();
+                    ImGui.selectable("##" + resource.resourceInfo().location(), false, ImGuiSelectableFlags.AllowItemOverlap, ImGui.getContentRegionAvailX(), 22f);
+
+                    ImGui.setItemAllowOverlap();
+                    ImGui.sameLine();
+                    ImGui.setCursorScreenPos(startX, ImGui.getCursorScreenPosY());
+                    VeilResourceRenderer.renderFilename(resource, true);
+
+                }
+                ImGui.popStyleVar();
+
             }
             ImGui.endListBox();
         }
@@ -110,7 +168,8 @@ public class ResourceManagerEditor extends SingleWindowEditor {
         ImGui.sameLine();
 
         ImGui.beginDisabled();
-        VeilImGuiUtil.icon(open ? 0xED6F : 0xF43B);
+//        VeilImGuiUtil.icon(open ? 0xED6F : 0xF43B);
+        ImGui.text("/");
         ImGui.endDisabled();
 
         ImGui.sameLine();
@@ -144,7 +203,6 @@ public class ResourceManagerEditor extends SingleWindowEditor {
             }
 
             float startX = ImGui.getCursorScreenPosX();
-            float cellHeight = this.cellHeight;
             ImGui.selectable("##" + resource.resourceInfo().location(), false, ImGuiSelectableFlags.AllowItemOverlap, ImGui.getContentRegionAvailX(), cellHeight);
 
             ImGui.setItemAllowOverlap();
@@ -152,66 +210,13 @@ public class ResourceManagerEditor extends SingleWindowEditor {
 
             ImVec2 selectableCursorScreenPos = ImGui.getCursorScreenPos();
 
-            float shift = (cellHeight - ImGui.getTextLineHeight()) / 2.0f;
+            float shift = (this.cellHeight - ImGui.getTextLineHeight()) / 2.0f;
             ImGui.setCursorScreenPos(startX, selectableCursorScreenPos.y + shift);
-            VeilResourceRenderer.renderFilename(resource);
+            VeilResourceRenderer.renderFilename(resource, false);
             ImGui.setCursorScreenPos(startX, ImGui.getCursorScreenPosY() - shift);
 
-            if (ImGui.beginPopupContextItem("" + resource.resourceInfo().location())) {
-                if (resource != this.contextResource) {
-                    this.contextResource = resource;
-                    this.actions = resource.getActions();
-                }
 
-                if (ImGui.selectable("##copy_path")) {
-                    ImGui.setClipboardText(info.location().toString());
-                }
-
-                ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 0, 0);
-                ImGui.setItemAllowOverlap();
-                ImGui.sameLine();
-                VeilImGuiUtil.icon(0xEB91);
-                ImGui.sameLine();
-                ImGui.popStyleVar();
-                VeilImGuiUtil.component(COPY_PATH);
-
-                ImGui.beginDisabled(info.isStatic());
-                if (ImGui.selectable("##open_folder")) {
-                    Path file = info.modResourcePath() != null ? info.modResourcePath() : info.filePath();
-                    if (file.getParent() != null) {
-                        Util.getPlatform().openFile(file.getParent().toFile());
-                    }
-                }
-
-                ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 0, 0);
-                ImGui.setItemAllowOverlap();
-                ImGui.sameLine();
-                VeilImGuiUtil.icon(0xECAF);
-                ImGui.sameLine();
-                ImGui.popStyleVar();
-                VeilImGuiUtil.component(OPEN_FOLDER);
-                ImGui.endDisabled();
-
-                for (int i = 0; i < this.actions.size(); i++) {
-                    VeilResourceAction action = this.actions.get(i);
-                    if (ImGui.selectable("##action" + i)) {
-                        action.perform(VeilRenderSystem.renderer().getEditorManager(), resource);
-                    }
-
-                    ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 0, 0);
-                    ImGui.setItemAllowOverlap();
-                    ImGui.sameLine();
-                    action.getIcon().ifPresent(icon -> {
-                        VeilImGuiUtil.icon(icon);
-                        ImGui.sameLine();
-                    });
-                    ImGui.popStyleVar();
-                    VeilImGuiUtil.component(action.getName());
-                }
-
-                ImGui.endPopup();
-            }
-            count ++;
+            count++;
         }
 
         float lineX = cursorScreenPos.x - 4.0f;

@@ -1,10 +1,8 @@
 package foundry.veil.api.client.registry;
 
 import foundry.veil.Veil;
-import foundry.veil.api.resource.editor.BlockModelEditor;
-import foundry.veil.api.resource.editor.FramebufferFileEditor;
-import foundry.veil.api.resource.editor.ResourceFileEditor;
-import foundry.veil.api.resource.editor.TextFileEditor;
+import foundry.veil.api.resource.VeilResource;
+import foundry.veil.api.resource.editor.*;
 import foundry.veil.api.resource.type.BlockModelResource;
 import foundry.veil.api.resource.type.FramebufferResource;
 import foundry.veil.api.resource.type.VeilTextResource;
@@ -23,6 +21,8 @@ public final class VeilResourceEditorRegistry {
     public static final RegistryObject<ResourceFileEditor.Factory<VeilTextResource<?>>> TEXT = VANILLA_PROVIDER.register("text", () -> TextFileEditor::new);
     public static final RegistryObject<BlockModelEditor.Factory<BlockModelResource>> BLOCK_MODEL = VANILLA_PROVIDER.register("block_model", () -> BlockModelEditor::new);
     public static final RegistryObject<ResourceFileEditor.Factory<FramebufferResource>> FRAMEBUFFER = VANILLA_PROVIDER.register("framebuffer", () -> FramebufferFileEditor::new);
+
+    public static final RegistryObject<ResourceOverrideEditor.Factory<VeilResource<?>>> OVERRIDE = VANILLA_PROVIDER.register("override", () -> ResourceOverrideEditor::new);
 
     private VeilResourceEditorRegistry() {
     }

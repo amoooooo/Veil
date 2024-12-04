@@ -14,10 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
 @Mixin(PathPackResources.class)
@@ -63,6 +60,17 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
                 Veil.LOGGER.warn("Failed to list resources in {} failed!", packId, e);
             }
         }
+    }
+
+    @Override
+    public boolean veil$isStatic() {
+        boolean dynamic = this.root.getFileSystem() == FileSystems.getDefault();
+        return !dynamic;
+    }
+
+    @Override
+    public @Nullable Path veil$getModResourcePath() {
+        return this.root;
     }
 
     @Override

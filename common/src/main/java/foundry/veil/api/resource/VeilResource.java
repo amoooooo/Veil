@@ -28,14 +28,15 @@ public interface VeilResource<T extends VeilResource<?>> {
      * Rebders this resource into the resource panel.
      *
      * @param dragging Whether the user is dragging the resource
+     * @param fullName Whether to render the location of the resource
      */
-    default void render(boolean dragging) {
+    default void render(boolean dragging, boolean fullName) {
         VeilImGuiUtil.icon(this.getIconCode());
         ImGui.sameLine();
 
         VeilResourceInfo resourceInfo = this.resourceInfo();
         ImGui.pushStyleColor(ImGuiCol.Text, resourceInfo.isStatic() ? 0xFFAAAAAA : 0xFFFFFFFF);
-        if (dragging) {
+        if (dragging || fullName) {
             VeilImGuiUtil.resourceLocation(resourceInfo.location());
         } else {
             ImGui.text(resourceInfo.fileName());
