@@ -20,7 +20,7 @@ public record VeilShaderDefinitionResource(VeilResourceInfo resourceInfo,
                                            ShaderManager shaderManager) implements VeilShaderResource<VeilShaderDefinitionResource> {
 
     @Override
-    public void render(boolean dragging) {
+    public void render(boolean dragging, boolean fullName) {
         ShaderManager shaderManager = VeilRenderSystem.renderer().getShaderManager();
         ShaderProgram shader = shaderManager.getShader(shaderManager.getSourceSet().getShaderDefinitionLister().fileToId(this.resourceInfo.location()));
         if (shader != null && shader.getFormat() != null) {
@@ -31,7 +31,7 @@ public record VeilShaderDefinitionResource(VeilResourceInfo resourceInfo,
                 return;
             }
 
-            VeilShaderResource.super.render(false);
+            VeilShaderResource.super.render(false, fullName);
             if (ImGui.isItemHovered()) {
                 ImGui.beginTooltip();
                 VeilShaderDefinitionResourceRenderer.render(shader, this, size * 16, size * 16);
@@ -40,7 +40,7 @@ public record VeilShaderDefinitionResource(VeilResourceInfo resourceInfo,
             return;
         }
 
-        VeilShaderResource.super.render(dragging);
+        VeilShaderResource.super.render(dragging, fullName);
     }
 
     @Override
