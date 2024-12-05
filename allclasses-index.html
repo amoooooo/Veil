@@ -118,7 +118,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="foundry/veil/mixin/tooltip/BlockEntityMixin.html" title="class in foundry.veil.mixin.tooltip">BlockEntityMixin</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="foundry/veil/api/resource/editor/BlockModelEditor.html" title="class in foundry.veil.api.resource.editor">BlockModelEditor</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="foundry/veil/api/resource/editor/BlockModelInspector.html" title="class in foundry.veil.api.resource.editor">BlockModelInspector</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Viewer for block models</div>
 </div>
@@ -843,7 +843,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="foundry/veil/mixin/debug/MinecraftMixin.html" title="class in foundry.veil.mixin.debug">MinecraftMixin</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="foundry/veil/impl/resource/action/ModelEditAction.html" title="class in foundry.veil.impl.resource.action">ModelEditAction&lt;T&gt;</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="foundry/veil/impl/resource/action/ModelInspectAction.html" title="class in foundry.veil.impl.resource.action">ModelInspectAction&lt;T&gt;</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/mixin/accessor/ModelManagerAccessor.html" title="interface in foundry.veil.mixin.accessor">ModelManagerAccessor</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
@@ -1430,6 +1430,14 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="foundry/veil/Veil.html" title="class in foundry.veil">Veil</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Fired when Veil is about to compile shaders.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.Registry.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent.Registry</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Registers shader pre-processors.</div>
+</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="foundry/veil/impl/VeilBuiltinPacks.html" title="class in foundry.veil.impl">VeilBuiltinPacks</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/impl/VeilBuiltinPacks.Context.html" title="interface in foundry.veil.impl">VeilBuiltinPacks.Context</a></div>
@@ -1546,11 +1554,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Fired before Veil runs the default post-processing steps.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilRegisterBlockLayerEvent.html" title="interface in foundry.veil.api.event">VeilRegisterBlockLayerEvent</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilRegisterBlockLayersEvent.html" title="interface in foundry.veil.api.event">VeilRegisterBlockLayersEvent</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Fired to register block layers.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilRegisterBlockLayerEvent.Registry.html" title="interface in foundry.veil.api.event">VeilRegisterBlockLayerEvent.Registry</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilRegisterBlockLayersEvent.Registry.html" title="interface in foundry.veil.api.event">VeilRegisterBlockLayersEvent.Registry</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Registers additional fixed render buffers.</div>
 </div>
@@ -1574,7 +1582,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Manages the render pipeline for Veil.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilRendererEvent.html" title="interface in foundry.veil.api.event">VeilRendererEvent</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="foundry/veil/api/event/VeilRendererAvailableEvent.html" title="interface in foundry.veil.api.event">VeilRendererAvailableEvent</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Fired when Veil has finished initialization and the renderer is safe to use.</div>
 </div>
