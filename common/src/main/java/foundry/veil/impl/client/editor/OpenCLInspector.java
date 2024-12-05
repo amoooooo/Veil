@@ -2,7 +2,7 @@ package foundry.veil.impl.client.editor;
 
 import com.google.common.base.Stopwatch;
 import foundry.veil.Veil;
-import foundry.veil.api.client.editor.SingleWindowEditor;
+import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.CodeEditor;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.opencl.*;
@@ -22,17 +22,17 @@ import static org.lwjgl.opencl.CL10.CL_MEM_READ_ONLY;
 import static org.lwjgl.opencl.CL10.CL_MEM_WRITE_ONLY;
 
 @ApiStatus.Internal
-public class OpenCLEditor extends SingleWindowEditor {
+public class OpenCLInspector extends SingleWindowInspector {
 
-    public static final Component TITLE = Component.translatable("editor.veil.example.opencl.title");
+    public static final Component TITLE = Component.translatable("inspector.veil.example.opencl.title");
 
-    private static final Component RUN = Component.translatable("editor.veil.example.opencl.button.run");
-    private static final Component EDIT = Component.translatable("editor.veil.example.opencl.button.edit");
-    private static final Component NO_PLATFORM = Component.translatable("editor.veil.example.opencl.no_platform");
-    private static final Component DEVICE = Component.translatable("editor.veil.example.opencl.device");
-    private static final Component NO_DEVICE = Component.translatable("editor.veil.example.opencl.device.none");
-    private static final Component ELEMENTS = Component.translatable("editor.veil.example.opencl.elements");
-    private static final Component LOCAL_WORK_GROUPS = Component.translatable("editor.veil.example.opencl.local_work_groups");
+    private static final Component RUN = Component.translatable("inspector.veil.example.opencl.button.run");
+    private static final Component EDIT = Component.translatable("inspector.veil.example.opencl.button.edit");
+    private static final Component NO_PLATFORM = Component.translatable("inspector.veil.example.opencl.no_platform");
+    private static final Component DEVICE = Component.translatable("inspector.veil.example.opencl.device");
+    private static final Component NO_DEVICE = Component.translatable("inspector.veil.example.opencl.device.none");
+    private static final Component ELEMENTS = Component.translatable("inspector.veil.example.opencl.elements");
+    private static final Component LOCAL_WORK_GROUPS = Component.translatable("inspector.veil.example.opencl.local_work_groups");
 
     private final CodeEditor codeEditor;
     private String source;
@@ -48,7 +48,7 @@ public class OpenCLEditor extends SingleWindowEditor {
     private final ImInt elements = new ImInt(1_000_000);
     private final ImInt workGroups = new ImInt(1);
 
-    public OpenCLEditor() {
+    public OpenCLInspector() {
         this.codeEditor = new CodeEditor(TITLE, Component.translatable("gui.veil.save"));
         this.codeEditor.setSaveCallback((source, errorConsumer) -> this.compileProgram(source));
         this.source = """

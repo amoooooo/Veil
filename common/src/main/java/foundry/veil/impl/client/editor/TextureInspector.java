@@ -2,7 +2,7 @@ package foundry.veil.impl.client.editor;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
-import foundry.veil.api.client.editor.SingleWindowEditor;
+import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.shader.VeilShaders;
@@ -38,14 +38,14 @@ import static org.lwjgl.opengl.GL45C.GL_TEXTURE_TARGET;
 import static org.lwjgl.opengl.GL45C.glGetTextureParameteri;
 
 @ApiStatus.Internal
-public class TextureEditor extends SingleWindowEditor {
+public class TextureInspector extends SingleWindowInspector {
 
-    public static final Component TITLE = Component.translatable("editor.veil.texture.title");
-    public static final Component DOWNLOAD = Component.translatable("editor.veil.texture.button.download");
-    public static final Component POP_OUT = Component.translatable("editor.veil.texture.toggle.pop_out");
-    public static final Component FLIP_X = Component.translatable("editor.veil.texture.toggle.flip_x");
-    public static final Component FLIP_Y = Component.translatable("editor.veil.texture.toggle.flip_y");
-    public static final Component NO_TEXTURE = Component.translatable("editor.veil.texture.asset.missing");
+    public static final Component TITLE = Component.translatable("inspector.veil.texture.title");
+    public static final Component DOWNLOAD = Component.translatable("inspector.veil.texture.button.download");
+    public static final Component POP_OUT = Component.translatable("inspector.veil.texture.toggle.pop_out");
+    public static final Component FLIP_X = Component.translatable("inspector.veil.texture.toggle.flip_x");
+    public static final Component FLIP_Y = Component.translatable("inspector.veil.texture.toggle.flip_y");
+    public static final Component NO_TEXTURE = Component.translatable("inspector.veil.texture.asset.missing");
 
     private final IntSet texturesSet;
     private final Int2ObjectMap<OpenTexture> openTextures;
@@ -57,7 +57,7 @@ public class TextureEditor extends SingleWindowEditor {
     private boolean downloadTextures;
     private CompletableFuture<?> downloadFuture;
 
-    public TextureEditor() {
+    public TextureInspector() {
         this.texturesSet = new IntArraySet();
         this.openTextures = new Int2ObjectArrayMap<>();
         this.cubemapStorage = new Int2ObjectArrayMap<>();
@@ -180,7 +180,7 @@ public class TextureEditor extends SingleWindowEditor {
                 open.set(true);
                 ImGui.setNextWindowSize(800, 600);
             }
-            if (ImGui.begin(I18n.get("editor.veil.texture.asset", id), open, ImGuiWindowFlags.NoSavedSettings)) {
+            if (ImGui.begin(I18n.get("inspector.veil.texture.asset", id), open, ImGuiWindowFlags.NoSavedSettings)) {
                 ImBoolean flipX = texture.flipX;
                 ImBoolean flipY = texture.flipY;
                 ImGui.checkbox(FLIP_X.getString(), flipX);
@@ -233,7 +233,7 @@ public class TextureEditor extends SingleWindowEditor {
     @Override
     public void renderMenuBar() {
         for (Int2ObjectMap.Entry<OpenTexture> entry : this.openTextures.int2ObjectEntrySet()) {
-            ImGui.menuItem(I18n.get("editor.veil.texture.asset", entry.getIntKey()), null, entry.getValue().visible);
+            ImGui.menuItem(I18n.get("inspector.veil.texture.asset", entry.getIntKey()), null, entry.getValue().visible);
         }
     }
 

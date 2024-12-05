@@ -26,7 +26,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 /**
- * <p>Manages all editors for Veil. Editors are ImGui powered panels that can be dynamically registered and unregistered with {@link #add(Editor)}.</p>
+ * <p>Manages all editors for Veil. Editors are ImGui powered panels that can be dynamically registered and unregistered with {@link #add(Inspector)}.</p>
  *
  * @author Ocelot
  */
@@ -34,14 +34,14 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
 
     public static final ResourceLocation DEFAULT_FONT = Veil.veilPath("jetbrains_mono");
 
-    private final Map<Editor, ImBoolean> editors;
+    private final Map<Inspector, ImBoolean> editors;
     private final Map<ResourceLocation, ResourceFileEditor<?>> resourceFileEditors;
     private final EditorFontManager fonts;
     private boolean enabled;
 
     @ApiStatus.Internal
     public EditorManager(ReloadableResourceManager resourceManager) {
-        this.editors = new TreeMap<>(Comparator.comparing(editor -> editor.getClass().getSimpleName()));
+        this.editors = new TreeMap<>(Comparator.comparing(inspector -> inspector.getClass().getSimpleName()));
         this.resourceFileEditors = new Object2ObjectArrayMap<>();
         this.fonts = new EditorFontManager();
         this.enabled = false;
@@ -70,24 +70,24 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
             ImGui.getWindowDrawList().addRectFilled(0f, 0f, dingleWidth, dingleHeight, ImGui.getColorU32(ImGuiCol.FrameBgHovered));
             ImGui.text("Veil ");
 
-            for (Map.Entry<Editor, ImBoolean> entry : this.editors.entrySet()) {
-                Editor editor = entry.getKey();
-                Component group = editor.getGroup();
+            for (Map.Entry<Inspector, ImBoolean> entry : this.editors.entrySet()) {
+                Inspector inspector = entry.getKey();
+                Component group = inspector.getGroup();
                 if (group == null) {
                     if (Veil.platform().isDevelopmentEnvironment()) {
-                        Veil.LOGGER.error("Editor '{}' should return Editor#DEFAULT_GROUP instead of null", editor.getClass());
+                        Veil.LOGGER.error("Editor '{}' should return Editor#DEFAULT_GROUP instead of null", inspector.getClass());
                     }
-                    group = Editor.DEFAULT_GROUP;
+                    group = Inspector.DEFAULT_GROUP;
                 }
                 if (ImGui.beginMenu(group.getString())) {
                     ImBoolean enabled = entry.getValue();
 
-                    ImGui.beginDisabled(!editor.isEnabled());
-                    if (ImGui.menuItem(editor.getDisplayName().getString(), null, enabled.get())) {
+                    ImGui.beginDisabled(!inspector.isEnabled());
+                    if (ImGui.menuItem(inspector.getDisplayName().getString(), null, enabled.get())) {
                         if (!enabled.get()) {
-                            this.show(editor);
+                            this.show(inspector);
                         } else {
-                            this.hide(editor);
+                            this.hide(inspector);
                         }
                     }
                     ImGui.endDisabled();
@@ -95,30 +95,30 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
                 }
             }
 
-            for (Map.Entry<Editor, ImBoolean> entry : this.editors.entrySet()) {
-                Editor editor = entry.getKey();
-                if (entry.getValue().get() && editor.isMenuBarEnabled()) {
+            for (Map.Entry<Inspector, ImBoolean> entry : this.editors.entrySet()) {
+                Inspector inspector = entry.getKey();
+                if (entry.getValue().get() && inspector.isMenuBarEnabled()) {
                     ImGui.separator();
-                    ImGui.textColored(0xFFAAAAAA, editor.getDisplayName().getString());
-                    editor.renderMenuBar();
+                    ImGui.textColored(0xFFAAAAAA, inspector.getDisplayName().getString());
+                    inspector.renderMenuBar();
                 }
             }
 
             ImGui.endMainMenuBar();
         }
 
-        for (Map.Entry<Editor, ImBoolean> entry : this.editors.entrySet()) {
-            Editor editor = entry.getKey();
+        for (Map.Entry<Inspector, ImBoolean> entry : this.editors.entrySet()) {
+            Inspector inspector = entry.getKey();
             ImBoolean enabled = entry.getValue();
 
-            if (!editor.isEnabled()) {
+            if (!inspector.isEnabled()) {
                 enabled.set(false);
             }
             if (!enabled.get()) {
                 continue;
             }
 
-            editor.render();
+            inspector.render();
         }
 
         Iterator<ResourceFileEditor<?>> iterator = this.resourceFileEditors.values().iterator();
@@ -140,11 +140,11 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
             return;
         }
 
-        for (Map.Entry<Editor, ImBoolean> entry : this.editors.entrySet()) {
-            Editor editor = entry.getKey();
+        for (Map.Entry<Inspector, ImBoolean> entry : this.editors.entrySet()) {
+            Inspector inspector = entry.getKey();
             ImBoolean enabled = entry.getValue();
             if (enabled.get()) {
-                editor.renderLast();
+                inspector.renderLast();
             }
         }
     }
@@ -157,34 +157,34 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
         }
     }
 
-    public void show(Editor editor) {
-        ImBoolean enabled = this.editors.get(editor);
+    public void show(Inspector inspector) {
+        ImBoolean enabled = this.editors.get(inspector);
         if (enabled != null && !enabled.get()) {
-            editor.onShow();
+            inspector.onShow();
             enabled.set(true);
         }
     }
 
-    public void hide(Editor editor) {
-        ImBoolean enabled = this.editors.get(editor);
+    public void hide(Inspector inspector) {
+        ImBoolean enabled = this.editors.get(inspector);
         if (enabled != null && enabled.get()) {
-            editor.onHide();
+            inspector.onHide();
             enabled.set(false);
         }
     }
 
-    public boolean isVisible(Editor editor) {
-        ImBoolean visible = this.editors.get(editor);
+    public boolean isVisible(Inspector inspector) {
+        ImBoolean visible = this.editors.get(inspector);
         return visible != null && visible.get();
     }
 
-    public synchronized void add(Editor editor) {
-        this.editors.computeIfAbsent(editor, unused -> new ImBoolean());
+    public synchronized void add(Inspector inspector) {
+        this.editors.computeIfAbsent(inspector, unused -> new ImBoolean());
     }
 
-    public synchronized void remove(Editor editor) {
-        this.hide(editor);
-        this.editors.remove(editor);
+    public synchronized void remove(Inspector inspector) {
+        this.hide(inspector);
+        this.editors.remove(inspector);
     }
 
     /**
@@ -214,8 +214,8 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
     public @NotNull CompletableFuture<Void> reload(@NotNull PreparationBarrier preparationBarrier, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller prepareProfiler, @NotNull ProfilerFiller applyProfiler, @NotNull Executor backgroundExecutor, @NotNull Executor gameExecutor) {
         List<PreparableReloadListener> listeners = new ArrayList<>(this.editors.size());
         listeners.add(this.fonts);
-        for (Editor editor : this.editors.keySet()) {
-            if (editor instanceof PreparableReloadListener listener) {
+        for (Inspector inspector : this.editors.keySet()) {
+            if (inspector instanceof PreparableReloadListener listener) {
                 listeners.add(listener);
             }
         }

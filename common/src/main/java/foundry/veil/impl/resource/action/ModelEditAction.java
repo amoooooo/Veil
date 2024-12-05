@@ -10,8 +10,8 @@ import java.util.OptionalInt;
 
 public record ModelEditAction<T extends BlockModelResource>() implements VeilResourceAction<T> {
 
-    private static final Component NAME = Component.translatable("editor.veil.resource.action.model_edit");
-    private static final Component DESC = Component.translatable("editor.veil.resource.action.model_edit.desc");
+    private static final Component NAME = Component.translatable("resource.veil.action.model_edit");
+    private static final Component DESC = Component.translatable("resource.veil.action.model_edit.desc");
 
     @Override
     public Component getName() {

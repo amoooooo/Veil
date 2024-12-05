@@ -81,21 +81,17 @@ public abstract class ModNioResourcePackMixin implements ModResourcePack, PackRe
         boolean dynamic = false;
 
         for (Path basePath : this.basePaths) {
-            if (basePath.getFileSystem() == FileSystems.getDefault())
+            if (basePath.getFileSystem() == FileSystems.getDefault()) {
                 dynamic = true;
+            }
         }
 
         return !dynamic;
     }
 
     @Override
-    @Nullable
-    public Path veil$getModResourcePath() {
-        if (this.basePaths.size() == 1) {
-            return this.basePaths.getFirst();
-        }
-
-        return null;
+    public List<Path> veil$getRawResourceRoots() {
+        return this.basePaths.stream().flatMap(path -> PackResourcesExtension.findDevPaths(path, path).stream()).toList();
     }
 
     @Override

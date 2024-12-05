@@ -55,18 +55,18 @@ public class VeilClient {
 
                 // Example for devs
                 if (Veil.platform().isDevelopmentEnvironment()) {
-                    editorManager.add(new DemoEditor());
+                    editorManager.add(new DemoInspector());
                 }
 
                 // Debug editors
-                editorManager.add(new PostEditor());
+                editorManager.add(new PostInspector());
                 editorManager.add(new ShaderInspector());
-                editorManager.add(new TextureEditor());
-                editorManager.add(new OpenCLEditor());
+                editorManager.add(new TextureInspector());
+                editorManager.add(new OpenCLInspector());
                 editorManager.add(new DeviceInfoViewer());
-                editorManager.add(new LightEditor());
-                editorManager.add(new FramebufferEditor());
-                editorManager.add(new ResourceManagerEditor());
+                editorManager.add(new LightInspector());
+                editorManager.add(new FramebufferInspector());
+                editorManager.add(new ResourceManagerInspector());
             }
             glEnable(GL_DEPTH_CLAMP); // TODO add config option
         });

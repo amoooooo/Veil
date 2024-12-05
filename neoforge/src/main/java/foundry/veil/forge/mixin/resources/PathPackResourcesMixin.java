@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collections;
+import java.util.List;
 
 @Mixin(PathPackResources.class)
 public abstract class PathPackResourcesMixin implements PackResources, PackResourcesExtension {
@@ -44,7 +46,6 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
 
             try {
                 Files.walkFileTree(assetPath, new SimpleFileVisitor<>() {
-                    @SuppressWarnings("unchecked")
                     @Override
                     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
                         String[] parts = assetPath.relativize(file).toString().replace(separator, "/").split("/", 2);
@@ -83,13 +84,12 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
 
     @Override
     public boolean veil$isStatic() {
-        boolean dynamic = this.root.getFileSystem() == FileSystems.getDefault();
-        return !dynamic;
+        return this.root.getFileSystem() != FileSystems.getDefault();
     }
 
     @Override
-    public @Nullable Path veil$getModResourcePath() {
-        return this.root;
+    public List<Path> veil$getRawResourceRoots() {
+        return Collections.singletonList(this.root);
     }
 
     @Override

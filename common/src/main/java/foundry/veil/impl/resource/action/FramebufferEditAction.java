@@ -10,8 +10,8 @@ import java.util.OptionalInt;
 
 public class FramebufferEditAction implements VeilResourceAction<FramebufferResource> {
 
-    private static final Component NAME = Component.translatable("editor.veil.resource.action.framebuffer_edit");
-    private static final Component DESC = Component.translatable("editor.veil.resource.action.framebuffer_edit.desc");
+    private static final Component NAME = Component.translatable("resource.veil.action.framebuffer_edit");
+    private static final Component DESC = Component.translatable("resource.veil.action.framebuffer_edit.desc");
 
     @Override
     public Component getName() {

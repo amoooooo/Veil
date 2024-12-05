@@ -10,8 +10,8 @@ import java.util.OptionalInt;
 
 public record OverrideAction<T extends VeilResource<T>>()  implements VeilResourceAction<T> {
 
-    private static final Component NAME = Component.translatable("editor.veil.resource.action.override");
-    private static final Component DESC = Component.translatable("editor.veil.resource.action.override.desc");
+    private static final Component NAME = Component.translatable("resource.veil.action.override");
+    private static final Component DESC = Component.translatable("resource.veil.action.override.desc");
 
     @Override
     public Component getName() {
@@ -30,6 +30,6 @@ public record OverrideAction<T extends VeilResource<T>>()  implements VeilResour
 
     @Override
     public void perform(VeilEditorEnvironment environment, T resource) {
-        environment.open(resource, VeilResourceEditorRegistry.OVERRIDE.get());
+//        environment.open(resource, VeilResourceEditorRegistry.OVERRIDE.get());
     }
 }

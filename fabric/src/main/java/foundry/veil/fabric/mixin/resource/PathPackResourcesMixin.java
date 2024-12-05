@@ -2,6 +2,7 @@ package foundry.veil.fabric.mixin.resource;
 
 import foundry.veil.Veil;
 import foundry.veil.ext.PackResourcesExtension;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collections;
+import java.util.List;
 
 @Mixin(PathPackResources.class)
 public abstract class PathPackResourcesMixin implements PackResources, PackResourcesExtension {
@@ -64,13 +67,12 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
 
     @Override
     public boolean veil$isStatic() {
-        boolean dynamic = this.root.getFileSystem() == FileSystems.getDefault();
-        return !dynamic;
+        return this.root.getFileSystem() != FileSystems.getDefault();
     }
 
     @Override
-    public @Nullable Path veil$getModResourcePath() {
-        return this.root;
+    public List<Path> veil$getRawResourceRoots() {
+        return Collections.singletonList(this.root.relativize(Minecraft.getInstance().gameDirectory.toPath()));
     }
 
     @Override

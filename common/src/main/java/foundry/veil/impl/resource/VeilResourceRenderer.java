@@ -20,8 +20,8 @@ import java.nio.file.Path;
 @ApiStatus.Internal
 public class VeilResourceRenderer {
 
-    private static final Component COPY_PATH = Component.translatable("editor.veil.resource.action.copy_path");
-    private static final Component OPEN_FOLDER = Component.translatable("editor.veil.resource.action.open_folder");
+    private static final Component COPY_PATH = Component.translatable("resource.veil.action.copy_path");
+    private static final Component OPEN_FOLDER = Component.translatable("resource.veil.action.open_folder");
 
     /**
      * Renders the filename of a resource, with drag-n-drop and context menu support

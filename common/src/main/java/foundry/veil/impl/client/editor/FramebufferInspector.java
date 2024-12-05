@@ -2,7 +2,7 @@ package foundry.veil.impl.client.editor;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
-import foundry.veil.api.client.editor.SingleWindowEditor;
+import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
@@ -31,16 +31,16 @@ import java.util.function.Consumer;
 import static org.lwjgl.opengl.GL11C.*;
 
 @ApiStatus.Internal
-public class FramebufferEditor extends SingleWindowEditor {
+public class FramebufferInspector extends SingleWindowInspector {
 
-    public static final Component TITLE = Component.translatable("editor.veil.framebuffer.title");
+    public static final Component TITLE = Component.translatable("inspector.veil.framebuffer.title");
 
     private static final Component SAVE = Component.translatable("gui.veil.save");
 
     private final Set<ResourceLocation> framebuffers;
     private AdvancedFbo downloadBuffer;
 
-    public FramebufferEditor() {
+    public FramebufferInspector() {
         this.framebuffers = new TreeSet<>();
     }
 
@@ -158,7 +158,7 @@ public class FramebufferEditor extends SingleWindowEditor {
 
     private static String getAttachmentName(int index, AdvancedFboTextureAttachment attachment) {
         RenderSystem.bindTexture(attachment.getId());
-        StringBuilder attachmentName = new StringBuilder(attachment.getName() != null ? attachment.getName() : index == -1 ? I18n.get("editor.veil.framebuffer.depth_attachment") : (I18n.get("editor.veil.framebuffer.color_attachment", index)));
+        StringBuilder attachmentName = new StringBuilder(attachment.getName() != null ? attachment.getName() : index == -1 ? I18n.get("inspector.veil.framebuffer.depth_attachment") : (I18n.get("inspector.veil.framebuffer.color_attachment", index)));
 
         int internalFormat = glGetTexLevelParameteri(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT);
         for (FramebufferAttachmentDefinition.Format format : FramebufferAttachmentDefinition.Format.values()) {

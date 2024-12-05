@@ -1,6 +1,6 @@
 package foundry.veil.impl.client.editor;
 
-import foundry.veil.api.client.editor.Editor;
+import foundry.veil.api.client.editor.Inspector;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import imgui.ImGui;
 import imgui.type.ImBoolean;
@@ -8,9 +8,9 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class DemoEditor implements Editor {
+public class DemoInspector implements Inspector {
 
-    public static final Component TITLE = Component.translatable("editor.veil.example.imgui.title");
+    public static final Component TITLE = Component.translatable("inspector.veil.example.imgui.title");
 
     private final ImBoolean open = new ImBoolean();
 

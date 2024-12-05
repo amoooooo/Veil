@@ -1,7 +1,7 @@
 package foundry.veil.impl.client.editor;
 
 import foundry.veil.api.client.editor.EditorAttributeProvider;
-import foundry.veil.api.client.editor.SingleWindowEditor;
+import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.registry.LightTypeRegistry;
 import foundry.veil.api.client.render.VeilRenderSystem;
@@ -26,17 +26,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-public class LightEditor extends SingleWindowEditor {
+public class LightInspector extends SingleWindowInspector {
 
-    public static final Component TITLE = Component.translatable("editor.veil.light.title");
+    public static final Component TITLE = Component.translatable("inspector.veil.light.title");
 
-    private static final Component ADD = Component.translatable("editor.veil.light.button.add");
-    private static final Component REMOVE = Component.translatable("editor.veil.light.button.remove");
-    private static final Component REMOVE_ALL = Component.translatable("editor.veil.light.button.remove_all");
-    private static final Component REMOVE_ALL_DESC = Component.translatable("editor.veil.light.button.remove_all.desc");
-    private static final Component SET_POSITION = Component.translatable("editor.veil.light.button.set_position");
-    private static final Component ATTRIBUTES = Component.translatable("editor.veil.light.attributes");
-    private static final Component ENABLE_AO = Component.translatable("editor.veil.light.toggle.ao");
+    private static final Component ADD = Component.translatable("inspector.veil.light.button.add");
+    private static final Component REMOVE = Component.translatable("inspector.veil.light.button.remove");
+    private static final Component REMOVE_ALL = Component.translatable("inspector.veil.light.button.remove_all");
+    private static final Component REMOVE_ALL_DESC = Component.translatable("inspector.veil.light.button.remove_all.desc");
+    private static final Component SET_POSITION = Component.translatable("inspector.veil.light.button.set_position");
+    private static final Component ATTRIBUTES = Component.translatable("inspector.veil.light.attributes");
+    private static final Component ENABLE_AO = Component.translatable("inspector.veil.light.toggle.ao");
 
     private final List<ResourceKey<LightTypeRegistry.LightType<?>>> lightTypes = new ArrayList<>();
     private ResourceKey<LightTypeRegistry.LightType<?>> selectedTab;
@@ -76,7 +76,7 @@ public class LightEditor extends SingleWindowEditor {
         }
         ImGui.endDisabled();
         if (ImGui.isItemHovered(ImGuiHoveredFlags.None)) {
-            VeilImGuiUtil.setTooltip(Component.translatable("editor.veil.light.button.add.desc", this.selectedTab.location().toString()));
+            VeilImGuiUtil.setTooltip(Component.translatable("inspector.veil.light.button.add.desc", this.selectedTab.location().toString()));
         }
 
         ImGui.sameLine();
@@ -88,7 +88,7 @@ public class LightEditor extends SingleWindowEditor {
         }
         ImGui.endDisabled();
         if (ImGui.isItemHovered(ImGuiHoveredFlags.None)) {
-            VeilImGuiUtil.setTooltip(Component.translatable("editor.veil.light.button.remove.desc", this.selectedTab.location().toString()));
+            VeilImGuiUtil.setTooltip(Component.translatable("inspector.veil.light.button.remove.desc", this.selectedTab.location().toString()));
         }
 
         ImGui.sameLine();

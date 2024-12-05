@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
  *
  * @author Ocelot
  */
-public abstract class SingleWindowEditor implements Editor {
+public abstract class SingleWindowInspector implements Inspector {
 
     protected final ImBoolean open = new ImBoolean();
 

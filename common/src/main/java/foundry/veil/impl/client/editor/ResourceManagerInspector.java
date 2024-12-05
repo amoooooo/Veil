@@ -1,7 +1,7 @@
 package foundry.veil.impl.client.editor;
 
 import foundry.veil.VeilClient;
-import foundry.veil.api.client.editor.SingleWindowEditor;
+import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.resource.VeilResource;
@@ -29,13 +29,13 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 @ApiStatus.Internal
-public class ResourceManagerEditor extends SingleWindowEditor {
+public class ResourceManagerInspector extends SingleWindowInspector {
 
     public static final float ITEM_VERTICAL_PADDING = 3.0f;
-    public static final Component TITLE = Component.translatable("editor.veil.resource.title");
-    public static final Component SEARCH = Component.translatable("editor.veil.resource.hint.search");
-    public static final Component ADD_TOOLTIP = Component.translatable("editor.veil.resource.button.add_pack");
-    public static final Component RELOAD_TOOLTIP = Component.translatable("editor.veil.resource.button.reload");
+    public static final Component TITLE = Component.translatable("inspector.veil.resource.title");
+    public static final Component SEARCH = Component.translatable("inspector.veil.resource.hint.search");
+    public static final Component ADD_TOOLTIP = Component.translatable("inspector.veil.resource.button.add_pack");
+    public static final Component RELOAD_TOOLTIP = Component.translatable("inspector.veil.resource.button.reload");
     private float cellHeight = 0.0f;
     private VeilResource<?> contextResource;
     private List<VeilResourceAction<?>> actions;

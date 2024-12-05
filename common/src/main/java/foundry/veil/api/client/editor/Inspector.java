@@ -10,14 +10,13 @@ import org.lwjgl.system.NativeResource;
  *
  * @author Ocelot
  */
-public interface Editor extends NativeResource {
+public interface Inspector extends NativeResource {
 
-    Component DEFAULT_GROUP = Component.translatable("editor_group.veil.default");
-    Component EXAMPLE_GROUP = Component.translatable("editor_group.veil.example");
-    Component DEFERRED_GROUP = Component.translatable("editor_group.veil.deferred");
-    Component RENDERER_GROUP = Component.translatable("editor_group.veil.renderer");
-    Component INFO_GROUP = Component.translatable("editor_group.veil.info");
-    Component RESOURCE_GROUP = Component.translatable("editor_group.veil.resource");
+    Component DEFAULT_GROUP = Component.translatable("inspector_group.veil.default");
+    Component EXAMPLE_GROUP = Component.translatable("inspector_group.veil.example");
+    Component RENDERER_GROUP = Component.translatable("inspector_group.veil.renderer");
+    Component INFO_GROUP = Component.translatable("inspector_group.veil.info");
+    Component RESOURCE_GROUP = Component.translatable("inspector_group.veil.resource");
 
     /**
      * Renders elements into the menu bar. Only called if {@link #isMenuBarEnabled()} is <code>true</code>.

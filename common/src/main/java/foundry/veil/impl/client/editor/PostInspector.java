@@ -1,7 +1,7 @@
 package foundry.veil.impl.client.editor;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.editor.SingleWindowEditor;
+import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.post.PostProcessingManager;
@@ -18,16 +18,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 @ApiStatus.Internal
-public class PostEditor extends SingleWindowEditor {
+public class PostInspector extends SingleWindowInspector {
 
-    public static final Component TITLE = Component.translatable("editor.veil.post.title");
+    public static final Component TITLE = Component.translatable("inspector.veil.post.title");
 
-    private static final Component INACTIVE = Component.translatable("editor.veil.post.inactive");
-    private static final Component ACTIVE = Component.translatable("editor.veil.post.active");
+    private static final Component INACTIVE = Component.translatable("inspector.veil.post.inactive");
+    private static final Component ACTIVE = Component.translatable("inspector.veil.post.active");
 
     private final Set<ResourceLocation> removedPipelines;
 
-    public PostEditor() {
+    public PostInspector() {
         this.removedPipelines = new HashSet<>(1);
     }
 

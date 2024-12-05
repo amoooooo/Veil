@@ -12,7 +12,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -27,8 +26,7 @@ public interface PackResourcesExtension {
 
     boolean veil$isStatic();
 
-    @Nullable
-    Path veil$getModResourcePath();
+    List<Path> veil$getRawResourceRoots();
 
     default Stream<PackResources> veil$listPacks() {
         return Stream.of((PackResources) this);
@@ -91,7 +89,7 @@ public interface PackResourcesExtension {
         return null;
     }
 
-    static Collection<Path> findDevPaths(Path root, Path file) {
+    static List<Path> findDevPaths(Path root, Path file) {
         List<Path> paths = new ArrayList<>();
 
         // We're in a Zip file

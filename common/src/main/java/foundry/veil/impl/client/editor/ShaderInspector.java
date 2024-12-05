@@ -1,7 +1,7 @@
 package foundry.veil.impl.client.editor;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.editor.SingleWindowEditor;
+import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.CodeEditor;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.imgui.VeilLanguageDefinitions;
@@ -51,16 +51,16 @@ import static org.lwjgl.opengl.GL40C.GL_TESS_EVALUATION_SHADER;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 @ApiStatus.Internal
-public class ShaderInspector extends SingleWindowEditor implements ResourceManagerReloadListener {
+public class ShaderInspector extends SingleWindowInspector implements ResourceManagerReloadListener {
 
-    public static final Component TITLE = Component.translatable("editor.veil.shader.title");
+    public static final Component TITLE = Component.translatable("inspector.veil.shader.title");
 
-    private static final Component REFRESH = Component.translatable("editor.veil.shader.button.refresh");
-    private static final Component SEARCH = Component.translatable("editor.veil.shader.search");
-    private static final Component SHADER_PROGRAMS = Component.translatable("editor.veil.shader.shader_programs");
-    private static final Component SHADER_DEFINITIONS = Component.translatable("editor.veil.shader.definitions");
-    private static final Component SHADER_DEFINITIONS_HINT = Component.translatable("editor.veil.shader.definitions.hint");
-    private static final Component OPEN_SOURCE = Component.translatable("editor.veil.shader.open_source");
+    private static final Component REFRESH = Component.translatable("inspector.veil.shader.button.refresh");
+    private static final Component SEARCH = Component.translatable("inspector.veil.shader.search");
+    private static final Component SHADER_PROGRAMS = Component.translatable("inspector.veil.shader.shader_programs");
+    private static final Component SHADER_DEFINITIONS = Component.translatable("inspector.veil.shader.definitions");
+    private static final Component SHADER_DEFINITIONS_HINT = Component.translatable("inspector.veil.shader.definitions.hint");
+    private static final Component OPEN_SOURCE = Component.translatable("inspector.veil.shader.open_source");
 
     private final CodeEditor codeEditor;
     private final Object2IntMap<ResourceLocation> shaders;
@@ -329,7 +329,7 @@ public class ShaderInspector extends SingleWindowEditor implements ResourceManag
     }
 
     private enum TabSource {
-        VANILLA(Component.translatable("editor.veil.shader.source.vanilla")) {
+        VANILLA(Component.translatable("inspector.veil.shader.source.vanilla")) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 GameRendererAccessor gameRenderer = (GameRendererAccessor) Minecraft.getInstance().gameRenderer;
@@ -343,7 +343,7 @@ public class ShaderInspector extends SingleWindowEditor implements ResourceManag
                 registry.accept(ResourceLocation.parse(blitShader.getName()), blitShader.getId());
             }
         },
-        VANILLA_POST(Component.translatable("editor.veil.shader.source.vanilla_post")) {
+        VANILLA_POST(Component.translatable("inspector.veil.shader.source.vanilla_post")) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 LevelRendererAccessor levelRenderer = (LevelRendererAccessor) Minecraft.getInstance().levelRenderer;
@@ -365,7 +365,7 @@ public class ShaderInspector extends SingleWindowEditor implements ResourceManag
                 }
             }
         },
-        VEIL(Component.translatable("editor.veil.shader.source.veil")) {
+        VEIL(Component.translatable("inspector.veil.shader.source.veil")) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 Map<ResourceLocation, ShaderProgram> shaders = VeilRenderSystem.renderer().getShaderManager().getShaders();
@@ -375,7 +375,7 @@ public class ShaderInspector extends SingleWindowEditor implements ResourceManag
                 VeilImGuiImpl.get().addImguiShaders(registry);
             }
         },
-        IRIS(Component.translatable("editor.veil.shader.source.iris"), () -> IrisCompat.INSTANCE != null) {
+        IRIS(Component.translatable("inspector.veil.shader.source.iris"), () -> IrisCompat.INSTANCE != null) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 for (ShaderInstance shader : IrisCompat.INSTANCE.getLoadedShaders()) {
@@ -384,7 +384,7 @@ public class ShaderInspector extends SingleWindowEditor implements ResourceManag
                 }
             }
         },
-        SODIUM(Component.translatable("editor.veil.shader.source.sodium"), () -> SodiumCompat.INSTANCE != null) {
+        SODIUM(Component.translatable("inspector.veil.shader.source.sodium"), () -> SodiumCompat.INSTANCE != null) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 for (Object2IntMap.Entry<ResourceLocation> entry : SodiumCompat.INSTANCE.getLoadedShaders().object2IntEntrySet()) {
@@ -392,7 +392,7 @@ public class ShaderInspector extends SingleWindowEditor implements ResourceManag
                 }
             }
         },
-        OTHER(Component.translatable("editor.veil.shader.source.unknown")) {
+        OTHER(Component.translatable("inspector.veil.shader.source.unknown")) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 IntSet programs = new IntOpenHashSet();

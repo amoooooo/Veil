@@ -10,8 +10,8 @@ import java.util.OptionalInt;
 
 public record TextEditAction<T extends VeilTextResource<?>>() implements VeilResourceAction<T> {
 
-    private static final Component NAME = Component.translatable("editor.veil.resource.action.text_edit");
-    private static final Component DESC = Component.translatable("editor.veil.resource.action.text_edit.desc");
+    private static final Component NAME = Component.translatable("resource.veil.action.text_edit");
+    private static final Component DESC = Component.translatable("resource.veil.action.text_edit.desc");
 
     @Override
     public Component getName() {
