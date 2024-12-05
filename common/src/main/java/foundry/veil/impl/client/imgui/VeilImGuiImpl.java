@@ -5,12 +5,16 @@ import foundry.veil.api.client.imgui.VeilImGui;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.imgui.style.VeilImGuiStylesheet;
 import imgui.ImGui;
+import imgui.ImGuiIO;
+import imgui.callback.ImStrConsumer;
+import imgui.callback.ImStrSupplier;
 import imgui.extension.implot.ImPlot;
 import imgui.extension.implot.ImPlotContext;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
 import imgui.internal.ImGuiContext;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.NativeResource;
@@ -51,6 +55,20 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
         this.implGl3.init("#version 410 core");
 
         VeilImGuiStylesheet.initStyles();
+
+        ImGuiIO io = ImGui.getIO();
+        io.setGetClipboardTextFn(new ImStrSupplier() {
+            @Override
+            public String get() {
+                return Minecraft.getInstance().keyboardHandler.getClipboard();
+            }
+        });
+        io.setSetClipboardTextFn(new ImStrConsumer() {
+            @Override
+            public void accept(String str) {
+                Minecraft.getInstance().keyboardHandler.setClipboard(str);
+            }
+        });
 
         ImGui.setCurrentContext(this.oldImGuiContext);
         ImPlot.setCurrentContext(this.oldImPlotContext);
