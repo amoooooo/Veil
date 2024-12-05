@@ -130,6 +130,8 @@
   "editor.veil.post.active": "Active Pipelines:",
 
   "editor.veil.resource.title": "Resource Browser",
+  "editor.veil.resource.hint.search": "Search...",
+  "editor.veil.resource.button.add_pack": "Create Pack (Not Implemented)",
   "editor.veil.resource.button.reload": "Reload Resources",
   "editor.veil.resource.action.copy_path": "Copy Path",
   "editor.veil.resource.action.open_folder": "Open in Explorer",
