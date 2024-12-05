@@ -84,6 +84,7 @@ public class LightRenderer implements NativeResource {
     @ApiStatus.Internal
     public void clear() {
         RenderSystem.depthMask(true);
+        RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
     }
 
