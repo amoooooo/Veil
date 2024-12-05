@@ -63,6 +63,13 @@ public class CameraMatrices implements NativeResource {
     }
 
     /**
+     * Binds the camera data in this shader block.
+     */
+    public void bind() {
+        VeilRenderSystem.bind("CameraMatrices", this.block);
+    }
+
+    /**
      * Updates the camera matrices to match the specified camera object.
      *
      * @param projection The projection of the camera
@@ -71,7 +78,7 @@ public class CameraMatrices implements NativeResource {
      * @param zFar       The far clipping plane of the camera
      * @param zNear      The near clipping plane of the camera
      */
-    public void update(Matrix4fc projection, Matrix4fc modelView, Vector3fc pos, float zNear, float zFar) {
+    public void update(Matrix4fc projection, Matrix4fc modelView, Vector3dc pos, float zNear, float zFar) {
         this.projectionMatrix.set(projection);
         this.projectionMatrix.invert(this.inverseProjectionMatrix);
 
@@ -85,7 +92,7 @@ public class CameraMatrices implements NativeResource {
         this.cameraPosition.set(pos);
 
         this.block.set(this);
-        VeilRenderSystem.bind("CameraMatrices", this.block);
+        this.bind();
     }
 
     /**
@@ -104,7 +111,7 @@ public class CameraMatrices implements NativeResource {
         this.cameraPosition.set(0);
 
         this.block.set(this);
-        VeilRenderSystem.bind("CameraMatrices", this.block);
+        this.bind();
     }
 
     /**
@@ -117,28 +124,28 @@ public class CameraMatrices implements NativeResource {
     /**
      * @return The current projection matrix of the camera
      */
-    public Matrix4fc getProjectionMatrix() {
+    public Matrix4f getProjectionMatrix() {
         return this.projectionMatrix;
     }
 
     /**
      * @return The inverse matrix of {@link #getProjectionMatrix()}
      */
-    public Matrix4fc getInverseProjectionMatrix() {
+    public Matrix4f getInverseProjectionMatrix() {
         return this.inverseProjectionMatrix;
     }
 
     /**
      * @return The current view matrix of the camera. This only includes rotation
      */
-    public Matrix4fc getViewMatrix() {
+    public Matrix4f getViewMatrix() {
         return this.viewMatrix;
     }
 
     /**
      * @return The inverse matrix of {@link #getViewMatrix()}
      */
-    public Matrix4fc getInverseViewMatrix() {
+    public Matrix4f getInverseViewMatrix() {
         return this.inverseViewMatrix;
     }
 
@@ -152,7 +159,7 @@ public class CameraMatrices implements NativeResource {
     /**
      * @return The position of the camera in world space
      */
-    public Vector3fc getCameraPosition() {
+    public Vector3f getCameraPosition() {
         return this.cameraPosition;
     }
 
@@ -168,6 +175,24 @@ public class CameraMatrices implements NativeResource {
      */
     public float getFarPlane() {
         return this.farPlane;
+    }
+
+    /**
+     * Sets the near plane of the projection matrix.
+     *
+     * @param nearPlane The new near-plane value
+     */
+    public void setNearPlane(float nearPlane) {
+        this.nearPlane = nearPlane;
+    }
+
+    /**
+     * Sets the far plane of the projection matrix.
+     *
+     * @param farPlane The new far-plane value
+     */
+    public void setFarPlane(float farPlane) {
+        this.farPlane = farPlane;
     }
 
     @Override

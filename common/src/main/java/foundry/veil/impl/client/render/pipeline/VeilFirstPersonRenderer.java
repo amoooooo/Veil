@@ -1,6 +1,5 @@
 package foundry.veil.impl.client.render.pipeline;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
@@ -9,11 +8,8 @@ import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinitio
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
-
-import static org.lwjgl.opengl.GL11C.GL_DEPTH_BUFFER_BIT;
 
 @ApiStatus.Internal
 public final class VeilFirstPersonRenderer {
@@ -41,7 +37,6 @@ public final class VeilFirstPersonRenderer {
         }
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
-        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
         firstPerson.setColorAttachmentTexture(0, framebufferTexture);
     }
 

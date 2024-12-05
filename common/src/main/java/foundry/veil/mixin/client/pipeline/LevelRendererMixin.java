@@ -26,6 +26,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
+import org.joml.Vector3d;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -77,7 +78,7 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     @Unique
     private final Matrix4f veil$tempProjection = new Matrix4f();
     @Unique
-    private final Vector3f veil$tempCameraPos = new Vector3f();
+    private final Vector3d veil$tempCameraPos = new Vector3d();
 
     @Inject(method = "prepareCullFrustum", at = @At("HEAD"))
     public void veil$setupLevelCamera(Vec3 pos, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {

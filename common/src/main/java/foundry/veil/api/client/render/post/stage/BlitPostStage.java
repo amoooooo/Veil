@@ -242,42 +242,42 @@ public class BlitPostStage extends FramebufferPostStage {
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix2fc value) {
+    public void setMatrix(CharSequence name, Matrix2fc value, boolean transpose) {
         ShaderProgram shader = this.getShader();
         if (shader != null) {
-            shader.setMatrix(name, value);
+            shader.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix3fc value) {
+    public void setMatrix(CharSequence name, Matrix3fc value, boolean transpose) {
         ShaderProgram shader = this.getShader();
         if (shader != null) {
-            shader.setMatrix(name, value);
+            shader.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix3x2fc value) {
+    public void setMatrix(CharSequence name, Matrix3x2fc value, boolean transpose) {
         ShaderProgram shader = this.getShader();
         if (shader != null) {
-            shader.setMatrix(name, value);
+            shader.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix4fc value) {
+    public void setMatrix(CharSequence name, Matrix4fc value, boolean transpose) {
         ShaderProgram shader = this.getShader();
         if (shader != null) {
-            shader.setMatrix(name, value);
+            shader.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix4x3fc value) {
+    public void setMatrix(CharSequence name, Matrix4x3fc value, boolean transpose) {
         ShaderProgram shader = this.getShader();
         if (shader != null) {
-            shader.setMatrix(name, value);
+            shader.setMatrix(name, value, transpose);
         }
     }
 

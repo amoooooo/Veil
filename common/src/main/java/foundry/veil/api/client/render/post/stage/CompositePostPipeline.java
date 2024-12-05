@@ -260,37 +260,37 @@ public class CompositePostPipeline implements PostPipeline {
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix2fc value) {
+    public void setMatrix(CharSequence name, Matrix2fc value, boolean transpose) {
         for (PostPipeline pipeline : this.stages) {
-            pipeline.setMatrix(name, value);
+            pipeline.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix3fc value) {
+    public void setMatrix(CharSequence name, Matrix3fc value, boolean transpose) {
         for (PostPipeline pipeline : this.stages) {
-            pipeline.setMatrix(name, value);
+            pipeline.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix3x2fc value) {
+    public void setMatrix(CharSequence name, Matrix3x2fc value, boolean transpose) {
         for (PostPipeline pipeline : this.stages) {
-            pipeline.setMatrix(name, value);
+            pipeline.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix4fc value) {
+    public void setMatrix(CharSequence name, Matrix4fc value, boolean transpose) {
         for (PostPipeline pipeline : this.stages) {
-            pipeline.setMatrix(name, value);
+            pipeline.setMatrix(name, value, transpose);
         }
     }
 
     @Override
-    public void setMatrix(CharSequence name, Matrix4x3fc value) {
+    public void setMatrix(CharSequence name, Matrix4x3fc value, boolean transpose) {
         for (PostPipeline pipeline : this.stages) {
-            pipeline.setMatrix(name, value);
+            pipeline.setMatrix(name, value, transpose);
         }
     }
 

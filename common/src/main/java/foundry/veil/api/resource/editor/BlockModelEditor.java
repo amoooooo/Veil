@@ -68,14 +68,14 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
                 return;
             }
 
-            double time = ImGui.getTime();
-            double yaw = Math.toRadians(time * 45.0);
-            double pitch = Math.toRadians(30.0);
-
-            Quaterniond cameraOrientation = new Quaterniond().rotateX(pitch).rotateY(yaw);
-            Vector3d cameraPos = cameraOrientation.transformInverse(new Vector3d(0.0, 0.0, 2.8)).add(0.5, 0.5, 0.5);
-
             int texture = VeilImGuiUtil.renderArea(desiredWidth, desiredHeight, fbo -> {
+                double time = ImGui.getTime();
+                double yaw = Math.toRadians(time * 45.0);
+                double pitch = Math.toRadians(30.0);
+
+                Quaterniond cameraOrientation = new Quaterniond().rotateX(pitch).rotateY(yaw);
+                Vector3d cameraPos = cameraOrientation.transformInverse(new Vector3d(0.0, 0.0, 2.8)).add(0.5, 0.5, 0.5);
+
                 Matrix4f viewMatrix = new Matrix4f().rotate(new Quaternionf(cameraOrientation)).translate((float) -cameraPos.x, (float) -cameraPos.y, (float) -cameraPos.z);
 
                 float aspect = (float) desiredWidth / (float) desiredHeight;

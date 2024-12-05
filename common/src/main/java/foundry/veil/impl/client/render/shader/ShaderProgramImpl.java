@@ -32,10 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import org.joml.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
@@ -545,17 +542,10 @@ public class ShaderProgramImpl implements ShaderProgram {
 
         @Override
         public @Nullable UniformWrapper getUniform(String name) {
-            UniformWrapper uniform = (UniformWrapper) this.uniformMap.get(name);
-            if (uniform != null) {
-                return uniform.getLocation() == -1 ? null : uniform;
-            }
-
-            // program is null in the constructor, so this allows the default uniforms to be accessed
             if (this.program != null && this.program.getUniform(name) == -1) {
                 return null;
             }
-            return (UniformWrapper) this.uniformMap.computeIfAbsent(name,
-                    unused -> new UniformWrapper(() -> this.program, name));
+            return (UniformWrapper) this.uniformMap.computeIfAbsent(name, unused -> new UniformWrapper(() -> this.program, name));
         }
 
         @Override
@@ -574,6 +564,12 @@ public class ShaderProgramImpl implements ShaderProgram {
             }
         }
 
+        @Override
+        public VertexFormat getVertexFormat() {
+            VertexFormat format = this.program.getFormat();
+            return format != null ? format : super.getVertexFormat();
+        }
+
         /**
          * @return The backing shader program
          */
@@ -586,6 +582,12 @@ public class ShaderProgramImpl implements ShaderProgram {
      * @author Ocelot
      */
     public static class UniformWrapper extends Uniform {
+
+        private static final Matrix2f MAT2X2 = new Matrix2f();
+        private static final Matrix3f MAT3X3 = new Matrix3f();
+        private static final Matrix3x2f MAT3X2 = new Matrix3x2f();
+        private static final Matrix4x3f MAT4X3 = new Matrix4x3f();
+        private static final Matrix4f MAT4X4 = new Matrix4f();
 
         private final Supplier<MutableUniformAccess> access;
 
@@ -676,53 +678,99 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
 
         @Override
-        public void setMat2x2(float $$0, float $$1, float $$2, float $$3) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat2x2(float m00, float m01, float m10, float m11) {
+            this.access.get().setMatrix(this.getName(), MAT2X2.set(m00, m01, m10, m11));
         }
 
         @Override
-        public void setMat2x3(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat2x3(float m00, float m01, float m02, float m10, float m11, float m12) {
+            this.access.get().setMatrix(this.getName(), MAT3X2.set(
+                    m00, m10,
+                    m01, m11,
+                    m02, m12
+            ), true);
         }
 
         @Override
-        public void setMat2x4(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5, float $$6, float $$7) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat2x4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13) {
+            throw new UnsupportedOperationException();
         }
 
         @Override
-        public void setMat3x2(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat3x2(float m00, float m01, float m10, float m11, float m20, float m21) {
+            this.access.get().setMatrix(this.getName(), MAT3X2.set(m00, m01, m10, m11, m20, m21));
         }
 
         @Override
-        public void setMat3x3(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5, float $$6, float $$7,
-                              float $$8) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat3x3(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22) {
+            this.access.get().setMatrix(this.getName(), MAT3X3.set(m00, m01, m02, m10, m11, m12, m20, m21, m22));
         }
 
         @Override
-        public void setMat3x4(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5, float $$6, float $$7,
-                              float $$8, float $$9, float $$10, float $$11) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat3x4(
+                float m00,
+                float m01,
+                float m02,
+                float m03,
+                float m10,
+                float m11,
+                float m12,
+                float m13,
+                float m20,
+                float m21,
+                float m22,
+                float m23
+        ) {
+            this.access.get().setMatrix(this.getName(), MAT4X3.set(
+                    m00, m10, m20,
+                    m01, m11, m21,
+                    m02, m12, m22,
+                    m03, m13, m23
+            ), true);
         }
 
         @Override
-        public void setMat4x2(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5, float $$6, float $$7) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat4x2(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13) {
+            throw new UnsupportedOperationException();
         }
 
         @Override
-        public void setMat4x3(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5, float $$6, float $$7,
-                              float $$8, float $$9, float $$10, float $$11) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat4x3(
+                float m00,
+                float m01,
+                float m02,
+                float m03,
+                float m10,
+                float m11,
+                float m12,
+                float m13,
+                float m20,
+                float m21,
+                float m22,
+                float m23) {
+            this.access.get().setMatrix(this.getName(), MAT4X3.set(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23));
         }
 
         @Override
-        public void setMat4x4(float $$0, float $$1, float $$2, float $$3, float $$4, float $$5, float $$6, float $$7,
-                              float $$8, float $$9, float $$10, float $$11, float $$12, float $$13, float $$14,
-                              float $$15) {
-            throw new UnsupportedOperationException("Use #set(Matrix4fc) or #set(Matrix3fc) instead");
+        public void setMat4x4(
+                float m00,
+                float m01,
+                float m02,
+                float m03,
+                float m10,
+                float m11,
+                float m12,
+                float m13,
+                float m20,
+                float m21,
+                float m22,
+                float m23,
+                float m30,
+                float m31,
+                float m32,
+                float m33
+        ) {
+            this.access.get().setMatrix(this.getName(), MAT4X4.set(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33));
         }
 
         @Override

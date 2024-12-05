@@ -408,7 +408,7 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix2fc value) {
+    default void setMatrix(CharSequence name, Matrix2fc value, boolean transpose) {
         int location = this.getUniform(name);
         if (location == -1) {
             return;
@@ -417,12 +417,12 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(2 * 2);
             value.get(buffer);
-            glProgramUniformMatrix2fv(this.getProgram(), location, false, buffer);
+            glProgramUniformMatrix2fv(this.getProgram(), location, transpose, buffer);
         }
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix3fc value) {
+    default void setMatrix(CharSequence name, Matrix3fc value, boolean transpose) {
         int location = this.getUniform(name);
         if (location == -1) {
             return;
@@ -431,12 +431,12 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(3 * 3);
             value.get(buffer);
-            glProgramUniformMatrix3fv(this.getProgram(), location, false, buffer);
+            glProgramUniformMatrix3fv(this.getProgram(), location, transpose, buffer);
         }
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix3x2fc value) {
+    default void setMatrix(CharSequence name, Matrix3x2fc value, boolean transpose) {
         int location = this.getUniform(name);
         if (location == -1) {
             return;
@@ -445,12 +445,12 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(3 * 2);
             value.get(buffer);
-            glProgramUniformMatrix3x2fv(this.getProgram(), location, false, buffer);
+            glProgramUniformMatrix3x2fv(this.getProgram(), location, transpose, buffer);
         }
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix4fc value) {
+    default void setMatrix(CharSequence name, Matrix4fc value, boolean transpose) {
         int location = this.getUniform(name);
         if (location == -1) {
             return;
@@ -459,12 +459,12 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(4 * 4);
             value.get(buffer);
-            glProgramUniformMatrix4fv(this.getProgram(), location, false, buffer);
+            glProgramUniformMatrix4fv(this.getProgram(), location, transpose, buffer);
         }
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix4x3fc value) {
+    default void setMatrix(CharSequence name, Matrix4x3fc value, boolean transpose) {
         int location = this.getUniform(name);
         if (location == -1) {
             return;
@@ -473,7 +473,7 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         try (MemoryStack stack = MemoryStack.stackPush()) {
             FloatBuffer buffer = stack.mallocFloat(4 * 3);
             value.get(buffer);
-            glProgramUniformMatrix4x3fv(this.getProgram(), location, false, buffer);
+            glProgramUniformMatrix4x3fv(this.getProgram(), location, transpose, buffer);
         }
     }
 

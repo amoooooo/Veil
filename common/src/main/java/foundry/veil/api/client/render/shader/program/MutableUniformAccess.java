@@ -19,8 +19,8 @@ public interface MutableUniformAccess extends UniformAccess {
      * Sets default uniforms based on what {@link RenderSystem} provides.
      */
     default void applyRenderSystem() {
-        this.setMatrix("RenderModelViewMat", RenderSystem.getModelViewMatrix());
-        this.setMatrix("RenderProjMat", RenderSystem.getProjectionMatrix());
+        this.setMatrix("ModelViewMat", RenderSystem.getModelViewMatrix());
+        this.setMatrix("ProjMat", RenderSystem.getProjectionMatrix());
         this.setVector("ColorModulator", RenderSystem.getShaderColor());
         this.setFloat("GlintAlpha", RenderSystem.getShaderGlintAlpha());
         this.setFloat("FogStart", RenderSystem.getShaderFogStart());
@@ -278,7 +278,9 @@ public interface MutableUniformAccess extends UniformAccess {
      * @param name  The name of the uniform to set
      * @param value The value to set
      */
-    void setMatrix(CharSequence name, Matrix2fc value);
+    default void setMatrix(CharSequence name, Matrix2fc value) {
+        this.setMatrix(name, value, false);
+    }
 
     /**
      * Sets a matrix in the shader.
@@ -286,7 +288,9 @@ public interface MutableUniformAccess extends UniformAccess {
      * @param name  The name of the uniform to set
      * @param value The value to set
      */
-    void setMatrix(CharSequence name, Matrix3fc value);
+    default void setMatrix(CharSequence name, Matrix3fc value) {
+        this.setMatrix(name, value, false);
+    }
 
     /**
      * Sets a matrix in the shader.
@@ -294,7 +298,9 @@ public interface MutableUniformAccess extends UniformAccess {
      * @param name  The name of the uniform to set
      * @param value The value to set
      */
-    void setMatrix(CharSequence name, Matrix3x2fc value);
+    default void setMatrix(CharSequence name, Matrix3x2fc value) {
+        this.setMatrix(name, value, false);
+    }
 
     /**
      * Sets a matrix in the shader.
@@ -302,7 +308,9 @@ public interface MutableUniformAccess extends UniformAccess {
      * @param name  The name of the uniform to set
      * @param value The value to set
      */
-    void setMatrix(CharSequence name, Matrix4fc value);
+    default void setMatrix(CharSequence name, Matrix4fc value) {
+        this.setMatrix(name, value, false);
+    }
 
     /**
      * Sets a matrix in the shader.
@@ -310,5 +318,47 @@ public interface MutableUniformAccess extends UniformAccess {
      * @param name  The name of the uniform to set
      * @param value The value to set
      */
-    void setMatrix(CharSequence name, Matrix4x3fc value);
+    default void setMatrix(CharSequence name, Matrix4x3fc value) {
+        this.setMatrix(name, value, false);
+    }
+
+    /**
+     * Sets a matrix in the shader.
+     *
+     * @param name  The name of the uniform to set
+     * @param value The value to set
+     */
+    void setMatrix(CharSequence name, Matrix2fc value, boolean transpose);
+
+    /**
+     * Sets a matrix in the shader.
+     *
+     * @param name  The name of the uniform to set
+     * @param value The value to set
+     */
+    void setMatrix(CharSequence name, Matrix3fc value, boolean transpose);
+
+    /**
+     * Sets a matrix in the shader.
+     *
+     * @param name  The name of the uniform to set
+     * @param value The value to set
+     */
+    void setMatrix(CharSequence name, Matrix3x2fc value, boolean transpose);
+
+    /**
+     * Sets a matrix in the shader.
+     *
+     * @param name  The name of the uniform to set
+     * @param value The value to set
+     */
+    void setMatrix(CharSequence name, Matrix4fc value, boolean transpose);
+
+    /**
+     * Sets a matrix in the shader.
+     *
+     * @param name  The name of the uniform to set
+     * @param value The value to set
+     */
+    void setMatrix(CharSequence name, Matrix4x3fc value, boolean transpose);
 }

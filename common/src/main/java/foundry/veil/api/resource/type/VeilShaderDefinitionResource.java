@@ -1,15 +1,10 @@
 package foundry.veil.api.resource.type;
 
-import foundry.veil.api.client.imgui.VeilImGuiUtil;
-import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.ShaderManager;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.impl.resource.action.TextEditAction;
-import foundry.veil.impl.resource.renderer.VeilShaderDefinitionResourceRenderer;
-import imgui.ImGui;
 import imgui.extension.texteditor.TextEditorLanguageDefinition;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,29 +14,29 @@ import java.util.List;
 public record VeilShaderDefinitionResource(VeilResourceInfo resourceInfo,
                                            ShaderManager shaderManager) implements VeilShaderResource<VeilShaderDefinitionResource> {
 
-    @Override
-    public void render(boolean dragging, boolean fullName) {
-        ShaderManager shaderManager = VeilRenderSystem.renderer().getShaderManager();
-        ShaderProgram shader = shaderManager.getShader(shaderManager.getSourceSet().getShaderDefinitionLister().fileToId(this.resourceInfo.location()));
-        if (shader != null && shader.getFormat() != null) {
-            float size = ImGui.getTextLineHeight();
-            if (dragging) {
-                VeilShaderDefinitionResourceRenderer.render(shader, this, size * 8, size * 8);
-                VeilImGuiUtil.resourceLocation(this.resourceInfo().location());
-                return;
-            }
-
-            VeilShaderResource.super.render(false, fullName);
-            if (ImGui.isItemHovered()) {
-                ImGui.beginTooltip();
-                VeilShaderDefinitionResourceRenderer.render(shader, this, size * 16, size * 16);
-                ImGui.endTooltip();
-            }
-            return;
-        }
-
-        VeilShaderResource.super.render(dragging, fullName);
-    }
+//    @Override
+//    public void render(boolean dragging, boolean fullName) {
+//        ShaderManager shaderManager = VeilRenderSystem.renderer().getShaderManager();
+//        ShaderProgram shader = shaderManager.getShader(shaderManager.getSourceSet().getShaderDefinitionLister().fileToId(this.resourceInfo.location()));
+//        if (shader != null && shader.getFormat() != null && shader.getFormat().contains(VertexFormatElement.POSITION)) {
+//            float size = ImGui.getTextLineHeight();
+//            if (dragging) {
+//                VeilShaderDefinitionResourceRenderer.render(shader, size * 8, size * 8);
+//                VeilImGuiUtil.resourceLocation(this.resourceInfo().location());
+//                return;
+//            }
+//
+//            VeilShaderResource.super.render(false, fullName);
+//            if (ImGui.isItemHovered()) {
+//                ImGui.beginTooltip();
+//                VeilShaderDefinitionResourceRenderer.render(shader, size * 16, size * 16);
+//                ImGui.endTooltip();
+//            }
+//            return;
+//        }
+//
+//        VeilShaderResource.super.render(dragging, fullName);
+//    }
 
     @Override
     public List<VeilResourceAction<VeilShaderDefinitionResource>> getActions() {

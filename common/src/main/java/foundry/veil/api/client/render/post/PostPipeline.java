@@ -224,23 +224,23 @@ public interface PostPipeline extends MutableUniformAccess, NativeResource {
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix2fc value) {
+    default void setMatrix(CharSequence name, Matrix2fc value, boolean transpose) {
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix3fc value) {
+    default void setMatrix(CharSequence name, Matrix3fc value, boolean transpose) {
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix3x2fc value) {
+    default void setMatrix(CharSequence name, Matrix3x2fc value, boolean transpose) {
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix4fc value) {
+    default void setMatrix(CharSequence name, Matrix4fc value, boolean transpose) {
     }
 
     @Override
-    default void setMatrix(CharSequence name, Matrix4x3fc value) {
+    default void setMatrix(CharSequence name, Matrix4x3fc value, boolean transpose) {
     }
 
     /**
