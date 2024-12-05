@@ -97,7 +97,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">EditorManager</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../../resource/VeilEditorEnvironment.html" title="interface in foundry.veil.api.resource">VeilEditorEnvironment</a>, net.minecraft.server.packs.resources.PreparableReloadListener</span></div>
-<div class="block"><p>Manages all editors for Veil. Editors are ImGui powered panels that can be dynamically registered and unregistered with <a href="#add(foundry.veil.api.client.editor.Editor)"><code>add(Editor)</code></a>.</p></div>
+<div class="block"><p>Manages all editors for Veil. Editors are ImGui powered panels that can be dynamically registered and unregistered with <a href="#add(foundry.veil.api.client.editor.Inspector)"><code>add(Inspector)</code></a>.</p></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -150,7 +150,7 @@ implements <a href="../../resource/VeilEditorEnvironment.html" title="interface 
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(foundry.veil.api.client.editor.Editor)" class="member-name-link">add</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(foundry.veil.api.client.editor.Inspector)" class="member-name-link">add</a><wbr>(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>imgui.ImFont</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFont(boolean,boolean)" class="member-name-link">getFont</a><wbr>(boolean&nbsp;bold,
@@ -165,13 +165,13 @@ implements <a href="../../resource/VeilEditorEnvironment.html" title="interface 
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getResourceManager()" class="member-name-link">getResourceManager</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hide(foundry.veil.api.client.editor.Editor)" class="member-name-link">hide</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hide(foundry.veil.api.client.editor.Inspector)" class="member-name-link">hide</a><wbr>(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isEnabled()" class="member-name-link">isEnabled</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isVisible(foundry.veil.api.client.editor.Editor)" class="member-name-link">isVisible</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isVisible(foundry.veil.api.client.editor.Inspector)" class="member-name-link">isVisible</a><wbr>(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onFileChange(foundry.veil.api.resource.VeilResource)" class="member-name-link">onFileChange</a><wbr>(<a href="../../resource/VeilResource.html" title="interface in foundry.veil.api.resource">VeilResource</a>&lt;?&gt;&nbsp;resource)</code></div>
@@ -189,7 +189,7 @@ implements <a href="../../resource/VeilEditorEnvironment.html" title="interface 
  @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;gameExecutor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(foundry.veil.api.client.editor.Editor)" class="member-name-link">remove</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(foundry.veil.api.client.editor.Inspector)" class="member-name-link">remove</a><wbr>(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render()" class="member-name-link">render</a>()</code></div>
@@ -203,7 +203,7 @@ implements <a href="../../resource/VeilEditorEnvironment.html" title="interface 
 <div class="block">Sets whether the overlay should be active.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#show(foundry.veil.api.client.editor.Editor)" class="member-name-link">show</a><wbr>(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#show(foundry.veil.api.client.editor.Inspector)" class="member-name-link">show</a><wbr>(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toggle()" class="member-name-link">toggle</a>()</code></div>
@@ -299,33 +299,33 @@ implements <a href="../../resource/VeilEditorEnvironment.html" title="interface 
 </section>
 </li>
 <li>
-<section class="detail" id="show(foundry.veil.api.client.editor.Editor)">
+<section class="detail" id="show(foundry.veil.api.client.editor.Inspector)">
 <h3>show</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">show</span><wbr><span class="parameters">(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">show</span><wbr><span class="parameters">(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="hide(foundry.veil.api.client.editor.Editor)">
+<section class="detail" id="hide(foundry.veil.api.client.editor.Inspector)">
 <h3>hide</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">hide</span><wbr><span class="parameters">(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">hide</span><wbr><span class="parameters">(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="isVisible(foundry.veil.api.client.editor.Editor)">
+<section class="detail" id="isVisible(foundry.veil.api.client.editor.Inspector)">
 <h3>isVisible</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isVisible</span><wbr><span class="parameters">(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isVisible</span><wbr><span class="parameters">(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="add(foundry.veil.api.client.editor.Editor)">
+<section class="detail" id="add(foundry.veil.api.client.editor.Inspector)">
 <h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="remove(foundry.veil.api.client.editor.Editor)">
+<section class="detail" id="remove(foundry.veil.api.client.editor.Inspector)">
 <h3>remove</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a>&nbsp;editor)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a>&nbsp;inspector)</span></div>
 </section>
 </li>
 <li>

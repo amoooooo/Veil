@@ -73,7 +73,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Adds the specified pipeline with the specified priority.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/EditorManager.html#add(foundry.veil.api.client.editor.Editor)" class="member-name-link">add(Editor)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#add(foundry.veil.api.client.editor.Inspector)" class="member-name-link">add(Inspector)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/GlslTree.html#add(foundry.veil.impl.glsl.GlslInjectionPoint,foundry.veil.impl.glsl.node.GlslNode)" class="member-name-link">add(GlslInjectionPoint, GlslNode)</a> - Method in class foundry.veil.impl.glsl.node.<a href="foundry/veil/impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></dt>
 <dd>&nbsp;</dd>
@@ -91,7 +91,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/expression/GlslAssignmentNode.Operand.html#ADD_ASSIGN" class="member-name-link">ADD_ASSIGN</a> - Enum constant in enum class foundry.veil.impl.glsl.node.expression.<a href="foundry/veil/impl/glsl/node/expression/GlslAssignmentNode.Operand.html" title="enum class in foundry.veil.impl.glsl.node.expression">GlslAssignmentNode.Operand</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#ADD_TOOLTIP" class="member-name-link">ADD_TOOLTIP</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#ADD_TOOLTIP" class="member-name-link">ADD_TOOLTIP</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/GlslTree.html#addAll(foundry.veil.impl.glsl.GlslInjectionPoint,java.util.Collection)" class="member-name-link">addAll(GlslInjectionPoint, Collection&lt;GlslNode&gt;)</a> - Method in class foundry.veil.impl.glsl.node.<a href="foundry/veil/impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></dt>
 <dd>&nbsp;</dd>
@@ -2267,13 +2267,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/editor/EditorManager.html#DEFAULT_FONT" class="member-name-link">DEFAULT_FONT</a> - Static variable in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#DEFAULT_GROUP" class="member-name-link">DEFAULT_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#DEFAULT_GROUP" class="member-name-link">DEFAULT_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html#DEFAULT_HEIGHT" class="member-name-link">DEFAULT_HEIGHT</a> - Static variable in record class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html#DEFAULT_WIDTH" class="member-name-link">DEFAULT_WIDTH</a> - Static variable in record class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#DEFERRED_GROUP" class="member-name-link">DEFERRED_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#DEFERRED_SET" class="member-name-link">DEFERRED_SET</a> - Static variable in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
 <dd>&nbsp;</dd>
@@ -2317,9 +2315,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./foundry/veil/api/client/render/shader/program/ProgramDefinition.html#param-definitions"><code>definitions</code></a> record component.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/editor/DemoEditor.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">DemoEditor</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/DemoInspector.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">DemoInspector</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/DemoEditor.html#%3Cinit%3E()" class="member-name-link">DemoEditor()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoEditor.html" title="class in foundry.veil.impl.client.editor">DemoEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/DemoInspector.html#%3Cinit%3E()" class="member-name-link">DemoInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoInspector.html" title="class in foundry.veil.impl.client.editor">DemoInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.html#depth()" class="member-name-link">depth()</a> - Method in record class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition</a></dt>
 <dd>
@@ -2607,7 +2605,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/NumericValue.html#doubleValue()" class="member-name-link">doubleValue()</a> - Method in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/NumericValue.html" title="class in foundry.veil.lib.anarres.cpp">NumericValue</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#DOWNLOAD" class="member-name-link">DOWNLOAD</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#DOWNLOAD" class="member-name-link">DOWNLOAD</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html#DRAG" class="member-name-link">DRAG</a> - Static variable in class foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html" title="class in foundry.veil.api.quasar.data">ParticleModuleTypeRegistry</a></dt>
 <dd>&nbsp;</dd>
@@ -2625,7 +2623,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/VeilRenderType.LayeredRenderType.html#draw(com.mojang.blaze3d.vertex.MeshData)" class="member-name-link">draw(MeshData)</a> - Method in class foundry.veil.api.client.render.rendertype.<a href="foundry/veil/api/client/render/rendertype/VeilRenderType.LayeredRenderType.html" title="class in foundry.veil.api.client.render.rendertype">VeilRenderType.LayeredRenderType</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html#drawBuffers(net.minecraft.resources.ResourceLocation,java.util.function.Consumer)" class="member-name-link">drawBuffers(ResourceLocation, Consumer&lt;AdvancedFbo&gt;)</a> - Static method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferEditor.html" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html#drawBuffers(net.minecraft.resources.ResourceLocation,java.util.function.Consumer)" class="member-name-link">drawBuffers(ResourceLocation, Consumer&lt;AdvancedFbo&gt;)</a> - Static method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferInspector.html" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/VeilUITooltipRenderer.html#drawConnectionLine(com.mojang.blaze3d.vertex.PoseStack,foundry.veil.api.client.tooltip.Tooltippable,int,int,int,int)" class="member-name-link">drawConnectionLine(PoseStack, Tooltippable, int, int, int, int)</a> - Static method in class foundry.veil.impl.client.render.<a href="foundry/veil/impl/client/render/VeilUITooltipRenderer.html" title="class in foundry.veil.impl.client.render">VeilUITooltipRenderer</a></dt>
 <dd>&nbsp;</dd>
@@ -2812,10 +2810,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/util/Easings.IEasing.html" class="type-name-link" title="interface in foundry.veil.api.client.util">Easings.IEasing</a> - Interface in <a href="foundry/veil/api/client/util/package-summary.html">foundry.veil.api.client.util</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html" class="type-name-link" title="interface in foundry.veil.api.client.editor">Editor</a> - Interface in <a href="foundry/veil/api/client/editor/package-summary.html">foundry.veil.api.client.editor</a></dt>
-<dd>
-<div class="block">A basic panel that can be toggled in the editor view.</div>
-</dd>
 <dt><a href="foundry/veil/VeilClient.html#EDITOR_KEY" class="member-name-link">EDITOR_KEY</a> - Static variable in class foundry.veil.<a href="foundry/veil/VeilClient.html" title="class in foundry.veil">VeilClient</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/editor/EditorAttributeProvider.html" class="type-name-link" title="interface in foundry.veil.api.client.editor">EditorAttributeProvider</a> - Interface in <a href="foundry/veil/api/client/editor/package-summary.html">foundry.veil.api.client.editor</a></dt>
@@ -3420,7 +3414,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/FastNoiseLite.CellularDistanceFunction.html#EuclideanSq" class="member-name-link">EuclideanSq</a> - Enum constant in enum class foundry.veil.api.util.<a href="foundry/veil/api/util/FastNoiseLite.CellularDistanceFunction.html" title="enum class in foundry.veil.api.util">FastNoiseLite.CellularDistanceFunction</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#EXAMPLE_GROUP" class="member-name-link">EXAMPLE_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#EXAMPLE_GROUP" class="member-name-link">EXAMPLE_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/CLKernel.html#execute(int%5B%5D,int%5B%5D)" class="member-name-link">execute(int[], int[])</a> - Method in class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/CLKernel.html" title="class in foundry.veil.api.opencl">CLKernel</a></dt>
 <dd>
@@ -3577,9 +3571,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/grammar/GlslTypeQualifier.Interpolation.html#FLAT" class="member-name-link">FLAT</a> - Enum constant in enum class foundry.veil.impl.glsl.grammar.<a href="foundry/veil/impl/glsl/grammar/GlslTypeQualifier.Interpolation.html" title="enum class in foundry.veil.impl.glsl.grammar">GlslTypeQualifier.Interpolation</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#FLIP_X" class="member-name-link">FLIP_X</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#FLIP_X" class="member-name-link">FLIP_X</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#FLIP_Y" class="member-name-link">FLIP_Y</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#FLIP_Y" class="member-name-link">FLIP_Y</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.DataType.html#FLOAT" class="member-name-link">FLOAT</a> - Enum constant in enum class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.DataType.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.DataType</a></dt>
 <dd>&nbsp;</dd>
@@ -3919,10 +3913,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/resource/action/FramebufferEditAction.html#%3Cinit%3E()" class="member-name-link">FramebufferEditAction()</a> - Constructor for class foundry.veil.impl.resource.action.<a href="foundry/veil/impl/resource/action/FramebufferEditAction.html" title="class in foundry.veil.impl.resource.action">FramebufferEditAction</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html#%3Cinit%3E()" class="member-name-link">FramebufferEditor()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferEditor.html" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" class="type-name-link" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a> - Class in <a href="foundry/veil/api/resource/editor/package-summary.html">foundry.veil.api.resource.editor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#%3Cinit%3E(foundry.veil.api.resource.VeilEditorEnvironment,foundry.veil.api.resource.type.FramebufferResource)" class="member-name-link">FramebufferFileEditor(VeilEditorEnvironment, FramebufferResource)</a> - Constructor for class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
@@ -3931,6 +3921,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>framebufferId</code> record component.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html#%3Cinit%3E()" class="member-name-link">FramebufferInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferInspector.html" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferManager.html" class="type-name-link" title="class in foundry.veil.api.client.render.framebuffer">FramebufferManager</a> - Class in <a href="foundry/veil/api/client/render/framebuffer/package-summary.html">foundry.veil.api.client.render.framebuffer</a></dt>
 <dd>
 <div class="block">Manages all framebuffers and custom definitions specified in files.</div>
@@ -3981,7 +3975,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>frameWidth</code> record component.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#free()" class="member-name-link">free()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#free()" class="member-name-link">free()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>
 <div class="block">Frees any resources allocated by this editor before being destroyed.</div>
 </dd>
@@ -4025,7 +4019,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/VeilOpenCL.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/VeilOpenCL.html" title="class in foundry.veil.api.opencl">VeilOpenCL</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
@@ -4490,27 +4484,27 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/GlslTree.html#getDirectives()" class="member-name-link">getDirectives()</a> - Method in class foundry.veil.impl.glsl.node.<a href="foundry/veil/impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.Type.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in enum class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.Type.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/DemoEditor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoEditor.html" title="class in foundry.veil.impl.client.editor">DemoEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/DemoInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoInspector.html" title="class in foundry.veil.impl.client.editor">DemoInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html" title="class in foundry.veil.impl.client.editor">DeviceInfoViewer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferEditor.html" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferInspector.html" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor">LightEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor">LightInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/PostEditor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostEditor.html" title="class in foundry.veil.impl.client.editor">PostEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/PostInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostInspector.html" title="class in foundry.veil.impl.client.editor">PostInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#getDisplayName()" class="member-name-link">getDisplayName()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/light/AreaLight.html#getDistance()" class="member-name-link">getDistance()</a> - Method in class foundry.veil.api.client.render.light.<a href="foundry/veil/api/client/render/light/AreaLight.html" title="class in foundry.veil.api.client.render.light">AreaLight</a></dt>
 <dd>&nbsp;</dd>
@@ -4736,25 +4730,25 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/color/Color.html#getGreenInt()" class="member-name-link">getGreenInt()</a> - Method in class foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/Color.html" title="class in foundry.veil.api.client.color">Color</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/DemoEditor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoEditor.html" title="class in foundry.veil.impl.client.editor">DemoEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/DemoInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoInspector.html" title="class in foundry.veil.impl.client.editor">DemoInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html" title="class in foundry.veil.impl.client.editor">DeviceInfoViewer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferEditor.html" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferInspector.html" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor">LightEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor">LightInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/PostEditor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostEditor.html" title="class in foundry.veil.impl.client.editor">PostEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/PostInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostInspector.html" title="class in foundry.veil.impl.client.editor">PostInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#getGroup()" class="member-name-link">getGroup()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderer.html#getGuiInfo()" class="member-name-link">getGuiInfo()</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></dt>
 <dd>&nbsp;</dd>
@@ -6055,7 +6049,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/emitters/module/update/WindField.html#getWindDirection()" class="member-name-link">getWindDirection()</a> - Method in class foundry.veil.api.quasar.emitters.module.update.<a href="foundry/veil/api/quasar/emitters/module/update/WindField.html" title="class in foundry.veil.api.quasar.emitters.module.update">WindField</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html#getWindowTitle()" class="member-name-link">getWindowTitle()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html#getWindowTitle()" class="member-name-link">getWindowTitle()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowInspector.html" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/VeilVanillaShaders.html#getWorldborder()" class="member-name-link">getWorldborder()</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/VeilVanillaShaders.html" title="class in foundry.veil.impl.client.render.shader">VeilVanillaShaders</a></dt>
 <dd>&nbsp;</dd>
@@ -6383,7 +6377,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/color/Color.html#GREEN" class="member-name-link">GREEN</a> - Static variable in class foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/Color.html" title="class in foundry.veil.api.client.color">Color</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#group(net.minecraft.resources.ResourceLocation)" class="member-name-link">group(ResourceLocation)</a> - Static method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#group(net.minecraft.resources.ResourceLocation)" class="member-name-link">group(ResourceLocation)</a> - Static method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/GuiInfo.html" class="type-name-link" title="class in foundry.veil.api.client.render">GuiInfo</a> - Class in <a href="foundry/veil/api/client/render/package-summary.html">foundry.veil.api.client.render</a></dt>
 <dd>
@@ -6934,7 +6928,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Attempts to hide and save the editor.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/EditorManager.html#hide(foundry.veil.api.client.editor.Editor)" class="member-name-link">hide(Editor)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#hide(foundry.veil.api.client.editor.Inspector)" class="member-name-link">hide(Inspector)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/GlslLexer.TokenType.html#HIGH_PRECISION" class="member-name-link">HIGH_PRECISION</a> - Enum constant in enum class foundry.veil.impl.glsl.<a href="foundry/veil/impl/glsl/GlslLexer.TokenType.html" title="enum class in foundry.veil.impl.glsl">GlslLexer.TokenType</a></dt>
 <dd>&nbsp;</dd>
@@ -7171,7 +7165,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/light/IndirectPointLightRenderer.html#%3Cinit%3E()" class="member-name-link">IndirectPointLightRenderer()</a> - Constructor for class foundry.veil.impl.client.render.light.<a href="foundry/veil/impl/client/render/light/IndirectPointLightRenderer.html" title="class in foundry.veil.impl.client.render.light">IndirectPointLightRenderer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#INFO_GROUP" class="member-name-link">INFO_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#INFO_GROUP" class="member-name-link">INFO_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#init()" class="member-name-link">init()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
@@ -7291,6 +7285,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/InputShaderModification.html#%3Cinit%3E(int,java.lang.String)" class="member-name-link">InputShaderModification(int, String)</a> - Constructor for class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/InputShaderModification.html" title="class in foundry.veil.impl.client.render.shader.modifier">InputShaderModification</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html" class="type-name-link" title="interface in foundry.veil.api.client.editor">Inspector</a> - Interface in <a href="foundry/veil/api/client/editor/package-summary.html">foundry.veil.api.client.editor</a></dt>
+<dd>
+<div class="block">A basic panel that can be toggled in the editor view.</div>
+</dd>
 <dt><a href="foundry/veil/impl/glsl/node/GlslEmptyNode.html#INSTANCE" class="member-name-link">INSTANCE</a> - Enum constant in enum class foundry.veil.impl.glsl.node.<a href="foundry/veil/impl/glsl/node/GlslEmptyNode.html" title="enum class in foundry.veil.impl.glsl.node">GlslEmptyNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/network/ClientPacketSink.html#INSTANCE" class="member-name-link">INSTANCE</a> - Enum constant in enum class foundry.veil.impl.network.<a href="foundry/veil/impl/network/ClientPacketSink.html" title="enum class in foundry.veil.impl.network">ClientPacketSink</a></dt>
@@ -7500,13 +7498,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/pipeline/PoseStackMixin.html#isEmpty()" class="member-name-link">isEmpty()</a> - Method in class foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/PoseStackMixin.html" title="class in foundry.veil.mixin.client.pipeline">PoseStackMixin</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#isEnabled()" class="member-name-link">isEnabled()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/editor/EditorManager.html#isEnabled()" class="member-name-link">isEnabled()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#isEnabled()" class="member-name-link">isEnabled()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/emitters/module/RenderParticleModule.html#isEnabled()" class="member-name-link">isEnabled()</a> - Method in interface foundry.veil.api.quasar.emitters.module.<a href="foundry/veil/api/quasar/emitters/module/RenderParticleModule.html" title="interface in foundry.veil.api.quasar.emitters.module">RenderParticleModule</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html#isEnabled()" class="member-name-link">isEnabled()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor">LightEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html#isEnabled()" class="member-name-link">isEnabled()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor">LightInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/tooltip/anim/TooltipTimeline.html#isFinished()" class="member-name-link">isFinished()</a> - Method in class foundry.veil.api.client.tooltip.anim.<a href="foundry/veil/api/client/tooltip/anim/TooltipTimeline.html" title="class in foundry.veil.api.client.tooltip.anim">TooltipTimeline</a></dt>
 <dd>&nbsp;</dd>
@@ -7544,9 +7542,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/grammar/GlslTypeSpecifier.BuiltinType.html#isMatrix()" class="member-name-link">isMatrix()</a> - Method in enum class foundry.veil.impl.glsl.grammar.<a href="foundry/veil/impl/glsl/grammar/GlslTypeSpecifier.BuiltinType.html" title="enum class in foundry.veil.impl.glsl.grammar">GlslTypeSpecifier.BuiltinType</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#isMenuBarEnabled()" class="member-name-link">isMenuBarEnabled()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#isMenuBarEnabled()" class="member-name-link">isMenuBarEnabled()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#isMenuBarEnabled()" class="member-name-link">isMenuBarEnabled()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#isMenuBarEnabled()" class="member-name-link">isMenuBarEnabled()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/platform/VeilPlatform.html#isModLoaded(java.lang.String)" class="member-name-link">isModLoaded(String)</a> - Method in interface foundry.veil.platform.<a href="foundry/veil/platform/VeilPlatform.html" title="interface in foundry.veil.platform">VeilPlatform</a></dt>
 <dd>
@@ -7572,7 +7570,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/primary/GlslIntConstantNode.html#isNumber()" class="member-name-link">isNumber()</a> - Method in record class foundry.veil.impl.glsl.node.primary.<a href="foundry/veil/impl/glsl/node/primary/GlslIntConstantNode.html" title="class in foundry.veil.impl.glsl.node.primary">GlslIntConstantNode</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#isOpen()" class="member-name-link">isOpen()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#isOpen()" class="member-name-link">isOpen()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/imgui/CodeEditor.html#isOpen()" class="member-name-link">isOpen()</a> - Method in class foundry.veil.api.client.imgui.<a href="foundry/veil/api/client/imgui/CodeEditor.html" title="class in foundry.veil.api.client.imgui">CodeEditor</a></dt>
 <dd>&nbsp;</dd>
@@ -7630,7 +7628,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/emitters/module/render/StaticLightModule.html#isVisible()" class="member-name-link">isVisible()</a> - Method in class foundry.veil.api.quasar.emitters.module.render.<a href="foundry/veil/api/quasar/emitters/module/render/StaticLightModule.html" title="class in foundry.veil.api.quasar.emitters.module.render">StaticLightModule</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/EditorManager.html#isVisible(foundry.veil.api.client.editor.Editor)" class="member-name-link">isVisible(Editor)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#isVisible(foundry.veil.api.client.editor.Inspector)" class="member-name-link">isVisible(Inspector)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/light/AreaLightRenderer.html#isVisible(foundry.veil.api.client.render.light.AreaLight,foundry.veil.api.client.render.CullFrustum)" class="member-name-link">isVisible(AreaLight, CullFrustum)</a> - Method in class foundry.veil.impl.client.render.light.<a href="foundry/veil/impl/client/render/light/AreaLightRenderer.html" title="class in foundry.veil.impl.client.render.light">AreaLightRenderer</a></dt>
 <dd>&nbsp;</dd>
@@ -7646,7 +7644,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/VeilFramebuffers.html#ITEM_ENTITY_TARGET" class="member-name-link">ITEM_ENTITY_TARGET</a> - Static variable in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/VeilFramebuffers.html" title="class in foundry.veil.api.client.render.framebuffer">VeilFramebuffers</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#ITEM_VERTICAL_PADDING" class="member-name-link">ITEM_VERTICAL_PADDING</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#ITEM_VERTICAL_PADDING" class="member-name-link">ITEM_VERTICAL_PADDING</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Source.html#iterator()" class="member-name-link">iterator()</a> - Method in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Source.html" title="class in foundry.veil.lib.anarres.cpp">Source</a></dt>
 <dd>
@@ -7929,13 +7927,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/VeilShaders.html#LIGHT_VANILLA_LIGHTMAP" class="member-name-link">LIGHT_VANILLA_LIGHTMAP</a> - Static variable in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/VeilShaders.html" title="class in foundry.veil.api.client.render.shader">VeilShaders</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">LightEditor</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html#%3Cinit%3E()" class="member-name-link">LightEditor()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor">LightEditor</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/color/Color.html#lighten(float)" class="member-name-link">lighten(float)</a> - Method in class foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/Color.html" title="class in foundry.veil.api.client.color">Color</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/color/Color.html#lightenCopy(float)" class="member-name-link">lightenCopy(float)</a> - Method in class foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/Color.html" title="class in foundry.veil.api.client.color">Color</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">LightInspector</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html#%3Cinit%3E()" class="member-name-link">LightInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor">LightInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html#lightmap()" class="member-name-link">lightmap()</a> - Static method in class foundry.veil.api.client.render.rendertype.<a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html" title="class in foundry.veil.api.client.render.rendertype">VeilRenderType</a></dt>
 <dd>&nbsp;</dd>
@@ -7987,7 +7985,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/registry/LightTypeRegistry.DebugLightFactory.html" class="type-name-link" title="interface in foundry.veil.api.client.registry">LightTypeRegistry.DebugLightFactory</a> - Interface in <a href="foundry/veil/api/client/registry/package-summary.html">foundry.veil.api.client.registry</a></dt>
 <dd>
-<div class="block">Creates debug lights for the <a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor"><code>LightEditor</code></a>.</div>
+<div class="block">Creates debug lights for the <a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor"><code>LightInspector</code></a>.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/registry/LightTypeRegistry.LightType.html" class="type-name-link" title="class in foundry.veil.api.client.registry">LightTypeRegistry.LightType&lt;T&gt;</a> - Record Class in <a href="foundry/veil/api/client/registry/package-summary.html">foundry.veil.api.client.registry</a></dt>
 <dd>&nbsp;</dd>
@@ -8691,7 +8689,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Token.html#NL" class="member-name-link">NL</a> - Static variable in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Token.html" title="class in foundry.veil.lib.anarres.cpp">Token</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#NO_TEXTURE" class="member-name-link">NO_TEXTURE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#NO_TEXTURE" class="member-name-link">NO_TEXTURE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html#NO_WRITE" class="member-name-link">NO_WRITE</a> - Static variable in class foundry.veil.api.client.render.rendertype.<a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html" title="class in foundry.veil.api.client.render.rendertype">VeilRenderType</a></dt>
 <dd>&nbsp;</dd>
@@ -8816,15 +8814,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html#onGrabMouse()" class="member-name-link">onGrabMouse()</a> - Method in class foundry.veil.impl.client.imgui.<a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html" title="class in foundry.veil.impl.client.imgui">VeilImGuiImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#onHide()" class="member-name-link">onHide()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#onHide()" class="member-name-link">onHide()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>
 <div class="block">Called when this editor is no longer open.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#onHide()" class="member-name-link">onHide()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#onHide()" class="member-name-link">onHide()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#onHide()" class="member-name-link">onHide()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#onHide()" class="member-name-link">onHide()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#onHide()" class="member-name-link">onHide()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/event/VeilRegisterBlockLayerEvent.html#onRegisterBlockLayers(foundry.veil.api.event.VeilRegisterBlockLayerEvent.Registry)" class="member-name-link">onRegisterBlockLayers(VeilRegisterBlockLayerEvent.Registry)</a> - Method in interface foundry.veil.api.event.<a href="foundry/veil/api/event/VeilRegisterBlockLayerEvent.html" title="interface in foundry.veil.api.event">VeilRegisterBlockLayerEvent</a></dt>
 <dd>
@@ -8852,15 +8850,15 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#onResourceManagerReload(net.minecraft.server.packs.resources.ResourceManager)" class="member-name-link">onResourceManagerReload(ResourceManager)</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#onShow()" class="member-name-link">onShow()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#onShow()" class="member-name-link">onShow()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>
 <div class="block">Called when this editor is first opened.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html#onShow()" class="member-name-link">onShow()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html#onShow()" class="member-name-link">onShow()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowInspector.html" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/DemoEditor.html#onShow()" class="member-name-link">onShow()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoEditor.html" title="class in foundry.veil.impl.client.editor">DemoEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/DemoInspector.html#onShow()" class="member-name-link">onShow()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoInspector.html" title="class in foundry.veil.impl.client.editor">DemoInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html#onShow()" class="member-name-link">onShow()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor">LightEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html#onShow()" class="member-name-link">onShow()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor">LightInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#onShow()" class="member-name-link">onShow()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
@@ -8880,7 +8878,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/platform/VeilEventPlatform.html#onVeilRenderTypeStageRender(foundry.veil.api.event.VeilRenderLevelStageEvent)" class="member-name-link">onVeilRenderTypeStageRender(VeilRenderLevelStageEvent)</a> - Method in interface foundry.veil.platform.<a href="foundry/veil/platform/VeilEventPlatform.html" title="interface in foundry.veil.platform">VeilEventPlatform</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html#open" class="member-name-link">open</a> - Variable in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html#open" class="member-name-link">open</a> - Variable in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowInspector.html" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.Factory.html#open(foundry.veil.api.resource.VeilEditorEnvironment,T)" class="member-name-link">open(VeilEditorEnvironment, T)</a> - Method in interface foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/ResourceFileEditor.Factory.html" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor.Factory</a></dt>
 <dd>
@@ -8900,9 +8898,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html#param-openclCVersion"><code>openclCVersion</code></a> record component.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#%3Cinit%3E()" class="member-name-link">OpenCLEditor()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#%3Cinit%3E()" class="member-name-link">OpenCLInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/FastNoiseLite.DomainWarpType.html#OpenSimplex2" class="member-name-link">OpenSimplex2</a> - Enum constant in enum class foundry.veil.api.util.<a href="foundry/veil/api/util/FastNoiseLite.DomainWarpType.html" title="enum class in foundry.veil.api.util">FastNoiseLite.DomainWarpType</a></dt>
 <dd>&nbsp;</dd>
@@ -9319,7 +9317,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/PreprocessorListener.SourceChangeEvent.html#POP" class="member-name-link">POP</a> - Enum constant in enum class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/PreprocessorListener.SourceChangeEvent.html" title="enum class in foundry.veil.lib.anarres.cpp">PreprocessorListener.SourceChangeEvent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#POP_OUT" class="member-name-link">POP_OUT</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#POP_OUT" class="member-name-link">POP_OUT</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Preprocessor.html#pop_source()" class="member-name-link">pop_source()</a> - Method in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Preprocessor.html" title="class in foundry.veil.lib.anarres.cpp">Preprocessor</a></dt>
 <dd>&nbsp;</dd>
@@ -9479,9 +9477,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/accessor/PostChainAccessor.html" class="type-name-link" title="interface in foundry.veil.mixin.accessor">PostChainAccessor</a> - Interface in <a href="foundry/veil/mixin/accessor/package-summary.html">foundry.veil.mixin.accessor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/PostEditor.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">PostEditor</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/PostInspector.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">PostInspector</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/PostEditor.html#%3Cinit%3E()" class="member-name-link">PostEditor()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostEditor.html" title="class in foundry.veil.impl.client.editor">PostEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/PostInspector.html#%3Cinit%3E()" class="member-name-link">PostInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostInspector.html" title="class in foundry.veil.impl.client.editor">PostInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/PostPipeline.html" class="type-name-link" title="interface in foundry.veil.api.client.render.post">PostPipeline</a> - Interface in <a href="foundry/veil/api/client/render/post/package-summary.html">foundry.veil.api.client.render.post</a></dt>
 <dd>
@@ -10073,7 +10071,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#reload(net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier,net.minecraft.server.packs.resources.ResourceManager,net.minecraft.util.profiling.ProfilerFiller,net.minecraft.util.profiling.ProfilerFiller,java.util.concurrent.Executor,java.util.concurrent.Executor)" class="member-name-link">reload(PreparableReloadListener.PreparationBarrier, ResourceManager, ProfilerFiller, ProfilerFiller, Executor, Executor)</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#RELOAD_TOOLTIP" class="member-name-link">RELOAD_TOOLTIP</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#RELOAD_TOOLTIP" class="member-name-link">RELOAD_TOOLTIP</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/accessor/ReloadableResourceManagerAccessor.html" class="type-name-link" title="interface in foundry.veil.mixin.accessor">ReloadableResourceManagerAccessor</a> - Interface in <a href="foundry/veil/mixin/accessor/package-summary.html">foundry.veil.mixin.accessor</a></dt>
 <dd>&nbsp;</dd>
@@ -10091,7 +10089,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Not supported.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/EditorManager.html#remove(foundry.veil.api.client.editor.Editor)" class="member-name-link">remove(Editor)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#remove(foundry.veil.api.client.editor.Inspector)" class="member-name-link">remove(Inspector)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/definition/ShaderPreDefinitions.html#remove(java.lang.String)" class="member-name-link">remove(String)</a> - Method in class foundry.veil.api.client.render.shader.definition.<a href="foundry/veil/api/client/render/shader/definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></dt>
 <dd>
@@ -10135,13 +10133,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/tooltip/anim/TooltipTimelineManager.html#removeTimeline(java.lang.String)" class="member-name-link">removeTimeline(String)</a> - Method in class foundry.veil.api.client.tooltip.anim.<a href="foundry/veil/api/client/tooltip/anim/TooltipTimelineManager.html" title="class in foundry.veil.api.client.tooltip.anim">TooltipTimelineManager</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#render()" class="member-name-link">render()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#render()" class="member-name-link">render()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>
 <div class="block">Renders this editor to the screen.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/EditorManager.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowInspector.html" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/imgui/CodeEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.client.imgui.<a href="foundry/veil/api/client/imgui/CodeEditor.html" title="class in foundry.veil.api.client.imgui">CodeEditor</a></dt>
 <dd>
@@ -10161,17 +10159,17 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/TextFileEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/TextFileEditor.html" title="class in foundry.veil.api.resource.editor">TextFileEditor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/DemoEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoEditor.html" title="class in foundry.veil.impl.client.editor">DemoEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/DemoInspector.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoInspector.html" title="class in foundry.veil.impl.client.editor">DemoInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html" title="class in foundry.veil.impl.client.editor">DeviceInfoViewer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/PostEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostEditor.html" title="class in foundry.veil.impl.client.editor">PostEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/PostInspector.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostInspector.html" title="class in foundry.veil.impl.client.editor">PostInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/type/TextureResource.html#render(boolean,boolean)" class="member-name-link">render(boolean, boolean)</a> - Method in record class foundry.veil.api.resource.type.<a href="foundry/veil/api/resource/type/TextureResource.html" title="class in foundry.veil.api.resource.type">TextureResource</a></dt>
 <dd>&nbsp;</dd>
@@ -10263,25 +10261,25 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/util/DebugRenderHelper.html#renderCircle(com.mojang.blaze3d.vertex.PoseStack,com.mojang.blaze3d.vertex.VertexConsumer,int,float,double,double,double,float,float,float,float)" class="member-name-link">renderCircle(PoseStack, VertexConsumer, int, float, double, double, double, float, float, float, float)</a> - Static method in class foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/DebugRenderHelper.html" title="class in foundry.veil.api.client.util">DebugRenderHelper</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowInspector.html" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a></dt>
 <dd>
 <div class="block">Adds all components inside the window.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html" title="class in foundry.veil.impl.client.editor">DeviceInfoViewer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferEditor.html" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferInspector.html" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor">LightEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor">LightInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/PostEditor.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostEditor.html" title="class in foundry.veil.impl.client.editor">PostEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/PostInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostInspector.html" title="class in foundry.veil.impl.client.editor">PostInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#renderComponents()" class="member-name-link">renderComponents()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/util/DebugRenderHelper.html#renderCube(com.mojang.blaze3d.vertex.PoseStack,com.mojang.blaze3d.vertex.VertexConsumer,float,float,float,float)" class="member-name-link">renderCube(PoseStack, VertexConsumer, float, float, float, float)</a> - Static method in class foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/DebugRenderHelper.html" title="class in foundry.veil.api.client.util">DebugRenderHelper</a></dt>
 <dd>&nbsp;</dd>
@@ -10299,7 +10297,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#renderer()" class="member-name-link">renderer()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#RENDERER_GROUP" class="member-name-link">RENDERER_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#RENDERER_GROUP" class="member-name-link">RENDERER_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/registry/LightTypeRegistry.LightType.html#rendererFactory()" class="member-name-link">rendererFactory()</a> - Method in record class foundry.veil.api.client.registry.<a href="foundry/veil/api/client/registry/LightTypeRegistry.LightType.html" title="class in foundry.veil.api.client.registry">LightTypeRegistry.LightType</a></dt>
 <dd>
@@ -10327,15 +10325,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/FastNoiseLite.html#renderImGuiSettings()" class="member-name-link">renderImGuiSettings()</a> - Method in class foundry.veil.api.util.<a href="foundry/veil/api/util/FastNoiseLite.html" title="class in foundry.veil.api.util">FastNoiseLite</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#renderLast()" class="member-name-link">renderLast()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#renderLast()" class="member-name-link">renderLast()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#renderLast()" class="member-name-link">renderLast()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>
 <div class="block">Called just before the imgui state is drawn to the screen</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/EditorManager.html#renderLast()" class="member-name-link">renderLast()</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html#renderLast()" class="member-name-link">renderLast()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferInspector.html" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html#renderLast()" class="member-name-link">renderLast()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferEditor.html" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#renderLast()" class="member-name-link">renderLast()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#renderLast()" class="member-name-link">renderLast()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/light/DirectionalLightRenderer.html#renderLights(foundry.veil.api.client.render.light.renderer.LightRenderer,java.util.List)" class="member-name-link">renderLights(LightRenderer, List&lt;DirectionalLight&gt;)</a> - Method in class foundry.veil.impl.client.render.light.<a href="foundry/veil/impl/client/render/light/DirectionalLightRenderer.html" title="class in foundry.veil.impl.client.render.light">DirectionalLightRenderer</a></dt>
 <dd>&nbsp;</dd>
@@ -10353,11 +10351,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/util/DebugRenderHelper.html#renderLine(com.mojang.blaze3d.vertex.PoseStack,com.mojang.blaze3d.vertex.VertexConsumer,double,double,double,double,double,double,float,float,float,float,float,float,float,float)" class="member-name-link">renderLine(PoseStack, VertexConsumer, double, double, double, double, double, double, float, float, float, float, float, float, float, float)</a> - Static method in class foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/DebugRenderHelper.html" title="class in foundry.veil.api.client.util">DebugRenderHelper</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#renderMenuBar()" class="member-name-link">renderMenuBar()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#renderMenuBar()" class="member-name-link">renderMenuBar()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>
 <div class="block">Renders elements into the menu bar.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#renderMenuBar()" class="member-name-link">renderMenuBar()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#renderMenuBar()" class="member-name-link">renderMenuBar()</a> - Method in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/data/QuasarParticleData.html#renderModules()" class="member-name-link">renderModules()</a> - Method in record class foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/QuasarParticleData.html" title="class in foundry.veil.api.quasar.data">QuasarParticleData</a></dt>
 <dd>
@@ -10547,7 +10545,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Resolves this framebuffer to the window framebuffer as the target.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/Editor.html#RESOURCE_GROUP" class="member-name-link">RESOURCE_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Editor.html" title="interface in foundry.veil.api.client.editor">Editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/Inspector.html#RESOURCE_GROUP" class="member-name-link">RESOURCE_GROUP</a> - Static variable in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/ResourceFileEditor.html" class="type-name-link" title="interface in foundry.veil.api.resource.editor">ResourceFileEditor&lt;T&gt;</a> - Interface in <a href="foundry/veil/api/resource/editor/package-summary.html">foundry.veil.api.resource.editor</a></dt>
 <dd>&nbsp;</dd>
@@ -10611,9 +10609,9 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/VeilClient.html#resourceManager()" class="member-name-link">resourceManager()</a> - Static method in class foundry.veil.<a href="foundry/veil/VeilClient.html" title="class in foundry.veil">VeilClient</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#%3Cinit%3E()" class="member-name-link">ResourceManagerEditor()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#%3Cinit%3E()" class="member-name-link">ResourceManagerInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/ResourceOverrideEditor.html" class="type-name-link" title="class in foundry.veil.api.resource.editor">ResourceOverrideEditor</a> - Class in <a href="foundry/veil/api/resource/editor/package-summary.html">foundry.veil.api.resource.editor</a></dt>
 <dd>&nbsp;</dd>
@@ -11018,7 +11016,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/imgui/MouseHandlerMixin.html#scrollCallback(long,double,double,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">scrollCallback(long, double, double, CallbackInfo)</a> - Method in class foundry.veil.mixin.client.imgui.<a href="foundry/veil/mixin/client/imgui/MouseHandlerMixin.html" title="class in foundry.veil.mixin.client.imgui">MouseHandlerMixin</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#SEARCH" class="member-name-link">SEARCH</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#SEARCH" class="member-name-link">SEARCH</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/GlslTree.html#searchField(java.lang.String)" class="member-name-link">searchField(String)</a> - Method in class foundry.veil.impl.glsl.node.<a href="foundry/veil/impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></dt>
 <dd>&nbsp;</dd>
@@ -12698,7 +12696,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/Bone.html#shouldRender" class="member-name-link">shouldRender</a> - Variable in class foundry.veil.api.client.necromancer.<a href="foundry/veil/api/client/necromancer/Bone.html" title="class in foundry.veil.api.client.necromancer">Bone</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/EditorManager.html#show(foundry.veil.api.client.editor.Editor)" class="member-name-link">show(Editor)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
+<dt><a href="foundry/veil/api/client/editor/EditorManager.html#show(foundry.veil.api.client.editor.Inspector)" class="member-name-link">show(Inspector)</a> - Method in class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/EditorManager.html" title="class in foundry.veil.api.client.editor">EditorManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/imgui/CodeEditor.html#show(java.lang.String,java.lang.String)" class="member-name-link">show(String, String)</a> - Method in class foundry.veil.api.client.imgui.<a href="foundry/veil/api/client/imgui/CodeEditor.html" title="class in foundry.veil.api.client.imgui">CodeEditor</a></dt>
 <dd>
@@ -12734,11 +12732,11 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/CodecUtil.html#singleOrList(com.mojang.serialization.Codec)" class="member-name-link">singleOrList(Codec&lt;T&gt;)</a> - Static method in class foundry.veil.api.util.<a href="foundry/veil/api/util/CodecUtil.html" title="class in foundry.veil.api.util">CodecUtil</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html" class="type-name-link" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a> - Class in <a href="foundry/veil/api/client/editor/package-summary.html">foundry.veil.api.client.editor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html" class="type-name-link" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a> - Class in <a href="foundry/veil/api/client/editor/package-summary.html">foundry.veil.api.client.editor</a></dt>
 <dd>
 <div class="block">Displays a single window as the editor.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/editor/SingleWindowEditor.html#%3Cinit%3E()" class="member-name-link">SingleWindowEditor()</a> - Constructor for class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowEditor.html" title="class in foundry.veil.api.client.editor">SingleWindowEditor</a></dt>
+<dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html#%3Cinit%3E()" class="member-name-link">SingleWindowInspector()</a> - Constructor for class foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/SingleWindowInspector.html" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/light/AreaLight.html#size" class="member-name-link">size</a> - Variable in class foundry.veil.api.client.render.light.<a href="foundry/veil/api/client/render/light/AreaLight.html" title="class in foundry.veil.api.client.render.light">AreaLight</a></dt>
 <dd>&nbsp;</dd>
@@ -13281,9 +13279,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Properly downloads textures from OpenGL and writes them to a file asynchronously.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">TextureEditor</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html" class="type-name-link" title="class in foundry.veil.impl.client.editor">TextureInspector</a> - Class in <a href="foundry/veil/impl/client/editor/package-summary.html">foundry.veil.impl.client.editor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#%3Cinit%3E()" class="member-name-link">TextureEditor()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#%3Cinit%3E()" class="member-name-link">TextureInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/layer/TextureLayer.html" class="type-name-link" title="class in foundry.veil.api.client.render.rendertype.layer">TextureLayer</a> - Record Class in <a href="foundry/veil/api/client/render/rendertype/layer/package-summary.html">foundry.veil.api.client.render.rendertype.layer</a></dt>
 <dd>&nbsp;</dd>
@@ -13399,23 +13397,23 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/expression/GlslUnaryNode.Operand.html#TILDE" class="member-name-link">TILDE</a> - Enum constant in enum class foundry.veil.impl.glsl.node.expression.<a href="foundry/veil/impl/glsl/node/expression/GlslUnaryNode.Operand.html" title="enum class in foundry.veil.impl.glsl.node.expression">GlslUnaryNode.Operand</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/DemoEditor.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoEditor.html" title="class in foundry.veil.impl.client.editor">DemoEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/DemoInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DemoInspector.html" title="class in foundry.veil.impl.client.editor">DemoInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/DeviceInfoViewer.html" title="class in foundry.veil.impl.client.editor">DeviceInfoViewer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/FramebufferEditor.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferEditor.html" title="class in foundry.veil.impl.client.editor">FramebufferEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/FramebufferInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/FramebufferInspector.html" title="class in foundry.veil.impl.client.editor">FramebufferInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/LightEditor.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightEditor.html" title="class in foundry.veil.impl.client.editor">LightEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/LightInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/LightInspector.html" title="class in foundry.veil.impl.client.editor">LightInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/OpenCLEditor.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLEditor.html" title="class in foundry.veil.impl.client.editor">OpenCLEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/OpenCLInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/OpenCLInspector.html" title="class in foundry.veil.impl.client.editor">OpenCLInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/PostEditor.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostEditor.html" title="class in foundry.veil.impl.client.editor">PostEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/PostInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/PostInspector.html" title="class in foundry.veil.impl.client.editor">PostInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerEditor.html" title="class in foundry.veil.impl.client.editor">ResourceManagerEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ResourceManagerInspector.html" title="class in foundry.veil.impl.client.editor">ResourceManagerInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/editor/TextureEditor.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureEditor.html" title="class in foundry.veil.impl.client.editor">TextureEditor</a></dt>
+<dt><a href="foundry/veil/impl/client/editor/TextureInspector.html#TITLE" class="member-name-link">TITLE</a> - Static variable in class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/TextureInspector.html" title="class in foundry.veil.impl.client.editor">TextureInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/NumericValue.html#toBigDecimal()" class="member-name-link">toBigDecimal()</a> - Method in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/NumericValue.html" title="class in foundry.veil.lib.anarres.cpp">NumericValue</a></dt>
 <dd>
@@ -15173,10 +15171,6 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/pipeline/VertexBufferMixin.html#veil$getIndexCount()" class="member-name-link">veil$getIndexCount()</a> - Method in class foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/VertexBufferMixin.html" title="class in foundry.veil.mixin.client.pipeline">VertexBufferMixin</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/ext/PackResourcesExtension.html#veil$getModResourcePath()" class="member-name-link">veil$getModResourcePath()</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/PackResourcesExtension.html" title="interface in foundry.veil.ext">PackResourcesExtension</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/resource/VanillaPackResourcesMixin.html#veil$getModResourcePath()" class="member-name-link">veil$getModResourcePath()</a> - Method in class foundry.veil.mixin.resource.<a href="foundry/veil/mixin/resource/VanillaPackResourcesMixin.html" title="class in foundry.veil.mixin.resource">VanillaPackResourcesMixin</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/ModelPartExtension.html#veil$getOffsetX()" class="member-name-link">veil$getOffsetX()</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/ModelPartExtension.html" title="interface in foundry.veil.ext">ModelPartExtension</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/ModelPartExtension.html#veil$getOffsetY()" class="member-name-link">veil$getOffsetY()</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/ModelPartExtension.html" title="interface in foundry.veil.ext">ModelPartExtension</a></dt>
@@ -15186,6 +15180,10 @@ the order they are declared.</div>
 <dt><a href="foundry/veil/ext/ChunkVertexEncoderVertexExtension.html#veil$getPackedNormal()" class="member-name-link">veil$getPackedNormal()</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/ChunkVertexEncoderVertexExtension.html" title="interface in foundry.veil.ext">ChunkVertexEncoderVertexExtension</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/ModelPartExtension.html#veil$getParent()" class="member-name-link">veil$getParent()</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/ModelPartExtension.html" title="interface in foundry.veil.ext">ModelPartExtension</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/ext/PackResourcesExtension.html#veil$getRawResourceRoots()" class="member-name-link">veil$getRawResourceRoots()</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/PackResourcesExtension.html" title="interface in foundry.veil.ext">PackResourcesExtension</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/resource/VanillaPackResourcesMixin.html#veil$getRawResourceRoots()" class="member-name-link">veil$getRawResourceRoots()</a> - Method in class foundry.veil.mixin.resource.<a href="foundry/veil/mixin/resource/VanillaPackResourcesMixin.html" title="class in foundry.veil.mixin.resource">VanillaPackResourcesMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/ShaderInstanceExtension.html#veil$getShaderSources()" class="member-name-link">veil$getShaderSources()</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/ShaderInstanceExtension.html" title="interface in foundry.veil.ext">ShaderInstanceExtension</a></dt>
 <dd>&nbsp;</dd>
