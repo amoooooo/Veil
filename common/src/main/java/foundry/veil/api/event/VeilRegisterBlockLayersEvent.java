@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.RenderType;
  * @see VeilRegisterFixedBuffersEvent
  */
 @FunctionalInterface
-public interface VeilRegisterBlockLayerEvent {
+public interface VeilRegisterBlockLayersEvent {
 
     /**
      * Registers custom block render layers.

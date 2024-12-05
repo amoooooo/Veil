@@ -19,7 +19,7 @@ public final class VeilResourceEditorRegistry {
     public static final Registry<ResourceFileEditor.Factory<?>> REGISTRY = VANILLA_PROVIDER.asVanillaRegistry();
 
     public static final RegistryObject<ResourceFileEditor.Factory<VeilTextResource<?>>> TEXT = VANILLA_PROVIDER.register("text", () -> TextFileEditor::new);
-    public static final RegistryObject<BlockModelEditor.Factory<BlockModelResource>> BLOCK_MODEL = VANILLA_PROVIDER.register("block_model", () -> BlockModelEditor::new);
+    public static final RegistryObject<BlockModelInspector.Factory<BlockModelResource>> BLOCK_MODEL = VANILLA_PROVIDER.register("block_model", () -> BlockModelInspector::new);
     public static final RegistryObject<ResourceFileEditor.Factory<FramebufferResource>> FRAMEBUFFER = VANILLA_PROVIDER.register("framebuffer", () -> FramebufferFileEditor::new);
 
     public static final RegistryObject<ResourceOverrideEditor.Factory<VeilResource<?>>> OVERRIDE = VANILLA_PROVIDER.register("override", () -> ResourceOverrideEditor::new);

@@ -8,7 +8,7 @@ import foundry.veil.api.client.render.VeilRenderer;
  * @author Ocelot
  */
 @FunctionalInterface
-public interface VeilRendererEvent {
+public interface VeilRendererAvailableEvent {
 
     /**
      * Called when the Veil renderer is now available.

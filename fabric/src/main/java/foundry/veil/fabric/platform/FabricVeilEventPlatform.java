@@ -14,8 +14,8 @@ public class FabricVeilEventPlatform implements VeilEventPlatform {
     }
 
     @Override
-    public void onVeilRendererAvailable(VeilRendererEvent event) {
-        FabricVeilRendererEvent.EVENT.register(event);
+    public void onVeilAddShaderProcessors(VeilAddShaderPreProcessorsEvent event) {
+        FabricVeilAddShaderPreProcessorsEvent.EVENT.register(event);
     }
 
     @Override
@@ -34,12 +34,17 @@ public class FabricVeilEventPlatform implements VeilEventPlatform {
     }
 
     @Override
-    public void onVeilRegisterBlockLayers(VeilRegisterBlockLayerEvent event) {
-        FabricVeilRegisterBlockLayerEvent.EVENT.register(event);
+    public void onVeilRegisterBlockLayers(VeilRegisterBlockLayersEvent event) {
+        FabricVeilRegisterBlockLayersEvent.EVENT.register(event);
     }
 
     @Override
-    public void onVeilRenderTypeStageRender(VeilRenderLevelStageEvent event) {
+    public void onVeilRendererAvailable(VeilRendererAvailableEvent event) {
+        FabricVeilRendererAvailableEvent.EVENT.register(event);
+    }
+
+    @Override
+    public void onVeilRenderLevelStage(VeilRenderLevelStageEvent event) {
         FabricVeilRenderLevelStageEvent.EVENT.register(event);
     }
 }

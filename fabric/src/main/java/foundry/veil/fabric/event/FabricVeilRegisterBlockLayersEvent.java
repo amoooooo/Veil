@@ -1,6 +1,6 @@
 package foundry.veil.fabric.event;
 
-import foundry.veil.api.event.VeilRegisterBlockLayerEvent;
+import foundry.veil.api.event.VeilRegisterBlockLayersEvent;
 import foundry.veil.api.event.VeilRegisterFixedBuffersEvent;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -13,10 +13,10 @@ import net.fabricmc.fabric.api.event.EventFactory;
  * @see VeilRegisterFixedBuffersEvent
  */
 @FunctionalInterface
-public interface FabricVeilRegisterBlockLayerEvent extends VeilRegisterBlockLayerEvent {
+public interface FabricVeilRegisterBlockLayersEvent extends VeilRegisterBlockLayersEvent {
 
-    Event<VeilRegisterBlockLayerEvent> EVENT = EventFactory.createArrayBacked(VeilRegisterBlockLayerEvent.class, events -> registry -> {
-        for (VeilRegisterBlockLayerEvent event : events) {
+    Event<VeilRegisterBlockLayersEvent> EVENT = EventFactory.createArrayBacked(VeilRegisterBlockLayersEvent.class, events -> registry -> {
+        for (VeilRegisterBlockLayersEvent event : events) {
             event.onRegisterBlockLayers(registry);
         }
     });

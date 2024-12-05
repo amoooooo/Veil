@@ -1,6 +1,6 @@
 package foundry.veil.forge.event;
 
-import foundry.veil.api.event.VeilRegisterBlockLayerEvent;
+import foundry.veil.api.event.VeilRegisterBlockLayersEvent;
 import foundry.veil.api.event.VeilRegisterFixedBuffersEvent;
 import net.minecraft.client.renderer.RenderType;
 import net.neoforged.bus.api.Event;
@@ -12,13 +12,13 @@ import net.neoforged.fml.event.IModBusEvent;
  *
  * @author Ocelot
  * @see VeilRegisterFixedBuffersEvent
- * @see VeilRegisterBlockLayerEvent
+ * @see VeilRegisterBlockLayersEvent
  */
-public class ForgeVeilRegisterBlockLayerEvent extends Event implements VeilRegisterBlockLayerEvent.Registry, IModBusEvent {
+public class ForgeVeilRegisterBlockLayersEvent extends Event implements VeilRegisterBlockLayersEvent.Registry, IModBusEvent {
 
-    private final VeilRegisterBlockLayerEvent.Registry registry;
+    private final VeilRegisterBlockLayersEvent.Registry registry;
 
-    public ForgeVeilRegisterBlockLayerEvent(VeilRegisterBlockLayerEvent.Registry registry) {
+    public ForgeVeilRegisterBlockLayersEvent(VeilRegisterBlockLayersEvent.Registry registry) {
         this.registry = registry;
     }
 

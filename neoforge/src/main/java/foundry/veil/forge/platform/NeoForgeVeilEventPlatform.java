@@ -50,8 +50,8 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
     }
 
     @Override
-    public void onVeilRendererAvailable(VeilRendererEvent event) {
-        bus.<ForgeVeilRendererEvent>addListener(forgeEvent -> event.onVeilRendererAvailable(forgeEvent.getRenderer()));
+    public void onVeilAddShaderProcessors(VeilAddShaderPreProcessorsEvent event) {
+        NeoForge.EVENT_BUS.<ForgeVeilAddShaderProcessorsEvent>addListener(forgeEvent -> event.onRegisterShaderPreProcessors(forgeEvent.getShaderManager(), forgeEvent));
     }
 
     @Override
@@ -62,6 +62,11 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
     @Override
     public void postVeilPostProcessing(VeilPostProcessingEvent.Post event) {
         NeoForge.EVENT_BUS.<ForgeVeilPostProcessingEvent.Post>addListener(forgeEvent -> event.postVeilPostProcessing(forgeEvent.getName(), forgeEvent.getPipeline(), forgeEvent.getContext()));
+    }
+
+    @Override
+    public void onVeilRegisterBlockLayers(VeilRegisterBlockLayersEvent event) {
+        bus.<ForgeVeilRegisterBlockLayersEvent>addListener(event::onRegisterBlockLayers);
     }
 
     @Override
@@ -80,12 +85,12 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
     }
 
     @Override
-    public void onVeilRegisterBlockLayers(VeilRegisterBlockLayerEvent event) {
-        bus.<ForgeVeilRegisterBlockLayerEvent>addListener(event::onRegisterBlockLayers);
+    public void onVeilRendererAvailable(VeilRendererAvailableEvent event) {
+        bus.<ForgeVeilRendererAvailableEvent>addListener(forgeEvent -> event.onVeilRendererAvailable(forgeEvent.getRenderer()));
     }
 
     @Override
-    public void onVeilRenderTypeStageRender(VeilRenderLevelStageEvent event) {
+    public void onVeilRenderLevelStage(VeilRenderLevelStageEvent event) {
         NeoForge.EVENT_BUS.<RenderLevelStageEvent>addListener(forgeEvent -> {
             VeilRenderLevelStageEvent.Stage stage = STAGE_MAPPING.inverse().get(forgeEvent.getStage());
             if (stage == null) {

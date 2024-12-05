@@ -15,15 +15,17 @@ public interface VeilEventPlatform {
 
     void onFreeNativeResources(FreeNativeResourcesEvent event);
 
-    void onVeilRendererAvailable(VeilRendererEvent event);
+    void onVeilAddShaderProcessors(VeilAddShaderPreProcessorsEvent event);
 
     void preVeilPostProcessing(VeilPostProcessingEvent.Pre event);
 
     void postVeilPostProcessing(VeilPostProcessingEvent.Post event);
 
+    void onVeilRegisterBlockLayers(VeilRegisterBlockLayersEvent event);
+
     void onVeilRegisterFixedBuffers(VeilRegisterFixedBuffersEvent event);
 
-    void onVeilRegisterBlockLayers(VeilRegisterBlockLayerEvent event);
+    void onVeilRendererAvailable(VeilRendererAvailableEvent event);
 
-    void onVeilRenderTypeStageRender(VeilRenderLevelStageEvent event);
+    void onVeilRenderLevelStage(VeilRenderLevelStageEvent event);
 }

@@ -5,7 +5,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.api.resource.VeilResourceManager;
-import foundry.veil.impl.resource.action.ModelEditAction;
+import foundry.veil.impl.resource.action.ModelInspectAction;
 import foundry.veil.impl.resource.action.TextEditAction;
 import imgui.extension.texteditor.TextEditorLanguageDefinition;
 import net.minecraft.Util;
@@ -25,7 +25,7 @@ public record BlockModelResource(VeilResourceInfo resourceInfo) implements VeilT
 
     @Override
     public List<VeilResourceAction<BlockModelResource>> getActions() {
-        return List.of(new TextEditAction<>(), new ModelEditAction<>());
+        return List.of(new TextEditAction<>(), new ModelInspectAction<>());
     }
 
     @Override

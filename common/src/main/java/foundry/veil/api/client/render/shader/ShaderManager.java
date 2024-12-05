@@ -6,12 +6,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
+import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.processor.*;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.event.VeilAddShaderPreProcessorsEvent;
 import foundry.veil.impl.ThreadTaskScheduler;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
@@ -34,6 +36,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Async;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Closeable;
@@ -128,9 +131,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         processorList.addPreprocessor(new ShaderBindingProcessor());
         processorList.addPreprocessor(new ShaderPredefinitionProcessor(), false);
         processorList.addPreprocessor(new ShaderVersionProcessor(), false);
+        VeilClient.clientPlatform().onRegisterShaderPreProcessors(this, processorList);
         processorList.addPreprocessor(new ShaderModifyProcessor(), false);
         processorList.addPreprocessor(new ShaderCustomProcessor(provider), false);
-        // TODO add event to add custom processors
     }
 
     private ProgramDefinition parseDefinition(ResourceLocation id, ResourceProvider provider) throws IOException {
@@ -382,6 +385,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
      *
      * @param shader The shader to recompile
      */
+    @Async.Schedule
     public void scheduleRecompile(ResourceLocation shader) {
         synchronized (this.dirtyShaders) {
             this.dirtyShaders.add(shader);
@@ -558,7 +562,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                                Map<ResourceLocation, VeilShaderSource> shaderSources) {
     }
 
-    private static class ShaderProcessorList {
+    private static class ShaderProcessorList implements VeilAddShaderPreProcessorsEvent.Registry {
 
         private final List<ShaderPreProcessor> processors;
         private final List<ShaderPreProcessor> importProcessors;
@@ -572,12 +576,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
             this.importProcessor = null;
         }
 
-        /**
-         * Adds the specified pre-processor to the end of the stack.
-         *
-         * @param processor     The processor to add
-         * @param modifyImports Whether the processor will also be run on imports
-         */
+        @Override
         public void addPreprocessor(ShaderPreProcessor processor, boolean modifyImports) {
             this.processors.add(processor);
             this.processor = null;
@@ -585,15 +584,6 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                 this.importProcessors.add(processor);
                 this.importProcessor = null;
             }
-        }
-
-        /**
-         * Adds the specified pre-processor to the end of the stack.
-         *
-         * @param processor The processor to add
-         */
-        public void addPreprocessor(ShaderPreProcessor processor) {
-            this.addPreprocessor(processor, true);
         }
 
         public ShaderPreProcessor getProcessor() {

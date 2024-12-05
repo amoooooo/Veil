@@ -6,9 +6,9 @@ import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.fabric.FabricRenderTypeStageHandler;
 import foundry.veil.fabric.event.FabricFreeNativeResourcesEvent;
-import foundry.veil.fabric.event.FabricVeilRegisterBlockLayerEvent;
+import foundry.veil.fabric.event.FabricVeilRegisterBlockLayersEvent;
 import foundry.veil.fabric.event.FabricVeilRegisterFixedBuffersEvent;
-import foundry.veil.fabric.event.FabricVeilRendererEvent;
+import foundry.veil.fabric.event.FabricVeilRendererAvailableEvent;
 import foundry.veil.mixin.accessor.RenderStateShardAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.main.GameConfig;
@@ -24,14 +24,14 @@ public class MinecraftMixin {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;resizeDisplay()V", shift = At.Shift.BEFORE))
     public void init(GameConfig gameConfig, CallbackInfo ci) {
         VeilClient.initRenderer();
-        FabricVeilRendererEvent.EVENT.invoker().onVeilRendererAvailable(VeilRenderSystem.renderer());
+        FabricVeilRendererAvailableEvent.EVENT.invoker().onVeilRendererAvailable(VeilRenderSystem.renderer());
         FabricVeilRegisterFixedBuffersEvent.EVENT.invoker().onRegisterFixedBuffers(FabricRenderTypeStageHandler::register);
     }
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupDefaultState(IIII)V"))
     public void registerBlockLayers(GameConfig gameConfig, CallbackInfo ci) {
         ImmutableList.Builder<RenderType> blockLayers = ImmutableList.builder();
-        FabricVeilRegisterBlockLayerEvent.EVENT.invoker().onRegisterBlockLayers(renderType -> {
+        FabricVeilRegisterBlockLayersEvent.EVENT.invoker().onRegisterBlockLayers(renderType -> {
             if (Veil.platform().isDevelopmentEnvironment() && renderType.bufferSize() > RenderType.SMALL_BUFFER_SIZE) {
                 Veil.LOGGER.warn("Block render layer '{}' uses a large buffer size: {}. If this is intended you can ignore this message", ((RenderStateShardAccessor) renderType).getName(), renderType.bufferSize());
             }

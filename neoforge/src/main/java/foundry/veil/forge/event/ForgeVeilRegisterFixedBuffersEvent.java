@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 
 /**
  * <p>Registers custom fixed render operand buffers.</p>
- * <p>Use {@link RenderLevelStageEvent} or {@link VeilEventPlatform#onVeilRenderTypeStageRender(VeilRenderLevelStageEvent)}  to listen to level stage render events on Forge.</p>
+ * <p>Use {@link RenderLevelStageEvent} or {@link VeilEventPlatform#onVeilRenderLevelStage(VeilRenderLevelStageEvent)}  to listen to level stage render events on Forge.</p>
  *
  * @author Ocelot
  * @see VeilRegisterFixedBuffersEvent

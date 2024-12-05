@@ -4,8 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
-import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.resource.VeilEditorEnvironment;
+import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.api.resource.type.BlockModelResource;
 import imgui.ImGui;
@@ -23,18 +23,21 @@ import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import org.joml.*;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.lang.Math;
 import java.util.List;
 
 /**
  * Viewer for block models
+ *
+ * @author ryanhcode
  */
-public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> {
+public class BlockModelInspector implements ResourceFileEditor<BlockModelResource> {
 
+    private static final Component TITLE = Component.translatable("inspector.veil.block_model.title");
     private static final FaceBakery FACE_BAKERY = new FaceBakery();
     private static final PoseStack.Pose POSE = new PoseStack().last();
 
@@ -44,7 +47,7 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
 
     private ObjectArrayList<BakedQuad> quads;
 
-    public BlockModelEditor(VeilEditorEnvironment environment, BlockModelResource resource) {
+    public BlockModelInspector(VeilEditorEnvironment environment, BlockModelResource resource) {
         this.open = new ImBoolean(true);
         this.resourceManager = environment.getResourceManager();
         this.resource = resource;
@@ -57,9 +60,12 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
             return;
         }
 
+        VeilResourceInfo resourceInfo = this.resource.resourceInfo();
+
+        ImGui.setNextWindowSizeConstraints(256.0F, 256.0F, Float.MAX_VALUE, Float.MAX_VALUE);
         ImGui.setNextWindowSize(256.0F, 256.0F, ImGuiCond.Once);
-        if (ImGui.begin("Model Viewer" + "###model_editor_" + this.resource.resourceInfo().fileName(), this.open, ImGuiWindowFlags.NoScrollbar)) {
-            VeilImGuiUtil.resourceLocation(resource.resourceInfo().location());
+        if (ImGui.begin(TITLE.getString() + "###model_editor_" + resourceInfo.fileName(), this.open, ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoSavedSettings)) {
+            VeilImGuiUtil.resourceLocation(resourceInfo.location());
             int desiredWidth = ((int) ImGui.getContentRegionAvailX() - 2) * 2;
             int desiredHeight = ((int) ImGui.getContentRegionAvailY() - 2) * 2;
 
@@ -114,8 +120,6 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
                 ImGui.image(texture, desiredWidth / 2.0F, desiredHeight / 2.0F, 0, 1, 1, 0, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 0.1F);
             }
             ImGui.endChild();
-
-            AdvancedFbo.unbind();
         }
         ImGui.end();
     }
@@ -141,7 +145,7 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
             unbaked.resolveParents((location) -> {
                 try (Reader parentReader = client.getResourceManager().openAsReader(ModelBakery.MODEL_LISTER.idToFile(location))) {
                     return BlockModel.fromStream(parentReader);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Veil.LOGGER.error("Failed to load block model", e);
                     return BlockModel.fromString(ModelBakery.MISSING_MODEL_MESH);
                 }
@@ -158,7 +162,7 @@ public class BlockModelEditor implements ResourceFileEditor<BlockModelResource> 
                     quads.add(FACE_BAKERY.bakeQuad(blockelement.from, blockelement.to, blockelementface, sprite, direction, BlockModelRotation.X0_Y0, blockelement.rotation, blockelement.shade));
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Veil.LOGGER.error("Failed to load block model", e);
         }
     }

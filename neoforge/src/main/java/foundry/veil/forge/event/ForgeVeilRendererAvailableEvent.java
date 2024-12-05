@@ -9,11 +9,11 @@ import net.neoforged.fml.event.IModBusEvent;
  *
  * @author Ocelot
  */
-public class ForgeVeilRendererEvent extends Event implements IModBusEvent {
+public class ForgeVeilRendererAvailableEvent extends Event implements IModBusEvent {
 
     private final VeilRenderer renderer;
 
-    public ForgeVeilRendererEvent(VeilRenderer renderer) {
+    public ForgeVeilRendererAvailableEvent(VeilRenderer renderer) {
         this.renderer = renderer;
     }
 

@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.OptionalInt;
 
-public record ModelEditAction<T extends BlockModelResource>() implements VeilResourceAction<T> {
+public record ModelInspectAction<T extends BlockModelResource>() implements VeilResourceAction<T> {
 
     private static final Component NAME = Component.translatable("resource.veil.action.model_edit");
     private static final Component DESC = Component.translatable("resource.veil.action.model_edit.desc");
