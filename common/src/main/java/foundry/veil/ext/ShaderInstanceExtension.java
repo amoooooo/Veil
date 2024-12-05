@@ -6,7 +6,7 @@ import java.util.Collection;
 
 public interface ShaderInstanceExtension {
 
-    void veil$recompile(boolean vertex, String source);
+    void veil$recompile(boolean vertex, String source, int activeBuffers);
 
     Collection<ResourceLocation> veil$getShaderSources();
 }

@@ -34,13 +34,13 @@ public class VanillaShaderCompiler {
     public VanillaShaderCompiler() {
     }
 
-    private void compileShader(ShaderInstance shader) {
+    private void compileShader(ShaderInstance shader, int activeBuffers) {
         ShaderInstanceExtension extension = (ShaderInstanceExtension) shader;
         Collection<ResourceLocation> shaderSources = extension.veil$getShaderSources();
         VertexFormat vertexFormat = shader.getVertexFormat();
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
-        SimpleShaderProcessor.setup(resourceManager, Collections.emptySet());
+        SimpleShaderProcessor.setup(resourceManager, activeBuffers, Collections.emptySet());
         for (ResourceLocation path : shaderSources) {
             try (Reader reader = resourceManager.openAsReader(path)) {
                 String source = IOUtils.toString(reader);
@@ -73,7 +73,7 @@ public class VanillaShaderCompiler {
 
                 boolean vertex = path.getPath().endsWith(".vsh");
                 String processed = SimpleShaderProcessor.modify(shader.getName(), path, vertexFormat, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
-                RenderSystem.recordRenderCall(() -> extension.veil$recompile(vertex, processed));
+                RenderSystem.recordRenderCall(() -> extension.veil$recompile(vertex, processed, activeBuffers));
             } catch (Throwable t) {
                 Veil.LOGGER.error("Couldn't load vanilla shader from {}", path, t);
             }
@@ -98,11 +98,12 @@ public class VanillaShaderCompiler {
             shaderMap.put(shader.getName(), shader);
         }
 
+        int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
         ThreadTaskScheduler scheduler = new ThreadTaskScheduler("VeilShaderCompile", Math.max(1, Runtime.getRuntime().availableProcessors() / 4), () -> {
             for (String lastFrameShader : LAST_FRAME_SHADERS) {
                 ShaderInstance shader = shaderMap.remove(lastFrameShader);
                 if (shader != null) {
-                    return () -> this.compileShader(shader);
+                    return () -> this.compileShader(shader, activeBuffers);
                 }
             }
 
@@ -110,7 +111,7 @@ public class VanillaShaderCompiler {
             if (iterator.hasNext()) {
                 ShaderInstance shader = iterator.next();
                 iterator.remove();
-                return () -> this.compileShader(shader);
+                return () -> this.compileShader(shader, activeBuffers);
             }
             return null;
         });

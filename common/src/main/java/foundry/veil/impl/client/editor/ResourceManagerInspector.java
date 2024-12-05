@@ -104,7 +104,7 @@ public class ResourceManagerInspector extends SingleWindowInspector {
 
                         ImGui.getWindowDrawList().addImage(icon, minX, minY, minX + size, minY + size);
 
-                        ImGui.setCursorScreenPos(minX + size + ITEM_VERTICAL_PADDING, cursorScreenPos.y);
+                        ImGui.setCursorScreenPos(minX + size + ITEM_VERTICAL_PADDING + 1.0f, cursorScreenPos.y);
                     } else {
                         VeilImGuiUtil.icon(0xF523, color);
                         ImGui.sameLine();

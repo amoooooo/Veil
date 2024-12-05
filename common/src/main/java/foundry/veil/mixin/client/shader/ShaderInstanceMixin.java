@@ -2,6 +2,7 @@ package foundry.veil.mixin.client.shader;
 
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Uniform;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
 import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import foundry.veil.impl.client.render.wrapper.VanillaUniformWrapper;
@@ -45,7 +46,7 @@ public class ShaderInstanceMixin {
 
     @Inject(method = "getOrCreate", at = @At("HEAD"))
     private static void veil$setupFallbackProcessor(ResourceProvider provider, Program.Type type, String name, CallbackInfoReturnable<Program> cir) {
-        SimpleShaderProcessor.setup(provider, Collections.emptySet());
+        SimpleShaderProcessor.setup(provider, VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers(), Collections.emptySet());
     }
 
     @Inject(method = "getOrCreate", at = @At("RETURN"))

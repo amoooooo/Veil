@@ -1,6 +1,7 @@
 package foundry.veil.fabric.mixin.compat.sodium;
 
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import foundry.veil.impl.compat.SodiumShaderProcessor;
 import net.caffeinemc.mods.sodium.client.gl.shader.GlShader;
@@ -30,7 +31,7 @@ public class ShaderLoaderMixin {
     @ModifyArg(method = "loadShader", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/gl/shader/GlShader;<init>(Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderType;Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;)V"), index = 2)
     private static String modifySource(String src) {
         try {
-            SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), Collections.singleton(new SodiumShaderProcessor()));
+            SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers(), Collections.singleton(new SodiumShaderProcessor()));
             return SimpleShaderProcessor.modify(null, ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), null, veil$shaderType, src);
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", veil$shaderName, e);

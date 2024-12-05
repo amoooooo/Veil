@@ -69,6 +69,7 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
         }
 
         List<ChunkShaderOptions> keys = new ArrayList<>(this.programs.keySet());
+        int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
         this.veil$sources = CompletableFuture.supplyAsync(() -> {
             Map<ChunkShaderOptions, Map<ShaderType, String>> sources = new HashMap<>(2);
             ResourceLocation vsh = ResourceLocation.fromNamespaceAndPath("sodium", "blocks/block_layer_opaque.vsh");
@@ -80,7 +81,7 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
                     ShaderLoader.getShaderSource(fsh)
             );
 
-            SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), Collections.singleton(new SodiumShaderProcessor()));
+            SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), activeBuffers, Collections.singleton(new SodiumShaderProcessor()));
             for (ChunkShaderOptions option : keys) {
                 Map<ShaderType, String> map = new Object2ObjectArrayMap<>();
                 for (Map.Entry<ResourceLocation, String> entry : shaders.entrySet()) {

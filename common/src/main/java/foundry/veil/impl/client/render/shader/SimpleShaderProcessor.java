@@ -25,22 +25,21 @@ public class SimpleShaderProcessor {
 
     private static final ThreadLocal<ShaderPreProcessor> PROCESSOR = new ThreadLocal<>();
 
-    public static void setup(ResourceProvider resourceProvider, Collection<ShaderPreProcessor> additional) {
-        int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
+    public static void setup(ResourceProvider resourceProvider, int activeBuffers, Collection<ShaderPreProcessor> additional) {
         List<ShaderPreProcessor> processors = new ArrayList<>();
         processors.add(new ShaderModifyProcessor());
         processors.add(new ShaderCustomProcessor(resourceProvider));
         processors.add(new DynamicBufferProcessor(DynamicBufferType.decode(activeBuffers)));
         processors.addAll(additional);
-        SimpleShaderProcessor.PROCESSOR.set(ShaderPreProcessor.allOf(processors));
+        PROCESSOR.set(ShaderPreProcessor.allOf(processors));
     }
 
     public static void free() {
-        SimpleShaderProcessor.PROCESSOR.remove();
+        PROCESSOR.remove();
     }
 
     public static String modify(@Nullable String shaderInstance, @Nullable ResourceLocation name, @Nullable VertexFormat vertexFormat, int type, String source) throws IOException {
-        ShaderPreProcessor processor = SimpleShaderProcessor.PROCESSOR.get();
+        ShaderPreProcessor processor = PROCESSOR.get();
         if (processor == null) {
             throw new NullPointerException("Processor not initialized");
         }
@@ -52,7 +51,7 @@ public class SimpleShaderProcessor {
 
         @Override
         public String modify(@Nullable ResourceLocation name, String source) throws IOException {
-            return SimpleShaderProcessor.PROCESSOR.get().modify(new Context(this.shaderInstance, name, this.type, this.vertexFormat), source);
+            return PROCESSOR.get().modify(new Context(this.shaderInstance, name, this.type, this.vertexFormat), source);
         }
 
         @Override

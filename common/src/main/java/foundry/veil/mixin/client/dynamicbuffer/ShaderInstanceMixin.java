@@ -11,7 +11,10 @@ import foundry.veil.mixin.accessor.ProgramAccessor;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -64,6 +67,8 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
     private String veil$vertexSource;
     @Unique
     private String veil$fragmentSource;
+    @Unique
+    private int veil$activeBuffers;
 
     @Inject(method = "apply", at = @At("HEAD"))
     public void apply(CallbackInfo ci) {
@@ -125,7 +130,13 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
     }
 
     @Override
-    public void veil$recompile(boolean vertex, String source) {
+    public void veil$recompile(boolean vertex, String source, int activeBuffers) {
+        if (this.veil$activeBuffers != activeBuffers) {
+            this.veil$vertexSource = null;
+            this.veil$fragmentSource = null;
+        }
+
+        this.veil$activeBuffers = activeBuffers;
         if (vertex) {
             this.veil$vertexSource = source;
         } else {
