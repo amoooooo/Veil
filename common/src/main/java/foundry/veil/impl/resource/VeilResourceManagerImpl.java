@@ -169,9 +169,10 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                     if (icon != null) {
                         try {
                             NativeImage image = NativeImage.read(icon.get());
+                            boolean blur = extension.veil$blurIcon();
                             RenderSystem.recordRenderCall(() -> {
                                 try (image) {
-                                    resources.loadIcon(image);
+                                    resources.loadIcon(image, blur);
                                 }
                             });
                         } catch (Exception e) {

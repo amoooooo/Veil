@@ -102,6 +102,11 @@ public abstract class ModNioResourcePackMixin implements ModResourcePack, PackRe
     }
 
     @Override
+    public boolean veil$blurIcon() {
+        return false;
+    }
+
+    @Override
     public Stream<PackResources> veil$listPacks() {
         ModMetadata metadata = this.mod.getMetadata();
         String id = metadata.getId();

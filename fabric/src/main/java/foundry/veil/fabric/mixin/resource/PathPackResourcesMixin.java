@@ -79,4 +79,9 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
     public @Nullable IoSupplier<InputStream> veil$getIcon() {
         return this.getRootResource("pack.png");
     }
+
+    @Override
+    public boolean veil$blurIcon() {
+        return false;
+    }
 }

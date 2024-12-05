@@ -10,8 +10,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
-import static org.lwjgl.opengl.GL11C.glDeleteTextures;
-import static org.lwjgl.opengl.GL11C.glGenTextures;
+import static org.lwjgl.opengl.GL11C.*;
 
 @ApiStatus.Internal
 public class VeilPackResources implements NativeResource {
@@ -50,12 +49,14 @@ public class VeilPackResources implements NativeResource {
         return folder.getResource(parts[parts.length - 1]);
     }
 
-    public void loadIcon(NativeImage image) {
+    public void loadIcon(NativeImage image, boolean blur) {
         if (this.texture == 0) {
             this.texture = glGenTextures();
         }
 
         TextureUtil.prepareImage(this.texture, image.getWidth(), image.getHeight());
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, blur ? GL_LINEAR : GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, blur ? GL_LINEAR : GL_NEAREST);
         image.upload(0, 0, 0, false);
     }
 

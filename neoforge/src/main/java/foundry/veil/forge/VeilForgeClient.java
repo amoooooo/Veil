@@ -7,6 +7,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.forge.event.ForgeVeilRegisterBlockLayersEvent;
 import foundry.veil.forge.event.ForgeVeilRegisterFixedBuffersEvent;
 import foundry.veil.forge.event.ForgeVeilRendererAvailableEvent;
+import foundry.veil.forge.impl.ForgeRenderTypeStageHandler;
 import foundry.veil.impl.VeilBuiltinPacks;
 import foundry.veil.impl.VeilReloadListeners;
 import foundry.veil.impl.client.render.VeilUITooltipRenderer;

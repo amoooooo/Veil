@@ -24,6 +24,8 @@ public interface PackResourcesExtension {
     @Nullable
     IoSupplier<InputStream> veil$getIcon();
 
+    boolean veil$blurIcon();
+
     boolean veil$isStatic();
 
     List<Path> veil$getRawResourceRoots();

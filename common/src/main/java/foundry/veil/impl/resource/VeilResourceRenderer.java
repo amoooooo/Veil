@@ -29,6 +29,7 @@ public class VeilResourceRenderer {
      * @param resource The resource to render
      * @param fullName Whether to render the location of the resource
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static void renderFilename(VeilResource<?> resource, boolean fullName) {
         ImGui.pushID(resource.hashCode());
         ImGui.beginGroup();

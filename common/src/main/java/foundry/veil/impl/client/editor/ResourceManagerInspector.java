@@ -5,7 +5,6 @@ import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.resource.VeilResource;
-import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.impl.resource.VeilPackResources;
 import foundry.veil.impl.resource.VeilResourceManagerImpl;
@@ -25,7 +24,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 
 @ApiStatus.Internal
@@ -36,9 +38,6 @@ public class ResourceManagerInspector extends SingleWindowInspector {
     public static final Component SEARCH = Component.translatable("inspector.veil.resource.hint.search");
     public static final Component ADD_TOOLTIP = Component.translatable("inspector.veil.resource.button.add_pack");
     public static final Component RELOAD_TOOLTIP = Component.translatable("inspector.veil.resource.button.reload");
-    private float cellHeight = 0.0f;
-    private VeilResource<?> contextResource;
-    private List<VeilResourceAction<?>> actions;
 
     private CompletableFuture<?> reloadFuture;
     private final ImString searchText = new ImString();
@@ -46,9 +45,6 @@ public class ResourceManagerInspector extends SingleWindowInspector {
 
     @Override
     public void renderComponents() {
-        this.contextResource = null;
-        this.actions = Collections.emptyList();
-
         ImGui.setNextItemWidth(ImGui.getContentRegionAvailX() - 100f);
         ImGui.inputTextWithHint("##search", SEARCH.getString(), this.searchText);
         ImGui.sameLine();
@@ -81,16 +77,12 @@ public class ResourceManagerInspector extends SingleWindowInspector {
 
         ImGui.popFont();
 
-
         VeilResourceManagerImpl resourceManager = VeilClient.resourceManager();
-        ImGui.pushStyleColor(ImGuiCol.ChildBg, 0xFF0000FF);
         ImGui.pushStyleVar(ImGuiStyleVar.FramePadding, 1f, ITEM_VERTICAL_PADDING);
         ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 3f, 0f);
 
-        this.cellHeight = ImGui.getTextLineHeight() + 2.0f * ITEM_VERTICAL_PADDING;
-
         if (ImGui.beginListBox("##file_tree", ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY())) {
-            if (searchText.getLength() == 0) {
+            if (this.searchText.get().isBlank()) {
                 List<VeilPackResources> packs = resourceManager.getAllPacks();
                 for (int i = packs.size() - 1; i >= 0; i--) {
                     VeilPackResources pack = packs.get(i);
@@ -99,25 +91,25 @@ public class ResourceManagerInspector extends SingleWindowInspector {
 
                     boolean open = ImGui.treeNodeEx("##" + modid, ImGuiTreeNodeFlags.SpanAvailWidth | ImGuiTreeNodeFlags.FramePadding);
 
-
                     ImGui.pushStyleColor(ImGuiCol.Text, color);
                     ImGui.sameLine();
                     int icon = pack.getTexture();
 
-                    ImVec2 cursorScreenPos = ImGui.getCursorScreenPos();
-                    VeilImGuiUtil.icon(0xF523, color);
-
                     if (icon != 0) {
                         float size = ImGui.getTextLineHeight();
 
+                        ImVec2 cursorScreenPos = ImGui.getCursorScreenPos();
                         float minX = cursorScreenPos.x;
                         float minY = cursorScreenPos.y + ITEM_VERTICAL_PADDING + 1.0f;
 
-                        ImGui.getWindowDrawList().addRectFilled(minX, minY, minX + size, minY + size, 0xff000000);
                         ImGui.getWindowDrawList().addImage(icon, minX, minY, minX + size, minY + size);
+
+                        ImGui.setCursorScreenPos(minX + size + ITEM_VERTICAL_PADDING, cursorScreenPos.y);
+                    } else {
+                        VeilImGuiUtil.icon(0xF523, color);
+                        ImGui.sameLine();
                     }
 
-                    ImGui.sameLine();
                     ImGui.text(modid);
                     ImGui.popStyleColor();
 
@@ -149,7 +141,7 @@ public class ResourceManagerInspector extends SingleWindowInspector {
                 }
 
                 ImGui.pushStyleVar(ImGuiStyleVar.FramePadding, 4f, 4f);
-                ImGuiListClipper.forEach(resources.size(), new ImListClipperCallback() {
+                ImGuiListClipper.forEach(resources.size(), 22, new ImListClipperCallback() {
                     @Override
                     public void accept(int index) {
                         VeilResource<?> resource = resources.get(index);
@@ -170,8 +162,6 @@ public class ResourceManagerInspector extends SingleWindowInspector {
         }
         ImGui.popStyleVar();
         ImGui.popStyleVar();
-        ImGui.popStyleColor();
-
     }
 
     private int renderFolder(VeilResourceFolder folder) {
@@ -207,6 +197,7 @@ public class ResourceManagerInspector extends SingleWindowInspector {
 
         ImGui.indent();
 
+        float cellHeight = ImGui.getTextLineHeight() + 2.0f * ITEM_VERTICAL_PADDING;
         List<VeilResource<?>> resources = new ArrayList<>(folder.getRenderResources());
         ImGuiListClipper.forEach(resources.size(), new ImListClipperCallback() {
             @Override

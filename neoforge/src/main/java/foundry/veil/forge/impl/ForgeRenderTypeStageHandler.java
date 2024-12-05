@@ -1,4 +1,4 @@
-package foundry.veil.forge;
+package foundry.veil.forge.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
