@@ -67,7 +67,7 @@ public final class VeilOpenCL implements NativeResource {
             }
             priorityDevices.sort(COMPUTE_ORDER);
         } catch (Throwable t) {
-            LOGGER.warn("Failed to load OpenCL");
+            LOGGER.warn("Failed to load OpenCL", t);
             platforms = new PlatformInfo[0];
             priorityDevices.clear();
         }
