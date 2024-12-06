@@ -35,4 +35,4 @@ description='''${description}'''
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.
 [features.veil]
-    openGLVersion = "[3.3,)"
+    openGLVersion = "[3.2,)"
