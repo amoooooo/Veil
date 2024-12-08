@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface ShaderChunkRendererExtension {
 
-    void veil$recompile();
+    void veil$recompile(int activeBuffers);
 
     Map<ChunkShaderOptions, GlProgram<ChunkShaderInterface>> veil$getPrograms();
 }

@@ -155,7 +155,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     private boolean isVisible(T light, CullFrustum frustum) {
         Vector3d position = light.getPosition();
         float radius = light.getRadius();
-        return frustum.testSphere(position.x, position.y, position.z, radius * 1.414F);
+        return frustum.testSphere(position, radius * 1.414F);
     }
 
     private void updateAllLights(List<T> lights) {

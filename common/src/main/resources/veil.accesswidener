@@ -9,6 +9,7 @@ accessible method net/minecraft/client/renderer/ItemInHandRenderer renderPlayerA
 accessible field net/minecraft/client/renderer/ShaderInstance uniformMap Ljava/util/Map;
 accessible class com/mojang/blaze3d/platform/GlStateManager$TextureState
 accessible field com/mojang/blaze3d/platform/GlStateManager TEXTURES [Lcom/mojang/blaze3d/platform/GlStateManager$TextureState;
+accessible method com/mojang/blaze3d/shaders/Program <init> (Lcom/mojang/blaze3d/shaders/Program$Type;ILjava/lang/String;)V
 
 # Uniform Wrapper
 extendable method com/mojang/blaze3d/shaders/Uniform set (F)V

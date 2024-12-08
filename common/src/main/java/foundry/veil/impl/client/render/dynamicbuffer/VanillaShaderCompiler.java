@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.apache.commons.io.IOUtils;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -129,12 +130,14 @@ public class VanillaShaderCompiler {
         return this.scheduler != null && !this.scheduler.getCompletedFuture().isDone();
     }
 
+    @ApiStatus.Internal
     public static void markRendered(String shaderInstace) {
         if (VeilRenderSystem.renderer().getVanillaShaderCompiler().isCompilingShaders()) {
             LAST_FRAME_SHADERS.add(shaderInstace);
         }
     }
 
+    @ApiStatus.Internal
     public static void clear() {
         LAST_FRAME_SHADERS.clear();
     }

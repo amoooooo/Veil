@@ -27,7 +27,7 @@ public class VeilFabricSodiumCompat implements SodiumCompat {
     }
 
     @Override
-    public void recompile() {
+    public void recompile(int activeBuffers) {
         SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
         if (worldRenderer != null) {
             RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();

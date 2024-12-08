@@ -1,5 +1,6 @@
 package foundry.veil.mixin.client.dynamicbuffer;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
@@ -8,13 +9,12 @@ import foundry.veil.Veil;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.mixin.accessor.ProgramAccessor;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -29,10 +29,12 @@ import static org.lwjgl.opengl.GL20C.*;
 @Mixin(ShaderInstance.class)
 public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExtension {
 
+    @Mutable
     @Shadow
     @Final
     private Program vertexProgram;
 
+    @Mutable
     @Shadow
     @Final
     private Program fragmentProgram;
@@ -69,14 +71,40 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
     private String veil$fragmentSource;
     @Unique
     private int veil$activeBuffers;
+    @Unique
+    private final Int2ObjectMap<Program> veil$programCache = new Int2ObjectArrayMap<>(2);
 
     @Inject(method = "apply", at = @At("HEAD"))
     public void apply(CallbackInfo ci) {
         VanillaShaderCompiler.markRendered(this.name);
+        this.veil$applyCompile();
+    }
+
+    @Inject(method = "close", at = @At("HEAD"))
+    public void close(CallbackInfo ci) {
+        if (this.veil$programCache.isEmpty()) {
+            return;
+        }
+
+        // Swap out the shaders before vanilla mc tries to delete them
+        this.vertexProgram = this.veil$programCache.remove(0);
+        this.fragmentProgram = this.veil$programCache.remove(1);
+        // Delete all extra shaders created by veil
+        for (Program program : this.veil$programCache.values()) {
+            glDeleteShader(((ProgramAccessor) program).getId());
+        }
+        this.veil$programCache.clear();
+    }
+
+    @Unique
+    private void veil$applyCompile() {
         if (this.veil$vertexSource != null && this.veil$fragmentSource != null) {
             try {
-                ProgramAccessor vertexAccessor = (ProgramAccessor) this.vertexProgram;
-                ProgramAccessor fragmentAccessor = (ProgramAccessor) this.fragmentProgram;
+                Program vertexProgram = this.veil$programCache.computeIfAbsent(this.veil$activeBuffers << 1, unused -> new Program(Program.Type.VERTEX, GlStateManager.glCreateShader(GL_VERTEX_SHADER), this.vertexProgram.getName()));
+                Program fragmentProgram = this.veil$programCache.computeIfAbsent((this.veil$activeBuffers << 1) + 1, unused -> new Program(Program.Type.FRAGMENT, GlStateManager.glCreateShader(GL_FRAGMENT_SHADER), this.fragmentProgram.getName()));
+
+                ProgramAccessor vertexAccessor = (ProgramAccessor) vertexProgram;
+                ProgramAccessor fragmentAccessor = (ProgramAccessor) fragmentProgram;
                 int vertexShader = vertexAccessor.getId();
                 int fragmentShader = fragmentAccessor.getId();
 
@@ -84,39 +112,51 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
                 glCompileShader(vertexShader);
                 if (glGetShaderi(vertexShader, GL_COMPILE_STATUS) != GL_TRUE) {
                     String error = StringUtils.trim(glGetShaderInfoLog(vertexShader));
-                    throw new IOException("Couldn't compile vertex program (" + this.vertexProgram.getName() + ", " + this.name + ") : " + error);
+                    throw new IOException("Couldn't compile vertex program (" + vertexProgram.getName() + ", " + this.name + ") : " + error);
                 }
 
                 glShaderSource(fragmentShader, this.veil$fragmentSource);
                 glCompileShader(fragmentShader);
                 if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) != GL_TRUE) {
                     String error = StringUtils.trim(glGetShaderInfoLog(fragmentShader));
-                    throw new IOException("Couldn't compile fragment program (" + this.fragmentProgram.getName() + ", " + this.name + ") : " + error);
+                    throw new IOException("Couldn't compile fragment program (" + fragmentProgram.getName() + ", " + this.name + ") : " + error);
                 }
 
-                int i = 0;
-                for (String name : this.vertexFormat.getElementAttributeNames()) {
-                    glBindAttribLocation(this.programId, i, name);
-                    i++;
-                }
-
-                glLinkProgram(this.programId);
-                if (glGetProgrami(this.programId, GL_LINK_STATUS) != GL_TRUE) {
-                    String error = StringUtils.trim(glGetProgramInfoLog(this.programId));
-                    throw new IOException("Couldn't link shader (" + this.name + ") : " + error);
-                }
-
-                this.uniformLocations.clear();
-                this.samplerLocations.clear();
-                this.uniformMap.clear();
-                this.updateLocations();
-                this.markDirty();
+                this.veil$link(vertexProgram, fragmentProgram);
             } catch (Throwable t) {
                 Veil.LOGGER.error("Failed to recompile vanilla shader: {}", this.name, t);
             }
             this.veil$vertexSource = null;
             this.veil$fragmentSource = null;
         }
+    }
+
+    @Unique
+    private void veil$link(Program vertexProgram, Program fragmentProgram) throws IOException {
+        glDetachShader(this.programId, ((ProgramAccessor) this.vertexProgram).getId());
+        glDetachShader(this.programId, ((ProgramAccessor) this.fragmentProgram).getId());
+        this.vertexProgram = vertexProgram;
+        this.fragmentProgram = fragmentProgram;
+        vertexProgram.attachToShader(this);
+        fragmentProgram.attachToShader(this);
+
+        int index = 0;
+        for (String name : this.vertexFormat.getElementAttributeNames()) {
+            glBindAttribLocation(this.programId, index, name);
+            index++;
+        }
+
+        glLinkProgram(this.programId);
+        if (glGetProgrami(this.programId, GL_LINK_STATUS) != GL_TRUE) {
+            String error = StringUtils.trim(glGetProgramInfoLog(this.programId));
+            throw new IOException("Couldn't link shader (" + this.name + ") : " + error);
+        }
+
+        this.uniformLocations.clear();
+        this.samplerLocations.clear();
+        this.uniformMap.clear();
+        this.updateLocations();
+        this.markDirty();
     }
 
     @Override
@@ -130,12 +170,38 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
     }
 
     @Override
+    public boolean veil$swapBuffers(int activeBuffers) {
+        if (this.veil$activeBuffers == activeBuffers) {
+            return false;
+        }
+
+        // This makes sure shaders aren't recompiled multiple times
+        this.veil$applyCompile();
+        Program vertexProgram = this.veil$programCache.get(activeBuffers << 1);
+        Program fragmentProgram = this.veil$programCache.get((activeBuffers << 1) + 1);
+        if (vertexProgram != null && fragmentProgram != null) {
+            this.veil$activeBuffers = activeBuffers;
+            try {
+                this.veil$link(vertexProgram, fragmentProgram);
+            } catch (Throwable t) {
+                throw new RuntimeException("Failed to swap vanilla shader: " + this.name, t);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public void veil$recompile(boolean vertex, String source, int activeBuffers) {
         if (this.veil$activeBuffers != activeBuffers) {
             this.veil$vertexSource = null;
             this.veil$fragmentSource = null;
         }
 
+        if (this.veil$activeBuffers == 0) {
+            this.veil$programCache.put(0, this.vertexProgram);
+            this.veil$programCache.put(1, this.fragmentProgram);
+        }
         this.veil$activeBuffers = activeBuffers;
         if (vertex) {
             this.veil$vertexSource = source;

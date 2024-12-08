@@ -28,6 +28,11 @@ public interface VeilPlatform {
      */
     boolean isDevelopmentEnvironment();
 
+    /**
+     * @return Whether it is possible to attach renderdoc
+     */
+    boolean canAttachRenderdoc();
+
     enum PlatformType {
         NEOFORGE("Forge"),
         FABRIC("Fabric");

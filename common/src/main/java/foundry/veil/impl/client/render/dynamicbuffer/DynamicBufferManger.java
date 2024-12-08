@@ -7,11 +7,13 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.compat.SodiumCompat;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -111,10 +113,16 @@ public class DynamicBufferManger implements NativeResource {
         }
 
         this.activeBuffers = flags;
-        this.activeBuffers |= old; // FIXME remove
-        VeilRenderer renderer = VeilRenderSystem.renderer();
-        renderer.getVanillaShaderCompiler().reload(((GameRendererAccessor) Minecraft.getInstance().gameRenderer).getShaders().values());
         this.deleteFramebuffers();
+
+        VeilRenderer renderer = VeilRenderSystem.renderer();
+        List<ShaderInstance> shaders = new ArrayList<>();
+        for (ShaderInstance shader : ((GameRendererAccessor) Minecraft.getInstance().gameRenderer).getShaders().values()) {
+            if (((ShaderInstanceExtension) shader).veil$swapBuffers(this.activeBuffers)) {
+                shaders.add(shader);
+            }
+        }
+        renderer.getVanillaShaderCompiler().reload(shaders);
 
         // This rebuild all chunks in view without clearing them if normals need to be corrected
         if ((this.activeBuffers & DynamicBufferType.NORMAL.getMask()) != (activeBuffers & DynamicBufferType.NORMAL.getMask())) {
@@ -122,7 +130,7 @@ public class DynamicBufferManger implements NativeResource {
         }
 
         if (SodiumCompat.INSTANCE != null) {
-            SodiumCompat.INSTANCE.recompile();
+            SodiumCompat.INSTANCE.recompile(activeBuffers);
         }
 
         try {

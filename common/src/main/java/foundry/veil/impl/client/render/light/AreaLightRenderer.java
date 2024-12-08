@@ -1,7 +1,10 @@
 package foundry.veil.impl.client.render.light;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.MeshData;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.AreaLight;
@@ -31,10 +34,9 @@ public class AreaLightRenderer extends InstancedLightRenderer<AreaLight> {
 
     @Override
     protected MeshData createMesh() {
-        Tesselator tesselator = RenderSystem.renderThreadTesselator();
-        BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
-        LightTypeRenderer.createInvertedCube(bufferBuilder);
-        return bufferBuilder.buildOrThrow();
+        BufferBuilder builder = RenderSystem.renderThreadTesselator().begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
+        LightTypeRenderer.createInvertedCube(builder);
+        return builder.buildOrThrow();
     }
 
     @Override
@@ -81,15 +83,14 @@ public class AreaLightRenderer extends InstancedLightRenderer<AreaLight> {
     @Override
     protected boolean isVisible(AreaLight light, CullFrustum frustum) {
         Vector2f size = light.getSize();
-        float distance = light.getDistance();
         Vector3d position = light.getPosition();
-        float radius = Math.max(size.x, size.y) + distance;
-        double minX = position.x - radius;
-        double minY = position.y - radius;
-        double minZ = position.z - radius;
-        double maxX = position.x + radius;
-        double maxY = position.y + radius;
-        double maxZ = position.z + radius;
-        return frustum.testAab(minX, minY, minZ, maxX, maxY, maxZ);
+        float radius = Math.max(size.x, size.y) + light.getDistance();
+        return frustum.testAab(
+                position.x - radius,
+                position.y - radius,
+                position.z - radius,
+                position.x + radius,
+                position.y + radius,
+                position.z + radius);
     }
 }

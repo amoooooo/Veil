@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.forge.ext.ShaderChunkRendererExtension;
+import foundry.veil.impl.ThreadTaskScheduler;
 import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
 import foundry.veil.impl.compat.SodiumShaderProcessor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -25,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
@@ -41,6 +43,8 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
 
     @Unique
     private CompletableFuture<?> veil$sources;
+    @Unique
+    private ThreadTaskScheduler scheduler;
     @Unique
     private Map<ShaderType, String> veil$shaderSource;
 
@@ -63,13 +67,12 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
     }
 
     @Override
-    public void veil$recompile() {
+    public void veil$recompile(int activeBuffers) {
         if (this.veil$sources != null) {
             this.veil$sources.cancel(false);
         }
 
         List<ChunkShaderOptions> keys = new ArrayList<>(this.programs.keySet());
-        int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
         this.veil$sources = CompletableFuture.supplyAsync(() -> {
             Map<ChunkShaderOptions, Map<ShaderType, String>> sources = new HashMap<>(2);
             ResourceLocation vsh = ResourceLocation.fromNamespaceAndPath("sodium", "blocks/block_layer_opaque.vsh");

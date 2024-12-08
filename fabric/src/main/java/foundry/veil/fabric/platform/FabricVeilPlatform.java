@@ -21,4 +21,9 @@ public class FabricVeilPlatform implements VeilPlatform {
     public boolean isDevelopmentEnvironment() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
+
+    @Override
+    public boolean canAttachRenderdoc() {
+        return true;
+    }
 }

@@ -13,10 +13,22 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.lang.reflect.Field;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 
 @Mixin(Frustum.class)
 public abstract class FrustumMixin implements CullFrustum {
+
+    @Unique
+    private static final MethodHandle PLANES_HANDLE;
+
+    static {
+        try {
+            PLANES_HANDLE = MethodHandles.privateLookupIn(FrustumIntersection.class, MethodHandles.lookup()).findGetter(FrustumIntersection.class, "planes", Vector4f[].class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Shadow
     @Final
@@ -84,7 +96,7 @@ public abstract class FrustumMixin implements CullFrustum {
     }
 
     @Override
-    public boolean testPlaneXZ(double minX, float minZ, float maxX, float maxZ) {
+    public boolean testPlaneXZ(double minX, double minZ, double maxX, double maxZ) {
         return this.intersection.testPlaneXZ((float) (minX - this.camX), (float) (minZ - this.camZ), (float) (maxX - this.camX), (float) (maxZ - this.camZ));
     }
 
@@ -97,12 +109,9 @@ public abstract class FrustumMixin implements CullFrustum {
     public Vector4fc[] getPlanes() {
         if (this.veil$frustumPlanes == null) {
             try {
-                // Me when I have to use lazy reflection to access a JOML field...
-                Field field = FrustumIntersection.class.getDeclaredField("planes");
-                field.setAccessible(true);
-                this.veil$frustumPlanes = (Vector4f[]) field.get(this.intersection);
-            } catch (Exception e) {
-                throw new IllegalStateException("Failed to get frustum planes", e);
+                this.veil$frustumPlanes = (Vector4f[]) PLANES_HANDLE.invoke(this.intersection);
+            } catch (Throwable t) {
+                throw new IllegalStateException("Failed to get frustum planes", t);
             }
         }
         return this.veil$frustumPlanes;
@@ -121,5 +130,10 @@ public abstract class FrustumMixin implements CullFrustum {
     @Override
     public Vector3fc getViewVector() {
         return this.veil$viewVector.set(this.viewVector.x, this.viewVector.y, this.viewVector.z).normalize();
+    }
+
+    @Override
+    public Frustum toFrustum() {
+        return (Frustum) (Object) this;
     }
 }

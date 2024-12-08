@@ -1,6 +1,7 @@
 package foundry.veil.forge.platform;
 
 import foundry.veil.platform.VeilPlatform;
+import net.neoforged.fml.loading.FMLConfig;
 import net.neoforged.fml.loading.FMLLoader;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -20,5 +21,10 @@ public class NeoForgeVeilPlatform implements VeilPlatform {
     @Override
     public boolean isDevelopmentEnvironment() {
         return !FMLLoader.isProduction();
+    }
+
+    @Override
+    public boolean canAttachRenderdoc() {
+        return !FMLConfig.getBoolConfigValue(FMLConfig.ConfigValue.EARLY_WINDOW_CONTROL);
     }
 }

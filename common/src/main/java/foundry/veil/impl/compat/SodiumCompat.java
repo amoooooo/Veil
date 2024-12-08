@@ -14,7 +14,7 @@ public interface SodiumCompat {
 
     Object2IntMap<ResourceLocation> getLoadedShaders();
 
-    void recompile();
+    void recompile(int activeBuffers);
 
     void markChunksDirty();
 }

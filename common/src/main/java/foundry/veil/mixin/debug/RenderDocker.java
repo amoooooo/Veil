@@ -26,7 +26,7 @@ public class RenderDocker {
     @Inject(method = "main", at = @At("HEAD"), remap = false)
     private static void preMain(String[] pArgs, CallbackInfo ci) {
         VeilPlatform platform = Veil.platform();
-        if (!platform.isDevelopmentEnvironment() || platform.isModLoaded("tracky") || Util.getPlatform() != Util.OS.WINDOWS) {
+        if (!platform.isDevelopmentEnvironment() || !platform.canAttachRenderdoc() || platform.isModLoaded("tracky") || Util.getPlatform() != Util.OS.WINDOWS) {
             return;
         }
 

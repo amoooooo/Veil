@@ -27,12 +27,12 @@ public class VeilForgeSodiumCompat implements SodiumCompat {
     }
 
     @Override
-    public void recompile() {
+    public void recompile(int activeBuffers) {
         SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
         if (worldRenderer != null) {
             RenderSectionManagerAccessor renderSectionManager = (RenderSectionManagerAccessor) ((SodiumWorldRendererAccessor) worldRenderer).getRenderSectionManager();
             if (renderSectionManager != null && renderSectionManager.getChunkRenderer() instanceof ShaderChunkRendererExtension extension) {
-                extension.veil$recompile();
+                extension.veil$recompile(activeBuffers);
             }
         }
     }
