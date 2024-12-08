@@ -100,7 +100,7 @@ public class VanillaShaderCompiler {
         }
 
         int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
-        ThreadTaskScheduler scheduler = new ThreadTaskScheduler("VeilShaderCompile", Math.max(1, Runtime.getRuntime().availableProcessors() / 4), () -> {
+        ThreadTaskScheduler scheduler = new ThreadTaskScheduler("VeilVanillaShaderCompile", Math.max(1, Runtime.getRuntime().availableProcessors() / 4), () -> {
             for (String lastFrameShader : LAST_FRAME_SHADERS) {
                 ShaderInstance shader = shaderMap.remove(lastFrameShader);
                 if (shader != null) {

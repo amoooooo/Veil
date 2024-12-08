@@ -45,7 +45,7 @@ public class ThreadTaskScheduler {
             this.semaphore.release();
 
             Thread thread = new Thread(this::run, name + "Thread#" + i);
-            thread.setPriority(Math.max(0, Thread.NORM_PRIORITY - 2));
+            thread.setPriority(Thread.MIN_PRIORITY);
             thread.start();
             spawnedThreads++;
         }

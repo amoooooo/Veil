@@ -19,6 +19,7 @@
     "compat.iris.IrisRenderingPipelineAccessor",
     "compat.sodium.BlockRendererMixin",
     "compat.sodium.ChunkMeshFormatsMixin",
+    "compat.sodium.ChunkShaderOptionsMixin",
     "compat.sodium.ChunkVertexConsumerMixin",
     "compat.sodium.ChunkVertexEncoderVertexMixin",
     "compat.sodium.DefaultFluidRendererMixin",
