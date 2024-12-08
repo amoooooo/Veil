@@ -130,7 +130,7 @@ public class DynamicBufferManger implements NativeResource {
         }
 
         if (SodiumCompat.INSTANCE != null) {
-            SodiumCompat.INSTANCE.recompile(activeBuffers);
+            SodiumCompat.INSTANCE.setActiveBuffers(activeBuffers);
         }
 
         try {

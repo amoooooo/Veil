@@ -1,4 +1,4 @@
-package foundry.veil.forge.ext;
+package foundry.veil.ext;
 
 public interface ChunkShaderOptionsExtension {
 

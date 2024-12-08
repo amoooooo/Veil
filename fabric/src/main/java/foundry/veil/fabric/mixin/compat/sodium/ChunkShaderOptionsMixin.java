@@ -1,4 +1,4 @@
-package foundry.veil.forge.mixin.compat.sodium;
+package foundry.veil.fabric.mixin.compat.sodium;
 
 import foundry.veil.ext.ChunkShaderOptionsExtension;
 import net.caffeinemc.mods.sodium.client.render.chunk.shader.ChunkShaderOptions;

@@ -10,5 +10,7 @@ public interface ShaderChunkRendererExtension {
 
     void veil$recompile();
 
+    void veil$setActiveBuffers(int activeBuffers);
+
     Map<ChunkShaderOptions, GlProgram<ChunkShaderInterface>> veil$getPrograms();
 }
