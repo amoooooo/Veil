@@ -186,10 +186,10 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
 <div class="block">Test whether the given XY-plane (at <code>Z = 0</code>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPlaneXZ(double,float,float,float)" class="member-name-link">testPlaneXZ</a><wbr>(double&nbsp;minX,
- float&nbsp;minZ,
- float&nbsp;maxX,
- float&nbsp;maxZ)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPlaneXZ(double,double,double,double)" class="member-name-link">testPlaneXZ</a><wbr>(double&nbsp;minX,
+ double&nbsp;minZ,
+ double&nbsp;maxX,
+ double&nbsp;maxZ)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given XZ-plane (at <code>Y = 0</code>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
 </div>
@@ -208,6 +208,9 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.client.renderer.culling.Frustum</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toFrustum()" class="member-name-link">toFrustum</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -216,7 +219,7 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.client.render.CullFrustum">Methods inherited from interface&nbsp;foundry.veil.api.client.render.<a href="../../../api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></h3>
-<code><a href="../../../api/client/render/CullFrustum.html#testAab(org.joml.Vector3dc,org.joml.Vector3dc)">testAab</a>, <a href="../../../api/client/render/CullFrustum.html#testAab(org.joml.Vector3fc,org.joml.Vector3fc)">testAab</a>, <a href="../../../api/client/render/CullFrustum.html#testLineSegment(org.joml.Vector3dc,org.joml.Vector3dc)">testLineSegment</a>, <a href="../../../api/client/render/CullFrustum.html#testLineSegment(org.joml.Vector3fc,org.joml.Vector3fc)">testLineSegment</a>, <a href="../../../api/client/render/CullFrustum.html#testPlaneXY(org.joml.Vector2dc,org.joml.Vector2dc)">testPlaneXY</a>, <a href="../../../api/client/render/CullFrustum.html#testPlaneXY(org.joml.Vector2fc,org.joml.Vector2fc)">testPlaneXY</a>, <a href="../../../api/client/render/CullFrustum.html#testPoint(net.minecraft.world.phys.Vec3)">testPoint</a>, <a href="../../../api/client/render/CullFrustum.html#testPoint(org.joml.Vector3dc)">testPoint</a>, <a href="../../../api/client/render/CullFrustum.html#testPoint(org.joml.Vector3fc)">testPoint</a>, <a href="../../../api/client/render/CullFrustum.html#testSphere(org.joml.Vector3dc,float)">testSphere</a>, <a href="../../../api/client/render/CullFrustum.html#testSphere(org.joml.Vector3fc,float)">testSphere</a></code></div>
+<code><a href="../../../api/client/render/CullFrustum.html#testAab(org.joml.Vector3dc,org.joml.Vector3dc)">testAab</a>, <a href="../../../api/client/render/CullFrustum.html#testAab(org.joml.Vector3fc,org.joml.Vector3fc)">testAab</a>, <a href="../../../api/client/render/CullFrustum.html#testBlock(net.minecraft.core.BlockPos)">testBlock</a>, <a href="../../../api/client/render/CullFrustum.html#testLineSegment(org.joml.Vector3dc,org.joml.Vector3dc)">testLineSegment</a>, <a href="../../../api/client/render/CullFrustum.html#testLineSegment(org.joml.Vector3fc,org.joml.Vector3fc)">testLineSegment</a>, <a href="../../../api/client/render/CullFrustum.html#testPlaneXY(org.joml.Vector2dc,org.joml.Vector2dc)">testPlaneXY</a>, <a href="../../../api/client/render/CullFrustum.html#testPlaneXY(org.joml.Vector2fc,org.joml.Vector2fc)">testPlaneXY</a>, <a href="../../../api/client/render/CullFrustum.html#testPlaneXZ(org.joml.Vector2dc,org.joml.Vector2dc)">testPlaneXZ</a>, <a href="../../../api/client/render/CullFrustum.html#testPlaneXZ(org.joml.Vector2fc,org.joml.Vector2fc)">testPlaneXZ</a>, <a href="../../../api/client/render/CullFrustum.html#testPoint(net.minecraft.core.Position)">testPoint</a>, <a href="../../../api/client/render/CullFrustum.html#testPoint(org.joml.Vector3dc)">testPoint</a>, <a href="../../../api/client/render/CullFrustum.html#testPoint(org.joml.Vector3fc)">testPoint</a>, <a href="../../../api/client/render/CullFrustum.html#testPoint(org.joml.Vector3ic)">testPoint</a>, <a href="../../../api/client/render/CullFrustum.html#testSection(net.minecraft.core.SectionPos)">testSection</a>, <a href="../../../api/client/render/CullFrustum.html#testSphere(org.joml.Vector3dc,float)">testSphere</a>, <a href="../../../api/client/render/CullFrustum.html#testSphere(org.joml.Vector3fc,float)">testSphere</a></code></div>
 </section>
 </li>
 </ul>
@@ -397,13 +400,13 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
 </section>
 </li>
 <li>
-<section class="detail" id="testPlaneXZ(double,float,float,float)">
+<section class="detail" id="testPlaneXZ(double,double,double,double)">
 <h3>testPlaneXZ</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">testPlaneXZ</span><wbr><span class="parameters">(double&nbsp;minX,
- float&nbsp;minZ,
- float&nbsp;maxX,
- float&nbsp;maxZ)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../api/client/render/CullFrustum.html#testPlaneXZ(double,float,float,float)">CullFrustum</a></code></span></div>
+ double&nbsp;minZ,
+ double&nbsp;maxX,
+ double&nbsp;maxZ)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../api/client/render/CullFrustum.html#testPlaneXZ(double,double,double,double)">CullFrustum</a></code></span></div>
 <div class="block">Test whether the given XZ-plane (at <code>Y = 0</code>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.
  The plane is specified via its min and max corner coordinates.
  <p>
@@ -414,7 +417,7 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
  Reference: <a href="http://old.cescg.org/CESCG-2002/DSykoraJJelinek/">Efficient View Frustum Culling</a></div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../api/client/render/CullFrustum.html#testPlaneXZ(double,float,float,float)">testPlaneXZ</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></dd>
+<dd><code><a href="../../../api/client/render/CullFrustum.html#testPlaneXZ(double,double,double,double)">testPlaneXZ</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>minX</code> - the x-coordinate of the minimum corner</dd>
 <dd><code>minZ</code> - the z-coordinate of the minimum corner</dd>
@@ -498,6 +501,18 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
 <dd><code><a href="../../../api/client/render/CullFrustum.html#getViewVector()">getViewVector</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></dd>
 <dt>Returns:</dt>
 <dd>The direction of the camera frustum</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toFrustum()">
+<h3>toFrustum</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">net.minecraft.client.renderer.culling.Frustum</span>&nbsp;<span class="element-name">toFrustum</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../api/client/render/CullFrustum.html#toFrustum()">toFrustum</a></code>&nbsp;in interface&nbsp;<code><a href="../../../api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></dd>
+<dt>Returns:</dt>
+<dd>This cull frustum as a vanilla mc <code>Frustum</code></dd>
 </dl>
 </section>
 </li>

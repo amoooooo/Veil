@@ -142,16 +142,22 @@ implements com.mojang.blaze3d.shaders.Shader, <a href="../../../ext/ShaderInstan
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#apply(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">apply</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateLocations()" class="member-name-link">updateLocations</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;net.minecraft.resources.ResourceLocation&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getShaderSources()" class="member-name-link">veil$getShaderSources</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$recompile(boolean,java.lang.String,int)" class="member-name-link">veil$recompile</a><wbr>(boolean&nbsp;vertex,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#close(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">close</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#updateLocations()" class="member-name-link">updateLocations</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a><wbr>&lt;net.minecraft.resources.ResourceLocation&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getShaderSources()" class="member-name-link">veil$getShaderSources</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$recompile(boolean,java.lang.String,int)" class="member-name-link">veil$recompile</a><wbr>(boolean&nbsp;vertex,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source,
  int&nbsp;activeBuffers)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$swapBuffers(int)" class="member-name-link">veil$swapBuffers</a><wbr>(int&nbsp;activeBuffers)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -214,12 +220,28 @@ implements com.mojang.blaze3d.shaders.Shader, <a href="../../../ext/ShaderInstan
 </section>
 </li>
 <li>
+<section class="detail" id="close(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
+<h3>close</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">close</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="veil$getShaderSources()">
 <h3>veil$getShaderSources</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;net.minecraft.resources.ResourceLocation&gt;</span>&nbsp;<span class="element-name">veil$getShaderSources</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../ext/ShaderInstanceExtension.html#veil$getShaderSources()">veil$getShaderSources</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/ShaderInstanceExtension.html" title="interface in foundry.veil.ext">ShaderInstanceExtension</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="veil$swapBuffers(int)">
+<h3>veil$swapBuffers</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">veil$swapBuffers</span><wbr><span class="parameters">(int&nbsp;activeBuffers)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../ext/ShaderInstanceExtension.html#veil$swapBuffers(int)">veil$swapBuffers</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/ShaderInstanceExtension.html" title="interface in foundry.veil.ext">ShaderInstanceExtension</a></code></dd>
 </dl>
 </section>
 </li>
