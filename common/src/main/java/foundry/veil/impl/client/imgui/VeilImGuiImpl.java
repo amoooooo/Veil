@@ -31,7 +31,7 @@ import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
 @ApiStatus.Internal
 public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
-    private static VeilImGui instance;
+    private static VeilImGui instance = new InactiveVeilImGuiImpl();
 
     private final ImGuiImplGlfw implGlfw;
     private final ImGuiImplGl3 implGl3;

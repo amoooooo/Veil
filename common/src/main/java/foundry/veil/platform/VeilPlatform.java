@@ -33,6 +33,11 @@ public interface VeilPlatform {
      */
     boolean canAttachRenderdoc();
 
+    /**
+     * @return Whether the mod loader has errors and cannot load
+     */
+    boolean hasErrors();
+
     enum PlatformType {
         NEOFORGE("Forge"),
         FABRIC("Fabric");

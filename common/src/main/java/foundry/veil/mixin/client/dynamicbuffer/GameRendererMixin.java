@@ -1,5 +1,6 @@
 package foundry.veil.mixin.client.dynamicbuffer;
 
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -22,6 +23,10 @@ public class GameRendererMixin {
 
     @Inject(method = "reloadShaders", at = @At("RETURN"))
     public void reloadShaders(ResourceProvider resourceProvider, CallbackInfo ci) {
+        if (Veil.platform().hasErrors()) {
+            return;
+        }
+
         VeilRenderSystem.renderer().getVanillaShaderCompiler().reload(this.shaders.values());
     }
 }

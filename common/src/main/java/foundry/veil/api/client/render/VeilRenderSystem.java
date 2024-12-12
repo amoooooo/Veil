@@ -724,6 +724,10 @@ public final class VeilRenderSystem {
     public static void endFrame() {
         VeilImGuiImpl.get().endFrame();
 
+        if(Veil.platform().hasErrors()){
+            return;
+        }
+
         RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
         renderer.getFramebufferManager().clear();
         renderer.getDynamicBufferManger().clear();

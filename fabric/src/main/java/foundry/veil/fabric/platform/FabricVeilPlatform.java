@@ -26,4 +26,9 @@ public class FabricVeilPlatform implements VeilPlatform {
     public boolean canAttachRenderdoc() {
         return true;
     }
+
+    @Override
+    public boolean hasErrors() {
+        return false;
+    }
 }

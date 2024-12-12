@@ -1,5 +1,6 @@
 package foundry.veil.mixin.client.pipeline;
 
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilFirstPersonRenderer;
@@ -26,6 +27,10 @@ public class GameRendererMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Lighting;setupFor3DItems()V", shift = At.Shift.AFTER))
     public void veil$updateGuiCamera(DeltaTracker pDeltaTracker, boolean pRenderLevel, CallbackInfo ci) {
+        if (Veil.platform().hasErrors()) {
+            return;
+        }
+
         VeilRenderer renderer = VeilRenderSystem.renderer();
         renderer.getCameraMatrices().updateGui();
         renderer.getGuiInfo().update();
@@ -33,6 +38,10 @@ public class GameRendererMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
     public void veil$unbindGuiCamera(DeltaTracker pDeltaTracker, boolean pRenderLevel, CallbackInfo ci) {
+        if (Veil.platform().hasErrors()) {
+            return;
+        }
+
         VeilRenderSystem.renderer().getGuiInfo().unbind();
     }
 

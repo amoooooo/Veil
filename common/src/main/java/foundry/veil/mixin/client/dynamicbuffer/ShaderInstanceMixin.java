@@ -76,6 +76,10 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
 
     @Inject(method = "apply", at = @At("HEAD"))
     public void apply(CallbackInfo ci) {
+        if (Veil.platform().hasErrors()) {
+            return;
+        }
+
         VanillaShaderCompiler.markRendered(this.name);
         this.veil$applyCompile();
     }

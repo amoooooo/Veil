@@ -30,6 +30,9 @@ public class ShaderLoaderMixin {
 
     @ModifyArg(method = "loadShader", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/gl/shader/GlShader;<init>(Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderType;Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;)V"), index = 2)
     private static String modifySource(String src) {
+        if (Veil.platform().hasErrors()) {
+            return src;
+        }
         try {
             SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers(), Collections.singleton(new SodiumShaderProcessor()));
             return SimpleShaderProcessor.modify(null, ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), null, veil$shaderType, src);

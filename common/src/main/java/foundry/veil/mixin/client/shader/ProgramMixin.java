@@ -41,6 +41,10 @@ public class ProgramMixin {
 
     @ModifyArg(method = "compileShaderInternal", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/GlStateManager;glShaderSource(ILjava/util/List;)V"), index = 1)
     private static List<String> veil$modifyVanillaShader(List<String> sourceLines) {
+        if (Veil.platform().hasErrors()) {
+            return sourceLines;
+        }
+
         try {
             StringBuilder source = new StringBuilder();
             for (String sourceLine : sourceLines) {

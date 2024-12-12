@@ -27,8 +27,10 @@ import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.NativeResource;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Manages the render pipeline for Veil.
@@ -89,13 +91,17 @@ public class VeilRenderer implements NativeResource {
 
     @ApiStatus.Internal
     public void addDebugInfo(Consumer<String> consumer) {
+        consumer.accept("");
+        consumer.accept(ChatFormatting.UNDERLINE + "Veil");
+
         boolean ambientOcclusion = this.lightRenderer.isAmbientOcclusionEnabled();
-//        boolean vanillaLights = this.lightRenderer.isVanillaLightEnabled();
-//        boolean vanillaEntityLights = this.shaderPreDefinitions.getDefinition(DISABLE_VANILLA_ENTITY_LIGHT_KEY) == null;
         consumer.accept("Ambient Occlusion: " + (ambientOcclusion ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off"));
-//        consumer.accept("Vanilla Light: " + (vanillaLights ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off"));
-//        consumer.accept("Vanilla Entity Light: " + (vanillaEntityLights ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off"));
         this.lightRenderer.addDebugInfo(consumer);
+        int mask = this.dynamicBufferManger.getActiveBuffers();
+        if (mask != 0) {
+            String buffers = Arrays.stream(DynamicBufferType.decode(mask)).map(DynamicBufferType::getName).collect(Collectors.joining(", "));
+            consumer.accept("Active Buffers: " + buffers);
+        }
     }
 
     /**
@@ -133,7 +139,7 @@ public class VeilRenderer implements NativeResource {
     /**
      * Disables the specified dynamic render buffers.
      *
-     * @param name    The name of the "source" of the buffer change
+     * @param name The name of the "source" of the buffer change
      * @return Whether any change occurred
      */
     public boolean disableBuffers(ResourceLocation name) {
