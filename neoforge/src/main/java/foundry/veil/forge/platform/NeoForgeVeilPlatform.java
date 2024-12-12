@@ -26,7 +26,11 @@ public class NeoForgeVeilPlatform implements VeilPlatform {
 
     @Override
     public boolean canAttachRenderdoc() {
-        return !FMLConfig.getBoolConfigValue(FMLConfig.ConfigValue.EARLY_WINDOW_CONTROL);
+        if (!FMLConfig.getBoolConfigValue(FMLConfig.ConfigValue.EARLY_WINDOW_CONTROL)) {
+            return true;
+        }
+        String windowControl = FMLConfig.getConfigValue(FMLConfig.ConfigValue.EARLY_WINDOW_PROVIDER);
+        return windowControl == null || "dummyprovider".equals(windowControl);
     }
 
     @Override

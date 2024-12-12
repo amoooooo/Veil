@@ -41,11 +41,12 @@ public interface VeilPacketManager {
     /**
      * Creates a {@link VeilPacketManager}.
      *
+     * @param modId   The id of the mod creating the channel
      * @param version The NeoForge channel version
      * @return The packet manager
      */
-    static VeilPacketManager create(String version) {
-        return FACTORY.create(version);
+    static VeilPacketManager create(String modId, String version) {
+        return FACTORY.create(modId, version);
     }
 
     /**
@@ -270,9 +271,10 @@ public interface VeilPacketManager {
         /**
          * Creates a {@link VeilPacketManager}.
          *
+         * @param modId   The id of the mod to register the channel under
          * @param version The NeoForge channel version
          * @return The packet manager
          */
-        VeilPacketManager create(String version);
+        VeilPacketManager create(String modId, String version);
     }
 }

@@ -8,11 +8,14 @@ import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.javafmlmod.FMLModContainer;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.Objects;
 import java.util.Set;
 
 @ApiStatus.Internal
@@ -22,14 +25,16 @@ public class NeoForgeVeilPacketManager implements VeilPacketManager {
     private final Set<RegisteredPacket<ClientPacketContext>> clientPackets;
     private final Set<RegisteredPacket<ServerPacketContext>> serverPackets;
 
-    public NeoForgeVeilPacketManager(String version) {
+    public NeoForgeVeilPacketManager(String modId, String version) {
+        ModContainer container = ModList.get().getModContainerById(modId).orElseThrow(() -> new NullPointerException("Cannot find mod container for id " + modId));
+        if (!(container instanceof FMLModContainer forgeContainer)) {
+            throw new ClassCastException("The container of the mod " + modId + " is not a FML one!");
+        }
+
         this.version = version;
         this.clientPackets = new ObjectArraySet<>();
         this.serverPackets = new ObjectArraySet<>();
-    }
-
-    public void register(IEventBus modBus) {
-        modBus.addListener(this::registerHandler);
+        Objects.requireNonNull(forgeContainer.getEventBus()).addListener(this::registerHandler);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

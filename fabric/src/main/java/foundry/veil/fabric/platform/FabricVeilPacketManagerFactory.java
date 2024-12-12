@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 public class FabricVeilPacketManagerFactory implements VeilPacketManager.Factory {
 
     @Override
-    public VeilPacketManager create(String version) {
+    public VeilPacketManager create(String modId, String version) {
         return new FabricVeilPacketManager();
     }
 }

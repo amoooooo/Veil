@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 public class NeoForgeVeilPacketManagerFactory implements VeilPacketManager.Factory {
 
     @Override
-    public VeilPacketManager create(String version) {
-        return new NeoForgeVeilPacketManager(version);
+    public VeilPacketManager create(String modId, String version) {
+        return new NeoForgeVeilPacketManager(modId, version);
     }
 }
