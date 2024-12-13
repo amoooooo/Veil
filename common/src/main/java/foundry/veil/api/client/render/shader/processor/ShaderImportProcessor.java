@@ -46,6 +46,10 @@ public class ShaderImportProcessor implements ShaderPreProcessor {
 
     @Override
     public String modify(Context context, String source) throws IOException {
+        if (!(context instanceof VeilContext veilContext)) {
+            return source;
+        }
+
         List<String> inputLines = source.lines().toList();
         List<String> output = new LinkedList<>();
 
@@ -58,7 +62,7 @@ public class ShaderImportProcessor implements ShaderPreProcessor {
             try {
                 String trimmedImport = line.substring(ShaderImportProcessor.INCLUDE_KEY.length()).trim();
                 ResourceLocation include = ResourceLocation.parse(trimmedImport);
-                context.addInclude(include);
+                veilContext.addInclude(include);
 
                 // Only read and process the import if it hasn't been added yet
                 if (!this.addedImports.add(include)) {

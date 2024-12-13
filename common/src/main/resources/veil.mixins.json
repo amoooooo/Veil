@@ -49,7 +49,6 @@
     "client.shader.EffectInstanceMixin",
     "client.shader.GameRendererMixin",
     "client.shader.ProgramManagerMixin",
-    "client.shader.ProgramMixin",
     "client.shader.ShaderInstanceMixin",
     "client.skeleton.ClientLevelMixin",
     "client.skeleton.LevelRendererMixin",

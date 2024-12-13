@@ -11,11 +11,11 @@ import java.util.regex.Pattern;
  */
 public class ShaderVersionProcessor implements ShaderPreProcessor {
 
-    public static final Pattern PATTERN = Pattern.compile("(#version\\s+.+)");
+    public static final Pattern PATTERN = Pattern.compile("#version\\s+.+");
 
     @Override
     public @NotNull String modify(@NotNull Context context, String source) {
-        if (!ShaderVersionProcessor.PATTERN.matcher(source).matches()) {
+        if (!ShaderVersionProcessor.PATTERN.matcher(source).find()) {
             return "#version 410 core\n" + source;
         }
         return source;

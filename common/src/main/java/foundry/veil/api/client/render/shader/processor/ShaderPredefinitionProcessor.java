@@ -14,7 +14,11 @@ public class ShaderPredefinitionProcessor implements ShaderPreProcessor {
 
     @Override
     public String modify(Context context, String source) {
-        ProgramDefinition programDefinition = context.definition();
+        if (!(context instanceof VeilContext veilContext)) {
+            return source;
+        }
+
+        ProgramDefinition programDefinition = veilContext.definition();
         if (programDefinition == null) {
             return source;
         }
@@ -39,7 +43,7 @@ public class ShaderPredefinitionProcessor implements ShaderPreProcessor {
                 }
             }
 
-            context.addDefinitionDependency(name);
+            veilContext.addPreDefinitionDependency(name);
         }
 
         builder.append(source);

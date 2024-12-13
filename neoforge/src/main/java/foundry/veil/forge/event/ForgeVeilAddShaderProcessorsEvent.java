@@ -1,6 +1,5 @@
 package foundry.veil.forge.event;
 
-import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.api.event.VeilAddShaderPreProcessorsEvent;
 import net.neoforged.bus.api.Event;
@@ -12,19 +11,10 @@ import net.neoforged.bus.api.Event;
  */
 public class ForgeVeilAddShaderProcessorsEvent extends Event implements VeilAddShaderPreProcessorsEvent.Registry {
 
-    private final ShaderManager shaderManager;
     private final VeilAddShaderPreProcessorsEvent.Registry registry;
 
-    public ForgeVeilAddShaderProcessorsEvent(ShaderManager shaderManager, VeilAddShaderPreProcessorsEvent.Registry registry) {
-        this.shaderManager = shaderManager;
+    public ForgeVeilAddShaderProcessorsEvent(VeilAddShaderPreProcessorsEvent.Registry registry) {
         this.registry = registry;
-    }
-
-    /**
-     * @return The shader manager instance preparing processors
-     */
-    public ShaderManager getShaderManager() {
-        return this.shaderManager;
     }
 
     @Override

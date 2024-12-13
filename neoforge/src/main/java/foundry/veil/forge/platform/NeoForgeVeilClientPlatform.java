@@ -23,7 +23,7 @@ public class NeoForgeVeilClientPlatform implements VeilClientPlatform {
     }
 
     @Override
-    public void onRegisterShaderPreProcessors(ShaderManager shaderManager, Registry registry) {
-        NeoForge.EVENT_BUS.post(new ForgeVeilAddShaderProcessorsEvent(shaderManager, registry));
+    public void onRegisterShaderPreProcessors(Registry registry) {
+        NeoForge.EVENT_BUS.post(new ForgeVeilAddShaderProcessorsEvent(registry));
     }
 }

@@ -14,6 +14,8 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
@@ -38,10 +40,12 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
             Map.entry(VeilRenderLevelStageEvent.Stage.AFTER_LEVEL, RenderLevelStageEvent.Stage.AFTER_LEVEL)
     ));
 
-    private static IEventBus bus;
-
-    public static void init(IEventBus bus) {
-        NeoForgeVeilEventPlatform.bus = bus;
+    private IEventBus getModBus() {
+        ModContainer container = ModLoadingContext.get().getActiveContainer();
+        if (container.getEventBus() == null) {
+            throw new IllegalStateException("Veil platform events must be registered from mod constructor");
+        }
+        return container.getEventBus();
     }
 
     @Override
@@ -51,7 +55,7 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
 
     @Override
     public void onVeilAddShaderProcessors(VeilAddShaderPreProcessorsEvent event) {
-        NeoForge.EVENT_BUS.<ForgeVeilAddShaderProcessorsEvent>addListener(forgeEvent -> event.onRegisterShaderPreProcessors(forgeEvent.getShaderManager(), forgeEvent));
+        NeoForge.EVENT_BUS.<ForgeVeilAddShaderProcessorsEvent>addListener(event::onRegisterShaderPreProcessors);
     }
 
     @Override
@@ -66,12 +70,12 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
 
     @Override
     public void onVeilRegisterBlockLayers(VeilRegisterBlockLayersEvent event) {
-        bus.<ForgeVeilRegisterBlockLayersEvent>addListener(event::onRegisterBlockLayers);
+        this.getModBus().<ForgeVeilRegisterBlockLayersEvent>addListener(event::onRegisterBlockLayers);
     }
 
     @Override
     public void onVeilRegisterFixedBuffers(VeilRegisterFixedBuffersEvent event) {
-        bus.<ForgeVeilRegisterFixedBuffersEvent>addListener(forgeEvent -> event.onRegisterFixedBuffers((stage, renderType) -> {
+        this.getModBus().<ForgeVeilRegisterFixedBuffersEvent>addListener(forgeEvent -> event.onRegisterFixedBuffers((stage, renderType) -> {
             if (stage == null) {
                 forgeEvent.register(null, renderType);
                 return;
@@ -86,7 +90,7 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
 
     @Override
     public void onVeilRendererAvailable(VeilRendererAvailableEvent event) {
-        bus.<ForgeVeilRendererAvailableEvent>addListener(forgeEvent -> event.onVeilRendererAvailable(forgeEvent.getRenderer()));
+        this.getModBus().<ForgeVeilRendererAvailableEvent>addListener(forgeEvent -> event.onVeilRendererAvailable(forgeEvent.getRenderer()));
     }
 
     @Override

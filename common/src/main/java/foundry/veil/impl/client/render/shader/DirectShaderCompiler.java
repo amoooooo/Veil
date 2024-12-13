@@ -20,7 +20,7 @@ import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 /**
- * Creates a new shader and compiles each time {@link #compile(Context, int, ProgramDefinition.SourceType, VeilShaderSource)} is called.
+ * Creates a new shader and compiles each time {@link #compile(int, ProgramDefinition.SourceType, VeilShaderSource)} is called.
  * This should only be used for compiling single shaders.
  *
  * @author Ocelot
@@ -41,28 +41,25 @@ public class DirectShaderCompiler implements ShaderCompiler {
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException {
+    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException {
         if (this.provider == null) {
             throw new IOException("Failed to read " + ShaderManager.getTypeName(type) + " from " + path + " because no provider was specified");
         }
-        VeilShaderSource source = this.provider.getShader(path);
-        if (source == null) {
-            throw new IOException("Unknown shader: " + path);
-        }
-        return this.compile(context, type, sourceType, source);
+        return this.compile(type, sourceType, this.provider.getShader(path));
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException {
+    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException {
         this.validateType(type);
 
         String sourceCode = source.sourceCode();
         ResourceLocation sourceId = source.sourceId();
+        String fileName = sourceId != null ? sourceId.toString() : "VeilDynamic" + sourceCode.hashCode();
         int shader = glCreateShader(type);
         switch (sourceType) {
             case GLSL -> GlStateManager.glShaderSource(shader, List.of(sourceCode));
-            case GLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, sourceId.toString(), sourceCode, false);
-            case HLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, sourceId.toString(), sourceCode, true);
+            case GLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, fileName, sourceCode, false);
+            case HLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, fileName, sourceCode, true);
             case SPIRV -> throw new UnsupportedOperationException("TODO implement");
         }
 

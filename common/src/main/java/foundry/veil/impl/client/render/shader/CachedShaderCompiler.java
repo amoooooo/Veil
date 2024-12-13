@@ -30,23 +30,23 @@ public class CachedShaderCompiler extends DirectShaderCompiler {
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException {
+    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException {
         int hash = Objects.hash(type, path);
         if (this.shaders.containsKey(hash)) {
             return this.shaders.get(hash);
         }
-        CompiledShader shader = super.compile(context, type, sourceType, path);
+        CompiledShader shader = super.compile(type, sourceType, path);
         this.shaders.put(hash, shader);
         return shader;
     }
 
     @Override
-    public CompiledShader compile(ShaderCompiler.Context context, int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException {
+    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException {
         int hash = Objects.hash(type, source.sourceId());
         if (this.shaders.containsKey(hash)) {
             return this.shaders.get(hash);
         }
-        CompiledShader shader = super.compile(context, type, sourceType, source);
+        CompiledShader shader = super.compile(type, sourceType, source);
         this.shaders.put(hash, shader);
         return shader;
     }

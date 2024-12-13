@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -23,26 +24,24 @@ public interface ShaderCompiler extends NativeResource {
      * The sources are read from
      * The shader will automatically be deleted at some point in the future.
      *
-     * @param context The context for compiling the shader
      * @param type    The type of shader to create
      * @param path    The location of the shader to attach
      * @return A new shader that can be attached to programs
      * @throws IOException     If the file could not be found
      * @throws ShaderException If an error occurs while compiling the shader
      */
-    CompiledShader compile(Context context, int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException;
+    CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException;
 
     /**
      * Creates a new shader and attempts to attach the specified sources to it.
      * The shader will automatically be deleted at some point in the future.
      *
-     * @param context The context for compiling the shader
      * @param type    The type of shader to create
      * @param source  The source of the shader to attach
      * @return A new shader that can be attached to programs
      * @throws ShaderException If an error occurs while compiling the shader
      */
-    CompiledShader compile(Context context, int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException;
+    CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException;
 
     /**
      * Constructs a shader compiler that creates a new shader for each requested type.
@@ -65,18 +64,18 @@ public interface ShaderCompiler extends NativeResource {
     }
 
     /**
-     * Context for compiling shaders and programs.
-     *
-     * @param activeBuffers The currently active buffers
-     * @param sourceSet     The shader source set to compile for
-     * @param definition    The definition the shader is being compiled for
+     * Provides shader sources for the compiler.
      */
-    record Context(int activeBuffers, ShaderSourceSet sourceSet, ProgramDefinition definition) {
-    }
-
     @FunctionalInterface
     interface ShaderProvider {
 
-        @Nullable VeilShaderSource getShader(ResourceLocation name);
+        /**
+         * Reads a shader source by location.
+         *
+         * @param location The location of the shader to retrieve
+         * @return The shader source found
+         * @throws FileNotFoundException If the shader source does not exist
+         */
+        VeilShaderSource getShader(ResourceLocation location) throws FileNotFoundException;
     }
 }

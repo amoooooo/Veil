@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexFormatElement;
 import com.mojang.datafixers.util.Pair;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
+import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.impl.glsl.GlslInjectionPoint;
 import foundry.veil.impl.glsl.GlslParser;
@@ -50,11 +51,6 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
 
     @Override
     public String modify(Context ctx, String source) throws IOException {
-        VertexFormat vertexFormat = ctx.vertexFormat();
-        if (ctx.definition() == null && (vertexFormat == null || ctx.name() == null)) {
-            return source;
-        }
-
         try {
             GlslTree tree = GlslParser.preprocessParse(source, ctx.preDefinitions().getDefinitions());
             Map<String, GlslNode> markers = tree.getMarkers();
@@ -77,7 +73,8 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
 
             // must be a vanilla shader, so attempt to extract data from attributes
             boolean modified = false;
-            if (vertexFormat != null) {
+            if (ctx instanceof ShaderPreProcessor.MinecraftContext minecraftContext) {
+                VertexFormat vertexFormat = minecraftContext.vertexFormat();
                 if (vertexShader && injectLightmap) {
                     Optional<GlslNode> sampleLightmapOptional = mainFunction.stream().filter(node -> {
                         if (!(node instanceof GlslInvokeFunctionNode invokeFunctionNode) || invokeFunctionNode.getParameters().size() != 2) {
@@ -120,7 +117,8 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                     String sourceName = type.getSourceName();
                     String output = "layout(location = " + (1 + i) + ") out " + type.getType().getSourceString() + " " + sourceName;
 
-                    if ("rendertype_lines".equals(ctx.shaderInstance()) && type != DynamicBufferType.ALBEDO) {
+                    String shaderName = minecraftContext.shaderInstance();
+                    if ("rendertype_lines".equals(shaderName) && type != DynamicBufferType.ALBEDO) {
                         continue;
                     }
 
@@ -140,9 +138,9 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                                         mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode("Pass" + type.getSourceName()), GlslParser.parseExpression("vec2(" + lightmapUV.getSourceString() + " / 256.0)"), GlslAssignmentNode.Operand.EQUAL));
                                     }
                                     modified = true;
-                                    this.validBuffers.computeInt(ctx.shaderInstance(), (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
+                                    this.validBuffers.computeInt(shaderName, (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
                                 }
-                            } else if ((this.validBuffers.getInt(ctx.shaderInstance()) & type.getMask()) != 0) {
+                            } else if ((this.validBuffers.getInt(shaderName) & type.getMask()) != 0) {
                                 tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("in vec2 Pass" + type.getSourceName()));
                                 tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression(output));
                                 mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode(type.getSourceName()), GlslParser.parseExpression("vec4(Pass" + type.getSourceName() + ", 0.0, 1.0)"), GlslAssignmentNode.Operand.EQUAL));
@@ -162,9 +160,9 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                                         mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode("Pass" + type.getSourceName()), GlslParser.parseExpression("texelFetch(" + sampler.getSourceString() + ", " + lightmapUV.getSourceString() + " / 16, 0).rgb"), GlslAssignmentNode.Operand.EQUAL));
                                     }
                                     modified = true;
-                                    this.validBuffers.computeInt(ctx.shaderInstance(), (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
+                                    this.validBuffers.computeInt(shaderName, (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
                                 }
-                            } else if ((this.validBuffers.getInt(ctx.shaderInstance()) & type.getMask()) != 0) {
+                            } else if ((this.validBuffers.getInt(shaderName) & type.getMask()) != 0) {
                                 tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("in vec3 Pass" + type.getSourceName()));
                                 tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression(output));
                                 mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode(type.getSourceName()), GlslParser.parseExpression("vec4(Pass" + type.getSourceName() + ", 1.0)"), GlslAssignmentNode.Operand.EQUAL));
@@ -176,7 +174,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                     // Inject Normal passthrough into vertex and fragment shaders
                     if (type == DynamicBufferType.NORMAL && !markers.containsKey("veil:" + DynamicBufferType.NORMAL.getName())) {
                         // Inject a normal output into the particle, lead, and text fragment shaders
-                        if (fragmentShader && ("particle".equals(ctx.shaderInstance()) || "rendertype_leash".equals(ctx.shaderInstance()) || "rendertype_text".equals(ctx.shaderInstance()))) {
+                        if (fragmentShader && ("particle".equals(shaderName) || "rendertype_leash".equals(shaderName) || "rendertype_text".equals(shaderName))) {
                             tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression(output));
                             mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode(type.getSourceName()), GlslParser.parseExpression("vec4(0.0, 0.0, 1.0, 1.0)"), GlslAssignmentNode.Operand.EQUAL));
                             modified = true;
@@ -190,10 +188,10 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                                     tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("out vec3 Pass" + type.getSourceName()));
                                     mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode("Pass" + type.getSourceName()), GlslParser.parseExpression("NormalMat * " + fieldOptional.get().getName()), GlslAssignmentNode.Operand.EQUAL));
                                     modified = true;
-                                    this.validBuffers.computeInt(ctx.shaderInstance(), (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
+                                    this.validBuffers.computeInt(shaderName, (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
                                 }
                             } else if (fragmentShader) {
-                                if ((this.validBuffers.getInt(ctx.shaderInstance()) & type.getMask()) != 0) {
+                                if ((this.validBuffers.getInt(shaderName) & type.getMask()) != 0) {
                                     tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("in vec3 Pass" + type.getSourceName()));
                                     tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression(output));
                                     mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode(type.getSourceName()), GlslParser.parseExpression("vec4(Pass" + type.getSourceName() + ", 1.0)"), GlslAssignmentNode.Operand.EQUAL));
@@ -206,7 +204,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                     // Inject Color passthrough if necessary
                     if (type == DynamicBufferType.ALBEDO && !markers.containsKey("veil:" + DynamicBufferType.ALBEDO.getName())) {
                         if (vertexShader) {
-                            if (BLOCK_SHADERS.contains(ctx.shaderInstance())) {
+                            if (BLOCK_SHADERS.contains(shaderName)) {
                                 // TODO remove face shading
                             }
 
@@ -221,17 +219,17 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                                 tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("out vec4 Pass" + type.getSourceName()));
                                 mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode("Pass" + type.getSourceName()), color, GlslAssignmentNode.Operand.EQUAL));
                                 modified = true;
-                                this.validBuffers.computeInt(ctx.shaderInstance(), (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
+                                this.validBuffers.computeInt(shaderName, (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
                             } else if (vertexFormat.contains(VertexFormatElement.COLOR)) {
                                 Optional<GlslNewNode> fieldOptional = tree.field(vertexFormat.getElementName(VertexFormatElement.COLOR));
                                 if (fieldOptional.isPresent()) {
                                     tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("out vec4 Pass" + type.getSourceName()));
                                     mainFunctionBody.add(new GlslAssignmentNode(new GlslVariableNode("Pass" + type.getSourceName()), new GlslVariableNode(fieldOptional.get().getName()), GlslAssignmentNode.Operand.EQUAL));
                                     modified = true;
-                                    this.validBuffers.computeInt(ctx.shaderInstance(), (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
+                                    this.validBuffers.computeInt(shaderName, (unused, mask) -> (mask != null ? mask : 0) | type.getMask());
                                 }
                             }
-                        } else if ((this.validBuffers.getInt(ctx.shaderInstance()) & type.getMask()) != 0) {
+                        } else if ((this.validBuffers.getInt(shaderName) & type.getMask()) != 0) {
                             tree.add(GlslInjectionPoint.BEFORE_MAIN, GlslParser.parseExpression("in vec4 Pass" + type.getSourceName()));
                             tree.getBody().addFirst(GlslParser.parseExpression(output));
 

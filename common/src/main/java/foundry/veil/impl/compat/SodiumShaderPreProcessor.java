@@ -9,8 +9,8 @@ import foundry.veil.impl.glsl.GlslParser;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.impl.glsl.visitor.GlslStringWriter;
+import org.jetbrains.annotations.ApiStatus;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -18,10 +18,11 @@ import java.util.Objects;
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 
-public class SodiumShaderProcessor implements ShaderPreProcessor {
+@ApiStatus.Internal
+public class SodiumShaderPreProcessor implements ShaderPreProcessor {
 
     @Override
-    public String modify(Context ctx, String source) throws IOException {
+    public String modify(Context ctx, String source) {
         int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
         if (activeBuffers == 0) {
             return source;

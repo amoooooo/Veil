@@ -11,7 +11,6 @@ import org.jetbrains.annotations.ApiStatus;
 public class VeilForge {
 
     public VeilForge(IEventBus bus) {
-        NeoForgeVeilEventPlatform.init(bus);
         Veil.init();
     }
 }

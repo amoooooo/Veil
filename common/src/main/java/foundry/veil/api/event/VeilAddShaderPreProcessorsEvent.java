@@ -1,6 +1,5 @@
 package foundry.veil.api.event;
 
-import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 
 /**
@@ -15,10 +14,9 @@ public interface VeilAddShaderPreProcessorsEvent {
     /**
      * Called when the shader manager is about to compile shaders.
      *
-     * @param shaderManager The shader manager instance preparing processors
-     * @param registry      The register to add shader pre-processors to
+     * @param registry The register to add shader pre-processors to
      */
-    void onRegisterShaderPreProcessors(ShaderManager shaderManager, Registry registry);
+    void onRegisterShaderPreProcessors(Registry registry);
 
     /**
      * Registers shader pre-processors.

@@ -36,6 +36,10 @@ public class ShaderBindingProcessor extends ShaderLineProcessor {
 
     @Override
     public void modify(@NotNull Context context, @NotNull String original, @NotNull List<String> line) throws IOException {
+        if (!(context instanceof VeilContext veilContext)) {
+            return;
+        }
+
         Matcher matcher = LAYOUT_PATTERN.matcher(original);
         if (!matcher.find()) {
             return;
@@ -67,7 +71,7 @@ public class ShaderBindingProcessor extends ShaderLineProcessor {
                 line.add(original);
                 return;
             }
-            context.addUniformBinding(name != null && !name.isEmpty() ? name : type, Integer.parseInt(binding));
+            veilContext.addUniformBinding(name != null && !name.isEmpty() ? name : type, Integer.parseInt(binding));
         } catch (Exception e) {
             throw new IOException(e);
         }

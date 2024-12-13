@@ -4,7 +4,8 @@ import com.mojang.blaze3d.shaders.EffectProgram;
 import com.mojang.blaze3d.shaders.Program;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
+import foundry.veil.impl.client.render.shader.SodiumShaderProcessor;
+import foundry.veil.impl.client.render.shader.VanillaShaderProcessor;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +23,7 @@ public class EffectInstanceMixin {
         if (Veil.platform().hasErrors()) {
             return;
         }
-        SimpleShaderProcessor.setup(pResourceProvider, VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers(), Collections.emptySet());
+        VanillaShaderProcessor.setup(pResourceProvider, VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers());
     }
 
     @Inject(method = "getOrCreate", at = @At("RETURN"))
@@ -30,6 +31,6 @@ public class EffectInstanceMixin {
         if (Veil.platform().hasErrors()) {
             return;
         }
-        SimpleShaderProcessor.free();
+        VanillaShaderProcessor.free();
     }
 }

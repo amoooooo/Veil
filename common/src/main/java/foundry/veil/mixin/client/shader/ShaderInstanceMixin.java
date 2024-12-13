@@ -5,7 +5,8 @@ import com.mojang.blaze3d.shaders.Uniform;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
-import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
+import foundry.veil.impl.client.render.shader.SodiumShaderProcessor;
+import foundry.veil.impl.client.render.shader.VanillaShaderProcessor;
 import foundry.veil.impl.client.render.wrapper.VanillaUniformWrapper;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -50,7 +51,7 @@ public class ShaderInstanceMixin {
         if (Veil.platform().hasErrors()) {
             return;
         }
-        SimpleShaderProcessor.setup(provider, VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers(), Collections.emptySet());
+        VanillaShaderProcessor.setup(provider, VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers());
     }
 
     @Inject(method = "getOrCreate", at = @At("RETURN"))
@@ -58,7 +59,7 @@ public class ShaderInstanceMixin {
         if (Veil.platform().hasErrors()) {
             return;
         }
-        SimpleShaderProcessor.free();
+        VanillaShaderProcessor.free();
     }
 
     // Allows users to request uniforms that aren't "registered"

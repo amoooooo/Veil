@@ -8,8 +8,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.ext.ChunkShaderOptionsExtension;
 import foundry.veil.fabric.ext.ShaderChunkRendererExtension;
 import foundry.veil.impl.ThreadTaskScheduler;
-import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
-import foundry.veil.impl.compat.SodiumShaderProcessor;
+import foundry.veil.impl.client.render.shader.SodiumShaderProcessor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.caffeinemc.mods.sodium.client.gl.shader.*;
 import net.caffeinemc.mods.sodium.client.render.chunk.ShaderChunkRenderer;
@@ -26,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -45,7 +43,8 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
     @Shadow
     protected abstract GlProgram<ChunkShaderInterface> createShader(String path, ChunkShaderOptions options);
 
-    @Shadow protected GlProgram<ChunkShaderInterface> activeProgram;
+    @Shadow
+    protected GlProgram<ChunkShaderInterface> activeProgram;
     @Unique
     private ThreadTaskScheduler scheduler;
     @Unique
@@ -106,9 +105,9 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
                     String src = ShaderParser.parseShader(entry.getValue(), option.constants());
                     boolean vertex = shader.getPath().endsWith(".vsh");
                     try {
-                        SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), this.veil$activeBuffers, Collections.singleton(new SodiumShaderProcessor()));
-                        src = SimpleShaderProcessor.modify(null, ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), "shaders/" + shader.getPath()), null, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
-                        SimpleShaderProcessor.free();
+                        SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), this.veil$activeBuffers);
+                        src = SodiumShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), "shaders/" + shader.getPath()), vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
+                        SodiumShaderProcessor.free();
                     } catch (Exception e) {
                         Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", shader, e);
                     }
@@ -170,9 +169,9 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
                     String src = ShaderParser.parseShader(entry.getValue(), option.constants());
                     boolean vertex = shader.getPath().endsWith(".vsh");
                     try {
-                        SimpleShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), activeBuffers, Collections.singleton(new SodiumShaderProcessor()));
-                        src = SimpleShaderProcessor.modify(null, ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), "shaders/" + shader.getPath()), null, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
-                        SimpleShaderProcessor.free();
+                        SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), activeBuffers);
+                        src = SodiumShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), "shaders/" + shader.getPath()), vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
+                        SodiumShaderProcessor.free();
                     } catch (Exception e) {
                         Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", shader, e);
                     }

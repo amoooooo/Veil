@@ -8,7 +8,7 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.ThreadTaskScheduler;
-import foundry.veil.impl.client.render.shader.SimpleShaderProcessor;
+import foundry.veil.impl.client.render.shader.VanillaShaderProcessor;
 import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -19,7 +19,10 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,7 +44,7 @@ public class VanillaShaderCompiler {
         VertexFormat vertexFormat = shader.getVertexFormat();
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
-        SimpleShaderProcessor.setup(resourceManager, activeBuffers, Collections.emptySet());
+        VanillaShaderProcessor.setup(resourceManager, activeBuffers);
         for (ResourceLocation path : shaderSources) {
             try (Reader reader = resourceManager.openAsReader(path)) {
                 String source = IOUtils.toString(reader);
@@ -73,13 +76,13 @@ public class VanillaShaderCompiler {
                 source = String.join("", preprocessor.process(source));
 
                 boolean vertex = path.getPath().endsWith(".vsh");
-                String processed = SimpleShaderProcessor.modify(shader.getName(), path, vertexFormat, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
+                String processed = VanillaShaderProcessor.modify(shader.getName(), path, vertexFormat, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
                 RenderSystem.recordRenderCall(() -> extension.veil$recompile(vertex, processed, activeBuffers));
             } catch (Throwable t) {
                 Veil.LOGGER.error("Couldn't load vanilla shader from {}", path, t);
             }
         }
-        SimpleShaderProcessor.free();
+        VanillaShaderProcessor.free();
     }
 
     /**

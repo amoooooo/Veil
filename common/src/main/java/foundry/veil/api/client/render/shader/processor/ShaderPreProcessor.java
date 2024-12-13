@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.shader.processor;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import net.minecraft.resources.ResourceLocation;
@@ -62,7 +63,7 @@ public interface ShaderPreProcessor {
     /**
      * Context for modifying source code and shader behavior.
      */
-    interface Context {
+    sealed interface Context permits MinecraftContext, VeilContext, SodiumContext {
 
         /**
          * Runs the specified source through the entire processing list.
@@ -73,6 +74,56 @@ public interface ShaderPreProcessor {
          * @throws IOException If any error occurs while editing the source
          */
         String modify(@Nullable ResourceLocation name, String source) throws IOException;
+
+        /**
+         * @return The id of the shader being compiled or <code>null</code> if the shader is compiled from a raw string
+         */
+        @Nullable
+        ResourceLocation name();
+
+        /**
+         * @return Whether the processor is being run for a source file and not a #include file
+         */
+        boolean isSourceFile();
+
+        /**
+         * @return The OpenGL type of the compiling shader
+         */
+        int type();
+
+        /**
+         * @return A view of all includes in this shader
+         */
+        Set<ResourceLocation> includes();
+
+        /**
+         * @return The set of pre-definitions for shaders
+         */
+        default ShaderPreDefinitions preDefinitions() {
+            return VeilRenderSystem.renderer().getShaderDefinitions();
+        }
+    }
+
+    /**
+     * Context for modifying source code and shader behavior.
+     */
+    non-sealed interface MinecraftContext extends Context {
+
+        /**
+         * @return The name of the shader instance this was compiled with
+         */
+        String shaderInstance();
+
+        /**
+         * @return The vertex format specified in the shader
+         */
+        VertexFormat vertexFormat();
+    }
+
+    /**
+     * Context for modifying source code and shader behavior.
+     */
+    non-sealed interface VeilContext extends Context {
 
         /**
          * Sets the uniform binding for a shader.
@@ -88,7 +139,7 @@ public interface ShaderPreProcessor {
          *
          * @param name The name of the definition to depend on
          */
-        void addDefinitionDependency(String name);
+        void addPreDefinitionDependency(String name);
 
         /**
          * @param name The name of the definition to depend on
@@ -96,47 +147,15 @@ public interface ShaderPreProcessor {
         void addInclude(ResourceLocation name);
 
         /**
-         * @return A view of all includes in this shader
-         */
-        Set<ResourceLocation> includes();
-
-        /**
-         * @return The id of the shader being compiled or <code>null</code> if the shader is compiled from a raw string
-         */
-        @Nullable
-        ResourceLocation name();
-
-        /**
-         * @return Whether the processor is being run for a source file and not a #include file
-         */
-        boolean isSourceFile();
-
-        /**
          * @return The definition of the program this is being compiled for or <code>null</code> if the shader is standalone
          */
         @Nullable
         ProgramDefinition definition();
+    }
 
-        /**
-         * @return The name of the shader instance this was compiled with or <code>null</code> if not a vanilla shader
-         */
-        @Nullable
-        String shaderInstance();
-
-        /**
-         * @return The set of pre-definitions for shaders
-         */
-        ShaderPreDefinitions preDefinitions();
-
-        /**
-         * @return The vertex format specified in the shader or <code>null</code> if a vanilla shader
-         */
-        @Nullable
-        VertexFormat vertexFormat();
-
-        /**
-         * @return The OpenGL type of the compiling shader
-         */
-        int type();
+    /**
+     * Context for modifying source code and sodium shader behavior.
+     */
+    non-sealed interface SodiumContext extends Context {
     }
 }

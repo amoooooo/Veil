@@ -22,7 +22,7 @@ public class FabricVeilClientPlatform implements VeilClientPlatform {
     }
 
     @Override
-    public void onRegisterShaderPreProcessors(ShaderManager shaderManager, Registry registry) {
-        FabricVeilAddShaderPreProcessorsEvent.EVENT.invoker().onRegisterShaderPreProcessors(shaderManager, registry);
+    public void onRegisterShaderPreProcessors(Registry registry) {
+        FabricVeilAddShaderPreProcessorsEvent.EVENT.invoker().onRegisterShaderPreProcessors(registry);
     }
 }
