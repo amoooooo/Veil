@@ -163,7 +163,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Sends packets to all players in the area covered by the specified radius, around the specified coordinates, in the specified dimension, excluding the specified excluded player if present.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="VeilPacketManager.html" title="interface in foundry.veil.api.network">VeilPacketManager</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.lang.String)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;version)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#create(java.lang.String,java.lang.String)" class="member-name-link">create</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modId,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;version)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Creates a <a href="VeilPacketManager.html" title="interface in foundry.veil.api.network"><code>VeilPacketManager</code></a>.</div>
 </div>
@@ -256,12 +257,14 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="create(java.lang.String)">
+<section class="detail" id="create(java.lang.String,java.lang.String)">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="VeilPacketManager.html" title="interface in foundry.veil.api.network">VeilPacketManager</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;version)</span></div>
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="VeilPacketManager.html" title="interface in foundry.veil.api.network">VeilPacketManager</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modId,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;version)</span></div>
 <div class="block">Creates a <a href="VeilPacketManager.html" title="interface in foundry.veil.api.network"><code>VeilPacketManager</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
+<dd><code>modId</code> - The id of the mod creating the channel</dd>
 <dd><code>version</code> - The NeoForge channel version</dd>
 <dt>Returns:</dt>
 <dd>The packet manager</dd>
