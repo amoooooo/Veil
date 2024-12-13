@@ -102,7 +102,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">DirectShaderCompiler</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></span></div>
-<div class="block">Creates a new shader and compiles each time <a href="#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)"><code>compile(Context, int, ProgramDefinition.SourceType, VeilShaderSource)</code></a> is called.
+<div class="block">Creates a new shader and compiles each time <a href="#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)"><code>compile(int, ProgramDefinition.SourceType, VeilShaderSource)</code></a> is called.
  This should only be used for compiling single shaders.</div>
 </section>
 <section class="summary">
@@ -113,7 +113,7 @@ implements <a href="../../../../api/client/render/shader/ShaderCompiler.html" ti
 <h2>Nested Class Summary</h2>
 <div class="inherited-list">
 <h2 id="nested-classes-inherited-from-class-foundry.veil.api.client.render.shader.ShaderCompiler">Nested classes/interfaces inherited from interface&nbsp;foundry.veil.api.client.render.shader.<a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></h2>
-<code><a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>, <a href="../../../../api/client/render/shader/ShaderCompiler.ShaderProvider.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler.ShaderProvider</a></code></div>
+<code><a href="../../../../api/client/render/shader/ShaderCompiler.ShaderProvider.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler.ShaderProvider</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -141,16 +141,14 @@ implements <a href="../../../../api/client/render/shader/ShaderCompiler.html" ti
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile</a><wbr>(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
  <a href="../../../../api/client/render/shader/program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  <a href="../../../../api/client/render/shader/VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a>&nbsp;source)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a new shader and attempts to attach the specified sources to it.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile</a><wbr>(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
  <a href="../../../../api/client/render/shader/program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  net.minecraft.resources.ResourceLocation&nbsp;path)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -195,23 +193,21 @@ implements <a href="../../../../api/client/render/shader/ShaderCompiler.html" ti
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">
+<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">
 <h3>compile</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(int&nbsp;type,
  <a href="../../../../api/client/render/shader/program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  net.minecraft.resources.ResourceLocation&nbsp;path)</span>
                        throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
 <a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">ShaderCompiler</a></code></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">ShaderCompiler</a></code></span></div>
 <div class="block">Creates a new shader and attempts to attach sources read from file to it.
  The sources are read from
  The shader will automatically be deleted at some point in the future.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">compile</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></code></dd>
+<dd><code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">compile</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>context</code> - The context for compiling the shader</dd>
 <dd><code>type</code> - The type of shader to create</dd>
 <dd><code>path</code> - The location of the shader to attach</dd>
 <dt>Returns:</dt>
@@ -223,21 +219,19 @@ implements <a href="../../../../api/client/render/shader/ShaderCompiler.html" ti
 </section>
 </li>
 <li>
-<section class="detail" id="compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">
+<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">
 <h3>compile</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(int&nbsp;type,
  <a href="../../../../api/client/render/shader/program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  <a href="../../../../api/client/render/shader/VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a>&nbsp;source)</span>
                        throws <span class="exceptions"><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">ShaderCompiler</a></code></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">ShaderCompiler</a></code></span></div>
 <div class="block">Creates a new shader and attempts to attach the specified sources to it.
  The shader will automatically be deleted at some point in the future.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">compile</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></code></dd>
+<dd><code><a href="../../../../api/client/render/shader/ShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">compile</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>context</code> - The context for compiling the shader</dd>
 <dd><code>type</code> - The type of shader to create</dd>
 <dd><code>source</code> - The source of the shader to attach</dd>
 <dt>Returns:</dt>

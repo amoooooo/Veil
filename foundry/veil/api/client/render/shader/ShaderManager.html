@@ -127,15 +127,12 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener, <a hre
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a></code></div>
-<div class="col-second even-row-color"><code><a href="#DEFERRED_SET" class="member-name-link">DEFERRED_SET</a></code></div>
+<div class="col-first even-row-color"><code>static final net.minecraft.resources.FileToIdConverter</code></div>
+<div class="col-second even-row-color"><code><a href="#INCLUDE_LISTER" class="member-name-link">INCLUDE_LISTER</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final net.minecraft.resources.FileToIdConverter</code></div>
-<div class="col-second odd-row-color"><code><a href="#INCLUDE_LISTER" class="member-name-link">INCLUDE_LISTER</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#PROGRAM_SET" class="member-name-link">PROGRAM_SET</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a></code></div>
-<div class="col-second even-row-color"><code><a href="#PROGRAM_SET" class="member-name-link">PROGRAM_SET</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -170,14 +167,17 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener, <a hre
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#close()" class="member-name-link">close</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getName()" class="member-name-link">getName</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRecompileFuture()" class="member-name-link">getRecompileFuture</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createDynamicProgram(net.minecraft.resources.ResourceLocation,it.unimi.dsi.fastutil.ints.Int2ObjectMap)" class="member-name-link">createDynamicProgram</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;id,
+ it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;shaderSources)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a new dynamic shader with the specified shader sources.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getName()" class="member-name-link">getName</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getReloadFuture()" class="member-name-link">getReloadFuture</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRecompileFuture()" class="member-name-link">getRecompileFuture</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShader(net.minecraft.resources.ResourceLocation)" class="member-name-link">getShader</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;id)</code></div>
@@ -196,24 +196,27 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener, <a hre
 <div class="block">Retrieves a readable name for a shader type.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reload(net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier,net.minecraft.server.packs.resources.ResourceManager,net.minecraft.util.profiling.ProfilerFiller,net.minecraft.util.profiling.ProfilerFiller,java.util.concurrent.Executor,java.util.concurrent.Executor)" class="member-name-link">reload</a><wbr>(net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier&nbsp;preparationBarrier,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUpdateBuffersFuture()" class="member-name-link">getUpdateBuffersFuture</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reload(net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier,net.minecraft.server.packs.resources.ResourceManager,net.minecraft.util.profiling.ProfilerFiller,net.minecraft.util.profiling.ProfilerFiller,java.util.concurrent.Executor,java.util.concurrent.Executor)" class="member-name-link">reload</a><wbr>(net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier&nbsp;preparationBarrier,
  net.minecraft.server.packs.resources.ResourceManager&nbsp;resourceManager,
  net.minecraft.util.profiling.ProfilerFiller&nbsp;preparationsProfiler,
  net.minecraft.util.profiling.ProfilerFiller&nbsp;reloadProfiler,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;backgroundExecutor,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;gameExecutor)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scheduleRecompile(net.minecraft.resources.ResourceLocation)" class="member-name-link">scheduleRecompile</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shader)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#scheduleRecompile(net.minecraft.resources.ResourceLocation)" class="member-name-link">scheduleRecompile</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shader)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Schedules a shader recompilation on the next loop iteration.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActiveBuffers(int)" class="member-name-link">setActiveBuffers</a><wbr>(int&nbsp;activeBuffers)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGlobal(java.util.function.Consumer)" class="member-name-link">setGlobal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&gt;&nbsp;setter)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActiveBuffers(int)" class="member-name-link">setActiveBuffers</a><wbr>(int&nbsp;activeBuffers)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGlobal(java.util.function.Consumer)" class="member-name-link">setGlobal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Consumer.html" title="class or interface in java.util.function" class="external-link">Consumer</a>&lt;<a href="program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&gt;&nbsp;setter)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a global shader value.</div>
 </div>
 </div>
@@ -243,12 +246,6 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener, <a hre
 <section class="detail" id="PROGRAM_SET">
 <h3>PROGRAM_SET</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a></span>&nbsp;<span class="element-name">PROGRAM_SET</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="DEFERRED_SET">
-<h3>DEFERRED_SET</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a></span>&nbsp;<span class="element-name">DEFERRED_SET</span></div>
 </section>
 </li>
 </ul>
@@ -282,6 +279,20 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener, <a hre
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="createDynamicProgram(net.minecraft.resources.ResourceLocation,it.unimi.dsi.fastutil.ints.Int2ObjectMap)">
+<h3>createDynamicProgram</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&gt;</span>&nbsp;<span class="element-name">createDynamicProgram</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;id,
+ it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;shaderSources)</span></div>
+<div class="block">Creates a new dynamic shader with the specified shader sources.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>id</code> - </dd>
+<dd><code>shaderSources</code> - </dd>
+<dt>Returns:</dt>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="setGlobal(java.util.function.Consumer)">
 <h3>setGlobal</h3>
@@ -371,22 +382,22 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener, <a hre
 </section>
 </li>
 <li>
-<section class="detail" id="getReloadFuture()">
-<h3>getReloadFuture</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">getReloadFuture</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The current future for full shader reload status</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getRecompileFuture()">
 <h3>getRecompileFuture</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">getRecompileFuture</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The current future for dirty shader recompilation status</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getUpdateBuffersFuture()">
+<h3>getUpdateBuffersFuture</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class or interface in java.util.concurrent" class="external-link">CompletableFuture</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;</span>&nbsp;<span class="element-name">getUpdateBuffersFuture</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The current future for updating dynamic buffers</dd>
 </dl>
 </section>
 </li>

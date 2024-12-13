@@ -63,10 +63,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Acquires the data referenced by this object from OpenGL to allow OpenCL to safely modify it.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#activeBuffers()" class="member-name-link">activeBuffers()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#param-activeBuffers"><code>activeBuffers</code></a> record component.</div>
-</dd>
 <dt><a href="foundry/veil/api/client/color/Color.html#add(int)" class="member-name-link">add(int)</a> - Method in class foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/Color.html" title="class in foundry.veil.api.client.color">Color</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/PostProcessingManager.html#add(int,net.minecraft.resources.ResourceLocation)" class="member-name-link">add(int, ResourceLocation)</a> - Method in class foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostProcessingManager.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager</a></dt>
@@ -165,10 +161,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderer.html#addDebugInfo(java.util.function.Consumer)" class="member-name-link">addDebugInfo(Consumer&lt;String&gt;)</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html#addDefinitionDependency(java.lang.String)" class="member-name-link">addDefinitionDependency(String)</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></dt>
-<dd>
-<div class="block">Marks this shader as dependent on the specified pre-definition.</div>
-</dd>
 <dt><a href="foundry/veil/api/client/necromancer/render/mesh/CubeMesh.html#addFace(float,float,float,foundry.veil.api.client.necromancer.render.mesh.CubeMesh.FaceVertex...)" class="member-name-link">addFace(float, float, float, CubeMesh.FaceVertex...)</a> - Method in class foundry.veil.api.client.necromancer.render.mesh.<a href="foundry/veil/api/client/necromancer/render/mesh/CubeMesh.html" title="class in foundry.veil.api.client.necromancer.render.mesh">CubeMesh</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Preprocessor.html#addFeature(foundry.veil.lib.anarres.cpp.Feature)" class="member-name-link">addFeature(Feature)</a> - Method in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Preprocessor.html" title="class in foundry.veil.lib.anarres.cpp">Preprocessor</a></dt>
@@ -199,7 +191,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html#addImguiShaders(java.util.function.ObjIntConsumer)" class="member-name-link">addImguiShaders(ObjIntConsumer&lt;ResourceLocation&gt;)</a> - Method in class foundry.veil.impl.client.imgui.<a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html" title="class in foundry.veil.impl.client.imgui">VeilImGuiImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html#addInclude(net.minecraft.resources.ResourceLocation)" class="member-name-link">addInclude(ResourceLocation)</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></dt>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html#addInclude(net.minecraft.resources.ResourceLocation)" class="member-name-link">addInclude(ResourceLocation)</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.VeilContext</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Preprocessor.html#addInput(foundry.veil.lib.anarres.cpp.Source)" class="member-name-link">addInput(Source)</a> - Method in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Preprocessor.html" title="class in foundry.veil.lib.anarres.cpp">Preprocessor</a></dt>
 <dd>
@@ -303,10 +295,16 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/quasar/fx/Line.html#addPoint(net.minecraft.world.phys.Vec3)" class="member-name-link">addPoint(Vec3)</a> - Method in class foundry.veil.api.quasar.fx.<a href="foundry/veil/api/quasar/fx/Line.html" title="class in foundry.veil.api.quasar.fx">Line</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html#addPreDefinitionDependency(java.lang.String)" class="member-name-link">addPreDefinitionDependency(String)</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.VeilContext</a></dt>
+<dd>
+<div class="block">Marks this shader as dependent on the specified pre-definition.</div>
+</dd>
 <dt><a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.Registry.html#addPreprocessor(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor)" class="member-name-link">addPreprocessor(ShaderPreProcessor)</a> - Method in interface foundry.veil.api.event.<a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.Registry.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent.Registry</a></dt>
 <dd>
 <div class="block">Adds the specified pre-processor to the end of the stack.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html#addPreprocessor(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor,boolean)" class="member-name-link">addPreprocessor(ShaderPreProcessor, boolean)</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html" title="class in foundry.veil.api.client.render.shader">ShaderProcessorList</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.Registry.html#addPreprocessor(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor,boolean)" class="member-name-link">addPreprocessor(ShaderPreProcessor, boolean)</a> - Method in interface foundry.veil.api.event.<a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.Registry.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent.Registry</a></dt>
 <dd>
 <div class="block">Adds the specified pre-processor to the end of the stack.</div>
@@ -417,7 +415,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/render/mesh/CubeMesh.html#addTri(float,float,float,float,float,float,float,float,float,float,float,float,float,float,float,float,float,float)" class="member-name-link">addTri(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float)</a> - Method in class foundry.veil.api.client.necromancer.render.mesh.<a href="foundry/veil/api/client/necromancer/render/mesh/CubeMesh.html" title="class in foundry.veil.api.client.necromancer.render.mesh">CubeMesh</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html#addUniformBinding(java.lang.String,int)" class="member-name-link">addUniformBinding(String, int)</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></dt>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html#addUniformBinding(java.lang.String,int)" class="member-name-link">addUniformBinding(String, int)</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.VeilContext</a></dt>
 <dd>
 <div class="block">Sets the uniform binding for a shader.</div>
 </dd>
@@ -782,6 +780,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/client/render/framebuffer/AdvancedFboRenderAttachment.html#attach(int)" class="member-name-link">attach(int)</a> - Method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFboRenderAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboRenderAttachment</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/AdvancedFboTextureAttachment.html#attach(int)" class="member-name-link">attach(int)</a> - Method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFboTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboTextureAttachment</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#attachedShaders" class="member-name-link">attachedShaders</a> - Variable in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#attachShader(int,foundry.veil.api.client.render.shader.CompiledShader,int)" class="member-name-link">attachShader(int, CompiledShader, int)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.Wrapper.html#attachToProgram()" class="member-name-link">attachToProgram()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl.Wrapper</a></dt>
 <dd>&nbsp;</dd>
@@ -1381,6 +1383,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#clearSamplers()" class="member-name-link">clearSamplers()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#clearShader()" class="member-name-link">clearShader()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/CLEnvironment.html" class="type-name-link" title="class in foundry.veil.api.opencl">CLEnvironment</a> - Class in <a href="foundry/veil/api/opencl/package-summary.html">foundry.veil.api.opencl</a></dt>
 <dd>
 <div class="block">An OpenCL runtime environment on a specific device.</div>
@@ -1810,27 +1814,23 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/VeilShaderUploader.html#compile(int,int,java.lang.String,java.lang.String,boolean)" class="member-name-link">compile(int, int, String, String, boolean)</a> - Method in enum class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderUploader.html" title="enum class in foundry.veil.impl.client.render.pipeline">VeilShaderUploader</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile(ShaderCompiler.Context, int, ProgramDefinition.SourceType, VeilShaderSource)</a> - Method in interface foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></dt>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile(int, ProgramDefinition.SourceType, VeilShaderSource)</a> - Method in interface foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></dt>
 <dd>
 <div class="block">Creates a new shader and attempts to attach the specified sources to it.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile(ShaderCompiler.Context, int, ProgramDefinition.SourceType, VeilShaderSource)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">CachedShaderCompiler</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile(int, ProgramDefinition.SourceType, VeilShaderSource)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">CachedShaderCompiler</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile(ShaderCompiler.Context, int, ProgramDefinition.SourceType, VeilShaderSource)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">DirectShaderCompiler</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile(int, ProgramDefinition.SourceType, VeilShaderSource)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">DirectShaderCompiler</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile(ShaderCompiler.Context, int, ProgramDefinition.SourceType, ResourceLocation)</a> - Method in interface foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></dt>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile(int, ProgramDefinition.SourceType, ResourceLocation)</a> - Method in interface foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a></dt>
 <dd>
 <div class="block">Creates a new shader and attempts to attach sources read from file to it.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile(ShaderCompiler.Context, int, ProgramDefinition.SourceType, ResourceLocation)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">CachedShaderCompiler</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile(int, ProgramDefinition.SourceType, ResourceLocation)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/CachedShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">CachedShaderCompiler</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile(ShaderCompiler.Context, int, ProgramDefinition.SourceType, ResourceLocation)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">DirectShaderCompiler</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile(int, ProgramDefinition.SourceType, ResourceLocation)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">DirectShaderCompiler</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compile(ShaderCompiler.Context, ShaderCompiler)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></dt>
-<dd>
-<div class="block">Compiles this shader based on the specified definition.</div>
-</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compile(ShaderCompiler.Context, ShaderCompiler)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#compile(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.program.ProgramDefinition,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compile(int, ShaderSourceSet, ProgramDefinition, ShaderCompiler)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/CompiledShader.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader">CompiledShader</a> - Record Class in <a href="foundry/veil/api/client/render/shader/package-summary.html">foundry.veil.api.client.render.shader</a></dt>
 <dd>
@@ -1840,6 +1840,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an instance of a <code>CompiledShader</code> record class.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html#compileInternal(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compileInternal(int, ShaderSourceSet, ShaderCompiler)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#compileInternal(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compileInternal(int, ShaderSourceSet, ShaderCompiler)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html#compilerAvailable()" class="member-name-link">compilerAvailable()</a> - Method in record class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html" title="class in foundry.veil.api.opencl">VeilOpenCL.DeviceInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html#param-compilerAvailable"><code>compilerAvailable</code></a> record component.</div>
@@ -1920,10 +1924,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/GlslTree.html#containingBlock(foundry.veil.impl.glsl.node.GlslNode)" class="member-name-link">containingBlock(GlslNode)</a> - Method in class foundry.veil.impl.glsl.node.<a href="foundry/veil/impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#%3Cinit%3E(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.program.ProgramDefinition)" class="member-name-link">Context(int, ShaderSourceSet, ProgramDefinition)</a> - Constructor for record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></dt>
-<dd>
-<div class="block">Creates an instance of a <code>Context</code> record class.</div>
-</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/ShaderModificationSyntaxException.html#CONTEXT_AMOUNT" class="member-name-link">CONTEXT_AMOUNT</a> - Static variable in exception class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ShaderModificationSyntaxException.html" title="class in foundry.veil.impl.client.render.shader.modifier">ShaderModificationSyntaxException</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/GlslSyntaxException.html#CONTEXT_AMOUNT" class="member-name-link">CONTEXT_AMOUNT</a> - Static variable in exception class foundry.veil.impl.glsl.<a href="foundry/veil/impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></dt>
@@ -2083,6 +2083,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/client/registry/LightTypeRegistry.DebugLightFactory.html#createDebugLight(net.minecraft.client.multiplayer.ClientLevel,net.minecraft.client.Camera)" class="member-name-link">createDebugLight(ClientLevel, Camera)</a> - Method in interface foundry.veil.api.client.registry.<a href="foundry/veil/api/client/registry/LightTypeRegistry.DebugLightFactory.html" title="interface in foundry.veil.api.client.registry">LightTypeRegistry.DebugLightFactory</a></dt>
 <dd>
 <div class="block">Creates a new light in the level.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#createDynamicProgram(net.minecraft.resources.ResourceLocation,it.unimi.dsi.fastutil.ints.Int2ObjectMap)" class="member-name-link">createDynamicProgram(ResourceLocation, Int2ObjectMap&lt;String&gt;)</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
+<dd>
+<div class="block">Creates a new dynamic shader with the specified shader sources.</div>
 </dd>
 <dt><a href="foundry/veil/api/quasar/particle/ParticleSystemManager.html#createEmitter(net.minecraft.resources.ResourceLocation)" class="member-name-link">createEmitter(ResourceLocation)</a> - Method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/ParticleSystemManager.html" title="class in foundry.veil.api.quasar.particle">ParticleSystemManager</a></dt>
 <dd>&nbsp;</dd>
@@ -2289,8 +2293,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html#DEFAULT_WIDTH" class="member-name-link">DEFAULT_WIDTH</a> - Static variable in record class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#DEFERRED_SET" class="member-name-link">DEFERRED_SET</a> - Static variable in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/definition/ShaderPreDefinitions.html#define(java.lang.String)" class="member-name-link">define(String)</a> - Method in class foundry.veil.api.client.render.shader.definition.<a href="foundry/veil/api/client/render/shader/definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></dt>
 <dd>
 <div class="block">Sets the value of a definition pair.</div>
@@ -2307,12 +2309,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets a definition added to all shaders.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html#definition()" class="member-name-link">definition()</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#definition" class="member-name-link">definition</a> - Variable in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#definition()" class="member-name-link">definition()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#param-definition"><code>definition</code></a> record component.</div>
-</dd>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html#definition()" class="member-name-link">definition()</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.VeilContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html#DEFINITION" class="member-name-link">DEFINITION</a> - Enum constant in enum class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html" title="enum class in foundry.veil.impl.client.render.shader.modifier">ShaderModifierLexer.TokenType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.html#definitionDefaults()" class="member-name-link">definitionDefaults()</a> - Method in record class foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></dt>
@@ -2413,6 +2413,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/AdvancedFboImpl.Wrapper.html#destroyBuffers()" class="member-name-link">destroyBuffers()</a> - Method in class foundry.veil.impl.client.render.<a href="foundry/veil/impl/client/render/AdvancedFboImpl.Wrapper.html" title="class in foundry.veil.impl.client.render">AdvancedFboImpl.Wrapper</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#detachShaders()" class="member-name-link">detachShaders()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/CLEnvironmentOptions.Builder.html#deviceAccelerator()" class="member-name-link">deviceAccelerator()</a> - Method in class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/CLEnvironmentOptions.Builder.html" title="class in foundry.veil.api.opencl">CLEnvironmentOptions.Builder</a></dt>
 <dd>
 <div class="block">Sets the target of the environment to a compute accelerator.</div>
@@ -2493,7 +2495,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">DirectShaderCompiler</a> - Class in <a href="foundry/veil/impl/client/render/shader/package-summary.html">foundry.veil.impl.client.render.shader</a></dt>
 <dd>
-<div class="block">Creates a new shader and compiles each time <a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)"><code>DirectShaderCompiler.compile(Context, int, ProgramDefinition.SourceType, VeilShaderSource)</code></a> is called.</div>
+<div class="block">Creates a new shader and compiles each time <a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)"><code>DirectShaderCompiler.compile(int, ProgramDefinition.SourceType, VeilShaderSource)</code></a> is called.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#%3Cinit%3E(foundry.veil.api.client.render.shader.ShaderCompiler.ShaderProvider)" class="member-name-link">DirectShaderCompiler(ShaderCompiler.ShaderProvider)</a> - Constructor for class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">DirectShaderCompiler</a></dt>
 <dd>&nbsp;</dd>
@@ -2679,6 +2681,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>dstColorFactor</code> record component.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#DUMMY_FRAGMENT_SHADER" class="member-name-link">DUMMY_FRAGMENT_SHADER</a> - Static variable in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/DummyResource.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">DummyResource</a> - Class in <a href="foundry/veil/impl/client/render/shader/package-summary.html">foundry.veil.impl.client.render.shader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/DummyResource.html#%3Cinit%3E(net.minecraft.server.packs.resources.IoSupplier)" class="member-name-link">DummyResource(IoSupplier&lt;InputStream&gt;)</a> - Constructor for class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DummyResource.html" title="class in foundry.veil.impl.client.render.shader">DummyResource</a></dt>
@@ -2751,6 +2755,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a new shader block of specified initial size.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a> - Class in <a href="foundry/veil/impl/client/render/shader/package-summary.html">foundry.veil.impl.client.render.shader</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html#%3Cinit%3E(net.minecraft.resources.ResourceLocation,foundry.veil.impl.client.render.shader.ShaderProgramImpl,java.lang.Runnable)" class="member-name-link">DynamicShaderProgramImpl(ResourceLocation, ShaderProgramImpl, Runnable)</a> - Constructor for class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:E">E</h2>
 <dl class="index">
@@ -3117,10 +3125,6 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.ShaderSource.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></dt>
-<dd>
-<div class="block">Indicates whether some other object is "equal to" this one.</div>
-</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -4061,9 +4065,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DirectShaderCompiler.html" title="class in foundry.veil.impl.client.render.shader">DirectShaderCompiler</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html#free()" class="member-name-link">free()</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SimpleShaderProcessor</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html#free()" class="member-name-link">free()</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SodiumShaderProcessor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html#free()" class="member-name-link">free()</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">VanillaShaderProcessor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/VeilVanillaShaders.html#free()" class="member-name-link">free()</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/VeilVanillaShaders.html" title="class in foundry.veil.impl.client.render.shader">VeilVanillaShaders</a></dt>
 <dd>&nbsp;</dd>
@@ -4072,6 +4080,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/impl/resource/VeilPackResources.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.resource.<a href="foundry/veil/impl/resource/VeilPackResources.html" title="class in foundry.veil.impl.resource">VeilPackResources</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/resource/VeilResourceManagerImpl.html#free()" class="member-name-link">free()</a> - Method in class foundry.veil.impl.resource.<a href="foundry/veil/impl/resource/VeilResourceManagerImpl.html" title="class in foundry.veil.impl.resource">VeilResourceManagerImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#freeInternal()" class="member-name-link">freeInternal()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/event/FreeNativeResourcesEvent.html" class="type-name-link" title="interface in foundry.veil.api.event">FreeNativeResourcesEvent</a> - Interface in <a href="foundry/veil/api/event/package-summary.html">foundry.veil.api.event</a></dt>
 <dd>
@@ -4860,6 +4870,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Retrieves the id of this texture based on context.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html#getImportProcessor()" class="member-name-link">getImportProcessor()</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html" title="class in foundry.veil.api.client.render.shader">ShaderProcessorList</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/stage/CopyPostStage.html#getIn()" class="member-name-link">getIn()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/CopyPostStage.html" title="class in foundry.veil.api.client.render.post.stage">CopyPostStage</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/stage/FramebufferPostStage.html#getIn()" class="member-name-link">getIn()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/FramebufferPostStage.html" title="class in foundry.veil.api.client.render.post.stage">FramebufferPostStage</a></dt>
@@ -5168,6 +5180,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/FastNoiseLite.html#GetNoiseType()" class="member-name-link">GetNoiseType()</a> - Method in class foundry.veil.api.util.<a href="foundry/veil/api/util/FastNoiseLite.html" title="class in foundry.veil.api.util">FastNoiseLite</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html#getOldShader()" class="member-name-link">getOldShader()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/expression/GlslAssignmentNode.html#getOperand()" class="member-name-link">getOperand()</a> - Method in class foundry.veil.impl.glsl.node.expression.<a href="foundry/veil/impl/glsl/node/expression/GlslAssignmentNode.html" title="class in foundry.veil.impl.glsl.node.expression">GlslAssignmentNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/expression/GlslCompareNode.html#getOperand()" class="member-name-link">getOperand()</a> - Method in class foundry.veil.impl.glsl.node.expression.<a href="foundry/veil/impl/glsl/node/expression/GlslCompareNode.html" title="class in foundry.veil.impl.glsl.node.expression">GlslCompareNode</a></dt>
@@ -5312,6 +5326,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/VeilOpenCL.html#getPriorityDevices()" class="member-name-link">getPriorityDevices()</a> - Method in class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/VeilOpenCL.html" title="class in foundry.veil.api.opencl">VeilOpenCL</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html#getProcessor()" class="member-name-link">getProcessor()</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html" title="class in foundry.veil.api.client.render.shader">ShaderProcessorList</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html#getProgram()" class="member-name-link">getProgram()</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/CLKernel.html#getProgram()" class="member-name-link">getProgram()</a> - Method in class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/CLKernel.html" title="class in foundry.veil.api.opencl">CLKernel</a></dt>
@@ -5363,8 +5379,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/quasar/data/QuasarParticleData.html#getRegistryId()" class="member-name-link">getRegistryId()</a> - Method in record class foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/QuasarParticleData.html" title="class in foundry.veil.api.quasar.data">QuasarParticleData</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/ParticleEmitter.html#getRegistryName()" class="member-name-link">getRegistryName()</a> - Method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/ParticleEmitter.html" title="class in foundry.veil.api.quasar.particle">ParticleEmitter</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#getReloadFuture()" class="member-name-link">getReloadFuture()</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/RenderData.html#getRenderAge()" class="member-name-link">getRenderAge()</a> - Method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/RenderData.html" title="class in foundry.veil.api.quasar.particle">RenderData</a></dt>
 <dd>&nbsp;</dd>
@@ -5463,7 +5477,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Retrieves a shader by name.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.ShaderProvider.html#getShader(net.minecraft.resources.ResourceLocation)" class="member-name-link">getShader(ResourceLocation)</a> - Method in interface foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.ShaderProvider.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler.ShaderProvider</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Reads a shader source by location.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#getShader(net.minecraft.resources.ResourceLocation)" class="member-name-link">getShader(ResourceLocation)</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
 <dd>
 <div class="block">Retrieves a shader by the specified id.</div>
@@ -5931,6 +5947,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Retrieves the location of a uniform block.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#getUniformBlock(java.lang.CharSequence)" class="member-name-link">getUniformBlock(CharSequence)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#getUpdateBuffersFuture()" class="member-name-link">getUpdateBuffersFuture()</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/ParticleModuleSet.html#getUpdateModules()" class="member-name-link">getUpdateModules()</a> - Method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/ParticleModuleSet.html" title="class in foundry.veil.api.quasar.particle">ParticleModuleSet</a></dt>
 <dd>&nbsp;</dd>
@@ -6594,10 +6612,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></dt>
-<dd>
-<div class="block">Returns a hash code value for this object.</div>
-</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderModificationManager.Preparations.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderModificationManager.Preparations.html" title="class in foundry.veil.api.client.render.shader">ShaderModificationManager.Preparations</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -7002,6 +7016,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Renders an icon with the remixicon font and a color</div>
 </dd>
 <dt><a href="foundry/veil/api/client/imgui/VeilImGuiUtil.html#ICON_FONT" class="member-name-link">ICON_FONT</a> - Static variable in class foundry.veil.api.client.imgui.<a href="foundry/veil/api/client/imgui/VeilImGuiUtil.html" title="class in foundry.veil.api.client.imgui">VeilImGuiUtil</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#id" class="member-name-link">id</a> - Variable in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/CompiledShader.html#id()" class="member-name-link">id()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></dt>
 <dd>
@@ -8057,6 +8073,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/pipeline/CompositeStateBuilderMixin.html#lineState(net.minecraft.client.renderer.RenderStateShard.LineStateShard)" class="member-name-link">lineState(RenderStateShard.LineStateShard)</a> - Method in class foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/CompositeStateBuilderMixin.html" title="class in foundry.veil.mixin.client.pipeline">CompositeStateBuilderMixin</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#link()" class="member-name-link">link()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/event/CLEventDispatcher.html#listen(long,long,java.lang.Runnable)" class="member-name-link">listen(long, long, Runnable)</a> - Method in interface foundry.veil.api.opencl.event.<a href="foundry/veil/api/opencl/event/CLEventDispatcher.html" title="interface in foundry.veil.api.opencl.event">CLEventDispatcher</a></dt>
 <dd>
 <div class="block">Listens to the specific event and event status.</div>
@@ -8568,9 +8586,11 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/dynamicbuffer/DynamicBufferProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)" class="member-name-link">modify(ShaderPreProcessor.Context, String)</a> - Method in class foundry.veil.impl.client.render.dynamicbuffer.<a href="foundry/veil/impl/client/render/dynamicbuffer/DynamicBufferProcessor.html" title="class in foundry.veil.impl.client.render.dynamicbuffer">DynamicBufferProcessor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/compat/SodiumShaderProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)" class="member-name-link">modify(ShaderPreProcessor.Context, String)</a> - Method in class foundry.veil.impl.compat.<a href="foundry/veil/impl/compat/SodiumShaderProcessor.html" title="class in foundry.veil.impl.compat">SodiumShaderProcessor</a></dt>
+<dt><a href="foundry/veil/impl/compat/SodiumShaderPreProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)" class="member-name-link">modify(ShaderPreProcessor.Context, String)</a> - Method in class foundry.veil.impl.compat.<a href="foundry/veil/impl/compat/SodiumShaderPreProcessor.html" title="class in foundry.veil.impl.compat">SodiumShaderPreProcessor</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html#modify(java.lang.String,net.minecraft.resources.ResourceLocation,com.mojang.blaze3d.vertex.VertexFormat,int,java.lang.String)" class="member-name-link">modify(String, ResourceLocation, VertexFormat, int, String)</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SimpleShaderProcessor</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html#modify(java.lang.String,net.minecraft.resources.ResourceLocation,com.mojang.blaze3d.vertex.VertexFormat,int,java.lang.String)" class="member-name-link">modify(String, ResourceLocation, VertexFormat, int, String)</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">VanillaShaderProcessor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html#modify(net.minecraft.resources.ResourceLocation,int,java.lang.String)" class="member-name-link">modify(ResourceLocation, int, String)</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SodiumShaderProcessor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html#modify(net.minecraft.resources.ResourceLocation,java.lang.String)" class="member-name-link">modify(ResourceLocation, String)</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></dt>
 <dd>
@@ -8852,7 +8872,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Registers fixed render types.</div>
 </dd>
-<dt><a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.html#onRegisterShaderPreProcessors(foundry.veil.api.client.render.shader.ShaderManager,foundry.veil.api.event.VeilAddShaderPreProcessorsEvent.Registry)" class="member-name-link">onRegisterShaderPreProcessors(ShaderManager, VeilAddShaderPreProcessorsEvent.Registry)</a> - Method in interface foundry.veil.api.event.<a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a></dt>
+<dt><a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.html#onRegisterShaderPreProcessors(foundry.veil.api.event.VeilAddShaderPreProcessorsEvent.Registry)" class="member-name-link">onRegisterShaderPreProcessors(VeilAddShaderPreProcessorsEvent.Registry)</a> - Method in interface foundry.veil.api.event.<a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a></dt>
 <dd>
 <div class="block">Called when the shader manager is about to compile shaders.</div>
 </dd>
@@ -9699,6 +9719,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>processors</code> record component.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html#processShaderSources(foundry.veil.api.client.render.shader.ShaderProcessorList,foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions,int)" class="member-name-link">processShaderSources(ShaderProcessorList, ShaderPreDefinitions, int)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html#profile()" class="member-name-link">profile()</a> - Method in record class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html" title="class in foundry.veil.api.opencl">VeilOpenCL.DeviceInfo</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html#param-profile"><code>profile</code></a> record component.</div>
@@ -9708,6 +9730,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the value of the <a href="./foundry/veil/api/opencl/VeilOpenCL.PlatformInfo.html#param-profile"><code>profile</code></a> record component.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/render/post/PostProcessingManager.ProfileEntry.html#%3Cinit%3E(net.minecraft.resources.ResourceLocation,int)" class="member-name-link">ProfileEntry(ResourceLocation, int)</a> - Constructor for class foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostProcessingManager.ProfileEntry.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager.ProfileEntry</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#program" class="member-name-link">program</a> - Variable in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.Wrapper.html#program()" class="member-name-link">program()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl.Wrapper</a></dt>
 <dd>&nbsp;</dd>
@@ -9734,10 +9758,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/mixin/client/shader/ProgramManagerMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.shader">ProgramManagerMixin</a> - Class in <a href="foundry/veil/mixin/client/shader/package-summary.html">foundry.veil.mixin.client.shader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/shader/ProgramManagerMixin.html#%3Cinit%3E()" class="member-name-link">ProgramManagerMixin()</a> - Constructor for class foundry.veil.mixin.client.shader.<a href="foundry/veil/mixin/client/shader/ProgramManagerMixin.html" title="class in foundry.veil.mixin.client.shader">ProgramManagerMixin</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/client/shader/ProgramMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.shader">ProgramMixin</a> - Class in <a href="foundry/veil/mixin/client/shader/package-summary.html">foundry.veil.mixin.client.shader</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/client/shader/ProgramMixin.html#%3Cinit%3E()" class="member-name-link">ProgramMixin()</a> - Constructor for class foundry.veil.mixin.client.shader.<a href="foundry/veil/mixin/client/shader/ProgramMixin.html" title="class in foundry.veil.mixin.client.shader">ProgramMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/Bone.html#pRotation" class="member-name-link">pRotation</a> - Variable in class foundry.veil.api.client.necromancer.<a href="foundry/veil/api/client/necromancer/Bone.html" title="class in foundry.veil.api.client.necromancer">Bone</a></dt>
 <dd>&nbsp;</dd>
@@ -11806,6 +11826,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/dynamicbuffer/VerticalNormalVertexConsumer.html#setNormal(float,float,float)" class="member-name-link">setNormal(float, float, float)</a> - Method in class foundry.veil.impl.client.render.dynamicbuffer.<a href="foundry/veil/impl/client/render/dynamicbuffer/VerticalNormalVertexConsumer.html" title="class in foundry.veil.impl.client.render.dynamicbuffer">VerticalNormalVertexConsumer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html#setOldShader(foundry.veil.impl.client.render.shader.ShaderProgramImpl)" class="member-name-link">setOldShader(ShaderProgramImpl)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/expression/GlslAssignmentNode.html#setOperand(foundry.veil.impl.glsl.node.expression.GlslAssignmentNode.Operand)" class="member-name-link">setOperand(GlslAssignmentNode.Operand)</a> - Method in class foundry.veil.impl.glsl.node.expression.<a href="foundry/veil/impl/glsl/node/expression/GlslAssignmentNode.html" title="class in foundry.veil.impl.glsl.node.expression">GlslAssignmentNode</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/node/expression/GlslCompareNode.html#setOperand(foundry.veil.impl.glsl.node.expression.GlslCompareNode.Operand)" class="member-name-link">setOperand(GlslCompareNode.Operand)</a> - Method in class foundry.veil.impl.glsl.node.expression.<a href="foundry/veil/impl/glsl/node/expression/GlslCompareNode.html" title="class in foundry.veil.impl.glsl.node.expression">GlslCompareNode</a></dt>
@@ -11975,6 +11997,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the shader instance to be a reference to the shader manager.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#setShaderLights(org.joml.Vector3fc,org.joml.Vector3fc)" class="member-name-link">setShaderLights(Vector3fc, Vector3fc)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html#setShaderSources(it.unimi.dsi.fastutil.ints.Int2ObjectMap)" class="member-name-link">setShaderSources(Int2ObjectMap&lt;String&gt;)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/pipeline/CompositeStateBuilderMixin.html#setShaderState(net.minecraft.client.renderer.RenderStateShard.ShaderStateShard)" class="member-name-link">setShaderState(RenderStateShard.ShaderStateShard)</a> - Method in class foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/CompositeStateBuilderMixin.html" title="class in foundry.veil.mixin.client.pipeline">CompositeStateBuilderMixin</a></dt>
 <dd>&nbsp;</dd>
@@ -12154,7 +12178,9 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/render/light/renderer/LightRenderer.html#setup(foundry.veil.api.client.render.CullFrustum)" class="member-name-link">setup(CullFrustum)</a> - Method in class foundry.veil.api.client.render.light.renderer.<a href="foundry/veil/api/client/render/light/renderer/LightRenderer.html" title="class in foundry.veil.api.client.render.light.renderer">LightRenderer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html#setup(net.minecraft.server.packs.resources.ResourceProvider,int,java.util.Collection)" class="member-name-link">setup(ResourceProvider, int, Collection&lt;ShaderPreProcessor&gt;)</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SimpleShaderProcessor</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html#setup(net.minecraft.server.packs.resources.ResourceProvider,int)" class="member-name-link">setup(ResourceProvider, int)</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SodiumShaderProcessor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html#setup(net.minecraft.server.packs.resources.ResourceProvider,int)" class="member-name-link">setup(ResourceProvider, int)</a> - Static method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">VanillaShaderProcessor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/LevelPerspectiveCamera.html#setup(org.joml.Vector3dc,net.minecraft.world.entity.Entity,net.minecraft.client.multiplayer.ClientLevel,org.joml.Quaternionfc)" class="member-name-link">setup(Vector3dc, Entity, ClientLevel, Quaternionfc)</a> - Method in class foundry.veil.impl.client.render.<a href="foundry/veil/impl/client/render/LevelPerspectiveCamera.html" title="class in foundry.veil.impl.client.render">LevelPerspectiveCamera</a></dt>
 <dd>&nbsp;</dd>
@@ -12458,12 +12484,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates and compiles shaders for shader programs.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a> - Record Class in <a href="foundry/veil/api/client/render/shader/package-summary.html">foundry.veil.api.client.render.shader</a></dt>
-<dd>
-<div class="block">Context for compiling shaders and programs.</div>
-</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.ShaderProvider.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler.ShaderProvider</a> - Interface in <a href="foundry/veil/api/client/render/shader/package-summary.html">foundry.veil.api.client.render.shader</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Provides shader sources for the compiler.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/shader/processor/ShaderCustomProcessor.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.processor">ShaderCustomProcessor</a> - Class in <a href="foundry/veil/api/client/render/shader/processor/package-summary.html">foundry.veil.api.client.render.shader.processor</a></dt>
 <dd>
 <div class="block">Processes all veil custom directives.</div>
@@ -12504,7 +12528,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/editor/ShaderInspector.html#%3Cinit%3E()" class="member-name-link">ShaderInspector()</a> - Constructor for class foundry.veil.impl.client.editor.<a href="foundry/veil/impl/client/editor/ShaderInspector.html" title="class in foundry.veil.impl.client.editor">ShaderInspector</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html#shaderInstance()" class="member-name-link">shaderInstance()</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></dt>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.MinecraftContext.html#shaderInstance()" class="member-name-link">shaderInstance()</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.MinecraftContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.MinecraftContext</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/ShaderInstanceExtension.html" class="type-name-link" title="interface in foundry.veil.ext">ShaderInstanceExtension</a> - Interface in <a href="foundry/veil/ext/package-summary.html">foundry.veil.ext</a></dt>
 <dd>&nbsp;</dd>
@@ -12614,6 +12638,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Context for modifying source code and shader behavior.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.MinecraftContext.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.MinecraftContext</a> - Interface in <a href="foundry/veil/api/client/render/shader/processor/package-summary.html">foundry.veil.api.client.render.shader.processor</a></dt>
+<dd>
+<div class="block">Context for modifying source code and shader behavior.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.SodiumContext.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.SodiumContext</a> - Interface in <a href="foundry/veil/api/client/render/shader/processor/package-summary.html">foundry.veil.api.client.render.shader.processor</a></dt>
+<dd>
+<div class="block">Context for modifying source code and sodium shader behavior.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.VeilContext.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.VeilContext</a> - Interface in <a href="foundry/veil/api/client/render/shader/processor/package-summary.html">foundry.veil.api.client.render.shader.processor</a></dt>
+<dd>
+<div class="block">Context for modifying source code and shader behavior.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader">ShaderProcessorList</a> - Class in <a href="foundry/veil/api/client/render/shader/package-summary.html">foundry.veil.api.client.render.shader</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html#%3Cinit%3E()" class="member-name-link">ShaderProcessorList()</a> - Constructor for class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderProcessorList.html" title="class in foundry.veil.api.client.render.shader">ShaderProcessorList</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a> - Interface in <a href="foundry/veil/api/client/render/shader/program/package-summary.html">foundry.veil.api.client.render.shader.program</a></dt>
 <dd>
 <div class="block">Represents a usable shader program with shaders attached.</div>
@@ -12633,6 +12673,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/impl/resource/loader/ShaderResourceLoader.html" class="type-name-link" title="class in foundry.veil.impl.resource.loader">ShaderResourceLoader</a> - Class in <a href="foundry/veil/impl/resource/loader/package-summary.html">foundry.veil.impl.resource.loader</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/resource/loader/ShaderResourceLoader.html#%3Cinit%3E(foundry.veil.api.client.render.shader.ShaderManager)" class="member-name-link">ShaderResourceLoader(ShaderManager)</a> - Constructor for class foundry.veil.impl.resource.loader.<a href="foundry/veil/impl/resource/loader/ShaderResourceLoader.html" title="class in foundry.veil.impl.resource.loader">ShaderResourceLoader</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#shaders" class="member-name-link">shaders</a> - Variable in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.html#shaders()" class="member-name-link">shaders()</a> - Method in record class foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></dt>
 <dd>
@@ -12752,12 +12794,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/SimpleShaderModification.html#%3Cinit%3E(int,int,net.minecraft.resources.ResourceLocation%5B%5D,java.lang.String,java.lang.String,foundry.veil.impl.client.render.shader.modifier.ShaderModification.Function%5B%5D)" class="member-name-link">SimpleShaderModification(int, int, ResourceLocation[], String, String, ShaderModification.Function[])</a> - Constructor for class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/SimpleShaderModification.html" title="class in foundry.veil.impl.client.render.shader.modifier">SimpleShaderModification</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">SimpleShaderProcessor</a> - Class in <a href="foundry/veil/impl/client/render/shader/package-summary.html">foundry.veil.impl.client.render.shader</a></dt>
-<dd>
-<div class="block">Allows vanilla and sodium shaders to use shader modifications.</div>
-</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html#%3Cinit%3E()" class="member-name-link">SimpleShaderProcessor()</a> - Constructor for class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SimpleShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SimpleShaderProcessor</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/CodecUtil.html#singleOrList(com.mojang.serialization.Codec)" class="member-name-link">singleOrList(Codec&lt;T&gt;)</a> - Static method in class foundry.veil.api.util.<a href="foundry/veil/api/util/CodecUtil.html" title="class in foundry.veil.api.util">CodecUtil</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/editor/SingleWindowInspector.html" class="type-name-link" title="class in foundry.veil.api.client.editor">SingleWindowInspector</a> - Class in <a href="foundry/veil/api/client/editor/package-summary.html">foundry.veil.api.client.editor</a></dt>
@@ -12820,9 +12856,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/compat/SodiumCompat.html" class="type-name-link" title="interface in foundry.veil.impl.compat">SodiumCompat</a> - Interface in <a href="foundry/veil/impl/compat/package-summary.html">foundry.veil.impl.compat</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/compat/SodiumShaderProcessor.html" class="type-name-link" title="class in foundry.veil.impl.compat">SodiumShaderProcessor</a> - Class in <a href="foundry/veil/impl/compat/package-summary.html">foundry.veil.impl.compat</a></dt>
+<dt><a href="foundry/veil/impl/compat/SodiumShaderPreProcessor.html" class="type-name-link" title="class in foundry.veil.impl.compat">SodiumShaderPreProcessor</a> - Class in <a href="foundry/veil/impl/compat/package-summary.html">foundry.veil.impl.compat</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/compat/SodiumShaderProcessor.html#%3Cinit%3E()" class="member-name-link">SodiumShaderProcessor()</a> - Constructor for class foundry.veil.impl.compat.<a href="foundry/veil/impl/compat/SodiumShaderProcessor.html" title="class in foundry.veil.impl.compat">SodiumShaderProcessor</a></dt>
+<dt><a href="foundry/veil/impl/compat/SodiumShaderPreProcessor.html#%3Cinit%3E()" class="member-name-link">SodiumShaderPreProcessor()</a> - Constructor for class foundry.veil.impl.compat.<a href="foundry/veil/impl/compat/SodiumShaderPreProcessor.html" title="class in foundry.veil.impl.compat">SodiumShaderPreProcessor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">SodiumShaderProcessor</a> - Class in <a href="foundry/veil/impl/client/render/shader/package-summary.html">foundry.veil.impl.client.render.shader</a></dt>
+<dd>
+<div class="block">Allows vanilla and sodium shaders to use shader modifications.</div>
+</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html#%3Cinit%3E()" class="member-name-link">SodiumShaderProcessor()</a> - Constructor for class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/SodiumShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">SodiumShaderProcessor</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/layer/CompositeRenderTypeData.html#sort()" class="member-name-link">sort()</a> - Method in record class foundry.veil.api.client.render.rendertype.layer.<a href="foundry/veil/api/client/render/rendertype/layer/CompositeRenderTypeData.html" title="class in foundry.veil.api.client.render.rendertype.layer">CompositeRenderTypeData</a></dt>
 <dd>
@@ -12857,10 +12899,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/DummyResource.html#sourcePackId()" class="member-name-link">sourcePackId()</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DummyResource.html" title="class in foundry.veil.impl.client.render.shader">DummyResource</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#sourceSet()" class="member-name-link">sourceSet()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></dt>
-<dd>
-<div class="block">Returns the value of the <a href="./foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#param-sourceSet"><code>sourceSet</code></a> record component.</div>
-</dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.ShaderSource.html#sourceType()" class="member-name-link">sourceType()</a> - Method in record class foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>sourceType</code> record component.</div>
@@ -13699,10 +13737,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html#toString()" class="member-name-link">toString()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></dt>
-<dd>
-<div class="block">Returns a string representation of this record class.</div>
-</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderModificationManager.Preparations.html#toString()" class="member-name-link">toString()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderModificationManager.Preparations.html" title="class in foundry.veil.api.client.render.shader">ShaderModificationManager.Preparations</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
@@ -14468,7 +14502,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html#UPDATE_MODULES_REGISTRY" class="member-name-link">UPDATE_MODULES_REGISTRY</a> - Static variable in class foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html" title="class in foundry.veil.api.quasar.data">ParticleModuleTypeRegistry</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#updateActiveBuffers(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">updateActiveBuffers(ShaderCompiler.Context, ShaderCompiler)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
+<dt><a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html#updateActiveBuffers(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">updateActiveBuffers(int, ShaderSourceSet, ShaderCompiler)</a> - Method in class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/ParticleModuleSet.html#updateEnabled()" class="member-name-link">updateEnabled()</a> - Method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/ParticleModuleSet.html" title="class in foundry.veil.api.quasar.particle">ParticleModuleSet</a></dt>
 <dd>&nbsp;</dd>
@@ -15113,6 +15147,12 @@ the order they are declared.</div>
 <dd>
 <div class="block">Creates an instance of a <code>VanillaShaderLayer</code> record class.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">VanillaShaderProcessor</a> - Class in <a href="foundry/veil/impl/client/render/shader/package-summary.html">foundry.veil.impl.client.render.shader</a></dt>
+<dd>
+<div class="block">Allows vanilla and sodium shaders to use shader modifications.</div>
+</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html#%3Cinit%3E()" class="member-name-link">VanillaShaderProcessor()</a> - Constructor for class foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/VanillaShaderProcessor.html" title="class in foundry.veil.impl.client.render.shader">VanillaShaderProcessor</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.wrapper">VanillaUniformWrapper</a> - Class in <a href="foundry/veil/impl/client/render/wrapper/package-summary.html">foundry.veil.impl.client.render.wrapper</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html#%3Cinit%3E(int,java.lang.String)" class="member-name-link">VanillaUniformWrapper(int, String)</a> - Constructor for class foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">VanillaUniformWrapper</a></dt>
@@ -15681,7 +15721,7 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/client/pipeline/VertexBufferMixin.html#%3Cinit%3E()" class="member-name-link">VertexBufferMixin()</a> - Constructor for class foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/VertexBufferMixin.html" title="class in foundry.veil.mixin.client.pipeline">VertexBufferMixin</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html#vertexFormat()" class="member-name-link">vertexFormat()</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></dt>
+<dt><a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.MinecraftContext.html#vertexFormat()" class="member-name-link">vertexFormat()</a> - Method in interface foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.MinecraftContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.MinecraftContext</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/util/VertexFormatCodec.html" class="type-name-link" title="class in foundry.veil.api.client.util">VertexFormatCodec</a> - Class in <a href="foundry/veil/api/client/util/package-summary.html">foundry.veil.api.client.util</a></dt>
 <dd>&nbsp;</dd>

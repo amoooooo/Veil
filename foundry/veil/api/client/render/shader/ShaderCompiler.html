@@ -112,14 +112,11 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Interface</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="ShaderCompiler.Context.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a></code></div>
+<div class="col-first even-row-color"><code>static interface&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="ShaderCompiler.ShaderProvider.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler.ShaderProvider</a></code></div>
 <div class="col-last even-row-color">
-<div class="block">Context for compiling shaders and programs.</div>
+<div class="block">Provides shader sources for the compiler.</div>
 </div>
-<div class="col-first odd-row-color"><code>static interface&nbsp;</code></div>
-<div class="col-second odd-row-color"><code><a href="ShaderCompiler.ShaderProvider.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler.ShaderProvider</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -140,16 +137,14 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="block">Constructs a shader compiler that caches duplicate shader sources.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile</a><wbr>(<a href="ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
  <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  <a href="VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a>&nbsp;source)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates a new shader and attempts to attach the specified sources to it.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile</a><wbr>(<a href="ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
  <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  net.minecraft.resources.ResourceLocation&nbsp;path)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -178,10 +173,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">
+<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">
 <h3>compile</h3>
-<div class="member-signature"><span class="return-type"><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(<a href="ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="member-signature"><span class="return-type"><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(int&nbsp;type,
  <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  net.minecraft.resources.ResourceLocation&nbsp;path)</span>
                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
@@ -191,7 +185,6 @@ extends org.lwjgl.system.NativeResource</span></div>
  The shader will automatically be deleted at some point in the future.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>context</code> - The context for compiling the shader</dd>
 <dd><code>type</code> - The type of shader to create</dd>
 <dd><code>path</code> - The location of the shader to attach</dd>
 <dt>Returns:</dt>
@@ -203,10 +196,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">
+<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">
 <h3>compile</h3>
-<div class="member-signature"><span class="return-type"><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(<a href="ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
- int&nbsp;type,
+<div class="member-signature"><span class="return-type"><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(int&nbsp;type,
  <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  <a href="VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a>&nbsp;source)</span>
                 throws <span class="exceptions"><a href="ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></span></div>
@@ -214,7 +206,6 @@ extends org.lwjgl.system.NativeResource</span></div>
  The shader will automatically be deleted at some point in the future.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>context</code> - The context for compiling the shader</dd>
 <dd><code>type</code> - The type of shader to create</dd>
 <dd><code>source</code> - The source of the shader to attach</dd>
 <dt>Returns:</dt>

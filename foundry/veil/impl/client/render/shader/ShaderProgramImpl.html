@@ -39,7 +39,7 @@ loadScripts(document, 'script');</script>
 <p>Summary:</p>
 <ul>
 <li><a href="#nested-class-summary">Nested</a></li>
-<li>Field</li>
+<li><a href="#field-summary">Field</a></li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -47,7 +47,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li>Field</li>
+<li><a href="#field-detail">Field</a></li>
 <li><a href="#constructor-detail">Constr</a></li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -59,13 +59,13 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -92,6 +92,10 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
 <dd><code><a href="../../../../api/client/render/shader/program/MutableUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">MutableUniformAccess</a></code>, <code><a href="../../../../api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code>, <code><a href="../../../../api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></code>, <code><a href="../../../../api/client/render/shader/program/UniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">UniformAccess</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a></code>, <code>org.lwjgl.system.NativeResource</code></dd>
+</dl>
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Internal
@@ -120,6 +124,36 @@ implements <a href="../../../../api/client/render/shader/program/ShaderProgram.h
 <div class="inherited-list">
 <h2 id="nested-classes-inherited-from-class-foundry.veil.api.client.render.shader.program.TextureUniformAccess">Nested classes/interfaces inherited from interface&nbsp;foundry.veil.api.client.render.shader.program.<a href="../../../../api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></h2>
 <code><a href="../../../../api/client/render/shader/program/TextureUniformAccess.SamplerListener.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess.SamplerListener</a></code></div>
+</section>
+</li>
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>protected final it.unimi.dsi.fastutil.ints.Int2ObjectMap<wbr>&lt;<a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#attachedShaders" class="member-name-link">attachedShaders</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected <a href="../../../../api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#definition" class="member-name-link">definition</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="../../../../api/client/render/shader/VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a></code></div>
+<div class="col-second even-row-color"><code><a href="#DUMMY_FRAGMENT_SHADER" class="member-name-link">DUMMY_FRAGMENT_SHADER</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final net.minecraft.resources.ResourceLocation</code></div>
+<div class="col-second odd-row-color"><code><a href="#id" class="member-name-link">id</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected int</code></div>
+<div class="col-second even-row-color"><code><a href="#program" class="member-name-link">program</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final it.unimi.dsi.fastutil.ints.Int2ObjectMap<wbr>&lt;<a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#shaders" class="member-name-link">shaders</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+</div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -163,53 +197,75 @@ implements <a href="../../../../api/client/render/shader/program/ShaderProgram.h
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Loads the samplers set by <a href="../../../../api/client/render/shader/program/TextureUniformAccess.html#addSampler(java.lang.CharSequence,int)"><code>TextureUniformAccess.addSampler(CharSequence, int)</code></a> into the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearSamplers()" class="member-name-link">clearSamplers</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attachShader(int,foundry.veil.api.client.render.shader.CompiledShader,int)" class="member-name-link">attachShader</a><wbr>(int&nbsp;glType,
+ <a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&nbsp;shader,
+ int&nbsp;activeBuffers)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearSamplers()" class="member-name-link">clearSamplers</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Clears all samplers.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearShader()" class="member-name-link">clearShader</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compile</a><wbr>(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compile(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.program.ProgramDefinition,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compile</a><wbr>(int&nbsp;activeBuffers,
+ <a href="../../../../api/client/render/shader/ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a>&nbsp;sourceSet,
+ @Nullable <a href="../../../../api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a>&nbsp;definition,
  <a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a>&nbsp;compiler)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Compiles this shader based on the specified definition.</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compileInternal(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">compileInternal</a><wbr>(int&nbsp;activeBuffers,
+ <a href="../../../../api/client/render/shader/ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a>&nbsp;sourceSet,
+ <a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a>&nbsp;compiler)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#detachShaders()" class="member-name-link">detachShaders</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="../../../../api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDefinition()" class="member-name-link">getDefinition</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#freeInternal()" class="member-name-link">freeInternal</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDefinitionDependencies()" class="member-name-link">getDefinitionDependencies</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="../../../../api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDefinition()" class="member-name-link">getDefinition</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable com.mojang.blaze3d.vertex.VertexFormat</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFormat()" class="member-name-link">getFormat</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDefinitionDependencies()" class="member-name-link">getDefinitionDependencies</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.resources.ResourceLocation</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable com.mojang.blaze3d.vertex.VertexFormat</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFormat()" class="member-name-link">getFormat</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getProgram()" class="member-name-link">getProgram</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.resources.ResourceLocation</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>it.unimi.dsi.fastutil.ints.Int2ObjectMap<wbr>&lt;<a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShaders()" class="member-name-link">getShaders</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getProgram()" class="member-name-link">getProgram</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStorageBlock(java.lang.CharSequence)" class="member-name-link">getStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>it.unimi.dsi.fastutil.ints.Int2ObjectMap<wbr>&lt;<a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShaders()" class="member-name-link">getShaders</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStorageBlock(java.lang.CharSequence)" class="member-name-link">getStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieves the location of a storage block.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniform(java.lang.CharSequence)" class="member-name-link">getUniform</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniform(java.lang.CharSequence)" class="member-name-link">getUniform</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieves the location of a uniform.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniformBlock(java.lang.CharSequence)" class="member-name-link">getUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniformBlock(java.lang.CharSequence)" class="member-name-link">getUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Retrieves the location of a uniform block.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#link()" class="member-name-link">link</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeSampler(java.lang.CharSequence)" class="member-name-link">removeSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -229,7 +285,8 @@ implements <a href="../../../../api/client/render/shader/program/ShaderProgram.h
 <div class="block">Wraps this shader with a vanilla Minecraft shader instance wrapper.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateActiveBuffers(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">updateActiveBuffers</a><wbr>(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateActiveBuffers(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.ShaderCompiler)" class="member-name-link">updateActiveBuffers</a><wbr>(int&nbsp;activeBuffers,
+ <a href="../../../../api/client/render/shader/ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a>&nbsp;sourceSet,
  <a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a>&nbsp;compiler)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
@@ -259,6 +316,50 @@ implements <a href="../../../../api/client/render/shader/program/ShaderProgram.h
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="DUMMY_FRAGMENT_SHADER">
+<h3>DUMMY_FRAGMENT_SHADER</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/shader/VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a></span>&nbsp;<span class="element-name">DUMMY_FRAGMENT_SHADER</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="id">
+<h3>id</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">id</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="shaders">
+<h3>shaders</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&gt;</span>&nbsp;<span class="element-name">shaders</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="attachedShaders">
+<h3>attachedShaders</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&gt;</span>&nbsp;<span class="element-name">attachedShaders</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="definition">
+<h3>definition</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></span>&nbsp;<span class="element-name">definition</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="program">
+<h3>program</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">program</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -279,23 +380,65 @@ implements <a href="../../../../api/client/render/shader/program/ShaderProgram.h
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)">
+<section class="detail" id="attachShader(int,foundry.veil.api.client.render.shader.CompiledShader,int)">
+<h3>attachShader</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">attachShader</span><wbr><span class="parameters">(int&nbsp;glType,
+ <a href="../../../../api/client/render/shader/CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a>&nbsp;shader,
+ int&nbsp;activeBuffers)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="detachShaders()">
+<h3>detachShaders</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">detachShaders</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="clearShader()">
+<h3>clearShader</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clearShader</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="link()">
+<h3>link</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">link</span>()
+             throws <span class="exceptions"><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></span></div>
+<dl class="notes">
+<dt>Throws:</dt>
+<dd><code><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="compileInternal(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.ShaderCompiler)">
+<h3>compileInternal</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">compileInternal</span><wbr><span class="parameters">(int&nbsp;activeBuffers,
+ <a href="../../../../api/client/render/shader/ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a>&nbsp;sourceSet,
+ <a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a>&nbsp;compiler)</span>
+                        throws <span class="exceptions"><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a>,
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<dl class="notes">
+<dt>Throws:</dt>
+<dd><code><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.program.ProgramDefinition,foundry.veil.api.client.render.shader.ShaderCompiler)">
 <h3>compile</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(int&nbsp;activeBuffers,
+ <a href="../../../../api/client/render/shader/ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a>&nbsp;sourceSet,
+ @Nullable
+ @Nullable <a href="../../../../api/client/render/shader/program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a>&nbsp;definition,
  <a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a>&nbsp;compiler)</span>
              throws <span class="exceptions"><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a>,
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/shader/program/ShaderProgram.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)">ShaderProgram</a></code></span></div>
-<div class="block">Compiles this shader based on the specified definition.</div>
 <dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/shader/program/ShaderProgram.html#compile(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)">compile</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>context</code> - The context to use when compiling shaders</dd>
-<dd><code>compiler</code> - The compiler to use</dd>
 <dt>Throws:</dt>
-<dd><code><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></code> - If an error occurs while compiling or linking shaders</dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If an error occurs while loading shaders</dd>
+<dd><code><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
 </dl>
 </section>
 </li>
@@ -311,9 +454,10 @@ implements <a href="../../../../api/client/render/shader/program/ShaderProgram.h
 </section>
 </li>
 <li>
-<section class="detail" id="updateActiveBuffers(foundry.veil.api.client.render.shader.ShaderCompiler.Context,foundry.veil.api.client.render.shader.ShaderCompiler)">
+<section class="detail" id="updateActiveBuffers(int,foundry.veil.api.client.render.shader.ShaderSourceSet,foundry.veil.api.client.render.shader.ShaderCompiler)">
 <h3>updateActiveBuffers</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateActiveBuffers</span><wbr><span class="parameters">(<a href="../../../../api/client/render/shader/ShaderCompiler.Context.html" title="class in foundry.veil.api.client.render.shader">ShaderCompiler.Context</a>&nbsp;context,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateActiveBuffers</span><wbr><span class="parameters">(int&nbsp;activeBuffers,
+ <a href="../../../../api/client/render/shader/ShaderSourceSet.html" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a>&nbsp;sourceSet,
  <a href="../../../../api/client/render/shader/ShaderCompiler.html" title="interface in foundry.veil.api.client.render.shader">ShaderCompiler</a>&nbsp;compiler)</span>
                          throws <span class="exceptions"><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a>,
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
@@ -322,6 +466,12 @@ implements <a href="../../../../api/client/render/shader/program/ShaderProgram.h
 <dd><code><a href="../../../../api/client/render/shader/ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></code></dd>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="freeInternal()">
+<h3>freeInternal</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">freeInternal</span>()</div>
 </section>
 </li>
 <li>

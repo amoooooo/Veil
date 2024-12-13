@@ -93,14 +93,14 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>Record Components:</dt>
-<dd><code><span id="param-sourceId">sourceId</span></code> - The id of the source file this shader was compiled from</dd>
+<dd><code><span id="param-sourceId">sourceId</span></code> - The id of the source file this shader was compiled from or <code>null</code> if from raw source</dd>
 <dd><code><span id="param-sourceCode">sourceCode</span></code> - The shader source ready to be uploaded to the GPU</dd>
 <dd><code><span id="param-uniformBindings">uniformBindings</span></code> - The bindings set by the shader</dd>
 <dd><code><span id="param-definitionDependencies">definitionDependencies</span></code> - The shader pre-definitions this shader is dependent on</dd>
 <dd><code><span id="param-includes">includes</span></code> - All shader imports included in this file</dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">VeilShaderSource</span>(net.minecraft.resources.ResourceLocation&nbsp;sourceId, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sourceCode, it.unimi.dsi.fastutil.objects.Object2IntMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;uniformBindings, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDependencies, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.minecraft.resources.ResourceLocation&gt;&nbsp;includes)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">VeilShaderSource</span>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;sourceId, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sourceCode, it.unimi.dsi.fastutil.objects.Object2IntMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;uniformBindings, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDependencies, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.minecraft.resources.ResourceLocation&gt;&nbsp;includes)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">A shader instance that has additional pre-compiled data.</div>
 </section>
@@ -114,10 +114,10 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.minecraft.resources.ResourceLocation,java.lang.String)" class="member-name-link">VeilShaderSource</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;sourceId,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.minecraft.resources.ResourceLocation,java.lang.String)" class="member-name-link">VeilShaderSource</a><wbr>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;sourceId,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sourceCode)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(net.minecraft.resources.ResourceLocation,java.lang.String,it.unimi.dsi.fastutil.objects.Object2IntMap,java.util.Set,java.util.Set)" class="member-name-link">VeilShaderSource</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;sourceId,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(net.minecraft.resources.ResourceLocation,java.lang.String,it.unimi.dsi.fastutil.objects.Object2IntMap,java.util.Set,java.util.Set)" class="member-name-link">VeilShaderSource</a><wbr>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;sourceId,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sourceCode,
  it.unimi.dsi.fastutil.objects.Object2IntMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;uniformBindings,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDependencies,
@@ -164,7 +164,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-sourceCode"><code>sourceCode</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.resources.ResourceLocation</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sourceId()" class="member-name-link">sourceId</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-sourceId"><code>sourceId</code></a> record component.</div>
@@ -199,14 +199,16 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(net.minecraft.resources.ResourceLocation,java.lang.String)">
 <h3>VeilShaderSource</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">VeilShaderSource</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;sourceId,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">VeilShaderSource</span><wbr><span class="parameters">(@Nullable
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;sourceId,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sourceCode)</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="&lt;init&gt;(net.minecraft.resources.ResourceLocation,java.lang.String,it.unimi.dsi.fastutil.objects.Object2IntMap,java.util.Set,java.util.Set)">
 <h3>VeilShaderSource</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">VeilShaderSource</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;sourceId,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">VeilShaderSource</span><wbr><span class="parameters">(@Nullable
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;sourceId,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;sourceCode,
  it.unimi.dsi.fastutil.objects.Object2IntMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;uniformBindings,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDependencies,
@@ -274,7 +276,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="sourceId()">
 <h3>sourceId</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">sourceId</span>()</div>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">sourceId</span>()</div>
 <div class="block">Returns the value of the <a href="#param-sourceId"><code>sourceId</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

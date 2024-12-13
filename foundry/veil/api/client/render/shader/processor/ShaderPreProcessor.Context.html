@@ -87,11 +87,16 @@ loadScripts(document, 'script');</script>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
+<dt>All Known Subinterfaces:</dt>
+<dd><code><a href="ShaderPreProcessor.MinecraftContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.MinecraftContext</a></code>, <code><a href="ShaderPreProcessor.SodiumContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.SodiumContext</a></code>, <code><a href="ShaderPreProcessor.VeilContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.VeilContext</a></code></dd>
+</dl>
+<dl class="notes">
 <dt>Enclosing interface:</dt>
 <dd><code><a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static interface </span><span class="element-name type-name-label">ShaderPreProcessor.Context</span></div>
+<div class="type-signature"><span class="modifiers">public static sealed interface </span><span class="element-name type-name-label">ShaderPreProcessor.Context</span>
+<span class="permits">permits <a href="ShaderPreProcessor.MinecraftContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.MinecraftContext</a>, <a href="ShaderPreProcessor.VeilContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.VeilContext</a>, <a href="ShaderPreProcessor.SodiumContext.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.SodiumContext</a></span></div>
 <div class="block">Context for modifying source code and shader behavior.</div>
 </section>
 <section class="summary">
@@ -101,29 +106,12 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab5" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab5', 3)" class="table-tab">Default Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addDefinitionDependency(java.lang.String)" class="member-name-link">addDefinitionDependency</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Marks this shader as dependent on the specified pre-definition.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addInclude(net.minecraft.resources.ResourceLocation)" class="member-name-link">addInclude</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addUniformBinding(java.lang.String,int)" class="member-name-link">addUniformBinding</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- int&nbsp;binding)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Sets the uniform binding for a shader.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="../program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#definition()" class="member-name-link">definition</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;net.minecraft.resources.ResourceLocation&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#includes()" class="member-name-link">includes</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
@@ -139,17 +127,11 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#preDefinitions()" class="member-name-link">preDefinitions</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shaderInstance()" class="member-name-link">shaderInstance</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable com.mojang.blaze3d.vertex.VertexFormat</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertexFormat()" class="member-name-link">vertexFormat</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="../definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#preDefinitions()" class="member-name-link">preDefinitions</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
@@ -185,51 +167,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="addUniformBinding(java.lang.String,int)">
-<h3>addUniformBinding</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addUniformBinding</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- int&nbsp;binding)</span></div>
-<div class="block">Sets the uniform binding for a shader.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>name</code> - The name of the uniform</dd>
-<dd><code>binding</code> - The binding to set it to</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="addDefinitionDependency(java.lang.String)">
-<h3>addDefinitionDependency</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addDefinitionDependency</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Marks this shader as dependent on the specified pre-definition.
- When definitions change, only shaders marked as dependent on that definition will be recompiled.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>name</code> - The name of the definition to depend on</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="addInclude(net.minecraft.resources.ResourceLocation)">
-<h3>addInclude</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addInclude</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;name)</span></div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>name</code> - The name of the definition to depend on</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="includes()">
-<h3>includes</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.minecraft.resources.ResourceLocation&gt;</span>&nbsp;<span class="element-name">includes</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>A view of all includes in this shader</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="name()">
 <h3>name</h3>
 <div class="member-signature"><span class="annotations">@Nullable
@@ -251,55 +188,32 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="definition()">
-<h3>definition</h3>
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="return-type">@Nullable <a href="../program/ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition</a></span>&nbsp;<span class="element-name">definition</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The definition of the program this is being compiled for or <code>null</code> if the shader is standalone</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="shaderInstance()">
-<h3>shaderInstance</h3>
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">shaderInstance</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The name of the shader instance this was compiled with or <code>null</code> if not a vanilla shader</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="preDefinitions()">
-<h3>preDefinitions</h3>
-<div class="member-signature"><span class="return-type"><a href="../definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></span>&nbsp;<span class="element-name">preDefinitions</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The set of pre-definitions for shaders</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="vertexFormat()">
-<h3>vertexFormat</h3>
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="return-type">@Nullable com.mojang.blaze3d.vertex.VertexFormat</span>&nbsp;<span class="element-name">vertexFormat</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The vertex format specified in the shader or <code>null</code> if a vanilla shader</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="type()">
 <h3>type</h3>
 <div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">type</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The OpenGL type of the compiling shader</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="includes()">
+<h3>includes</h3>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.minecraft.resources.ResourceLocation&gt;</span>&nbsp;<span class="element-name">includes</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A view of all includes in this shader</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="preDefinitions()">
+<h3>preDefinitions</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="../definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></span>&nbsp;<span class="element-name">preDefinitions</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The set of pre-definitions for shaders</dd>
 </dl>
 </section>
 </li>
