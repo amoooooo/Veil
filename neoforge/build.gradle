@@ -77,10 +77,10 @@ dependencies {
         jarJar(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-$name"))
     }
 
-    compileOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
-    compileOnly "maven.modrinth:iris:1.8.0+1.21.1-neoforge"
-    runtimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.0-neoforge"
-//    runtimeOnly "maven.modrinth:iris:1.8.0+1.21.1-neoforge"
+    compileOnly "maven.modrinth:sodium:mc1.21.1-0.6.1-neoforge"
+    compileOnly "maven.modrinth:iris:1.8.1+1.21.1-neoforge"
+    runtimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.1-neoforge"
+//    runtimeOnly "maven.modrinth:iris:1.8.1+1.21.1-neoforge"
 
     // Allows sodium compat to compile properly
     compileOnly "org.sinytra.forgified-fabric-api:forgified-fabric-api:0.104.0+2.0.19+1.21.1"

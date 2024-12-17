@@ -1,7 +1,7 @@
 package foundry.veil.forge.mixin.compat.sodium;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import foundry.veil.ext.ChunkVertexEncoderVertexExtension;
+import foundry.veil.ext.sodium.ChunkVertexEncoderVertexExtension;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer;
 import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.Material;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;

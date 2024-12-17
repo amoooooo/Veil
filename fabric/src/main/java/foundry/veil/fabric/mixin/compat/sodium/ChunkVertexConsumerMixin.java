@@ -1,7 +1,7 @@
 package foundry.veil.fabric.mixin.compat.sodium;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import foundry.veil.ext.ChunkVertexEncoderVertexExtension;
+import foundry.veil.ext.sodium.ChunkVertexEncoderVertexExtension;
 import net.caffeinemc.mods.sodium.api.util.NormI8;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.buffers.ChunkVertexConsumer;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;

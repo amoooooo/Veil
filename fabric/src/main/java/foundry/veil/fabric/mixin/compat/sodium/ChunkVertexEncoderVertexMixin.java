@@ -1,7 +1,6 @@
 package foundry.veil.fabric.mixin.compat.sodium;
 
-import foundry.veil.ext.ChunkVertexEncoderVertexExtension;
-import net.caffeinemc.mods.sodium.api.util.NormI8;
+import foundry.veil.ext.sodium.ChunkVertexEncoderVertexExtension;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

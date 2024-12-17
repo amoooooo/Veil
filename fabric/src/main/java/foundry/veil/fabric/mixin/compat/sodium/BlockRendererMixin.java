@@ -1,12 +1,11 @@
 package foundry.veil.fabric.mixin.compat.sodium;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import foundry.veil.ext.ChunkVertexEncoderVertexExtension;
+import foundry.veil.ext.sodium.ChunkVertexEncoderVertexExtension;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer;
 import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.Material;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;
 import net.caffeinemc.mods.sodium.client.render.frapi.mesh.MutableQuadViewImpl;
-import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

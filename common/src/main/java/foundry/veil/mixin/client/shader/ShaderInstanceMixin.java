@@ -5,7 +5,6 @@ import com.mojang.blaze3d.shaders.Uniform;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
-import foundry.veil.impl.client.render.shader.SodiumShaderProcessor;
 import foundry.veil.impl.client.render.shader.VanillaShaderProcessor;
 import foundry.veil.impl.client.render.wrapper.VanillaUniformWrapper;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -19,7 +18,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.lwjgl.opengl.GL20C.glGetUniformLocation;
 
@@ -41,8 +43,8 @@ public class ShaderInstanceMixin {
 
     @Inject(method = "getOrCreate", at = @At("HEAD"), cancellable = true)
     private static void veil$cancelDummyProgram(ResourceProvider provider, Program.Type type, String name, CallbackInfoReturnable<Program> cir) {
-        if (ShaderProgramImpl.Wrapper.constructing) {
-            cir.setReturnValue(null);
+        if (ShaderProgramImpl.Wrapper.constructingProgram != null) {
+            cir.setReturnValue(new ShaderProgramImpl.ShaderWrapper(type, ShaderProgramImpl.Wrapper.constructingProgram));
         }
     }
 

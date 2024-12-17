@@ -170,6 +170,8 @@
   "inspector.veil.texture.toggle.flip_y": "Flip Y",
 
   "inspector.veil.framebuffer.title": "Framebuffer",
+  "inspector.veil.framebuffer.iris.show_alt": "Show Alt Texture",
+  "inspector.veil.framebuffer.iris.show_alt.desc": "Displays the \"Alt\" version of render targets",
   "inspector.veil.framebuffer.color_attachment": "Attachment %d",
   "inspector.veil.framebuffer.depth_attachment": "Depth",
 

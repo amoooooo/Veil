@@ -1,4 +1,4 @@
-package foundry.veil.ext;
+package foundry.veil.ext.sodium;
 
 public interface ChunkShaderOptionsExtension {
 

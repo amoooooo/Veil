@@ -1,8 +1,7 @@
 package foundry.veil.fabric.mixin.compat.sodium;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import foundry.veil.ext.ChunkVertexEncoderVertexExtension;
-import net.caffeinemc.mods.sodium.api.util.NormI8;
+import foundry.veil.ext.sodium.ChunkVertexEncoderVertexExtension;
 import net.caffeinemc.mods.sodium.client.model.quad.ModelQuadView;
 import net.caffeinemc.mods.sodium.client.model.quad.properties.ModelQuadFacing;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.buffers.ChunkModelBuilder;

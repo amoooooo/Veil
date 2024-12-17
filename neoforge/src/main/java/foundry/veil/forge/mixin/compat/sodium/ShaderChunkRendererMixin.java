@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.ext.ChunkShaderOptionsExtension;
+import foundry.veil.ext.sodium.ChunkShaderOptionsExtension;
 import foundry.veil.forge.ext.ShaderChunkRendererExtension;
 import foundry.veil.impl.ThreadTaskScheduler;
 import foundry.veil.impl.client.render.shader.SodiumShaderProcessor;

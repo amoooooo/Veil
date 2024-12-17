@@ -161,6 +161,7 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
         R32F(GL_RED, GL_R32F),
         RG32F(GL_RG, GL_R32F),
         RGB32F(GL_RGB, GL_RGB32F),
+        RGB9_E5(GL_RGB, GL_RGB9_E5),
         RGBA32F(GL_RGBA, GL_RGBA32F),
         R11F_G11F_B10F(GL_RGBA, GL_R11F_G11F_B10F),
         R8I(GL_RED_INTEGER, GL_R8I),

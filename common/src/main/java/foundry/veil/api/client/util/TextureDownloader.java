@@ -72,8 +72,13 @@ public final class TextureDownloader {
 
             CompletableFuture<?> future = CompletableFuture.runAsync(() ->
             {
-                stbi_flip_vertically_on_write(flip);
+                if (flip) {
+                    stbi_flip_vertically_on_write(true);
+                }
                 boolean success = stbi_write_png(outputFile.toString(), width, height, components, image, 0);
+                if (flip) {
+                    stbi_flip_vertically_on_write(false);
+                }
                 MemoryUtil.memFree(image);
                 if (!success) {
                     throw new CompletionException(new IOException("Failed to write image to: " + outputFile));

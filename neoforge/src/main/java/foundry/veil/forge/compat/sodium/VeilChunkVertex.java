@@ -1,6 +1,6 @@
 package foundry.veil.forge.compat.sodium;
 
-import foundry.veil.ext.ChunkVertexEncoderVertexExtension;
+import foundry.veil.ext.sodium.ChunkVertexEncoderVertexExtension;
 import net.caffeinemc.mods.sodium.api.util.ColorARGB;
 import net.caffeinemc.mods.sodium.client.gl.attribute.GlVertexAttributeFormat;
 import net.caffeinemc.mods.sodium.client.gl.attribute.GlVertexFormat;

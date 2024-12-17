@@ -3,6 +3,8 @@ package foundry.veil.impl.client.render.shader;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.shaders.Program;
+import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -86,13 +88,13 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.textureSources = new HashMap<>();
         this.definitionDependencies = new HashSet<>();
         this.wrapper = Suppliers.memoize(() -> {
-            Wrapper.constructing = true;
+            Wrapper.constructingProgram = this;
             try {
                 return new Wrapper(this);
             } catch (Exception e) {
                 throw new IllegalStateException("Failed to wrap shader program: " + this.getId(), e);
             } finally {
-                Wrapper.constructing = false;
+                Wrapper.constructingProgram = null;
             }
         });
     }
@@ -511,7 +513,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         private static final Resource RESOURCE = new DummyResource(() -> new ByteArrayInputStream(DUMMY_SHADER));
         private static final VertexFormat DUMMY_FORMAT = VertexFormat.builder().build();
 
-        public static boolean constructing = false;
+        public static ShaderProgram constructingProgram = null;
 
         private final ShaderProgram program;
 
@@ -797,6 +799,68 @@ public class ShaderProgramImpl implements ShaderProgram {
         @Override
         public int getLocation() {
             return this.access.get().getUniform(this.getName());
+        }
+    }
+
+    public static class ShaderWrapper extends Program {
+
+        private final Type type;
+        private final ShaderProgram program;
+
+        public ShaderWrapper(Type type, ShaderProgram program) {
+            super(type, 0, getName(type, program));
+            this.type = type;
+            this.program = program;
+        }
+
+        private static String getName(Type type, ShaderProgram program) {
+            ProgramDefinition definition = program.getDefinition();
+            if (definition != null) {
+                switch (type) {
+                    case VERTEX -> {
+                        ProgramDefinition.ShaderSource vertex = definition.vertex();
+                        if (vertex != null) {
+                            return vertex.location().toString();
+                        }
+                    }
+                    case FRAGMENT -> {
+                        ProgramDefinition.ShaderSource fragment = definition.fragment();
+                        if (fragment != null) {
+                            return fragment.location().toString();
+                        }
+                    }
+                }
+            }
+            return Veil.MODID + ":dummy_" + type.getName();
+        }
+
+        @Override
+        public void attachToShader(Shader shader) {
+        }
+
+        @Override
+        public void close() {
+        }
+
+        @Override
+        public String getName() {
+            return getName(this.type, this.program);
+        }
+
+        @Override
+        public int getId() {
+            Int2ObjectMap<CompiledShader> shaders = this.program.getShaders();
+            switch (this.type) {
+                case VERTEX -> {
+                    CompiledShader vertex = shaders.get(GL_VERTEX_SHADER);
+                    return vertex != null ? vertex.id() : 0;
+                }
+                case FRAGMENT -> {
+                    CompiledShader fragment = shaders.get(GL_FRAGMENT_SHADER);
+                    return fragment != null ? fragment.id() : 0;
+                }
+            }
+            return super.getId();
         }
     }
 }

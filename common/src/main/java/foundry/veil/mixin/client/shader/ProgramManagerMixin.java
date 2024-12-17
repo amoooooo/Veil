@@ -14,8 +14,8 @@ public class ProgramManagerMixin {
 
     @Inject(method = "createProgram", at = @At("HEAD"), cancellable = true)
     private static void veil$cancelProgram(CallbackInfoReturnable<Integer> cir) {
-        if (ShaderProgramImpl.Wrapper.constructing) {
-            cir.setReturnValue(0);
+        if (ShaderProgramImpl.Wrapper.constructingProgram != null) {
+            cir.setReturnValue(ShaderProgramImpl.Wrapper.constructingProgram.getProgram());
         }
     }
 

@@ -10,6 +10,10 @@ import foundry.veil.lib.anarres.cpp.LexerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class GlslTest {
@@ -389,49 +393,59 @@ public class GlslTest {
     }
 
     @Test
-    void testMethodMatrix() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
-#version 150
+    void testA() throws GlslSyntaxException, IOException {
+        GlslTree tree = GlslParser.parse(new String(Files.readAllBytes(Paths.get("P:\\MinecraftMods\\Foundry\\Veil\\shader.glsl"))));
 
-uniform sampler2D Sampler0;
-uniform sampler2D Sampler2;
-uniform sampler2D DiffuseDepthSampler;
+        GlslStringWriter writer = new GlslStringWriter();
+        tree.visit(writer);
 
-uniform mat4 ProjMat;
-uniform vec4 ColorModulator;
-uniform float FogStart;
-uniform float FogEnd;
-uniform vec4 FogColor;
-uniform vec2 ScreenSize;
-
-in float vertexDistance;
-in vec2 texCoord0;
-in vec4 vertexColor;
-
-out vec4 fragColor;
-
-float linearizeDepth(float depthSample) {
-    // Same calculation mojang does, to linearize depths using the projection matrix values
-    return -ProjMat[3].z / (depthSample * -2.0 + 1.0 - ProjMat[2].z);
-}
-
-void main() {
-    vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator;
-    if (color.a < 0.001) {
-        discard;
+        Files.writeString(Paths.get("shader-out.glsl"), writer.toString());
     }
 
-    // Depth only occupies the red channel, we don't care about the other two
-    float depthSample = texture(DiffuseDepthSampler, gl_FragCoord.xy / ScreenSize).r;
-
-    float depth = linearizeDepth(depthSample);
-    float particleDepth = linearizeDepth(gl_FragCoord.z);
-
-    // Linearly blends from 1x to 0x opacity at 1+ meter depth difference to 0 depth difference
-    float opacity = color.a * min(depth - particleDepth, 1.0);
-
-    fragColor = linear_fog(vec4(color.rgb, opacity), vertexDistance, FogStart, FogEnd, FogColor);
-}
+    @Test
+    void testMethodMatrix() throws GlslSyntaxException {
+        GlslTree tree = GlslParser.parse("""
+                #version 150
+                
+                uniform sampler2D Sampler0;
+                uniform sampler2D Sampler2;
+                uniform sampler2D DiffuseDepthSampler;
+                
+                uniform mat4 ProjMat;
+                uniform vec4 ColorModulator;
+                uniform float FogStart;
+                uniform float FogEnd;
+                uniform vec4 FogColor;
+                uniform vec2 ScreenSize;
+                
+                in float vertexDistance;
+                in vec2 texCoord0;
+                in vec4 vertexColor;
+                
+                out vec4 fragColor;
+                
+                float linearizeDepth(float depthSample) {
+                    // Same calculation mojang does, to linearize depths using the projection matrix values
+                    return -ProjMat[3].z / (depthSample * -2.0 + 1.0 - ProjMat[2].z);
+                }
+                
+                void main() {
+                    vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator;
+                    if (color.a < 0.001) {
+                        discard;
+                    }
+                
+                    // Depth only occupies the red channel, we don't care about the other two
+                    float depthSample = texture(DiffuseDepthSampler, gl_FragCoord.xy / ScreenSize).r;
+                
+                    float depth = linearizeDepth(depthSample);
+                    float particleDepth = linearizeDepth(gl_FragCoord.z);
+                
+                    // Linearly blends from 1x to 0x opacity at 1+ meter depth difference to 0 depth difference
+                    float opacity = color.a * min(depth - particleDepth, 1.0);
+                
+                    fragColor = linear_fog(vec4(color.rgb, opacity), vertexDistance, FogStart, FogEnd, FogColor);
+                }
                 """);
 
         GlslStringWriter writer = new GlslStringWriter();
