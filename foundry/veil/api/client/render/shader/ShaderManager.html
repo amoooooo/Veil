@@ -287,9 +287,10 @@ implements net.minecraft.server.packs.resources.PreparableReloadListener, <a hre
 <div class="block">Creates a new dynamic shader with the specified shader sources.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>id</code> - </dd>
-<dd><code>shaderSources</code> - </dd>
+<dd><code>id</code> - The internal ID of the shader</dd>
+<dd><code>shaderSources</code> - A map of all shader sources from GL shader enum values to GLSL source code</dd>
 <dt>Returns:</dt>
+<dd>A future for when the shader is done compiling</dd>
 </dl>
 </section>
 </li>

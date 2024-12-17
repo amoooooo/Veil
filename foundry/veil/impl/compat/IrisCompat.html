@@ -101,7 +101,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="IrisCompat.html" title="interface in foundry.veil.impl.compat">IrisCompat</a></code></div>
+<div class="col-first even-row-color"><code>static final @Nullable <a href="IrisCompat.html" title="interface in foundry.veil.impl.compat">IrisCompat</a></code></div>
 <div class="col-second even-row-color"><code><a href="#INSTANCE" class="member-name-link">INSTANCE</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -124,9 +124,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;net.minecraft.client.renderer.ShaderInstance&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getLoadedShaders()" class="member-name-link">getLoadedShaders</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#recompile()" class="member-name-link">recompile</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../ext/iris/IrisRenderTargetExtension.html" title="interface in foundry.veil.ext.iris">IrisRenderTargetExtension</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getRenderTargets()" class="member-name-link">getRenderTargets</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#recompile()" class="member-name-link">recompile</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -144,7 +147,8 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="INSTANCE">
 <h3>INSTANCE</h3>
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="IrisCompat.html" title="interface in foundry.veil.impl.compat">IrisCompat</a></span>&nbsp;<span class="element-name">INSTANCE</span></div>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">static final</span>&nbsp;<span class="return-type">@Nullable <a href="IrisCompat.html" title="interface in foundry.veil.impl.compat">IrisCompat</a></span>&nbsp;<span class="element-name">INSTANCE</span></div>
 </section>
 </li>
 </ul>
@@ -159,6 +163,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getLoadedShaders()">
 <h3>getLoadedShaders</h3>
 <div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.minecraft.client.renderer.ShaderInstance&gt;</span>&nbsp;<span class="element-name">getLoadedShaders</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getRenderTargets()">
+<h3>getRenderTargets</h3>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../ext/iris/IrisRenderTargetExtension.html" title="interface in foundry.veil.ext.iris">IrisRenderTargetExtension</a>&gt;</span>&nbsp;<span class="element-name">getRenderTargets</span>()</div>
 </section>
 </li>
 <li>

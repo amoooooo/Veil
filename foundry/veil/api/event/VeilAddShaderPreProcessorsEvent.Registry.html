@@ -94,13 +94,8 @@ loadScripts(document, 'script');</script>
 <dt>Enclosing interface:</dt>
 <dd><code><a href="VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a></code></dd>
 </dl>
-<dl class="notes">
-<dt>Functional Interface:</dt>
-<dd>This is a functional interface and can therefore be used as the assignment target for a lambda expression or method reference.</dd>
-</dl>
 <hr>
-<div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
-</span><span class="modifiers">public static interface </span><span class="element-name type-name-label">VeilAddShaderPreProcessorsEvent.Registry</span></div>
+<div class="type-signature"><span class="modifiers">public static interface </span><span class="element-name type-name-label">VeilAddShaderPreProcessorsEvent.Registry</span></div>
 <div class="block">Registers shader pre-processors.</div>
 </section>
 <section class="summary">
@@ -127,6 +122,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds the specified pre-processor to the end of the stack.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#addPreprocessorFirst(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor)" class="member-name-link">addPreprocessorFirst</a><wbr>(<a href="../client/render/shader/processor/ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>&nbsp;processor)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Adds the specified pre-processor to the start of the stack.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addPreprocessorFirst(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor,boolean)" class="member-name-link">addPreprocessorFirst</a><wbr>(<a href="../client/render/shader/processor/ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>&nbsp;processor,
+ boolean&nbsp;modifyImports)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Adds the specified pre-processor to the start of the stack.</div>
+</div>
 </div>
 </div>
 </div>
@@ -141,6 +147,30 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="addPreprocessorFirst(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor,boolean)">
+<h3>addPreprocessorFirst</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addPreprocessorFirst</span><wbr><span class="parameters">(<a href="../client/render/shader/processor/ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>&nbsp;processor,
+ boolean&nbsp;modifyImports)</span></div>
+<div class="block">Adds the specified pre-processor to the start of the stack.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>processor</code> - The processor to add</dd>
+<dd><code>modifyImports</code> - Whether the processor will also be run on imports</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addPreprocessorFirst(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor)">
+<h3>addPreprocessorFirst</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addPreprocessorFirst</span><wbr><span class="parameters">(<a href="../client/render/shader/processor/ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>&nbsp;processor)</span></div>
+<div class="block">Adds the specified pre-processor to the start of the stack.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>processor</code> - The processor to add</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="addPreprocessor(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor,boolean)">
 <h3>addPreprocessor</h3>

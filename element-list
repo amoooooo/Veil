@@ -60,6 +60,8 @@ foundry.veil.api.resource.editor
 foundry.veil.api.resource.type
 foundry.veil.api.util
 foundry.veil.ext
+foundry.veil.ext.iris
+foundry.veil.ext.sodium
 foundry.veil.impl
 foundry.veil.impl.client
 foundry.veil.impl.client.editor
