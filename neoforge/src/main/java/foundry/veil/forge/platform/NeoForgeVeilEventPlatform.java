@@ -55,7 +55,7 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
 
     @Override
     public void onVeilAddShaderProcessors(VeilAddShaderPreProcessorsEvent event) {
-        NeoForge.EVENT_BUS.<ForgeVeilAddShaderProcessorsEvent>addListener(event::onRegisterShaderPreProcessors);
+        NeoForge.EVENT_BUS.<ForgeVeilAddShaderProcessorsEvent>addListener(forgeEvent -> event.onRegisterShaderPreProcessors(forgeEvent.getResourceProvider(), forgeEvent));
     }
 
     @Override

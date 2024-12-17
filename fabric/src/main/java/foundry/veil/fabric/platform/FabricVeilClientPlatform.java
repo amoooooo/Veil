@@ -1,11 +1,11 @@
 package foundry.veil.fabric.platform;
 
 import foundry.veil.api.client.render.post.PostPipeline;
-import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.fabric.event.FabricVeilAddShaderPreProcessorsEvent;
 import foundry.veil.fabric.event.FabricVeilPostProcessingEvent;
 import foundry.veil.platform.VeilClientPlatform;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceProvider;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
@@ -22,7 +22,7 @@ public class FabricVeilClientPlatform implements VeilClientPlatform {
     }
 
     @Override
-    public void onRegisterShaderPreProcessors(Registry registry) {
-        FabricVeilAddShaderPreProcessorsEvent.EVENT.invoker().onRegisterShaderPreProcessors(registry);
+    public void onRegisterShaderPreProcessors(ResourceProvider resourceProvider, Registry registry) {
+        FabricVeilAddShaderPreProcessorsEvent.EVENT.invoker().onRegisterShaderPreProcessors(resourceProvider, registry);
     }
 }

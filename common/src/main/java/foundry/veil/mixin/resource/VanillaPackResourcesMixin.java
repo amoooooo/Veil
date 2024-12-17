@@ -75,7 +75,7 @@ public abstract class VanillaPackResourcesMixin implements PackResourcesExtensio
 
                             @Override
                             public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-                                if (file.endsWith("/data/realms")) { // This always fails, so just ignore it
+                                if (file.endsWith("/assets/realms") || file.endsWith("/data/realms")) { // This always fails, so just ignore it
                                     return FileVisitResult.CONTINUE;
                                 }
                                 return super.visitFileFailed(file, exc);

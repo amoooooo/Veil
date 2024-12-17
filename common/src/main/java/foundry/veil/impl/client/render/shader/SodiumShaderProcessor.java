@@ -25,13 +25,13 @@ public class SodiumShaderProcessor {
 
     private static final ThreadLocal<ShaderProcessorList> PROCESSOR = new ThreadLocal<>();
 
-    public static void setup(ResourceProvider resourceProvider, int activeBuffers) {
+    public static void setup(ResourceProvider provider, int activeBuffers) {
         ShaderProcessorList list = new ShaderProcessorList();
         list.addPreprocessor(new ShaderModifyProcessor());
-        list.addPreprocessor(new ShaderCustomProcessor(resourceProvider));
+        list.addPreprocessor(new ShaderCustomProcessor(provider));
         list.addPreprocessor(new DynamicBufferProcessor(DynamicBufferType.decode(activeBuffers)));
         list.addPreprocessor(new SodiumShaderPreProcessor());
-        VeilClient.clientPlatform().onRegisterShaderPreProcessors(list);
+        VeilClient.clientPlatform().onRegisterShaderPreProcessors(provider, list);
         PROCESSOR.set(list);
     }
 

@@ -14,10 +14,10 @@ import net.fabricmc.fabric.api.event.EventFactory;
 @FunctionalInterface
 public interface FabricVeilAddShaderPreProcessorsEvent extends VeilAddShaderPreProcessorsEvent {
 
-    Event<VeilAddShaderPreProcessorsEvent> EVENT = EventFactory.createArrayBacked(VeilAddShaderPreProcessorsEvent.class, registry -> {
-    }, events -> registry -> {
+    Event<VeilAddShaderPreProcessorsEvent> EVENT = EventFactory.createArrayBacked(VeilAddShaderPreProcessorsEvent.class, (provider, registry) -> {
+    }, events -> (provider, registry) -> {
         for (VeilAddShaderPreProcessorsEvent event : events) {
-            event.onRegisterShaderPreProcessors(registry);
+            event.onRegisterShaderPreProcessors(provider, registry);
         }
     });
 }

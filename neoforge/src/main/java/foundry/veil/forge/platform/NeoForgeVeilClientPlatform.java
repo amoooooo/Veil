@@ -1,11 +1,11 @@
 package foundry.veil.forge.platform;
 
 import foundry.veil.api.client.render.post.PostPipeline;
-import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.forge.event.ForgeVeilAddShaderProcessorsEvent;
 import foundry.veil.forge.event.ForgeVeilPostProcessingEvent;
 import foundry.veil.platform.VeilClientPlatform;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceProvider;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -23,7 +23,7 @@ public class NeoForgeVeilClientPlatform implements VeilClientPlatform {
     }
 
     @Override
-    public void onRegisterShaderPreProcessors(Registry registry) {
-        NeoForge.EVENT_BUS.post(new ForgeVeilAddShaderProcessorsEvent(registry));
+    public void onRegisterShaderPreProcessors(ResourceProvider resourceProvider, Registry registry) {
+        NeoForge.EVENT_BUS.post(new ForgeVeilAddShaderProcessorsEvent(resourceProvider, registry));
     }
 }

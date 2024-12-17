@@ -122,15 +122,13 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     }
 
     private void addProcessors(ShaderProcessorList processorList, ResourceProvider provider) {
-        if (provider != null) {
-            processorList.addPreprocessor(new ShaderImportProcessor(provider));
-        }
+        processorList.addPreprocessor(new ShaderImportProcessor(provider));
         processorList.addPreprocessor(new ShaderBindingProcessor());
         processorList.addPreprocessor(new ShaderPredefinitionProcessor(), false);
         processorList.addPreprocessor(new ShaderVersionProcessor(), false);
-        VeilClient.clientPlatform().onRegisterShaderPreProcessors(processorList);
         processorList.addPreprocessor(new ShaderModifyProcessor(), false);
         processorList.addPreprocessor(new ShaderCustomProcessor(provider), false);
+        VeilClient.clientPlatform().onRegisterShaderPreProcessors(provider, processorList);
     }
 
     private ProgramDefinition parseDefinition(ResourceLocation id, ResourceProvider provider) throws IOException {
@@ -221,9 +219,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     /**
      * Creates a new dynamic shader with the specified shader sources.
      *
-     * @param id
-     * @param shaderSources
-     * @return
+     * @param id            The internal ID of the shader
+     * @param shaderSources A map of all shader sources from GL shader enum values to GLSL source code
+     * @return A future for when the shader is done compiling
      */
     public CompletableFuture<ShaderProgram> createDynamicProgram(ResourceLocation id, Int2ObjectMap<String> shaderSources) {
         DynamicShaderProgramImpl compileProgram;
@@ -233,13 +231,14 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                 Veil.LOGGER.warn("Dynamic shader {} will overwrite the shader file until it is deleted!", id);
             }
 
-            compileProgram = new DynamicShaderProgramImpl(id, program, () -> {
+            compileProgram = new DynamicShaderProgramImpl(id, () -> {
                 if (program != null) {
                     this.shaders.put(id, program);
                 } else {
                     this.shaders.remove(id);
                 }
             });
+            compileProgram.setOldShader(program);
             this.shaders.put(id, compileProgram);
         } else {
             compileProgram = dynamicShaderProgram;

@@ -33,12 +33,12 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
     private final Int2ObjectMap<VeilShaderSource> processedShaderSources;
     private ShaderProgramImpl oldShader;
 
-    public DynamicShaderProgramImpl(ResourceLocation id, ShaderProgramImpl oldShader, Runnable onFree) {
+    public DynamicShaderProgramImpl(ResourceLocation id, Runnable onFree) {
         super(id);
         this.onFree = onFree;
         this.shaderSources = new Int2ObjectArrayMap<>();
         this.processedShaderSources = new Int2ObjectArrayMap<>();
-        this.oldShader = oldShader;
+        this.oldShader = null;
     }
 
     @Override

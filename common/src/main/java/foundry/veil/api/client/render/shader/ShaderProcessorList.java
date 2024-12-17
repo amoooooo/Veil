@@ -2,10 +2,12 @@ package foundry.veil.api.client.render.shader;
 
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.api.event.VeilAddShaderPreProcessorsEvent;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@ApiStatus.Internal
 public class ShaderProcessorList implements VeilAddShaderPreProcessorsEvent.Registry {
 
     private final List<ShaderPreProcessor> processors;
@@ -21,11 +23,21 @@ public class ShaderProcessorList implements VeilAddShaderPreProcessorsEvent.Regi
     }
 
     @Override
-    public void addPreprocessor(ShaderPreProcessor processor, boolean modifyImports) {
-        this.processors.add(processor);
+    public void addPreprocessorFirst(ShaderPreProcessor processor, boolean modifyImports) {
+        this.processors.addFirst(processor);
         this.processor = null;
         if (modifyImports) {
-            this.importProcessors.add(processor);
+            this.importProcessors.addFirst(processor);
+            this.importProcessor = null;
+        }
+    }
+
+    @Override
+    public void addPreprocessor(ShaderPreProcessor processor, boolean modifyImports) {
+        this.processors.addLast(processor);
+        this.processor = null;
+        if (modifyImports) {
+            this.importProcessors.addLast(processor);
             this.importProcessor = null;
         }
     }

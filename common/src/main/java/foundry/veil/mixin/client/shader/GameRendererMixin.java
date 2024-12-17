@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.Collection;
+import java.util.List;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
@@ -31,8 +32,8 @@ public class GameRendererMixin {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), "shaders/core/" + loc.getPath());
 
         VeilRenderer renderer = VeilRenderSystem.renderer();
-        Collection<ShaderModification> modifiers = renderer.getShaderModificationManager().getModifiers(id);
-        if (modifiers.size() == 1 && modifiers.iterator().next() instanceof ReplaceShaderModification replaceModification) {
+        List<ShaderModification> modifiers = renderer.getShaderModificationManager().getModifiers(id);
+        if (modifiers.size() == 1 && modifiers.getFirst() instanceof ReplaceShaderModification replaceModification) {
             ShaderProgram shader = renderer.getShaderManager().getShader(replaceModification.veilShader());
             if (shader != null) {
                 return shader.toShaderInstance();

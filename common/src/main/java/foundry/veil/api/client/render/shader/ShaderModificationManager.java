@@ -88,7 +88,7 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
      * @param shaderId The shader to get all modifiers for
      * @return The modifiers applied to the specified shader
      */
-    public Collection<ShaderModification> getModifiers(ResourceLocation shaderId) {
+    public List<ShaderModification> getModifiers(ResourceLocation shaderId) {
         return this.shaders.getOrDefault(shaderId, Collections.emptyList());
     }
 

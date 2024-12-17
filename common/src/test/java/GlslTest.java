@@ -410,9 +410,9 @@ in vec4 vertexColor;
 
 out vec4 fragColor;
 
-float linearizeDepth(float sample) {
+float linearizeDepth(float depthSample) {
     // Same calculation mojang does, to linearize depths using the projection matrix values
-    return -ProjMat[3].z /  (sample * -2.0 + 1.0 - ProjMat[2].z);
+    return -ProjMat[3].z / (depthSample * -2.0 + 1.0 - ProjMat[2].z);
 }
 
 void main() {

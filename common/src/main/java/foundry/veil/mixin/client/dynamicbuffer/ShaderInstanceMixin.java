@@ -188,7 +188,7 @@ public abstract class ShaderInstanceMixin implements Shader, ShaderInstanceExten
             try {
                 this.veil$link(vertexProgram, fragmentProgram);
             } catch (Throwable t) {
-                throw new RuntimeException("Failed to swap vanilla shader: " + this.name, t);
+                Veil.LOGGER.error("Failed to swap vanilla shader: {}", this.name, t);
             }
             return false;
         }
