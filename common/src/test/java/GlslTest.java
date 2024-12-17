@@ -10,10 +10,6 @@ import foundry.veil.lib.anarres.cpp.LexerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 
 public class GlslTest {
@@ -390,16 +386,6 @@ public class GlslTest {
         GlslStringWriter writer = new GlslStringWriter();
         tree.visit(writer);
         System.out.println(writer);
-    }
-
-    @Test
-    void testA() throws GlslSyntaxException, IOException {
-        GlslTree tree = GlslParser.parse(new String(Files.readAllBytes(Paths.get("P:\\MinecraftMods\\Foundry\\Veil\\shader.glsl"))));
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-
-        Files.writeString(Paths.get("shader-out.glsl"), writer.toString());
     }
 
     @Test

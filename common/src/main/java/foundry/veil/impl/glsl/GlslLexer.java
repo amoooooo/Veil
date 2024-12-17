@@ -9,6 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
@@ -47,25 +48,76 @@ public final class GlslLexer {
         return tokens.toArray(Token[]::new);
     }
 
-    // FIXME Make this faster
+    @SuppressWarnings("UnstableApiUsage")
     private static @Nullable Token getToken(StringReader reader) {
         String word = reader.getString().substring(reader.getCursor());
-        Token longest = null;
-        int length = 0;
-        for (TokenType type : TokenType.values()) {
+
+        // Special for directives
+        if (word.startsWith("#")) {
+            int i = 1;
+            while (i < word.length() && word.charAt(i) != '\n') {
+                i++;
+            }
+            reader.skip(i);
+            return new Token(TokenType.DIRECTIVE, word.substring(0, i));
+        }
+
+        // Special for single-line comments
+        if (word.startsWith("//")) {
+            int i = 2;
+            while (i < word.length() && word.charAt(i) != '\n') {
+                i++;
+            }
+            reader.skip(i);
+            return new Token(TokenType.COMMENT, word.substring(0, i));
+        }
+
+        int patternLength = 0;
+        String longestPattern = null;
+        TokenType patternType = null;
+        for (TokenType type : TokenType.PATTERN_VALUES) {
             Matcher matcher = type.pattern.matcher(word);
-            if (matcher.find() && matcher.start() == 0 && matcher.end() > length) {
-                length = matcher.end();
-                longest = new Token(type, word.substring(0, length));
+            if (matcher.find() && matcher.start() == 0 && matcher.end() > patternLength) {
+                patternLength = matcher.end();
+                longestPattern = word.substring(0, patternLength);
+                patternType = type;
             }
         }
 
-        if (longest != null) {
-            reader.setCursor(reader.getCursor() + length);
-            return longest;
+        int wordLength = 0;
+        TokenType longestWordType = null;
+        String longestWord = null;
+        for (TokenType type : TokenType.WORD_VALUES) {
+            for (String typeWord : type.words) {
+                if (word.startsWith(typeWord) && typeWord.length() > wordLength) {
+                    wordLength = typeWord.length();
+                    longestWordType = type;
+                    longestWord = typeWord;
+                }
+            }
         }
 
-        return null;
+        if (longestPattern == null ^ longestWordType == null) {
+            if (longestPattern != null) {
+                reader.setCursor(reader.getCursor() + patternLength);
+                return new Token(patternType, longestPattern);
+            }
+
+            reader.setCursor(reader.getCursor() + wordLength);
+            return new Token(longestWordType, longestWord);
+        }
+
+        if (longestPattern == null) {
+            return null;
+        }
+
+        if (wordLength >= patternLength) {
+            reader.setCursor(reader.getCursor() + wordLength);
+            return new Token(longestWordType, longestWord);
+        }
+
+        reader.setCursor(reader.getCursor() + patternLength);
+        return new Token(patternType, longestPattern);
     }
 
     public record Token(TokenType type, String value) {
@@ -76,10 +128,10 @@ public final class GlslLexer {
     }
 
     public enum TokenType {
-        DIRECTIVE("#.*"),
-        GLSL_MACRO("__LINE__|__FILE__|__VERSION__"),
-        COMMENT("\\/\\/.*"),
-        MULTI_COMMENT("\\/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*\\/"),
+        DIRECTIVE,
+        GLSL_MACRO("__LINE__", "__FILE__", "__VERSION__"),
+        COMMENT,
+        MULTI_COMMENT(Pattern.compile("/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/")),
 
         CONST("const"),
         BOOL("bool"),
@@ -246,44 +298,44 @@ public final class GlslLexer {
         SUBROUTINE("subroutine"),
 
         // TYPE_NAME ??
-        FLOATING_CONSTANT("(?:(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+)(?:[eE][+-]?\\d+)?(?:f|F|lf|LF)?)|(?:\\d+)(?:\\.|[eE][+-]?\\d+)(?:f|F|lf|LF)?"),
-        UINTEGER_HEXADECIMAL_CONSTANT("0[xX][0-9a-fA-F]*[uU]"),
-        UINTEGER_OCTAL_CONSTANT("0[0-7]*[uU]"),
-        UINTEGER_DECIMAL_CONSTANT("[1-9][\\d]*[uU]"),
-        INTEGER_HEXADECIMAL_CONSTANT("0[xX][0-9a-fA-F]*"),
-        INTEGER_OCTAL_CONSTANT("0[0-7]*"),
-        INTEGER_DECIMAL_CONSTANT("[1-9][\\d]*"),
-        BOOL_CONSTANT("true|false"),
+        FLOATING_CONSTANT(Pattern.compile("(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+)(?:[eE][+-]?\\d+)?(?:f|F|lf|LF)?|\\d+(?:\\.|[eE][+-]?\\d+)(?:f|F|lf|LF)?")),
+        UINTEGER_HEXADECIMAL_CONSTANT(Pattern.compile("0[xX][0-9a-fA-F]*[uU]")),
+        UINTEGER_OCTAL_CONSTANT(Pattern.compile("0[0-7]*[uU]")),
+        UINTEGER_DECIMAL_CONSTANT(Pattern.compile("[1-9]\\d*[uU]")),
+        INTEGER_HEXADECIMAL_CONSTANT(Pattern.compile("0[xX][0-9a-fA-F]*")),
+        INTEGER_OCTAL_CONSTANT(Pattern.compile("0[0-7]*")),
+        INTEGER_DECIMAL_CONSTANT(Pattern.compile("[1-9]\\d*")),
+        BOOL_CONSTANT("true", "false"),
         // FIELD_SELECTION
 
         LEFT_OP("<<"),
         RIGHT_OP(">>"),
-        INC_OP("\\+\\+"),
+        INC_OP("++"),
         DEC_OP("--"),
         LE_OP("<="),
         GE_OP(">="),
         EQ_OP("=="),
         NE_OP("!="),
         AND_OP("&&"),
-        OR_OP("\\|\\|"),
-        XOR_OP("\\^\\^"),
-        MUL_ASSIGN("\\*="),
-        DIV_ASSIGN("\\/="),
-        ADD_ASSIGN("\\+="),
+        OR_OP("||"),
+        XOR_OP("^^"),
+        MUL_ASSIGN("*="),
+        DIV_ASSIGN("/="),
+        ADD_ASSIGN("+="),
         MOD_ASSIGN("%="),
         LEFT_ASSIGN("<<="),
         RIGHT_ASSIGN(">>="),
         AND_ASSIGN("&="),
-        XOR_ASSIGN("\\^="),
-        OR_ASSIGN("\\|="),
+        XOR_ASSIGN("^="),
+        OR_ASSIGN("|="),
         SUB_ASSIGN("-="),
-        LEFT_PAREN("\\("),
-        RIGHT_PAREN("\\)"),
-        LEFT_BRACKET("\\["),
-        RIGHT_BRACKET("\\]"),
-        LEFT_BRACE("\\{"),
-        RIGHT_BRACE("\\}"),
-        DOT("\\."),
+        LEFT_PAREN("("),
+        RIGHT_PAREN(")"),
+        LEFT_BRACKET("["),
+        RIGHT_BRACKET("]"),
+        LEFT_BRACE("{"),
+        RIGHT_BRACE("}"),
+        DOT("."),
         COMMA(","),
         COLON(":"),
         EQUAL("="),
@@ -291,16 +343,16 @@ public final class GlslLexer {
         BANG("!"),
         DASH("-"),
         TILDE("~"),
-        PLUS("\\+"),
-        STAR("\\*"),
-        SLASH("\\/"),
+        PLUS("+"),
+        STAR("*"),
+        SLASH("/"),
         PERCENT("%"),
         LEFT_ANGLE("<"),
         RIGHT_ANGLE(">"),
-        VERTICAL_BAR("\\|"),
-        CARET("\\^"),
+        VERTICAL_BAR("|"),
+        CARET("^"),
         AMPERSAND("&"),
-        QUESTION("\\?"),
+        QUESTION("?"),
 
         INVARIANT("invariant"),
         PRECISE("precise"),
@@ -309,20 +361,22 @@ public final class GlslLexer {
         LOW_PRECISION("lowp"),
         PRECISION("precision"),
 
-        IDENTIFIER("[_a-zA-Z][\\d_a-zA-Z]*");
+        IDENTIFIER(Pattern.compile("[_a-zA-Z][\\d_a-zA-Z]*"));
+
+        private static final TokenType[] PATTERN_VALUES = Arrays.stream(values()).filter(type -> type.pattern != null).toArray(TokenType[]::new);
+        private static final TokenType[] WORD_VALUES = Arrays.stream(values()).filter(type -> type.words != null).toArray(TokenType[]::new);
 
         private final Pattern pattern;
+        private final String[] words;
 
-        TokenType(String regex) {
-            this.pattern = Pattern.compile(regex);
+        TokenType(Pattern pattern) {
+            this.pattern = pattern;
+            this.words = null;
         }
 
-        public boolean matches(CharSequence input) {
-            return this.pattern.matcher(input).matches();
-        }
-
-        public Pattern getPattern() {
-            return this.pattern;
+        TokenType(String... words) {
+            this.pattern = null;
+            this.words = words.length > 0 ? words : null;
         }
 
         public @Nullable GlslTypeSpecifier.BuiltinType asBuiltinType() {
