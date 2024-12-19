@@ -23,7 +23,7 @@ public class BlockRendererMixin {
     @Inject(method = "bufferQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/frapi/mesh/MutableQuadViewImpl;lightmap(I)I"), remap = false)
     public void bufferNormal(MutableQuadViewImpl quad, float[] brightnesses, Material material, CallbackInfo ci, @Local(ordinal = 0) int dstIndex, @Local(ordinal = 1) int srcIndex) {
         ChunkVertexEncoder.Vertex out = this.vertices[dstIndex];
-        int packedNormal = quad.packedNormal(srcIndex);
+        int packedNormal = quad.packedFaceNormal();
         ((ChunkVertexEncoderVertexExtension) out).veil$setNormal(packedNormal);
     }
 }

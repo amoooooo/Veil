@@ -16,8 +16,6 @@ public class VeilMixinPlugin implements IMixinConfigPlugin {
             "foundry.veil.forge.mixin.client.stage",
             "foundry.veil.forge.mixin.client.pipeline");
     private static final Set<String> SODIUM_WITHOUT_IRIS_COMPAT = Set.of(
-            "foundry.veil.forge.mixin.compat.sodium.DefaultShaderInterfaceMixin",
-            "foundry.veil.forge.mixin.compat.sodium.ChunkMeshFormatsMixin"
     );
     private final Map<String, Boolean> loadedMods = new HashMap<>();
 
