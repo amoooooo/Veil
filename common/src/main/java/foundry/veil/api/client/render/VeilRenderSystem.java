@@ -195,6 +195,7 @@ public final class VeilRenderSystem {
 
     private static final Vector3f LIGHT0_POSITION = new Vector3f();
     private static final Vector3f LIGHT1_POSITION = new Vector3f();
+    private static final Vector3f CAMERA_BOB_OFFSET = new Vector3f();
 
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
@@ -713,6 +714,13 @@ public final class VeilRenderSystem {
         return LIGHT1_POSITION;
     }
 
+    /**
+     * @return The camera position offset from view bobbing
+     */
+    public static Vector3fc getCameraBobOffset() {
+        return CAMERA_BOB_OFFSET;
+    }
+
     // Internal
 
     @ApiStatus.Internal
@@ -724,7 +732,7 @@ public final class VeilRenderSystem {
     public static void endFrame() {
         VeilImGuiImpl.get().endFrame();
 
-        if(Veil.platform().hasErrors()){
+        if (Veil.platform().hasErrors()) {
             return;
         }
 
@@ -771,6 +779,11 @@ public final class VeilRenderSystem {
     public static void setShaderLights(Vector3fc light0, Vector3fc light1) {
         LIGHT0_POSITION.set(light0);
         LIGHT1_POSITION.set(light1);
+    }
+
+    @ApiStatus.Internal
+    public static void setCameraBobOffset(Vector3fc offset) {
+        CAMERA_BOB_OFFSET.set(offset);
     }
 
     @ApiStatus.Internal

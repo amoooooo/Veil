@@ -82,6 +82,9 @@ public class CameraMatrices implements NativeResource {
         this.projectionMatrix.set(projection);
         this.projectionMatrix.invert(this.inverseProjectionMatrix);
 
+        // Adjust the camera position based on the view bobbing
+        modelView.invert(this.viewMatrix).transformPosition(VeilRenderSystem.getCameraBobOffset(), this.cameraPosition).add((float) pos.x(), (float) pos.y(), (float) pos.z());
+
         // This moves the view bobbing from the projection matrix to the view matrix
         this.viewMatrix.set(modelView).mulLocal(this.inverseProjectionMatrix.mul(RenderSystem.getProjectionMatrix(), new Matrix4f()));
         this.viewMatrix.invert(this.inverseViewMatrix);
@@ -89,7 +92,6 @@ public class CameraMatrices implements NativeResource {
 
         this.nearPlane = zNear;
         this.farPlane = zFar;
-        this.cameraPosition.set(pos);
 
         this.block.set(this);
         this.bind();

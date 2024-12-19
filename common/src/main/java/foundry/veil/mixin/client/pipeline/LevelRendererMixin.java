@@ -17,7 +17,6 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -27,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3d;
-import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -73,6 +71,11 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     @Shadow
     @Final
     private ObjectArrayList<SectionRenderDispatcher.RenderSection> visibleSections;
+
+    @Shadow
+    @Final
+    private Minecraft minecraft;
+
     @Unique
     private final Matrix4f veil$tempFrustum = new Matrix4f();
     @Unique
@@ -83,7 +86,7 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     @Inject(method = "prepareCullFrustum", at = @At("HEAD"))
     public void veil$setupLevelCamera(Vec3 pos, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
         CameraMatrices matrices = VeilRenderSystem.renderer().getCameraMatrices();
-        matrices.update(projectionMatrix, frustumMatrix, this.veil$tempCameraPos.set(pos.x(), pos.y(), pos.z()), 0.05F, Minecraft.getInstance().gameRenderer.getDepthFar());
+        matrices.update(projectionMatrix, frustumMatrix, this.veil$tempCameraPos.set(pos.x(), pos.y(), pos.z()), 0.05F, this.minecraft.gameRenderer.getDepthFar());
     }
 
     @Inject(method = "renderLevel", at = @At("TAIL"))
