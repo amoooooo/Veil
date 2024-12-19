@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -97,7 +98,7 @@ public class GlslFunctionNode implements GlslNode {
 
         builder.append(" {\n");
         for (GlslNode node : this.body) {
-            builder.append('\t').append(node.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+            builder.append('\t').append(NEWLINE.matcher(node.getSourceString()).replaceAll("\n\t")).append(";\n");
         }
         builder.append("}\n");
 

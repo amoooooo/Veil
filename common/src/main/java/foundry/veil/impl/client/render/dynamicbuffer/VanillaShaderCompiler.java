@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.dynamicbuffer;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.preprocessor.GlslPreprocessor;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -103,6 +104,7 @@ public class VanillaShaderCompiler {
         }
 
         int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
+        Stopwatch stopwatch = Stopwatch.createStarted();
         ThreadTaskScheduler scheduler = new ThreadTaskScheduler("VeilVanillaShaderCompile", Math.max(1, Runtime.getRuntime().availableProcessors() / 6), () -> {
             for (String lastFrameShader : LAST_FRAME_SHADERS) {
                 ShaderInstance shader = shaderMap.remove(lastFrameShader);
@@ -123,7 +125,7 @@ public class VanillaShaderCompiler {
         CompletableFuture<?> future = scheduler.getCompletedFuture();
         future.thenRunAsync(() -> {
             if (!scheduler.isCancelled()) {
-                Veil.LOGGER.info("Compiled {} vanilla shaders", shaders.size());
+                Veil.LOGGER.info("Compiled {} vanilla shaders in {}", shaders.size(), stopwatch.stop());
             }
         }, Minecraft.getInstance());
         return future;

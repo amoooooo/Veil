@@ -57,7 +57,7 @@ public class GlslUnaryNode implements GlslNode {
                  PLUS,
                  DASH,
                  BANG,
-                 TILDE -> this.operand.getDelimiter() + this.expression.getSourceString();
+                 TILDE -> this.operand.getDelimiter() + '(' + this.expression.getSourceString() + ')';
             case POST_INCREMENT, POST_DECREMENT -> this.expression.getSourceString() + this.operand.getDelimiter();
         };
     }

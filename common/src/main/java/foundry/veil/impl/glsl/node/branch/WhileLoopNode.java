@@ -52,7 +52,7 @@ public class WhileLoopNode implements GlslNode {
     public String getSourceString() {
         StringBuilder builder = new StringBuilder("while (" + this.condition.getSourceString() + ") {\n");
         for (GlslNode node : this.body) {
-            builder.append('\t').append(node.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+            builder.append('\t').append(NEWLINE.matcher(node.getSourceString()).replaceAll("\n\t")).append(";\n");
         }
         builder.append('}');
         return builder.toString();

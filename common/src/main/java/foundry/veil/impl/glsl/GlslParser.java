@@ -9,10 +9,7 @@ import foundry.veil.impl.glsl.node.expression.*;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.function.GlslInvokeFunctionNode;
 import foundry.veil.impl.glsl.node.function.GlslPrimitiveConstructorNode;
-import foundry.veil.impl.glsl.node.primary.GlslBoolConstantNode;
-import foundry.veil.impl.glsl.node.primary.GlslFloatConstantNode;
-import foundry.veil.impl.glsl.node.primary.GlslIntConstantNode;
-import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
+import foundry.veil.impl.glsl.node.primary.*;
 import foundry.veil.impl.glsl.node.variable.*;
 import foundry.veil.lib.anarres.cpp.*;
 import org.jetbrains.annotations.Nullable;
@@ -202,34 +199,25 @@ public final class GlslParser {
             return new GlslIntConstantNode(GlslIntFormat.DECIMAL, true, Integer.parseUnsignedInt(reader.peek(-1).value(), 10));
         }
         if (reader.tryConsume(GlslLexer.TokenType.INTEGER_HEXADECIMAL_CONSTANT)) {
-            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, true, Integer.parseUnsignedInt(reader.peek(-1).value().substring(2), 16));
+            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, true, Integer.parseUnsignedInt(reader.peek(-1).value(), 16));
         }
         if (reader.tryConsume(GlslLexer.TokenType.INTEGER_OCTAL_CONSTANT)) {
             return new GlslIntConstantNode(GlslIntFormat.OCTAL, true, Integer.parseUnsignedInt(reader.peek(-1).value(), 8));
         }
         if (reader.tryConsume(GlslLexer.TokenType.UINTEGER_DECIMAL_CONSTANT)) {
-            String value = reader.peek(-1).value();
-            if (value.endsWith("u")) {
-                value = value.substring(0, value.length() - 1);
-            }
-            return new GlslIntConstantNode(GlslIntFormat.DECIMAL, false, Integer.parseUnsignedInt(value, 10));
+            return new GlslIntConstantNode(GlslIntFormat.DECIMAL, false, Integer.parseUnsignedInt(reader.peek(-1).value(), 10));
         }
         if (reader.tryConsume(GlslLexer.TokenType.UINTEGER_HEXADECIMAL_CONSTANT)) {
-            String value = reader.peek(-1).value().substring(2);
-            if (value.endsWith("u")) {
-                value = value.substring(0, value.length() - 1);
-            }
-            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, false, Integer.parseUnsignedInt(value, 16));
+            return new GlslIntConstantNode(GlslIntFormat.HEXADECIMAL, false, Integer.parseUnsignedInt(reader.peek(-1).value(), 16));
         }
         if (reader.tryConsume(GlslLexer.TokenType.UINTEGER_OCTAL_CONSTANT)) {
-            String value = reader.peek(-1).value();
-            if (value.endsWith("u")) {
-                value = value.substring(0, value.length() - 1);
-            }
-            return new GlslIntConstantNode(GlslIntFormat.OCTAL, false, Integer.parseUnsignedInt(value, 8));
+            return new GlslIntConstantNode(GlslIntFormat.OCTAL, false, Integer.parseUnsignedInt(reader.peek(-1).value(), 8));
         }
         if (reader.tryConsume(GlslLexer.TokenType.FLOATING_CONSTANT)) {
             return new GlslFloatConstantNode(Float.parseFloat(reader.peek(-1).value()));
+        }
+        if (reader.tryConsume(GlslLexer.TokenType.DOUBLE_CONSTANT)) {
+            return new GlslDoubleConstantNode(Double.parseDouble(reader.peek(-1).value()));
         }
         if (reader.tryConsume(GlslLexer.TokenType.BOOL_CONSTANT)) {
             return new GlslBoolConstantNode(Boolean.parseBoolean(reader.peek(-1).value()));
@@ -485,7 +473,7 @@ public final class GlslParser {
             return null;
         }
         if (expressions.size() == 1) {
-            return expressions.get(0);
+            return expressions.getFirst();
         }
         return join.apply(expressions);
     }
@@ -1095,8 +1083,9 @@ public final class GlslParser {
 
         int cursor = reader.getCursor();
         List<GlslNode> initDeclaratorList = new ArrayList<>();
+        GlslSpecifiedType fullySpecifiedType = null;
         while (reader.canRead()) {
-            GlslNode singleDeclaration = parseSingleDeclaration(reader);
+            GlslNode singleDeclaration = parseSingleDeclaration(fullySpecifiedType, reader);
             if (singleDeclaration == null) {
                 reader.setCursor(cursor);
                 break;
@@ -1105,41 +1094,16 @@ public final class GlslParser {
             initDeclaratorList.add(singleDeclaration);
             cursor = reader.getCursor();
 
-            if (reader.tryConsume(GlslLexer.TokenType.COMMA)) {
-                if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {
+            if (!reader.tryConsume(GlslLexer.TokenType.COMMA)) {
+                reader.setCursor(cursor);
+                break;
+            }
+
+            if (fullySpecifiedType == null) {
+                fullySpecifiedType = singleDeclaration.getType();
+                if (fullySpecifiedType == null) {
                     reader.setCursor(cursor);
                     break;
-                }
-
-                int cursor2 = reader.getCursor();
-                String name = reader.peek(-1).value();
-                GlslSpecifiedType type = Objects.requireNonNull(singleDeclaration.getType());
-                GlslSpecifiedType arraySpecifier = parseArraySpecifier(reader, type);
-                if (arraySpecifier != null) {
-                    if (!reader.tryConsume(GlslLexer.TokenType.EQUAL)) {
-                        // IDENTIFIER array_specifier
-                        initDeclaratorList.add(new GlslNewNode(arraySpecifier, name, null));
-                        cursor = reader.getCursor();
-                        continue;
-                    }
-
-                    GlslNode initializer = parseInitializer(reader);
-                    if (initializer != null) {
-                        // IDENTIFIER array_specifier EQUAL initializer
-                        initDeclaratorList.add(new GlslNewNode(arraySpecifier, name, initializer));
-                        cursor = reader.getCursor();
-                        continue;
-                    }
-                }
-                reader.setCursor(cursor2);
-
-                if (reader.tryConsume(GlslLexer.TokenType.EQUAL)) {
-                    GlslNode initializer = parseInitializer(reader);
-                    if (initializer != null) {
-                        // IDENTIFIER EQUAL initializer
-                        initDeclaratorList.add(new GlslNewNode(type, name, initializer));
-                        cursor = reader.getCursor();
-                    }
                 }
             }
         }
@@ -1147,7 +1111,7 @@ public final class GlslParser {
         return !initDeclaratorList.isEmpty() ? initDeclaratorList : null;
     }
 
-    private static @Nullable GlslNode parseSingleDeclaration(GlslTokenReader reader) {
+    private static @Nullable GlslNode parseSingleDeclaration(@Nullable GlslSpecifiedType fullySpecifiedType, GlslTokenReader reader) {
         // fully_specified_type
         // fully_specified_type IDENTIFIER
         // fully_specified_type IDENTIFIER array_specifier
@@ -1155,10 +1119,12 @@ public final class GlslParser {
         // fully_specified_type IDENTIFIER EQUAL initializer
 
         int cursor = reader.getCursor();
-        GlslSpecifiedType fullySpecifiedType = parseFullySpecifiedType(reader);
         if (fullySpecifiedType == null) {
-            reader.setCursor(cursor);
-            return null;
+            fullySpecifiedType = parseFullySpecifiedType(reader);
+            if (fullySpecifiedType == null) {
+                reader.setCursor(cursor);
+                return null;
+            }
         }
 
         if (!reader.tryConsume(GlslLexer.TokenType.IDENTIFIER)) {

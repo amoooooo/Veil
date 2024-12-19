@@ -66,7 +66,7 @@ public class GlslTree {
                 continue;
             }
             if (node instanceof GlslCompoundNode compoundNode) {
-                for (GlslNode child : compoundNode.getChildren()) {
+                for (GlslNode child : compoundNode.children()) {
                     this.visit(visitor, child);
                 }
                 continue;

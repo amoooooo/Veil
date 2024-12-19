@@ -75,7 +75,7 @@ public class ForLoopNode implements GlslNode {
         }
         builder.append(") {\n");
         for (GlslNode node : this.body) {
-            builder.append('\t').append(node.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+            builder.append('\t').append(NEWLINE.matcher(node.getSourceString()).replaceAll("\n\t")).append(";\n");
         }
         builder.append('}');
         return builder.toString();

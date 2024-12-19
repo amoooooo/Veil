@@ -53,7 +53,6 @@ public enum Feature {
      * Preserves comments in the lexed output, even when inactive.
      */
     KEEPALLCOMMENTS,
-    DEBUG,
     /**
      * Supports lexing of objective-C.
      */

@@ -4,7 +4,6 @@ import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
 import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
 import foundry.veil.impl.glsl.node.expression.GlslAssignmentNode;
 import foundry.veil.impl.glsl.node.expression.GlslUnaryNode;
-import gg.moonflower.molangcompiler.core.compiler.StringReader;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,6 +19,8 @@ import java.util.regex.Pattern;
  */
 @ApiStatus.Internal
 public final class GlslLexer {
+
+    private static final Pattern MULTI_COMMENT_PATTERN = Pattern.compile("/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/");
 
     public static Token[] createTokens(String input) throws GlslSyntaxException {
         return createTokens(input, null);
@@ -42,68 +43,99 @@ public final class GlslLexer {
                 continue;
             }
 
-            throw new GlslSyntaxException("Unknown Token", reader.getString(), reader.getCursor() + 1);
+            throw new GlslSyntaxException("Unknown Token", reader.string, reader.cursor + 1);
         }
 
         return tokens.toArray(Token[]::new);
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     private static @Nullable Token getToken(StringReader reader) {
-        String word = reader.getString().substring(reader.getCursor());
+        int cursor = reader.cursor;
+        String string = reader.string;
+        char[] chars = reader.chars;
+        char firstChar = chars[cursor];
+        boolean number = Character.isDigit(firstChar) || (firstChar == '.' && Character.isDigit(chars[cursor + 1]));
 
         // Special for directives
-        if (word.startsWith("#")) {
-            int i = 1;
-            while (i < word.length() && word.charAt(i) != '\n') {
+        if (firstChar == '#') {
+            int i = cursor + 1;
+            while (i < chars.length && chars[i] != '\n') {
                 i++;
             }
-            reader.skip(i);
-            return new Token(TokenType.DIRECTIVE, word.substring(0, i));
+            reader.skip(i - cursor);
+            return new Token(TokenType.DIRECTIVE, string.substring(cursor, i));
         }
 
-        // Special for single-line comments
-        if (word.startsWith("//")) {
-            int i = 2;
-            while (i < word.length() && word.charAt(i) != '\n') {
-                i++;
+        if (firstChar == '/') {
+            // Special for single-line comments
+            if (chars[cursor + 1] == '/') {
+                int i = cursor + 2;
+                while (i < chars.length && chars[i] != '\n') {
+                    i++;
+                }
+                reader.skip(i - cursor);
+                return new Token(TokenType.COMMENT, string.substring(cursor, i));
             }
-            reader.skip(i);
-            return new Token(TokenType.COMMENT, word.substring(0, i));
+
+            // Special for multi-line comments
+            if (chars[cursor + 1] == '*') {
+                Matcher matcher = MULTI_COMMENT_PATTERN.matcher(string.substring(cursor));
+                if (!matcher.find() || matcher.start() != 0) {
+                    return null;
+                }
+                reader.skip(matcher.end());
+                return new Token(TokenType.MULTI_COMMENT, string.substring(cursor, cursor + matcher.end()));
+            }
         }
 
         int patternLength = 0;
-        String longestPattern = null;
         TokenType patternType = null;
-        for (TokenType type : TokenType.PATTERN_VALUES) {
-            Matcher matcher = type.pattern.matcher(word);
-            if (matcher.find() && matcher.start() == 0 && matcher.end() > patternLength) {
-                patternLength = matcher.end();
-                longestPattern = word.substring(0, patternLength);
-                patternType = type;
+        String longestPattern = null;
+        if (number) {
+            return GlslNumberConstantParser.parseNumberConstant(reader);
+        }
+
+        if (isValidIdentifierChar(firstChar)) {
+            int i = cursor + 1;
+            while (i < chars.length) {
+                char c = chars[i];
+                if (!Character.isDigit(c) && !isValidIdentifierChar(c)) {
+                    break;
+                }
+                i++;
             }
+
+            patternLength = i - cursor;
+            longestPattern = string.substring(cursor, i);
+            patternType = TokenType.IDENTIFIER;
         }
 
         int wordLength = 0;
         TokenType longestWordType = null;
         String longestWord = null;
         for (TokenType type : TokenType.WORD_VALUES) {
-            for (String typeWord : type.words) {
-                if (word.startsWith(typeWord) && typeWord.length() > wordLength) {
-                    wordLength = typeWord.length();
+            int[] wordLengths = type.wordLengths;
+            for (int i = 0; i < type.wordCount; i++) {
+                if (wordLengths[i] <= wordLength) {
+                    continue;
+                }
+
+                char[] charArray = type.chars[i];
+                if (chars.length - cursor >= charArray.length && Arrays.mismatch(chars, cursor, cursor + charArray.length, charArray, 0, charArray.length) < 0) {
+                    wordLength = wordLengths[i];
                     longestWordType = type;
-                    longestWord = typeWord;
+                    longestWord = type.words[i];
                 }
             }
         }
 
         if (longestPattern == null ^ longestWordType == null) {
             if (longestPattern != null) {
-                reader.setCursor(reader.getCursor() + patternLength);
+                reader.skip(patternLength);
                 return new Token(patternType, longestPattern);
             }
 
-            reader.setCursor(reader.getCursor() + wordLength);
+            reader.skip(wordLength);
             return new Token(longestWordType, longestWord);
         }
 
@@ -112,12 +144,16 @@ public final class GlslLexer {
         }
 
         if (wordLength >= patternLength) {
-            reader.setCursor(reader.getCursor() + wordLength);
+            reader.skip(wordLength);
             return new Token(longestWordType, longestWord);
         }
 
-        reader.setCursor(reader.getCursor() + patternLength);
+        reader.skip(patternLength);
         return new Token(patternType, longestPattern);
+    }
+
+    private static boolean isValidIdentifierChar(char c) {
+        return c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
 
     public record Token(TokenType type, String value) {
@@ -131,7 +167,7 @@ public final class GlslLexer {
         DIRECTIVE,
         GLSL_MACRO("__LINE__", "__FILE__", "__VERSION__"),
         COMMENT,
-        MULTI_COMMENT(Pattern.compile("/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/")),
+        MULTI_COMMENT,
 
         CONST("const"),
         BOOL("bool"),
@@ -298,13 +334,14 @@ public final class GlslLexer {
         SUBROUTINE("subroutine"),
 
         // TYPE_NAME ??
-        FLOATING_CONSTANT(Pattern.compile("(?:\\d+\\.\\d+|\\d+\\.|\\.\\d+)(?:[eE][+-]?\\d+)?(?:f|F|lf|LF)?|\\d+(?:\\.|[eE][+-]?\\d+)(?:f|F|lf|LF)?")),
-        UINTEGER_HEXADECIMAL_CONSTANT(Pattern.compile("0[xX][0-9a-fA-F]*[uU]")),
-        UINTEGER_OCTAL_CONSTANT(Pattern.compile("0[0-7]*[uU]")),
-        UINTEGER_DECIMAL_CONSTANT(Pattern.compile("[1-9]\\d*[uU]")),
-        INTEGER_HEXADECIMAL_CONSTANT(Pattern.compile("0[xX][0-9a-fA-F]*")),
-        INTEGER_OCTAL_CONSTANT(Pattern.compile("0[0-7]*")),
-        INTEGER_DECIMAL_CONSTANT(Pattern.compile("[1-9]\\d*")),
+        FLOATING_CONSTANT,
+        DOUBLE_CONSTANT,
+        UINTEGER_HEXADECIMAL_CONSTANT,
+        UINTEGER_OCTAL_CONSTANT,
+        UINTEGER_DECIMAL_CONSTANT,
+        INTEGER_HEXADECIMAL_CONSTANT,
+        INTEGER_OCTAL_CONSTANT,
+        INTEGER_DECIMAL_CONSTANT,
         BOOL_CONSTANT("true", "false"),
         // FIELD_SELECTION
 
@@ -361,22 +398,27 @@ public final class GlslLexer {
         LOW_PRECISION("lowp"),
         PRECISION("precision"),
 
-        IDENTIFIER(Pattern.compile("[_a-zA-Z][\\d_a-zA-Z]*"));
+        IDENTIFIER;
 
-        private static final TokenType[] PATTERN_VALUES = Arrays.stream(values()).filter(type -> type.pattern != null).toArray(TokenType[]::new);
         private static final TokenType[] WORD_VALUES = Arrays.stream(values()).filter(type -> type.words != null).toArray(TokenType[]::new);
 
-        private final Pattern pattern;
+        private final int wordCount;
         private final String[] words;
-
-        TokenType(Pattern pattern) {
-            this.pattern = pattern;
-            this.words = null;
-        }
+        private final int[] wordLengths;
+        private final char[][] chars;
 
         TokenType(String... words) {
-            this.pattern = null;
-            this.words = words.length > 0 ? words : null;
+            if (words.length > 0) {
+                this.wordCount = words.length;
+                this.words = words;
+                this.wordLengths = Arrays.stream(words).mapToInt(String::length).toArray();
+                this.chars = Arrays.stream(words).map(String::toCharArray).toArray(char[][]::new);
+            } else {
+                this.wordCount = 0;
+                this.words = null;
+                this.wordLengths = null;
+                this.chars = null;
+            }
         }
 
         public @Nullable GlslTypeSpecifier.BuiltinType asBuiltinType() {
@@ -568,6 +610,36 @@ public final class GlslLexer {
                 case TILDE -> GlslUnaryNode.Operand.TILDE;
                 default -> null;
             };
+        }
+    }
+
+    static class StringReader {
+
+        public final String string;
+        public final char[] chars;
+        public int cursor;
+
+        public StringReader(String string) {
+            this.string = string;
+            this.chars = string.toCharArray();
+        }
+
+        public boolean canRead() {
+            return this.cursor < this.chars.length;
+        }
+
+        public void skip(int amount) {
+            this.cursor += amount;
+        }
+
+        public void skip() {
+            this.cursor++;
+        }
+
+        public void skipWhitespace() {
+            while (this.cursor < this.chars.length && Character.isWhitespace(this.chars[this.cursor])) {
+                this.skip();
+            }
         }
     }
 }

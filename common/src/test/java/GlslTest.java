@@ -28,11 +28,17 @@ public class GlslTest {
     }
 
     private void testSpeed(String source) throws GlslSyntaxException {
-        // Load classes
-        for (int i = 0; i < 10; i++) {
-            GlslTree tree = GlslParser.parse(source);
-            GlslStringWriter stringWriter = new GlslStringWriter();
-            tree.visit(stringWriter);
+        this.testSpeed(source, true);
+    }
+
+    private void testSpeed(String source, boolean preload) throws GlslSyntaxException {
+        if (preload) {
+            // Load classes
+            for (int i = 0; i < 10; i++) {
+                GlslTree tree = GlslParser.parse(source);
+                GlslStringWriter stringWriter = new GlslStringWriter();
+                tree.visit(stringWriter);
+            }
         }
 
         long start = System.nanoTime();

@@ -26,7 +26,7 @@ public record GlslDoubleConstantNode(double value) implements GlslConstantNode {
 
     @Override
     public String getSourceString() {
-        return Double.toString(this.value);
+        return this.value + "lf";
     }
 
     @Override

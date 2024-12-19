@@ -73,8 +73,6 @@ import static foundry.veil.lib.anarres.cpp.Token.*;
  */
 public class Preprocessor implements Closeable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Preprocessor.class);
-
     private static final Source INTERNAL = new Source() {
         @Override
         public Token token() throws LexerException {
@@ -572,13 +570,10 @@ public class Preprocessor implements Closeable {
         if (source_token != null) {
             Token tok = source_token;
             source_token = null;
-            if (this.getFeature(Feature.DEBUG)) {
-                LOG.debug("Returning unget token " + tok);
-            }
             return tok;
         }
 
-        for (; ; ) {
+        while (true) {
             Source s = this.getSource();
             if (s == null) {
                 Token t = this.next_source();
@@ -596,9 +591,6 @@ public class Preprocessor implements Closeable {
                     return mark;
                 }
                 continue;
-            }
-            if (this.getFeature(Feature.DEBUG)) {
-                LOG.debug("Returning fresh token " + tok);
             }
             return tok;
         }
@@ -1061,13 +1053,8 @@ public class Preprocessor implements Closeable {
             tok = this.source_token();
         }
 
-        if (this.getFeature(Feature.DEBUG)) {
-            LOG.debug("Defined macro " + m);
-        }
         this.addMacro(m);
-
         return tok;    /* NL or EOF. */
-
     }
 
     @NotNull
@@ -2010,11 +1997,7 @@ public class Preprocessor implements Closeable {
     public Token token()
             throws IOException,
             LexerException {
-        Token tok = this._token();
-        if (this.getFeature(Feature.DEBUG)) {
-            LOG.debug("pp: Returning " + tok);
-        }
-        return tok;
+        return this._token();
     }
 
     @Override

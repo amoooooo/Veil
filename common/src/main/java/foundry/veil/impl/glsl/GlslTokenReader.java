@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 public class GlslTokenReader {
 
@@ -14,6 +15,7 @@ public class GlslTokenReader {
     private final Map<String, Integer> markers;
     private final Map<String, GlslNode> markedNodes;
     private final GlslLexer.Token[] tokens;
+    private final String tokenString;
     private int cursor;
     private final List<GlslSyntaxException> errors;
     private final List<GlslSyntaxException> errorsView;
@@ -32,6 +34,7 @@ public class GlslTokenReader {
                 this.markers.put(matcher.group(1).toLowerCase(Locale.ROOT), index);
             }
         });
+        this.tokenString = calculateString(source.length() + this.tokens.length, this.tokens);
         this.cursor = 0;
         this.errors = new ArrayList<>();
         this.errorsView = Collections.unmodifiableList(this.errors);
@@ -41,25 +44,26 @@ public class GlslTokenReader {
         this.markers = Collections.emptyMap();
         this.markedNodes = new HashMap<>();
         this.tokens = tokens;
+        this.tokenString = calculateString(tokens.length * 8, tokens);
         this.cursor = 0;
         this.errors = new ArrayList<>();
         this.errorsView = Collections.unmodifiableList(this.errors);
     }
 
-    public int getCursorOffset(int cursor) {
-        int offset = -1;
-        for (int i = 0; i <= Math.min(cursor, this.tokens.length - 1); i++) {
-            offset += this.tokens[i].value().length() + 1;
-        }
-        return offset;
-    }
-
-    public String getString() {
-        StringBuilder builder = new StringBuilder();
-        for (GlslLexer.Token token : this.tokens) {
-            builder.append(token.value()).append(' ');
+    private static String calculateString(int length, GlslLexer.Token[] tokens) {
+        StringBuilder builder = new StringBuilder(length);
+        for (GlslLexer.Token token : tokens) {
+            builder.append(token.value());
         }
         return builder.toString().trim();
+    }
+
+    public int getCursorOffset(int cursor) {
+        int offset = 0;
+        for (int i = 0; i <= Math.min(cursor, this.tokens.length - 1); i++) {
+            offset += this.tokens[i].value().length();
+        }
+        return offset;
     }
 
     public boolean canRead(int length) {
@@ -109,16 +113,35 @@ public class GlslTokenReader {
     }
 
     public GlslSyntaxException error(String error) {
-        return new GlslSyntaxException(error, this.getString(), this.getCursorOffset(this.cursor));
+        return new GlslSyntaxException(error, this.tokenString, this.getCursorOffset(this.cursor));
     }
 
     public void throwError() throws GlslSyntaxException {
         if (this.errors.isEmpty()) {
-            throw new GlslSyntaxException("Failed", this.getString(), this.getCursorOffset(this.cursor));
+            throw new GlslSyntaxException("Failed", this.tokenString, this.cursor);
         }
 
-        GlslSyntaxException exception = new GlslSyntaxException("Failed", this.getString(), this.getCursorOffset(this.cursor));
-        for (GlslSyntaxException error : this.errors) {
+        int cursor = this.cursor;
+        int[] cursors = this.errors.stream().mapToInt(GlslSyntaxException::getCursor).toArray();
+        int[] cursorOffsets = new int[cursors.length];
+
+        int offset = 0;
+        for (int i = 0; i <= Math.min(Math.max(cursor, IntStream.of(cursors).max().orElse(0)), this.tokens.length - 1); i++) {
+            offset += this.tokens[i].value().length();
+            if (i == this.cursor) {
+                cursor = offset;
+            }
+            for (int j = 0; j < cursors.length; j++) {
+                if (i == cursors[j]) {
+                    cursorOffsets[j] = offset;
+                }
+            }
+        }
+
+        GlslSyntaxException exception = new GlslSyntaxException("Failed", this.tokenString, this.getCursorOffset(this.cursor));
+        for (int i = 0; i < this.errors.size(); i++) {
+            GlslSyntaxException error = this.errors.get(i);
+            error.setCursor(cursorOffsets[i]);
             exception.addSuppressed(error);
         }
         throw exception;
@@ -134,11 +157,11 @@ public class GlslTokenReader {
 
     public void markError(String message) {
         for (GlslSyntaxException error : this.errors) {
-            if (error.getCursor() == this.getCursorOffset(this.cursor) && error.getRawMessage().equals(message)) {
+            if (error.getCursor() == this.cursor && error.getRawMessage().equals(message)) {
                 return;
             }
         }
-        this.errors.add(new GlslSyntaxException(message, this.getString(), this.getCursorOffset(this.cursor)));
+        this.errors.add(new GlslSyntaxException(message, this.tokenString, this.cursor));
     }
 
     public void markNode(int cursor, GlslNode node) {

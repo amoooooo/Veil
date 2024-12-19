@@ -6,13 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class GlslCompoundNode implements GlslNode {
-
-    private final List<GlslNode> children;
-
-    public GlslCompoundNode(List<GlslNode> children) {
-        this.children = children;
-    }
+public record GlslCompoundNode(List<GlslNode> children) implements GlslNode {
 
     @Override
     public List<GlslNode> toList() {
@@ -22,10 +16,6 @@ public class GlslCompoundNode implements GlslNode {
     @Override
     public Stream<GlslNode> stream() {
         return Stream.concat(Stream.of(this), this.children.stream().flatMap(GlslNode::stream));
-    }
-
-    public List<GlslNode> getChildren() {
-        return this.children;
     }
 
     public GlslCompoundNode setChildren(Collection<GlslNode> children) {
@@ -44,7 +34,7 @@ public class GlslCompoundNode implements GlslNode {
     public String getSourceString() {
         StringBuilder builder = new StringBuilder("{\n");
         for (GlslNode child : this.children) {
-            builder.append('\t').append(child.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+            builder.append('\t').append(NEWLINE.matcher(child.getSourceString()).replaceAll("\n\t")).append(";\n");
         }
         builder.append('}');
         return builder.toString();

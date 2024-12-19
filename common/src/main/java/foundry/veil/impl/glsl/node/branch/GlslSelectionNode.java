@@ -57,15 +57,15 @@ public class GlslSelectionNode implements GlslNode {
     @Override
     public String getSourceString() {
         StringBuilder builder = new StringBuilder("if (");
-        builder.append(this.expression.getSourceString().replaceAll("\n", "\n\t")).append(") {\n");
+        builder.append(NEWLINE.matcher(this.expression.getSourceString()).replaceAll("\n\t")).append(") {\n");
         for (GlslNode node : this.first) {
-            builder.append('\t').append(node.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+            builder.append('\t').append(NEWLINE.matcher(node.getSourceString()).replaceAll("\n\t")).append(";\n");
         }
         builder.append("}");
         if (!this.second.isEmpty()) {
             builder.append(" else {\n");
             for (GlslNode node : this.second) {
-                builder.append('\t').append(node.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+                builder.append('\t').append(NEWLINE.matcher(node.getSourceString()).replaceAll("\n\t")).append(";\n");
             }
             builder.append("}");
         }

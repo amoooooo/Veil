@@ -1,5 +1,7 @@
 package foundry.veil.impl.glsl.grammar;
 
+import foundry.veil.impl.glsl.node.GlslNode;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,7 +34,7 @@ public final class GlslStructSpecifier implements GlslTypeSpecifier {
         StringBuilder builder = new StringBuilder();
         builder.append(this.name).append(" {\n");
         for (GlslStructField field : this.fields) {
-            builder.append('\t').append(field.getSourceString().replaceAll("\n", "\n\t")).append(";\n");
+            builder.append('\t').append(GlslNode.NEWLINE.matcher(field.getSourceString()).replaceAll("\n\t")).append(";\n");
         }
         builder.append('}');
         return builder.toString();

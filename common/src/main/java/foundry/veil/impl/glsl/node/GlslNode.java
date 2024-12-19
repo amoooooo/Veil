@@ -1,16 +1,16 @@
 package foundry.veil.impl.glsl.node;
 
 import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
-import foundry.veil.impl.glsl.node.primary.GlslBoolConstantNode;
-import foundry.veil.impl.glsl.node.primary.GlslFloatConstantNode;
-import foundry.veil.impl.glsl.node.primary.GlslIntConstantNode;
-import foundry.veil.impl.glsl.node.primary.GlslIntFormat;
+import foundry.veil.impl.glsl.node.primary.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public interface GlslNode {
+
+    Pattern NEWLINE = Pattern.compile("\n");
 
     String getSourceString();
 
@@ -75,6 +75,10 @@ public interface GlslNode {
         return new GlslFloatConstantNode(value);
     }
 
+    static GlslDoubleConstantNode doubleConstant(double value) {
+        return new GlslDoubleConstantNode(value);
+    }
+
     static GlslBoolConstantNode booleanConstant(boolean value) {
         return new GlslBoolConstantNode(value);
     }
@@ -93,7 +97,7 @@ public interface GlslNode {
                 list.addAll(nodes);
                 break;
             }
-            list.addAll(compoundNode.getChildren());
+            list.addAll(compoundNode.children());
         }
         return new GlslCompoundNode(list);
     }

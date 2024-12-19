@@ -12,7 +12,7 @@ public class GlslSyntaxException extends Exception {
 
     private final String message;
     private final String input;
-    private final int cursor;
+    private int cursor;
 
     public GlslSyntaxException(String message, String input, int cursor) {
         super(message);
@@ -37,6 +37,10 @@ public class GlslSyntaxException extends Exception {
 
     public int getCursor() {
         return this.cursor;
+    }
+
+    public void setCursor(int cursor) {
+        this.cursor = cursor;
     }
 
     private String getContext() {
