@@ -120,6 +120,27 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bobViewClear(com.mojang.blaze3d.vertex.PoseStack,float,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bobViewClear</a><wbr>(com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
+ float&nbsp;partialTicks,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bobViewSetup(com.mojang.blaze3d.vertex.PoseStack,float,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bobViewSetup</a><wbr>(com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
+ float&nbsp;partialTicks,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#renderLevelStart(net.minecraft.client.DeltaTracker,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">renderLevelStart</a><wbr>(net.minecraft.client.DeltaTracker&nbsp;deltaTracker,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#translateBob(com.mojang.blaze3d.vertex.PoseStack,float,float,float,com.llamalad7.mixinextras.injector.wrapoperation.Operation)" class="member-name-link">translateBob</a><wbr>(com.mojang.blaze3d.vertex.PoseStack&nbsp;instance,
+ float&nbsp;x,
+ float&nbsp;y,
+ float&nbsp;z,
+ com.llamalad7.mixinextras.injector.wrapoperation.Operation&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;&nbsp;original)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$bindFirstPerson(net.minecraft.client.DeltaTracker,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">veil$bindFirstPerson</a><wbr>(net.minecraft.client.DeltaTracker&nbsp;pDeltaTracker,
  org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -181,6 +202,39 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="renderLevelStart(net.minecraft.client.DeltaTracker,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
+<h3>renderLevelStart</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">renderLevelStart</span><wbr><span class="parameters">(net.minecraft.client.DeltaTracker&nbsp;deltaTracker,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="bobViewSetup(com.mojang.blaze3d.vertex.PoseStack,float,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
+<h3>bobViewSetup</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bobViewSetup</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
+ float&nbsp;partialTicks,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="bobViewClear(com.mojang.blaze3d.vertex.PoseStack,float,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
+<h3>bobViewClear</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bobViewClear</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
+ float&nbsp;partialTicks,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="translateBob(com.mojang.blaze3d.vertex.PoseStack,float,float,float,com.llamalad7.mixinextras.injector.wrapoperation.Operation)">
+<h3>translateBob</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">translateBob</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.PoseStack&nbsp;instance,
+ float&nbsp;x,
+ float&nbsp;y,
+ float&nbsp;z,
+ com.llamalad7.mixinextras.injector.wrapoperation.Operation&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Void.html" title="class or interface in java.lang" class="external-link">Void</a>&gt;&nbsp;original)</span></div>
+</section>
+</li>
 <li>
 <section class="detail" id="veil$resizeListener(int,int,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
 <h3>veil$resizeListener</h3>
