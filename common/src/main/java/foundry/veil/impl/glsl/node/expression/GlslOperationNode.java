@@ -22,7 +22,25 @@ public class GlslOperationNode implements GlslNode {
 
     @Override
     public String getSourceString() {
-        return '(' + this.first.getSourceString() + ' ' + this.operand.getDelimiter() + ' ' + this.second.getSourceString() + ')';
+        StringBuilder source = new StringBuilder();
+        boolean firstOperation = this.first instanceof GlslOperationNode;
+        boolean secondOperation = this.second instanceof GlslOperationNode;
+        if (firstOperation) {
+            source.append('(');
+        }
+        source.append(this.first.getSourceString());
+        if (firstOperation) {
+            source.append(')');
+        }
+        source.append(' ').append(this.operand.getDelimiter()).append(' ');
+        if (secondOperation) {
+            source.append('(');
+        }
+        source.append(this.second.getSourceString());
+        if (secondOperation) {
+            source.append(')');
+        }
+        return source.toString();
     }
 
     @Override

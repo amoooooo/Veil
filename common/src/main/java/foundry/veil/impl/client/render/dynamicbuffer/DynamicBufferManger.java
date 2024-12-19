@@ -97,7 +97,6 @@ public class DynamicBufferManger implements NativeResource {
             return false;
         }
 
-        int old = this.activeBuffers; // FIXME remove
         if (activeBuffers == 0) {
             this.activeBufferLayers.removeInt(name);
         } else {
@@ -122,7 +121,9 @@ public class DynamicBufferManger implements NativeResource {
                 shaders.add(shader);
             }
         }
-        renderer.getVanillaShaderCompiler().reload(shaders);
+        if (!shaders.isEmpty()) {
+            renderer.getVanillaShaderCompiler().reload(shaders);
+        }
 
         // This rebuild all chunks in view without clearing them if normals need to be corrected
         if ((this.activeBuffers & DynamicBufferType.NORMAL.getMask()) != (activeBuffers & DynamicBufferType.NORMAL.getMask())) {

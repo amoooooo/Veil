@@ -28,7 +28,7 @@ public record GlslIntConstantNode(GlslIntFormat format, boolean signed, int valu
     public String getSourceString() {
         return switch (this.format) {
             case HEXADECIMAL -> "0x" + Integer.toHexString(this.value) + (this.signed ? "" : "u");
-            case OCTAL -> Integer.toOctalString(this.value) + (this.signed ? "" : "u");
+            case OCTAL -> (this.value > 0 ? "0" : "") + Integer.toOctalString(this.value) + (this.signed ? "" : "u");
             case DECIMAL -> this.value + (this.signed ? "" : "u");
         };
     }
