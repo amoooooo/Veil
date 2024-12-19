@@ -27,11 +27,11 @@ public class GlslTest {
         return build.toString();
     }
 
-    private void testSpeed(String source) throws GlslSyntaxException {
-        this.testSpeed(source, true);
+    private GlslTree testSpeed(String source) throws GlslSyntaxException {
+        return this.testSpeed(source, true);
     }
 
-    private void testSpeed(String source, boolean preload) throws GlslSyntaxException {
+    private GlslTree testSpeed(String source, boolean preload) throws GlslSyntaxException {
         if (preload) {
             // Load classes
             for (int i = 0; i < 10; i++) {
@@ -51,6 +51,8 @@ public class GlslTest {
 
         System.out.println(stringWriter);
         System.out.printf("Took %.1fms to parse, %.1fms to stringify%n", (parseEnd - start) / 1_000_000.0F, (end - parseEnd) / 1_000_000.0F);
+
+        return tree;
     }
 
     @Test
@@ -156,7 +158,7 @@ public class GlslTest {
 
     @Test
     void testCompute() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        this.testSpeed("""
                 #version 430 core
                 
                 #extension GL_ARB_compute_shader : enable
@@ -227,15 +229,11 @@ public class GlslTest {
                         commands[i + 4] = int(lightId);
                     }
                 }""");
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
     }
 
     @Test
     void testArray() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        GlslTree tree = this.testSpeed("""
                 // #test
                 void main() {
                     // test not going to be detected
@@ -246,10 +244,6 @@ public class GlslTest {
                 }
                 """);
 
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
-
         for (Map.Entry<String, GlslNode> entry : tree.getMarkers().entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue().getSourceString());
         }
@@ -257,7 +251,7 @@ public class GlslTest {
 
     @Test
     void testPrimitiveArray() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        this.testSpeed("""
                 #version 150
                 
                 const vec3[] COLORS = vec3[](
@@ -286,15 +280,11 @@ public class GlslTest {
                     0.0, 0.0, 0.0, 1.0
                 );
                 """);
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
     }
 
     @Test
     void testSmall() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("void mainImage(out vec4 z,vec2 I){z*=0.;for(vec3 R=iResolution;dot(z,z)<9.;z.z+=.1)z.xy=vec2(z.x*z.x-z.y*z.y,2.*z.x*z.y)+2.*(I+I-R.xy)/R.x;}");
+        GlslTree tree = this.testSpeed("void mainImage(out vec4 z,vec2 I){z*=0.;for(vec3 R=iResolution;dot(z,z)<9.;z.z+=.1)z.xy=vec2(z.x*z.x-z.y*z.y,2.*z.x*z.y)+2.*(I+I-R.xy)/R.x;}");
 
         GlslFunctionNode mainImage = tree.functions().filter(fun -> fun.getHeader().getName().equals("mainImage")).findFirst().orElseThrow();
         mainImage.getBody().addAll(GlslParser.parseExpressionList("return 42;"));
@@ -306,7 +296,7 @@ public class GlslTest {
 
     @Test
     void testStruct() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        this.testSpeed("""
                 out vec4 fragColor;
                 
                 struct AreaLightResult { vec3 position; float angle; };
@@ -318,28 +308,20 @@ public class GlslTest {
                     AreaLightResult areaLightInfo = closestPointOnPlaneAndAngle(pos, lightMat, size);
                 }
                 """);
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
     }
 
     @Test
     void testWeird() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        this.testSpeed("""
                 void main() {
                     int m0=x%2,m=m0+1;
                 }
                 """);
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
     }
 
     @Test
     void testMatrix() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        this.testSpeed("""
                 void main() {
                     if (ProjMat[2][3] != 0.) {
                         shadeColor = vec4(0.);
@@ -348,10 +330,6 @@ public class GlslTest {
                     }
                 }
                 """);
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
     }
 
     @Test
@@ -380,7 +358,7 @@ public class GlslTest {
 
     @Test
     void testMatrix2() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        this.testSpeed("""
                 void main() {
                     vec3 size = Position * Distance;
                     size.x *= length(VeilCamera.ViewMat[0].xyz);// Basis vector X
@@ -388,15 +366,11 @@ public class GlslTest {
                     size.z *= length(VeilCamera.ViewMat[2].xyz);// Basis vector Z
                 }
                 """);
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
     }
 
     @Test
     void testMethodMatrix() throws GlslSyntaxException {
-        GlslTree tree = GlslParser.parse("""
+        this.testSpeed("""
                 #version 150
                 
                 uniform sampler2D Sampler0;
@@ -439,9 +413,5 @@ public class GlslTest {
                     fragColor = linear_fog(vec4(color.rgb, opacity), vertexDistance, FogStart, FogEnd, FogColor);
                 }
                 """);
-
-        GlslStringWriter writer = new GlslStringWriter();
-        tree.visit(writer);
-        System.out.println(writer);
     }
 }
