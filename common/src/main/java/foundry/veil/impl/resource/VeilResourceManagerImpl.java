@@ -94,18 +94,18 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                             if (listenPath != null) {
                                 try {
                                     watchers.computeIfAbsent(packPath, p -> new PackResourceListener(this, p)).listen(resource, listenPath);
-                                } catch (Exception e) {
-                                    Veil.LOGGER.error("Failed to listen to resource: {}", resource.resourceInfo().location(), e);
+                                } catch (Throwable t) {
+                                    Veil.LOGGER.error("Failed to listen to resource: {}", resource.resourceInfo().location(), t);
                                 }
                             }
                         }
-                    } catch (Exception e) {
-                        Veil.LOGGER.error("Error loading resource: {}", loc, e);
+                    } catch (Throwable t) {
+                        Veil.LOGGER.error("Error loading resource: {}", loc, t);
                     }
                 });
                 return;
-            } catch (Exception e) {
-                Veil.LOGGER.error("Failed to load resources from {}", this.getClass().getSimpleName(), e);
+            } catch (Throwable t) {
+                Veil.LOGGER.error("Failed to load resources from {}", this.getClass().getSimpleName(), t);
             }
         }
 
@@ -113,8 +113,8 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
             packResources.listResources(type, namespace, "", (loc, inputStreamIoSupplier) -> {
                 try {
                     resources.add(type, loc, this.visitResource(type, resourceManager, loc, null, null));
-                } catch (Exception e) {
-                    Veil.LOGGER.error("Error loading resource: {}", loc, e);
+                } catch (Throwable t) {
+                    Veil.LOGGER.error("Error loading resource: {}", loc, t);
                 }
             });
         }
@@ -165,9 +165,9 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                 packs.add(resources);
 
                 if (pack instanceof PackResourcesExtension extension) {
-                    IoSupplier<InputStream> icon = extension.veil$getIcon();
-                    if (icon != null) {
-                        try {
+                    try {
+                        IoSupplier<InputStream> icon = extension.veil$getIcon();
+                        if (icon != null) {
                             NativeImage image = NativeImage.read(icon.get());
                             boolean blur = extension.veil$blurIcon();
                             RenderSystem.recordRenderCall(() -> {
@@ -175,9 +175,9 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
                                     resources.loadIcon(image, blur);
                                 }
                             });
-                        } catch (Exception e) {
-                            Veil.LOGGER.error("Failed to load icon for pack: {}", pack.packId(), e);
                         }
+                    } catch (Throwable t) {
+                        Veil.LOGGER.error("Failed to load icon for pack: {}", pack.packId(), t);
                     }
                 }
             });
