@@ -35,8 +35,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
@@ -55,7 +55,8 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
 
     private final ImString widthInput = new ImString();
     private final ImString heightInput = new ImString();
-    private BitSet enabledBuffers;
+    private boolean useDepth;
+    private int colorBuffers;
 
     private int attachmentIndex;
     private FramebufferAttachmentDefinition.Type type;
@@ -77,7 +78,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
 
     @Override
     public void render() {
-        if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName() + "###framebuffer_editor", this.open)) {
+        if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName(), this.open)) {
             float definitionWidth = 1;
             float definitionHeight = 1;
             try {
@@ -152,49 +153,56 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             if (ImGui.beginListBox("##buffers", ImGui.getContentRegionAvailX(), ImGui.getContentRegionAvailY() - ImGui.getFrameHeight() - ImGui.getStyle().getFramePaddingY() * 2)) {
                 float itemWidth = ImGui.getContentRegionAvailX();
 
-                boolean useDepth = this.enabledBuffers.get(0);
-                if (useDepth) {
+                if (this.useDepth) {
                     if (ImGui.invisibleButton("##depth", itemWidth, lineHeight * 4)) {
                         this.setAttachment(0);
                     }
 
-                    if (this.builder.getDepthBuffer() == null) {
-                        this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT, FramebufferAttachmentDefinition.DataType.FLOAT, true, false, 1, null));
-                    }
-                    drawBuffer("Depth Buffer", this.builder.getDepthBuffer(), itemWidth, this.attachmentIndex == 0);
+                    drawBuffer("Depth Buffer", this.builder.getOrCreateDepthBuffer(), itemWidth, this.attachmentIndex == 0);
                 }
 
-                for (int i = 0; i < this.enabledBuffers.size() - 1; i++) {
-                    boolean enabled = this.enabledBuffers.get(i + 1);
-                    if (!enabled) {
-                        continue;
-                    }
-
+                for (int i = 0; i < this.colorBuffers; i++) {
                     if (ImGui.invisibleButton("##color" + i, itemWidth, lineHeight * 4)) {
                         this.setAttachment(i + 1);
                     }
 
-                    FramebufferAttachmentDefinition[] colorBuffers = this.builder.getColorBuffers();
-                    if (colorBuffers[i] == null) {
-                        this.builder.setColorBuffer(i, new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.RGBA8, FramebufferAttachmentDefinition.DataType.UNSIGNED_BYTE, false, false, 1, null));
-                    }
-                    drawBuffer("Color Buffer " + i, colorBuffers[i], itemWidth, this.attachmentIndex == i + 1);
+                    drawBuffer("Color Buffer " + i, this.builder.getOrCreateColorBuffer(i), itemWidth, this.attachmentIndex == i + 1);
                 }
                 ImGui.endListBox();
             }
 
-            if (ImGui.checkbox("Use Depth", this.enabledBuffers.get(0))) {
-                this.enabledBuffers.flip(0);
-                if (this.attachmentIndex == 0 && !this.enabledBuffers.get(0)) {
+            if (ImGui.checkbox("Use Depth", this.useDepth)) {
+                this.useDepth = !this.useDepth;
+                if (this.attachmentIndex == 0 && !this.useDepth) {
                     this.setAttachment(1);
                 }
                 this.save();
             }
+
             ImGui.sameLine();
             if (ImGui.checkbox("Auto Clear", this.builder.isAutoClear())) {
                 this.builder.setAutoClear(!this.builder.isAutoClear());
                 this.save();
             }
+
+            ImGui.sameLine();
+            ImGui.beginDisabled(this.colorBuffers >= this.builder.colorBuffers.length);
+            if (ImGui.button("+") && this.colorBuffers < this.builder.colorBuffers.length) {
+                this.colorBuffers++;
+                this.setAttachment(this.colorBuffers);
+                this.save();
+            }
+            ImGui.endDisabled();
+
+            ImGui.sameLine();
+            ImGui.beginDisabled(this.colorBuffers <= 1);
+            if (ImGui.button("-") && this.colorBuffers > 1) {
+                this.colorBuffers--;
+                this.builder.setColorBuffer(this.attachmentIndex - 1, null);
+                this.setAttachment(Math.min(this.attachmentIndex, this.colorBuffers));
+                this.save();
+            }
+            ImGui.endDisabled();
 
             ImGui.endGroup();
         }
@@ -214,18 +222,17 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             this.builder = new FramebufferDefinitionBuilder();
         }
 
-        if (this.enabledBuffers == null) {
-            this.enabledBuffers = new BitSet(VeilRenderSystem.maxColorAttachments() + 1);
-        }
-
         FramebufferAttachmentDefinition[] colorBuffers = this.builder.getColorBuffers();
-        this.enabledBuffers.set(0, this.builder.getDepthBuffer() != null);
-        for (int i = 0; i < colorBuffers.length; i++) {
-            this.enabledBuffers.set(i + 1, colorBuffers[i] != null);
+        this.useDepth = this.builder.getDepthBuffer() != null;
+        this.colorBuffers = 0;
+        for (FramebufferAttachmentDefinition colorBuffer : colorBuffers) {
+            if (colorBuffer != null) {
+                this.colorBuffers++;
+            }
         }
 
         this.updateSize();
-        this.setAttachment(1);
+        this.setAttachment(Math.min(this.attachmentIndex, this.colorBuffers));
     }
 
     @Override
@@ -289,12 +296,13 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         float posY = ImGui.getCursorScreenPosY() + pad;
 
         ImDrawList drawList = ImGui.getWindowDrawList();
-        for (int i = 0; i < next.length(); i++) {
+        int length = next.length();
+        drawList.primReserve(6 * length, 4 * length);
+        for (int i = 0; i < length; i++) {
             int codePoint = next.codePointAt(i);
             ImFontGlyph glyph = font.findGlyph(codePoint);
 
             posY -= font.getCharAdvance(codePoint);
-            drawList.primReserve(6, 4);
             drawList.primQuadUV(
                     (int) (posX + glyph.getY1()),
                     (int) (posY + glyph.getX0()),
@@ -324,6 +332,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             } catch (MolangSyntaxException ignored) {
             }
             this.updateSize();
+            this.save();
         }
         if (ImGui.inputText("Height", this.heightInput, ImGuiInputTextFlags.EnterReturnsTrue)) {
             try {
@@ -331,6 +340,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             } catch (MolangSyntaxException ignored) {
             }
             this.updateSize();
+            this.save();
         }
     }
 
@@ -353,13 +363,14 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             this.formatInput.set(this.format.name());
         }
         ImGui.beginDisabled(this.type == FramebufferAttachmentDefinition.Type.RENDER_BUFFER);
-        if (ImGui.inputText("Data Type", this.dataTypeInput, ImGuiInputTextFlags.EnterReturnsTrue)) {
-            try {
-                this.dataType = FramebufferAttachmentDefinition.DataType.valueOf(this.dataTypeInput.get().toUpperCase(Locale.ROOT));
-                this.saveAttachment();
-            } catch (IllegalArgumentException ignored) {
+        if (ImGui.beginCombo("Data Type", this.dataType.name())) {
+            for (FramebufferAttachmentDefinition.DataType type : FramebufferAttachmentDefinition.DataType.values()) {
+                if (ImGui.selectable(type.name())) {
+                    this.dataType = type;
+                    this.saveAttachment();
+                }
             }
-            this.dataTypeInput.set(this.dataType.name());
+            ImGui.endCombo();
         }
         if (ImGui.checkbox("Linear", this.linear)) {
             this.saveAttachment();
@@ -372,12 +383,6 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         if (ImGui.inputText("Name", this.name, ImGuiInputTextFlags.EnterReturnsTrue)) {
             this.saveAttachment();
         }
-//        this.type = buffer.type();
-//        this.format = buffer.format();
-//        this.dataType = buffer.dataType();
-//        this.linear = buffer.linear();
-//        this.levels = buffer.levels();
-//        this.name = buffer.name();
     }
 
     private void updateSize() {
@@ -394,7 +399,6 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         } else {
             this.heightInput.set(height);
         }
-        this.save();
     }
 
     private void saveAttachment() {
@@ -412,36 +416,34 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
 
         FramebufferAttachmentDefinition buffer;
         if (this.attachmentIndex == 0) {
-            buffer = this.builder.getDepthBuffer();
+            buffer = this.builder.getOrCreateDepthBuffer();
         } else {
             FramebufferAttachmentDefinition[] colorBuffers = this.builder.getColorBuffers();
             if (attachmentIndex < 1 || attachmentIndex >= colorBuffers.length + 1) {
                 return;
             }
 
-            buffer = colorBuffers[attachmentIndex - 1];
+            buffer = this.builder.getOrCreateColorBuffer(attachmentIndex - 1);
         }
 
-        if (buffer != null) {
-            this.type = buffer.type();
-            this.format = buffer.format();
-            this.formatInput.set(this.format.name());
-            this.dataType = buffer.dataType();
-            this.dataTypeInput.set(this.dataType.name());
-            this.linear.set(buffer.linear());
-            this.levels = buffer.levels();
-            this.levelsInput.set(this.levels);
-            if (buffer.name() != null) {
-                this.name.set(buffer.name());
-            } else {
-                this.name.clear();
-            }
+        this.type = buffer.type();
+        this.format = buffer.format();
+        this.formatInput.set(this.format.name());
+        this.dataType = buffer.dataType();
+        this.dataTypeInput.set(this.dataType.name());
+        this.linear.set(buffer.linear());
+        this.levels = buffer.levels();
+        this.levelsInput.set(this.levels);
+        if (buffer.name() != null) {
+            this.name.set(buffer.name());
+        } else {
+            this.name.clear();
         }
     }
 
     private void save() {
         try {
-            FramebufferDefinition definition = this.builder.create(this.enabledBuffers);
+            FramebufferDefinition definition = this.builder.create(this.useDepth, this.colorBuffers);
             DataResult<JsonElement> result = FramebufferDefinition.CODEC.encodeStart(JsonOps.INSTANCE, definition);
             if (result.error().isPresent()) {
                 throw new JsonSyntaxException(result.error().get().message());
@@ -486,8 +488,11 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             this.height = height;
         }
 
-        public void setColorBuffer(int index, FramebufferAttachmentDefinition colorBuffer) {
+        public void setColorBuffer(int index, @Nullable FramebufferAttachmentDefinition colorBuffer) {
             this.colorBuffers[index] = colorBuffer;
+            if (colorBuffer == null && index < this.colorBuffers.length - 1) {
+                System.arraycopy(this.colorBuffers, index + 1, this.colorBuffers, index, this.colorBuffers.length - index - 1);
+            }
         }
 
         public void setDepthBuffer(@Nullable FramebufferAttachmentDefinition depthBuffer) {
@@ -506,6 +511,19 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             return this.height;
         }
 
+        public FramebufferAttachmentDefinition getOrCreateColorBuffer(int i) {
+            FramebufferAttachmentDefinition buffer = this.colorBuffers[i];
+            if (buffer != null) {
+                return buffer;
+            }
+
+            return this.colorBuffers[i] = new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.RGBA8, FramebufferAttachmentDefinition.DataType.UNSIGNED_BYTE, false, false, 1, null);
+        }
+
+        public FramebufferAttachmentDefinition getOrCreateDepthBuffer() {
+            return Objects.requireNonNullElseGet(this.depthBuffer, () -> this.depthBuffer = new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT, FramebufferAttachmentDefinition.DataType.FLOAT, true, false, 1, null));
+        }
+
         public FramebufferAttachmentDefinition[] getColorBuffers() {
             return this.colorBuffers;
         }
@@ -518,12 +536,11 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             return this.autoClear;
         }
 
-        public FramebufferDefinition create(BitSet enabledBuffers) {
-            FramebufferAttachmentDefinition[] colorBuffers = IntStream.range(0, this.colorBuffers.length)
-                    .filter(i -> enabledBuffers.get(i + 1) && this.colorBuffers[i] != null)
-                    .mapToObj(i -> this.colorBuffers[i])
+        public FramebufferDefinition create(boolean useDepth, int buffers) {
+            FramebufferAttachmentDefinition[] colorBuffers = IntStream.range(0, buffers)
+                    .mapToObj(this::getOrCreateColorBuffer)
                     .toArray(FramebufferAttachmentDefinition[]::new);
-            return new FramebufferDefinition(this.width, this.height, colorBuffers, enabledBuffers.get(0) ? this.depthBuffer : null, this.autoClear);
+            return new FramebufferDefinition(this.width, this.height, colorBuffers, useDepth ? this.getOrCreateDepthBuffer() : null, this.autoClear);
         }
     }
 }

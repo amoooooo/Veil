@@ -330,7 +330,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                     } else if (nodeType.getComponents() < outType.getComponents()) {
                         // Not enough components, so pad
                         StringBuilder builder = new StringBuilder(outType.getSourceString()).append("(");
-                        String padding = outType.isFloat() ? "0.0" : outType.isUnsignedInteger() ? "0u" : "0";
+                        String padding = outType.getConstant(0);
                         if (nodeType.getComponents() == 1) {
                             builder.append(cast != null ? cast + "(" + copyName + "), " : (copyName + ", "));
                         } else {
@@ -341,7 +341,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                         for (int j = nodeType.getComponents(); j < 3; j++) {
                             builder.append(padding).append(", ");
                         }
-                        builder.append(outType.isFloat() ? "1.0" : outType.isUnsignedInteger() ? "1u" : "1");
+                        builder.append(outType.getConstant(1));
                         builder.append(')');
                         expression = GlslParser.parseExpression(builder.toString());
                     } else {

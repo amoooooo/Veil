@@ -8,7 +8,9 @@ import net.minecraft.network.chat.Component;
 
 import java.util.OptionalInt;
 
-public class FramebufferEditAction implements VeilResourceAction<FramebufferResource> {
+public enum FramebufferEditAction implements VeilResourceAction<FramebufferResource> {
+
+    INSTANCE;
 
     private static final Component NAME = Component.translatable("resource.veil.action.framebuffer_edit");
     private static final Component DESC = Component.translatable("resource.veil.action.framebuffer_edit.desc");

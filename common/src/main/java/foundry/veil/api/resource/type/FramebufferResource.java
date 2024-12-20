@@ -23,7 +23,7 @@ public record FramebufferResource(VeilResourceInfo resourceInfo) implements Veil
 
     @Override
     public List<VeilResourceAction<FramebufferResource>> getActions() {
-        return List.of(new TextEditAction<>(), new FramebufferEditAction());
+        return List.of(new TextEditAction<>(), FramebufferEditAction.INSTANCE);
     }
 
     @Override

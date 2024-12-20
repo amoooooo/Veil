@@ -200,6 +200,16 @@ public sealed interface GlslTypeSpecifier extends GlslType permits GlslStructSpe
             this.source = source;
         }
 
+        public String getConstant(double value) {
+            return switch (this) {
+                case FLOAT, VEC2, VEC3, VEC4 -> Float.toString((float) value);
+                case DOUBLE, DVEC2, DVEC3, DVEC4 -> Double.toString(value);
+                case INT, IVEC2, IVEC3, IVEC4 -> Integer.toString((int) value);
+                case UINT, UVEC2, UVEC3, UVEC4 -> (int) value + "u";
+                default -> throw new IllegalStateException("Invalid constant type: " + this);
+            };
+        }
+
         public boolean isPrimitive() {
             return switch (this) {
                 case FLOAT, DOUBLE, INT, UINT, BOOL, ATOMIC_UINT -> true;
