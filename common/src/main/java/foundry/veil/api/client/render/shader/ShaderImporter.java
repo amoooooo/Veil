@@ -15,7 +15,7 @@ import java.util.Collection;
 public interface ShaderImporter {
 
     /**
-     * Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl/code>.
+     * Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl<code>.
      * @param name The name of the import to load
      * @param force Whether to load the import nodes even if the import has already been loaded
      * @return An immutable view of the nodes inside the import
