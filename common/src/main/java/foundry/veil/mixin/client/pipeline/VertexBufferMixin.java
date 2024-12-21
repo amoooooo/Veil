@@ -7,7 +7,10 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.ext.VertexBufferExtension;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.core.Direction;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -79,6 +82,16 @@ public abstract class VertexBufferMixin implements VertexBufferExtension {
         Uniform iModelViewMat = shader.getUniform("NormalMat");
         if (iModelViewMat != null) {
             iModelViewMat.set(modelView.normal(new Matrix3f()));
+        }
+
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level != null) {
+            for (Direction value : Direction.values()) {
+                Uniform uniform = shader.getUniform("VeilBlockFaceBrightness[" + value.get3DDataValue() + "]");
+                if (uniform != null) {
+                    uniform.set(level.getShade(value, true));
+                }
+            }
         }
     }
 

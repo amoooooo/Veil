@@ -4,13 +4,14 @@ import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.api.event.VeilAddShaderPreProcessorsEvent;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import net.neoforged.bus.api.Event;
+import net.neoforged.fml.event.IModBusEvent;
 
 /**
  * Fired when Minecraft frees all native resources on the client.
  *
  * @author Ocelot
  */
-public class ForgeVeilAddShaderProcessorsEvent extends Event implements VeilAddShaderPreProcessorsEvent.Registry {
+public class ForgeVeilAddShaderProcessorsEvent extends Event implements VeilAddShaderPreProcessorsEvent.Registry, IModBusEvent {
 
     private final ResourceProvider resourceProvider;
     private final VeilAddShaderPreProcessorsEvent.Registry registry;

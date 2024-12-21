@@ -31,6 +31,8 @@ import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.Locale;
+
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 
 @ApiStatus.Internal
@@ -93,7 +95,7 @@ public class VeilForgeClientEvents {
                             .then(Commands.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                 DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
                                 VeilRenderSystem.renderer().enableBuffers(bufferId, value);
-                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.enable", value), true);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.enable", value.name().toLowerCase(Locale.ROOT)), true);
                                 return Command.SINGLE_SUCCESS;
                             }))
                             .then(Commands.literal("all").executes(ctx -> {
@@ -107,7 +109,7 @@ public class VeilForgeClientEvents {
                             .then(Commands.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                 DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
                                 VeilRenderSystem.renderer().disableBuffers(bufferId, value);
-                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.disable", value), true);
+                                ctx.getSource().sendSuccess(() -> Component.translatable("commands.veil.buffers.disable", value.name().toLowerCase(Locale.ROOT)), true);
                                 return Command.SINGLE_SUCCESS;
                             }))
                             .then(Commands.literal("all").executes(ctx -> {

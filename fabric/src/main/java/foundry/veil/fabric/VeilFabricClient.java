@@ -37,6 +37,8 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.Locale;
+
 @ApiStatus.Internal
 public class VeilFabricClient implements ClientModInitializer {
 
@@ -86,7 +88,7 @@ public class VeilFabricClient implements ClientModInitializer {
                                 .then(ClientCommandManager.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                     DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
                                     VeilRenderSystem.renderer().enableBuffers(bufferId, value);
-                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable", value));
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.enable", value.name().toLowerCase(Locale.ROOT)));
                                     return Command.SINGLE_SUCCESS;
                                 }))
                                 .then(ClientCommandManager.literal("all").executes(ctx -> {
@@ -100,7 +102,7 @@ public class VeilFabricClient implements ClientModInitializer {
                                 .then(ClientCommandManager.argument("buffer", ClientEnumArgument.enumArgument(DynamicBufferType.class)).executes(ctx -> {
                                     DynamicBufferType value = ctx.getArgument("buffer", DynamicBufferType.class);
                                     VeilRenderSystem.renderer().disableBuffers(bufferId, value);
-                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable", value));
+                                    ctx.getSource().sendFeedback(Component.translatable("commands.veil.buffers.disable", value.name().toLowerCase(Locale.ROOT)));
                                     return Command.SINGLE_SUCCESS;
                                 }))
                                 .then(ClientCommandManager.literal("all").executes(ctx -> {

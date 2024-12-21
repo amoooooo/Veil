@@ -6,6 +6,7 @@ import foundry.veil.forge.event.ForgeVeilPostProcessingEvent;
 import foundry.veil.platform.VeilClientPlatform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
+import net.neoforged.fml.ModLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -24,6 +25,6 @@ public class NeoForgeVeilClientPlatform implements VeilClientPlatform {
 
     @Override
     public void onRegisterShaderPreProcessors(ResourceProvider resourceProvider, Registry registry) {
-        NeoForge.EVENT_BUS.post(new ForgeVeilAddShaderProcessorsEvent(resourceProvider, registry));
+        ModLoader.postEvent(new ForgeVeilAddShaderProcessorsEvent(resourceProvider, registry));
     }
 }
