@@ -143,7 +143,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions)" class="member-name-link">ShaderModificationManager</a><wbr>(<a href="definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a>&nbsp;preDefinitions)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">ShaderModificationManager</a>()</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -164,9 +164,9 @@ loadScripts(document, 'script');</script>
  @NotNull net.minecraft.server.packs.resources.ResourceManager&nbsp;resourceManager,
  @NotNull net.minecraft.util.profiling.ProfilerFiller&nbsp;profilerFiller)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyModifiers(net.minecraft.resources.ResourceLocation,java.lang.String,int)" class="member-name-link">applyModifiers</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shaderId,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#applyModifiers(net.minecraft.resources.ResourceLocation,foundry.veil.impl.glsl.node.GlslTree,int)" class="member-name-link">applyModifiers</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shaderId,
+ <a href="../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
  int&nbsp;flags)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Applies all shader modifiers to the specified shader source.</div>
@@ -223,9 +223,9 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions)">
+<section class="detail" id="&lt;init&gt;()">
 <h3>ShaderModificationManager</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ShaderModificationManager</span><wbr><span class="parameters">(<a href="definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a>&nbsp;preDefinitions)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ShaderModificationManager</span>()</div>
 </section>
 </li>
 </ul>
@@ -237,19 +237,17 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="applyModifiers(net.minecraft.resources.ResourceLocation,java.lang.String,int)">
+<section class="detail" id="applyModifiers(net.minecraft.resources.ResourceLocation,foundry.veil.impl.glsl.node.GlslTree,int)">
 <h3>applyModifiers</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">applyModifiers</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;shaderId,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">applyModifiers</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;shaderId,
+ <a href="../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
  int&nbsp;flags)</span></div>
 <div class="block">Applies all shader modifiers to the specified shader source.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shaderId</code> - The id of the shader to get modifiers for</dd>
-<dd><code>source</code> - The shader source text</dd>
-<dd><code>flags</code> - Additional flags for applying</dd>
-<dt>Returns:</dt>
-<dd>The modified shader source</dd>
+<dd><code>tree</code> - The shader source tree</dd>
+<dd><code>flags</code> - Additional flags for applying modifiers</dd>
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list">

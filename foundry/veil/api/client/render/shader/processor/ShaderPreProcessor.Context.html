@@ -112,14 +112,35 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;net.minecraft.resources.ResourceLocation&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#includes()" class="member-name-link">includes</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#activeBuffers()" class="member-name-link">activeBuffers</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isSourceFile()" class="member-name-link">isSourceFile</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#modify(net.minecraft.resources.ResourceLocation,java.lang.String)" class="member-name-link">modify</a><wbr>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#include(foundry.veil.impl.glsl.node.GlslTree,net.minecraft.resources.ResourceLocation)" class="member-name-link">include</a><wbr>(<a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
+ net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl</code> and adds it to this source tree.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isFragment()" class="member-name-link">isFragment</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isGeometry()" class="member-name-link">isGeometry</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isSourceFile()" class="member-name-link">isSourceFile</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isTessellationControl()" class="member-name-link">isTessellationControl</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isTessellationEvaluation()" class="member-name-link">isTessellationEvaluation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isVertex()" class="member-name-link">isVertex</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#modifyInclude(net.minecraft.resources.ResourceLocation,java.lang.String)" class="member-name-link">modifyInclude</a><wbr>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Runs the specified source through the entire processing list.</div>
@@ -130,9 +151,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="../definition/ShaderPreDefinitions.html" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#preDefinitions()" class="member-name-link">preDefinitions</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader">ShaderImporter</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#shaderImporter()" class="member-name-link">shaderImporter</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -148,12 +172,14 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="modify(net.minecraft.resources.ResourceLocation,java.lang.String)">
-<h3>modify</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(@Nullable
+<section class="detail" id="modifyInclude(net.minecraft.resources.ResourceLocation,java.lang.String)">
+<h3>modifyInclude</h3>
+<div class="member-signature"><span class="return-type"><a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a></span>&nbsp;<span class="element-name">modifyInclude</span><wbr><span class="parameters">(@Nullable
  @Nullable net.minecraft.resources.ResourceLocation&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source)</span>
-       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+                throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
+<a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a>,
+<a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></span></div>
 <div class="block">Runs the specified source through the entire processing list.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -163,6 +189,8 @@ loadScripts(document, 'script');</script>
 <dd>The modified source</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If any error occurs while editing the source</dd>
+<dd><code><a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></code> - If there was an error in the syntax of the source code</dd>
+<dd><code><a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></code> - If an error occurs during shader C preprocessing</dd>
 </dl>
 </section>
 </li>
@@ -188,6 +216,16 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="activeBuffers()">
+<h3>activeBuffers</h3>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">activeBuffers</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The currently active dynamic buffers</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="type()">
 <h3>type</h3>
 <div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">type</span>()</div>
@@ -198,12 +236,88 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="includes()">
-<h3>includes</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.minecraft.resources.ResourceLocation&gt;</span>&nbsp;<span class="element-name">includes</span>()</div>
+<section class="detail" id="isVertex()">
+<h3>isVertex</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isVertex</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>A view of all includes in this shader</dd>
+<dd>Whether the current shader file is the vertex program</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isFragment()">
+<h3>isFragment</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFragment</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether the current shader file is the fragment program</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isGeometry()">
+<h3>isGeometry</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isGeometry</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether the current shader file is the geometry program</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isTessellationControl()">
+<h3>isTessellationControl</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isTessellationControl</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether the current shader file is the tessellation control program</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isTessellationEvaluation()">
+<h3>isTessellationEvaluation</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isTessellationEvaluation</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether the current shader file is the tessellation evaluation program</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="include(foundry.veil.impl.glsl.node.GlslTree,net.minecraft.resources.ResourceLocation)">
+<h3>include</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">include</span><wbr><span class="parameters">(<a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree,
+ net.minecraft.resources.ResourceLocation&nbsp;name)</span>
+              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
+<a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a>,
+<a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></span></div>
+<div class="block">Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl</code> and adds it to this source tree.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>tree</code> - The tree to include the file into</dd>
+<dd><code>name</code> - The name of the import to load</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If there was an error loading the import file</dd>
+<dd><code><a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></code></dd>
+<dd><code><a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="shaderImporter()">
+<h3>shaderImporter</h3>
+<div class="member-signature"><span class="return-type"><a href="../ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader">ShaderImporter</a></span>&nbsp;<span class="element-name">shaderImporter</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The importer instance</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="#include(foundry.veil.impl.glsl.node.GlslTree,net.minecraft.resources.ResourceLocation)"><code>include(GlslTree, ResourceLocation)</code></a></li>
+</ul>
+</dd>
 </dl>
 </section>
 </li>

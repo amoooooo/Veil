@@ -113,14 +113,6 @@ extends <a href="ShaderPreProcessor.Context.html" title="interface in foundry.ve
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addInclude(net.minecraft.resources.ResourceLocation)" class="member-name-link">addInclude</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addPreDefinitionDependency(java.lang.String)" class="member-name-link">addPreDefinitionDependency</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Marks this shader as dependent on the specified pre-definition.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addUniformBinding(java.lang.String,int)" class="member-name-link">addUniformBinding</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;binding)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -134,7 +126,7 @@ extends <a href="ShaderPreProcessor.Context.html" title="interface in foundry.ve
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context">Methods inherited from interface&nbsp;foundry.veil.api.client.render.shader.processor.<a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a></h3>
-<code><a href="ShaderPreProcessor.Context.html#includes()">includes</a>, <a href="ShaderPreProcessor.Context.html#isSourceFile()">isSourceFile</a>, <a href="ShaderPreProcessor.Context.html#modify(net.minecraft.resources.ResourceLocation,java.lang.String)">modify</a>, <a href="ShaderPreProcessor.Context.html#name()">name</a>, <a href="ShaderPreProcessor.Context.html#preDefinitions()">preDefinitions</a>, <a href="ShaderPreProcessor.Context.html#type()">type</a></code></div>
+<code><a href="ShaderPreProcessor.Context.html#activeBuffers()">activeBuffers</a>, <a href="ShaderPreProcessor.Context.html#include(foundry.veil.impl.glsl.node.GlslTree,net.minecraft.resources.ResourceLocation)">include</a>, <a href="ShaderPreProcessor.Context.html#isFragment()">isFragment</a>, <a href="ShaderPreProcessor.Context.html#isGeometry()">isGeometry</a>, <a href="ShaderPreProcessor.Context.html#isSourceFile()">isSourceFile</a>, <a href="ShaderPreProcessor.Context.html#isTessellationControl()">isTessellationControl</a>, <a href="ShaderPreProcessor.Context.html#isTessellationEvaluation()">isTessellationEvaluation</a>, <a href="ShaderPreProcessor.Context.html#isVertex()">isVertex</a>, <a href="ShaderPreProcessor.Context.html#modifyInclude(net.minecraft.resources.ResourceLocation,java.lang.String)">modifyInclude</a>, <a href="ShaderPreProcessor.Context.html#name()">name</a>, <a href="ShaderPreProcessor.Context.html#preDefinitions()">preDefinitions</a>, <a href="ShaderPreProcessor.Context.html#shaderImporter()">shaderImporter</a>, <a href="ShaderPreProcessor.Context.html#type()">type</a></code></div>
 </section>
 </li>
 </ul>
@@ -156,28 +148,6 @@ extends <a href="ShaderPreProcessor.Context.html" title="interface in foundry.ve
 <dt>Parameters:</dt>
 <dd><code>name</code> - The name of the uniform</dd>
 <dd><code>binding</code> - The binding to set it to</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="addPreDefinitionDependency(java.lang.String)">
-<h3>addPreDefinitionDependency</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addPreDefinitionDependency</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Marks this shader as dependent on the specified pre-definition.
- When definitions change, only shaders marked as dependent on that definition will be recompiled.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>name</code> - The name of the definition to depend on</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="addInclude(net.minecraft.resources.ResourceLocation)">
-<h3>addInclude</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addInclude</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;name)</span></div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>name</code> - The name of the definition to depend on</dd>
 </dl>
 </section>
 </li>

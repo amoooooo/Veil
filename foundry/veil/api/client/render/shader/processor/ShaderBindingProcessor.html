@@ -86,9 +86,7 @@ loadScripts(document, 'script');</script>
 <h1 title="Class ShaderBindingProcessor" class="title">Class ShaderBindingProcessor</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance"><a href="ShaderLineProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">foundry.veil.api.client.render.shader.processor.ShaderLineProcessor</a>
 <div class="inheritance">foundry.veil.api.client.render.shader.processor.ShaderBindingProcessor</div>
-</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -97,7 +95,8 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ShaderBindingProcessor</span>
-<span class="extends-implements">extends <a href="ShaderLineProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderLineProcessor</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></span></div>
 <div class="block">Adds support for <code>layout(binding = #)</code> in the shader source without needing shader version 420.</div>
 </section>
 <section class="summary">
@@ -117,7 +116,7 @@ loadScripts(document, 'script');</script>
 <h2>Field Summary</h2>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-foundry.veil.api.client.render.shader.processor.ShaderPreProcessor">Fields inherited from interface&nbsp;foundry.veil.api.client.render.shader.processor.<a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></h3>
-<code><a href="ShaderPreProcessor.html#NOOP">NOOP</a>, <a href="ShaderPreProcessor.html#UNIFORM_PATTERN">UNIFORM_PATTERN</a></code></div>
+<code><a href="ShaderPreProcessor.html#NOOP">NOOP</a></code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -145,16 +144,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String,java.util.List)" class="member-name-link">modify</a><wbr>(@NotNull <a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;context,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;original,
- @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;line)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,foundry.veil.impl.glsl.node.GlslTree)" class="member-name-link">modify</a><wbr>(<a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;ctx,
+ <a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Modifies a single line in a shader source.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)" class="member-name-link">modify</a><wbr>(@NotNull <a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;context,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Modifies the specified shader source input.</div>
 </div>
 </div>
@@ -192,53 +184,25 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)">
+<section class="detail" id="modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,foundry.veil.impl.glsl.node.GlslTree)">
 <h3>modify</h3>
-<div class="member-signature"><span class="annotations">@NotNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;context,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source)</span>
-                       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ShaderPreProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)">ShaderPreProcessor</a></code></span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(<a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;ctx,
+ <a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree)</span>
+            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
+<a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a>,
+<a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ShaderPreProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,foundry.veil.impl.glsl.node.GlslTree)">ShaderPreProcessor</a></code></span></div>
 <div class="block">Modifies the specified shader source input.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ShaderPreProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)">modify</a></code>&nbsp;in interface&nbsp;<code><a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></code></dd>
-<dt>Overrides:</dt>
-<dd><code><a href="ShaderLineProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)">modify</a></code>&nbsp;in class&nbsp;<code><a href="ShaderLineProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderLineProcessor</a></code></dd>
+<dd><code><a href="ShaderPreProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,foundry.veil.impl.glsl.node.GlslTree)">modify</a></code>&nbsp;in interface&nbsp;<code><a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></code></dd>
 <dt>Parameters:</dt>
-<dd><code>context</code> - Context for modifying shaders</dd>
-<dd><code>source</code> - The GLSL source code to modify</dd>
-<dt>Returns:</dt>
-<dd>The modified source or the input if nothing changed</dd>
+<dd><code>ctx</code> - Context for modifying shaders</dd>
+<dd><code>tree</code> - The GLSL source code tree to modify</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If any error occurs while editing the source</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String,java.util.List)">
-<h3>modify</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(@NotNull
- @NotNull <a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;context,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;original,
- @NotNull
- @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;line)</span>
-            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="ShaderLineProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String,java.util.List)">ShaderLineProcessor</a></code></span></div>
-<div class="block">Modifies a single line in a shader source.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="ShaderLineProcessor.html#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String,java.util.List)">modify</a></code>&nbsp;in class&nbsp;<code><a href="ShaderLineProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderLineProcessor</a></code></dd>
-<dt>Parameters:</dt>
-<dd><code>context</code> - Context for modifying shaders</dd>
-<dd><code>original</code> - A copy of the original source</dd>
-<dd><code>line</code> - The data to use as the current line.
-                 The original source is the first element and can be modified as necessary.
-                 The source can be replaced by clearing the list and adding new source.</dd>
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If any error occurs while editing the source</dd>
+<dd><code><a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></code> - If there was an error in the syntax of the source code</dd>
+<dd><code><a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></code> - If an error occurs during shader C preprocessing</dd>
 </dl>
 </section>
 </li>

@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../../../../../impl/client/render/dynamicbuffer/DynamicBufferProcessor.html" title="class in foundry.veil.impl.client.render.dynamicbuffer">DynamicBufferProcessor</a></code>, <code><a href="ShaderBindingProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderBindingProcessor</a></code>, <code><a href="ShaderCustomProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderCustomProcessor</a></code>, <code><a href="ShaderImportProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderImportProcessor</a></code>, <code><a href="ShaderLineProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderLineProcessor</a></code>, <code><a href="ShaderModifyProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderModifyProcessor</a></code>, <code><a href="ShaderMultiProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderMultiProcessor</a></code>, <code><a href="ShaderPredefinitionProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderPredefinitionProcessor</a></code>, <code><a href="ShaderVersionProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderVersionProcessor</a></code>, <code><a href="../../../../../impl/compat/SodiumShaderPreProcessor.html" title="class in foundry.veil.impl.compat">SodiumShaderPreProcessor</a></code></dd>
+<dd><code><a href="../../../../../impl/client/render/dynamicbuffer/DynamicBufferProcessor.html" title="class in foundry.veil.impl.client.render.dynamicbuffer">DynamicBufferProcessor</a></code>, <code><a href="ShaderBindingProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderBindingProcessor</a></code>, <code><a href="ShaderImportProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderImportProcessor</a></code>, <code><a href="ShaderModifyProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderModifyProcessor</a></code>, <code><a href="ShaderMultiProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderMultiProcessor</a></code>, <code><a href="ShaderVersionProcessor.html" title="class in foundry.veil.api.client.render.shader.processor">ShaderVersionProcessor</a></code>, <code><a href="../../../../../impl/compat/SodiumShaderPreProcessor.html" title="class in foundry.veil.impl.compat">SodiumShaderPreProcessor</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ShaderPreProcessor</span></div>
@@ -140,9 +140,6 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static final <a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></code></div>
 <div class="col-second even-row-color"><code><a href="#NOOP" class="member-name-link">NOOP</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html" title="class or interface in java.util.regex" class="external-link">Pattern</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#UNIFORM_PATTERN" class="member-name-link">UNIFORM_PATTERN</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -159,13 +156,17 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#allOf(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor...)" class="member-name-link">allOf</a><wbr>(<a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>...&nbsp;processors)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Creates a composite pre-processor with the specified values.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static <a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#allOf(java.util.Collection)" class="member-name-link">allOf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>&gt;&nbsp;processors)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)" class="member-name-link">modify</a><wbr>(<a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;ctx,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Creates a composite pre-processor with the specified values.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,foundry.veil.impl.glsl.node.GlslTree)" class="member-name-link">modify</a><wbr>(<a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;ctx,
+ <a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Modifies the specified shader source input.</div>
 </div>
@@ -194,12 +195,6 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></span>&nbsp;<span class="element-name">NOOP</span></div>
 </section>
 </li>
-<li>
-<section class="detail" id="UNIFORM_PATTERN">
-<h3>UNIFORM_PATTERN</h3>
-<div class="member-signature"><span class="modifiers">static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html" title="class or interface in java.util.regex" class="external-link">Pattern</a></span>&nbsp;<span class="element-name">UNIFORM_PATTERN</span></div>
-</section>
-</li>
 </ul>
 </section>
 </li>
@@ -216,20 +211,22 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,java.lang.String)">
+<section class="detail" id="modify(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,foundry.veil.impl.glsl.node.GlslTree)">
 <h3>modify</h3>
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(<a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;ctx,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;source)</span>
-       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">modify</span><wbr><span class="parameters">(<a href="ShaderPreProcessor.Context.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor.Context</a>&nbsp;ctx,
+ <a href="../../../../../impl/glsl/node/GlslTree.html" title="class in foundry.veil.impl.glsl.node">GlslTree</a>&nbsp;tree)</span>
+     throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
+<a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a>,
+<a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></span></div>
 <div class="block">Modifies the specified shader source input.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>ctx</code> - Context for modifying shaders</dd>
-<dd><code>source</code> - The GLSL source code to modify</dd>
-<dt>Returns:</dt>
-<dd>The modified source or the input if nothing changed</dd>
+<dd><code>tree</code> - The GLSL source code tree to modify</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - If any error occurs while editing the source</dd>
+<dd><code><a href="../../../../../impl/glsl/GlslSyntaxException.html" title="class in foundry.veil.impl.glsl">GlslSyntaxException</a></code> - If there was an error in the syntax of the source code</dd>
+<dd><code><a href="../../../../../lib/anarres/cpp/LexerException.html" title="class in foundry.veil.lib.anarres.cpp">LexerException</a></code> - If an error occurs during shader C preprocessing</dd>
 </dl>
 </section>
 </li>
@@ -237,12 +234,26 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="allOf(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor...)">
 <h3>allOf</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></span>&nbsp;<span class="element-name">allOf</span><wbr><span class="parameters">(<a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>...&nbsp;processors)</span></div>
+<div class="block">Creates a composite pre-processor with the specified values.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>processors</code> - The processors to run in order</dd>
+<dt>Returns:</dt>
+<dd>A new processor that runs all provided processors</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="allOf(java.util.Collection)">
 <h3>allOf</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a></span>&nbsp;<span class="element-name">allOf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>&gt;&nbsp;processors)</span></div>
+<div class="block">Creates a composite pre-processor with the specified values.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>processors</code> - The processors to run in order</dd>
+<dt>Returns:</dt>
+<dd>A new processor that runs all provided processors</dd>
+</dl>
 </section>
 </li>
 </ul>

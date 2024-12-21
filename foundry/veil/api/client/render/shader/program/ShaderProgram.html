@@ -1198,7 +1198,6 @@ extends org.lwjgl.system.NativeResource, <a href="MutableUniformAccess.html" tit
      <li>Calling <code>Uniform.upload()</code> will do nothing since the values are uploaded when the appropriate methods are called</li>
      <li>Uniforms are lazily wrapped and will not crash when the wrong method is called.</li>
      <li><code>Uniform.set(int, float)</code> is not supported and will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link"><code>UnsupportedOperationException</code></a>.</li>
-     <li>Only <code>Uniform.set(Matrix3f)</code> and <code>Uniform.set(Matrix4f)</code> will be able to set matrix values. All other matrix methods will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link"><code>UnsupportedOperationException</code></a>.</li>
      <li><code>Uniform.set(float[])</code> only works for 1, 2, 3, and 4 float elements. Any other size will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link"><code>UnsupportedOperationException</code></a>.</li>
  </ul></div>
 <dl class="notes">
