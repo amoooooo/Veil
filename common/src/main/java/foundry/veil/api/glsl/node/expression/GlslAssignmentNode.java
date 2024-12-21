@@ -74,6 +74,24 @@ public class GlslAssignmentNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslAssignmentNode that = (GlslAssignmentNode) o;
+        return this.first.equals(that.first) && this.second.equals(that.second) && this.operand == that.operand;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.first.hashCode();
+        result = 31 * result + this.second.hashCode();
+        result = 31 * result + this.operand.hashCode();
+        return result;
+    }
+
+    @Override
     public Stream<GlslNode> stream() {
         return Streams.concat(Stream.of(this), this.first.stream(), this.second.stream());
     }

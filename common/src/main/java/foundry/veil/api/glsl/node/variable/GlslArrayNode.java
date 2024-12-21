@@ -44,9 +44,24 @@ public class GlslArrayNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslArrayNode that = (GlslArrayNode) o;
+        return this.expression.equals(that.expression) && this.index.equals(that.index);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.expression.hashCode();
+        result = 31 * result + this.index.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
-        return "GlslArrayNode{" +
-                "expression=" + this.expression + ", " +
-                "index=" + this.index + '}';
+        return "GlslArrayNode{expression=" + this.expression + ", index=" + this.index + '}';
     }
 }

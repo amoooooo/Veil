@@ -74,6 +74,23 @@ public class GlslParameterDeclaration {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslParameterDeclaration that = (GlslParameterDeclaration) o;
+        return this.name.equals(that.name) && this.type.equals(that.type);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.name.hashCode();
+        result = 31 * result + this.type.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslParameterDeclaration{name='" + this.name + "', operand=" + this.type + '}';
     }

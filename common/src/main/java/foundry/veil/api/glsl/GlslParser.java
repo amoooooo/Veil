@@ -879,7 +879,7 @@ public final class GlslParser {
 
         // type_qualifier SEMICOLON
         if (reader.tryConsume(GlslLexer.TokenType.SEMICOLON)) {
-            return Collections.singletonList(new GlslDeclaration(typeQualifier, Collections.emptyList()));
+            return Collections.singletonList(new GlslDeclarationNode(typeQualifier, Collections.emptyList()));
         }
 
         GlslTypeSpecifier typeSpecifier = null;
@@ -914,7 +914,7 @@ public final class GlslParser {
             GlslSpecifiedType type = new GlslSpecifiedType(typeSpecifier, typeQualifier);
             return identifiers.stream().map(name -> (GlslNode) new GlslNewNode(type, name, null)).toList();
         }
-        return Collections.singletonList(new GlslDeclaration(typeQualifier, identifiers));
+        return Collections.singletonList(new GlslDeclarationNode(typeQualifier, identifiers));
     }
 
     private static @Nullable List<String> parseIdentifierList(GlslTokenReader reader) {

@@ -85,6 +85,24 @@ public class GlslOperationNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslOperationNode that = (GlslOperationNode) o;
+        return this.first.equals(that.first) && this.second.equals(that.second) && this.operand == that.operand;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.first.hashCode();
+        result = 31 * result + this.second.hashCode();
+        result = 31 * result + this.operand.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslOperationNode{first=" + this.first + ", second=" + this.second + ", operand=" + this.operand + '}';
     }

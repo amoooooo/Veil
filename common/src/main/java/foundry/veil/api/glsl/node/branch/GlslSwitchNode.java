@@ -71,6 +71,23 @@ public class GlslSwitchNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslSwitchNode that = (GlslSwitchNode) o;
+        return this.condition.equals(that.condition) && this.branches.equals(that.branches);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.condition.hashCode();
+        result = 31 * result + this.branches.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslSwitchNode{" +
                 "condition=" + this.condition + ", " +

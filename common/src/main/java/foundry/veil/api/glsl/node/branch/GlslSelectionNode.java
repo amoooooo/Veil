@@ -76,6 +76,24 @@ public class GlslSelectionNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslSelectionNode that = (GlslSelectionNode) o;
+        return this.expression.equals(that.expression) && this.first.equals(that.first) && this.second.equals(that.second);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.expression.hashCode();
+        result = 31 * result + this.first.hashCode();
+        result = 31 * result + this.second.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslSelectionNode{" +
                 "expression=" + this.expression + ", " +

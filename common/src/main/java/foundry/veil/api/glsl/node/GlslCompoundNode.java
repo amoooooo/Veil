@@ -44,4 +44,19 @@ public record GlslCompoundNode(List<GlslNode> children) implements GlslNode {
     public String toString() {
         return "GlslCompoundNode{children=" + this.children + '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslCompoundNode that = (GlslCompoundNode) o;
+        return this.children.equals(that.children);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.children.hashCode();
+    }
 }

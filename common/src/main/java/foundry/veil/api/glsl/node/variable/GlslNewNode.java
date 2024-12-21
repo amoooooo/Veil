@@ -3,12 +3,14 @@ package foundry.veil.api.glsl.node.variable;
 import foundry.veil.api.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.api.glsl.grammar.GlslType;
 import foundry.veil.api.glsl.node.GlslNode;
+import foundry.veil.api.glsl.node.GlslRootNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
-public class GlslNewNode implements GlslNode {
+public class GlslNewNode implements GlslRootNode {
 
     private GlslSpecifiedType type;
     private String name;
@@ -30,6 +32,7 @@ public class GlslNewNode implements GlslNode {
         return this.initializer != null ? Stream.concat(Stream.of(this), this.initializer.stream()) : Stream.of(this);
     }
 
+    @Override
     public @Nullable String getName() {
         return this.name;
     }
@@ -43,7 +46,8 @@ public class GlslNewNode implements GlslNode {
         return this;
     }
 
-    public GlslNewNode setName(String name) {
+    @Override
+    public GlslNewNode setName(@Nullable String name) {
         this.name = name;
         return this;
     }
@@ -69,5 +73,23 @@ public class GlslNewNode implements GlslNode {
     @Override
     public String toString() {
         return "GlslNewNode{operand=" + this.type + ", name='" + this.name + "', initializer=" + this.initializer + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslNewNode that = (GlslNewNode) o;
+        return this.type.equals(that.type) && this.name.equals(that.name) && Objects.equals(this.initializer, that.initializer);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.type.hashCode();
+        result = 31 * result + this.name.hashCode();
+        result = 31 * result + Objects.hashCode(this.initializer);
+        return result;
     }
 }

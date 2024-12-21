@@ -31,6 +31,23 @@ public class GlslInvokeFunctionNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslInvokeFunctionNode that = (GlslInvokeFunctionNode) o;
+        return this.header.equals(that.header) && this.parameters.equals(that.parameters);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.header.hashCode();
+        result = 31 * result + this.parameters.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslInvokeFunctionNode{name=" + this.header + ", parameters=" + this.parameters + '}';
     }

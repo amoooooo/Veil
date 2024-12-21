@@ -34,6 +34,21 @@ public class GlslExclusiveOrNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslExclusiveOrNode that = (GlslExclusiveOrNode) o;
+        return this.expressions.equals(that.expressions);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.expressions.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "GlslExclusiveOrNode[expressions=" + this.expressions + ']';
     }

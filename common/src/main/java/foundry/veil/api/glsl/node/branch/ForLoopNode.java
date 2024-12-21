@@ -60,6 +60,25 @@ public class ForLoopNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        ForLoopNode that = (ForLoopNode) o;
+        return this.init.equals(that.init) && this.condition.equals(that.condition) && this.increment.equals(that.increment) && this.body.equals(that.body);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.init.hashCode();
+        result = 31 * result + this.condition.hashCode();
+        result = 31 * result + this.increment.hashCode();
+        result = 31 * result + this.body.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "ForLoopNode{init=" + this.init + ", condition=" + this.condition + ", increment=" + this.increment + ", body=" + this.body + '}';
     }

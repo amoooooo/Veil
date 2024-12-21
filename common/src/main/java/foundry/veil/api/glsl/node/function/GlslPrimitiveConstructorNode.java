@@ -22,6 +22,21 @@ public class GlslPrimitiveConstructorNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslPrimitiveConstructorNode that = (GlslPrimitiveConstructorNode) o;
+        return this.primitiveType.equals(that.primitiveType);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.primitiveType.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "PrimitiveConstructorNode{operand=" + this.primitiveType + '}';
     }

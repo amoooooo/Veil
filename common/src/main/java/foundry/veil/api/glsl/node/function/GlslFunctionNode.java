@@ -1,14 +1,20 @@
 package foundry.veil.api.glsl.node.function;
 
 import foundry.veil.api.glsl.grammar.GlslFunctionHeader;
+import foundry.veil.api.glsl.grammar.GlslParameterDeclaration;
+import foundry.veil.api.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.api.glsl.node.GlslNode;
 import foundry.veil.api.glsl.node.GlslNodeList;
+import foundry.veil.api.glsl.node.GlslRootNode;
 import foundry.veil.api.glsl.node.branch.GlslReturnNode;
 import foundry.veil.api.glsl.node.expression.GlslAssignmentNode;
 import foundry.veil.api.glsl.visitor.GlslFunctionVisitor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -16,7 +22,7 @@ import java.util.stream.Stream;
  *
  * @author Ocelot
  */
-public class GlslFunctionNode implements GlslNode {
+public class GlslFunctionNode implements GlslRootNode {
 
     private GlslFunctionHeader header;
     private GlslNodeList body;
@@ -48,9 +54,25 @@ public class GlslFunctionNode implements GlslNode {
         return this.header;
     }
 
+    @Override
+    public @NotNull String getName() {
+        return this.header.getName();
+    }
+
     /**
-     * @return The body of the function or <code>null</code> if this is just a function prototype
+     * @return The return type of the function
      */
+    public GlslSpecifiedType getReturnType() {
+        return this.header.getReturnType();
+    }
+
+    /**
+     * @return The parameters of the function
+     */
+    public List<GlslParameterDeclaration> getParameters() {
+        return this.header.getParameters();
+    }
+
     @Override
     public @Nullable GlslNodeList getBody() {
         return this.body;
@@ -63,6 +85,12 @@ public class GlslFunctionNode implements GlslNode {
      */
     public void setHeader(GlslFunctionHeader header) {
         this.header = header;
+    }
+
+    @Override
+    public GlslFunctionNode setName(@Nullable String name) {
+        this.header.setName(Objects.requireNonNull(name));
+        return this;
     }
 
     /**
@@ -106,6 +134,23 @@ public class GlslFunctionNode implements GlslNode {
     @Override
     public Stream<GlslNode> stream() {
         return Stream.concat(Stream.of(this), this.body.stream().flatMap(GlslNode::stream));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslFunctionNode that = (GlslFunctionNode) o;
+        return this.header.equals(that.header) && Objects.equals(this.body, that.body);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.header.hashCode();
+        result = 31 * result + Objects.hashCode(this.body);
+        return result;
     }
 
     @Override

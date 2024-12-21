@@ -13,7 +13,7 @@ public class GlslVariableNode implements GlslNode {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public GlslVariableNode setName(String name) {
@@ -33,7 +33,21 @@ public class GlslVariableNode implements GlslNode {
 
     @Override
     public String toString() {
-        return "GlslVariableNode{" +
-                "name=" + this.name + '}';
+        return "GlslVariableNode{name=" + this.name + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslVariableNode that = (GlslVariableNode) o;
+        return this.name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.name.hashCode();
     }
 }

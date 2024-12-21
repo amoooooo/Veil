@@ -97,6 +97,23 @@ public class GlslSpecifiedType implements GlslType {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslSpecifiedType that = (GlslSpecifiedType) o;
+        return this.specifier.equals(that.specifier) && this.qualifiers.equals(that.qualifiers);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.specifier.hashCode();
+        result = 31 * result + this.qualifiers.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslSpecifiedType[specifier=" + this.specifier + ", qualifiers=" + this.qualifiers;
     }

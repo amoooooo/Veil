@@ -22,6 +22,21 @@ public class GlslReturnNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslReturnNode that = (GlslReturnNode) o;
+        return this.value.equals(that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.value.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "ReturnNode{value=" + this.value + '}';
     }

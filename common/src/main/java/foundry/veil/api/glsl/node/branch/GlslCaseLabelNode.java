@@ -26,6 +26,21 @@ public class GlslCaseLabelNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslCaseLabelNode that = (GlslCaseLabelNode) o;
+        return this.condition.equals(that.condition);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.condition.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "GlslCaseLabelNode{condition=" + (this.condition == null ? "default" : this.condition) + '}';
     }

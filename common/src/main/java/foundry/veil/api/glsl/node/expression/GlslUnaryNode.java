@@ -50,6 +50,23 @@ public class GlslUnaryNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslUnaryNode that = (GlslUnaryNode) o;
+        return this.expression.equals(that.expression) && this.operand == that.operand;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.expression.hashCode();
+        result = 31 * result + this.operand.hashCode();
+        return result;
+    }
+
+    @Override
     public String getSourceString() {
         return switch (this.operand) {
             case PRE_INCREMENT,

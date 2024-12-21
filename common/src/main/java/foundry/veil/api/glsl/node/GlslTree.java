@@ -6,7 +6,7 @@ import foundry.veil.api.glsl.grammar.GlslTypeQualifier;
 import foundry.veil.api.glsl.grammar.GlslVersionStatement;
 import foundry.veil.api.glsl.node.branch.GlslSelectionNode;
 import foundry.veil.api.glsl.node.function.GlslFunctionNode;
-import foundry.veil.api.glsl.node.variable.GlslDeclaration;
+import foundry.veil.api.glsl.node.variable.GlslDeclarationNode;
 import foundry.veil.api.glsl.node.variable.GlslNewNode;
 import foundry.veil.api.glsl.node.variable.GlslStructNode;
 import foundry.veil.api.glsl.visitor.GlslFunctionVisitor;
@@ -51,7 +51,7 @@ public class GlslTree {
             visitor.visitStruct(struct);
             return;
         }
-        if (node instanceof GlslDeclaration declaration) {
+        if (node instanceof GlslDeclarationNode declaration) {
             visitor.visitDeclaration(declaration);
             return;
         }
@@ -214,5 +214,23 @@ public class GlslTree {
     @Override
     public String toString() {
         return "GlslTree{version=" + this.versionStatement + ", body=" + this.body + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslTree glslTree = (GlslTree) o;
+        return this.versionStatement.equals(glslTree.versionStatement) && this.body.equals(glslTree.body) && this.directives.equals(glslTree.directives);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.versionStatement.hashCode();
+        result = 31 * result + this.body.hashCode();
+        result = 31 * result + this.directives.hashCode();
+        return result;
     }
 }

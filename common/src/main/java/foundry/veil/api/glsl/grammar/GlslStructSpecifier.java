@@ -46,6 +46,23 @@ public final class GlslStructSpecifier implements GlslTypeSpecifier {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslStructSpecifier that = (GlslStructSpecifier) o;
+        return this.name.equals(that.name) && this.fields.equals(that.fields);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.name.hashCode();
+        result = 31 * result + this.fields.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslStructSpecifier{name=" + this.name + '}';
     }

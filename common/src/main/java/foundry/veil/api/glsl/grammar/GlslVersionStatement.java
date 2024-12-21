@@ -65,7 +65,7 @@ public class GlslVersionStatement {
         }
 
         GlslVersionStatement that = (GlslVersionStatement) o;
-        return version == that.version && core == that.core;
+        return this.version == that.version && this.core == that.core;
     }
 
     @Override

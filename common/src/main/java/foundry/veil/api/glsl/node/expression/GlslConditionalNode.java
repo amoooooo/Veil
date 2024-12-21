@@ -58,6 +58,24 @@ public class GlslConditionalNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslConditionalNode that = (GlslConditionalNode) o;
+        return this.condition.equals(that.condition) && this.first.equals(that.first) && this.second.equals(that.second);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.condition.hashCode();
+        result = 31 * result + this.first.hashCode();
+        result = 31 * result + this.second.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslConditionalNode{" +
                 "condition=" + this.condition + ", " +

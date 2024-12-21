@@ -19,6 +19,10 @@ in vec3 normal;
 
 out vec4 fragColor;
 
+float linear_fog_fade(float vertexDistance, float fogStart, float fogEnd) {
+    return 0.0;
+}
+
 void main() {
     // #veil:albedo
     vec4 color = texture(Sampler0, texCoord0) * vertexColor * ColorModulator;

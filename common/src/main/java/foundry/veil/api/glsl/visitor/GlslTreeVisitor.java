@@ -3,7 +3,7 @@ package foundry.veil.api.glsl.visitor;
 import foundry.veil.api.glsl.grammar.GlslVersionStatement;
 import foundry.veil.api.glsl.node.GlslNode;
 import foundry.veil.api.glsl.node.function.GlslFunctionNode;
-import foundry.veil.api.glsl.node.variable.GlslDeclaration;
+import foundry.veil.api.glsl.node.variable.GlslDeclarationNode;
 import foundry.veil.api.glsl.node.variable.GlslNewNode;
 import foundry.veil.api.glsl.node.variable.GlslStructNode;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +22,7 @@ public interface GlslTreeVisitor {
 
     void visitStruct(GlslStructNode structSpecifier);
 
-    void visitDeclaration(GlslDeclaration declaration);
+    void visitDeclaration(GlslDeclarationNode declaration);
 
     @Nullable GlslFunctionVisitor visitFunction(GlslFunctionNode node);
 

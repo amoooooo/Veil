@@ -48,6 +48,24 @@ public class WhileLoopNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        WhileLoopNode that = (WhileLoopNode) o;
+        return this.condition.equals(that.condition) && this.body.equals(that.body) && this.loopType == that.loopType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.condition.hashCode();
+        result = 31 * result + this.body.hashCode();
+        result = 31 * result + this.loopType.hashCode();
+        return result;
+    }
+
+    @Override
     public String getSourceString() {
         StringBuilder builder = new StringBuilder("while (" + this.condition.getSourceString() + ") {\n");
         for (GlslNode node : this.body) {

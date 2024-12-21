@@ -34,6 +34,21 @@ public class GlslInclusiveOrNode implements GlslNode {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslInclusiveOrNode that = (GlslInclusiveOrNode) o;
+        return this.expressions.equals(that.expressions);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.expressions.hashCode();
+    }
+
+    @Override
     public String toString() {
         return "GlslInclusiveOrNode[expressions=" + this.expressions + ']';
     }

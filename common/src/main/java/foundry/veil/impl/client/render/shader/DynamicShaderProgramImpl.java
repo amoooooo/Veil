@@ -94,7 +94,7 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
 
                     GlslTree tree = GlslParser.preprocessParse(source, definitions.getStaticDefinitions());
                     Object2IntMap<String> uniformBindings = new Object2IntArrayMap<>();
-                    PreProcessorContext preProcessorContext = new PreProcessorContext(processorList, definitions, activeBuffers, type, uniformBindings, null, true);
+                    PreProcessorContext preProcessorContext = new PreProcessorContext(processorList, activeBuffers, type, uniformBindings, null, true);
                     processor.modify(preProcessorContext, tree);
 
                     this.processedShaderSources.put(type, new VeilShaderSource(null, tree.toSourceString(), uniformBindings, Collections.emptySet(), new HashSet<>(processorList.getShaderImporter().addedImports())));
@@ -123,7 +123,6 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
     }
 
     private record PreProcessorContext(ShaderProcessorList processor,
-                                       ShaderPreDefinitions preDefinitions,
                                        int activeBuffers,
                                        int type,
                                        Map<String, Integer> uniformBindings,
@@ -133,7 +132,7 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
             GlslTree tree = GlslParser.parse(source);
-            PreProcessorContext context = new PreProcessorContext(this.processor, this.preDefinitions, this.activeBuffers, this.type, this.uniformBindings, name, false);
+            PreProcessorContext context = new PreProcessorContext(this.processor, this.activeBuffers, this.type, this.uniformBindings, name, false);
             this.processor.getImportProcessor().modify(context, tree);
             return tree;
         }

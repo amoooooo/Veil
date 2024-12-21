@@ -47,8 +47,23 @@ public class GlslFieldNode implements GlslNode {
 
     @Override
     public String toString() {
-        return "GlslFieldNode{" +
-                "expression=" + this.expression + ", " +
-                "fieldSelection=" + this.fieldSelection + '}';
+        return "GlslFieldNode{expression=" + this.expression + ", fieldSelection=" + this.fieldSelection + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslFieldNode that = (GlslFieldNode) o;
+        return this.expression.equals(that.expression) && this.fieldSelection.equals(that.fieldSelection);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.expression.hashCode();
+        result = 31 * result + this.fieldSelection.hashCode();
+        return result;
     }
 }

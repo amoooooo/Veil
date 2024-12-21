@@ -45,6 +45,24 @@ public class GlslFunctionHeader {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        GlslFunctionHeader that = (GlslFunctionHeader) o;
+        return this.name.equals(that.name) && this.returnType.equals(that.returnType) && this.parameters.equals(that.parameters);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.name.hashCode();
+        result = 31 * result + this.returnType.hashCode();
+        result = 31 * result + this.parameters.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "GlslFunctionHeader{name='" + this.name + "', returnType=" + this.returnType + ", parameters=" + this.parameters + '}';
     }
