@@ -2,12 +2,12 @@ package foundry.veil.impl.compat;
 
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
-import foundry.veil.impl.glsl.GlslInjectionPoint;
-import foundry.veil.impl.glsl.GlslParser;
-import foundry.veil.impl.glsl.GlslSyntaxException;
-import foundry.veil.impl.glsl.node.GlslNode;
-import foundry.veil.impl.glsl.node.GlslNodeList;
-import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.api.glsl.GlslInjectionPoint;
+import foundry.veil.api.glsl.GlslParser;
+import foundry.veil.api.glsl.GlslSyntaxException;
+import foundry.veil.api.glsl.node.GlslNode;
+import foundry.veil.api.glsl.node.GlslNodeList;
+import foundry.veil.api.glsl.node.GlslTree;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import org.jetbrains.annotations.ApiStatus;
 

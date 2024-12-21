@@ -7,9 +7,9 @@ import foundry.veil.api.client.render.shader.processor.ShaderModifyProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import foundry.veil.impl.compat.SodiumShaderPreProcessor;
-import foundry.veil.impl.glsl.GlslParser;
-import foundry.veil.impl.glsl.GlslSyntaxException;
-import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.api.glsl.GlslParser;
+import foundry.veil.api.glsl.GlslSyntaxException;
+import foundry.veil.api.glsl.node.GlslTree;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -29,8 +29,8 @@ public class SodiumShaderProcessor {
 
     public static void setup(ResourceProvider provider) {
         ShaderProcessorList list = new ShaderProcessorList(provider);
-        list.addPreprocessor(new ShaderModifyProcessor());
-        list.addPreprocessor(new DynamicBufferProcessor());
+        list.addPreprocessor(new ShaderModifyProcessor(), false);
+        list.addPreprocessor(new DynamicBufferProcessor(), false);
         list.addPreprocessor(new SodiumShaderPreProcessor());
         VeilClient.clientPlatform().onRegisterShaderPreProcessors(provider, list);
         PROCESSOR.set(list);

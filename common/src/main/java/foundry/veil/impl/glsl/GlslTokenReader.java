@@ -1,6 +1,7 @@
 package foundry.veil.impl.glsl;
 
-import foundry.veil.impl.glsl.node.GlslNode;
+import foundry.veil.api.glsl.GlslSyntaxException;
+import foundry.veil.api.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;

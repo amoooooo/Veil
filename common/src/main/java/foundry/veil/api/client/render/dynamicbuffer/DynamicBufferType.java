@@ -1,7 +1,7 @@
 package foundry.veil.api.client.render.dynamicbuffer;
 
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
-import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
+import foundry.veil.api.glsl.grammar.GlslTypeSpecifier;
 
 import java.util.Locale;
 

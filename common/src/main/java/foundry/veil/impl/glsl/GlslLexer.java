@@ -1,9 +1,10 @@
 package foundry.veil.impl.glsl;
 
-import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
-import foundry.veil.impl.glsl.grammar.GlslTypeSpecifier;
-import foundry.veil.impl.glsl.node.expression.GlslAssignmentNode;
-import foundry.veil.impl.glsl.node.expression.GlslUnaryNode;
+import foundry.veil.api.glsl.GlslSyntaxException;
+import foundry.veil.api.glsl.grammar.GlslTypeQualifier;
+import foundry.veil.api.glsl.grammar.GlslTypeSpecifier;
+import foundry.veil.api.glsl.node.expression.GlslAssignmentNode;
+import foundry.veil.api.glsl.node.expression.GlslUnaryNode;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 

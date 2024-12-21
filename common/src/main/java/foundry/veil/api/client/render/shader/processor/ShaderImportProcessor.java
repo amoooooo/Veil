@@ -1,7 +1,7 @@
 package foundry.veil.api.client.render.shader.processor;
 
-import foundry.veil.impl.glsl.GlslSyntaxException;
-import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.api.glsl.GlslSyntaxException;
+import foundry.veil.api.glsl.node.GlslTree;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;

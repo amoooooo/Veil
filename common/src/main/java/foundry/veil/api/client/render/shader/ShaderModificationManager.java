@@ -6,7 +6,7 @@ import foundry.veil.impl.client.render.shader.modifier.ReplaceShaderModification
 import foundry.veil.impl.client.render.shader.modifier.ShaderModification;
 import foundry.veil.impl.client.render.shader.modifier.SimpleShaderModification;
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
-import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.api.glsl.node.GlslTree;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
