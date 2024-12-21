@@ -31,7 +31,7 @@ public interface GlslNode {
     /**
      * @return The body of this node or <code>null</code> if there is no sub-body in this node
      */
-    default @Nullable List<GlslNode> getBody() {
+    default @Nullable GlslNodeList getBody() {
         return null;
     }
 
@@ -42,7 +42,7 @@ public interface GlslNode {
      * @return Whether the action was successful
      */
     default boolean setBody(Collection<GlslNode> body) {
-        List<GlslNode> nodes = this.getBody();
+        GlslNodeList nodes = this.getBody();
         if (nodes != null) {
             nodes.clear();
             nodes.addAll(body);

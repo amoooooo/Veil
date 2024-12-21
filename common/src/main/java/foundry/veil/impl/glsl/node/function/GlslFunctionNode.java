@@ -2,6 +2,7 @@ package foundry.veil.impl.glsl.node.function;
 
 import foundry.veil.impl.glsl.grammar.GlslFunctionHeader;
 import foundry.veil.impl.glsl.node.GlslNode;
+import foundry.veil.impl.glsl.node.GlslNodeList;
 import foundry.veil.impl.glsl.node.branch.GlslReturnNode;
 import foundry.veil.impl.glsl.node.expression.GlslAssignmentNode;
 import foundry.veil.impl.glsl.visitor.GlslFunctionVisitor;
@@ -21,11 +22,11 @@ import java.util.stream.Stream;
 public class GlslFunctionNode implements GlslNode {
 
     private GlslFunctionHeader header;
-    private List<GlslNode> body;
+    private GlslNodeList body;
 
     public GlslFunctionNode(GlslFunctionHeader header, @Nullable Collection<GlslNode> body) {
         this.header = header;
-        this.body = body != null ? new ArrayList<>(body) : null;
+        this.body = body != null ? new GlslNodeList(body) : null;
     }
 
     public void visit(GlslFunctionVisitor visitor) {
@@ -54,7 +55,7 @@ public class GlslFunctionNode implements GlslNode {
      * @return The body of the function or <code>null</code> if this is just a function prototype
      */
     @Override
-    public @Nullable List<GlslNode> getBody() {
+    public @Nullable GlslNodeList getBody() {
         return this.body;
     }
 
@@ -79,7 +80,7 @@ public class GlslFunctionNode implements GlslNode {
                 this.body.clear();
                 this.body.addAll(body);
             } else {
-                this.body = new ArrayList<>(body);
+                this.body = new GlslNodeList(body);
             }
         } else {
             this.body = null;

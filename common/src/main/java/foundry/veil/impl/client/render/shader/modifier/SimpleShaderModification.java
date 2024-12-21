@@ -3,8 +3,7 @@ package foundry.veil.impl.client.render.shader.modifier;
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
 import foundry.veil.impl.glsl.GlslParser;
 import foundry.veil.impl.glsl.GlslSyntaxException;
-import foundry.veil.impl.glsl.grammar.GlslVersion;
-import foundry.veil.impl.glsl.node.GlslCompoundNode;
+import foundry.veil.impl.glsl.grammar.GlslVersionStatement;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
@@ -38,7 +37,7 @@ public class SimpleShaderModification implements ShaderModification {
     @Override
     public void inject(GlslTree tree, VeilJobParameters parameters) throws GlslSyntaxException, IOException {
         if (parameters.applyVersion()) {
-            GlslVersion version = tree.getVersion();
+            GlslVersionStatement version = tree.getVersionStatement();
             if (version.getVersion() < this.version) {
                 version.setVersion(this.version);
             }
@@ -46,7 +45,7 @@ public class SimpleShaderModification implements ShaderModification {
 
         List<String> directives = tree.getDirectives();
         for (ResourceLocation include : this.includes) {
-            directives.add("#custom veil:include " + include);
+            directives.add("#include " + include);
         }
 
         if (this.output != null && !this.output.isEmpty()) {
@@ -86,7 +85,7 @@ public class SimpleShaderModification implements ShaderModification {
 
             GlslNode insert = GlslNode.compound(GlslParser.parseExpressionList(this.fillPlaceholders(function.code())));
             if (function.head()) {
-                body.add(0, insert);
+                body.addFirst(insert);
             } else {
                 body.add(insert);
             }

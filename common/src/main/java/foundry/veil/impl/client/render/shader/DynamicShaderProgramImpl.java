@@ -1,12 +1,15 @@
 package foundry.veil.impl.client.render.shader;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.*;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
+import foundry.veil.api.client.render.shader.processor.ShaderProcessorList;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
+import foundry.veil.impl.glsl.GlslParser;
+import foundry.veil.impl.glsl.GlslSyntaxException;
+import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.lib.anarres.cpp.LexerException;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
@@ -17,6 +20,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -73,7 +77,7 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
         this.shaderSources.putAll(shaderSources);
     }
 
-    public void processShaderSources(ShaderProcessorList processorList, ShaderPreDefinitions definitions, int flags) {
+    public void processShaderSources(ShaderProcessorList processorList, ShaderPreDefinitions definitions, int activeBuffers) {
         this.processedShaderSources.clear();
 
         ShaderPreProcessor processor = processorList.getProcessor();
@@ -89,24 +93,17 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
                     processor.prepare();
                     importProcessor.prepare();
 
+                    GlslTree tree = GlslParser.preprocessParse(source, definitions.getStaticDefinitions());
                     Object2IntMap<String> uniformBindings = new Object2IntArrayMap<>();
-                    Set<String> dependencies = new HashSet<>();
-                    Set<ResourceLocation> includes = new HashSet<>();
-                    PreProcessorContext preProcessorContext = new PreProcessorContext(importProcessor, definitions, type, uniformBindings, dependencies, includes, null, true);
-                    String transformed = processor.modify(preProcessorContext, source);
+                    PreProcessorContext preProcessorContext = new PreProcessorContext(processorList, definitions, activeBuffers, type, uniformBindings, null, true);
+                    processor.modify(preProcessorContext, tree);
 
-                    if (flags != 0) {
-                        DynamicBufferType[] types = DynamicBufferType.decode(flags);
-                        DynamicBufferProcessor bufferProcessor = new DynamicBufferProcessor(types);
-                        transformed = bufferProcessor.modify(preProcessorContext, transformed);
-                    }
-
-                    this.processedShaderSources.put(type, new VeilShaderSource(null, transformed, uniformBindings, dependencies, includes));
+                    this.processedShaderSources.put(type, new VeilShaderSource(null, tree.toSourceString(), uniformBindings, Collections.emptySet(), new HashSet<>(processorList.getShaderImporter().addedImports())));
                 } catch (Throwable t) {
                     throw new IOException("Failed to process " + ShaderManager.getTypeName(type) + " shader", t);
                 }
             }
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IOException e) {
             this.processedShaderSources.clear();
             Veil.LOGGER.error("Couldn't parse dynamic shader: {}", this.getId(), e);
         }
@@ -126,34 +123,25 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
         this.oldShader = program;
     }
 
-    private record PreProcessorContext(ShaderPreProcessor importProcessor,
+    private record PreProcessorContext(ShaderProcessorList processor,
                                        ShaderPreDefinitions preDefinitions,
+                                       int activeBuffers,
                                        int type,
                                        Map<String, Integer> uniformBindings,
-                                       Set<String> dependencies,
-                                       Set<ResourceLocation> includes,
                                        @Nullable ResourceLocation name,
                                        boolean sourceFile) implements ShaderPreProcessor.VeilContext {
 
         @Override
-        public String modify(@Nullable ResourceLocation name, String source) throws IOException {
-            PreProcessorContext context = new PreProcessorContext(this.importProcessor, this.preDefinitions, this.type, this.uniformBindings, this.dependencies, this.includes, name, false);
-            return this.importProcessor.modify(context, source);
+        public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
+            GlslTree tree = GlslParser.parse(source);
+            PreProcessorContext context = new PreProcessorContext(this.processor, this.preDefinitions, this.activeBuffers, this.type, this.uniformBindings, name, false);
+            this.processor.getImportProcessor().modify(context, tree);
+            return tree;
         }
 
         @Override
         public void addUniformBinding(String name, int binding) {
             this.uniformBindings.put(name, binding);
-        }
-
-        @Override
-        public void addPreDefinitionDependency(String name) {
-            this.dependencies.add(name);
-        }
-
-        @Override
-        public void addInclude(ResourceLocation name) {
-            this.includes.add(name);
         }
 
         @Override
@@ -164,6 +152,11 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
         @Override
         public boolean isSourceFile() {
             return this.sourceFile;
+        }
+
+        @Override
+        public ShaderImporter shaderImporter() {
+            return this.processor.getShaderImporter();
         }
     }
 }

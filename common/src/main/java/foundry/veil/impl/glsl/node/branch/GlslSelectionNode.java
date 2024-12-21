@@ -2,6 +2,7 @@ package foundry.veil.impl.glsl.node.branch;
 
 import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
+import foundry.veil.impl.glsl.node.GlslNodeList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,24 +18,24 @@ import java.util.stream.Stream;
 public class GlslSelectionNode implements GlslNode {
 
     private GlslNode expression;
-    private final List<GlslNode> first;
-    private final List<GlslNode> second;
+    private final GlslNodeList first;
+    private final GlslNodeList second;
 
     public GlslSelectionNode(GlslNode expression, Collection<GlslNode> first, Collection<GlslNode> second) {
         this.expression = expression;
-        this.first = new ArrayList<>(first);
-        this.second = new ArrayList<>(second);
+        this.first = new GlslNodeList(first);
+        this.second = new GlslNodeList(second);
     }
 
     public GlslNode getExpression() {
         return this.expression;
     }
 
-    public List<GlslNode> getFirst() {
+    public GlslNodeList getFirst() {
         return this.first;
     }
 
-    public List<GlslNode> getSecond() {
+    public GlslNodeList getSecond() {
         return this.second;
     }
 

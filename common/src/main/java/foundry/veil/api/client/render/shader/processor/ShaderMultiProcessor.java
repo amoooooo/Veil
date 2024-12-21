@@ -1,5 +1,9 @@
 package foundry.veil.api.client.render.shader.processor;
 
+import foundry.veil.impl.glsl.GlslSyntaxException;
+import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.lib.anarres.cpp.LexerException;
+
 import java.io.IOException;
 
 public record ShaderMultiProcessor(ShaderPreProcessor[] processors) implements ShaderPreProcessor {
@@ -12,10 +16,9 @@ public record ShaderMultiProcessor(ShaderPreProcessor[] processors) implements S
     }
 
     @Override
-    public String modify(Context ctx, String source) throws IOException {
+    public void modify(Context ctx, GlslTree tree) throws IOException, GlslSyntaxException, LexerException {
         for (ShaderPreProcessor preProcessor : this.processors) {
-            source = preProcessor.modify(ctx, source);
+            preProcessor.modify(ctx, tree);
         }
-        return source;
     }
 }

@@ -1,16 +1,16 @@
 package foundry.veil.impl.glsl.node;
 
 import com.mojang.datafixers.util.Pair;
-import foundry.veil.impl.glsl.GlslInjectionPoint;
 import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.grammar.GlslTypeQualifier;
-import foundry.veil.impl.glsl.grammar.GlslVersion;
+import foundry.veil.impl.glsl.grammar.GlslVersionStatement;
 import foundry.veil.impl.glsl.node.branch.GlslSelectionNode;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
 import foundry.veil.impl.glsl.node.variable.GlslNewNode;
 import foundry.veil.impl.glsl.node.variable.GlslStructNode;
 import foundry.veil.impl.glsl.visitor.GlslFunctionVisitor;
+import foundry.veil.impl.glsl.visitor.GlslStringWriter;
 import foundry.veil.impl.glsl.visitor.GlslTreeVisitor;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,14 +19,18 @@ import java.util.stream.Stream;
 
 public class GlslTree {
 
-    private final GlslVersion version;
-    private final List<GlslNode> body;
+    private final GlslVersionStatement versionStatement;
+    private final GlslNodeList body;
     private final List<String> directives;
     private final Map<String, GlslNode> markers;
 
-    public GlslTree(GlslVersion version, Collection<GlslNode> body, Collection<String> directives, Map<String, GlslNode> markers) {
-        this.version = version;
-        this.body = new ArrayList<>(body);
+    public GlslTree() {
+        this(new GlslVersionStatement(), Collections.emptyList(), Collections.emptyList(), Collections.emptyMap());
+    }
+
+    public GlslTree(GlslVersionStatement versionStatement, Collection<GlslNode> body, Collection<String> directives, Map<String, GlslNode> markers) {
+        this.versionStatement = versionStatement;
+        this.body = new GlslNodeList(body);
         this.directives = new ArrayList<>(directives);
         this.markers = Collections.unmodifiableMap(markers);
     }
@@ -56,7 +60,7 @@ public class GlslTree {
 
     public void visit(GlslTreeVisitor visitor) {
         visitor.visitMarkers(this.markers);
-        visitor.visitVersion(this.version);
+        visitor.visitVersion(this.versionStatement);
         for (String directive : this.directives) {
             visitor.visitDirective(directive);
         }
@@ -65,8 +69,8 @@ public class GlslTree {
             if (node instanceof GlslEmptyNode) {
                 continue;
             }
-            if (node instanceof GlslCompoundNode compoundNode) {
-                for (GlslNode child : compoundNode.children()) {
+            if (node instanceof GlslCompoundNode(List<GlslNode> children)) {
+                for (GlslNode child : children) {
                     this.visit(visitor, child);
                 }
                 continue;
@@ -97,9 +101,7 @@ public class GlslTree {
             }
 
             for (GlslTypeQualifier qualifier : type.getQualifiers()) {
-                if (qualifier instanceof GlslTypeQualifier.Layout(
-                        List<GlslTypeQualifier.LayoutId> layoutIds
-                )) {
+                if (qualifier instanceof GlslTypeQualifier.Layout(List<GlslTypeQualifier.LayoutId> layoutIds)) {
                     for (GlslTypeQualifier.LayoutId layoutId : layoutIds) {
                         if (!"location".equals(layoutId.identifier())) {
                             continue;
@@ -154,31 +156,31 @@ public class GlslTree {
         return this.body.stream().flatMap(GlslNode::stream).filter(node -> node instanceof GlslNewNode newNode && name.equals(newNode.getName())).map(node -> (GlslNewNode) node);
     }
 
-    public Optional<Pair<List<GlslNode>, Integer>> containingBlock(GlslNode node) {
-        Pair<List<GlslNode>, Integer> block = this.containingBlock(this.body, node);
+    public Optional<Pair<GlslNodeList, Integer>> containingBlock(GlslNode node) {
+        Pair<GlslNodeList, Integer> block = this.containingBlock(this.body, node);
         return block != null && block.getFirst() == this.body ? Optional.of(Pair.of(this.mainFunction().orElseThrow().getBody(), 0)) : Optional.ofNullable(block);
     }
 
-    private @Nullable Pair<List<GlslNode>, Integer> containingBlock(List<GlslNode> body, GlslNode node) {
+    private @Nullable Pair<GlslNodeList, Integer> containingBlock(GlslNodeList body, GlslNode node) {
         for (int i = 0; i < body.size(); i++) {
             GlslNode element = body.get(i);
             if (element == node) {
                 return Pair.of(body, i);
             }
             if (element instanceof GlslSelectionNode selectionNode) {
-                Pair<List<GlslNode>, Integer> firstFound = this.containingBlock(selectionNode.getFirst(), node);
+                Pair<GlslNodeList, Integer> firstFound = this.containingBlock(selectionNode.getFirst(), node);
                 if (firstFound != null) {
                     return firstFound;
                 }
 
-                Pair<List<GlslNode>, Integer> secondFound = this.containingBlock(selectionNode.getSecond(), node);
+                Pair<GlslNodeList, Integer> secondFound = this.containingBlock(selectionNode.getSecond(), node);
                 if (secondFound != null) {
                     return secondFound;
                 }
             }
-            List<GlslNode> elementBody = element.getBody();
+            GlslNodeList elementBody = element.getBody();
             if (elementBody != null) {
-                Pair<List<GlslNode>, Integer> found = this.containingBlock(elementBody, node);
+                Pair<GlslNodeList, Integer> found = this.containingBlock(elementBody, node);
                 if (found != null) {
                     return found;
                 }
@@ -187,76 +189,8 @@ public class GlslTree {
         return null;
     }
 
-    public void add(GlslNode node) {
-        this.body.add(node);
-    }
-
-    public void addAll(Collection<GlslNode> nodes) {
-        this.body.addAll(nodes);
-    }
-
-    public void add(GlslInjectionPoint point, GlslNode node) {
-        this.body.add(this.getInjectionIndex(point), node);
-    }
-
-    public void addAll(GlslInjectionPoint point, Collection<GlslNode> nodes) {
-        this.body.addAll(this.getInjectionIndex(point), nodes);
-    }
-
-    public int getInjectionIndex(GlslInjectionPoint point) {
-        switch (point) {
-            case BEFORE_DECLARATIONS -> {
-                for (int i = 0; i < this.body.size(); i++) {
-                    if (!(this.body.get(i) instanceof GlslFunctionNode)) {
-                        return i;
-                    }
-                }
-            }
-            case AFTER_DECLARATIONS -> {
-                for (int i = 0; i < this.body.size(); i++) {
-                    if (this.body.get(i) instanceof GlslFunctionNode) {
-                        return i + 1;
-                    }
-                }
-            }
-            case BEFORE_MAIN -> {
-                for (int i = 0; i < this.body.size(); i++) {
-                    if (this.body.get(i) instanceof GlslFunctionNode functionNode && functionNode.getHeader().getName().equals("main")) {
-                        return i;
-                    }
-                }
-            }
-            case AFTER_MAIN -> {
-                for (int i = 0; i < this.body.size(); i++) {
-                    if (this.body.get(i) instanceof GlslFunctionNode functionNode && functionNode.getHeader().getName().equals("main")) {
-                        return i + 1;
-                    }
-                }
-            }
-            case BEFORE_FUNCTIONS -> {
-                for (int i = 0; i < this.body.size(); i++) {
-                    if (!(this.body.get(i) instanceof GlslFunctionNode)) {
-                        return i;
-                    }
-                }
-            }
-            case AFTER_FUNCTIONS -> {
-                for (int i = 0; i < this.body.size(); i++) {
-                    if (!(this.body.get(i) instanceof GlslFunctionNode)) {
-                        return i + 1;
-                    }
-                }
-            }
-        }
-        return 0;
-    }
-
-    public GlslVersion getVersion() {
-        return this.version;
-    }
-
-    public List<GlslNode> getBody() {
-        return this.body;
+    public GlslVersionStatement getVersionStatement() {
+        return this.versionStatement;
     }
 
     public List<String> getDirectives() {
@@ -267,8 +201,18 @@ public class GlslTree {
         return this.markers;
     }
 
+    public GlslNodeList getBody() {
+        return this.body;
+    }
+
+    public String toSourceString() {
+        GlslStringWriter writer = new GlslStringWriter();
+        this.visit(writer);
+        return writer.toString();
+    }
+
     @Override
     public String toString() {
-        return "GlslTree{version=" + this.version + ", body=" + this.body + '}';
+        return "GlslTree{version=" + this.versionStatement + ", body=" + this.body + '}';
     }
 }

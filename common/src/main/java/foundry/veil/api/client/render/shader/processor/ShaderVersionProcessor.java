@@ -1,8 +1,11 @@
 package foundry.veil.api.client.render.shader.processor;
 
-import org.jetbrains.annotations.NotNull;
+import foundry.veil.impl.glsl.GlslSyntaxException;
+import foundry.veil.impl.glsl.grammar.GlslVersionStatement;
+import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.lib.anarres.cpp.LexerException;
 
-import java.util.regex.Pattern;
+import java.io.IOException;
 
 /**
  * Adds the version and required extensions for all shaders that do not define a version.
@@ -11,13 +14,11 @@ import java.util.regex.Pattern;
  */
 public class ShaderVersionProcessor implements ShaderPreProcessor {
 
-    public static final Pattern PATTERN = Pattern.compile("#version\\s+.+");
-
     @Override
-    public @NotNull String modify(@NotNull Context context, String source) {
-        if (!ShaderVersionProcessor.PATTERN.matcher(source).find()) {
-            return "#version 410 core\n" + source;
+    public void modify(Context ctx, GlslTree tree) throws IOException, GlslSyntaxException, LexerException {
+        GlslVersionStatement version = tree.getVersionStatement();
+        if (version.getVersion() == 110 && version.isCore()) {
+            version.setVersion(410);
         }
-        return source;
     }
 }

@@ -1,7 +1,7 @@
 import foundry.veil.impl.glsl.GlslLexer;
 import foundry.veil.impl.glsl.GlslParser;
 import foundry.veil.impl.glsl.GlslSyntaxException;
-import foundry.veil.impl.glsl.grammar.GlslVersion;
+import foundry.veil.impl.glsl.grammar.GlslVersionStatement;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
@@ -64,7 +64,7 @@ public class GlslTest {
     @Test
     void testParser() throws GlslSyntaxException {
         GlslTree tree = GlslParser.parse("#version 330 core\nfloat a = 1.0 + 3.0;");
-        Assertions.assertEquals(new GlslVersion(330, true), tree.getVersion());
+        Assertions.assertEquals(new GlslVersionStatement(330, true), tree.getVersionStatement());
 
         GlslNode replace = GlslParser.parseExpression("2 + 7 / 3 + max(gl_Position.x, 2.0);");
 

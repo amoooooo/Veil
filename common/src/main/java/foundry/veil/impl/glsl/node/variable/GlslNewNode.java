@@ -3,6 +3,7 @@ package foundry.veil.impl.glsl.node.variable;
 import foundry.veil.impl.glsl.grammar.GlslSpecifiedType;
 import foundry.veil.impl.glsl.grammar.GlslType;
 import foundry.veil.impl.glsl.node.GlslNode;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
@@ -20,7 +21,7 @@ public class GlslNewNode implements GlslNode {
     }
 
     @Override
-    public GlslSpecifiedType getType() {
+    public @NotNull GlslSpecifiedType getType() {
         return this.type;
     }
 

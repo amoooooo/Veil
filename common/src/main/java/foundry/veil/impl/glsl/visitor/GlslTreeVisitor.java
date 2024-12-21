@@ -1,6 +1,6 @@
 package foundry.veil.impl.glsl.visitor;
 
-import foundry.veil.impl.glsl.grammar.GlslVersion;
+import foundry.veil.impl.glsl.grammar.GlslVersionStatement;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
@@ -14,7 +14,7 @@ public interface GlslTreeVisitor {
 
     void visitMarkers(Map<String, GlslNode> markers);
 
-    void visitVersion(GlslVersion version);
+    void visitVersion(GlslVersionStatement version);
 
     void visitDirective(String directive);
 

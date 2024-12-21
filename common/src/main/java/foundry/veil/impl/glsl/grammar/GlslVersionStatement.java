@@ -5,12 +5,16 @@ package foundry.veil.impl.glsl.grammar;
  *
  * @author Ocelot
  */
-public class GlslVersion {
+public class GlslVersionStatement {
 
     private int version;
     private boolean core;
 
-    public GlslVersion(int version, boolean core) {
+    public GlslVersionStatement() {
+        this(110, true);
+    }
+
+    public GlslVersionStatement(int version, boolean core) {
         this.version = version;
         this.core = core;
     }
@@ -56,11 +60,11 @@ public class GlslVersion {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
 
-        GlslVersion that = (GlslVersion) o;
+        GlslVersionStatement that = (GlslVersionStatement) o;
         return version == that.version && core == that.core;
     }
 

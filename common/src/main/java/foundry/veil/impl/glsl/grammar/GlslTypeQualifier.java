@@ -63,7 +63,9 @@ public sealed interface GlslTypeQualifier {
                     builder.append(", ");
                 }
             }
-            builder.delete(builder.length() - 2, builder.length());
+            if (!this.layoutIds.isEmpty()) {
+                builder.delete(builder.length() - 2, builder.length());
+            }
             return "layout(" + builder + ")";
         }
     }

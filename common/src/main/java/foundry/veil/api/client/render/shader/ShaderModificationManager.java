@@ -1,15 +1,12 @@
 package foundry.veil.api.client.render.shader;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.impl.client.render.shader.modifier.InputShaderModification;
 import foundry.veil.impl.client.render.shader.modifier.ReplaceShaderModification;
 import foundry.veil.impl.client.render.shader.modifier.ShaderModification;
 import foundry.veil.impl.client.render.shader.modifier.SimpleShaderModification;
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
-import foundry.veil.impl.glsl.GlslParser;
 import foundry.veil.impl.glsl.node.GlslTree;
-import foundry.veil.impl.glsl.visitor.GlslStringWriter;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -41,12 +38,10 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
     );
     private static final Pattern OUT_PATTERN = Pattern.compile("out ");
 
-    private final ShaderPreDefinitions preDefinitions;
     private Map<ResourceLocation, List<ShaderModification>> shaders;
     private Map<ShaderModification, ResourceLocation> names;
 
-    public ShaderModificationManager(ShaderPreDefinitions preDefinitions) {
-        this.preDefinitions = preDefinitions;
+    public ShaderModificationManager() {
         this.shaders = Collections.emptyMap();
         this.names = Collections.emptyMap();
     }
@@ -55,31 +50,24 @@ public class ShaderModificationManager extends SimplePreparableReloadListener<Sh
      * Applies all shader modifiers to the specified shader source.
      *
      * @param shaderId The id of the shader to get modifiers for
-     * @param source   The shader source text
-     * @param flags    Additional flags for applying
-     * @return The modified shader source
+     * @param tree     The shader source tree
+     * @param flags    Additional flags for applying modifiers
      * @see ShaderModification
      */
-    public String applyModifiers(ResourceLocation shaderId, String source, int flags) {
+    public void applyModifiers(ResourceLocation shaderId, GlslTree tree, int flags) {
         Collection<ShaderModification> modifiers = this.getModifiers(shaderId);
         if (modifiers.isEmpty()) {
-            return source;
+            return;
         }
 
         try {
-            GlslTree tree = GlslParser.preprocessParse(source, this.preDefinitions.getDefinitions());
             VeilJobParameters parameters = new VeilJobParameters(this, shaderId, flags);
             for (ShaderModification modifier : modifiers) {
                 modifier.inject(tree, parameters);
             }
-
-            GlslStringWriter writer = new GlslStringWriter();
-            tree.visit(writer);
-            return writer.toString();
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to transform shader: {}", shaderId, e);
         }
-        return source;
     }
 
     /**

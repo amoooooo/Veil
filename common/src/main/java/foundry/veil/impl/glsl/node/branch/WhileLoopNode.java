@@ -2,6 +2,8 @@ package foundry.veil.impl.glsl.node.branch;
 
 import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
+import foundry.veil.impl.glsl.node.GlslNodeList;
+import foundry.veil.impl.glsl.node.GlslTree;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,12 +18,12 @@ import java.util.stream.Stream;
 public class WhileLoopNode implements GlslNode {
 
     private GlslNode condition;
-    private final List<GlslNode> body;
+    private final GlslNodeList body;
     private Type loopType;
 
     public WhileLoopNode(GlslNode condition, Collection<GlslNode> body, Type loopType) {
         this.condition = condition;
-        this.body = new ArrayList<>(body);
+        this.body = new GlslNodeList(body);
         this.loopType = loopType;
     }
 
@@ -30,7 +32,7 @@ public class WhileLoopNode implements GlslNode {
     }
 
     @Override
-    public List<GlslNode> getBody() {
+    public GlslNodeList getBody() {
         return this.body;
     }
 

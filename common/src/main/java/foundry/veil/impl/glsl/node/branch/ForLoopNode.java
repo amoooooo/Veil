@@ -2,6 +2,7 @@ package foundry.veil.impl.glsl.node.branch;
 
 import com.google.common.collect.Streams;
 import foundry.veil.impl.glsl.node.GlslNode;
+import foundry.veil.impl.glsl.node.GlslNodeList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -20,13 +21,13 @@ public class ForLoopNode implements GlslNode {
     private GlslNode init;
     private GlslNode condition;
     private GlslNode increment;
-    private final List<GlslNode> body;
+    private final GlslNodeList body;
 
     public ForLoopNode(GlslNode init, GlslNode condition, @Nullable GlslNode increment, Collection<GlslNode> body) {
         this.init = init;
         this.condition = condition;
         this.increment = increment;
-        this.body = new ArrayList<>(body);
+        this.body = new GlslNodeList(body);
     }
 
     public GlslNode getInit() {
@@ -42,7 +43,7 @@ public class ForLoopNode implements GlslNode {
     }
 
     @Override
-    public List<GlslNode> getBody() {
+    public GlslNodeList getBody() {
         return this.body;
     }
 

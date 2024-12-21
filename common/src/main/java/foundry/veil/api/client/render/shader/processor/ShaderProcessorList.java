@@ -1,7 +1,8 @@
-package foundry.veil.api.client.render.shader;
+package foundry.veil.api.client.render.shader.processor;
 
-import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.api.event.VeilAddShaderPreProcessorsEvent;
+import foundry.veil.impl.client.render.shader.ShaderImporterImpl;
+import net.minecraft.server.packs.resources.ResourceProvider;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.LinkedList;
@@ -12,12 +13,14 @@ public class ShaderProcessorList implements VeilAddShaderPreProcessorsEvent.Regi
 
     private final List<ShaderPreProcessor> processors;
     private final List<ShaderPreProcessor> importProcessors;
+    private final ShaderImporterImpl importer;
     private ShaderPreProcessor processor;
     private ShaderPreProcessor importProcessor;
 
-    public ShaderProcessorList() {
+    public ShaderProcessorList(ResourceProvider provider) {
         this.processors = new LinkedList<>();
         this.importProcessors = new LinkedList<>();
+        this.importer = new ShaderImporterImpl(provider);
         this.processor = null;
         this.importProcessor = null;
     }
@@ -54,5 +57,9 @@ public class ShaderProcessorList implements VeilAddShaderPreProcessorsEvent.Regi
             this.importProcessor = ShaderPreProcessor.allOf(this.importProcessors);
         }
         return this.importProcessor;
+    }
+
+    public ShaderImporterImpl getShaderImporter() {
+        return this.importer;
     }
 }

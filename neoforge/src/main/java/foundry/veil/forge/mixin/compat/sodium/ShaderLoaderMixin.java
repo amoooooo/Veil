@@ -2,7 +2,7 @@ package foundry.veil.forge.mixin.compat.sodium;
 
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.shader.SodiumShaderProcessor;
+import foundry.veil.impl.client.render.shader.transformer.SodiumShaderProcessor;
 import net.caffeinemc.mods.sodium.client.gl.shader.GlShader;
 import net.caffeinemc.mods.sodium.client.gl.shader.ShaderConstants;
 import net.caffeinemc.mods.sodium.client.gl.shader.ShaderLoader;
@@ -32,8 +32,9 @@ public class ShaderLoaderMixin {
             return src;
         }
         try {
-            SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers());
-            return SodiumShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), veil$shaderType, src);
+            int activeBuffers = VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers();
+            SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager());
+            return SodiumShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(veil$shaderName.getNamespace(), "shaders/" + veil$shaderName.getPath()), activeBuffers, veil$shaderType, src);
         } catch (Exception e) {
             Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", veil$shaderName, e);
             return src;

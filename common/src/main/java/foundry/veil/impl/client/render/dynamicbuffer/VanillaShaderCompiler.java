@@ -9,7 +9,7 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.ThreadTaskScheduler;
-import foundry.veil.impl.client.render.shader.VanillaShaderProcessor;
+import foundry.veil.impl.client.render.shader.transformer.VanillaShaderProcessor;
 import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -45,7 +45,7 @@ public class VanillaShaderCompiler {
         VertexFormat vertexFormat = shader.getVertexFormat();
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
-        VanillaShaderProcessor.setup(resourceManager, activeBuffers);
+        VanillaShaderProcessor.setup(resourceManager);
         for (ResourceLocation path : shaderSources) {
             try (Reader reader = resourceManager.openAsReader(path)) {
                 String source = IOUtils.toString(reader);
@@ -77,7 +77,7 @@ public class VanillaShaderCompiler {
                 source = String.join("", preprocessor.process(source));
 
                 boolean vertex = path.getPath().endsWith(".vsh");
-                String processed = VanillaShaderProcessor.modify(shader.getName(), path, vertexFormat, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
+                String processed = VanillaShaderProcessor.modify(shader.getName(), path, vertexFormat, activeBuffers, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
                 RenderSystem.recordRenderCall(() -> extension.veil$recompile(vertex, processed, activeBuffers));
             } catch (Throwable t) {
                 Veil.LOGGER.error("Couldn't load vanilla shader from {}", path, t);

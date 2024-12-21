@@ -93,7 +93,7 @@ public final class GlslParser {
     public static GlslTree parse(String input) throws GlslSyntaxException {
         GlslTokenReader reader = new GlslTokenReader(input);
 
-        GlslVersion version = new GlslVersion(110, true);
+        GlslVersionStatement version = new GlslVersionStatement();
 
         // Try to parse version statements
         GlslLexer.Token token = reader.peek();

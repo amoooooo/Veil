@@ -1,6 +1,6 @@
 package foundry.veil.impl.glsl.visitor;
 
-import foundry.veil.impl.glsl.grammar.GlslVersion;
+import foundry.veil.impl.glsl.grammar.GlslVersionStatement;
 import foundry.veil.impl.glsl.node.GlslNode;
 import foundry.veil.impl.glsl.node.function.GlslFunctionNode;
 import foundry.veil.impl.glsl.node.variable.GlslDeclaration;
@@ -35,7 +35,7 @@ public class GlslStringWriter implements GlslTreeVisitor {
     }
 
     @Override
-    public void visitVersion(GlslVersion version) {
+    public void visitVersion(GlslVersionStatement version) {
         this.builder.append("#version ").append(version.getVersionStatement()).append("\n\n");
     }
 

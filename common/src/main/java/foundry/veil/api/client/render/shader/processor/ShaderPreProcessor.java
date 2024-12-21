@@ -2,14 +2,24 @@ package foundry.veil.api.client.render.shader.processor;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.shader.ShaderImporter;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
+import foundry.veil.impl.glsl.GlslParser;
+import foundry.veil.impl.glsl.GlslSyntaxException;
+import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.lib.anarres.cpp.LexerException;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
+
+import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL32C.GL_GEOMETRY_SHADER;
+import static org.lwjgl.opengl.GL40C.GL_TESS_CONTROL_SHADER;
+import static org.lwjgl.opengl.GL40C.GL_TESS_EVALUATION_SHADER;
 
 /**
  * Modifies the source code of a shader before compilation.
@@ -18,8 +28,8 @@ import java.util.regex.Pattern;
  */
 public interface ShaderPreProcessor {
 
-    ShaderPreProcessor NOOP = (ctx, source) -> source;
-    Pattern UNIFORM_PATTERN = Pattern.compile(".*uniform\\s+(?<type>\\w+)\\W(?<name>\\w*)");
+    ShaderPreProcessor NOOP = (ctx, source) -> {
+    };
 
     /**
      * Called once when a shader is first run through the pre-processor.
@@ -31,11 +41,12 @@ public interface ShaderPreProcessor {
      * Modifies the specified shader source input.
      *
      * @param ctx    Context for modifying shaders
-     * @param source The GLSL source code to modify
-     * @return The modified source or the input if nothing changed
+     * @param tree The GLSL source code tree to modify
      * @throws IOException If any error occurs while editing the source
+     * @throws GlslSyntaxException If there was an error in the syntax of the source code
+     * @throws LexerException If an error occurs during shader C preprocessing
      */
-    String modify(Context ctx, String source) throws IOException;
+    void modify(Context ctx, GlslTree tree) throws IOException, GlslSyntaxException, LexerException;
 
     static ShaderPreProcessor allOf(ShaderPreProcessor... processors) {
         return allOf(Arrays.asList(processors));
@@ -72,8 +83,10 @@ public interface ShaderPreProcessor {
          * @param source The shader source code to modify
          * @return The modified source
          * @throws IOException If any error occurs while editing the source
+         * @throws GlslSyntaxException If there was an error in the syntax of the source code
+         * @throws LexerException If an error occurs during shader C preprocessing
          */
-        String modify(@Nullable ResourceLocation name, String source) throws IOException;
+        GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException;
 
         /**
          * @return The id of the shader being compiled or <code>null</code> if the shader is compiled from a raw string
@@ -87,14 +100,42 @@ public interface ShaderPreProcessor {
         boolean isSourceFile();
 
         /**
+         * @return The currently active dynamic buffers
+         */
+        int activeBuffers();
+
+        /**
          * @return The OpenGL type of the compiling shader
          */
         int type();
 
-        /**
-         * @return A view of all includes in this shader
-         */
-        Set<ResourceLocation> includes();
+        default boolean isVertex() {
+            return this.type() == GL_VERTEX_SHADER;
+        }
+
+        default boolean isFragment() {
+            return this.type() == GL_FRAGMENT_SHADER;
+        }
+
+        default boolean isGeometry() {
+            return this.type() == GL_GEOMETRY_SHADER;
+        }
+
+        default boolean isTessellationControl() {
+            return this.type() == GL_TESS_CONTROL_SHADER;
+        }
+
+        default boolean isTessellationEvaluation() {
+            return this.type() == GL_TESS_EVALUATION_SHADER;
+        }
+
+        default void include(GlslTree tree, ResourceLocation name) throws IOException, GlslSyntaxException, LexerException {
+            GlslTree loadedImport = this.shaderImporter().loadImport(this, name, false);
+            tree.getDirectives().addAll(loadedImport.getDirectives());
+            tree.getBody().addAll(0, loadedImport.getBody());
+        }
+
+        ShaderImporter shaderImporter();
 
         /**
          * @return The set of pre-definitions for shaders
@@ -132,19 +173,6 @@ public interface ShaderPreProcessor {
          * @param binding The binding to set it to
          */
         void addUniformBinding(String name, int binding);
-
-        /**
-         * Marks this shader as dependent on the specified pre-definition.
-         * When definitions change, only shaders marked as dependent on that definition will be recompiled.
-         *
-         * @param name The name of the definition to depend on
-         */
-        void addPreDefinitionDependency(String name);
-
-        /**
-         * @param name The name of the definition to depend on
-         */
-        void addInclude(ResourceLocation name);
 
         /**
          * @return The definition of the program this is being compiled for or <code>null</code> if the shader is standalone

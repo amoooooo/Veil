@@ -4,6 +4,7 @@ import com.google.common.collect.Iterables;
 import com.google.gson.*;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -48,6 +49,25 @@ public record ProgramDefinition(@Nullable ShaderSource vertex,
                                 Map<String, String> definitionDefaults,
                                 Map<String, ShaderTextureSource> textures,
                                 Int2ObjectMap<ShaderSource> shaders) {
+
+    public Map<String, String> getMacros(Set<String> dependencies, ShaderPreDefinitions definitions) {
+        Map<String, String> macros = new HashMap<>(definitions.getStaticDefinitions());
+        for (String name : this.definitions) {
+            String definition = definitions.getDefinition(name);
+
+            if (definition != null) {
+                macros.put(name.toUpperCase(Locale.ROOT), definition);
+            } else {
+                String definitionDefault = this.definitionDefaults.get(name);
+                if (definitionDefault != null) {
+                    macros.put(name.toUpperCase(Locale.ROOT), definitionDefault);
+                }
+            }
+
+            dependencies.add(name);
+        }
+        return macros;
+    }
 
     public record ShaderSource(ResourceLocation location, SourceType sourceType) {
     }

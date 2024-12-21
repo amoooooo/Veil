@@ -3,9 +3,8 @@ package foundry.veil.mixin.client.shader;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Uniform;
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
-import foundry.veil.impl.client.render.shader.VanillaShaderProcessor;
+import foundry.veil.impl.client.render.shader.transformer.VanillaShaderProcessor;
 import foundry.veil.impl.client.render.wrapper.VanillaUniformWrapper;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -53,7 +52,7 @@ public class ShaderInstanceMixin {
         if (Veil.platform().hasErrors()) {
             return;
         }
-        VanillaShaderProcessor.setup(provider, VeilRenderSystem.renderer().getDynamicBufferManger().getActiveBuffers());
+        VanillaShaderProcessor.setup(provider);
     }
 
     @Inject(method = "getOrCreate", at = @At("RETURN"))

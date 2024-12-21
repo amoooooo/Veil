@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 /**
  * <p>Manages pre-defined variables and data in java that can be applied to shaders.</p>
- * <p>Regular definitions are added with {@link #define(String)}, {@link #define(String, String)},
- * and {@link #set(String, String)}. These schedule a shader recompilation every time they are set
+ * <p>Regular definitions are added with {@link #set(String)} and {@link #set(String, String)}.
+ * These schedule a shader recompilation every time they are set
  * so shaders can remain up-to-date. </p>
  */
 public class ShaderPreDefinitions {
@@ -17,6 +17,7 @@ public class ShaderPreDefinitions {
     private final Map<String, String> definitions;
     private final Map<String, String> definitionsView;
     private final Map<String, String> staticDefinitions;
+    private final Map<String, String> staticDefinitionsView;
 
     /**
      * Creates a new set of predefinitions.
@@ -26,14 +27,7 @@ public class ShaderPreDefinitions {
         this.definitions = new HashMap<>();
         this.definitionsView = Collections.unmodifiableMap(this.definitions);
         this.staticDefinitions = new HashMap<>();
-    }
-
-    private String getDefinition(String name, @Nullable String definition) {
-        name = name.toUpperCase(Locale.ROOT);
-        if (definition == null) {
-            return "#define " + name;
-        }
-        return "#define " + name + " " + definition;
+        this.staticDefinitionsView = Collections.unmodifiableMap(this.staticDefinitions);
     }
 
     /**
@@ -50,29 +44,19 @@ public class ShaderPreDefinitions {
      *
      * @param name The name of the definition to set
      */
-    public void define(String name) {
-        this.define(name, null);
+    public void set(String name) {
+        this.set(name, null);
     }
 
     /**
      * Sets the value of a definition pair. If the value has changed, all shaders depending on it will recompile.
      *
      * @param name       The name of the definition to set
-     * @param definition The value to associate with it or <code>null</code> to only add <code>#define name</code>
+     * @param value The value to associate with it
      */
-    public void define(String name, @Nullable String definition) {
-        this.set(name, this.getDefinition(name, definition));
-    }
-
-    /**
-     * Sets the value of a definition pair. If the value has changed, all shaders depending on it will recompile.
-     *
-     * @param name       The name of the definition to set
-     * @param definition The value to associate with it
-     */
-    public void set(String name, String definition) {
-        String previous = this.definitions.put(name, definition);
-        if (!Objects.equals(previous, definition)) {
+    public void set(String name, String value) {
+        String previous = this.definitions.put(name, value != null ? value : "");
+        if (!Objects.equals(previous, value)) {
             this.definitionCallbacks.forEach(callback -> callback.accept(name));
         }
     }
@@ -82,28 +66,18 @@ public class ShaderPreDefinitions {
      *
      * @param name The name of the definition to set
      */
-    public void defineStatic(String name) {
-        this.defineStatic(name, null);
+    public void setStatic(String name) {
+        this.setStatic(name, null);
     }
 
     /**
      * Sets a definition added to all shaders. These should be treated as static final variables.
      *
      * @param name       The name of the definition to set
-     * @param definition The value to associate with it or <code>null</code> to only add <code>#define name</code>
+     * @param value The value to associate with it
      */
-    public void defineStatic(String name, @Nullable String definition) {
-        this.setStatic(name, this.getDefinition(name, definition));
-    }
-
-    /**
-     * Sets a definition added to all shaders. These should be treated as static final variables.
-     *
-     * @param name       The name of the definition to set
-     * @param definition The value to associate with it
-     */
-    public void setStatic(String name, String definition) {
-        this.staticDefinitions.put(name, definition);
+    public void setStatic(String name, @Nullable String value) {
+        this.staticDefinitions.put(name, value != null ? value : "");
     }
 
     /**
@@ -115,15 +89,6 @@ public class ShaderPreDefinitions {
         if (this.definitions.remove(name) != null) {
             this.definitionCallbacks.forEach(callback -> callback.accept(name));
         }
-    }
-
-    /**
-     * Adds definitions that never change during runtime. This is for constants, like a debug flag.
-     *
-     * @param definitionConsumer The consumer for definition lines
-     */
-    public void addStaticDefinitions(Consumer<String> definitionConsumer) {
-        this.staticDefinitions.values().forEach(definitionConsumer);
     }
 
     /**
@@ -141,5 +106,12 @@ public class ShaderPreDefinitions {
      */
     public Map<String, String> getDefinitions() {
         return this.definitionsView;
+    }
+
+    /**
+     * @return A view of all static definitions
+     */
+    public Map<String, String> getStaticDefinitions() {
+        return this.staticDefinitionsView;
     }
 }

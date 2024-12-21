@@ -238,7 +238,8 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                 VeilImGuiUtil.component(SHADER_DEFINITIONS);
                 ImGui.setNextItemWidth(ImGui.getContentRegionAvailX());
                 if (ImGui.inputTextWithHint("##add_definition", SHADER_DEFINITIONS_HINT.getString(), this.addDefinitionText, ImGuiInputTextFlags.EnterReturnsTrue)) {
-                    definitions.define(this.addDefinitionText.get().trim());
+                    String[] parts = this.addDefinitionText.get().split("=", 2);
+                    definitions.set(parts[0].trim(), parts.length > 1 ? parts[1].trim() : null);
                     this.addDefinitionText.clear();
                 }
                 if (ImGui.beginListBox("##definitions", -Float.MIN_VALUE, ImGui.getContentRegionAvailY())) {

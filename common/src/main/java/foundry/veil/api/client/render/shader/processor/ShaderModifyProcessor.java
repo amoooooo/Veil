@@ -3,6 +3,9 @@ package foundry.veil.api.client.render.shader.processor;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.ShaderModificationManager;
 import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
+import foundry.veil.impl.glsl.GlslSyntaxException;
+import foundry.veil.impl.glsl.node.GlslTree;
+import foundry.veil.lib.anarres.cpp.LexerException;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
@@ -30,15 +33,15 @@ public class ShaderModifyProcessor implements ShaderPreProcessor {
     }
 
     @Override
-    public String modify(Context context, String source) throws IOException {
-        ResourceLocation name = context.name();
+    public void modify(Context ctx, GlslTree tree) throws IOException, GlslSyntaxException, LexerException {
+        ResourceLocation name = ctx.name();
         if (name == null || !this.appliedModifications.add(name)) {
-            return source;
+            return;
         }
-        int flags = context.isSourceFile() ? VeilJobParameters.APPLY_VERSION | VeilJobParameters.ALLOW_OUT : 0;
-        for (ResourceLocation include : context.includes()) { // Run include modifiers first
-            source = this.shaderModificationManager.applyModifiers(include, source, flags);
+        int flags = ctx.isSourceFile() ? VeilJobParameters.APPLY_VERSION | VeilJobParameters.ALLOW_OUT : 0;
+        for (ResourceLocation include : ctx.shaderImporter().addedImports()) { // Run include modifiers first
+            this.shaderModificationManager.applyModifiers(include, tree, flags);
         }
-        return this.shaderModificationManager.applyModifiers(name, source, flags);
+        this.shaderModificationManager.applyModifiers(name, tree, flags);
     }
 }

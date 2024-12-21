@@ -9,7 +9,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.ext.sodium.ChunkShaderOptionsExtension;
 import foundry.veil.forge.ext.ShaderChunkRendererExtension;
 import foundry.veil.impl.ThreadTaskScheduler;
-import foundry.veil.impl.client.render.shader.SodiumShaderProcessor;
+import foundry.veil.impl.client.render.shader.transformer.SodiumShaderProcessor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.caffeinemc.mods.sodium.client.gl.shader.*;
 import net.caffeinemc.mods.sodium.client.render.chunk.ShaderChunkRenderer;
@@ -44,7 +44,8 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
     @Shadow
     protected abstract GlProgram<ChunkShaderInterface> createShader(String path, ChunkShaderOptions options);
 
-    @Shadow protected GlProgram<ChunkShaderInterface> activeProgram;
+    @Shadow
+    protected GlProgram<ChunkShaderInterface> activeProgram;
     @Unique
     private ThreadTaskScheduler scheduler;
     @Unique
@@ -105,8 +106,8 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
                     String src = ShaderParser.parseShader(entry.getValue(), option.constants());
                     boolean vertex = shader.getPath().endsWith(".vsh");
                     try {
-                        SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager(), activeBuffers);
-                        src = SodiumShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), "shaders/" + shader.getPath()), vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
+                        SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager());
+                        src = SodiumShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), "shaders/" + shader.getPath()), activeBuffers, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
                         SodiumShaderProcessor.free();
                     } catch (Exception e) {
                         Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", shader, e);
