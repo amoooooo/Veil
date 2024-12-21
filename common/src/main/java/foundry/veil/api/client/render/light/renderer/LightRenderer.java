@@ -49,10 +49,10 @@ public class LightRenderer implements NativeResource {
     /**
      * Applies the shader set to {@link VeilRenderSystem}.
      */
-    public void applyShader() {
+    public boolean applyShader() {
         ShaderProgram shader = VeilRenderSystem.getShader();
         if (shader == null) {
-            return;
+            return true;
         }
 
         shader.bind();
@@ -68,6 +68,7 @@ public class LightRenderer implements NativeResource {
         }
 
         shader.applyShaderSamplers(0);
+        return false;
     }
 
     @ApiStatus.Internal

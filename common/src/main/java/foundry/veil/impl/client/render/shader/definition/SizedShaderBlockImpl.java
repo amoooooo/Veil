@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.shader.definition;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import org.apache.commons.lang3.Validate;
@@ -36,15 +37,15 @@ public class SizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
 
         if (this.buffer == 0) {
             this.buffer = glGenBuffers();
-            glBindBuffer(this.binding, this.buffer);
+            RenderSystem.glBindBuffer(this.binding, this.buffer);
             glBufferData(this.binding, this.size, GL_DYNAMIC_DRAW);
-            glBindBuffer(this.binding, 0);
+            RenderSystem.glBindBuffer(this.binding, 0);
             this.dirty = true;
         }
 
         if (this.dirty) {
             this.dirty = false;
-            glBindBuffer(this.binding, this.buffer);
+            RenderSystem.glBindBuffer(this.binding, this.buffer);
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 if (this.value != null) {
                     ByteBuffer buffer = stack.malloc(this.size);
@@ -55,7 +56,7 @@ public class SizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
                     glBufferSubData(this.binding, 0, stack.calloc(this.size));
                 }
             }
-            glBindBuffer(this.binding, 0);
+            RenderSystem.glBindBuffer(this.binding, 0);
         }
 
         glBindBufferBase(this.binding, index, this.buffer);

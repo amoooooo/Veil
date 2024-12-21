@@ -5,7 +5,6 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.ShaderImporter;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
-import foundry.veil.impl.glsl.GlslParser;
 import foundry.veil.impl.glsl.GlslSyntaxException;
 import foundry.veil.impl.glsl.node.GlslTree;
 import foundry.veil.lib.anarres.cpp.LexerException;
@@ -13,7 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
 import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
@@ -40,18 +42,30 @@ public interface ShaderPreProcessor {
     /**
      * Modifies the specified shader source input.
      *
-     * @param ctx    Context for modifying shaders
+     * @param ctx  Context for modifying shaders
      * @param tree The GLSL source code tree to modify
-     * @throws IOException If any error occurs while editing the source
+     * @throws IOException         If any error occurs while editing the source
      * @throws GlslSyntaxException If there was an error in the syntax of the source code
-     * @throws LexerException If an error occurs during shader C preprocessing
+     * @throws LexerException      If an error occurs during shader C preprocessing
      */
     void modify(Context ctx, GlslTree tree) throws IOException, GlslSyntaxException, LexerException;
 
+    /**
+     * Creates a composite pre-processor with the specified values.
+     *
+     * @param processors The processors to run in order
+     * @return A new processor that runs all provided processors
+     */
     static ShaderPreProcessor allOf(ShaderPreProcessor... processors) {
         return allOf(Arrays.asList(processors));
     }
 
+    /**
+     * Creates a composite pre-processor with the specified values.
+     *
+     * @param processors The processors to run in order
+     * @return A new processor that runs all provided processors
+     */
     static ShaderPreProcessor allOf(Collection<ShaderPreProcessor> processors) {
         List<ShaderPreProcessor> list = new ArrayList<>(processors.size());
         for (ShaderPreProcessor processor : processors) {
@@ -82,9 +96,9 @@ public interface ShaderPreProcessor {
          * @param name   The name of the shader file to modify or <code>null</code> if the source is a raw string
          * @param source The shader source code to modify
          * @return The modified source
-         * @throws IOException If any error occurs while editing the source
+         * @throws IOException         If any error occurs while editing the source
          * @throws GlslSyntaxException If there was an error in the syntax of the source code
-         * @throws LexerException If an error occurs during shader C preprocessing
+         * @throws LexerException      If an error occurs during shader C preprocessing
          */
         GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException;
 
@@ -109,32 +123,58 @@ public interface ShaderPreProcessor {
          */
         int type();
 
+        /**
+         * @return Whether the current shader file is the vertex program
+         */
         default boolean isVertex() {
             return this.type() == GL_VERTEX_SHADER;
         }
 
+        /**
+         * @return Whether the current shader file is the fragment program
+         */
         default boolean isFragment() {
             return this.type() == GL_FRAGMENT_SHADER;
         }
 
+        /**
+         * @return Whether the current shader file is the geometry program
+         */
         default boolean isGeometry() {
             return this.type() == GL_GEOMETRY_SHADER;
         }
 
+        /**
+         * @return Whether the current shader file is the tessellation control program
+         */
         default boolean isTessellationControl() {
             return this.type() == GL_TESS_CONTROL_SHADER;
         }
 
+        /**
+         * @return Whether the current shader file is the tessellation evaluation program
+         */
         default boolean isTessellationEvaluation() {
             return this.type() == GL_TESS_EVALUATION_SHADER;
         }
 
+        /**
+         * Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl/code> and adds it to this source tree.
+         *
+         * @param name The name of the import to load
+         * @param tree The tree to include the file into
+         * @throws IOException If there was an error loading the import file
+         */
         default void include(GlslTree tree, ResourceLocation name) throws IOException, GlslSyntaxException, LexerException {
             GlslTree loadedImport = this.shaderImporter().loadImport(this, name, false);
             tree.getDirectives().addAll(loadedImport.getDirectives());
             tree.getBody().addAll(0, loadedImport.getBody());
         }
 
+        /**
+         * @return The importer instance
+         * @see #include(GlslTree, ResourceLocation)
+         */
         ShaderImporter shaderImporter();
 
         /**

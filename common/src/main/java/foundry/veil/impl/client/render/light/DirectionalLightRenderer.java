@@ -14,6 +14,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @ApiStatus.Internal
@@ -46,13 +47,11 @@ public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLi
     @Override
     public void renderLights(LightRenderer lightRenderer, List<DirectionalLight> lights) {
         VeilRenderSystem.setShader(VeilShaders.LIGHT_DIRECTIONAL);
-        lightRenderer.applyShader();
-
-        ShaderProgram shader = VeilRenderSystem.getShader();
-        if (shader == null) {
+        if (lightRenderer.applyShader()) {
             return;
         }
 
+        ShaderProgram shader = Objects.requireNonNull(VeilRenderSystem.getShader());
         this.vbo.bind();
         for (DirectionalLight light : lights) {
             Vector3fc lightColor = light.getColor();

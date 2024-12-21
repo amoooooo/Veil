@@ -1,5 +1,6 @@
 package foundry.veil.api.client.render.light.renderer;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import foundry.veil.Veil;
@@ -81,9 +82,9 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
             this.instancedBlock = ShaderBlock.wrapper(GL_SHADER_STORAGE_BUFFER, this.instancedVbo);
             this.indirectBlock = ShaderBlock.wrapper(GL_SHADER_STORAGE_BUFFER, this.indirectVbo);
 
-            glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, this.sizeVbo);
+            RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, this.sizeVbo);
             glBufferData(GL_ATOMIC_COUNTER_BUFFER, Integer.BYTES, GL_DYNAMIC_DRAW);
-            glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
+            RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
         } else {
             Veil.LOGGER.info("Using CPU Frustum Culling for {} renderer", this.getClass().getSimpleName());
             this.sizeVbo = 0;
@@ -100,14 +101,14 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         this.rangeOffset = rangeOffset;
 
         // Initialize data buffers
-        glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
-        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
+        RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
 
         this.initBuffers();
 
-        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
+        RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
         this.setupBufferState(); // Only set up state for instanced buffer
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         VertexBuffer.unbind();
     }
@@ -209,9 +210,9 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
                     ShaderProgram.unbind();
 
                     IntBuffer counter = stack.mallocInt(1);
-                    glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, this.sizeVbo);
+                    RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, this.sizeVbo);
                     glGetBufferSubData(GL_ATOMIC_COUNTER_BUFFER, 0L, counter);
-                    glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
+                    RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
                     return counter.get(0);
                 } finally {
                     VeilRenderSystem.unbind(this.instancedBlock);
@@ -222,7 +223,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         }
 
         int count = 0;
-        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
+        RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
         try (MemoryStack stack = MemoryStack.stackPush()) {
             ByteBuffer buffer = stack.malloc(this.lowResSize > 0 ? Integer.BYTES * 5 : Integer.BYTES);
 
@@ -251,7 +252,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
     @Override
     public void prepareLights(LightRenderer lightRenderer, List<T> lights, Set<T> removedLights, CullFrustum frustum) {
-        glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
 
         ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
         profiler.push("resize");
@@ -261,9 +262,9 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         if (lights.size() > this.maxLights) {
             rebuild = true;
             this.maxLights = (int) Math.max(Math.max(Math.ceil(this.maxLights / 2.0), MIN_LIGHTS), lights.size() * 1.5);
-            glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
+            RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
             this.initBuffers();
-            glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
+            RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
         }
         profiler.popPush("update");
 
@@ -284,7 +285,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
                 }
             }
         }
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         profiler.popPush("visibility");
 
@@ -296,16 +297,21 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
     @Override
     public void renderLights(LightRenderer lightRenderer, List<T> lights) {
-        this.vbo.bind();
-        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
-
         this.setupRenderState(lightRenderer, lights);
-        lightRenderer.applyShader();
-        VeilRenderSystem.drawIndirect(this.vbo, 0L, this.visibleLights, 0);
-        this.clearRenderState(lightRenderer, lights);
+        if (lightRenderer.applyShader()) {
+            this.clearRenderState(lightRenderer, lights);
+            return;
+        }
 
-        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
+        this.vbo.bind();
+        RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
+
+        VeilRenderSystem.drawIndirect(this.vbo, 0L, this.visibleLights, 0);
+
+        RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
         VertexBuffer.unbind();
+        ShaderProgram.unbind();
+        this.clearRenderState(lightRenderer, lights);
     }
 
     @Override

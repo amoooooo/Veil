@@ -1,9 +1,12 @@
 package foundry.veil.api.client.render.shader.program;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import foundry.veil.api.client.render.shader.*;
+import foundry.veil.api.client.render.shader.CompiledShader;
+import foundry.veil.api.client.render.shader.ShaderManager;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -11,7 +14,6 @@ import org.joml.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
 
-import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Set;
@@ -44,14 +46,18 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
      * Binds this program for use.
      */
     default void bind() {
-        glUseProgram(this.getProgram());
+        GlStateManager._glUseProgram(this.getProgram());
+        ShaderInstance.lastProgramId = -1;
+        EffectInstance.lastProgramId = -1;
     }
 
     /**
      * Unbinds the currently bound shader program.
      */
     static void unbind() {
-        glUseProgram(0);
+        GlStateManager._glUseProgram(0);
+        ShaderInstance.lastProgramId = -1;
+        EffectInstance.lastProgramId = -1;
     }
 
     /**
@@ -521,7 +527,6 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
      *     <li>Calling {@link Uniform#upload()} will do nothing since the values are uploaded when the appropriate methods are called</li>
      *     <li>Uniforms are lazily wrapped and will not crash when the wrong method is called.</li>
      *     <li>{@link Uniform#set(int, float)} is not supported and will throw an {@link UnsupportedOperationException}.</li>
-     *     <li>Only {@link Uniform#set(Matrix3f)} and {@link Uniform#set(Matrix4f)} will be able to set matrix values. All other matrix methods will throw an {@link UnsupportedOperationException}.</li>
      *     <li>{@link Uniform#set(float[])} only works for 1, 2, 3, and 4 float elements. Any other size will throw an {@link UnsupportedOperationException}.</li>
      * </ul>
      *

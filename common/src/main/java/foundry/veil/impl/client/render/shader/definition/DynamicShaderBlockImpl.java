@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.shader.definition;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
@@ -59,14 +60,14 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
         if (this.resized) {
             this.resized = false;
             this.dirty = true;
-            glBindBuffer(this.binding, this.buffer);
+            RenderSystem.glBindBuffer(this.binding, this.buffer);
             glBufferData(this.binding, this.size, GL_DYNAMIC_DRAW);
-            glBindBuffer(this.binding, 0);
+            RenderSystem.glBindBuffer(this.binding, 0);
         }
 
         if (this.dirty) {
             this.dirty = false;
-            glBindBuffer(this.binding, this.buffer);
+            RenderSystem.glBindBuffer(this.binding, this.buffer);
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 if (this.value != null) {
                     ByteBuffer buffer = stack.malloc((int) this.size);
@@ -77,7 +78,7 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
                     glBufferSubData(this.binding, 0, stack.calloc((int) this.size));
                 }
             }
-            glBindBuffer(this.binding, 0);
+            RenderSystem.glBindBuffer(this.binding, 0);
         }
 
         glBindBufferBase(this.binding, index, this.buffer);

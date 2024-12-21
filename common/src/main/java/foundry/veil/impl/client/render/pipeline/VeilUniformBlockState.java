@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.pipeline;
 
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.impl.client.render.shader.definition.ShaderBlockImpl;
@@ -24,6 +25,9 @@ import static org.lwjgl.opengl.GL43C.GL_SHADER_STORAGE_BUFFER;
  */
 @ApiStatus.Internal
 public class VeilUniformBlockState {
+
+    // Flywheel uses the first 8 buffer bindings for instanced/indirect rendering
+    public static final int RESERVED_BINDINGS = Veil.platform().isModLoaded("flywheel") ? 8 : 0;
 
     private final Object2IntMap<ShaderBlockImpl<?>> boundBlocks;
     private final Int2ObjectMap<CharSequence> shaderBindings;
@@ -71,7 +75,7 @@ public class VeilUniformBlockState {
 
         int binding = this.boundBlocks.getOrDefault(block, -1);
         if (binding == -1) {
-            if (this.nextBinding >= VeilRenderSystem.maxUniformBuffersBindings()) {
+            if (this.nextBinding >= VeilRenderSystem.maxUniformBuffersBindings() - RESERVED_BINDINGS) {
                 this.freeBinding();
             }
 
@@ -84,9 +88,9 @@ public class VeilUniformBlockState {
             }
         }
 
-        impl.bind(binding);
+        impl.bind(binding + RESERVED_BINDINGS);
         this.usedBindings.add(binding);
-        return binding;
+        return binding + RESERVED_BINDINGS;
     }
 
     /**

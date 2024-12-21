@@ -11,6 +11,10 @@ accessible class com/mojang/blaze3d/platform/GlStateManager$TextureState
 accessible field com/mojang/blaze3d/platform/GlStateManager TEXTURES [Lcom/mojang/blaze3d/platform/GlStateManager$TextureState;
 accessible method com/mojang/blaze3d/shaders/Program <init> (Lcom/mojang/blaze3d/shaders/Program$Type;ILjava/lang/String;)V
 
+# Shader Program Cache
+accessible field net/minecraft/client/renderer/EffectInstance lastProgramId I
+accessible field net/minecraft/client/renderer/ShaderInstance lastProgramId I
+
 # Uniform Wrapper
 extendable method com/mojang/blaze3d/shaders/Uniform set (F)V
 extendable method com/mojang/blaze3d/shaders/Uniform set (FF)V

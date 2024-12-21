@@ -1,11 +1,13 @@
 package foundry.veil.api.client.render.light.renderer;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.InstancedLight;
 import foundry.veil.api.client.render.light.Light;
+import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
@@ -48,10 +50,10 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         this.vbo.bind();
         this.vbo.upload(this.createMesh());
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
         glBufferData(GL_ARRAY_BUFFER, (long) this.maxLights * this.lightSize, GL_DYNAMIC_DRAW);
         this.setupBufferState();
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         VertexBuffer.unbind();
     }
@@ -128,7 +130,7 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
             return;
         }
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
 
         // If there is no space, then resize
         boolean rebuild = false;
@@ -155,17 +157,22 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
             }
         }
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     @Override
     public void renderLights(LightRenderer lightRenderer, List<T> lights) {
-        this.vbo.bind();
         this.setupRenderState(lightRenderer, this.visibleLights);
-        lightRenderer.applyShader();
+        if (lightRenderer.applyShader()) {
+            this.clearRenderState(lightRenderer, this.visibleLights);
+            return;
+        }
+
+        this.vbo.bind();
         VeilRenderSystem.drawInstanced(this.vbo, this.visibleLights.size());
-        this.clearRenderState(lightRenderer, this.visibleLights);
         VertexBuffer.unbind();
+        ShaderProgram.unbind();
+        this.clearRenderState(lightRenderer, this.visibleLights);
     }
 
     @Override
