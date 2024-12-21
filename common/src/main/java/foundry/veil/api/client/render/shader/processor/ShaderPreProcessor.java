@@ -159,7 +159,7 @@ public interface ShaderPreProcessor {
         }
 
         /**
-         * Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl<code> and adds it to this source tree.
+         * Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl</code> and adds it to this source tree.
          *
          * @param name The name of the import to load
          * @param tree The tree to include the file into
