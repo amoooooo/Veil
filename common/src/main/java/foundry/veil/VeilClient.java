@@ -65,7 +65,7 @@ public class VeilClient {
                 editorManager.add(new FramebufferInspector());
                 editorManager.add(new ResourceManagerInspector());
             }
-            glEnable(GL_DEPTH_CLAMP); // TODO add config option
+//            glEnable(GL_DEPTH_CLAMP); // TODO add config option
         });
 
         // This fixes moving transparent blocks drawing too early
