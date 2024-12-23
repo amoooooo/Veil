@@ -50,7 +50,9 @@ public class DynamicBufferManger implements NativeResource {
     private boolean enabled;
     private final int[] clearBuffers;
     private final Map<ResourceLocation, AdvancedFbo> framebuffers;
+    private final List<AdvancedFbo> dynamicFramebuffers;
     private final EnumMap<DynamicBufferType, DynamicBuffer> dynamicBuffers;
+    private int dynamicFboPointer;
 
     public DynamicBufferManger(int width, int height) {
         this.activeBuffers = 0;
@@ -58,6 +60,7 @@ public class DynamicBufferManger implements NativeResource {
         this.enabled = false;
         this.clearBuffers = Arrays.stream(DynamicBufferType.values()).mapToInt(type -> GL_COLOR_ATTACHMENT1 + type.ordinal()).toArray();
         this.framebuffers = new HashMap<>();
+        this.dynamicFramebuffers = new ArrayList<>();
         this.dynamicBuffers = new EnumMap<>(DynamicBufferType.class);
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -77,6 +80,10 @@ public class DynamicBufferManger implements NativeResource {
             VeilRenderSystem.renderer().getFramebufferManager().removeFramebuffer(entry.getKey());
         }
         this.framebuffers.clear();
+        for (AdvancedFbo fbo : this.dynamicFramebuffers) {
+            fbo.free();
+        }
+        this.dynamicFramebuffers.clear();
     }
 
     public int getActiveBuffers(ResourceLocation name) {
@@ -197,6 +204,53 @@ public class DynamicBufferManger implements NativeResource {
         fbo.bind(true);
     }
 
+    /**
+     * Creates a dynamic fbo from the specified framebuffer. It will only write into the first color texture buffer and optionally the depth texture.
+     *
+     * @param framebuffer The framebuffer to add dynamic buffers to
+     * @return The created buffer or <code>null</code> to use the input value
+     */
+    public @Nullable AdvancedFbo getDynamicFbo(AdvancedFbo framebuffer) {
+        if (this.activeBuffers == 0 || !this.enabled) {
+            return null;
+        }
+
+        if (!framebuffer.isColorTextureAttachment(0)) {
+            return null;
+        }
+
+        if (this.dynamicFboPointer < this.dynamicFramebuffers.size()) {
+            AdvancedFbo fbo = this.dynamicFramebuffers.get(this.dynamicFboPointer);
+            if (fbo.getWidth() == framebuffer.getWidth() && fbo.getHeight() == framebuffer.getHeight()) {
+                return fbo;
+            }
+            fbo.free();
+        }
+
+        AdvancedFbo.Builder builder = AdvancedFbo.withSize(framebuffer.getWidth(), framebuffer.getHeight());
+        builder.addColorTextureWrapper(framebuffer.getColorTextureAttachment(0).getId());
+        for (Map.Entry<DynamicBufferType, DynamicBuffer> entry : this.dynamicBuffers.entrySet()) {
+            DynamicBufferType type = entry.getKey();
+            if ((this.activeBuffers & type.getMask()) != 0) {
+                builder.setName(type.getSourceName()).addColorTextureWrapper(entry.getValue().textureId);
+            }
+        }
+        if (framebuffer.isDepthTextureAttachment()) {
+            builder.setDepthTextureWrapper(framebuffer.getDepthTextureAttachment().getId());
+        } else {
+            builder.setDepthRenderBuffer();
+        }
+        AdvancedFbo fbo = builder.build(true);
+
+        if (this.dynamicFboPointer < this.dynamicFramebuffers.size()) {
+            this.dynamicFramebuffers.set(this.dynamicFboPointer, fbo);
+        } else {
+            this.dynamicFramebuffers.add(fbo);
+        }
+
+        return fbo;
+    }
+
     @ApiStatus.Internal
     public void clearRenderState() {
         if (this.activeBuffers == 0 || !this.enabled) {
@@ -214,6 +268,12 @@ public class DynamicBufferManger implements NativeResource {
             GlStateManager._clear(GL_COLOR_BUFFER_BIT, Minecraft.ON_OSX);
             glDrawBuffers(framebuffer.getDrawBuffers());
         }
+        ListIterator<AdvancedFbo> iterator = this.dynamicFramebuffers.listIterator(this.dynamicFboPointer);
+        while (iterator.hasNext()) {
+            iterator.next().free();
+            iterator.remove();
+        }
+        this.dynamicFboPointer = 0;
     }
 
     @ApiStatus.Internal

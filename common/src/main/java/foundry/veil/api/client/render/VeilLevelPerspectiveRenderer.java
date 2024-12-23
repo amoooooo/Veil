@@ -21,6 +21,10 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
+import static org.lwjgl.opengl.GL11C.glDrawBuffer;
+import static org.lwjgl.opengl.GL20C.glDrawBuffers;
+import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT0;
+
 /**
  * Renders the level from different perspectives.
  *
@@ -112,8 +116,14 @@ public final class VeilLevelPerspectiveRenderer {
         Entity backupCrosshairPickEntity = minecraft.crosshairPickEntity;
 
         renderingPerspective = true;
-        framebuffer.bindDraw(true);
-        renderTargetExtension.veil$setWrapper(framebuffer);
+        AdvancedFbo drawFbo = VeilRenderSystem.renderer().getDynamicBufferManger().getDynamicFbo(framebuffer);
+        if (drawFbo != null) {
+            drawFbo.bindDraw(true);
+            renderTargetExtension.veil$setWrapper(drawFbo);
+        } else {
+            framebuffer.bindDraw(true);
+            renderTargetExtension.veil$setWrapper(framebuffer);
+        }
 
         Frustum backupFrustum = levelRendererAccessor.getCullingFrustum();
 
@@ -124,6 +134,12 @@ public final class VeilLevelPerspectiveRenderer {
         levelRendererAccessor.setCullingFrustum(backupFrustum);
 
         renderTargetExtension.veil$setWrapper(null);
+        if (drawFbo != null) {
+            glDrawBuffer(GL_COLOR_ATTACHMENT0);
+            drawFbo.resolveToAdvancedFbo(framebuffer);
+            drawFbo.bind(false);
+            glDrawBuffers(drawFbo.getDrawBuffers());
+        }
         AdvancedFbo.unbind();
         renderingPerspective = false;
 
