@@ -110,6 +110,14 @@ public abstract class ShaderInstanceMixin implements Shader {
 
     @Inject(method = "updateLocations", at = @At("TAIL"))
     public void updateLocations(CallbackInfo ci) {
+        if ((Object) this instanceof ShaderProgramImpl.Wrapper) {
+            return;
+        }
+
+        for (Uniform uniform : this.veil$uniforms.values()) {
+            uniform.setLocation(-1);
+        }
+
         int uniformCount = glGetProgrami(this.programId, GL_ACTIVE_UNIFORMS);
         int maxUniformLength = glGetProgrami(this.programId, GL_ACTIVE_UNIFORM_MAX_LENGTH);
 
@@ -174,7 +182,7 @@ public abstract class ShaderInstanceMixin implements Shader {
                     }
                     default -> {
                         if (ShaderUniformCache.isSampler(dataType)) {
-                            Veil.LOGGER.info("Shader {} detected sampler: {}", this.name, typeName + " " + name);
+                            Veil.LOGGER.debug("Shader {} detected sampler: {}", this.name, typeName + " " + name);
                             this.samplerNames.add(name);
                         } else {
                             Veil.LOGGER.error("Unsupported Uniform Type: {}", typeName);
@@ -183,7 +191,7 @@ public abstract class ShaderInstanceMixin implements Shader {
                     }
                 }
 
-                Veil.LOGGER.info("Shader {} detected uniform: {}", this.name, typeName + " " + name);
+                Veil.LOGGER.debug("Shader {} detected uniform: {}", this.name, typeName + " " + name);
                 Uniform old = this.veil$uniforms.get(name);
                 Uniform uniform;
                 if (old != null) {
