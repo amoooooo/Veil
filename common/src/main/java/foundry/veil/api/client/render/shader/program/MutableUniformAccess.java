@@ -37,13 +37,7 @@ public interface MutableUniformAccess extends UniformAccess {
         this.setVector("ScreenSize", window.getWidth(), window.getHeight());
         this.setVector("Light0_Direction", VeilRenderSystem.getLight0Direction());
         this.setVector("Light1_Direction", VeilRenderSystem.getLight1Direction());
-        this.applyVeilCustom();
-    }
 
-    /**
-     * Sets custom Veil uniforms.
-     */
-    default void applyVeilCustom() {
         // TODO move to uniform block
         ClientLevel level = Minecraft.getInstance().level;
         if (level != null) {

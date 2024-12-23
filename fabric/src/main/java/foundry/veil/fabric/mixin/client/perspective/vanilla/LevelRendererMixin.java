@@ -62,7 +62,7 @@ public abstract class LevelRendererMixin {
 
         ci.cancel();
 
-        Entity.setViewScale(Mth.clamp(perspectiveCamera.getRenderDistance() / 8.0, 1.0, 2.5) * this.minecraft.options.entityDistanceScaling().get());
+        Entity.setViewScale(Mth.clamp(perspectiveCamera.getRenderDistance() / 8.0, 1.0, 2.5));
         this.sectionRenderDispatcher.setCamera(cameraPos);
         ProfilerFiller profiler = this.minecraft.getProfiler();
         profiler.push("veil_section_occlusion_graph");

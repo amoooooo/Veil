@@ -33,16 +33,6 @@ import static org.lwjgl.opengl.GL43C.glShaderStorageBlockBinding;
 public interface ShaderProgram extends NativeResource, MutableUniformAccess, TextureUniformAccess {
 
     /**
-     * Binds this program for use and prepares for rendering.
-     */
-    default void setup() {
-        this.bind();
-        this.applyRenderSystem();
-        this.addRenderSystemTextures();
-        this.applyShaderSamplers(0);
-    }
-
-    /**
      * Binds this program for use.
      */
     default void bind() {

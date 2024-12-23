@@ -164,7 +164,10 @@ public class VeilShaderDefinitionResourceRenderer {
             RenderSystem.setProjectionMatrix(new Matrix4f(), VertexSorting.ORTHOGRAPHIC_Z);
 
             CAMERA_MATRICES.bind();
-            shader.setup();
+            shader.bind();
+            shader.applyRenderSystem();
+            shader.addRenderSystemTextures();
+            shader.applyShaderSamplers(0);
             shader.setMatrix("NormalMat", NORMAL_MAT);
 
             BufferUploader.draw(data);

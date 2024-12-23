@@ -396,13 +396,6 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
 
         @Override
-        public void setDefaultUniforms(VertexFormat.Mode mode, Matrix4f projectionMatrix, Matrix4f frustrumMatrix, Window window) {
-            super.setDefaultUniforms(mode, projectionMatrix, frustrumMatrix, window);
-            // Add extra veil uniforms
-            this.program.applyVeilCustom();
-        }
-
-        @Override
         public void apply() {
             this.program.bind();
             this.program.applyShaderSamplers(0);
