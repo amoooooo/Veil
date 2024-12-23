@@ -21,30 +21,7 @@ import java.util.stream.IntStream;
 
 import static org.lwjgl.opengl.GL11C.GL_OUT_OF_MEMORY;
 import static org.lwjgl.opengl.GL20C.glDrawBuffers;
-import static org.lwjgl.opengl.GL30.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL30.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL30.GL_DRAW_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_COMPLETE;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT;
-import static org.lwjgl.opengl.GL30.GL_READ_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_MIN_FILTER;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_WRAP_S;
-import static org.lwjgl.opengl.GL30.GL_TEXTURE_WRAP_T;
-import static org.lwjgl.opengl.GL30.glBindFramebuffer;
-import static org.lwjgl.opengl.GL30.glCheckFramebufferStatus;
-import static org.lwjgl.opengl.GL30.glDeleteFramebuffers;
-import static org.lwjgl.opengl.GL30.glGenFramebuffers;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT0;
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER;
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE;
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER;
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_UNDEFINED;
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER_UNSUPPORTED;
+import static org.lwjgl.opengl.GL30C.*;
 
 /**
  * Default implementation of {@link AdvancedFbo}.
@@ -288,8 +265,8 @@ public class AdvancedFboImpl implements AdvancedFbo {
                 this.fbo.getColorAttachment(i).bindAttachment();
                 GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, framebufferFilter);
                 GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, framebufferFilter);
-                GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-                GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+                GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                 this.fbo.getColorAttachment(i).unbindAttachment();
             }
         }

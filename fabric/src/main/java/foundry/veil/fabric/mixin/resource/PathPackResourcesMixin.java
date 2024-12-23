@@ -2,7 +2,6 @@ package foundry.veil.fabric.mixin.resource;
 
 import foundry.veil.Veil;
 import foundry.veil.ext.PackResourcesExtension;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -72,7 +71,7 @@ public abstract class PathPackResourcesMixin implements PackResources, PackResou
 
     @Override
     public List<Path> veil$getRawResourceRoots() {
-        return Collections.singletonList(this.root.relativize(Minecraft.getInstance().gameDirectory.toPath()));
+        return Collections.singletonList(this.root);
     }
 
     @Override

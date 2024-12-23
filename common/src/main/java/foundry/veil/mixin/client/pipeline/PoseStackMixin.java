@@ -14,8 +14,6 @@ import java.util.Deque;
 public abstract class PoseStackMixin implements MatrixStack {
 
     @Unique
-    private final Quaternionf veil$castQuat = new Quaternionf();
-    @Unique
     private static final Matrix3f veil$IDENTITY_NORMAL = new Matrix3f();
 
     @Shadow
@@ -39,6 +37,9 @@ public abstract class PoseStackMixin implements MatrixStack {
 
     @Shadow
     public abstract PoseStack.Pose last();
+
+    @Unique
+    private final Quaternionf veil$castQuat = new Quaternionf();
 
     @Override
     public void clear() {

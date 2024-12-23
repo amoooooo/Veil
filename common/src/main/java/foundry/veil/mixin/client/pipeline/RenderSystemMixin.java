@@ -2,7 +2,7 @@ package foundry.veil.mixin.client.pipeline;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import net.minecraft.client.renderer.ShaderInstance;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;

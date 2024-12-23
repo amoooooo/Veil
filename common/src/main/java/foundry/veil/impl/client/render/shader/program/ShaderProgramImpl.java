@@ -1,16 +1,14 @@
-package foundry.veil.impl.client.render.shader;
+package foundry.veil.impl.client.render.shader.program;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.*;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
@@ -18,16 +16,12 @@ import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import foundry.veil.api.client.util.VertexFormatCodec;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
+import foundry.veil.impl.client.render.shader.DummyResource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.ObjectArraySet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import org.apache.commons.lang3.StringUtils;
@@ -36,23 +30,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
 
 import static org.lwjgl.opengl.GL11C.GL_TRUE;
-import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL31C.GL_INVALID_INDEX;
-import static org.lwjgl.opengl.GL31C.glGetUniformBlockIndex;
-import static org.lwjgl.opengl.GL43C.*;
+import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 /**
  * @author Ocelot
@@ -65,12 +54,10 @@ public class ShaderProgramImpl implements ShaderProgram {
     protected final ResourceLocation id;
     protected final Int2ObjectMap<CompiledShader> shaders;
     protected final Int2ObjectMap<CompiledShader> attachedShaders;
-    private final Object2IntMap<CharSequence> uniforms;
-    private final Object2IntMap<CharSequence> uniformBlocks;
-    private final Object2IntMap<CharSequence> storageBlocks;
+    private final ShaderUniformCache uniforms;
     private final Map<String, ShaderTextureSource> textureSources;
     private final Set<String> definitionDependencies;
-    private final TextureCache textures;
+    private final ShaderTextureCache textures;
     private final Supplier<Wrapper> wrapper;
 
     private VertexFormat vertexFormat;
@@ -81,10 +68,8 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.id = id;
         this.shaders = new Int2ObjectArrayMap<>(2);
         this.attachedShaders = new Int2ObjectArrayMap<>(2);
-        this.uniforms = new Object2IntArrayMap<>();
-        this.uniformBlocks = new Object2IntArrayMap<>();
-        this.storageBlocks = new Object2IntArrayMap<>();
-        this.textures = new TextureCache(this);
+        this.uniforms = new ShaderUniformCache(this);
+        this.textures = new ShaderTextureCache(this);
         this.textureSources = new HashMap<>();
         this.definitionDependencies = new HashSet<>();
         this.wrapper = Suppliers.memoize(() -> {
@@ -162,7 +147,6 @@ public class ShaderProgramImpl implements ShaderProgram {
     protected void clearShader() {
         this.detachShaders();
         this.uniforms.clear();
-        this.uniformBlocks.clear();
         this.textures.clear();
         this.textureSources.clear();
         this.definitionDependencies.clear();
@@ -171,7 +155,6 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     protected void link() throws ShaderException {
         this.uniforms.clear();
-        this.uniformBlocks.clear();
         this.textures.clear();
 
         glLinkProgram(this.program);
@@ -305,7 +288,12 @@ public class ShaderProgramImpl implements ShaderProgram {
         if (this.program == 0) {
             return -1;
         }
-        return this.uniforms.computeIfAbsent(name, (ToIntFunction<? super CharSequence>) k -> glGetUniformLocation(this.program, k));
+        return this.uniforms.getUniform(name);
+    }
+
+    @Override
+    public boolean hasUniform(CharSequence name) {
+        return this.program != 0 && this.uniforms.hasUniform(name);
     }
 
     @Override
@@ -313,7 +301,12 @@ public class ShaderProgramImpl implements ShaderProgram {
         if (this.program == 0) {
             return GL_INVALID_INDEX;
         }
-        return this.uniformBlocks.computeIfAbsent(name, k -> glGetUniformBlockIndex(this.program, name));
+        return this.uniforms.getUniformBlock(name);
+    }
+
+    @Override
+    public boolean hasUniformBlock(CharSequence name) {
+        return this.program != 0 && this.uniforms.hasUniformBlock(name);
     }
 
     @Override
@@ -321,7 +314,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         if (this.program == 0) {
             return GL_INVALID_INDEX;
         }
-        return this.storageBlocks.computeIfAbsent(name, k -> glGetProgramResourceIndex(this.program, GL_SHADER_STORAGE_BLOCK, name));
+        return this.uniforms.getStorageBlock(name);
     }
 
     @Override
@@ -335,12 +328,12 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     @Override
-    public int applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int sampler) {
+    public void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int sampler) {
         if (context != null) {
             this.textureSources.forEach((name, source) -> this.addSampler(name, source.getId(context)));
         }
 
-        return this.textures.bind(sampler);
+        this.textures.bind(sampler);
     }
 
     @Override
@@ -355,7 +348,9 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public void addSampler(CharSequence name, int textureId) {
-        this.textures.put(name, textureId);
+        if (this.uniforms.hasSampler(name)) {
+            this.textures.put(name, textureId);
+        }
     }
 
     @Override
@@ -366,137 +361,6 @@ public class ShaderProgramImpl implements ShaderProgram {
     @Override
     public void clearSamplers() {
         this.textures.clear();
-    }
-
-    private static class TextureCache {
-
-        private final ShaderProgram program;
-        private final Object2IntMap<CharSequence> textures;
-        private final Object2IntMap<CharSequence> boundSamplers;
-        private final ObjectSet<SamplerListener> listeners;
-        private boolean dirty;
-        private IntBuffer bindings;
-
-        private TextureCache(ShaderProgram program) {
-            this.program = program;
-            this.textures = new Object2IntArrayMap<>();
-            this.textures.defaultReturnValue(-1);
-            this.boundSamplers = new Object2IntArrayMap<>();
-            this.listeners = new ObjectArraySet<>();
-            this.bindings = null;
-        }
-
-        private int uploadTextures(int start, BiConsumer<Integer, Integer> textureConsumer) {
-            this.boundSamplers.clear();
-            if (this.textures.isEmpty()) {
-                return start;
-            }
-
-            int maxSampler = VeilRenderSystem.maxCombinedTextureUnits();
-            int count = 1;
-            textureConsumer.accept(start, MissingTextureAtlasSprite.getTexture().getId());
-
-            for (Object2IntMap.Entry<CharSequence> entry : this.textures.object2IntEntrySet()) {
-                CharSequence name = entry.getKey();
-                if (this.program.getUniform(name) == -1) {
-                    continue;
-                }
-
-                // If there are too many samplers, then refer back to the missing texture
-                int sampler = start + count;
-                if (sampler >= maxSampler) {
-                    this.program.setInt(name, 0);
-                    Veil.LOGGER.error("Too many samplers were bound for shader (max {}): {}", maxSampler, this.program.getId());
-                    continue;
-                }
-
-                // If the texture is "missing", then refer back to the bound missing texture
-                int textureId = entry.getIntValue();
-                if (textureId == 0) {
-                    this.program.setInt(name, 0);
-                    continue;
-                }
-
-                textureConsumer.accept(sampler, textureId);
-                this.program.setInt(name, sampler);
-                this.boundSamplers.put(name, sampler);
-                count++;
-            }
-            for (SamplerListener listener : this.listeners) {
-                listener.onUpdateSamplers(this.boundSamplers);
-            }
-            return start + count;
-        }
-
-        public int bind(int start) {
-            if (VeilRenderSystem.textureMultibindSupported()) {
-                if (this.dirty) {
-                    this.dirty = false;
-
-                    // Not enough space, so realloc
-                    if (this.bindings == null || this.bindings.capacity() < 1 + this.textures.size()) {
-                        this.bindings = MemoryUtil.memRealloc(this.bindings, 1 + this.textures.size());
-                    }
-
-                    this.bindings.clear();
-                    int end = this.uploadTextures(start, (sampler, id) -> this.bindings.put(id));
-                    if (end == start) {
-                        this.bindings.position(0);
-                        return start;
-                    }
-
-                    this.bindings.flip();
-                }
-                if (this.bindings != null && this.bindings.limit() > 0) {
-                    VeilRenderSystem.bindTextures(start, this.bindings);
-                    return start + this.bindings.limit();
-                }
-                return start;
-            }
-
-            // Ignored for normal binding
-            this.dirty = false;
-
-            int activeTexture = GlStateManager._getActiveTexture();
-            int end = this.uploadTextures(start, (sampler, id) -> {
-                RenderSystem.activeTexture(GL_TEXTURE0 + sampler);
-                if (sampler >= 12) {
-                    glBindTexture(GL_TEXTURE_2D, id);
-                } else {
-                    RenderSystem.bindTexture(id);
-                }
-            });
-            RenderSystem.activeTexture(activeTexture);
-            return end;
-        }
-
-        public void addSamplerListener(SamplerListener listener) {
-            this.listeners.add(listener);
-        }
-
-        public void removeSamplerListener(SamplerListener listener) {
-            this.listeners.remove(listener);
-        }
-
-        public void put(CharSequence name, int textureId) {
-            this.dirty |= this.textures.put(name, textureId) != textureId;
-        }
-
-        public void remove(CharSequence name) {
-            if (this.textures.removeInt(name) != 0) {
-                this.dirty = true;
-            }
-        }
-
-        public void clear() {
-            this.textures.clear();
-            this.boundSamplers.clear();
-            if (this.bindings != null) {
-                MemoryUtil.memFree(this.bindings);
-                this.bindings = null;
-            }
-            this.dirty = true;
-        }
     }
 
     /**
@@ -532,8 +396,16 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
 
         @Override
+        public void setDefaultUniforms(VertexFormat.Mode mode, Matrix4f projectionMatrix, Matrix4f frustrumMatrix, Window window) {
+            super.setDefaultUniforms(mode, projectionMatrix, frustrumMatrix, window);
+            // Add extra veil uniforms
+            this.program.applyVeilCustom();
+        }
+
+        @Override
         public void apply() {
-            this.program.setup();
+            this.program.bind();
+            this.program.applyShaderSamplers(0);
         }
 
         @Override
@@ -555,17 +427,19 @@ public class ShaderProgramImpl implements ShaderProgram {
 
         @Override
         public void setSampler(String name, Object value) {
-            int sampler = -1;
-            switch (value) {
-                case RenderTarget target -> sampler = target.getColorTextureId();
-                case AbstractTexture texture -> sampler = texture.getId();
-                case Integer id -> sampler = id;
-                default -> {
-                }
-            }
+            int sampler = switch (value) {
+                case RenderTarget target -> target.getColorTextureId();
+                case AbstractTexture texture -> texture.getId();
+                case Integer id -> id;
+                default -> -1;
+            };
 
             if (sampler != -1) {
-                this.program.addSampler(name, sampler);
+                if (sampler == 0) {
+                    this.program.removeSampler(name);
+                } else {
+                    this.program.addSampler(name, sampler);
+                }
             }
         }
 

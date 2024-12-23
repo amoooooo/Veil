@@ -1,6 +1,7 @@
 package foundry.veil.mixin.client.skeleton;
 
 import foundry.veil.api.client.necromancer.SkeletonParent;
+import foundry.veil.api.client.necromancer.animation.Animator;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.world.entity.Entity;
@@ -14,14 +15,22 @@ import javax.annotation.Nullable;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin {
+
     @Shadow @Nullable private ClientLevel level;
 
+    @SuppressWarnings("rawtypes")
     @Inject(method = "tick()V", at = @At("HEAD"))
     private void veil$levelRenderTick(CallbackInfo ci) {
-        if (this.level == null) return;
+        if (this.level == null) {
+            return;
+        }
+
         for (Entity entity : this.level.entitiesForRendering()) {
             if (entity instanceof SkeletonParent parent) {
-                if (parent.getAnimator() != null) parent.getAnimator().tick();
+                Animator animator = parent.getAnimator();
+                if (animator != null) {
+                    animator.tick();
+                }
             }
         }
     }

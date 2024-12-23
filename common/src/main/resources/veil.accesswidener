@@ -81,3 +81,6 @@ accessible class net/minecraft/client/resources/model/AtlasSet$AtlasEntry
 
 # Block Model Bakery
 accessible field net/minecraft/client/resources/model/ModelBakery ITEM_MODEL_GENERATOR Lnet/minecraft/client/renderer/block/model/ItemModelGenerator;
+
+# Level Perspective Occlusion Graph
+accessible method net/minecraft/client/renderer/ViewArea getRenderSectionAt (Lnet/minecraft/core/BlockPos;)Lnet/minecraft/client/renderer/chunk/SectionRenderDispatcher$RenderSection;

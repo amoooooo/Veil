@@ -22,14 +22,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftMixin {
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;resizeDisplay()V", shift = At.Shift.BEFORE))
-    public void init(GameConfig gameConfig, CallbackInfo ci) {
+    public void init(CallbackInfo ci) {
         VeilClient.initRenderer();
         FabricVeilRendererAvailableEvent.EVENT.invoker().onVeilRendererAvailable(VeilRenderSystem.renderer());
         FabricVeilRegisterFixedBuffersEvent.EVENT.invoker().onRegisterFixedBuffers(FabricRenderTypeStageHandler::register);
     }
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupDefaultState(IIII)V"))
-    public void registerBlockLayers(GameConfig gameConfig, CallbackInfo ci) {
+    public void registerBlockLayers(CallbackInfo ci) {
         ImmutableList.Builder<RenderType> blockLayers = ImmutableList.builder();
         FabricVeilRegisterBlockLayersEvent.EVENT.invoker().onRegisterBlockLayers(renderType -> {
             if (Veil.platform().isDevelopmentEnvironment() && renderType.bufferSize() > RenderType.SMALL_BUFFER_SIZE) {

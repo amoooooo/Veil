@@ -1,4 +1,4 @@
-package foundry.veil.impl.client.render.shader;
+package foundry.veil.impl.client.render.shader.program;
 
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.shader.*;

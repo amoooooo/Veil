@@ -89,10 +89,9 @@ public interface TextureUniformAccess {
      * Loads the samplers set by {@link #addSampler(CharSequence, int)} into the shader.
      *
      * @param sampler The sampler to start binding to
-     * @return The next available sampler
      */
-    default int applyShaderSamplers(int sampler) {
-        return this.applyShaderSamplers(ShaderTextureSource.GLOBAL_CONTEXT, sampler);
+    default void applyShaderSamplers(int sampler) {
+        this.applyShaderSamplers(ShaderTextureSource.GLOBAL_CONTEXT, sampler);
     }
 
     /**
@@ -100,9 +99,8 @@ public interface TextureUniformAccess {
      *
      * @param context The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers
      * @param sampler The sampler to start binding to
-     * @return The next available sampler
      */
-    int applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int sampler);
+    void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int sampler);
 
     /**
      * Clears all samplers.
@@ -118,7 +116,7 @@ public interface TextureUniformAccess {
         /**
          * Called to update the listener with the new texture units for the specified textures.
          *
-         * @param boundSamplers The textures bound
+         * @param boundSamplers A view of the textures bound
          */
         void onUpdateSamplers(Object2IntMap<CharSequence> boundSamplers);
     }

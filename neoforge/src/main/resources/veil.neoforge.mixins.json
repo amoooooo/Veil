@@ -13,9 +13,7 @@
   "client": [
     "client.MinecraftMixin",
     "client.RenderTypeMixin",
-    "client.dynamicbuffer.ModelBlockRendererMixin",
-    "client.pipeline.vanilla.LevelRendererMixin",
-    "client.quasar.LevelRendererMixin",
+    "client.perspective.vanilla.LevelRendererMixin",
     "compat.iris.IrisRenderingPipelineAccessor",
     "compat.sodium.BlockRendererMixin",
     "compat.sodium.ChunkMeshFormatsMixin",

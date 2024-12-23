@@ -44,8 +44,6 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
     @Shadow
     protected abstract GlProgram<ChunkShaderInterface> createShader(String path, ChunkShaderOptions options);
 
-    @Shadow
-    protected GlProgram<ChunkShaderInterface> activeProgram;
     @Unique
     private ThreadTaskScheduler scheduler;
     @Unique

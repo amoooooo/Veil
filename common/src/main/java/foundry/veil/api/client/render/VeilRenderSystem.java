@@ -20,7 +20,7 @@ import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.impl.client.render.pipeline.VeilUniformBlockState;
-import foundry.veil.impl.client.render.shader.ShaderProgramImpl;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -193,8 +193,8 @@ public final class VeilRenderSystem {
     });
     private static final IntSupplier MAX_COMPUTE_WORK_GROUP_INVOCATIONS = VeilRenderSystem.glGetter(() -> COMPUTE_SUPPORTED.getAsBoolean() ? glGetInteger(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS) : 0);
 
-    private static final Vector3f LIGHT0_POSITION = new Vector3f();
-    private static final Vector3f LIGHT1_POSITION = new Vector3f();
+    private static final Vector3f LIGHT0_DIRECTION = new Vector3f();
+    private static final Vector3f LIGHT1_DIRECTION = new Vector3f();
     private static final Vector3f CAMERA_BOB_OFFSET = new Vector3f();
 
     private static VeilRenderer renderer;
@@ -702,16 +702,16 @@ public final class VeilRenderSystem {
     /**
      * @return The position of the first light
      */
-    public static Vector3fc getLight0Position() {
-        return LIGHT0_POSITION;
+    public static Vector3fc getLight0Direction() {
+        return LIGHT0_DIRECTION;
     }
 
     /**
      * @return The position of the second light
      */
 
-    public static Vector3fc getLight1Position() {
-        return LIGHT1_POSITION;
+    public static Vector3fc getLight1Direction() {
+        return LIGHT1_DIRECTION;
     }
 
     /**
@@ -777,8 +777,8 @@ public final class VeilRenderSystem {
 
     @ApiStatus.Internal
     public static void setShaderLights(Vector3fc light0, Vector3fc light1) {
-        LIGHT0_POSITION.set(light0);
-        LIGHT1_POSITION.set(light1);
+        LIGHT0_DIRECTION.set(light0);
+        LIGHT1_DIRECTION.set(light1);
     }
 
     @ApiStatus.Internal

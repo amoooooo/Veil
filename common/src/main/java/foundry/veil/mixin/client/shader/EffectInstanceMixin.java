@@ -15,15 +15,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EffectInstanceMixin {
 
     @Inject(method = "getOrCreate", at = @At("HEAD"))
-    private static void veil$setupFallbackProcessor(ResourceProvider pResourceProvider, Program.Type pType, String pName, CallbackInfoReturnable<EffectProgram> cir) {
+    private static void veil$setupFallbackProcessor(ResourceProvider resourceProvider, Program.Type type, String name, CallbackInfoReturnable<EffectProgram> cir) {
         if (Veil.platform().hasErrors()) {
             return;
         }
-        VanillaShaderProcessor.setup(pResourceProvider);
+        VanillaShaderProcessor.setup(resourceProvider);
     }
 
     @Inject(method = "getOrCreate", at = @At("RETURN"))
-    private static void veil$clearFallbackProcessor(ResourceProvider pResourceProvider, Program.Type pType, String pName, CallbackInfoReturnable<EffectProgram> cir) {
+    private static void veil$clearFallbackProcessor(CallbackInfoReturnable<EffectProgram> cir) {
         if (Veil.platform().hasErrors()) {
             return;
         }

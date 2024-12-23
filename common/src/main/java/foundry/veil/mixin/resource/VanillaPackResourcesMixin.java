@@ -34,7 +34,8 @@ public abstract class VanillaPackResourcesMixin implements PackResourcesExtensio
     @Final
     private Set<String> namespaces;
 
-    @Shadow @javax.annotation.Nullable public abstract IoSupplier<InputStream> getRootResource(String... elements);
+    @Shadow
+    public abstract IoSupplier<InputStream> getRootResource(String... elements);
 
     @Override
     public void veil$listResources(PackResourceConsumer consumer) {

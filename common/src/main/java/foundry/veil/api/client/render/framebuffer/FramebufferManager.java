@@ -8,6 +8,8 @@ import foundry.veil.Veil;
 import foundry.veil.api.CodecReloadListener;
 import gg.moonflower.molangcompiler.api.MolangEnvironment;
 import gg.moonflower.molangcompiler.api.MolangRuntime;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.FileToIdConverter;
@@ -59,10 +61,10 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
     public FramebufferManager() {
         super(FramebufferDefinition.CODEC, FRAMEBUFFER_LISTER);
         this.framebufferDefinitions = new HashMap<>();
-        this.framebuffers = new HashMap<>();
+        this.framebuffers = new Object2ObjectArrayMap<>();
         this.framebuffersView = Collections.unmodifiableMap(this.framebuffers);
-        this.screenFramebuffers = new HashSet<>();
-        this.manualFramebuffers = new HashSet<>();
+        this.screenFramebuffers = new ObjectArraySet<>();
+        this.manualFramebuffers = new ObjectArraySet<>();
     }
 
     private void initFramebuffer(ResourceLocation name, FramebufferDefinition definition, MolangEnvironment runtime) {

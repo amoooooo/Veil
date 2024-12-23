@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(LevelRenderer.class)
 public class LevelRendererMixin implements LevelRendererExtension {
@@ -55,7 +54,7 @@ public class LevelRendererMixin implements LevelRendererExtension {
     }
 
     @Inject(method = "renderLevel", at = @At("RETURN"))
-    public void clear(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
+    public void clear(CallbackInfo ci) {
         this.veil$captureCamera = null;
     }
 
@@ -69,22 +68,22 @@ public class LevelRendererMixin implements LevelRendererExtension {
         FabricRenderTypeStageHandler.renderStage((LevelRendererBlockLayerExtension) this, profiler, VeilRenderLevelStageEvent.Stage.AFTER_ENTITIES, (LevelRenderer) (Object) this, this.renderBuffers.bufferSource(), poseStack, frustumMatrix, projectionMatrix, this.ticks, deltaTracker, camera, frustum);
     }
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;long2ObjectEntrySet()Lit/unimi/dsi/fastutil/objects/ObjectSet;", shift = At.Shift.BEFORE))
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=destroyProgress"))
     public void postRenderBlockEntities(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci, @Local ProfilerFiller profiler, @Local Frustum frustum, @Local PoseStack poseStack) {
         FabricRenderTypeStageHandler.renderStage((LevelRendererBlockLayerExtension) this, profiler, VeilRenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES, (LevelRenderer) (Object) this, this.renderBuffers.bufferSource(), poseStack, frustumMatrix, projectionMatrix, this.ticks, deltaTracker, camera, frustum);
     }
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;render(Lnet/minecraft/client/renderer/LightTexture;Lnet/minecraft/client/Camera;F)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/particle/ParticleEngine;render(Lnet/minecraft/client/renderer/LightTexture;Lnet/minecraft/client/Camera;F)V", shift = At.Shift.AFTER))
     public void postRenderParticles(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci, @Local ProfilerFiller profiler, @Local Frustum frustum, @Local PoseStack poseStack) {
         FabricRenderTypeStageHandler.renderStage((LevelRendererBlockLayerExtension) this, profiler, VeilRenderLevelStageEvent.Stage.AFTER_PARTICLES, (LevelRenderer) (Object) this, this.renderBuffers.bufferSource(), poseStack, frustumMatrix, projectionMatrix, this.ticks, deltaTracker, camera, frustum);
     }
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V", shift = At.Shift.AFTER))
     public void postRenderWeather(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci, @Local ProfilerFiller profiler, @Local Frustum frustum, @Local PoseStack poseStack) {
         FabricRenderTypeStageHandler.renderStage((LevelRendererBlockLayerExtension) this, profiler, VeilRenderLevelStageEvent.Stage.AFTER_WEATHER, (LevelRenderer) (Object) this, this.renderBuffers.bufferSource(), poseStack, frustumMatrix, projectionMatrix, this.ticks, deltaTracker, camera, frustum);
     }
 
-    @Inject(method = "renderLevel", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "renderLevel", at = @At("TAIL"))
     public void postRenderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci, @Local ProfilerFiller profiler, @Local Frustum frustum, @Local PoseStack poseStack) {
         FabricRenderTypeStageHandler.renderStage((LevelRendererBlockLayerExtension) this, profiler, VeilRenderLevelStageEvent.Stage.AFTER_LEVEL, (LevelRenderer) (Object) this, this.renderBuffers.bufferSource(), poseStack, frustumMatrix, projectionMatrix, this.ticks, deltaTracker, camera, frustum);
     }

@@ -63,13 +63,6 @@ public abstract class FrustumMixin implements CullFrustum {
     @Unique
     private Vector4f[] veil$frustumPlanes = null;
 
-    @Inject(method = "offsetToFullyIncludeCameraCube", at = @At("HEAD"), cancellable = true)
-    public void offsetToFullyIncludeCameraCube(int $$0, CallbackInfoReturnable<Frustum> cir) {
-        if (VeilLevelPerspectiveRenderer.isRenderingPerspective()) {
-            cir.setReturnValue((Frustum) (Object) this);
-        }
-    }
-
     @Override
     public boolean testPoint(double x, double y, double z) {
         return this.intersection.testPoint((float) (x - this.camX), (float) (y - this.camY), (float) (z - this.camZ));

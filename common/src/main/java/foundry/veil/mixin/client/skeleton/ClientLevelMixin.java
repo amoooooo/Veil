@@ -13,15 +13,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {
+
     @Shadow
     @Final
     private Minecraft minecraft;
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Inject(method = "addEntity", at = @At("TAIL"))
-    private void addEntity(Entity pEntity, CallbackInfo ci) {
-        if (this.minecraft.getEntityRenderDispatcher().getRenderer(pEntity) instanceof NecromancerEntityRenderer renderer) {
-            renderer.setupEntity(pEntity);
+    private void addEntity(Entity entity, CallbackInfo ci) {
+        if (this.minecraft.getEntityRenderDispatcher().getRenderer(entity) instanceof NecromancerEntityRenderer renderer) {
+            renderer.setupEntity(entity);
         }
     }
 }

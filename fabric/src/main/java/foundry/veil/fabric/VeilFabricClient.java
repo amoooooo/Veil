@@ -15,6 +15,7 @@ import foundry.veil.impl.VeilBuiltinPacks;
 import foundry.veil.impl.VeilReloadListeners;
 import foundry.veil.impl.client.render.VeilUITooltipRenderer;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
+import foundry.veil.impl.quasar.QuasarParticleHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -47,7 +48,6 @@ public class VeilFabricClient implements ClientModInitializer {
         VeilClient.init();
         HudRenderCallback.EVENT.register(VeilUITooltipRenderer::renderOverlay);
         ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getTimer().getRealtimeDeltaTicks()));
-        FabricQuasarParticleHandler.init();
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> VeilRenderSystem.renderer().getLightRenderer().free());
 
         KeyBindingHelper.registerKeyBinding(VeilClient.EDITOR_KEY);

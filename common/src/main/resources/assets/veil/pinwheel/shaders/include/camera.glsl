@@ -6,5 +6,6 @@ layout(std140) uniform CameraMatrices {
     mat3 IViewRotMat;
     vec3 CameraPosition;
     float NearPlane;
+    vec3 CameraBobOffset;
     float FarPlane;
 } VeilCamera;

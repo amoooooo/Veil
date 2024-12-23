@@ -8,20 +8,19 @@ import foundry.veil.impl.client.render.AdvancedFboImpl;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL11C;
 import org.lwjgl.system.NativeResource;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL11C.glReadBuffer;
-import static org.lwjgl.opengl.GL30.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL30.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL30.GL_NEAREST;
-import static org.lwjgl.opengl.GL30.GL_RGBA;
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL30C.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL30C.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL30C.GL_NEAREST;
+import static org.lwjgl.opengl.GL30C.GL_RGBA;
+import static org.lwjgl.opengl.GL30C.*;
 
 /**
  * <p>A framebuffer that has more capabilities than the vanilla Minecraft {@link RenderTarget}.</p>
@@ -624,7 +623,7 @@ public interface AdvancedFbo extends NativeResource {
         }
 
         /**
-         * Sets the format to use for texture attachments. {@link GL11#GL_RGBA} is the default.
+         * Sets the format to use for texture attachments. {@link GL11C#GL_RGBA} is the default.
          *
          * @param format         The new format to use
          * @param internalFormat The new internal format to use

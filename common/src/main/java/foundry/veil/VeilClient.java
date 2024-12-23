@@ -13,6 +13,7 @@ import foundry.veil.impl.client.editor.*;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferShard;
+import foundry.veil.impl.quasar.QuasarParticleHandler;
 import foundry.veil.impl.resource.VeilResourceManagerImpl;
 import foundry.veil.mixin.accessor.CompositeStateAccessor;
 import foundry.veil.mixin.accessor.RenderStateShardAccessor;
@@ -33,22 +34,18 @@ public class VeilClient {
 
     private static final VeilClientPlatform PLATFORM = ServiceLoader.load(VeilClientPlatform.class).findFirst().orElseThrow(() -> new RuntimeException("Veil expected client platform implementation"));
     private static final VeilResourceManagerImpl RESOURCE_MANAGER = new VeilResourceManagerImpl();
-    public static final SystemToast.SystemToastId UNSUPPORTED_NOTIFICATION = new SystemToast.SystemToastId();
     public static final KeyMapping EDITOR_KEY = new KeyMapping("key.veil.editor", InputConstants.Type.KEYSYM, InputConstants.KEY_F6, "key.categories.veil");
 
     @ApiStatus.Internal
     public static void init() {
         VeilImGuiImpl.setImGuiPath();
+        QuasarParticleHandler.init();
 
         VeilEventPlatform.INSTANCE.onFreeNativeResources(() -> {
             VeilRenderSystem.close();
             RESOURCE_MANAGER.free();
         });
         VeilEventPlatform.INSTANCE.onVeilRendererAvailable(renderer -> {
-//            if (Veil.SODIUM) {
-//                SystemToast.add(Minecraft.getInstance().getToasts(), UNSUPPORTED_NOTIFICATION, VeilDeferredRenderer.UNSUPPORTED_TITLE, VeilDeferredRenderer.UNSUPPORTED_SODIUM_DESC);
-//            }
-
             RESOURCE_MANAGER.addVeilLoaders(renderer);
             if (VeilRenderer.hasImGui()) {
                 EditorManager editorManager = renderer.getEditorManager();

@@ -13,15 +13,10 @@ import java.util.function.Consumer;
 @ApiStatus.Internal
 public final class VeilVanillaShaders {
 
-    private static ShaderInstance clouds;
     private static ShaderInstance worldborder;
 
     public static void registerShaders(Context context) throws IOException {
         context.register(ResourceLocation.withDefaultNamespace("worldborder"), DefaultVertexFormat.POSITION_TEX, value -> worldborder = value);
-    }
-
-    public static @Nullable ShaderInstance getClouds() {
-        return clouds;
     }
 
     public static @Nullable ShaderInstance getWorldborder() {
@@ -29,10 +24,6 @@ public final class VeilVanillaShaders {
     }
 
     public static void free() {
-        if (clouds != null) {
-            clouds.close();
-            clouds = null;
-        }
         if (worldborder != null) {
             worldborder.close();
             worldborder = null;

@@ -155,7 +155,7 @@ public abstract class CompositeStateBuilderMixin implements VeilRenderTypeBuilde
     }
 
     @Inject(method = "createCompositeState(Lnet/minecraft/client/renderer/RenderType$OutlineProperty;)Lnet/minecraft/client/renderer/RenderType$CompositeState;", at = @At("RETURN"))
-    public void addLayers(RenderType.OutlineProperty $$0, CallbackInfoReturnable<RenderType.CompositeState> cir) {
+    public void addLayers(CallbackInfoReturnable<RenderType.CompositeState> cir) {
         if (this.veil$layers != null) {
             ((CompositeStateExtension) (Object) cir.getReturnValue()).veil$addShards(this.veil$layers);
         }

@@ -1,16 +1,20 @@
 package foundry.veil.api.client.render;
 
 import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.ext.RenderTargetExtension;
-import foundry.veil.impl.client.render.LevelPerspectiveCamera;
+import foundry.veil.impl.client.render.perspective.LevelPerspectiveCamera;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
+import foundry.veil.mixin.accessor.LevelRendererAccessor;
+import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -68,22 +72,26 @@ public final class VeilLevelPerspectiveRenderer {
             return;
         }
 
-        Minecraft minecraft = Minecraft.getInstance();
-        GameRenderer gameRenderer = minecraft.gameRenderer;
-        LevelRenderer levelRenderer = minecraft.levelRenderer;
-        Window window = minecraft.getWindow();
-        GameRendererAccessor accessor = (GameRendererAccessor) gameRenderer;
-        RenderTargetExtension renderTargetExtension = (RenderTargetExtension) minecraft.getMainRenderTarget();
+        final Minecraft minecraft = Minecraft.getInstance();
+        final GameRenderer gameRenderer = minecraft.gameRenderer;
+        final LevelRenderer levelRenderer = minecraft.levelRenderer;
+        final LevelRendererAccessor levelRendererAccessor = (LevelRendererAccessor) levelRenderer;
+        final Window window = minecraft.getWindow();
+        final GameRendererAccessor accessor = (GameRendererAccessor) gameRenderer;
+        final RenderTargetExtension renderTargetExtension = (RenderTargetExtension) minecraft.getMainRenderTarget();
+        final PoseStack poseStack = new PoseStack();
 
-        CAMERA.setup(cameraPosition, cameraEntity, minecraft.level, cameraOrientation);
-
-        PoseStack poseStack = new PoseStack();
+        CAMERA.setup(cameraPosition, cameraEntity, minecraft.level, cameraOrientation, renderDistance);
 
         poseStack.mulPose(TRANSFORM.set(modelView));
         poseStack.mulPose(CAMERA.rotation());
 
         float backupRenderDistance = gameRenderer.getRenderDistance();
-        accessor.setRenderDistance(renderDistance);
+        accessor.setRenderDistance(renderDistance * 16.0F);
+
+        float backupFogStart = RenderSystem.getShaderFogStart();
+        float backupFogEnd = RenderSystem.getShaderFogEnd();
+        FogShape backupFogShape = RenderSystem.getShaderFogShape();
 
         int backupWidth = window.getWidth();
         int backupHeight = window.getHeight();
@@ -92,8 +100,13 @@ public final class VeilLevelPerspectiveRenderer {
 
         BACKUP_PROJECTION.set(RenderSystem.getProjectionMatrix());
         gameRenderer.resetProjectionMatrix(TRANSFORM.set(projection));
-        BACKUP_LIGHT0_POSITION.set(VeilRenderSystem.getLight0Position());
-        BACKUP_LIGHT1_POSITION.set(VeilRenderSystem.getLight1Position());
+        BACKUP_LIGHT0_POSITION.set(VeilRenderSystem.getLight0Direction());
+        BACKUP_LIGHT1_POSITION.set(VeilRenderSystem.getLight1Direction());
+
+        Matrix4fStack matrix4fstack = RenderSystem.getModelViewStack();
+        matrix4fstack.pushMatrix();
+        matrix4fstack.identity();
+        RenderSystem.applyModelViewMatrix();
 
         HitResult backupHitResult = minecraft.hitResult;
         Entity backupCrosshairPickEntity = minecraft.crosshairPickEntity;
@@ -101,9 +114,15 @@ public final class VeilLevelPerspectiveRenderer {
         renderingPerspective = true;
         framebuffer.bindDraw(true);
         renderTargetExtension.veil$setWrapper(framebuffer);
-        levelRenderer.prepareCullFrustum(new Vec3(cameraPosition.x(), cameraPosition.y(), cameraPosition.z()), TRANSFORM, poseStack.last().pose());
+
+        Frustum backupFrustum = levelRendererAccessor.getCullingFrustum();
+
+        levelRenderer.prepareCullFrustum(new Vec3(cameraPosition.x(), cameraPosition.y(), cameraPosition.z()), poseStack.last().pose(), TRANSFORM);
         levelRenderer.renderLevel(deltaTracker, false, CAMERA, gameRenderer, gameRenderer.lightTexture(), poseStack.last().pose(), TRANSFORM);
         levelRenderer.doEntityOutline();
+
+        levelRendererAccessor.setCullingFrustum(backupFrustum);
+
         renderTargetExtension.veil$setWrapper(null);
         AdvancedFbo.unbind();
         renderingPerspective = false;
@@ -111,13 +130,25 @@ public final class VeilLevelPerspectiveRenderer {
         minecraft.crosshairPickEntity = backupCrosshairPickEntity;
         minecraft.hitResult = backupHitResult;
 
+        matrix4fstack.popMatrix();
+        RenderSystem.applyModelViewMatrix();
+
         RenderSystem.setShaderLights(BACKUP_LIGHT0_POSITION, BACKUP_LIGHT1_POSITION);
         gameRenderer.resetProjectionMatrix(BACKUP_PROJECTION);
+
+        RenderSystem.setShaderFogStart(backupFogStart);
+        RenderSystem.setShaderFogEnd(backupFogEnd);
+        RenderSystem.setShaderFogShape(backupFogShape);
 
         window.setWidth(backupWidth);
         window.setHeight(backupHeight);
 
         accessor.setRenderDistance(backupRenderDistance);
+
+        // Reset the renderers to what they used to be
+        Camera mainCamera = gameRenderer.getMainCamera();
+        minecraft.getBlockEntityRenderDispatcher().prepare(minecraft.level, mainCamera, minecraft.hitResult);
+        minecraft.getEntityRenderDispatcher().prepare(minecraft.level, mainCamera, minecraft.crosshairPickEntity);
     }
 
     /**

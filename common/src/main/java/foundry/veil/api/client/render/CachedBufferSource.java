@@ -18,7 +18,7 @@ import java.util.Map;
 public class CachedBufferSource implements MultiBufferSource, NativeResource {
 
     protected final Object2ObjectMap<RenderType, ByteBufferBuilder> buffers = new Object2ObjectArrayMap<>();
-    protected final Map<RenderType, BufferBuilder> startedBuilders = new HashMap<>();
+    protected final Object2ObjectMap<RenderType, BufferBuilder> startedBuilders = new Object2ObjectArrayMap<>();
     @Nullable
     protected RenderType lastSharedType;
 

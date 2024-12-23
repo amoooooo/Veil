@@ -14,10 +14,11 @@ import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
 import foundry.veil.impl.compat.SodiumCompat;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.client.Camera;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -90,13 +91,13 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     }
 
     @Inject(method = "renderLevel", at = @At("TAIL"))
-    public void blit(DeltaTracker pDeltaTracker, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pFrustumMatrix, Matrix4f pProjectionMatrix, CallbackInfo ci, @Local ProfilerFiller profiler) {
+    public void blit(CallbackInfo ci, @Local ProfilerFiller profiler) {
         VeilRenderSystem.blit(profiler);
     }
 
     // This sets the blend function for rain correctly
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V", shift = At.Shift.BEFORE))
-    public void setRainBlend(DeltaTracker pDeltaTracker, boolean pRenderBlockOutline, Camera pCamera, GameRenderer pGameRenderer, LightTexture pLightTexture, Matrix4f pFrustumMatrix, Matrix4f pProjectionMatrix, CallbackInfo ci) {
+    public void setRainBlend(CallbackInfo ci) {
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
     }
 

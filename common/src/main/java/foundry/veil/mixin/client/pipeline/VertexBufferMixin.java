@@ -1,19 +1,12 @@
 package foundry.veil.mixin.client.pipeline;
 
-import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.ext.VertexBufferExtension;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.core.Direction;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -75,24 +68,6 @@ public abstract class VertexBufferMixin implements VertexBufferExtension {
     @Override
     public int veil$getIndexCount() {
         return this.indexCount;
-    }
-
-    @Inject(method = "_drawWithShader", at = @At("HEAD"))
-    public void _drawWithShader(Matrix4f modelView, Matrix4f projection, ShaderInstance shader, CallbackInfo ci) {
-        Uniform iModelViewMat = shader.getUniform("NormalMat");
-        if (iModelViewMat != null) {
-            iModelViewMat.set(modelView.normal(new Matrix3f()));
-        }
-
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level != null) {
-            for (Direction value : Direction.values()) {
-                Uniform uniform = shader.getUniform("VeilBlockFaceBrightness[" + value.get3DDataValue() + "]");
-                if (uniform != null) {
-                    uniform.set(level.getShade(value, true));
-                }
-            }
-        }
     }
 
     @Inject(method = "draw", at = @At("HEAD"), cancellable = true)

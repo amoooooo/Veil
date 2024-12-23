@@ -26,13 +26,27 @@ public final class RenderTypeStageRegistry {
     }
 
     /**
-     * Registers a render stage. The specified shards will be added to the specified render type during construction.
+     * Registers a render stage. The specified shards will only be added to the specific render type.
      *
      * @param renderType The render type to add the stage to
      * @param shards     The shards to add to all matching render types
      */
     public static synchronized void addStage(RenderType renderType, RenderStateShard... shards) {
-        addStage(((RenderStateShardAccessor) renderType).getName(), shards);
+        if (shards.length == 0) {
+            return;
+        }
+        if (!(renderType instanceof RenderType.CompositeRenderType compositeRenderType)) {
+            throw new IllegalArgumentException("RenderType must be CompositeRenderType");
+        }
+
+        List<RenderStateShard> addShards = new ArrayList<>(Arrays.asList(shards));
+        for (GenericStage stage : GENERIC_STAGES) {
+            if (stage.filter.test(compositeRenderType)) {
+                addShards.addAll(Arrays.asList(stage.shards));
+            }
+        }
+
+        ((CompositeStateExtension) (Object) compositeRenderType.state()).veil$addShards(addShards);
     }
 
     /**

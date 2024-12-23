@@ -1,20 +1,19 @@
-package foundry.veil.fabric;
+package foundry.veil.impl.quasar;
 
 import foundry.veil.api.client.render.CachedBufferSource;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
-import foundry.veil.fabric.event.FabricFreeNativeResourcesEvent;
-import foundry.veil.fabric.event.FabricVeilRenderLevelStageEvent;
+import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-public class FabricQuasarParticleHandler {
+public class QuasarParticleHandler {
 
     private static CachedBufferSource cachedBufferSource;
 
-    private static void free() {
+    public static void free() {
         if (cachedBufferSource != null) {
             cachedBufferSource.free();
             cachedBufferSource = null;
@@ -27,8 +26,8 @@ public class FabricQuasarParticleHandler {
     }
 
     public static void init() {
-        FabricFreeNativeResourcesEvent.EVENT.register(FabricQuasarParticleHandler::free);
-        FabricVeilRenderLevelStageEvent.EVENT.register((stage, levelRenderer, bufferSource, poseStack, modelMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum) -> {
+        VeilEventPlatform.INSTANCE.onFreeNativeResources(QuasarParticleHandler::free);
+        VeilEventPlatform.INSTANCE.onVeilRenderLevelStage((stage, levelRenderer, bufferSource, poseStack, modelMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum) -> {
             if (stage == VeilRenderLevelStageEvent.Stage.AFTER_PARTICLES) {
                 if (cachedBufferSource == null) {
                     cachedBufferSource = new CachedBufferSource();
