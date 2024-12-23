@@ -79,10 +79,12 @@ foundry.veil.impl.client.imgui.style
 foundry.veil.impl.client.render
 foundry.veil.impl.client.render.dynamicbuffer
 foundry.veil.impl.client.render.light
+foundry.veil.impl.client.render.perspective
 foundry.veil.impl.client.render.pipeline
 foundry.veil.impl.client.render.shader
 foundry.veil.impl.client.render.shader.definition
 foundry.veil.impl.client.render.shader.modifier
+foundry.veil.impl.client.render.shader.program
 foundry.veil.impl.client.render.shader.transformer
 foundry.veil.impl.client.render.wrapper
 foundry.veil.impl.compat
@@ -98,6 +100,7 @@ foundry.veil.lib.anarres.cpp
 foundry.veil.mixin.accessor
 foundry.veil.mixin.client.dynamicbuffer
 foundry.veil.mixin.client.imgui
+foundry.veil.mixin.client.perspective
 foundry.veil.mixin.client.pipeline
 foundry.veil.mixin.client.quasar
 foundry.veil.mixin.client.shader

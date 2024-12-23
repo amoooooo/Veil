@@ -133,10 +133,12 @@ loadScripts(document, 'script');</script>
 <li><a href="foundry/veil/impl/client/render/package-tree.html">foundry.veil.impl.client.render</a>, </li>
 <li><a href="foundry/veil/impl/client/render/dynamicbuffer/package-tree.html">foundry.veil.impl.client.render.dynamicbuffer</a>, </li>
 <li><a href="foundry/veil/impl/client/render/light/package-tree.html">foundry.veil.impl.client.render.light</a>, </li>
+<li><a href="foundry/veil/impl/client/render/perspective/package-tree.html">foundry.veil.impl.client.render.perspective</a>, </li>
 <li><a href="foundry/veil/impl/client/render/pipeline/package-tree.html">foundry.veil.impl.client.render.pipeline</a>, </li>
 <li><a href="foundry/veil/impl/client/render/shader/package-tree.html">foundry.veil.impl.client.render.shader</a>, </li>
 <li><a href="foundry/veil/impl/client/render/shader/definition/package-tree.html">foundry.veil.impl.client.render.shader.definition</a>, </li>
 <li><a href="foundry/veil/impl/client/render/shader/modifier/package-tree.html">foundry.veil.impl.client.render.shader.modifier</a>, </li>
+<li><a href="foundry/veil/impl/client/render/shader/program/package-tree.html">foundry.veil.impl.client.render.shader.program</a>, </li>
 <li><a href="foundry/veil/impl/client/render/shader/transformer/package-tree.html">foundry.veil.impl.client.render.shader.transformer</a>, </li>
 <li><a href="foundry/veil/impl/client/render/wrapper/package-tree.html">foundry.veil.impl.client.render.wrapper</a>, </li>
 <li><a href="foundry/veil/impl/compat/package-tree.html">foundry.veil.impl.compat</a>, </li>
@@ -152,6 +154,7 @@ loadScripts(document, 'script');</script>
 <li><a href="foundry/veil/mixin/accessor/package-tree.html">foundry.veil.mixin.accessor</a>, </li>
 <li><a href="foundry/veil/mixin/client/dynamicbuffer/package-tree.html">foundry.veil.mixin.client.dynamicbuffer</a>, </li>
 <li><a href="foundry/veil/mixin/client/imgui/package-tree.html">foundry.veil.mixin.client.imgui</a>, </li>
+<li><a href="foundry/veil/mixin/client/perspective/package-tree.html">foundry.veil.mixin.client.perspective</a>, </li>
 <li><a href="foundry/veil/mixin/client/pipeline/package-tree.html">foundry.veil.mixin.client.pipeline</a>, </li>
 <li><a href="foundry/veil/mixin/client/quasar/package-tree.html">foundry.veil.mixin.client.quasar</a>, </li>
 <li><a href="foundry/veil/mixin/client/shader/package-tree.html">foundry.veil.mixin.client.shader</a>, </li>
@@ -186,7 +189,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">com.mojang.blaze3d.shaders.Uniform (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>)
 <ul>
-<li class="circle">foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.UniformWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl.UniformWrapper</a></li>
+<li class="circle">foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.UniformWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.UniformWrapper</a></li>
 <li class="circle">foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.wrapper">VanillaUniformWrapper</a></li>
 </ul>
 </li>
@@ -218,7 +221,8 @@ loadScripts(document, 'script');</script>
 <li class="circle">foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/CachedBufferSource.html" class="type-name-link" title="class in foundry.veil.api.client.render">CachedBufferSource</a> (implements net.minecraft.client.renderer.MultiBufferSource, org.lwjgl.system.NativeResource)</li>
 <li class="circle">net.minecraft.client.Camera
 <ul>
-<li class="circle">foundry.veil.impl.client.render.<a href="foundry/veil/impl/client/render/LevelPerspectiveCamera.html" class="type-name-link" title="class in foundry.veil.impl.client.render">LevelPerspectiveCamera</a></li>
+<li class="circle">foundry.veil.impl.client.render.perspective.<a href="foundry/veil/impl/client/render/perspective/CullCamera.html" class="type-name-link" title="class in foundry.veil.impl.client.render.perspective">CullCamera</a></li>
+<li class="circle">foundry.veil.impl.client.render.perspective.<a href="foundry/veil/impl/client/render/perspective/LevelPerspectiveCamera.html" class="type-name-link" title="class in foundry.veil.impl.client.render.perspective">LevelPerspectiveCamera</a></li>
 </ul>
 </li>
 <li class="circle">foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/CameraMatrices.html" class="type-name-link" title="class in foundry.veil.api.client.render">CameraMatrices</a> (implements org.lwjgl.system.NativeResource)</li>
@@ -293,6 +297,7 @@ loadScripts(document, 'script');</script>
 </ul>
 </li>
 <li class="circle">foundry.veil.impl.resource.loader.<a href="foundry/veil/impl/resource/loader/FramebufferResourceLoader.html" class="type-name-link" title="class in foundry.veil.impl.resource.loader">FramebufferResourceLoader</a> (implements foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceLoader.html" title="interface in foundry.veil.api.resource">VeilResourceLoader</a>)</li>
+<li class="circle">foundry.veil.mixin.client.perspective.<a href="foundry/veil/mixin/client/perspective/FrustumMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.perspective">FrustumMixin</a> (implements foundry.veil.ext.<a href="foundry/veil/ext/FrustumExtension.html" title="interface in foundry.veil.ext">FrustumExtension</a>)</li>
 <li class="circle">foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/FrustumMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.pipeline">FrustumMixin</a> (implements foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a>)</li>
 <li class="circle">foundry.veil.mixin.client.dynamicbuffer.<a href="foundry/veil/mixin/client/dynamicbuffer/GameRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.dynamicbuffer">GameRendererMixin</a></li>
 <li class="circle">foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/GameRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.pipeline">GameRendererMixin</a></li>
@@ -418,12 +423,13 @@ loadScripts(document, 'script');</script>
 <li class="circle">foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Preprocessor.html" class="type-name-link" title="class in foundry.veil.lib.anarres.cpp">Preprocessor</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Closeable.html" title="class or interface in java.io" class="external-link">Closeable</a>)</li>
 <li class="circle">com.mojang.blaze3d.shaders.Program
 <ul>
-<li class="circle">foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.ShaderWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl.ShaderWrapper</a></li>
+<li class="circle">foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.ShaderWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.ShaderWrapper</a></li>
 </ul>
 </li>
 <li class="circle">foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ProgramDefinition.Deserializer.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.Deserializer</a> (implements com.google.gson.JsonDeserializer&lt;T&gt;)</li>
 <li class="circle">foundry.veil.mixin.client.shader.<a href="foundry/veil/mixin/client/shader/ProgramManagerMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.shader">ProgramManagerMixin</a></li>
 <li class="circle">foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/QuasarParticle.html" class="type-name-link" title="class in foundry.veil.api.quasar.particle">QuasarParticle</a></li>
+<li class="circle">foundry.veil.impl.quasar.<a href="foundry/veil/impl/quasar/QuasarParticleHandler.html" class="type-name-link" title="class in foundry.veil.impl.quasar">QuasarParticleHandler</a></li>
 <li class="circle">foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/QuasarParticles.html" class="type-name-link" title="class in foundry.veil.api.quasar.data">QuasarParticles</a></li>
 <li class="circle">foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/RenderData.html" class="type-name-link" title="class in foundry.veil.api.quasar.particle">RenderData</a></li>
 <li class="circle">foundry.veil.mixin.debug.<a href="foundry/veil/mixin/debug/RenderDocker.html" class="type-name-link" title="class in foundry.veil.mixin.debug">RenderDocker</a></li>
@@ -489,10 +495,11 @@ loadScripts(document, 'script');</script>
 <li class="circle">foundry.veil.impl.resource.loader.<a href="foundry/veil/impl/resource/loader/ShaderIncludeLoader.html" class="type-name-link" title="class in foundry.veil.impl.resource.loader">ShaderIncludeLoader</a> (implements foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceLoader.html" title="interface in foundry.veil.api.resource">VeilResourceLoader</a>)</li>
 <li class="circle">net.minecraft.client.renderer.ShaderInstance (implements java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a>, com.mojang.blaze3d.shaders.Shader)
 <ul>
-<li class="circle">foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.Wrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl.Wrapper</a></li>
+<li class="circle">foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.Wrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.Wrapper</a></li>
 </ul>
 </li>
 <li class="circle">foundry.veil.mixin.client.dynamicbuffer.<a href="foundry/veil/mixin/client/dynamicbuffer/ShaderInstanceMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.dynamicbuffer">ShaderInstanceMixin</a> (implements com.mojang.blaze3d.shaders.Shader, foundry.veil.ext.<a href="foundry/veil/ext/ShaderInstanceExtension.html" title="interface in foundry.veil.ext">ShaderInstanceExtension</a>)</li>
+<li class="circle">foundry.veil.mixin.client.pipeline.<a href="foundry/veil/mixin/client/pipeline/ShaderInstanceMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.pipeline">ShaderInstanceMixin</a></li>
 <li class="circle">foundry.veil.mixin.client.shader.<a href="foundry/veil/mixin/client/shader/ShaderInstanceMixin.html" class="type-name-link" title="class in foundry.veil.mixin.client.shader">ShaderInstanceMixin</a></li>
 <li class="circle">foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader">ShaderManager</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Closeable.html" title="class or interface in java.io" class="external-link">Closeable</a>, net.minecraft.server.packs.resources.PreparableReloadListener)</li>
 <li class="circle">foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ShaderModificationParser.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.modifier">ShaderModificationParser</a></li>
@@ -500,13 +507,15 @@ loadScripts(document, 'script');</script>
 <li class="circle">foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderModifyProcessor.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.processor">ShaderModifyProcessor</a> (implements foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>)</li>
 <li class="circle">foundry.veil.api.client.render.shader.definition.<a href="foundry/veil/api/client/render/shader/definition/ShaderPreDefinitions.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.definition">ShaderPreDefinitions</a></li>
 <li class="circle">foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderProcessorList.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.processor">ShaderProcessorList</a> (implements foundry.veil.api.event.<a href="foundry/veil/api/event/VeilAddShaderPreProcessorsEvent.Registry.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent.Registry</a>)</li>
-<li class="circle">foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/ShaderProgramImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a> (implements foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>)
+<li class="circle">foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a> (implements foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>)
 <ul>
-<li class="circle">foundry.veil.impl.client.render.shader.<a href="foundry/veil/impl/client/render/shader/DynamicShaderProgramImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></li>
+<li class="circle">foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/DynamicShaderProgramImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">DynamicShaderProgramImpl</a></li>
 </ul>
 </li>
 <li class="circle">foundry.veil.impl.resource.loader.<a href="foundry/veil/impl/resource/loader/ShaderResourceLoader.html" class="type-name-link" title="class in foundry.veil.impl.resource.loader">ShaderResourceLoader</a> (implements foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceLoader.html" title="interface in foundry.veil.api.resource">VeilResourceLoader</a>)</li>
 <li class="circle">foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderSourceSet.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader">ShaderSourceSet</a></li>
+<li class="circle">foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderTextureCache.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderTextureCache</a></li>
+<li class="circle">foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderUniformCache.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache</a></li>
 <li class="circle">foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderVersionProcessor.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.processor">ShaderVersionProcessor</a> (implements foundry.veil.api.client.render.shader.processor.<a href="foundry/veil/api/client/render/shader/processor/ShaderPreProcessor.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderPreProcessor</a>)</li>
 <li class="circle">foundry.veil.api.quasar.emitters.module.force.<a href="foundry/veil/api/quasar/emitters/module/force/SimplePositionedForce.html" class="type-name-link" title="class in foundry.veil.api.quasar.emitters.module.force">SimplePositionedForce</a> (implements foundry.veil.api.quasar.emitters.module.<a href="foundry/veil/api/quasar/emitters/module/ForceParticleModule.html" title="interface in foundry.veil.api.quasar.emitters.module">ForceParticleModule</a>, foundry.veil.api.quasar.emitters.module.force.<a href="foundry/veil/api/quasar/emitters/module/force/PositionedForce.html" title="interface in foundry.veil.api.quasar.emitters.module.force">PositionedForce</a>)
 <ul>
@@ -627,6 +636,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">foundry.veil.impl.resource.tree.<a href="foundry/veil/impl/resource/tree/VeilResourceFolder.html" class="type-name-link" title="class in foundry.veil.impl.resource.tree">VeilResourceFolder</a></li>
 <li class="circle">foundry.veil.impl.resource.<a href="foundry/veil/impl/resource/VeilResourceManagerImpl.html" class="type-name-link" title="class in foundry.veil.impl.resource">VeilResourceManagerImpl</a> (implements org.lwjgl.system.NativeResource, foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceManager.html" title="interface in foundry.veil.api.resource">VeilResourceManager</a>)</li>
 <li class="circle">foundry.veil.impl.resource.<a href="foundry/veil/impl/resource/VeilResourceRenderer.html" class="type-name-link" title="class in foundry.veil.impl.resource">VeilResourceRenderer</a></li>
+<li class="circle">foundry.veil.impl.client.render.perspective.<a href="foundry/veil/impl/client/render/perspective/VeilSectionOcclusionGraph.html" class="type-name-link" title="class in foundry.veil.impl.client.render.perspective">VeilSectionOcclusionGraph</a></li>
 <li class="circle">foundry.veil.impl.resource.renderer.<a href="foundry/veil/impl/resource/renderer/VeilShaderDefinitionResourceRenderer.html" class="type-name-link" title="class in foundry.veil.impl.resource.renderer">VeilShaderDefinitionResourceRenderer</a></li>
 <li class="circle">foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/VeilShaders.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader">VeilShaders</a></li>
 <li class="circle">foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderUploader.SPIRV.html" class="type-name-link" title="class in foundry.veil.impl.client.render.pipeline">VeilShaderUploader.SPIRV</a> (implements org.lwjgl.system.NativeResource)</li>
@@ -701,6 +711,8 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/Filter.IFilterType.html" class="type-name-link" title="interface in foundry.veil.api.client.color">Filter.IFilterType</a></li>
 <li class="circle">foundry.veil.api.event.<a href="foundry/veil/api/event/FreeNativeResourcesEvent.html" class="type-name-link" title="interface in foundry.veil.api.event">FreeNativeResourcesEvent</a></li>
+<li class="circle">foundry.veil.mixin.accessor.<a href="foundry/veil/mixin/accessor/FrustumAccessor.html" class="type-name-link" title="interface in foundry.veil.mixin.accessor">FrustumAccessor</a></li>
+<li class="circle">foundry.veil.ext.<a href="foundry/veil/ext/FrustumExtension.html" class="type-name-link" title="interface in foundry.veil.ext">FrustumExtension</a></li>
 <li class="circle">foundry.veil.mixin.accessor.<a href="foundry/veil/mixin/accessor/GameRendererAccessor.html" class="type-name-link" title="interface in foundry.veil.mixin.accessor">GameRendererAccessor</a></li>
 <li class="circle">foundry.veil.api.glsl.visitor.<a href="foundry/veil/api/glsl/visitor/GlslFunctionVisitor.html" class="type-name-link" title="interface in foundry.veil.api.glsl.visitor">GlslFunctionVisitor</a></li>
 <li class="circle">foundry.veil.api.glsl.node.<a href="foundry/veil/api/glsl/node/GlslNode.html" class="type-name-link" title="interface in foundry.veil.api.glsl.node">GlslNode</a>

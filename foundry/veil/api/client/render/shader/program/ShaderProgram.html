@@ -39,7 +39,7 @@ loadScripts(document, 'script');</script>
 <p>Summary:</p>
 <ul>
 <li><a href="#nested-class-summary">Nested</a></li>
-<li>Field</li>
+<li><a href="#field-summary">Field</a></li>
 <li>Constr</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -59,7 +59,7 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../../../../../impl/client/render/shader/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">DynamicShaderProgramImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader">ShaderProgramImpl</a></code></dd>
+<dd><code><a href="../../../../../impl/client/render/shader/program/DynamicShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">DynamicShaderProgramImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ShaderProgram</span><span class="extends-implements">
@@ -108,6 +108,15 @@ extends org.lwjgl.system.NativeResource, <a href="MutableUniformAccess.html" tit
 <div class="inherited-list">
 <h2 id="nested-classes-inherited-from-class-foundry.veil.api.client.render.shader.program.TextureUniformAccess">Nested classes/interfaces inherited from interface&nbsp;foundry.veil.api.client.render.shader.program.<a href="TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></h2>
 <code><a href="TextureUniformAccess.SamplerListener.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess.SamplerListener</a></code></div>
+</section>
+</li>
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="inherited-list">
+<h3 id="fields-inherited-from-class-foundry.veil.api.client.render.shader.program.MutableUniformAccess">Fields inherited from interface&nbsp;foundry.veil.api.client.render.shader.program.<a href="MutableUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">MutableUniformAccess</a></h3>
+<code><a href="MutableUniformAccess.html#DIRECTIONS">DIRECTIONS</a></code></div>
 </section>
 </li>
 <!-- ========== METHOD SUMMARY =========== -->
@@ -416,7 +425,7 @@ extends org.lwjgl.system.NativeResource, <a href="MutableUniformAccess.html" tit
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.client.render.shader.program.MutableUniformAccess">Methods inherited from interface&nbsp;foundry.veil.api.client.render.shader.program.<a href="MutableUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">MutableUniformAccess</a></h3>
-<code><a href="MutableUniformAccess.html#applyRenderSystem()">applyRenderSystem</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix2fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix3fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix3x2fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix4fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix4x3fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,float%5B%5D)">setVector</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,org.joml.Vector2fc)">setVector</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,org.joml.Vector3fc)">setVector</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,org.joml.Vector4fc)">setVector</a>, <a href="MutableUniformAccess.html#setVectorI(java.lang.CharSequence,org.joml.Vector2ic)">setVectorI</a>, <a href="MutableUniformAccess.html#setVectorI(java.lang.CharSequence,org.joml.Vector3ic)">setVectorI</a>, <a href="MutableUniformAccess.html#setVectorI(java.lang.CharSequence,org.joml.Vector4ic)">setVectorI</a></code></div>
+<code><a href="MutableUniformAccess.html#applyRenderSystem()">applyRenderSystem</a>, <a href="MutableUniformAccess.html#applyVeilCustom()">applyVeilCustom</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix2fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix3fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix3x2fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix4fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setMatrix(java.lang.CharSequence,org.joml.Matrix4x3fc)">setMatrix</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,float%5B%5D)">setVector</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,org.joml.Vector2fc)">setVector</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,org.joml.Vector3fc)">setVector</a>, <a href="MutableUniformAccess.html#setVector(java.lang.CharSequence,org.joml.Vector4fc)">setVector</a>, <a href="MutableUniformAccess.html#setVectorI(java.lang.CharSequence,org.joml.Vector2ic)">setVectorI</a>, <a href="MutableUniformAccess.html#setVectorI(java.lang.CharSequence,org.joml.Vector3ic)">setVectorI</a>, <a href="MutableUniformAccess.html#setVectorI(java.lang.CharSequence,org.joml.Vector4ic)">setVectorI</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.lwjgl.system.NativeResource">Methods inherited from interface&nbsp;org.lwjgl.system.NativeResource</h3>
 <code>close, free</code></div>

@@ -125,31 +125,25 @@ implements <a href="../../../ext/VertexBufferExtension.html" title="interface in
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#_drawWithShader(org.joml.Matrix4f,org.joml.Matrix4f,net.minecraft.client.renderer.ShaderInstance,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">_drawWithShader</a><wbr>(org.joml.Matrix4f&nbsp;modelView,
- org.joml.Matrix4f&nbsp;projection,
- net.minecraft.client.renderer.ShaderInstance&nbsp;shader,
- org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawPatches(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">drawPatches</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract com.mojang.blaze3d.vertex.VertexFormat.IndexType</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getIndexType()" class="member-name-link">getIndexType</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modifyDrawMode(int)" class="member-name-link">modifyDrawMode</a><wbr>(int&nbsp;glMode)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawPatches(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">drawPatches</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract com.mojang.blaze3d.vertex.VertexFormat.IndexType</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getIndexType()" class="member-name-link">getIndexType</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#modifyDrawMode(int)" class="member-name-link">modifyDrawMode</a><wbr>(int&nbsp;glMode)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$drawIndirect(long,int,int)" class="member-name-link">veil$drawIndirect</a><wbr>(long&nbsp;indirect,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$drawIndirect(long,int,int)" class="member-name-link">veil$drawIndirect</a><wbr>(long&nbsp;indirect,
  int&nbsp;drawCount,
  int&nbsp;stride)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$drawInstanced(int)" class="member-name-link">veil$drawInstanced</a><wbr>(int&nbsp;instances)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getIndexCount()" class="member-name-link">veil$getIndexCount</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$drawInstanced(int)" class="member-name-link">veil$drawInstanced</a><wbr>(int&nbsp;instances)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getIndexCount()" class="member-name-link">veil$getIndexCount</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -217,15 +211,6 @@ implements <a href="../../../ext/VertexBufferExtension.html" title="interface in
 <dt>Specified by:</dt>
 <dd><code><a href="../../../ext/VertexBufferExtension.html#veil$getIndexCount()">veil$getIndexCount</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/VertexBufferExtension.html" title="interface in foundry.veil.ext">VertexBufferExtension</a></code></dd>
 </dl>
-</section>
-</li>
-<li>
-<section class="detail" id="_drawWithShader(org.joml.Matrix4f,org.joml.Matrix4f,net.minecraft.client.renderer.ShaderInstance,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
-<h3>_drawWithShader</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">_drawWithShader</span><wbr><span class="parameters">(org.joml.Matrix4f&nbsp;modelView,
- org.joml.Matrix4f&nbsp;projection,
- net.minecraft.client.renderer.ShaderInstance&nbsp;shader,
- org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
 </section>
 </li>
 <li>

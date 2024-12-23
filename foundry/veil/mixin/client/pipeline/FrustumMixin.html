@@ -147,70 +147,66 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isVisible(net.minecraft.world.phys.AABB)" class="member-name-link">isVisible</a><wbr>(net.minecraft.world.phys.AABB&nbsp;aABB)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#offsetToFullyIncludeCameraCube(int,org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">offsetToFullyIncludeCameraCube</a><wbr>(int&nbsp;$$0,
- org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;net.minecraft.client.renderer.culling.Frustum&gt;&nbsp;cir)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testAab(double,double,double,double,double,double)" class="member-name-link">testAab</a><wbr>(double&nbsp;minX,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testAab(double,double,double,double,double,double)" class="member-name-link">testAab</a><wbr>(double&nbsp;minX,
  double&nbsp;minY,
  double&nbsp;minZ,
  double&nbsp;maxX,
  double&nbsp;maxY,
  double&nbsp;maxZ)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Test whether the given axis-aligned box is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testAab(net.minecraft.world.phys.AABB)" class="member-name-link">testAab</a><wbr>(net.minecraft.world.phys.AABB&nbsp;aabb)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given axis-aligned box is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testLineSegment(double,double,double,double,double,double)" class="member-name-link">testLineSegment</a><wbr>(double&nbsp;aX,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testAab(net.minecraft.world.phys.AABB)" class="member-name-link">testAab</a><wbr>(net.minecraft.world.phys.AABB&nbsp;aabb)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Test whether the given axis-aligned box is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testLineSegment(double,double,double,double,double,double)" class="member-name-link">testLineSegment</a><wbr>(double&nbsp;aX,
  double&nbsp;aY,
  double&nbsp;aZ,
  double&nbsp;bX,
  double&nbsp;bY,
  double&nbsp;bZ)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given line segment, defined by the end points <code>(aX, aY, aZ)</code> and <code>(bX, bY, bZ)</code>,
  is partly or completely within the frustum defined by <code>this</code> frustum culler.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPlaneXY(double,double,double,double)" class="member-name-link">testPlaneXY</a><wbr>(double&nbsp;minX,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPlaneXY(double,double,double,double)" class="member-name-link">testPlaneXY</a><wbr>(double&nbsp;minX,
  double&nbsp;minY,
  double&nbsp;maxX,
  double&nbsp;maxY)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given XY-plane (at <code>Z = 0</code>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPlaneXZ(double,double,double,double)" class="member-name-link">testPlaneXZ</a><wbr>(double&nbsp;minX,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPlaneXZ(double,double,double,double)" class="member-name-link">testPlaneXZ</a><wbr>(double&nbsp;minX,
  double&nbsp;minZ,
  double&nbsp;maxX,
  double&nbsp;maxZ)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given XZ-plane (at <code>Y = 0</code>) is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPoint(double,double,double)" class="member-name-link">testPoint</a><wbr>(double&nbsp;x,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testPoint(double,double,double)" class="member-name-link">testPoint</a><wbr>(double&nbsp;x,
  double&nbsp;y,
  double&nbsp;z)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given point <code>(x, y, z)</code> is within the frustum defined by <code>this</code> frustum culler.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testSphere(double,double,double,float)" class="member-name-link">testSphere</a><wbr>(double&nbsp;x,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#testSphere(double,double,double,float)" class="member-name-link">testSphere</a><wbr>(double&nbsp;x,
  double&nbsp;y,
  double&nbsp;z,
  float&nbsp;r)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Test whether the given sphere is partly or completely within or outside of the frustum defined by <code>this</code> frustum culler.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.client.renderer.culling.Frustum</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toFrustum()" class="member-name-link">toFrustum</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.client.renderer.culling.Frustum</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toFrustum()" class="member-name-link">toFrustum</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -260,13 +256,6 @@ implements <a href="../../../api/client/render/CullFrustum.html" title="interfac
  double&nbsp;g,
  double&nbsp;h,
  double&nbsp;i)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="offsetToFullyIncludeCameraCube(int,org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)">
-<h3>offsetToFullyIncludeCameraCube</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">offsetToFullyIncludeCameraCube</span><wbr><span class="parameters">(int&nbsp;$$0,
- org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;net.minecraft.client.renderer.culling.Frustum&gt;&nbsp;cir)</span></div>
 </section>
 </li>
 <li>
