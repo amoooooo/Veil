@@ -14,6 +14,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.HitResult;
@@ -76,6 +77,10 @@ public final class VeilLevelPerspectiveRenderer {
             return;
         }
 
+        // Finish anything previously being rendered for safety
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        bufferSource.endBatch();
+
         final Minecraft minecraft = Minecraft.getInstance();
         final GameRenderer gameRenderer = minecraft.gameRenderer;
         final LevelRenderer levelRenderer = minecraft.levelRenderer;
@@ -129,6 +134,8 @@ public final class VeilLevelPerspectiveRenderer {
 
         levelRenderer.prepareCullFrustum(new Vec3(cameraPosition.x(), cameraPosition.y(), cameraPosition.z()), poseStack.last().pose(), TRANSFORM);
         levelRenderer.renderLevel(deltaTracker, false, CAMERA, gameRenderer, gameRenderer.lightTexture(), poseStack.last().pose(), TRANSFORM);
+        // Make sure all buffers have been finished
+        bufferSource.endBatch();
         levelRenderer.doEntityOutline();
 
         levelRendererAccessor.setCullingFrustum(backupFrustum);

@@ -111,7 +111,7 @@ public class DynamicRenderTypeManager extends SimplePreparableReloadListener<Map
         public RenderTypeCache(String name, CompositeRenderTypeData data) {
             this.name = name;
             this.data = data;
-            this.objectCache = new Int2ObjectArrayMap<>();
+            this.objectCache = new Int2ObjectArrayMap<>(4);
             this.defaultCache = null;
         }
 

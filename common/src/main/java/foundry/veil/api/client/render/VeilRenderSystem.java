@@ -11,6 +11,7 @@ import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
+import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
@@ -21,7 +22,10 @@ import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.impl.client.render.pipeline.VeilUniformBlockState;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
+import foundry.veil.mixin.accessor.BufferSourceAccessor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
@@ -394,6 +398,36 @@ public final class VeilRenderSystem {
      */
     public static void drawIndirect(VertexBuffer vbo, long indirect, int drawCount, int stride) {
         ((VertexBufferExtension) vbo).veil$drawIndirect(indirect, drawCount, stride);
+    }
+
+    /**
+     * Finishes the last batch of the specified buffer builder if it has the same name.
+     *
+     * @param source The source to end the buffer for
+     * @param name   The name of the buffer to end
+     */
+    public static void endLastBatch(MultiBufferSource.BufferSource source, String name) {
+        if (source instanceof BufferSourceAccessor accessor) {
+            RenderType renderType = accessor.getLastSharedType();
+            if (renderType != null && VeilRenderType.getName(renderType).equals(name)) {
+                source.endLastBatch();
+            }
+        }
+    }
+
+    /**
+     * Finishes the last batch of the specified buffer builder if it is the same render type.
+     *
+     * @param source     The source to end the buffer for
+     * @param renderType The render type to end
+     */
+    public static void endLastBatch(MultiBufferSource.BufferSource source, RenderType renderType) {
+        if (source instanceof BufferSourceAccessor accessor) {
+            RenderType lastSharedType = accessor.getLastSharedType();
+            if (lastSharedType != null && lastSharedType.equals(renderType)) {
+                source.endLastBatch();
+            }
+        }
     }
 
     /**

@@ -13,6 +13,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilVertexFormat;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.impl.client.render.pipeline.CullFaceShard;
+import foundry.veil.mixin.accessor.RenderStateShardAccessor;
 import foundry.veil.mixin.accessor.RenderTypeAccessor;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -199,6 +200,16 @@ public final class VeilRenderType extends RenderType {
      */
     public static @Nullable RenderType get(ResourceLocation id, Object... params) {
         return VeilRenderSystem.renderer().getDynamicRenderTypeManager().get(id, params);
+    }
+
+    /**
+     * Retrieves the name of the specified render type.
+     *
+     * @param renderType The render type to get the name of
+     * @return The name of the render type to get
+     */
+    public static String getName(RenderType renderType) {
+        return ((RenderStateShardAccessor) renderType).toString();
     }
 
     /**
