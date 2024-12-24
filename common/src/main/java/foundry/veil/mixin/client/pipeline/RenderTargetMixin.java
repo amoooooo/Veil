@@ -5,13 +5,20 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.ext.RenderTargetExtension;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import static org.lwjgl.opengl.GL30C.*;
 
 @Mixin(RenderTarget.class)
 public class RenderTargetMixin implements RenderTargetExtension {
+
+    @Shadow
+    public int frameBufferId;
 
     @Unique
     private AdvancedFbo veil$wrapper;
@@ -19,6 +26,24 @@ public class RenderTargetMixin implements RenderTargetExtension {
     @Override
     public void veil$setWrapper(@Nullable AdvancedFbo fbo) {
         this.veil$wrapper = fbo;
+    }
+
+    @Override
+    public void veil$bindDrawFramebuffer() {
+        if (this.veil$wrapper != null) {
+            this.veil$wrapper.bindDraw(false);
+        } else {
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this.frameBufferId);
+        }
+    }
+
+    @Override
+    public void veil$bindReadFramebuffer() {
+        if (this.veil$wrapper != null) {
+            this.veil$wrapper.bindRead();
+        } else {
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, this.frameBufferId);
+        }
     }
 
     @Inject(method = "bindRead", at = @At("HEAD"), cancellable = true)

@@ -62,9 +62,7 @@ public class LightRenderer implements NativeResource {
 
         DynamicBufferManger bufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
         for (DynamicBufferType dynamicBuffer : DynamicBufferType.values()) {
-            if ((bufferManger.getActiveBuffers() & dynamicBuffer.getMask()) != 0) {
-                shader.addSampler(dynamicBuffer.getSourceName() + "Sampler", bufferManger.getBufferTexture(dynamicBuffer));
-            }
+            shader.addSampler(dynamicBuffer.getSourceName() + "Sampler", bufferManger.getBufferTexture(dynamicBuffer));
         }
 
         shader.applyShaderSamplers(0);

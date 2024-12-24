@@ -142,6 +142,7 @@ public abstract class ShaderInstanceMixin implements Shader {
                         Veil.LOGGER.debug("Shader {} detected sampler: {}", this.name, typeName + " " + name);
                         this.samplerNames.add(name);
                     }
+                    continue;
                 }
 
                 int minecraftType;
@@ -199,10 +200,10 @@ public abstract class ShaderInstanceMixin implements Shader {
 
                 for (int j = 0; j < length; j++) {
                     if (length > 1) {
-                        name = name.substring(0, name.length() - 3) + '[' + j + ']';
+                        name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
                     }
 
-                    Veil.LOGGER.info("Shader {} detected uniform: {}", this.name, typeName + " " + name);
+                    Veil.LOGGER.debug("Shader {} detected uniform: {}", this.name, typeName + " " + name);
                     Uniform old = this.veil$uniforms.get(name);
                     Uniform uniform;
                     if (old != null) {

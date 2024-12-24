@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.shader.program;
 
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -210,10 +211,21 @@ public class ShaderUniformCache {
             IntBuffer type = stack.mallocInt(1);
             for (int i = 0; i < uniformCount; i++) {
                 String name = glGetActiveUniform(program, i, maxUniformLength, size, type);
-                int location = glGetUniformLocation(program, name);
-                this.uniforms.put(name, location);
-                if (isSampler(type.get(0))) {
-                    this.samplers.add(name);
+                // Don't include struct fields
+                if (name.contains(".")) {
+                    continue;
+                }
+
+                int length = size.get(0);
+                for (int j = 0; j < length; j++) {
+                    if (length > 1) {
+                        name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
+                    }
+
+                    this.uniforms.put(name, glGetUniformLocation(program, name));
+                    if (isSampler(type.get(0))) {
+                        this.samplers.add(name);
+                    }
                 }
             }
 

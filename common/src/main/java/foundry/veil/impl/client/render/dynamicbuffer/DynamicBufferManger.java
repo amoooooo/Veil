@@ -7,6 +7,8 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
+import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.compat.SodiumCompat;
 import foundry.veil.mixin.accessor.GameRendererAccessor;
@@ -14,6 +16,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -95,7 +98,15 @@ public class DynamicBufferManger implements NativeResource {
     }
 
     public int getBufferTexture(DynamicBufferType type) {
-        return this.dynamicBuffers.get(type).textureId;
+        if ((this.activeBuffers & type.getMask()) != 0) {
+            int index = Integer.bitCount(this.activeBuffers & (type.getMask() - 1));
+            int texture = ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$getTexture(index);
+            if (texture != -1) {
+                return texture;
+            }
+            return this.dynamicBuffers.get(type).textureId;
+        }
+        return MissingTextureAtlasSprite.getTexture().getId();
     }
 
     public boolean setActiveBuffers(ResourceLocation name, int activeBuffers) {
@@ -207,10 +218,11 @@ public class DynamicBufferManger implements NativeResource {
     /**
      * Creates a dynamic fbo from the specified framebuffer. It will only write into the first color texture buffer and optionally the depth texture.
      *
-     * @param framebuffer The framebuffer to add dynamic buffers to
+     * @param framebuffer    The framebuffer to add dynamic buffers to
+     * @param createTextures Whether to create new buffer textures or use the existing ones
      * @return The created buffer or <code>null</code> to use the input value
      */
-    public @Nullable AdvancedFbo getDynamicFbo(AdvancedFbo framebuffer) {
+    public @Nullable AdvancedFbo getDynamicFbo(AdvancedFbo framebuffer, boolean createTextures) {
         if (this.activeBuffers == 0 || !this.enabled) {
             return null;
         }
@@ -232,13 +244,20 @@ public class DynamicBufferManger implements NativeResource {
         for (Map.Entry<DynamicBufferType, DynamicBuffer> entry : this.dynamicBuffers.entrySet()) {
             DynamicBufferType type = entry.getKey();
             if ((this.activeBuffers & type.getMask()) != 0) {
-                builder.setName(type.getSourceName()).addColorTextureWrapper(entry.getValue().textureId);
+                if (createTextures) {
+                    builder.setName(type.getSourceName())
+                            .setFormat(type.getTexelFormat(), type.getInternalFormat())
+                            .addColorTextureBuffer();
+                } else {
+                    builder.setName(type.getSourceName())
+                            .addColorTextureWrapper(entry.getValue().textureId);
+                }
             }
         }
         if (framebuffer.isDepthTextureAttachment()) {
             builder.setDepthTextureWrapper(framebuffer.getDepthTextureAttachment().getId());
         } else {
-            builder.setDepthRenderBuffer();
+            builder.setFormat(FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT).setDepthTextureBuffer();
         }
         AdvancedFbo fbo = builder.build(true);
 

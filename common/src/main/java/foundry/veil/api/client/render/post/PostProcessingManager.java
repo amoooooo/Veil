@@ -214,7 +214,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         RenderSystem.activeTexture(activeTexture);
         this.clear();
         this.context.end();
-
+        
         AdvancedFbo postFramebuffer = resolvePost ? VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST) : null;
         if (postFramebuffer != null) {
             postFramebuffer.resolveToFramebuffer(

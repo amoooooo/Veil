@@ -42,7 +42,8 @@ public class ShaderTextureCache {
 
         int maxSampler = VeilRenderSystem.maxCombinedTextureUnits();
         int count = 1;
-        textureConsumer.accept(start, MissingTextureAtlasSprite.getTexture().getId());
+        int missingTexture = MissingTextureAtlasSprite.getTexture().getId();
+        textureConsumer.accept(start, missingTexture);
 
         for (Object2IntMap.Entry<CharSequence> entry : this.textures.object2IntEntrySet()) {
             CharSequence name = entry.getKey();
@@ -57,7 +58,7 @@ public class ShaderTextureCache {
 
             // If the texture is "missing", then refer back to the bound missing texture
             int textureId = entry.getIntValue();
-            if (textureId == 0) {
+            if (textureId == 0 || textureId == missingTexture) {
                 this.program.setInt(name, 0);
                 continue;
             }

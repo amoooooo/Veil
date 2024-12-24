@@ -114,20 +114,19 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
         default int getTexture(ResourceLocation name) {
             if (Veil.MODID.equals(name.getNamespace()) && name.getPath().startsWith("dynamic_buffer")) {
                 DynamicBufferManger bufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
-                int activeBuffers = bufferManger.getActiveBuffers();
-                if (name.equals(VeilRenderer.ALBEDO_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.ALBEDO.getMask()) != 0) {
+                if (name.equals(VeilRenderer.ALBEDO_BUFFER_TEXTURE)) {
                     return bufferManger.getBufferTexture(DynamicBufferType.ALBEDO);
                 }
-                if (name.equals(VeilRenderer.NORMAL_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.NORMAL.getMask()) != 0) {
+                if (name.equals(VeilRenderer.NORMAL_BUFFER_TEXTURE)) {
                     return bufferManger.getBufferTexture(DynamicBufferType.NORMAL);
                 }
-                if (name.equals(VeilRenderer.LIGHT_UV_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.LIGHT_UV.getMask()) != 0) {
+                if (name.equals(VeilRenderer.LIGHT_UV_BUFFER_TEXTURE)) {
                     return bufferManger.getBufferTexture(DynamicBufferType.LIGHT_UV);
                 }
-                if (name.equals(VeilRenderer.LIGHT_COLOR_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.LIGHT_COLOR.getMask()) != 0) {
+                if (name.equals(VeilRenderer.LIGHT_COLOR_BUFFER_TEXTURE)) {
                     return bufferManger.getBufferTexture(DynamicBufferType.LIGHT_COLOR);
                 }
-                if (name.equals(VeilRenderer.DEBUG_BUFFER_TEXTURE) && (activeBuffers & DynamicBufferType.DEBUG.getMask()) != 0) {
+                if (name.equals(VeilRenderer.DEBUG_BUFFER_TEXTURE)) {
                     return bufferManger.getBufferTexture(DynamicBufferType.DEBUG);
                 }
             }

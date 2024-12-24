@@ -43,7 +43,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
     private int beginLayer;
 
     private VeilImGuiImpl(long window) {
-        this.implGlfw = new VeilImGuiImplGlfw();
+        this.implGlfw = new VeilImGuiImplGlfw(this);
         this.implGl3 = new ImGuiImplGl3();
 
         this.oldImGuiContext = new ImGuiContext(ImGui.getCurrentContext().ptr);

@@ -25,9 +25,9 @@ public class LevelPerspectiveCamera extends Camera {
         orientation.getEulerAnglesYXZ(EULER_ANGLES);
         super.setRotation((float) (-EULER_ANGLES.y * 180 / Math.PI), (float) (EULER_ANGLES.x * 180 / Math.PI));
         this.rotation().set(orientation);
-        this.getLookVector().set(0.0F, 0.0F, 1.0F).rotate(orientation);
+        this.getLookVector().set(0.0F, 0.0F, -1.0F).rotate(orientation);
         this.getUpVector().set(0.0F, 1.0F, 0.0F).rotate(orientation);
-        this.getLeftVector().set(1.0F, 0.0F, 0.0F).rotate(orientation);
+        this.getLeftVector().set(-1.0F, 0.0F, 0.0F).rotate(orientation);
         this.viewDistance = viewDistance;
     }
 

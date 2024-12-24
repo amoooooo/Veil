@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboAttachment;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
+import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.mixin.accessor.RenderTargetAccessor;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
@@ -64,7 +65,7 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
     @Override
     public void bindRead() {
         RenderSystem.assertOnRenderThreadOrInit();
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, this.toRenderTarget().frameBufferId);
+        ((RenderTargetExtension) this.toRenderTarget()).veil$bindReadFramebuffer();
     }
 
     @Override
@@ -72,7 +73,7 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
         RenderSystem.assertOnRenderThreadOrInit();
         RenderTarget renderTarget = this.toRenderTarget();
 
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, renderTarget.frameBufferId);
+        ((RenderTargetExtension) renderTarget).veil$bindDrawFramebuffer();
         if (setViewport) {
             RenderSystem.viewport(0, 0, renderTarget.viewWidth, renderTarget.viewHeight);
         }

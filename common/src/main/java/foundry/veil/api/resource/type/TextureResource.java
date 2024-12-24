@@ -86,11 +86,12 @@ public record TextureResource(VeilResourceInfo resourceInfo) implements VeilReso
             if (((TextureAtlasExtension) atlas).veil$hasTexture(id)) {
                 SpriteLoader.create(atlas)
                         .loadAndStitch(resources, entry.getValue().atlasInfoLocation(), mipLevel, Util.backgroundExecutor())
-                        .thenAcceptAsync(atlas::upload, VeilRenderSystem.renderThreadExecutor());
+                        .thenAcceptAsync(preparations -> {
+                            atlas.upload(preparations);
+                            VeilRenderSystem.rebuildChunks();
+                        }, VeilRenderSystem.renderThreadExecutor());
             }
         }
-
-        VeilRenderSystem.rebuildChunks();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.impl.client.render.AdvancedFboImpl;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
@@ -15,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11C.*;
-import static org.lwjgl.opengl.GL11C.glReadBuffer;
 import static org.lwjgl.opengl.GL30C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL30C.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL30C.GL_NEAREST;
@@ -114,23 +114,23 @@ public interface AdvancedFbo extends NativeResource {
         }
     }
 
-    /**
-     * Draws this framebuffer to the screen.
-     */
-    default void draw() {
-        RenderSystem.assertOnRenderThread();
-        Window window = Minecraft.getInstance().getWindow();
-        this.bindRead();
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-        glReadBuffer(GL_BACK);
-        glBlitFramebuffer(0, 0,
-                this.getWidth(), this.getHeight(),
-                0, 0,
-                window.getWidth(), window.getHeight(),
-                GL_COLOR_BUFFER_BIT, GL_LINEAR);
-        glDrawBuffer(GL_FRONT);
-        AdvancedFbo.unbind();
-    }
+//    /**
+//     * Draws this framebuffer to the screen.
+//     */
+//    default void draw() {
+//        RenderSystem.assertOnRenderThread();
+//        Window window = Minecraft.getInstance().getWindow();
+//        this.bindRead();
+//        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+//        glReadBuffer(GL_BACK);
+//        glBlitFramebuffer(0, 0,
+//                this.getWidth(), this.getHeight(),
+//                0, 0,
+//                window.getWidth(), window.getHeight(),
+//                GL_COLOR_BUFFER_BIT, GL_LINEAR);
+//        glDrawBuffer(GL_FRONT);
+//        AdvancedFbo.unbind();
+//    }
 
     /**
      * Resolves this framebuffer to the framebuffer with the specified id as the target.
@@ -143,7 +143,6 @@ public interface AdvancedFbo extends NativeResource {
      */
     default void resolveToFbo(int id, int width, int height, int mask, int filtering) {
         RenderSystem.assertOnRenderThreadOrInit();
-
         this.bindRead();
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
         glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, width, height, mask, filtering);
@@ -156,9 +155,7 @@ public interface AdvancedFbo extends NativeResource {
      * @param target The target framebuffer to copy data into
      */
     default void resolveToAdvancedFbo(AdvancedFbo target) {
-        this.resolveToFbo(target.getId(),
-                target.getWidth(),
-                target.getHeight(),
+        this.resolveToAdvancedFbo(target,
                 GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
                 GL_NEAREST);
     }
@@ -171,7 +168,11 @@ public interface AdvancedFbo extends NativeResource {
      * @param filtering The filter to use if this framebuffer and the provided framebuffer are different sizes
      */
     default void resolveToAdvancedFbo(AdvancedFbo target, int mask, int filtering) {
-        this.resolveToFbo(target.getId(), target.getWidth(), target.getHeight(), mask, filtering);
+        RenderSystem.assertOnRenderThreadOrInit();
+        this.bindRead();
+        target.bindDraw(false);
+        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, target.getWidth(), target.getHeight(), mask, filtering);
+        AdvancedFbo.unbind();
     }
 
     /**
@@ -180,9 +181,7 @@ public interface AdvancedFbo extends NativeResource {
      * @param target The target framebuffer to copy data into
      */
     default void resolveToFramebuffer(RenderTarget target) {
-        this.resolveToFbo(target.frameBufferId,
-                target.viewWidth,
-                target.viewHeight,
+        this.resolveToFramebuffer(target,
                 GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
                 GL_NEAREST);
     }
@@ -195,7 +194,11 @@ public interface AdvancedFbo extends NativeResource {
      * @param filtering The filter to use if this framebuffer and the provided framebuffer are different sizes
      */
     default void resolveToFramebuffer(RenderTarget target, int mask, int filtering) {
-        this.resolveToFbo(target.frameBufferId, target.viewWidth, target.viewHeight, mask, filtering);
+        RenderSystem.assertOnRenderThreadOrInit();
+        this.bindRead();
+        ((RenderTargetExtension) target).veil$bindDrawFramebuffer();
+        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, target.viewWidth, target.viewHeight, mask, filtering);
+        AdvancedFbo.unbind();
     }
 
     /**
