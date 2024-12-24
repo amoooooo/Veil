@@ -1,15 +1,16 @@
 package foundry.veil.impl.client.render.shader.transformer;
 
 import foundry.veil.VeilClient;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.ShaderImporter;
-import foundry.veil.api.client.render.shader.processor.ShaderProcessorList;
 import foundry.veil.api.client.render.shader.processor.ShaderModifyProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
-import foundry.veil.impl.compat.SodiumShaderPreProcessor;
+import foundry.veil.api.client.render.shader.processor.ShaderProcessorList;
 import foundry.veil.api.glsl.GlslParser;
 import foundry.veil.api.glsl.GlslSyntaxException;
 import foundry.veil.api.glsl.node.GlslTree;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
+import foundry.veil.impl.compat.SodiumShaderPreProcessor;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -17,7 +18,8 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Allows vanilla and sodium shaders to use shader modifications.
@@ -47,20 +49,25 @@ public class SodiumShaderProcessor {
         }
 
         processor.getShaderImporter().reset();
-        GlslTree tree = GlslParser.preprocessParse(source, Collections.emptyMap());
-        processor.getProcessor().modify(new Context(processor, name, activeBuffers, type), tree);
+        Map<String, String> macros = new HashMap<>();
+        DynamicBufferType.addMacros(activeBuffers, macros);
+        GlslTree tree = GlslParser.preprocessParse(source, macros);
+        processor.getProcessor().modify(new Context(processor, name, activeBuffers, type, macros), tree);
+        GlslTree.stripGLMacros(macros);
+        tree.getMacros().putAll(macros);
         return tree.toSourceString();
     }
 
     private record Context(ShaderProcessorList processor,
                            ResourceLocation name,
                            int activeBuffers,
-                           int type) implements ShaderPreProcessor.SodiumContext {
+                           int type,
+                           Map<String, String> macros) implements ShaderPreProcessor.SodiumContext {
 
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
-            GlslTree tree = GlslParser.parse(source);
-            this.processor.getImportProcessor().modify(new Context(this.processor, name, this.activeBuffers, this.type), tree);
+            GlslTree tree = GlslParser.preprocessParse(source, this.macros);
+            this.processor.getImportProcessor().modify(new Context(this.processor, name, this.activeBuffers, this.type, this.macros), tree);
             return tree;
         }
 

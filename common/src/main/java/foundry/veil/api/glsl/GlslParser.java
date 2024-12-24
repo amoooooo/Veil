@@ -86,6 +86,12 @@ public final class GlslParser {
                 }
                 processedSource.append(tok.getText());
             }
+            for (Map.Entry<String, Macro> entry : preprocessor.getMacros().entrySet()) {
+                String value = entry.getValue().getText();
+                if (!value.isBlank()) {
+                    macros.put(entry.getKey(), value);
+                }
+            }
             return parse(UNSTRIP_PATTERN.matcher(processedSource.toString()).replaceAll(""));
         } catch (IOException e) {
             throw new AssertionError("Can't Happen", e);

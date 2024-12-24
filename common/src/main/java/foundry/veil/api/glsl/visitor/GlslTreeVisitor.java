@@ -18,6 +18,8 @@ public interface GlslTreeVisitor {
 
     void visitDirective(String directive);
 
+    void visitMacro(String key, String value);
+
     void visitField(GlslNewNode newNode);
 
     void visitStruct(GlslStructNode structSpecifier);

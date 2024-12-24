@@ -73,14 +73,14 @@ public class Macro {
      * from a regular file.
      */
     public Source getSource() {
-        return source;
+        return this.source;
     }
 
     /**
      * Returns the name of this macro.
      */
     public String getName() {
-        return name;
+        return this.name;
     }
 
     /**
@@ -94,14 +94,14 @@ public class Macro {
      * Returns true if this is a function-like macro.
      */
     public boolean isFunctionLike() {
-        return args != null;
+        return this.args != null;
     }
 
     /**
      * Returns the number of arguments to this macro.
      */
     public int getArgs() {
-        return args.size();
+        return this.args.size();
     }
 
     /**
@@ -115,7 +115,7 @@ public class Macro {
      * Returns true if this is a variadic function-like macro.
      */
     public boolean isVariadic() {
-        return variadic;
+        return this.variadic;
     }
 
     /**
@@ -140,11 +140,11 @@ public class Macro {
          * tok0 ## tok1 ## tok2 ->
          *   M_PASTE, tok0, M_PASTE, tok1, tok2
          */
-        this.tokens.add(tokens.size() - 1, tok);
+        this.tokens.add(this.tokens.size() - 1, tok);
     }
 
     /* pp */ List<Token> getTokens() {
-        return tokens;
+        return this.tokens;
     }
 
     /* Paste tokens are inserted before the first of the two pasted
@@ -154,7 +154,7 @@ public class Macro {
     public String getText() {
         StringBuilder buf = new StringBuilder();
         boolean paste = false;
-        for (Token tok : tokens) {
+        for (Token tok : this.tokens) {
             if (tok.getType() == Token.M_PASTE) {
                 assert !paste : "Two sequential pastes.";
                 paste = true;
@@ -173,10 +173,10 @@ public class Macro {
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder(name);
-        if (args != null) {
+        StringBuilder buf = new StringBuilder(this.name);
+        if (this.args != null) {
             buf.append('(');
-            Iterator<String> it = args.iterator();
+            Iterator<String> it = this.args.iterator();
             while (it.hasNext()) {
                 buf.append(it.next());
                 if (it.hasNext()) {
@@ -187,7 +187,7 @@ public class Macro {
             }
             buf.append(')');
         }
-        if (!tokens.isEmpty()) {
+        if (!this.tokens.isEmpty()) {
             buf.append(" => ").append(this.getText());
         }
         return buf.toString();

@@ -277,6 +277,11 @@ public interface ShaderPreProcessor {
         default ShaderPreDefinitions preDefinitions() {
             return VeilRenderSystem.renderer().getShaderDefinitions();
         }
+
+        /**
+         * @return All macros used to compile shaders
+         */
+        Map<String, String> macros();
     }
 
     /**

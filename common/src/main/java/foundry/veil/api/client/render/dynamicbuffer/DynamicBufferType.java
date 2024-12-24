@@ -4,6 +4,7 @@ import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinitio
 import foundry.veil.api.glsl.grammar.GlslTypeSpecifier;
 
 import java.util.Locale;
+import java.util.Map;
 
 public enum DynamicBufferType {
     ALBEDO("Albedo", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA8),
@@ -11,6 +12,8 @@ public enum DynamicBufferType {
     LIGHT_UV("LightUV", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RG8),
     LIGHT_COLOR("LightColor", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8),
     DEBUG("Debug", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA16F);
+
+    private static final DynamicBufferType[] BUFFERS = values();
 
     private final String name;
     private final String sourceName;
@@ -22,7 +25,7 @@ public enum DynamicBufferType {
     DynamicBufferType(String sourceName, GlslTypeSpecifier.BuiltinType type, FramebufferAttachmentDefinition.Format format) {
         this.name = this.name().toLowerCase(Locale.ROOT);
         this.sourceName = "VeilDynamic" + sourceName;
-        this.type=type;
+        this.type = type;
         this.internalFormat = format.getInternalId();
         this.texelFormat = format.getId();
         this.mask = 1 << this.ordinal();
@@ -52,6 +55,14 @@ public enum DynamicBufferType {
         return this.mask;
     }
 
+    public static void addMacros(int mask, Map<String, String> map) {
+        for (DynamicBufferType value : BUFFERS) {
+            if ((value.mask & mask) != 0) {
+                map.put("VEIL_" + value.name(), "1");
+            }
+        }
+    }
+
     public static int encode(DynamicBufferType... types) {
         int mask = 0;
         for (DynamicBufferType type : types) {
@@ -63,7 +74,7 @@ public enum DynamicBufferType {
     public static DynamicBufferType[] decode(int mask) {
         int next = 0;
         DynamicBufferType[] types = new DynamicBufferType[Integer.bitCount(mask)];
-        for (DynamicBufferType value : values()) {
+        for (DynamicBufferType value : BUFFERS) {
             if ((value.mask & mask) != 0) {
                 types[next++] = value;
             }

@@ -45,6 +45,11 @@ public class GlslStringWriter implements GlslTreeVisitor {
     }
 
     @Override
+    public void visitMacro(String key, String value) {
+        this.builder.append("#define ").append(key).append(" ").append(value).append("\n");
+    }
+
+    @Override
     public void visitField(GlslNewNode newNode) {
         String marker = this.markedNodes.get(newNode);
         if (marker != null) {

@@ -23,6 +23,7 @@ public class GlslTree {
     private final GlslNodeList body;
     private final List<String> directives;
     private final Map<String, GlslNode> markers;
+    private final Map<String, String> macros;
 
     public GlslTree() {
         this(new GlslVersionStatement(), Collections.emptyList(), Collections.emptyList(), Collections.emptyMap());
@@ -33,6 +34,7 @@ public class GlslTree {
         this.body = new GlslNodeList(body);
         this.directives = new ArrayList<>(directives);
         this.markers = Collections.unmodifiableMap(markers);
+        this.macros = new HashMap<>();
     }
 
     private void visit(GlslTreeVisitor visitor, GlslNode node) {
@@ -63,6 +65,9 @@ public class GlslTree {
         visitor.visitVersion(this.versionStatement);
         for (String directive : this.directives) {
             visitor.visitDirective(directive);
+        }
+        for (Map.Entry<String, String> entry : this.macros.entrySet()) {
+            visitor.visitMacro(entry.getKey(), entry.getValue());
         }
 
         for (GlslNode node : this.body) {
@@ -201,6 +206,10 @@ public class GlslTree {
         return this.markers;
     }
 
+    public Map<String, String> getMacros() {
+        return this.macros;
+    }
+
     public GlslNodeList getBody() {
         return this.body;
     }
@@ -209,6 +218,11 @@ public class GlslTree {
         GlslStringWriter writer = new GlslStringWriter();
         this.visit(writer);
         return writer.toString();
+    }
+
+    public static void stripGLMacros(Map<String, String> macros) {
+        macros.keySet().removeIf(macro -> macro.startsWith("GL_"));
+        macros.remove("__VERSION__");
     }
 
     @Override

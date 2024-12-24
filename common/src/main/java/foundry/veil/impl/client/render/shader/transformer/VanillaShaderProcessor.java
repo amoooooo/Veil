@@ -2,14 +2,15 @@ package foundry.veil.impl.client.render.shader.transformer;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.VeilClient;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.ShaderImporter;
 import foundry.veil.api.client.render.shader.processor.ShaderModifyProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderProcessorList;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import foundry.veil.api.glsl.GlslParser;
 import foundry.veil.api.glsl.GlslSyntaxException;
 import foundry.veil.api.glsl.node.GlslTree;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -17,7 +18,8 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Allows vanilla and sodium shaders to use shader modifications.
@@ -46,8 +48,12 @@ public class VanillaShaderProcessor {
         }
 
         processor.getShaderImporter().reset();
-        GlslTree tree = GlslParser.preprocessParse(source, Collections.emptyMap());
-        processor.getProcessor().modify(new Context(processor, shaderInstance, name, activeBuffers, type, vertexFormat), tree);
+        Map<String, String> macros = new HashMap<>();
+        DynamicBufferType.addMacros(activeBuffers, macros);
+        GlslTree tree = GlslParser.preprocessParse(source, macros);
+        processor.getProcessor().modify(new Context(processor, shaderInstance, name, activeBuffers, type, vertexFormat, macros), tree);
+        GlslTree.stripGLMacros(macros);
+        tree.getMacros().putAll(macros);
         return tree.toSourceString();
     }
 
@@ -56,12 +62,13 @@ public class VanillaShaderProcessor {
                            ResourceLocation name,
                            int activeBuffers,
                            int type,
-                           VertexFormat vertexFormat) implements ShaderPreProcessor.MinecraftContext {
+                           VertexFormat vertexFormat,
+                           Map<String, String> macros) implements ShaderPreProcessor.MinecraftContext {
 
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
-            GlslTree tree = GlslParser.parse(source);
-            this.processor.getImportProcessor().modify(new Context(this.processor, this.shaderInstance, name, this.activeBuffers, this.type, this.vertexFormat), tree);
+            GlslTree tree = GlslParser.preprocessParse(source, this.macros);
+            this.processor.getImportProcessor().modify(new Context(this.processor, this.shaderInstance, name, this.activeBuffers, this.type, this.vertexFormat, this.macros), tree);
             return tree;
         }
 

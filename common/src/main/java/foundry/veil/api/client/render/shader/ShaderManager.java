@@ -7,19 +7,20 @@ import com.google.gson.JsonSyntaxException;
 import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.processor.*;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.impl.ThreadTaskScheduler;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
-import foundry.veil.impl.client.render.shader.program.DynamicShaderProgramImpl;
-import foundry.veil.impl.client.render.shader.ShaderImporterImpl;
-import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.api.glsl.GlslParser;
 import foundry.veil.api.glsl.GlslSyntaxException;
 import foundry.veil.api.glsl.node.GlslTree;
+import foundry.veil.impl.ThreadTaskScheduler;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
+import foundry.veil.impl.client.render.shader.ShaderImporterImpl;
+import foundry.veil.impl.client.render.shader.program.DynamicShaderProgramImpl;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectArrayMap;
@@ -183,11 +184,25 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                     importProcessor.prepare();
 
                     Set<String> dependencies = new HashSet<>();
-                    GlslTree tree = GlslParser.preprocessParse(source, definition.getMacros(dependencies, this.definitions));
+                    Map<String, String> macros = definition.getMacros(dependencies, this.definitions);
+                    DynamicBufferType.addMacros(activeBuffers, macros);
+                    GlslTree tree = GlslParser.preprocessParse(source, macros);
 
                     Object2IntMap<String> uniformBindings = new Object2IntArrayMap<>();
-                    PreProcessorContext preProcessorContext = new PreProcessorContext(importProcessor, definition, this.definitions, processorList.getShaderImporter(), activeBuffers, type, uniformBindings, shaderId, true);
+                    PreProcessorContext preProcessorContext = new PreProcessorContext(
+                            importProcessor,
+                            definition,
+                            this.definitions,
+                            processorList.getShaderImporter(),
+                            activeBuffers,
+                            type,
+                            uniformBindings,
+                            macros,
+                            shaderId,
+                            true);
                     processor.modify(preProcessorContext, tree);
+                    GlslTree.stripGLMacros(macros);
+                    tree.getMacros().putAll(macros);
 
                     shaderSources.put(location, new VeilShaderSource(shaderId, tree.toSourceString(), uniformBindings, dependencies, new HashSet<>(processorList.getShaderImporter().addedImports())));
                 } catch (Throwable t) {
@@ -571,14 +586,15 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                                        ShaderImporter shaderImporter,
                                        int activeBuffers,
                                        int type,
-                                       Map<String, Integer> uniformBindings,
+                                       Object2IntMap<String> uniformBindings,
+                                       Map<String, String> macros,
                                        @Nullable ResourceLocation name,
                                        boolean sourceFile) implements ShaderPreProcessor.VeilContext {
 
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
-            GlslTree tree = GlslParser.parse(source);
-            PreProcessorContext context = new PreProcessorContext(this.preProcessor, this.definition, this.preDefinitions, this.shaderImporter, this.activeBuffers, this.type, this.uniformBindings, name, false);
+            GlslTree tree = GlslParser.preprocessParse(source, this.macros);
+            PreProcessorContext context = new PreProcessorContext(this.preProcessor, this.definition, this.preDefinitions, this.shaderImporter, this.activeBuffers, this.type, this.uniformBindings, this.macros, name, false);
             this.preProcessor.modify(context, tree);
             return tree;
         }
