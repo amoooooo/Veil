@@ -132,9 +132,20 @@ public abstract class ShaderInstanceMixin implements Shader {
                 }
 
                 int dataType = type.get(0);
-                int minecraftType = -1;
-                int minecraftCount = 0;
                 String typeName = ShaderUniformCache.getName(dataType);
+                int length = size.get(0);
+                if (ShaderUniformCache.isSampler(dataType)) {
+                    for (int j = 0; j < length; j++) {
+                        if (length > 1) {
+                            name = name.substring(0, name.length() - 3) + '[' + j + ']';
+                        }
+                        Veil.LOGGER.debug("Shader {} detected sampler: {}", this.name, typeName + " " + name);
+                        this.samplerNames.add(name);
+                    }
+                }
+
+                int minecraftType;
+                int minecraftCount;
                 switch (dataType) {
                     case GL_INT -> {
                         minecraftType = 0;
@@ -181,37 +192,38 @@ public abstract class ShaderInstanceMixin implements Shader {
                         minecraftCount = 16;
                     }
                     default -> {
-                        if (ShaderUniformCache.isSampler(dataType)) {
-                            Veil.LOGGER.debug("Shader {} detected sampler: {}", this.name, typeName + " " + name);
-                            this.samplerNames.add(name);
-                        } else {
-                            Veil.LOGGER.error("Unsupported Uniform Type: {}", typeName);
-                        }
+                        Veil.LOGGER.error("Unsupported Uniform Type: {}", typeName);
                         continue;
                     }
                 }
 
-                Veil.LOGGER.debug("Shader {} detected uniform: {}", this.name, typeName + " " + name);
-                Uniform old = this.veil$uniforms.get(name);
-                Uniform uniform;
-                if (old != null) {
-                    if (old.getType() != minecraftType) {
-                        old.close();
-                        this.veil$uniforms.put(name, uniform = new Uniform(name, minecraftType, minecraftCount, this));
-                    } else {
-                        uniform = old;
+                for (int j = 0; j < length; j++) {
+                    if (length > 1) {
+                        name = name.substring(0, name.length() - 3) + '[' + j + ']';
                     }
-                } else {
-                    this.veil$uniforms.put(name, uniform = new Uniform(name, minecraftType, minecraftCount, this));
-                }
 
-                int location = Uniform.glGetUniformLocation(this.programId, name);
-                if (location == -1) {
-                    Veil.LOGGER.warn("Shader {} could not find uniform named {} in the specified shader program.", this.name, name);
-                } else {
-                    this.uniformLocations.add(location);
-                    uniform.setLocation(location);
-                    this.uniformMap.put(name, uniform);
+                    Veil.LOGGER.info("Shader {} detected uniform: {}", this.name, typeName + " " + name);
+                    Uniform old = this.veil$uniforms.get(name);
+                    Uniform uniform;
+                    if (old != null) {
+                        if (old.getType() != minecraftType) {
+                            old.close();
+                            this.veil$uniforms.put(name, uniform = new Uniform(name, minecraftType, minecraftCount, this));
+                        } else {
+                            uniform = old;
+                        }
+                    } else {
+                        this.veil$uniforms.put(name, uniform = new Uniform(name, minecraftType, minecraftCount, this));
+                    }
+
+                    int location = Uniform.glGetUniformLocation(this.programId, name);
+                    if (location == -1) {
+                        Veil.LOGGER.warn("Shader {} could not find uniform named {} in the specified shader program.", this.name, name);
+                    } else {
+                        this.uniformLocations.add(location);
+                        uniform.setLocation(location);
+                        this.uniformMap.put(name, uniform);
+                    }
                 }
             }
         }
