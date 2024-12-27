@@ -1,5 +1,7 @@
 package foundry.veil.api;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -20,7 +22,7 @@ public interface TickTaskScheduler extends Executor {
      * @throws NullPointerException       if command is null
      */
     @Override
-    void execute(Runnable command);
+    void execute(@NotNull Runnable command);
 
     /**
      * Schedules the specified command to run in the specified number of ticks.
@@ -32,7 +34,7 @@ public interface TickTaskScheduler extends Executor {
      * @throws NullPointerException       if command is null
      * @throws IllegalArgumentException   if delay less than or equal to zero
      */
-    CompletableFuture<?> schedule(Runnable command, int delay);
+    CompletableFuture<?> schedule(@NotNull Runnable command, int delay);
 
     /**
      * Schedules the specified command to run in the specified number of ticks.
@@ -44,7 +46,7 @@ public interface TickTaskScheduler extends Executor {
      * @throws NullPointerException       if command is null
      * @throws IllegalArgumentException   if delay less than or equal to zero
      */
-    <V> CompletableFuture<V> schedule(Callable<V> callable, int delay);
+    <V> CompletableFuture<V> schedule(@NotNull Callable<V> callable, int delay);
 
     /**
      * Schedules the specified command to run after the specified initial delay in ticks and at each fixed time interval in ticks.
@@ -57,7 +59,7 @@ public interface TickTaskScheduler extends Executor {
      * @throws NullPointerException       if command is null
      * @throws IllegalArgumentException   if delay less than or equal to zero
      */
-    CompletableFuture<?> scheduleAtFixedRate(Runnable command, int initialDelay, int period);
+    CompletableFuture<?> scheduleAtFixedRate(@NotNull Runnable command, int initialDelay, int period);
 
     /**
      * @return Whether the executor has shut down and will reject

@@ -1,7 +1,8 @@
-package foundry.veil.impl.compat;
+package foundry.veil.impl.compat.sodium;
 
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
+import foundry.veil.api.compat.IrisCompat;
 import foundry.veil.api.glsl.GlslInjectionPoint;
 import foundry.veil.api.glsl.GlslParser;
 import foundry.veil.api.glsl.GlslSyntaxException;

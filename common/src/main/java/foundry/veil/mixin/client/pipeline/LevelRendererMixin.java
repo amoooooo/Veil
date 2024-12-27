@@ -12,7 +12,7 @@ import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.impl.client.render.shader.VeilVanillaShaders;
-import foundry.veil.impl.compat.SodiumCompat;
+import foundry.veil.api.compat.SodiumCompat;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;

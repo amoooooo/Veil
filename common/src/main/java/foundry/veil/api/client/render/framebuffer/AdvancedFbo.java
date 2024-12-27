@@ -196,8 +196,9 @@ public interface AdvancedFbo extends NativeResource {
     default void resolveToFramebuffer(RenderTarget target, int mask, int filtering) {
         RenderSystem.assertOnRenderThreadOrInit();
         this.bindRead();
-        ((RenderTargetExtension) target).veil$bindDrawFramebuffer();
-        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, target.viewWidth, target.viewHeight, mask, filtering);
+        RenderTargetExtension extension = (RenderTargetExtension) target;
+        extension.veil$bindDrawFramebuffer();
+        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, extension.veil$getWidth(), extension.veil$getHeight(), mask, filtering);
         AdvancedFbo.unbind();
     }
 

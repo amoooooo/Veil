@@ -20,6 +20,8 @@ public class RenderTargetMixin implements RenderTargetExtension {
     @Shadow
     public int frameBufferId;
 
+    @Shadow public int viewWidth;
+    @Shadow public int viewHeight;
     @Unique
     private AdvancedFbo veil$wrapper;
 
@@ -54,6 +56,16 @@ public class RenderTargetMixin implements RenderTargetExtension {
         return -1;
     }
 
+    @Override
+    public int veil$getWidth() {
+        return this.veil$wrapper != null ? this.veil$wrapper.getWidth() : this.viewWidth;
+    }
+
+    @Override
+    public int veil$getHeight() {
+        return this.veil$wrapper != null ? this.veil$wrapper.getHeight() : this.viewHeight;
+    }
+
     @Inject(method = "bindRead", at = @At("HEAD"), cancellable = true)
     public void bindRead(CallbackInfo ci) {
         if (this.veil$wrapper != null) {
@@ -65,9 +77,9 @@ public class RenderTargetMixin implements RenderTargetExtension {
     }
 
     @Inject(method = "bindWrite", at = @At("HEAD"), cancellable = true)
-    public void bindWrite(CallbackInfo ci) {
+    public void bindWrite(boolean setViewport, CallbackInfo ci) {
         if (this.veil$wrapper != null) {
-            this.veil$wrapper.bind(true);
+            this.veil$wrapper.bind(setViewport);
             ci.cancel();
         }
     }

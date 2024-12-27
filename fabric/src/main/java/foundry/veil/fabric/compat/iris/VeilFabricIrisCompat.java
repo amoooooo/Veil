@@ -2,7 +2,7 @@ package foundry.veil.fabric.compat.iris;
 
 import foundry.veil.ext.iris.IrisRenderTargetExtension;
 import foundry.veil.fabric.mixin.compat.iris.IrisRenderingPipelineAccessor;
-import foundry.veil.impl.compat.IrisCompat;
+import foundry.veil.api.compat.IrisCompat;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import net.irisshaders.iris.Iris;

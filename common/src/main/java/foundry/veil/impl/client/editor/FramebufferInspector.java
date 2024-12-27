@@ -11,7 +11,7 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
 import foundry.veil.api.client.util.TextureDownloader;
 import foundry.veil.ext.iris.IrisRenderTargetExtension;
-import foundry.veil.impl.compat.IrisCompat;
+import foundry.veil.api.compat.IrisCompat;
 import imgui.ImGui;
 import imgui.type.ImBoolean;
 import net.minecraft.Util;

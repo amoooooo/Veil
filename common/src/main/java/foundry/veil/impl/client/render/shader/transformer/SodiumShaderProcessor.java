@@ -10,7 +10,7 @@ import foundry.veil.api.glsl.GlslParser;
 import foundry.veil.api.glsl.GlslSyntaxException;
 import foundry.veil.api.glsl.node.GlslTree;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
-import foundry.veil.impl.compat.SodiumShaderPreProcessor;
+import foundry.veil.impl.compat.sodium.SodiumShaderPreProcessor;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;

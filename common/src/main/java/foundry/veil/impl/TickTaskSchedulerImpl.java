@@ -88,13 +88,13 @@ public class TickTaskSchedulerImpl implements TickTaskScheduler {
     }
 
     @Override
-    public void execute(Runnable command) {
+    public void execute(@NotNull Runnable command) {
         this.validate(command);
         this.tasks.add(new Task(command, 0));
     }
 
     @Override
-    public CompletableFuture<?> schedule(Runnable command, int delay) {
+    public CompletableFuture<?> schedule(@NotNull Runnable command, int delay) {
         this.validate(command);
         if (delay < 0) {
             throw new IllegalArgumentException();
@@ -119,7 +119,7 @@ public class TickTaskSchedulerImpl implements TickTaskScheduler {
     }
 
     @Override
-    public <V> CompletableFuture<V> schedule(Callable<V> callable, int delay) {
+    public <V> CompletableFuture<V> schedule(@NotNull Callable<V> callable, int delay) {
         this.validate(callable);
         if (delay < 0) {
             throw new IllegalArgumentException();
@@ -144,7 +144,7 @@ public class TickTaskSchedulerImpl implements TickTaskScheduler {
     }
 
     @Override
-    public CompletableFuture<?> scheduleAtFixedRate(Runnable command, int initialDelay, int period) {
+    public CompletableFuture<?> scheduleAtFixedRate(@NotNull Runnable command, int initialDelay, int period) {
         this.validate(command);
         if (initialDelay < 0 || period < 0) {
             throw new IllegalArgumentException();
