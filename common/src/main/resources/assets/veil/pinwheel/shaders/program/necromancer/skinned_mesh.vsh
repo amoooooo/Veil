@@ -9,9 +9,9 @@ layout(location = 4) in ivec2 UV2;
 layout(location = 5) in vec3 Normal;
 layout(location = 6) in uint BoneIndex;
 
-uniform mat4[256] BoneTransforms;
-uniform vec4[256] BoneColors;
-uniform bool[256] BoneEnabled;
+uniform mat4[16] BoneTransforms;
+uniform vec4[16] BoneColors;
+uniform bool[16] BoneEnabled;
 
 uniform sampler2D Sampler1;
 uniform sampler2D Sampler2;
