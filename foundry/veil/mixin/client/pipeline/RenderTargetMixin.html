@@ -39,7 +39,7 @@ loadScripts(document, 'script');</script>
 <p>Summary:</p>
 <ul>
 <li>Nested</li>
-<li>Field</li>
+<li><a href="#field-summary">Field</a></li>
 <li><a href="#constructor-summary">Constr</a></li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -47,7 +47,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li>Field</li>
+<li><a href="#field-detail">Field</a></li>
 <li><a href="#constructor-detail">Constr</a></li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -59,13 +59,13 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -100,6 +100,21 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>int</code></div>
+<div class="col-second even-row-color"><code><a href="#frameBufferId" class="member-name-link">frameBufferId</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -131,8 +146,23 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindWrite(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindWrite</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$setWrapper(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">veil$setWrapper</a><wbr>(@Nullable <a href="../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;fbo)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getColorTextureId</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDepthTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getDepthTextureId</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$bindDrawFramebuffer()" class="member-name-link">veil$bindDrawFramebuffer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$bindReadFramebuffer()" class="member-name-link">veil$bindReadFramebuffer</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getTexture(int)" class="member-name-link">veil$getTexture</a><wbr>(int&nbsp;buffer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$setWrapper(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">veil$setWrapper</a><wbr>(@Nullable <a href="../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;fbo)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -145,6 +175,20 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="frameBufferId">
+<h3>frameBufferId</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">frameBufferId</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">
@@ -176,6 +220,36 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 </section>
 </li>
 <li>
+<section class="detail" id="veil$bindDrawFramebuffer()">
+<h3>veil$bindDrawFramebuffer</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">veil$bindDrawFramebuffer</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$bindDrawFramebuffer()">veil$bindDrawFramebuffer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="veil$bindReadFramebuffer()">
+<h3>veil$bindReadFramebuffer</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">veil$bindReadFramebuffer</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$bindReadFramebuffer()">veil$bindReadFramebuffer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="veil$getTexture(int)">
+<h3>veil$getTexture</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">veil$getTexture</span><wbr><span class="parameters">(int&nbsp;buffer)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$getTexture(int)">veil$getTexture</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="bindRead(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
 <h3>bindRead</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindRead</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
@@ -185,6 +259,18 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <section class="detail" id="bindWrite(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
 <h3>bindWrite</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindWrite</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getColorTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)">
+<h3>getColorTextureId</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">getColorTextureId</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getDepthTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)">
+<h3>getDepthTextureId</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">getDepthTextureId</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</span></div>
 </section>
 </li>
 </ul>

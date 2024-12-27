@@ -140,17 +140,21 @@ implements <a href="GlslTreeVisitor.html" title="interface in foundry.veil.api.g
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitFunction(foundry.veil.api.glsl.node.function.GlslFunctionNode)" class="member-name-link">visitFunction</a><wbr>(<a href="../node/function/GlslFunctionNode.html" title="class in foundry.veil.api.glsl.node.function">GlslFunctionNode</a>&nbsp;node)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitMarkers(java.util.Map)" class="member-name-link">visitMarkers</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../node/GlslNode.html" title="interface in foundry.veil.api.glsl.node">GlslNode</a>&gt;&nbsp;markers)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitMacro(java.lang.String,java.lang.String)" class="member-name-link">visitMacro</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitStruct(foundry.veil.api.glsl.node.variable.GlslStructNode)" class="member-name-link">visitStruct</a><wbr>(<a href="../node/variable/GlslStructNode.html" title="class in foundry.veil.api.glsl.node.variable">GlslStructNode</a>&nbsp;structSpecifier)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitMarkers(java.util.Map)" class="member-name-link">visitMarkers</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../node/GlslNode.html" title="interface in foundry.veil.api.glsl.node">GlslNode</a>&gt;&nbsp;markers)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitTreeEnd()" class="member-name-link">visitTreeEnd</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitStruct(foundry.veil.api.glsl.node.variable.GlslStructNode)" class="member-name-link">visitStruct</a><wbr>(<a href="../node/variable/GlslStructNode.html" title="class in foundry.veil.api.glsl.node.variable">GlslStructNode</a>&nbsp;structSpecifier)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitVersion(foundry.veil.api.glsl.grammar.GlslVersionStatement)" class="member-name-link">visitVersion</a><wbr>(<a href="../grammar/GlslVersionStatement.html" title="class in foundry.veil.api.glsl.grammar">GlslVersionStatement</a>&nbsp;version)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitTreeEnd()" class="member-name-link">visitTreeEnd</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#visitVersion(foundry.veil.api.glsl.grammar.GlslVersionStatement)" class="member-name-link">visitVersion</a><wbr>(<a href="../grammar/GlslVersionStatement.html" title="class in foundry.veil.api.glsl.grammar">GlslVersionStatement</a>&nbsp;version)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -209,6 +213,17 @@ implements <a href="GlslTreeVisitor.html" title="interface in foundry.veil.api.g
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="GlslTreeVisitor.html#visitDirective(java.lang.String)">visitDirective</a></code>&nbsp;in interface&nbsp;<code><a href="GlslTreeVisitor.html" title="interface in foundry.veil.api.glsl.visitor">GlslTreeVisitor</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="visitMacro(java.lang.String,java.lang.String)">
+<h3>visitMacro</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">visitMacro</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="GlslTreeVisitor.html#visitMacro(java.lang.String,java.lang.String)">visitMacro</a></code>&nbsp;in interface&nbsp;<code><a href="GlslTreeVisitor.html" title="interface in foundry.veil.api.glsl.visitor">GlslTreeVisitor</a></code></dd>
 </dl>
 </section>
 </li>
