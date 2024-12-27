@@ -32,6 +32,7 @@ foundry.veil.api.client.tooltip
 foundry.veil.api.client.tooltip.anim
 foundry.veil.api.client.ui.util
 foundry.veil.api.client.util
+foundry.veil.api.compat
 foundry.veil.api.event
 foundry.veil.api.glsl
 foundry.veil.api.glsl.grammar
@@ -87,7 +88,7 @@ foundry.veil.impl.client.render.shader.modifier
 foundry.veil.impl.client.render.shader.program
 foundry.veil.impl.client.render.shader.transformer
 foundry.veil.impl.client.render.wrapper
-foundry.veil.impl.compat
+foundry.veil.impl.compat.sodium
 foundry.veil.impl.glsl
 foundry.veil.impl.network
 foundry.veil.impl.quasar

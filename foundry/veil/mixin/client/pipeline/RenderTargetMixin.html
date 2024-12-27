@@ -112,6 +112,12 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <div class="col-first even-row-color"><code>int</code></div>
 <div class="col-second even-row-color"><code><a href="#frameBufferId" class="member-name-link">frameBufferId</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-second odd-row-color"><code><a href="#viewHeight" class="member-name-link">viewHeight</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>int</code></div>
+<div class="col-second even-row-color"><code><a href="#viewWidth" class="member-name-link">viewWidth</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -143,7 +149,8 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindRead(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindRead</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindWrite(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindWrite</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindWrite(boolean,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindWrite</a><wbr>(boolean&nbsp;setViewport,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getColorTextureId</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</code></div>
@@ -158,7 +165,13 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$bindReadFramebuffer()" class="member-name-link">veil$bindReadFramebuffer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getTexture(int)" class="member-name-link">veil$getTexture</a><wbr>(int&nbsp;buffer)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getHeight()" class="member-name-link">veil$getHeight</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getTexture(int)" class="member-name-link">veil$getTexture</a><wbr>(int&nbsp;buffer)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getWidth()" class="member-name-link">veil$getWidth</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$setWrapper(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">veil$setWrapper</a><wbr>(@Nullable <a href="../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;fbo)</code></div>
@@ -184,6 +197,18 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <section class="detail" id="frameBufferId">
 <h3>frameBufferId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">frameBufferId</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="viewWidth">
+<h3>viewWidth</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">viewWidth</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="viewHeight">
+<h3>viewHeight</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">viewHeight</span></div>
 </section>
 </li>
 </ul>
@@ -250,15 +275,36 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 </section>
 </li>
 <li>
+<section class="detail" id="veil$getWidth()">
+<h3>veil$getWidth</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">veil$getWidth</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$getWidth()">veil$getWidth</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="veil$getHeight()">
+<h3>veil$getHeight</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">veil$getHeight</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$getHeight()">veil$getHeight</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="bindRead(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
 <h3>bindRead</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindRead</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="bindWrite(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
+<section class="detail" id="bindWrite(boolean,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
 <h3>bindWrite</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindWrite</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindWrite</span><wbr><span class="parameters">(boolean&nbsp;setViewport,
+ org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
 </section>
 </li>
 <li>

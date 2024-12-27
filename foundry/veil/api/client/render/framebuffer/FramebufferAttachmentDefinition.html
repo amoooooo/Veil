@@ -97,11 +97,13 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-format">format</span></code> - The internal format of the data</dd>
 <dd><code><span id="param-depth">depth</span></code> - Whether this is a color or depth attachment</dd>
 <dd><code><span id="param-linear">linear</span></code> - Whether this should have linear filtering. Only applies to texture buffers</dd>
+<dd><code><span id="param-wrapX">wrapX</span></code> - The wrap mode this attachment will use for the X axis</dd>
+<dd><code><span id="param-wrapY">wrapY</span></code> - The wrap mode this attachment will use for the Y axis</dd>
 <dd><code><span id="param-levels">levels</span></code> - The number of mipmaps for textures and samples for render buffers</dd>
 <dd><code><span id="param-name">name</span></code> - The custom name to use when uploading this as a sampler to shaders</dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">FramebufferAttachmentDefinition</span>(<a href="FramebufferAttachmentDefinition.Type.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a>&nbsp;type, <a href="FramebufferAttachmentDefinition.Format.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Format</a>&nbsp;format, <a href="FramebufferAttachmentDefinition.DataType.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.DataType</a>&nbsp;dataType, boolean&nbsp;depth, boolean&nbsp;linear, int&nbsp;levels, @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">FramebufferAttachmentDefinition</span>(<a href="FramebufferAttachmentDefinition.Type.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a>&nbsp;type, <a href="FramebufferAttachmentDefinition.Format.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Format</a>&nbsp;format, <a href="FramebufferAttachmentDefinition.DataType.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.DataType</a>&nbsp;dataType, boolean&nbsp;depth, boolean&nbsp;linear, <a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a>&nbsp;wrapX, <a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a>&nbsp;wrapY, int&nbsp;levels, @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Represents a framebuffer attachment that can be turned into a real framebuffer.</div>
 <dl class="notes">
@@ -137,8 +139,13 @@ loadScripts(document, 'script');</script>
 <div class="block">The formats for attachments.</div>
 </div>
 <div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="FramebufferAttachmentDefinition.Type.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a></code></div>
+<div class="col-second even-row-color"><code><a href="FramebufferAttachmentDefinition.TextureWrap.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a></code></div>
 <div class="col-last even-row-color">
+<div class="block">The texture wrap modes for attachments.</div>
+</div>
+<div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="FramebufferAttachmentDefinition.Type.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a></code></div>
+<div class="col-last odd-row-color">
 <div class="block">The type of attachments.</div>
 </div>
 </div>
@@ -170,11 +177,13 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Type,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Format,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.DataType,boolean,boolean,int,java.lang.String)" class="member-name-link">FramebufferAttachmentDefinition</a><wbr>(<a href="FramebufferAttachmentDefinition.Type.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a>&nbsp;type,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Type,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Format,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.DataType,boolean,boolean,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.TextureWrap,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.TextureWrap,int,java.lang.String)" class="member-name-link">FramebufferAttachmentDefinition</a><wbr>(<a href="FramebufferAttachmentDefinition.Type.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a>&nbsp;type,
  <a href="FramebufferAttachmentDefinition.Format.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Format</a>&nbsp;format,
  <a href="FramebufferAttachmentDefinition.DataType.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.DataType</a>&nbsp;dataType,
  boolean&nbsp;depth,
  boolean&nbsp;linear,
+ <a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a>&nbsp;wrapX,
+ <a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a>&nbsp;wrapY,
  int&nbsp;levels,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last even-row-color">
@@ -247,6 +256,16 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-type"><code>type</code></a> record component.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wrapX()" class="member-name-link">wrapX</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-wrapX"><code>wrapX</code></a> record component.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#wrapY()" class="member-name-link">wrapY</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-wrapY"><code>wrapY</code></a> record component.</div>
+</div>
 </div>
 </div>
 </div>
@@ -285,13 +304,15 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Type,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Format,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.DataType,boolean,boolean,int,java.lang.String)">
+<section class="detail" id="&lt;init&gt;(foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Type,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.Format,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.DataType,boolean,boolean,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.TextureWrap,foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition.TextureWrap,int,java.lang.String)">
 <h3>FramebufferAttachmentDefinition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FramebufferAttachmentDefinition</span><wbr><span class="parameters">(<a href="FramebufferAttachmentDefinition.Type.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Type</a>&nbsp;type,
  <a href="FramebufferAttachmentDefinition.Format.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Format</a>&nbsp;format,
  <a href="FramebufferAttachmentDefinition.DataType.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.DataType</a>&nbsp;dataType,
  boolean&nbsp;depth,
  boolean&nbsp;linear,
+ <a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a>&nbsp;wrapX,
+ <a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a>&nbsp;wrapY,
  int&nbsp;levels,
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
@@ -303,6 +324,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dataType</code> - the value for the <code>dataType</code> record component</dd>
 <dd><code>depth</code> - the value for the <a href="#param-depth"><code>depth</code></a> record component</dd>
 <dd><code>linear</code> - the value for the <a href="#param-linear"><code>linear</code></a> record component</dd>
+<dd><code>wrapX</code> - the value for the <a href="#param-wrapX"><code>wrapX</code></a> record component</dd>
+<dd><code>wrapY</code> - the value for the <a href="#param-wrapY"><code>wrapY</code></a> record component</dd>
 <dd><code>levels</code> - the value for the <a href="#param-levels"><code>levels</code></a> record component</dd>
 <dd><code>name</code> - the value for the <a href="#param-name"><code>name</code></a> record component</dd>
 </dl>
@@ -419,6 +442,28 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-linear"><code>linear</code></a> record component</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="wrapX()">
+<h3>wrapX</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a></span>&nbsp;<span class="element-name">wrapX</span>()</div>
+<div class="block">Returns the value of the <a href="#param-wrapX"><code>wrapX</code></a> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <a href="#param-wrapX"><code>wrapX</code></a> record component</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="wrapY()">
+<h3>wrapY</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FramebufferAttachmentDefinition.TextureWrap.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.TextureWrap</a></span>&nbsp;<span class="element-name">wrapY</span>()</div>
+<div class="block">Returns the value of the <a href="#param-wrapY"><code>wrapY</code></a> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <a href="#param-wrapY"><code>wrapY</code></a> record component</dd>
 </dl>
 </section>
 </li>
