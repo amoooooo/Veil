@@ -22,9 +22,7 @@ import gg.moonflower.molangcompiler.api.MolangRuntime;
 import gg.moonflower.molangcompiler.api.exception.MolangRuntimeException;
 import gg.moonflower.molangcompiler.api.exception.MolangSyntaxException;
 import imgui.*;
-import imgui.flag.ImGuiCol;
-import imgui.flag.ImGuiInputTextFlags;
-import imgui.flag.ImGuiStyleVar;
+import imgui.flag.*;
 import imgui.type.ImBoolean;
 import imgui.type.ImInt;
 import imgui.type.ImString;
@@ -65,6 +63,8 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
     private FramebufferAttachmentDefinition.DataType dataType;
     private final ImString dataTypeInput = new ImString();
     private final ImBoolean linear = new ImBoolean();
+    private FramebufferAttachmentDefinition.TextureWrap wrapS;
+    private FramebufferAttachmentDefinition.TextureWrap wrapT;
     private int levels;
     private final ImInt levelsInput = new ImInt();
     private final ImString name = new ImString();
@@ -78,7 +78,8 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
 
     @Override
     public void render() {
-        if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName(), this.open)) {
+        ImGui.setWindowSize(800, 600, ImGuiCond.Appearing);
+        if (ImGui.begin("Framebuffer Editor: " + this.resource.resourceInfo().fileName(), this.open, ImGuiWindowFlags.NoSavedSettings)) {
             float definitionWidth = 1;
             float definitionHeight = 1;
             try {
@@ -222,6 +223,10 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
             this.builder = new FramebufferDefinitionBuilder();
         }
 
+        if (this.attachmentIndex == 0 && this.builder.getDepthBuffer() == null) {
+            this.attachmentIndex++;
+        }
+
         FramebufferAttachmentDefinition[] colorBuffers = this.builder.getColorBuffers();
         this.useDepth = this.builder.getDepthBuffer() != null;
         this.colorBuffers = 0;
@@ -232,7 +237,7 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         }
 
         this.updateSize();
-        this.setAttachment(Math.min(this.attachmentIndex, this.colorBuffers));
+        this.setAttachment(Math.min(this.attachmentIndex, (this.useDepth ? 1 : 0) + this.colorBuffers));
     }
 
     @Override
@@ -375,6 +380,24 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         if (ImGui.checkbox("Linear", this.linear)) {
             this.saveAttachment();
         }
+        if (ImGui.beginCombo("Wrap X", this.wrapS.name())) {
+            for (FramebufferAttachmentDefinition.TextureWrap wrap : FramebufferAttachmentDefinition.TextureWrap.VALUES) {
+                if (ImGui.selectable(wrap.name())) {
+                    this.wrapS = wrap;
+                    this.saveAttachment();
+                }
+            }
+            ImGui.endCombo();
+        }
+        if (ImGui.beginCombo("Wrap Y", this.wrapT.name())) {
+            for (FramebufferAttachmentDefinition.TextureWrap wrap : FramebufferAttachmentDefinition.TextureWrap.VALUES) {
+                if (ImGui.selectable(wrap.name())) {
+                    this.wrapT = wrap;
+                    this.saveAttachment();
+                }
+            }
+            ImGui.endCombo();
+        }
         ImGui.endDisabled();
         if (ImGui.sliderInt(this.type == FramebufferAttachmentDefinition.Type.RENDER_BUFFER ? "Samples" : "Mipmaps", this.levelsInput.getData(), 1, VeilRenderSystem.maxSamples())) {
             this.levels = this.levelsInput.get();
@@ -404,9 +427,9 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
     private void saveAttachment() {
         String name = this.name.get().isBlank() ? null : this.name.get();
         if (this.attachmentIndex == 0) {
-            this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, true, this.linear.get(), this.levels, name));
+            this.builder.setDepthBuffer(new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, true, this.linear.get(), this.wrapS, this.wrapT, this.levels, name));
         } else {
-            this.builder.setColorBuffer(this.attachmentIndex - 1, new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, false, this.linear.get(), this.levels, name));
+            this.builder.setColorBuffer(this.attachmentIndex - 1, new FramebufferAttachmentDefinition(this.type, this.format, this.dataType, false, this.linear.get(), this.wrapS, this.wrapT, this.levels, name));
         }
         this.save();
     }
@@ -432,6 +455,8 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
         this.dataType = buffer.dataType();
         this.dataTypeInput.set(this.dataType.name());
         this.linear.set(buffer.linear());
+        this.wrapS = buffer.wrapX();
+        this.wrapT = buffer.wrapY();
         this.levels = buffer.levels();
         this.levelsInput.set(this.levels);
         if (buffer.name() != null) {
@@ -517,11 +542,11 @@ public class FramebufferFileEditor implements ResourceFileEditor<FramebufferReso
                 return buffer;
             }
 
-            return this.colorBuffers[i] = new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.RGBA8, FramebufferAttachmentDefinition.DataType.UNSIGNED_BYTE, false, false, 1, null);
+            return this.colorBuffers[i] = new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.RGBA8, FramebufferAttachmentDefinition.DataType.UNSIGNED_BYTE, false, false, FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE, FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE, 1, null);
         }
 
         public FramebufferAttachmentDefinition getOrCreateDepthBuffer() {
-            return Objects.requireNonNullElseGet(this.depthBuffer, () -> this.depthBuffer = new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT, FramebufferAttachmentDefinition.DataType.FLOAT, true, false, 1, null));
+            return Objects.requireNonNullElseGet(this.depthBuffer, () -> this.depthBuffer = new FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Type.TEXTURE, FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT, FramebufferAttachmentDefinition.DataType.FLOAT, true, false, FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE, FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE, 1, null));
         }
 
         public FramebufferAttachmentDefinition[] getColorBuffers() {

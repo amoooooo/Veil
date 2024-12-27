@@ -147,7 +147,7 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
         private final IntSupplier id;
 
         private AttachmentWrapper(AdvancedFbo parent, IntSupplier id, int type) {
-            super(type, 0, 0, 0, 0, 0, 0, false, null);
+            super(type, 0, 0, 0, 0, 0, 0, false, 0, 0, null);
             this.parent = parent;
             this.id = id;
         }

@@ -55,6 +55,8 @@ public record FramebufferDefinition(MolangExpression width,
                                                     FramebufferAttachmentDefinition.DataType.FLOAT,
                                                     true,
                                                     false,
+                                                    FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE,
+                                                    FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE,
                                                     1,
                                                     null)) :
                                             Optional.empty()),
@@ -105,6 +107,10 @@ public record FramebufferDefinition(MolangExpression width,
                             .forGetter(definition -> definition.colorBuffers[0].dataType()),
                     Codec.BOOL.optionalFieldOf("linear", false)
                             .forGetter(definition -> definition.colorBuffers[0].linear()),
+                    FramebufferAttachmentDefinition.TextureWrap.CODEC.optionalFieldOf("wrapX", FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE)
+                            .forGetter(definition -> definition.colorBuffers[0].wrapX()),
+                    FramebufferAttachmentDefinition.TextureWrap.CODEC.optionalFieldOf("wrapY", FramebufferAttachmentDefinition.TextureWrap.CLAMP_TO_EDGE)
+                            .forGetter(definition -> definition.colorBuffers[0].wrapY()),
                     Codec.INT.optionalFieldOf("levels", 1)
                             .forGetter(definition -> definition.colorBuffers[0].levels()),
                     Codec.STRING.optionalFieldOf("name")
@@ -113,7 +119,7 @@ public record FramebufferDefinition(MolangExpression width,
                             .forGetter(definition -> Optional.ofNullable(definition.depthBuffer)),
                     Codec.BOOL.optionalFieldOf("autoClear", true)
                             .forGetter(FramebufferDefinition::autoClear)
-            ).apply(instance, (width, height, type, format, dataType, linear, levels, name, depth, autoClear) ->
+            ).apply(instance, (width, height, type, format, dataType, linear, wrapX, wrapY, levels, name, depth, autoClear) ->
                     new FramebufferDefinition(width,
                             height,
                             new FramebufferAttachmentDefinition[]{
@@ -122,6 +128,8 @@ public record FramebufferDefinition(MolangExpression width,
                                             dataType,
                                             false,
                                             linear,
+                                            wrapX,
+                                            wrapY,
                                             levels,
                                             name.orElse(null))
                             },

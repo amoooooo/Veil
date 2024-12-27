@@ -518,6 +518,8 @@ public interface AdvancedFbo extends NativeResource {
         private int format;
         private int internalFormat;
         private boolean linear;
+        private int wrapS;
+        private int wrapT;
         private String name;
 
         /**
@@ -531,11 +533,7 @@ public interface AdvancedFbo extends NativeResource {
             this.height = height;
             this.colorAttachments = new LinkedList<>();
             this.depthAttachment = null;
-            this.levels = 1;
-            this.format = GL_RGBA;
-            this.internalFormat = GL_RGBA8;
-            this.linear = false;
-            this.name = null;
+            this.reset();
         }
 
         private void reset() {
@@ -543,6 +541,8 @@ public interface AdvancedFbo extends NativeResource {
             this.format = GL_RGBA;
             this.internalFormat = GL_RGBA8;
             this.linear = false;
+            this.wrapS = GL_CLAMP_TO_EDGE;
+            this.wrapT = GL_CLAMP_TO_EDGE;
             this.name = null;
         }
 
@@ -649,6 +649,70 @@ public interface AdvancedFbo extends NativeResource {
         }
 
         /**
+         * Sets the clamping for the X axis on the texture.
+         *
+         * @param wrapS The wrap mode
+         */
+        public Builder setWrapS(FramebufferAttachmentDefinition.TextureWrap wrapS) {
+            this.wrapS = wrapS.getId();
+            return this;
+        }
+
+        /**
+         * Sets the clamping for the X axis on the texture.
+         *
+         * @param wrapS The wrap mode
+         */
+        public Builder setWrapS(int wrapS) {
+            this.wrapS = wrapS;
+            return this;
+        }
+
+        /**
+         * Sets the clamping for the Y axis on the texture.
+         *
+         * @param wrapT The wrap mode
+         */
+        public Builder setWrapT(FramebufferAttachmentDefinition.TextureWrap wrapT) {
+            this.wrapT = wrapT.getId();
+            return this;
+        }
+
+        /**
+         * Sets the clamping for the Y axis on the texture.
+         *
+         * @param wrapT The wrap mode
+         */
+        public Builder setWrapT(int wrapT) {
+            this.wrapT = wrapT;
+            return this;
+        }
+
+        /**
+         * Sets the clamping for the X and Y axis on the texture.
+         *
+         * @param wrapS The X wrap mode
+         * @param wrapT The Y wrap mode
+         */
+        public Builder setWrap(FramebufferAttachmentDefinition.TextureWrap wrapS, FramebufferAttachmentDefinition.TextureWrap wrapT) {
+            this.wrapS = wrapS.getId();
+            this.wrapT = wrapT.getId();
+            return this;
+        }
+
+        /**
+         * Sets the clamping for the X and Y axis on the texture.
+         *
+         * @param wrapS The X wrap mode
+         * @param wrapT The Y wrap mode
+         */
+        public Builder setWrap(int wrapS, int wrapT) {
+            this.wrapS = wrapS;
+            this.wrapT = wrapT;
+            return this;
+        }
+
+        /**
          * Sets the uniform name for textures.
          *
          * @param name The custom name to use for the sampler in shaders
@@ -731,6 +795,8 @@ public interface AdvancedFbo extends NativeResource {
                     height,
                     this.levels,
                     this.linear,
+                    this.wrapS,
+                    this.wrapT,
                     this.name));
         }
 
@@ -830,6 +896,8 @@ public interface AdvancedFbo extends NativeResource {
                     height,
                     this.levels,
                     this.linear,
+                    this.wrapS,
+                    this.wrapT,
                     this.name));
         }
 

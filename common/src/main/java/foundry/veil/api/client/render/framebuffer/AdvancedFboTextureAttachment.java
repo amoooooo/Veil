@@ -29,6 +29,8 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     private final int height;
     private final int mipmapLevels;
     private final boolean linear;
+    private final int wrapS;
+    private final int wrapT;
     private final String name;
 
     /**
@@ -51,6 +53,8 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
                                         int height,
                                         int mipmapLevels,
                                         boolean linear,
+                                        int wrapS,
+                                        int wrapT,
                                         @Nullable String name) {
         this.attachmentType = attachmentType;
         this.format = format;
@@ -60,6 +64,8 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
         this.height = height;
         this.mipmapLevels = mipmapLevels;
         this.linear = linear;
+        this.wrapS = wrapS;
+        this.wrapT = wrapT;
         this.name = name;
     }
 
@@ -71,8 +77,8 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
         GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
         GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, this.mipmapLevels - 1);
         GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this.wrapS);
+        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this.wrapT);
 
         for (int i = 0; i < this.mipmapLevels; i++) {
             GlStateManager._texImage2D(GL_TEXTURE_2D, i, this.format, this.width >> i, this.height >> i, 0, this.texelFormat, this.dataType, null);
@@ -92,7 +98,7 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
 
     @Override
     public AdvancedFboTextureAttachment clone() {
-        return new AdvancedFboTextureAttachment(this.attachmentType, this.format, this.texelFormat, this.dataType, this.width, this.height, this.mipmapLevels, this.linear, this.name);
+        return new AdvancedFboTextureAttachment(this.attachmentType, this.format, this.texelFormat, this.dataType, this.width, this.height, this.mipmapLevels, this.linear, this.wrapS, this.wrapT, this.name);
     }
 
     @Override
