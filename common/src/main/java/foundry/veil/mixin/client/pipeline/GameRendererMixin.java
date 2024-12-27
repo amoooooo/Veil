@@ -1,11 +1,14 @@
 package foundry.veil.mixin.client.pipeline;
 
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilLevelPerspectiveRenderer;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilFirstPersonRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -55,9 +58,16 @@ public class GameRendererMixin {
         VeilFirstPersonRenderer.free(); // The old texture is deleted, so we have to remake the framebuffer
     }
 
+    @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V"))
+    public boolean wrapRenderPost(LevelRenderer instance) {
+        return !VeilLevelPerspectiveRenderer.isRenderingPerspective();
+    }
+
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V", shift = At.Shift.AFTER))
     public void renderPost(CallbackInfo ci) {
-        VeilRenderSystem.renderPost();
+        if (!VeilLevelPerspectiveRenderer.isRenderingPerspective()) {
+            VeilRenderSystem.renderPost();
+        }
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Lighting;setupFor3DItems()V", shift = At.Shift.AFTER))

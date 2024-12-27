@@ -10,4 +10,6 @@ public interface RenderTargetExtension {
     void veil$bindDrawFramebuffer();
 
     void veil$bindReadFramebuffer();
+
+    int veil$getTexture(int index);
 }

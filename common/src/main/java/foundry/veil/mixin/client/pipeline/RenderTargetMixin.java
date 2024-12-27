@@ -46,6 +46,14 @@ public class RenderTargetMixin implements RenderTargetExtension {
         }
     }
 
+    @Override
+    public int veil$getTexture(int buffer) {
+        if (this.veil$wrapper != null && this.veil$wrapper.isColorTextureAttachment(buffer)) {
+            this.veil$wrapper.getColorTextureAttachment(buffer).getId();
+        }
+        return -1;
+    }
+
     @Inject(method = "bindRead", at = @At("HEAD"), cancellable = true)
     public void bindRead(CallbackInfo ci) {
         if (this.veil$wrapper != null) {
@@ -61,6 +69,20 @@ public class RenderTargetMixin implements RenderTargetExtension {
         if (this.veil$wrapper != null) {
             this.veil$wrapper.bind(true);
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "getColorTextureId", at = @At("HEAD"), cancellable = true)
+    public void getColorTextureId(CallbackInfoReturnable<Integer> cir) {
+        if (this.veil$wrapper != null) {
+            cir.setReturnValue(this.veil$wrapper.getColorTextureAttachment(0).getId());
+        }
+    }
+
+    @Inject(method = "getDepthTextureId", at = @At("HEAD"), cancellable = true)
+    public void getDepthTextureId(CallbackInfoReturnable<Integer> cir) {
+        if (this.veil$wrapper != null) {
+            cir.setReturnValue(this.veil$wrapper.getDepthTextureAttachment().getId());
         }
     }
 }
