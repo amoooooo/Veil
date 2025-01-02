@@ -10,6 +10,7 @@ import foundry.veil.lib.anarres.cpp.LexerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class GlslTest {
@@ -334,7 +335,7 @@ public class GlslTest {
 
     @Test
     void testPreprocessor() throws GlslSyntaxException, LexerException {
-        Map<String, String> macros = Map.of();
+        Map<String, String> macros = new HashMap<>();
         GlslTree tree = GlslParser.preprocessParse("""
                 #version 110 compatibility
                 

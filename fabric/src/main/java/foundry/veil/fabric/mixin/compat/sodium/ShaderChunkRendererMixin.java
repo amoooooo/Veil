@@ -99,19 +99,20 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
             }
             return () -> {
                 Map<ShaderType, String> map = new Object2ObjectArrayMap<>();
+                SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager());
                 for (Map.Entry<ResourceLocation, String> entry : shaders.entrySet()) {
                     ResourceLocation shader = entry.getKey();
                     String src = ShaderParser.parseShader(entry.getValue(), option.constants());
                     boolean vertex = shader.getPath().endsWith(".vsh");
                     try {
-                        SodiumShaderProcessor.setup(Minecraft.getInstance().getResourceManager());
-                        src = SodiumShaderProcessor.modify(ResourceLocation.fromNamespaceAndPath(shader.getNamespace(), "shaders/" + shader.getPath()), activeBuffers, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
-                        SodiumShaderProcessor.free();
+                        src = SodiumShaderProcessor.modify(shader.withPrefix("shaders/"), activeBuffers, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, src);
                     } catch (Exception e) {
                         Veil.LOGGER.error("Failed to apply Veil shader modifiers to shader: {}", shader, e);
                     }
                     map.put(vertex ? ShaderType.VERTEX : ShaderType.FRAGMENT, src);
                 }
+                SodiumShaderProcessor.free();
+
                 RenderSystem.recordRenderCall(() -> {
                     this.veil$shaderSource = map;
                     GlProgram<ChunkShaderInterface> old = this.programs.put(option, this.createShader("blocks/block_layer_opaque", option));
