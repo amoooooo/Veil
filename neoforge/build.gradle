@@ -77,9 +77,9 @@ dependencies {
         jarJar(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-$name"))
     }
 
-    compileOnly "maven.modrinth:sodium:mc1.21.1-0.6.1-neoforge"
+    compileOnly "maven.modrinth:sodium:mc1.21.1-${sodium_version}-neoforge"
     compileOnly "maven.modrinth:iris:1.8.1+1.21.1-neoforge"
-    runtimeOnly "maven.modrinth:sodium:mc1.21.1-0.6.1-neoforge"
+    runtimeOnly "maven.modrinth:sodium:mc1.21.1-${sodium_version}-neoforge"
 //    runtimeOnly "maven.modrinth:iris:1.8.1+1.21.1-neoforge"
 
     // Allows sodium compat to compile properly

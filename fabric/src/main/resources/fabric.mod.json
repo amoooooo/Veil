@@ -35,6 +35,9 @@
     "minecraft": "${minecraft_version}",
     "java": ">=17"
   },
+  "breaks": {
+    "sodium": "<${sodium_version}"
+  },
   "accessWidener": "veil.accesswidener"
 }
   
