@@ -90,7 +90,7 @@ public class GameRendererMixin {
         VeilRenderSystem.renderer().getGuiInfo().unbind();
     }
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", shift = At.Shift.BEFORE))
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", shift = At.Shift.BEFORE, remap = false))
     public void bindFirstPerson(CallbackInfo ci) {
         VeilFirstPersonRenderer.bind();
     }

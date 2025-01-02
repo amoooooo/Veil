@@ -1,7 +1,5 @@
 package foundry.veil.api.client.util;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.datafixers.util.Either;
@@ -13,9 +11,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -23,15 +18,12 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
-import org.joml.Matrix4fStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -45,8 +37,7 @@ public class UIUtils {
             return;
         }
 
-        List<ClientTooltipComponent> list = gatherTooltipComponents(stack, textLines,
-                stack.getTooltipImage(), mouseX, screenWidth, screenHeight, font, font);
+        List<ClientTooltipComponent> list = gatherTooltipComponents(stack, textLines, stack.getTooltipImage().orElse(null), mouseX, screenWidth, screenHeight, font, font);
         // RenderSystem.disableRescaleNormal();
         RenderSystem.disableDepthTest();
         int tooltipTextWidth = 0;
@@ -198,13 +189,14 @@ public class UIUtils {
         tryRenderGuiItem($$0, $$1, $$2, $$3, $$4, 0);
     }
 
-    public static List<ClientTooltipComponent> gatherTooltipComponents(ItemStack stack, List<? extends FormattedText> textElements, Optional<TooltipComponent> itemComponent, int mouseX, int screenWidth, int screenHeight, @Nullable Font forcedFont, Font fallbackFont) {
+    public static List<ClientTooltipComponent> gatherTooltipComponents(ItemStack stack, List<? extends FormattedText> textElements, @Nullable TooltipComponent itemComponent, int mouseX, int screenWidth, int screenHeight, @Nullable Font forcedFont, Font fallbackFont) {
         Font font = forcedFont != null ? forcedFont : fallbackFont;
         List<Either<FormattedText, TooltipComponent>> elements = textElements.stream()
                 .map((Function<FormattedText, Either<FormattedText, TooltipComponent>>) Either::left)
                 .collect(Collectors.toCollection(ArrayList::new));
-        itemComponent.ifPresent(c -> elements.add(1, Either.right(c)));
-
+        if (itemComponent != null) {
+            elements.add(1, Either.right(itemComponent));
+        }
 
         // text wrapping
         int tooltipTextWidth = elements.stream()
@@ -316,38 +308,5 @@ public class UIUtils {
 //
 //            Minecraft.getInstance().getItemRenderer().blitOffset = $$6.isGui3d() ? Minecraft.getInstance().getItemRenderer().blitOffset - 50.0F - (float) $$5 : Minecraft.getInstance().getItemRenderer().blitOffset - 50.0F;
 //        }
-    }
-
-    public static void renderGuiItem(ItemStack stack, float x, float y, BakedModel bakedModel) {
-        Minecraft.getInstance().getTextureManager().getTexture(TextureAtlas.LOCATION_BLOCKS).setFilter(false, false);
-        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_BLOCKS);
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        Matrix4fStack $$4 = RenderSystem.getModelViewStack();
-        $$4.pushMatrix();
-//        $$4.translate((double) x, (double) y, (double) (100.0F + Minecraft.getInstance().getItemRenderer().blitOffset));
-        $$4.translate(8, 8, 0);
-        $$4.scale(1.0F, -1.0F, 1.0F);
-        $$4.scale(16.0F, 16.0F, 16.0F);
-        RenderSystem.applyModelViewMatrix();
-        PoseStack $$5 = new PoseStack();
-        MultiBufferSource.BufferSource $$6 = Minecraft.getInstance().renderBuffers().bufferSource();
-        boolean $$7 = !bakedModel.usesBlockLight();
-        if ($$7) {
-            Lighting.setupForFlatItems();
-        } else {
-            Lighting.setupFor3DItems();
-        }
-
-        Minecraft.getInstance().getItemRenderer().render(stack, ItemDisplayContext.GUI, false, $$5, $$6, 15728880, OverlayTexture.NO_OVERLAY, bakedModel);
-        $$6.endBatch();
-        RenderSystem.enableDepthTest();
-        if ($$7) {
-            Lighting.setupFor3DItems();
-        }
-
-        $$4.popMatrix();
-        RenderSystem.applyModelViewMatrix();
     }
 }

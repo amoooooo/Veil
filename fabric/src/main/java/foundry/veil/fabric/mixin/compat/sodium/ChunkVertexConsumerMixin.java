@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ChunkVertexConsumer.class)
 public class ChunkVertexConsumerMixin {
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private ChunkVertexEncoder.Vertex[] vertices;
 
-    @Shadow
+    @Shadow(remap = false)
     private int vertexIndex;
 
     @Inject(method = "setNormal", at = @At("HEAD"))

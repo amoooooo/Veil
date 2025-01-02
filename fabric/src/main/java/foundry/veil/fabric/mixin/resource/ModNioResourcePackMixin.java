@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-@Mixin(ModNioResourcePack.class)
+@Mixin(value = ModNioResourcePack.class, remap = false)
 public abstract class ModNioResourcePackMixin implements ModResourcePack, PackResourcesExtension {
 
     @Shadow

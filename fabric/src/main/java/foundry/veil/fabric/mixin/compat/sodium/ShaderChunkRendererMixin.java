@@ -37,7 +37,7 @@ import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 @Mixin(ShaderChunkRenderer.class)
 public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExtension {
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private Map<ChunkShaderOptions, GlProgram<ChunkShaderInterface>> programs;
 
@@ -64,8 +64,8 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
         ((ChunkShaderOptionsExtension) (Object) options).veil$setActiveBuffers(this.veil$activeBuffers);
     }
 
-    @WrapOperation(method = "createShader", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderLoader;loadShader(Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderType;Lnet/minecraft/resources/ResourceLocation;Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderConstants;)Lnet/caffeinemc/mods/sodium/client/gl/shader/GlShader;"), require = 2, remap = false)
-    public GlShader createShader(ShaderType type, ResourceLocation name, ShaderConstants constants, Operation<GlShader> original) {
+    @WrapOperation(method = "createShader", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderLoader;loadShader(Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderType;Lnet/minecraft/resources/ResourceLocation;Lnet/caffeinemc/mods/sodium/client/gl/shader/ShaderConstants;)Lnet/caffeinemc/mods/sodium/client/gl/shader/GlShader;", remap = true), require = 2, remap = false)
+    private GlShader createShader(ShaderType type, ResourceLocation name, ShaderConstants constants, Operation<GlShader> original) {
         if (this.veil$shaderSource != null) {
             String source = this.veil$shaderSource.get(type);
             if (source != null) {
@@ -76,7 +76,7 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
     }
 
     @Unique
-    private void veil$doRecompile(Queue<ChunkShaderOptions> keys, int activeBuffers) {
+    private void recompile(Queue<ChunkShaderOptions> keys, int activeBuffers) {
         if (this.scheduler != null) {
             this.scheduler.cancel();
         }
@@ -132,38 +132,9 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
         }, VeilRenderSystem.renderThreadExecutor());
     }
 
-    @Override
-    public void veil$recompile() {
-        this.veil$doRecompile(this.veil$getActiveKeys(this.veil$activeBuffers), this.veil$activeBuffers);
-    }
-
-    @Override
-    public void veil$setActiveBuffers(int activeBuffers) {
-        if (this.veil$activeBuffers == activeBuffers) {
-            return;
-        }
-
-        if (this.scheduler != null) {
-            this.scheduler.cancel();
-        }
-
-        Queue<ChunkShaderOptions> keys = this.veil$getActiveKeys(activeBuffers);
-        keys.removeIf(this.programs::containsKey);
-        if (keys.isEmpty()) {
-            return;
-        }
-
-        this.veil$doRecompile(keys, activeBuffers);
-    }
-
-    @Override
-    public Map<ChunkShaderOptions, GlProgram<ChunkShaderInterface>> veil$getPrograms() {
-        return this.programs;
-    }
-
     @SuppressWarnings("RedundantOperationOnEmptyContainer")
     @Unique
-    private Queue<ChunkShaderOptions> veil$getActiveKeys(int activeBuffers) {
+    private Queue<ChunkShaderOptions> getActiveKeys(int activeBuffers) {
         Queue<ChunkShaderOptions> keys = new ConcurrentLinkedDeque<>();
         for (ChunkShaderOptions key : this.programs.keySet()) {
             boolean unique = true;
@@ -180,5 +151,34 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
             }
         }
         return keys;
+    }
+
+    @Override
+    public void veil$recompile() {
+        this.recompile(this.getActiveKeys(this.veil$activeBuffers), this.veil$activeBuffers);
+    }
+
+    @Override
+    public void veil$setActiveBuffers(int activeBuffers) {
+        if (this.veil$activeBuffers == activeBuffers) {
+            return;
+        }
+
+        if (this.scheduler != null) {
+            this.scheduler.cancel();
+        }
+
+        Queue<ChunkShaderOptions> keys = this.getActiveKeys(activeBuffers);
+        keys.removeIf(this.programs::containsKey);
+        if (keys.isEmpty()) {
+            return;
+        }
+
+        this.recompile(keys, activeBuffers);
+    }
+
+    @Override
+    public Map<ChunkShaderOptions, GlProgram<ChunkShaderInterface>> veil$getPrograms() {
+        return this.programs;
     }
 }

@@ -9,22 +9,22 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(RenderTarget.class)
+@Mixin(value = RenderTarget.class, remap = false)
 public abstract class IrisRenderTargetMixin implements IrisRenderTargetExtension {
 
-    @Shadow(remap = false)
+    @Shadow
     private String name;
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract int getMainTexture();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract int getAltTexture();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract int getWidth();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract int getHeight();
 
     @Shadow

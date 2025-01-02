@@ -18,7 +18,7 @@ public class DefaultShaderInterfaceMixin {
     @Unique
     private VeilNormalUniform veil$uniformNormalMatrix;
 
-    @Inject(method = "<init>", at = @At("TAIL"))
+    @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(ShaderBindingContext context, ChunkShaderOptions options, CallbackInfo ci) {
         this.veil$uniformNormalMatrix = context.bindUniformOptional("VeilNormalMatrix", VeilNormalUniform::new);
     }

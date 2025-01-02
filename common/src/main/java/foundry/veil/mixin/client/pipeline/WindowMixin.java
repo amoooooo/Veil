@@ -10,13 +10,13 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(Window.class)
 public class WindowMixin {
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwWindowHint(II)V", ordinal = 2), index = 1)
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwWindowHint(II)V", ordinal = 2, remap = false), index = 1)
     public int captureMajorVersion(int hint, @Share("majorGLVersion") LocalIntRef majorGLVersion) {
         majorGLVersion.set(hint);
         return hint;
     }
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwWindowHint(II)V", ordinal = 3), index = 1)
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwWindowHint(II)V", ordinal = 3, remap = false), index = 1)
     public int captureMinorVersion(int hint, @Share("majorGLVersion") LocalIntRef majorGLVersion) {
         return majorGLVersion.get() == 3 ? Math.max(3, hint) : hint;
     }

@@ -23,7 +23,7 @@ public class CubeMesh extends Mesh {
         super();
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
-        faces = new ArrayList<>();
+        this.faces = new ArrayList<>();
     }
 
     public Face[] addCube(float xSize, float ySize, float zSize, float xOffset, float yOffset, float zOffset, float xInflate, float yInflate, float zInflate, float uOffset, float vOffset) {
@@ -68,21 +68,21 @@ public class CubeMesh extends Mesh {
         float v1 = vOffset + Mth.floor(zSize);
         float v2 = vOffset + Mth.floor(zSize) + Mth.floor(ySize);
 
-        Face[] cubeFaces = {new Face(xoz, ooz, ooo, xoo, u3, v0, u2, v1, textureWidth, textureHeight, mirrored, Direction.UP),
-                new Face(xyo, oyo, oyz, xyz, u2, v1, u1, v0, textureWidth, textureHeight, mirrored, Direction.DOWN),
-                new Face(ooo, ooz, oyz, oyo, u4, v2, u2, v1, textureWidth, textureHeight, mirrored, Direction.EAST),
-                new Face(xoz, xoo, xyo, xyz, u1, v2, u0, v1, textureWidth, textureHeight, mirrored, Direction.WEST),
-                new Face(ooz, xoz, xyz, oyz, u5, v2, u4, v1, textureWidth, textureHeight, mirrored, Direction.NORTH),
-                new Face(xoo, ooo, oyo, xyo, u2, v2, u1, v1, textureWidth, textureHeight, mirrored, Direction.SOUTH)};
+        Face[] cubeFaces = {new Face(xoz, ooz, ooo, xoo, u3, v0, u2, v1, this.textureWidth, this.textureHeight, mirrored, Direction.UP),
+                new Face(xyo, oyo, oyz, xyz, u2, v1, u1, v0, this.textureWidth, this.textureHeight, mirrored, Direction.DOWN),
+                new Face(ooo, ooz, oyz, oyo, u4, v2, u2, v1, this.textureWidth, this.textureHeight, mirrored, Direction.EAST),
+                new Face(xoz, xoo, xyo, xyz, u1, v2, u0, v1, this.textureWidth, this.textureHeight, mirrored, Direction.WEST),
+                new Face(ooz, xoz, xyz, oyz, u5, v2, u4, v1, this.textureWidth, this.textureHeight, mirrored, Direction.NORTH),
+                new Face(xoo, ooo, oyo, xyo, u2, v2, u1, v1, this.textureWidth, this.textureHeight, mirrored, Direction.SOUTH)};
 
-        Collections.addAll(faces, cubeFaces);
+        Collections.addAll(this.faces, cubeFaces);
 
         return cubeFaces;
     }
 
     public Face addTri(float x1, float y1, float z1, float u1, float v1, float x2, float y2, float z2, float u2, float v2, float x3, float y3, float z3, float u3, float v3, float normalX, float normalY, float normalZ) {
         Face face = new Face(new Vertex[]{new Vertex(x1, y1, z1), new Vertex(x2, y2, z2), new Vertex(x2, y2, z2)}, new UV[]{new UV(u1, v1), new UV(u2, v2), new UV(u3, v3)}, new Vector3f(normalX, normalY, normalZ));
-        faces.add(face);
+        this.faces.add(face);
         return face;
     }
 
@@ -95,7 +95,7 @@ public class CubeMesh extends Mesh {
             uvArray[i] = new UV(vertex.u() / (float)this.textureWidth, vertex.v() / (float)this.textureHeight);
         }
         Face face = new Face(vertArray, uvArray, new Vector3f(normalX, normalY, normalZ));
-        faces.add(face);
+        this.faces.add(face);
         return face;
     }
 

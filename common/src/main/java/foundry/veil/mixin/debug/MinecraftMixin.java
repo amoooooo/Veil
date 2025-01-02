@@ -9,12 +9,12 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;initRenderer(IZ)V"), index = 0)
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;initRenderer(IZ)V", remap = false), index = 0)
     private int modifyDebugVerbosity(int debugVerbosity) {
         return Veil.DEBUG ? 100 : debugVerbosity;
     }
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;initRenderer(IZ)V"), index = 1)
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;initRenderer(IZ)V", remap = false), index = 1)
     private boolean modifySynchronousDebug(boolean synchronous) {
         return synchronous || Veil.DEBUG;
     }

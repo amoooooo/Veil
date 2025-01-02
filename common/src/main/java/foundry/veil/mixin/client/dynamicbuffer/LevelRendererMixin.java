@@ -39,7 +39,7 @@ public class LevelRendererMixin {
         VeilRenderSystem.renderer().getDynamicBufferManger().setEnabled(false);
     }
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;long2ObjectEntrySet()Lit/unimi/dsi/fastutil/objects/ObjectSet;", shift = At.Shift.BEFORE))
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/longs/Long2ObjectMap;long2ObjectEntrySet()Lit/unimi/dsi/fastutil/objects/ObjectSet;", shift = At.Shift.BEFORE, remap = false))
     public void beginTranslucent(CallbackInfo ci) {
         VeilRenderSystem.renderer().getDynamicBufferManger().setEnabled(true);
     }

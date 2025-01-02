@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BlockRenderer.class)
 public class BlockRendererMixin {
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private ChunkVertexEncoder.Vertex[] vertices;
 

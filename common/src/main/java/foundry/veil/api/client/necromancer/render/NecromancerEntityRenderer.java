@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public abstract class NecromancerEntityRenderer<T extends Entity & SkeletonParent, M extends Skeleton<T>> extends EntityRenderer<T> {
+public abstract class NecromancerEntityRenderer<T extends Entity & SkeletonParent<T, M>, M extends Skeleton<T>> extends EntityRenderer<T> {
+
     final Function<T, M> skeletonFactory;
     final BiFunction<T, M, Animator<T, M>> animatorFactory;
     final List<NecromancerEntityRenderLayer<T, M>> layers;
@@ -42,13 +43,14 @@ public abstract class NecromancerEntityRenderer<T extends Entity & SkeletonParen
     }
 
     public void setupEntity(T entity) {
-        M skeleton = skeletonFactory.apply(entity);
+        M skeleton = this.skeletonFactory.apply(entity);
         entity.setSkeleton(skeleton);
-        entity.setAnimator(animatorFactory.apply(entity, skeleton));
+        entity.setAnimator(this.animatorFactory.apply(entity, skeleton));
     }
 
     public abstract Skin<M> getSkin(T parent);
 
+    @Override
     public void render(T pEntity, float pEntityYaw, float pPartialTicks, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight) {
         poseStack.pushPose();
         float scale = 1.0F / 16.0F;
@@ -61,15 +63,17 @@ public abstract class NecromancerEntityRenderer<T extends Entity & SkeletonParen
         boolean shouldRender = !invisible;
 
         RenderType rendertype = this.getRenderType(pEntity, this.getTextureLocation(pEntity));
-        M skeleton = (M) pEntity.getSkeleton();
+        M skeleton = pEntity.getSkeleton();
         Skin<M> skin = this.getSkin(pEntity);
 
-        if (shouldRender && skeleton != null && skin != null ) {
-            renderSkin(pEntity, skeleton, skin, pEntity.tickCount, pPartialTicks, poseStack, pBuffer.getBuffer(rendertype), pPackedLight, this.getOverlayCoords(pEntity), 1, 1, 1, 1);
+        if (shouldRender && skeleton != null && skin != null) {
+            this.renderSkin(pEntity, skeleton, skin, pEntity.tickCount, pPartialTicks, poseStack, pBuffer.getBuffer(rendertype), pPackedLight, this.getOverlayCoords(pEntity), 1, 1, 1, 1);
         }
 
         if (!pEntity.isSpectator() && rendertype != null && skeleton != null) {
-            for (NecromancerEntityRenderLayer<T, M> layer : this.layers) layer.render(poseStack, pBuffer, pPackedLight, pEntity, skeleton, pPartialTicks);
+            for (NecromancerEntityRenderLayer<T, M> layer : this.layers) {
+                layer.render(poseStack, pBuffer, pPackedLight, pEntity, skeleton, pPartialTicks);
+            }
         }
 
         poseStack.popPose();
@@ -88,7 +92,9 @@ public abstract class NecromancerEntityRenderer<T extends Entity & SkeletonParen
 
     protected RenderType getRenderType(T pLivingEntity, boolean visible, boolean spectator, boolean glowing) {
         ResourceLocation texture = this.getTextureLocation(pLivingEntity);
-        if (!visible) return null;
+        if (!visible) {
+            return null;
+        }
         return this.getRenderType(pLivingEntity, texture);
     }
 }

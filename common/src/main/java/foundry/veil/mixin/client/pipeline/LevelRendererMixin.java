@@ -102,7 +102,7 @@ public abstract class LevelRendererMixin implements LevelRendererExtension {
     }
 
     // Add custom world border shader
-    @ModifyArg(method = "renderWorldBorder", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShader(Ljava/util/function/Supplier;)V"))
+    @ModifyArg(method = "renderWorldBorder", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShader(Ljava/util/function/Supplier;)V", remap = false))
     public Supplier<ShaderInstance> setWorldBorderShader(Supplier<ShaderInstance> supplier) {
         return VeilVanillaShaders::getWorldborder;
     }

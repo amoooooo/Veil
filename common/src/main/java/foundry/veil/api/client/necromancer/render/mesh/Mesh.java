@@ -16,7 +16,7 @@ public abstract class Mesh {
 
     protected record Vertex(float x, float y, float z) {}
     protected record UV(float u, float v) {}
-    protected static class Face {
+    public static class Face {
         protected final Vertex[] vertices;
         protected final UV[] uvs;
         protected final Vector3f normal;

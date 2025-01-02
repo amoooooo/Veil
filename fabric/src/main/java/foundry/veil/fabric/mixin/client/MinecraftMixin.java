@@ -28,7 +28,7 @@ public class MinecraftMixin {
         FabricVeilRegisterFixedBuffersEvent.EVENT.invoker().onRegisterFixedBuffers(FabricRenderTypeStageHandler::register);
     }
 
-    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupDefaultState(IIII)V"))
+    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupDefaultState(IIII)V", remap = false))
     public void registerBlockLayers(CallbackInfo ci) {
         ImmutableList.Builder<RenderType> blockLayers = ImmutableList.builder();
         FabricVeilRegisterBlockLayersEvent.EVENT.invoker().onRegisterBlockLayers(renderType -> {

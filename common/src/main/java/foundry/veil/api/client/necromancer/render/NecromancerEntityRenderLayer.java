@@ -6,7 +6,8 @@ import foundry.veil.api.client.necromancer.SkeletonParent;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
 
-public abstract class NecromancerEntityRenderLayer<T extends Entity & SkeletonParent, M extends Skeleton<T>> {
+public abstract class NecromancerEntityRenderLayer<T extends Entity & SkeletonParent<T, M>, M extends Skeleton<T>> {
+
     public NecromancerEntityRenderer<T, M> renderer;
 
     public NecromancerEntityRenderLayer(NecromancerEntityRenderer<T, M> pRenderer) {

@@ -20,11 +20,11 @@ public class Skin<T extends Skeleton<?>> {
     }
 
     public void addMesh(String boneID, Mesh mesh) {
-        meshes.put(boneID, mesh);
+        this.meshes.put(boneID, mesh);
     }
 
     public Mesh getMesh(Bone bone) {
-        return meshes.getOrDefault(bone.identifier, Mesh.EMPTY);
+        return this.meshes.getOrDefault(bone.identifier, Mesh.EMPTY);
     }
 
     public void render(T skeleton, int ticksExisted, float partialTick, PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
