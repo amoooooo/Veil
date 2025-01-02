@@ -166,9 +166,9 @@ loadScripts(document, 'script');</script>
  net.minecraft.resources.ResourceLocation&nbsp;texture)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#gatherTooltipComponents(net.minecraft.world.item.ItemStack,java.util.List,java.util.Optional,int,int,int,net.minecraft.client.gui.Font,net.minecraft.client.gui.Font)" class="member-name-link">gatherTooltipComponents</a><wbr>(net.minecraft.world.item.ItemStack&nbsp;stack,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#gatherTooltipComponents(net.minecraft.world.item.ItemStack,java.util.List,net.minecraft.world.inventory.tooltip.TooltipComponent,int,int,int,net.minecraft.client.gui.Font,net.minecraft.client.gui.Font)" class="member-name-link">gatherTooltipComponents</a><wbr>(net.minecraft.world.item.ItemStack&nbsp;stack,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends net.minecraft.network.chat.FormattedText&gt;&nbsp;textElements,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;net.minecraft.world.inventory.tooltip.TooltipComponent&gt;&nbsp;itemComponent,
+ @Nullable net.minecraft.world.inventory.tooltip.TooltipComponent&nbsp;itemComponent,
  int&nbsp;mouseX,
  int&nbsp;screenWidth,
  int&nbsp;screenHeight,
@@ -181,26 +181,20 @@ loadScripts(document, 'script');</script>
  float&nbsp;$$2)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderGuiItem(net.minecraft.world.item.ItemStack,float,float,net.minecraft.client.resources.model.BakedModel)" class="member-name-link">renderGuiItem</a><wbr>(net.minecraft.world.item.ItemStack&nbsp;stack,
- float&nbsp;x,
- float&nbsp;y,
- net.minecraft.client.resources.model.BakedModel&nbsp;bakedModel)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#tryRenderGuiItem(net.minecraft.world.entity.LivingEntity,net.minecraft.world.item.ItemStack,float,float,int)" class="member-name-link">tryRenderGuiItem</a><wbr>(@Nullable net.minecraft.world.entity.LivingEntity&nbsp;$$0,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#tryRenderGuiItem(net.minecraft.world.entity.LivingEntity,net.minecraft.world.item.ItemStack,float,float,int)" class="member-name-link">tryRenderGuiItem</a><wbr>(@Nullable net.minecraft.world.entity.LivingEntity&nbsp;$$0,
  net.minecraft.world.item.ItemStack&nbsp;$$1,
  float&nbsp;$$2,
  float&nbsp;$$3,
  int&nbsp;$$4)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#tryRenderGuiItem(net.minecraft.world.entity.LivingEntity,net.minecraft.world.item.ItemStack,float,float,int,float)" class="member-name-link">tryRenderGuiItem</a><wbr>(net.minecraft.world.entity.LivingEntity&nbsp;$$0,
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#tryRenderGuiItem(net.minecraft.world.entity.LivingEntity,net.minecraft.world.item.ItemStack,float,float,int,float)" class="member-name-link">tryRenderGuiItem</a><wbr>(net.minecraft.world.entity.LivingEntity&nbsp;$$0,
  net.minecraft.world.item.ItemStack&nbsp;$$1,
  float&nbsp;$$2,
  float&nbsp;$$3,
  int&nbsp;$$4,
  float&nbsp;$$5)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -276,11 +270,12 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="gatherTooltipComponents(net.minecraft.world.item.ItemStack,java.util.List,java.util.Optional,int,int,int,net.minecraft.client.gui.Font,net.minecraft.client.gui.Font)">
+<section class="detail" id="gatherTooltipComponents(net.minecraft.world.item.ItemStack,java.util.List,net.minecraft.world.inventory.tooltip.TooltipComponent,int,int,int,net.minecraft.client.gui.Font,net.minecraft.client.gui.Font)">
 <h3>gatherTooltipComponents</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent&gt;</span>&nbsp;<span class="element-name">gatherTooltipComponents</span><wbr><span class="parameters">(net.minecraft.world.item.ItemStack&nbsp;stack,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends net.minecraft.network.chat.FormattedText&gt;&nbsp;textElements,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;net.minecraft.world.inventory.tooltip.TooltipComponent&gt;&nbsp;itemComponent,
+ @Nullable
+ @Nullable net.minecraft.world.inventory.tooltip.TooltipComponent&nbsp;itemComponent,
  int&nbsp;mouseX,
  int&nbsp;screenWidth,
  int&nbsp;screenHeight,
@@ -329,15 +324,6 @@ loadScripts(document, 'script');</script>
  float&nbsp;$$3,
  int&nbsp;$$4,
  float&nbsp;$$5)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="renderGuiItem(net.minecraft.world.item.ItemStack,float,float,net.minecraft.client.resources.model.BakedModel)">
-<h3>renderGuiItem</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">renderGuiItem</span><wbr><span class="parameters">(net.minecraft.world.item.ItemStack&nbsp;stack,
- float&nbsp;x,
- float&nbsp;y,
- net.minecraft.client.resources.model.BakedModel&nbsp;bakedModel)</span></div>
 </section>
 </li>
 </ul>
