@@ -109,8 +109,8 @@ public final class GlslParser {
             reader.skip();
             String[] parts = token.value().substring(9).split(" +", 2);
             try {
-                int ver = Integer.parseInt(parts[0]);
-                boolean core = parts.length == 1 || parts[1].equals("core");
+                int ver = Integer.parseInt(parts[0].trim());
+                boolean core = parts.length == 1 || parts[1].trim().equals("core");
                 version.setVersion(ver);
                 version.setCore(core);
             } catch (NumberFormatException e) {
