@@ -79,6 +79,7 @@ foundry.veil.impl.client.imgui
 foundry.veil.impl.client.imgui.style
 foundry.veil.impl.client.render
 foundry.veil.impl.client.render.dynamicbuffer
+foundry.veil.impl.client.render.ext
 foundry.veil.impl.client.render.light
 foundry.veil.impl.client.render.perspective
 foundry.veil.impl.client.render.pipeline
