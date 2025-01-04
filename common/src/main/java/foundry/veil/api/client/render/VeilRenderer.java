@@ -14,18 +14,14 @@ import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.ShaderModificationManager;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
-import foundry.veil.ext.LevelRendererExtension;
-import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.mixin.accessor.ReloadableResourceManagerAccessor;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import org.jetbrains.annotations.ApiStatus;
-import org.lwjgl.system.NativeResource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +33,7 @@ import java.util.stream.Collectors;
  *
  * @author Ocelot
  */
-public class VeilRenderer implements NativeResource {
+public class VeilRenderer {
 
     public static final ResourceLocation ALBEDO_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/albedo");
     public static final ResourceLocation NORMAL_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/normal");
@@ -238,21 +234,7 @@ public class VeilRenderer implements NativeResource {
         return this.guiInfo;
     }
 
-    /**
-     * @return Whether ImGui can be used
-     */
-    public static boolean hasImGui() {
-        return VeilImGuiImpl.get() instanceof VeilImGuiImpl;
-    }
-
-    /**
-     * @return The culling frustum for the renderer
-     */
-    public static CullFrustum getCullingFrustum() {
-        return ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).veil$getCullFrustum();
-    }
-
-    @Override
+    @ApiStatus.Internal
     public void free() {
         this.dynamicBufferManger.free();
         this.shaderManager.close();

@@ -755,6 +755,20 @@ public final class VeilRenderSystem {
         return CAMERA_BOB_OFFSET;
     }
 
+    /**
+     * @return Whether ImGui can be used
+     */
+    public static boolean hasImGui() {
+        return VeilImGuiImpl.get() instanceof VeilImGuiImpl;
+    }
+
+    /**
+     * @return The culling frustum for the renderer
+     */
+    public static CullFrustum getCullingFrustum() {
+        return ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).veil$getCullFrustum();
+    }
+
     // Internal
 
     @ApiStatus.Internal
@@ -828,7 +842,7 @@ public final class VeilRenderSystem {
 
         profiler.push("lights");
         profiler.push("setup_lights");
-        lightRenderer.setup(VeilRenderer.getCullingFrustum());
+        lightRenderer.setup(getCullingFrustum());
         profiler.popPush("draw_lights");
         AdvancedFbo lightFbo = framebufferManager.getFramebuffer(VeilFramebuffers.LIGHT);
         if (lightFbo != null) {

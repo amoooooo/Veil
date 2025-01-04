@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.registry.*;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.registry.EmitterShapeRegistry;
@@ -21,14 +20,10 @@ import foundry.veil.platform.VeilClientPlatform;
 import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.renderer.RenderType;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ServiceLoader;
-
-import static org.lwjgl.opengl.GL11C.glEnable;
-import static org.lwjgl.opengl.GL32C.GL_DEPTH_CLAMP;
 
 public class VeilClient {
 
@@ -47,7 +42,7 @@ public class VeilClient {
         });
         VeilEventPlatform.INSTANCE.onVeilRendererAvailable(renderer -> {
             RESOURCE_MANAGER.addVeilLoaders(renderer);
-            if (VeilRenderer.hasImGui()) {
+            if (VeilRenderSystem.hasImGui()) {
                 EditorManager editorManager = renderer.getEditorManager();
 
                 // Example for devs

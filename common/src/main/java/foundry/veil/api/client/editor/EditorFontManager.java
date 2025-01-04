@@ -1,7 +1,7 @@
 package foundry.veil.api.client.editor;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.VeilRenderer;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import imgui.ImFont;
 import imgui.ImFontAtlas;
@@ -58,7 +58,7 @@ public class EditorFontManager implements PreparableReloadListener {
 
     @Override
     public @NotNull CompletableFuture<Void> reload(@NotNull PreparationBarrier preparationBarrier, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller prepareProfiler, @NotNull ProfilerFiller applyProfiler, @NotNull Executor backgroundExecutor, @NotNull Executor gameExecutor) {
-        if (!VeilRenderer.hasImGui()) {
+        if (!VeilRenderSystem.hasImGui()) {
             return preparationBarrier.wait(null);
         }
 

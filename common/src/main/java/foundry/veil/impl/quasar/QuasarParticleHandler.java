@@ -2,7 +2,6 @@ package foundry.veil.impl.quasar;
 
 import foundry.veil.api.client.render.CachedBufferSource;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -32,7 +31,7 @@ public class QuasarParticleHandler {
                 if (cachedBufferSource == null) {
                     cachedBufferSource = new CachedBufferSource();
                 }
-                VeilRenderSystem.renderer().getParticleManager().render(poseStack, cachedBufferSource, camera, VeilRenderer.getCullingFrustum(), deltaTracker.getGameTimeDeltaPartialTick(false));
+                VeilRenderSystem.renderer().getParticleManager().render(poseStack, cachedBufferSource, camera, VeilRenderSystem.getCullingFrustum(), deltaTracker.getGameTimeDeltaPartialTick(false));
                 cachedBufferSource.endBatch();
             }
         });
