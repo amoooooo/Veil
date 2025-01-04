@@ -20,6 +20,7 @@ import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
+import foundry.veil.impl.client.render.ext.VeilTextureMultiBind;
 import foundry.veil.impl.client.render.pipeline.VeilUniformBlockState;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.mixin.accessor.BufferSourceAccessor;
@@ -277,13 +278,6 @@ public final class VeilRenderSystem {
         VertexBuffer.unbind();
     }
 
-    private static void invalidateTextures(int first, int count) {
-        int invalidCount = Math.min(12 - first, count);
-        for (int i = first; i < invalidCount; i++) {
-            GlStateManager.TEXTURES[i].binding = -1;
-        }
-    }
-
     /**
      * Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.
      *
@@ -291,8 +285,7 @@ public final class VeilRenderSystem {
      * @param textures The textures to bind
      */
     public static void bindTextures(int first, IntBuffer textures) {
-        invalidateTextures(first, textures.limit());
-        glBindTextures(first, textures);
+        VeilTextureMultiBind.get().bindTextures(first, textures);
     }
 
     /**
@@ -302,8 +295,7 @@ public final class VeilRenderSystem {
      * @param textures The textures to bind
      */
     public static void bindTextures(int first, int... textures) {
-        invalidateTextures(first, textures.length);
-        glBindTextures(first, textures);
+        VeilTextureMultiBind.get().bindTextures(first, textures);
     }
 
     /**

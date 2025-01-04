@@ -41,7 +41,7 @@ public abstract class ShaderChunkRendererMixin implements ShaderChunkRendererExt
     @Final
     private Map<ChunkShaderOptions, GlProgram<ChunkShaderInterface>> programs;
 
-    @Shadow
+    @Shadow(remap = false)
     protected abstract GlProgram<ChunkShaderInterface> createShader(String path, ChunkShaderOptions options);
 
     @Unique

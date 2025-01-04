@@ -1,7 +1,8 @@
-package foundry.veil.impl.client.render.pipeline;
+package foundry.veil.impl.client.render.ext;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.api.client.render.shader.ShaderException;
+import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.ints.Int2IntOpenHashMap;
 import org.jetbrains.annotations.ApiStatus;
@@ -28,7 +29,7 @@ import static org.lwjgl.opengl.GL46C.glSpecializeShader;
 import static org.lwjgl.util.shaderc.Shaderc.*;
 
 @ApiStatus.Internal
-public enum VeilShaderUploader {
+public enum VeilShaderSPIRV {
     NONE {
         @Override
         public void compile(int shader, int type, String fileName, String source, boolean hlsl) throws ShaderException {
@@ -57,8 +58,8 @@ public enum VeilShaderUploader {
         }
     };
 
-    private static final Int2IntMap KIND_MAP = new Int2IntOpenHashMap();
-    private static VeilShaderUploader uploader;
+    private static final Int2IntMap KIND_MAP = new Int2IntArrayMap();
+    private static VeilShaderSPIRV uploader;
 
     static {
         KIND_MAP.put(GL_VERTEX_SHADER, shaderc_glsl_vertex_shader);
@@ -103,7 +104,7 @@ public enum VeilShaderUploader {
 
     public abstract void compile(int shader, int type, String fileName, String source, boolean hlsl) throws ShaderException;
 
-    public static VeilShaderUploader get() {
+    public static VeilShaderSPIRV get() {
         if (uploader == null) {
             GLCapabilities caps = GL.getCapabilities();
             if (caps.OpenGL46) {

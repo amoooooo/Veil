@@ -1,7 +1,5 @@
 package foundry.veil.impl.client.render.shader.program;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
@@ -13,10 +11,6 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 import java.util.function.BiConsumer;
-
-import static org.lwjgl.opengl.GL11C.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11C.glBindTexture;
-import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
 
 @ApiStatus.Internal
 public class ShaderTextureCache {
@@ -80,44 +74,27 @@ public class ShaderTextureCache {
             return;
         }
 
-        if (VeilRenderSystem.textureMultibindSupported()) {
-            if (this.dirty) {
-                this.dirty = false;
+        if (this.dirty) {
+            this.dirty = false;
 
-                // Not enough space, so realloc
-                if (this.bindings == null || this.bindings.capacity() < 1 + this.textures.size()) {
-                    this.bindings = MemoryUtil.memRealloc(this.bindings, 1 + this.textures.size());
-                }
-
-                this.bindings.clear();
-                this.uploadTextures(start, (sampler, id) -> this.bindings.put(id));
-                this.bindings.flip();
-
-                // Delete texture buffer if there aren't any textures
-                if (this.bindings.limit() == 0) {
-                    MemoryUtil.memFree(this.bindings);
-                    this.bindings = null;
-                }
+            // Not enough space, so realloc
+            if (this.bindings == null || this.bindings.capacity() < 1 + this.textures.size()) {
+                this.bindings = MemoryUtil.memRealloc(this.bindings, 1 + this.textures.size());
             }
-            if (this.bindings != null && this.bindings.limit() > 0) {
-                VeilRenderSystem.bindTextures(start, this.bindings);
+
+            this.bindings.clear();
+            this.uploadTextures(start, (sampler, id) -> this.bindings.put(id));
+            this.bindings.flip();
+
+            // Delete texture buffer if there aren't any textures
+            if (this.bindings.limit() == 0) {
+                MemoryUtil.memFree(this.bindings);
+                this.bindings = null;
             }
-            return;
         }
-
-        // Ignored for normal binding
-        this.dirty = false;
-
-        int activeTexture = GlStateManager._getActiveTexture();
-        this.uploadTextures(start, (sampler, id) -> {
-            RenderSystem.activeTexture(GL_TEXTURE0 + sampler);
-            if (sampler >= 12) {
-                glBindTexture(GL_TEXTURE_2D, id);
-            } else {
-                RenderSystem.bindTexture(id);
-            }
-        });
-        RenderSystem.activeTexture(activeTexture);
+        if (this.bindings != null && this.bindings.limit() > 0) {
+            VeilRenderSystem.bindTextures(start, this.bindings);
+        }
     }
 
     public void addSamplerListener(TextureUniformAccess.SamplerListener listener) {

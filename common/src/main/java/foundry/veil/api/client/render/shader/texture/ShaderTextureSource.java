@@ -32,7 +32,9 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
     Codec<ShaderTextureSource> CODEC = Codec.either(ResourceLocation.CODEC,
                     TYPE_CODEC.<ShaderTextureSource>dispatch(ShaderTextureSource::getType, Type::getCodec))
             .xmap(either -> either.map(LocationSource::new, right -> right),
-                    source -> source instanceof LocationSource l ? Either.left(l.location()) : Either.right(source));
+                    source -> source instanceof LocationSource(
+                            ResourceLocation location
+                    ) ? Either.left(location) : Either.right(source));
 
     Context GLOBAL_CONTEXT = new Context() {
     };
@@ -59,6 +61,7 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
         LOCATION(LocationSource.CODEC),
         FRAMEBUFFER(FramebufferSource.CODEC);
 
+        private static final Type[] TYPES = Type.values();
         private final MapCodec<? extends ShaderTextureSource> codec;
 
         Type(MapCodec<? extends ShaderTextureSource> codec) {
@@ -79,7 +82,7 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
          * @return The type by that name
          */
         public static @Nullable Type byName(String name) {
-            for (Type type : Type.values()) {
+            for (Type type : TYPES) {
                 if (type.name().toLowerCase(Locale.ROOT).equals(name)) {
                     return type;
                 }

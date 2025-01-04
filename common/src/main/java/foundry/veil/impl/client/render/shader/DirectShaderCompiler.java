@@ -5,7 +5,7 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.*;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
-import foundry.veil.impl.client.render.pipeline.VeilShaderUploader;
+import foundry.veil.impl.client.render.ext.VeilShaderSPIRV;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -58,8 +58,8 @@ public class DirectShaderCompiler implements ShaderCompiler {
         int shader = glCreateShader(type);
         switch (sourceType) {
             case GLSL -> GlStateManager.glShaderSource(shader, List.of(sourceCode));
-            case GLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, fileName, sourceCode, false);
-            case HLSL_SPIRV -> VeilShaderUploader.get().compile(shader, type, fileName, sourceCode, true);
+            case GLSL_SPIRV -> VeilShaderSPIRV.get().compile(shader, type, fileName, sourceCode, false);
+            case HLSL_SPIRV -> VeilShaderSPIRV.get().compile(shader, type, fileName, sourceCode, true);
             case SPIRV -> throw new UnsupportedOperationException("TODO implement");
         }
 
