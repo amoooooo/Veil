@@ -33,7 +33,6 @@ public abstract class ShaderInstanceMixin {
         Uniform iModelViewMat = this.getUniform("NormalMat");
         if (iModelViewMat != null) {
             iModelViewMat.set(projectionMatrix.normal(new Matrix3f()));
-            iModelViewMat.upload();
         }
 
         ClientLevel level = Minecraft.getInstance().level;
@@ -42,7 +41,6 @@ public abstract class ShaderInstanceMixin {
                 Uniform uniform = this.getUniform("VeilBlockFaceBrightness[" + value.get3DDataValue() + "]");
                 if (uniform != null) {
                     uniform.set(level.getShade(value, true));
-                    uniform.upload();
                 }
             }
         }
