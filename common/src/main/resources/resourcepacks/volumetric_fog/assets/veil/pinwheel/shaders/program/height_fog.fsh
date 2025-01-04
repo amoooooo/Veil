@@ -28,14 +28,15 @@ struct Intersection{
 
 const Plane PLANE = Plane(vec3(0.0, FOG_Y, 0.0), vec3(0.0, 1.0, 0.0));
 
-void intersectPlane(vec3 ray, Plane p, inout Intersection i){
+void intersectPlane(vec3 ray, Plane p, inout Intersection i) {
+    vec3 pos = VeilCamera.CameraPosition + VeilCamera.CameraBobOffset;
     float d = -dot(p.position, p.normal);
     float v = dot(ray, p.normal);
-    float t = -(dot(VeilCamera.CameraPosition, p.normal) + d) / v;
+    float t = -(dot(pos, p.normal) + d) / v;
     if (t > 0.0 && t < i.t){
         i.t = t;
         i.hit = 1.0;
-        i.hitPoint = VeilCamera.CameraPosition + vec3(t * ray.x, t * ray.y, t * ray.z);
+        i.hitPoint = pos + vec3(t * ray.x, t * ray.y, t * ray.z);
     }
 }
 
@@ -43,11 +44,9 @@ void main() {
     vec4 baseColor = texture(DiffuseSampler0, texCoord);
     float depthSample = texture(DiffuseDepthSampler, texCoord).r;
     vec3 viewPos = viewPosFromDepthSample(depthSample, texCoord);
-    vec3 pos = viewToWorldSpace(viewPos);
 
     float dist;
-
-    if (VeilCamera.CameraPosition.y < FOG_Y) {
+    if (VeilCamera.CameraPosition.y + VeilCamera.CameraBobOffset.y < FOG_Y) {
         dist = length(viewPos);
 
         Intersection i;
