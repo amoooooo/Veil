@@ -100,7 +100,6 @@ public final class GlslParser {
 
     public static GlslTree parse(String input) throws GlslSyntaxException {
         GlslTokenReader reader = new GlslTokenReader(input);
-
         GlslVersionStatement version = new GlslVersionStatement();
 
         // Try to parse version statements
@@ -109,10 +108,8 @@ public final class GlslParser {
             reader.skip();
             String[] parts = token.value().substring(9).split(" +", 2);
             try {
-                int ver = Integer.parseInt(parts[0].trim());
-                boolean core = parts.length == 1 || parts[1].trim().equals("core");
-                version.setVersion(ver);
-                version.setCore(core);
+                version.setVersion(Integer.parseInt(parts[0].trim()));
+                version.setCore(parts.length == 1 || parts[1].trim().equals("core"));
             } catch (NumberFormatException e) {
                 throw reader.error("Invalid Version: " + token.value() + ". " + e.getMessage());
             }

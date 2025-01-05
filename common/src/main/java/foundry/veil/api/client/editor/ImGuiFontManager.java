@@ -7,6 +7,7 @@ import imgui.ImFont;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -16,10 +17,14 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +32,11 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+import static org.lwjgl.glfw.GLFW.glfwGetMonitorContentScale;
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+
 @ApiStatus.Internal
-public class EditorFontManager implements PreparableReloadListener {
+public class ImGuiFontManager implements PreparableReloadListener {
 
     private static final FileToIdConverter FONT_LISTER = new FileToIdConverter("font", ".ttf");
     private static final DecimalFormat FONT_FORMAT = new DecimalFormat("0.#");
@@ -38,7 +46,7 @@ public class EditorFontManager implements PreparableReloadListener {
     private final Map<ResourceLocation, FontPack> fonts;
     private ImFont defaultFont;
 
-    public EditorFontManager() {
+    public ImGuiFontManager() {
         this.fontBuilders = new HashMap<>();
         this.fonts = new HashMap<>();
     }
@@ -117,16 +125,21 @@ public class EditorFontManager implements PreparableReloadListener {
     }
 
     public void rebuildFonts() {
-        try {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
             Veil.beginImGui();
             ImFontAtlas atlas = ImGui.getIO().getFonts();
             atlas.clear();
             this.defaultFont = atlas.addFontDefault();
-
             this.fonts.clear();
+
+            FloatBuffer xscale = stack.mallocFloat(1);
+            FloatBuffer yscale = stack.mallocFloat(1);
+            glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), xscale, yscale);
+            float scale = Math.max(xscale.get(0), yscale.get(0));
+
             for (Map.Entry<ResourceLocation, FontPackBuilder> entry : this.fontBuilders.entrySet()) {
                 Veil.LOGGER.info("Built {}", entry.getKey());
-                this.fonts.put(entry.getKey(), entry.getValue().build(FONT_SIZE));
+                this.fonts.put(entry.getKey(), entry.getValue().build(FONT_SIZE * scale));
             }
             ImGui.getIO().setFontDefault(this.getFont(EditorManager.DEFAULT_FONT, false, false));
             VeilImGuiImpl.get().updateFonts();

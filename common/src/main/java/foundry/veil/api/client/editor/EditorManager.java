@@ -36,14 +36,14 @@ public class EditorManager implements VeilEditorEnvironment, PreparableReloadLis
 
     private final Map<Inspector, ImBoolean> editors;
     private final Map<ResourceLocation, ResourceFileEditor<?>> resourceFileEditors;
-    private final EditorFontManager fonts;
+    private final ImGuiFontManager fonts;
     private boolean enabled;
 
     @ApiStatus.Internal
     public EditorManager(ReloadableResourceManager resourceManager) {
         this.editors = new TreeMap<>(Comparator.comparing(inspector -> inspector.getClass().getSimpleName()));
         this.resourceFileEditors = new Object2ObjectArrayMap<>();
-        this.fonts = new EditorFontManager();
+        this.fonts = new ImGuiFontManager();
         this.enabled = false;
 
         resourceManager.registerReloadListener(this);
