@@ -72,12 +72,12 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
                     MemoryUtil.memSet(this.upload, 0);
                 }
             }
-            glUnmapBuffer(this.binding);
+            if (glUnmapBuffer(this.binding)) {
+                this.dirty = false;
+            }
         }
 
         this.resized = false;
-        this.dirty = false;
-
         glBindBufferBase(this.binding, index, this.buffer);
     }
 

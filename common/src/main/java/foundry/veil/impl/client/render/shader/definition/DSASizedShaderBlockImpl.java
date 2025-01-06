@@ -10,7 +10,8 @@ import java.nio.ByteBuffer;
 import java.util.function.BiConsumer;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.*;
-import static org.lwjgl.opengl.GL15C.*;
+import static org.lwjgl.opengl.GL15C.GL_DYNAMIC_DRAW;
+import static org.lwjgl.opengl.GL15C.GL_WRITE_ONLY;
 import static org.lwjgl.opengl.GL30C.glBindBufferBase;
 
 /**
@@ -53,7 +54,9 @@ public class DSASizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
                     MemoryUtil.memSet(this.upload, 0);
                 }
             }
-            glUnmapNamedBuffer(this.buffer);
+            if (!glUnmapNamedBuffer(this.buffer)) {
+                this.dirty = true;
+            }
         }
 
         glBindBufferBase(this.binding, index, this.buffer);

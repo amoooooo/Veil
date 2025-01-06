@@ -12,7 +12,8 @@ import java.nio.ByteBuffer;
 import java.util.function.BiConsumer;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.*;
-import static org.lwjgl.opengl.GL15C.*;
+import static org.lwjgl.opengl.GL15C.GL_DYNAMIC_DRAW;
+import static org.lwjgl.opengl.GL15C.GL_WRITE_ONLY;
 import static org.lwjgl.opengl.GL30C.glBindBufferBase;
 
 /**
@@ -43,7 +44,6 @@ public class DSADynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements 
         this.resized = true;
     }
 
-    // TODO This might not fully work, make sure mods that use it don't break
     @Override
     public void bind(int index) {
         Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(this.binding), index);
@@ -68,12 +68,12 @@ public class DSADynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements 
                     MemoryUtil.memSet(this.upload, 0);
                 }
             }
-            glUnmapNamedBuffer(this.buffer);
+            if (glUnmapNamedBuffer(this.buffer)) {
+                this.dirty = false;
+            }
         }
 
         this.resized = false;
-        this.dirty = false;
-
         glBindBufferBase(this.binding, index, this.buffer);
     }
 

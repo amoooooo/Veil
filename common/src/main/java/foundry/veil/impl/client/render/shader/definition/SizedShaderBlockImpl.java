@@ -5,7 +5,6 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
-import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
@@ -38,10 +37,10 @@ public class SizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
         Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(this.binding), index);
 
         if (this.buffer == 0) {
+            this.dirty = true;
             this.buffer = glGenBuffers();
             RenderSystem.glBindBuffer(this.binding, this.buffer);
             glBufferData(this.binding, this.size, GL_DYNAMIC_DRAW);
-            this.dirty = true;
         }
 
         if (this.dirty) {
@@ -56,7 +55,9 @@ public class SizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
                     MemoryUtil.memSet(this.upload, 0);
                 }
             }
-            glUnmapBuffer(this.binding);
+            if (!glUnmapBuffer(this.binding)) {
+                this.dirty = true;
+            }
         }
 
         glBindBufferBase(this.binding, index, this.buffer);
