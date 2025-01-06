@@ -3,6 +3,7 @@ package foundry.veil.api.glsl.node.branch;
 import foundry.veil.api.glsl.node.GlslNode;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class GlslCaseLabelNode implements GlslNode {
@@ -37,7 +38,7 @@ public class GlslCaseLabelNode implements GlslNode {
 
     @Override
     public int hashCode() {
-        return this.condition.hashCode();
+        return Objects.hashCode(this.condition);
     }
 
     @Override

@@ -7,6 +7,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.DirectionalLight;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
+import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import org.jetbrains.annotations.ApiStatus;
@@ -17,19 +18,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static org.lwjgl.opengl.GL11C.GL_TRIANGLE_STRIP;
+
 @ApiStatus.Internal
 public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLight> {
 
     private static final Vector3f DIRECTION = new Vector3f();
 
-    private final VertexBuffer vbo;
+    private final VertexArray vertexArray;
     private int visibleLights;
 
     public DirectionalLightRenderer() {
-        this.vbo = new VertexBuffer(VertexBuffer.Usage.STATIC);
-        this.vbo.bind();
-        this.vbo.upload(createMesh());
-        VertexBuffer.unbind();
+        this.vertexArray = VertexArray.create();
+        this.vertexArray.upload(createMesh(), VertexArray.DrawUsage.STATIC);
+        VertexArray.unbind();
     }
 
     private static MeshData createMesh() {
@@ -52,16 +54,16 @@ public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLi
         }
 
         ShaderProgram shader = Objects.requireNonNull(VeilRenderSystem.getShader());
-        this.vbo.bind();
+        this.vertexArray.bind();
         for (DirectionalLight light : lights) {
             Vector3fc lightColor = light.getColor();
             float brightness = light.getBrightness();
             shader.setVector("LightColor", lightColor.x() * brightness, lightColor.y() * brightness, lightColor.z() * brightness);
             shader.setVector("LightDirection", DIRECTION.set(light.getDirection()).normalize());
-            this.vbo.draw();
+            this.vertexArray.draw(GL_TRIANGLE_STRIP);
         }
 
-        VertexBuffer.unbind();
+        VertexArray.unbind();
     }
 
     @Override
@@ -71,6 +73,6 @@ public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLi
 
     @Override
     public void free() {
-        this.vbo.close();
+        this.vertexArray.close();
     }
 }

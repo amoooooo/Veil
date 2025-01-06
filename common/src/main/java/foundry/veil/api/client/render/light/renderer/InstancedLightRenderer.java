@@ -7,6 +7,8 @@ import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.InstancedLight;
 import foundry.veil.api.client.render.light.Light;
+import foundry.veil.api.client.render.mesh.VertexArray;
+import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import org.lwjgl.system.MemoryStack;
 
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.Set;
 
 import static org.lwjgl.opengl.GL15C.*;
+import static org.lwjgl.opengl.GL45C.glCreateBuffers;
+import static org.lwjgl.opengl.GL45C.glNamedBufferData;
 import static org.lwjgl.system.MemoryUtil.memAddress;
 
 /**
@@ -32,7 +36,7 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
     protected int maxLights;
 
     private final List<T> visibleLights;
-    private final VertexBuffer vbo;
+    private final VertexArray vertexArray;
     private final int instancedVbo;
 
     /**
@@ -44,18 +48,22 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         this.lightSize = lightSize;
         this.maxLights = 100;
         this.visibleLights = new ArrayList<>();
-        this.vbo = new VertexBuffer(VertexBuffer.Usage.STATIC);
-        this.instancedVbo = glGenBuffers();
+        this.vertexArray = VertexArray.create();
 
-        this.vbo.bind();
-        this.vbo.upload(this.createMesh());
+        this.vertexArray.upload(this.createMesh(), VertexArray.DrawUsage.STATIC);
+        this.instancedVbo = this.vertexArray.getOrCreateBuffer(2);
 
-        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
-        glBufferData(GL_ARRAY_BUFFER, (long) this.maxLights * this.lightSize, GL_DYNAMIC_DRAW);
-        this.setupBufferState();
-        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            glNamedBufferData(this.instancedVbo, (long) this.maxLights * this.lightSize, GL_DYNAMIC_DRAW);
+        } else {
+            RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
+            glBufferData(GL_ARRAY_BUFFER, (long) this.maxLights * this.lightSize, GL_DYNAMIC_DRAW);
+            RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
 
-        VertexBuffer.unbind();
+        VertexArrayBuilder builder = this.vertexArray.editFormat();
+        builder.defineVertexBuffer(2, this.instancedVbo, 0, this.lightSize);
+        this.setupBufferState(builder);
     }
 
     /**
@@ -66,7 +74,7 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
     /**
      * Sets up the instanced buffer state.
      */
-    protected abstract void setupBufferState();
+    protected abstract void setupBufferState(VertexArrayBuilder builder);
 
     /**
      * Sets up the render state for drawing all lights.
@@ -168,8 +176,8 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
             return;
         }
 
-        this.vbo.bind();
-        VeilRenderSystem.drawInstanced(this.vbo, this.visibleLights.size());
+        this.vertexArray.bind();
+        this.vertexArray.drawInstanced(GL_TRIANGLE_STRIP, this.visibleLights.size());
         VertexBuffer.unbind();
         ShaderProgram.unbind();
         this.clearRenderState(lightRenderer, this.visibleLights);
@@ -182,7 +190,6 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
 
     @Override
     public void free() {
-        this.vbo.close();
-        glDeleteBuffers(this.instancedVbo);
+        this.vertexArray.free();
     }
 }

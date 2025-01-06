@@ -33,10 +33,10 @@ public interface VertexArrayBuilder {
     default VertexArrayBuilder applyFrom(int index, int buffer, int attributeStart, VertexFormat format) {
         this.defineVertexBuffer(index, buffer, 0, format.getVertexSize());
         List<VertexFormatElement> elements = format.getElements();
-        for (int i = 0; i < elements.size(); ++i) {
+        for (int i = 0; i < elements.size(); i++) {
             VertexFormatElement element = elements.get(i);
-
             VertexFormatElement.Usage usage = element.usage();
+
             if (usage == VertexFormatElement.Usage.UV && element.type() != VertexFormatElement.Type.FLOAT) {
                 this.setVertexIAttribute(
                         attributeStart + i,
@@ -57,7 +57,6 @@ public interface VertexArrayBuilder {
                         0
                 );
             }
-            element.setupBufferState(i, format.getOffset(element), i);
         }
         return this;
     }
@@ -68,9 +67,9 @@ public interface VertexArrayBuilder {
      * @param index  The index to assign to. It must be between 0 and {@link VeilRenderSystem#maxVertexAttributes()}
      * @param buffer The buffer to assign
      * @param offset The offset into the buffer to bind to
-     * @param size   The size of the region to map
+     * @param stride The size of the region to map
      */
-    VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int size);
+    VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride);
 
     /**
      * Defines a floating-point vertex attribute.

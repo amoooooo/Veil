@@ -3,7 +3,6 @@ package foundry.veil.impl.client.render.mesh;
 import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 
@@ -17,13 +16,16 @@ public class ARBVertexAttribBindingVertexArray extends VertexArray {
     }
 
     @Override
-    protected void uploadVertexBuffer(VertexArrayBuilder builder, int buffer, int usage, @Nullable ByteBuffer data) {
-        if (data != null) {
-            int old = glGetInteger(GL_ARRAY_BUFFER_BINDING);
-            glBindBuffer(GL_ARRAY_BUFFER, this.getOrCreateBuffer(VERTEX_BUFFER));
-            glBufferData(GL_ARRAY_BUFFER, buffer, usage);
-            glBindBuffer(GL_ARRAY_BUFFER, old);
-        }
+    protected int createBuffer() {
+        return glGenBuffers();
+    }
+
+    @Override
+    protected void uploadVertexBuffer(int buffer, ByteBuffer data, int usage) {
+        int old = glGetInteger(GL_ARRAY_BUFFER_BINDING);
+        glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        glBufferData(GL_ARRAY_BUFFER, data, usage);
+        glBindBuffer(GL_ARRAY_BUFFER, old);
     }
 
     @Override

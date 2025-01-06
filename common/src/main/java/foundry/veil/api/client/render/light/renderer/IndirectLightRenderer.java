@@ -8,6 +8,8 @@ import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.IndirectLight;
 import foundry.veil.api.client.render.light.Light;
+import foundry.veil.api.client.render.mesh.VertexArray;
+import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
@@ -32,6 +34,7 @@ import static org.lwjgl.opengl.GL40C.GL_DRAW_INDIRECT_BUFFER;
 import static org.lwjgl.opengl.GL42C.*;
 import static org.lwjgl.opengl.GL43C.GL_SHADER_STORAGE_BUFFER;
 import static org.lwjgl.opengl.GL43C.glDispatchCompute;
+import static org.lwjgl.opengl.GL45C.glNamedBufferData;
 
 /**
  * Draws lights as indirect instanced quads in the scene.
@@ -50,7 +53,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     protected final int rangeOffset;
     protected int maxLights;
 
-    private final VertexBuffer vbo;
+    private final VertexArray vertexArray;
     private final int instancedVbo;
     private final int indirectVbo;
     private final int sizeVbo;
@@ -72,19 +75,23 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
         this.lightSize = lightSize;
         this.maxLights = MIN_LIGHTS;
-        this.vbo = new VertexBuffer(VertexBuffer.Usage.STATIC);
-        this.instancedVbo = glGenBuffers();
-        this.indirectVbo = glGenBuffers();
+        this.vertexArray = VertexArray.create();
+        this.instancedVbo = this.vertexArray.getOrCreateBuffer(2);
+        this.indirectVbo = this.vertexArray.getOrCreateBuffer(3);
 
         if (VeilRenderSystem.computeSupported() && VeilRenderSystem.atomicCounterSupported()) {
             Veil.LOGGER.info("Using GPU Frustum Culling for {} renderer", this.getClass().getSimpleName());
-            this.sizeVbo = glGenBuffers();
+            this.sizeVbo = this.vertexArray.getOrCreateBuffer(4);
             this.instancedBlock = ShaderBlock.wrapper(GL_SHADER_STORAGE_BUFFER, this.instancedVbo);
             this.indirectBlock = ShaderBlock.wrapper(GL_SHADER_STORAGE_BUFFER, this.indirectVbo);
 
-            RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, this.sizeVbo);
-            glBufferData(GL_ATOMIC_COUNTER_BUFFER, Integer.BYTES, GL_DYNAMIC_DRAW);
-            RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
+            if (VeilRenderSystem.directStateAccessSupported()) {
+                glNamedBufferData(this.sizeVbo, Integer.BYTES, GL_DYNAMIC_DRAW);
+            } else {
+                RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, this.sizeVbo);
+                glBufferData(GL_ATOMIC_COUNTER_BUFFER, Integer.BYTES, GL_DYNAMIC_DRAW);
+                RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
+            }
         } else {
             Veil.LOGGER.info("Using CPU Frustum Culling for {} renderer", this.getClass().getSimpleName());
             this.sizeVbo = 0;
@@ -92,10 +99,10 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
             this.indirectBlock = null;
         }
 
-        this.vbo.bind();
-        this.vbo.upload(this.createMesh());
+        this.vertexArray.bind();
+        this.vertexArray.upload(this.createMesh(), VertexArray.DrawUsage.STATIC);
 
-        this.highResSize = VeilRenderSystem.getIndexCount(this.vbo) - lowResSize;
+        this.highResSize = this.vertexArray.getIndexCount() - lowResSize;
         this.lowResSize = lowResSize;
         this.positionOffset = positionOffset;
         this.rangeOffset = rangeOffset;
@@ -107,8 +114,9 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         this.initBuffers();
 
         RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
-        this.setupBufferState(); // Only set up state for instanced buffer
         RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        this.setupBufferState(this.vertexArray.editFormat()); // Only set up state for instanced buffer
 
         VertexBuffer.unbind();
     }
@@ -121,7 +129,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     /**
      * Sets up the instanced buffer state.
      */
-    protected abstract void setupBufferState();
+    protected abstract void setupBufferState(VertexArrayBuilder builder);
 
     /**
      * Sets up the render state for drawing all lights.
@@ -303,13 +311,12 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
             return;
         }
 
-        this.vbo.bind();
+        this.vertexArray.bind();
         RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
-
-        VeilRenderSystem.drawIndirect(this.vbo, 0L, this.visibleLights, 0);
-
+        this.vertexArray.drawIndirect(GL_TRIANGLE_STRIP, 0L, this.visibleLights, 0);
         RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
         VertexBuffer.unbind();
+
         ShaderProgram.unbind();
         this.clearRenderState(lightRenderer, lights);
     }
@@ -321,11 +328,8 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
     @Override
     public void free() {
-        this.vbo.close();
-        glDeleteBuffers(this.instancedVbo);
-        glDeleteBuffers(this.indirectVbo);
+        this.vertexArray.free();
         if (this.sizeVbo != 0) {
-            glDeleteBuffers(this.sizeVbo);
             this.instancedBlock.free();
             this.indirectBlock.free();
         }

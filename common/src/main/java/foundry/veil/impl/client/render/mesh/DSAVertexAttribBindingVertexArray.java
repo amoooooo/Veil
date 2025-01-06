@@ -1,13 +1,16 @@
 package foundry.veil.impl.client.render.mesh;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.MeshData;
 import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
+import foundry.veil.ext.AutoStorageIndexBufferExtension;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedBufferData;
+import static org.lwjgl.opengl.ARBDirectStateAccess.*;
 
 @ApiStatus.Internal
 public class DSAVertexAttribBindingVertexArray extends VertexArray {
@@ -17,14 +20,30 @@ public class DSAVertexAttribBindingVertexArray extends VertexArray {
     }
 
     @Override
-    protected void uploadVertexBuffer(VertexArrayBuilder builder, int buffer, int usage, @Nullable ByteBuffer data) {
-        if (data != null) {
-            glNamedBufferData(this.getOrCreateBuffer(VERTEX_BUFFER), buffer, usage);
+    protected void uploadIndexBuffer(MeshData.DrawState drawState, @Nullable ByteBuffer buffer, int usage) {
+        if (buffer != null) {
+            int elementArrayBuffer = this.getOrCreateBuffer(ELEMENT_ARRAY_BUFFER);
+            glNamedBufferData(elementArrayBuffer, buffer, usage);
+            glVertexArrayElementBuffer(this.id, elementArrayBuffer);
+        } else {
+            AutoStorageIndexBufferExtension ext = (AutoStorageIndexBufferExtension) (Object) RenderSystem.getSequentialBuffer(drawState.mode());
+            ext.veil$bind(this.id, drawState.indexCount());
         }
     }
 
     @Override
+    protected int createBuffer() {
+        return glCreateBuffers();
+    }
+
+    @Override
+    protected void uploadVertexBuffer(int buffer, ByteBuffer data, int usage) {
+        glNamedBufferData(buffer, data, usage);
+    }
+
+    @Override
     public VertexArrayBuilder editFormat() {
-        return new DSAVertexAttribBindingBuilder(this.id);
+        this.bind();
+        return ARBVertexAttribBindingBuilder.INSTANCE;
     }
 }

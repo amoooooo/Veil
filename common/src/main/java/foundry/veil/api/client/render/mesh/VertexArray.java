@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.impl.client.render.mesh.ARBVertexAttribBindingVertexArray;
 import foundry.veil.impl.client.render.mesh.DSAVertexAttribBindingVertexArray;
 import foundry.veil.impl.client.render.mesh.LegacyVertexArray;
@@ -18,7 +17,6 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
-import org.spongepowered.asm.mixin.Unique;
 
 import javax.annotation.Nullable;
 import java.nio.ByteBuffer;
@@ -27,12 +25,9 @@ import java.util.function.IntFunction;
 
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL15C.*;
-import static org.lwjgl.opengl.GL20C.GL_CURRENT_PROGRAM;
 import static org.lwjgl.opengl.GL30C.glDeleteVertexArrays;
 import static org.lwjgl.opengl.GL30C.glGenVertexArrays;
-import static org.lwjgl.opengl.GL31C.glDrawArraysInstanced;
 import static org.lwjgl.opengl.GL31C.glDrawElementsInstanced;
-import static org.lwjgl.opengl.GL40C.GL_PATCHES;
 import static org.lwjgl.opengl.GL43C.glMultiDrawElementsIndirect;
 
 /**
@@ -73,7 +68,6 @@ public abstract class VertexArray implements NativeResource {
                 }
             }
         }
-        vertexArrayType = VertexArrayType.LEGACY;
     }
 
     /**
@@ -135,7 +129,15 @@ public abstract class VertexArray implements NativeResource {
         if (index < 0) {
             throw new ArrayIndexOutOfBoundsException(index);
         }
-        return this.buffers.computeIfAbsent(index, unused -> glGenBuffers());
+        return this.buffers.computeIfAbsent(index, unused -> this.createBuffer());
+    }
+
+    public int getIndexCount() {
+        return this.indexCount;
+    }
+
+    public IndexType getIndexType() {
+        return this.indexType;
     }
 
     /**
@@ -162,16 +164,16 @@ public abstract class VertexArray implements NativeResource {
             VertexArrayBuilder builder = this.editFormat();
 
             int vertexBuffer = this.getOrCreateBuffer(VERTEX_BUFFER);
-            this.uploadVertexBuffer(builder, vertexBuffer, usage.getGlType(), meshData.vertexBuffer());
+            this.uploadVertexBuffer(vertexBuffer, meshData.vertexBuffer(), usage.getGlType());
             builder.applyFrom(VERTEX_BUFFER, vertexBuffer, attributeStart, drawState.format());
 
-            this.uploadIndexBuffer(drawState, usage.getGlType(), meshData.indexBuffer());
+            this.uploadIndexBuffer(drawState, meshData.indexBuffer(), usage.getGlType());
             this.indexCount = drawState.indexCount();
             this.indexType = IndexType.fromBlaze3D(drawState.indexType());
         }
     }
 
-    private void uploadIndexBuffer(MeshData.DrawState drawState, int usage, @Nullable ByteBuffer buffer) {
+    protected void uploadIndexBuffer(MeshData.DrawState drawState, @Nullable ByteBuffer buffer, int usage) {
         if (buffer != null) {
             GlStateManager._glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.getOrCreateBuffer(ELEMENT_ARRAY_BUFFER));
             RenderSystem.glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, usage);
@@ -180,7 +182,9 @@ public abstract class VertexArray implements NativeResource {
         }
     }
 
-    protected abstract void uploadVertexBuffer(VertexArrayBuilder builder, int buffer, int usage, @Nullable ByteBuffer data);
+    protected abstract int createBuffer();
+
+    protected abstract void uploadVertexBuffer(int buffer, ByteBuffer data, int usage);
 
     /**
      * @return A builder for applying changes to this array
@@ -201,20 +205,10 @@ public abstract class VertexArray implements NativeResource {
     }
 
     public void draw(int mode) {
-        RenderSystem.drawElements(mode, this.indexCount, this.indexType.getGlType());
+        GlStateManager._drawElements(mode, this.indexCount, this.indexType.getGlType(), 0L);
     }
 
     public void drawInstanced(int mode, int instances) {
-        if (mode == GL_QUADS) {
-            ShaderProgram shader = VeilRenderSystem.getShader();
-            if (shader != null && shader.hasTesselation() && shader.getProgram() == glGetInteger(GL_CURRENT_PROGRAM)) {
-                // Quads are internally switched to triangles with indices in vanilla mc, so just use draw arrays
-                // This will be wrong if custom indices are used! (transparent objects)
-                glDrawArraysInstanced(GL_PATCHES, 0, this.indexCount * 4 / 6, instances);
-                return;
-            }
-        }
-
         glDrawElementsInstanced(mode, this.indexCount, this.indexType.getGlType(), 0L, instances);
     }
 

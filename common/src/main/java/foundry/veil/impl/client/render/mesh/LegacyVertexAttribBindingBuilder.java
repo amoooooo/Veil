@@ -5,8 +5,9 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
 
-import static org.lwjgl.opengl.ARBVertexAttribBinding.*;
-import static org.lwjgl.opengl.GL20C.*;
+import java.util.Arrays;
+
+import static org.lwjgl.opengl.GL33C.*;
 
 @ApiStatus.Internal
 public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
@@ -22,8 +23,8 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
     }
 
     @Override
-    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int size) {
-        this.vertexBuffers[index] = new VertexBuffer(buffer, offset, size);
+    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride) {
+        this.vertexBuffers[index] = new VertexBuffer(buffer, offset, stride);
         return this;
     }
 
@@ -48,7 +49,7 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
         this.bindIndex(bufferIndex);
         glEnableVertexAttribArray(index);
         glVertexAttribPointer(index, size, type.getGlType(), normalized, this.vertexBuffers[this.boundIndex].size, this.vertexBuffers[this.boundIndex].offset + relativeOffset);
-        glVertexBindingDivisor(index, divisor);
+        glVertexAttribDivisor(index, divisor);
         return this;
     }
 
@@ -57,26 +58,19 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
         VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         this.bindIndex(bufferIndex);
         glEnableVertexAttribArray(index);
-        glVertexAttribIFormat(index, size, type.getGlType(), relativeOffset);
-        glVertexAttribBinding(index, bufferIndex);
-        glVertexBindingDivisor(index, divisor);
+        glVertexAttribIPointer(index, size, type.getGlType(), this.vertexBuffers[this.boundIndex].size, this.vertexBuffers[this.boundIndex].offset + relativeOffset);
+        glVertexAttribDivisor(index, divisor);
         return this;
     }
 
     @Override
     public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor) {
-        VertexArrayBuilder.validateRelativeOffset(relativeOffset);
-        this.bindIndex(bufferIndex);
-        glEnableVertexAttribArray(index);
-        glVertexAttribLFormat(index, size, type.getGlType(), relativeOffset);
-        glVertexAttribBinding(index, bufferIndex);
-        glVertexBindingDivisor(index, divisor);
-        return this;
+        throw new UnsupportedOperationException("Long attributes not supported");
     }
 
     @Override
     public VertexArrayBuilder removeVertexBuffer(int index) {
-        glBindVertexBuffer(index, 0, 0, 0);
+        this.vertexBuffers[index] = null;
         return this;
     }
 
@@ -88,9 +82,7 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
 
     @Override
     public VertexArrayBuilder clearVertexBuffers() {
-        for (int i = 0; i < VeilRenderSystem.maxVertexAttributes(); i++) {
-            glBindVertexBuffer(i, 0, 0, 0);
-        }
+        Arrays.fill(this.vertexBuffers, null);
         return this;
     }
 

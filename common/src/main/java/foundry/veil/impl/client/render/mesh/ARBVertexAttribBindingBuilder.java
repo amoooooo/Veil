@@ -5,7 +5,8 @@ import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
 
 import static org.lwjgl.opengl.ARBVertexAttribBinding.*;
-import static org.lwjgl.opengl.GL20C.*;
+import static org.lwjgl.opengl.GL20C.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20C.glEnableVertexAttribArray;
 
 @ApiStatus.Internal
 public enum ARBVertexAttribBindingBuilder implements VertexArrayBuilder {
@@ -13,8 +14,8 @@ public enum ARBVertexAttribBindingBuilder implements VertexArrayBuilder {
     INSTANCE;
 
     @Override
-    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int size) {
-        glBindVertexBuffer(index, buffer, offset, size);
+    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride) {
+        glBindVertexBuffer(index, buffer, offset, stride);
         return this;
     }
 

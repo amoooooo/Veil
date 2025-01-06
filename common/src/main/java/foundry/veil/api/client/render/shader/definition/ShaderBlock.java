@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.shader.definition;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.impl.client.render.shader.definition.DSADynamicShaderBlockImpl;
 import foundry.veil.impl.client.render.shader.definition.DynamicShaderBlockImpl;
 import foundry.veil.impl.client.render.shader.definition.SizedShaderBlockImpl;
 import foundry.veil.impl.client.render.shader.definition.WrapperShaderBlockImpl;
@@ -26,7 +27,7 @@ public interface ShaderBlock<T> extends NativeResource {
     /**
      * Creates a new shader block with a fixed size.
      *
-     * @param binding The buffer attachment point
+     * @param binding    The buffer attachment point
      * @param size       The size of the buffer in bytes
      * @param serializer The serializer to fill the buffer
      * @param <T>        The type of data to write
@@ -39,7 +40,7 @@ public interface ShaderBlock<T> extends NativeResource {
     /**
      * Creates a new shader block with a dynamically-changing size. The initial size is set to <code>256</code>.
      *
-     * @param binding The buffer attachment point
+     * @param binding    The buffer attachment point
      * @param serializer The serializer to fill the buffer
      * @param <T>        The type of data to write
      * @return A new shader block
@@ -51,21 +52,21 @@ public interface ShaderBlock<T> extends NativeResource {
     /**
      * Creates a new shader block with a dynamically-changing size.
      *
-     * @param binding The buffer attachment point
+     * @param binding     The buffer attachment point
      * @param initialSize The initial size of the buffer
      * @param serializer  The serializer to fill the buffer
      * @param <T>         The type of data to write
      * @return A new shader block
      */
     static <T> DynamicShaderBlock<T> dynamic(int binding, int initialSize, BiConsumer<T, ByteBuffer> serializer) {
-        return new DynamicShaderBlockImpl<>(binding, initialSize, serializer);
+        return VeilRenderSystem.directStateAccessSupported() ? new DSADynamicShaderBlockImpl<>(binding, initialSize, serializer) : new DynamicShaderBlockImpl<>(binding, initialSize, serializer);
     }
 
     /**
      * Creates a new shader block that points to an existing GL buffer.
      *
      * @param binding The buffer attachment point
-     * @param buffer      The buffer to bind as a shader block
+     * @param buffer  The buffer to bind as a shader block
      * @return A new shader block
      */
     static DynamicShaderBlock<?> wrapper(int binding, int buffer) {

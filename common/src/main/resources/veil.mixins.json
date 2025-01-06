@@ -33,6 +33,7 @@
     "client.imgui.KeyboardHandlerMixin",
     "client.imgui.MouseHandlerMixin",
     "client.perspective.FrustumMixin",
+    "client.pipeline.AutoStorageIndexBufferMixin",
     "client.pipeline.CompositeStateBuilderMixin",
     "client.pipeline.FrustumMixin",
     "client.pipeline.GameRendererMixin",

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.MeshData;
 import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 
@@ -28,11 +27,14 @@ public class LegacyVertexArray extends VertexArray {
     }
 
     @Override
-    protected void uploadVertexBuffer(VertexArrayBuilder builder, int buffer, int usage, @Nullable ByteBuffer data) {
-        if (data != null) {
-            glBindBuffer(GL_ARRAY_BUFFER, this.getOrCreateBuffer(VERTEX_BUFFER));
-            glBufferData(GL_ARRAY_BUFFER, buffer, usage);
-        }
+    protected int createBuffer() {
+        return glGenBuffers();
+    }
+
+    @Override
+    protected void uploadVertexBuffer(int buffer, ByteBuffer data, int usage) {
+        glBindBuffer(GL_ARRAY_BUFFER, buffer);
+        glBufferData(GL_ARRAY_BUFFER, data, usage);
     }
 
     @Override
