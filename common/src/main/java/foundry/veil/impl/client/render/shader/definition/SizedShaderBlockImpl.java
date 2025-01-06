@@ -6,6 +6,7 @@ import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 import java.util.function.BiConsumer;
@@ -24,6 +25,7 @@ public class SizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
 
     protected final BiConsumer<T, ByteBuffer> serializer;
     private final int size;
+    private ByteBuffer upload;
 
     public SizedShaderBlockImpl(int binding, int size, BiConsumer<T, ByteBuffer> serializer) {
         super(binding);
@@ -39,24 +41,21 @@ public class SizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
             this.buffer = glGenBuffers();
             RenderSystem.glBindBuffer(this.binding, this.buffer);
             glBufferData(this.binding, this.size, GL_DYNAMIC_DRAW);
-            RenderSystem.glBindBuffer(this.binding, 0);
             this.dirty = true;
         }
 
         if (this.dirty) {
             this.dirty = false;
             RenderSystem.glBindBuffer(this.binding, this.buffer);
-            try (MemoryStack stack = MemoryStack.stackPush()) {
+            this.upload = glMapBuffer(this.binding, GL_WRITE_ONLY, this.size, this.upload);
+            if (this.upload != null) {
                 if (this.value != null) {
-                    ByteBuffer buffer = stack.malloc(this.size);
-                    this.serializer.accept(this.value, buffer);
-                    buffer.rewind();
-                    glBufferSubData(this.binding, 0, buffer);
+                    this.serializer.accept(this.value, this.upload);
+                    this.upload.rewind();
                 } else {
-                    glBufferSubData(this.binding, 0, stack.calloc(this.size));
+                    MemoryUtil.memSet(this.upload, 0);
                 }
             }
-            RenderSystem.glBindBuffer(this.binding, 0);
         }
 
         glBindBufferBase(this.binding, index, this.buffer);
