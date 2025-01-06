@@ -38,6 +38,7 @@
 
   "inspector.veil.device_info.opengl": "OpenGL",
   "inspector.veil.device_info.opengl.feature_flag": "Feature Flags:",
+  "inspector.veil.device_info.opengl.vertex_array": "Vertex Array:",
   "inspector.veil.device_info.opengl.uniform": "Uniform:",
   "inspector.veil.device_info.opengl.transform_feedback": "Transform Feedback:",
   "inspector.veil.device_info.opengl.atomic_counter": "Atomic Counter:",
@@ -65,6 +66,9 @@
   "inspector.veil.device_info.opengl.shader.max_atomic_counters": "Max Atomic Counters: %s",
   "inspector.veil.device_info.opengl.shader.max_atomic_counter_buffers": "Max Atomic Counter Buffers: %s",
   "inspector.veil.device_info.opengl.shader.max_shader_storage_blocks": "Max Shader Storage Blocks: %s",
+
+  "inspector.veil.device_info.opengl.vertex_array.max_vertex_attributes": "Max Vertex Attributes: %s",
+  "inspector.veil.device_info.opengl.vertex_array.max_vertex_attribute_relative_offset": "Max Vertex Attribute Relative Offset: %s",
 
   "inspector.veil.device_info.opengl.uniform.max_uniform_buffer_bindings": "Max Uniform Buffer Bindings: %s",
   "inspector.veil.device_info.opengl.uniform.max_combined_uniform_blocks": "Max Combined Uniform Blocks: %s",

@@ -85,6 +85,8 @@ public final class VeilRenderSystem {
     private static final IntSupplier MAX_ATOMIC_COUNTER_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS));
     private static final IntSupplier MAX_SHADER_STORAGE_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS));
     private static final IntSupplier MAX_ARRAY_TEXTURE_LAYERS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ARRAY_TEXTURE_LAYERS));
+    private static final IntSupplier MAX_VERTEX_ATTRIBS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIBS));
+    private static final IntSupplier MAX_VERTEX_ATTRIB_RELATIVE_OFFSET = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET));
 
     private static final Supplier<VeilShaderLimits> VERTEX_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();
@@ -591,6 +593,20 @@ public final class VeilRenderSystem {
      */
     public static int maxArrayTextureLayers() {
         return VeilRenderSystem.MAX_ARRAY_TEXTURE_LAYERS.getAsInt();
+    }
+
+    /**
+     * @return The GL maximum number of vertex attributes available
+     */
+    public static int maxVertexAttributes() {
+        return VeilRenderSystem.MAX_VERTEX_ATTRIBS.getAsInt();
+    }
+
+    /**
+     * @return The GL maximum offset of vertex attribute relative offsets
+     */
+    public static int maxVertexAttributeRelativeOffset() {
+        return VeilRenderSystem.MAX_VERTEX_ATTRIB_RELATIVE_OFFSET.getAsInt();
     }
 
     /**

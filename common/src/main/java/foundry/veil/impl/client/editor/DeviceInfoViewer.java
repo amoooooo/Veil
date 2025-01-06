@@ -38,6 +38,7 @@ public class DeviceInfoViewer extends SingleWindowInspector {
     private static final Component NO = CommonComponents.GUI_NO.copy().withStyle(style -> style.withColor(0xFF0000FF));
 
     private static final Component GL_FEATURE_FLAG = Component.translatable("inspector.veil.device_info.opengl.feature_flag");
+    private static final Component GL_VERTEX_ARRAY = Component.translatable("inspector.veil.device_info.opengl.vertex_array");
     private static final Component GL_UNIFORM = Component.translatable("inspector.veil.device_info.opengl.uniform");
     private static final Component GL_TRANSFORM_FEEDBACK = Component.translatable("inspector.veil.device_info.opengl.transform_feedback");
     private static final Component GL_ATOMIC_COUNTER = Component.translatable("inspector.veil.device_info.opengl.atomic_counter");
@@ -140,8 +141,14 @@ public class DeviceInfoViewer extends SingleWindowInspector {
             }
         }
 
-        title(GL_UNIFORM);
         ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
+
+        title(GL_VERTEX_ARRAY);
+        text("inspector.veil.device_info.opengl.vertex_array.max_vertex_attributes", VeilRenderSystem.maxVertexAttributes(), null);
+        text("inspector.veil.device_info.opengl.vertex_array.max_vertex_attribute_relative_offset", VeilRenderSystem.maxVertexAttributeRelativeOffset(), null);
+        ImGui.separator();
+
+        title(GL_UNIFORM);
         text("inspector.veil.device_info.opengl.uniform.max_uniform_buffer_bindings", VeilRenderSystem.maxUniformBuffersBindings(), "The limit on the number of uniform buffer binding points. This is the limit for glBindBufferRange when using GL_UNIFORM_BUFFER.");
         text("inspector.veil.device_info.opengl.uniform.max_combined_uniform_blocks", glGetInteger(GL_MAX_COMBINED_UNIFORM_BLOCKS), "The maximum number of uniform blocks that all of the active programs can use. If two (or more) shader stages use the same block, they count separately towards this limit.");
         text("inspector.veil.device_info.opengl.uniform.max_combined_texture_image_units", VeilRenderSystem.maxCombinedTextureUnits(), "The total number of texture units that can be used from all active programs. This is the limit on glActiveTexture(GL_TEXTURE0 + i) and glBindSampler.");
