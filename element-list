@@ -18,6 +18,7 @@ foundry.veil.api.client.render.dynamicbuffer
 foundry.veil.api.client.render.framebuffer
 foundry.veil.api.client.render.light
 foundry.veil.api.client.render.light.renderer
+foundry.veil.api.client.render.mesh
 foundry.veil.api.client.render.post
 foundry.veil.api.client.render.post.stage
 foundry.veil.api.client.render.rendertype
@@ -81,6 +82,7 @@ foundry.veil.impl.client.render
 foundry.veil.impl.client.render.dynamicbuffer
 foundry.veil.impl.client.render.ext
 foundry.veil.impl.client.render.light
+foundry.veil.impl.client.render.mesh
 foundry.veil.impl.client.render.perspective
 foundry.veil.impl.client.render.pipeline
 foundry.veil.impl.client.render.shader
