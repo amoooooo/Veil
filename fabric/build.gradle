@@ -45,7 +45,6 @@ dependencies {
     modRuntimeOnly "maven.modrinth:sodium:mc1.21.1-${sodium_version}-fabric"
 //    modRuntimeOnly "maven.modrinth:iris:1.8.1+1.21.1-fabric"
 //    modRuntimeOnly "maven.modrinth:replaymod:1.21-2.6.20"
-    modRuntimeOnly "maven.modrinth:modmenu:11.0.3"
 
     api(include("gg.moonflower:molang-compiler:${molang_compiler_version}"))
 

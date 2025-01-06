@@ -1,11 +1,9 @@
 package foundry.veil.impl.client.render.shader.definition;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
@@ -16,49 +14,36 @@ import static org.lwjgl.opengl.GL15C.*;
 import static org.lwjgl.opengl.GL30C.glBindBufferBase;
 
 /**
- * Direct State Access Dynamic-size implementation of {@link ShaderBlock}.
+ * Direct State Access Fixed-size implementation of {@link ShaderBlock}.
  *
  * @param <T> The type of object to serialize
  * @author Ocelot
  */
 @ApiStatus.Internal
-public class DSADynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements DynamicShaderBlock<T> {
+public class DSASizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
 
     protected final BiConsumer<T, ByteBuffer> serializer;
-
-    private long size;
-    private boolean resized;
+    private final int size;
     private ByteBuffer upload;
 
-    public DSADynamicShaderBlockImpl(int binding, long size, @NotNull BiConsumer<T, ByteBuffer> serializer) {
+    public DSASizedShaderBlockImpl(int binding, int size, BiConsumer<T, ByteBuffer> serializer) {
         super(binding);
         this.serializer = serializer;
         this.size = size;
-        this.resized = false;
     }
 
-    @Override
-    public void setSize(long size) {
-        this.size = size;
-        this.resized = true;
-    }
-
-    // TODO This might not fully work, make sure mods that use it don't break
     @Override
     public void bind(int index) {
         Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(this.binding), index);
 
         if (this.buffer == 0) {
             this.buffer = glCreateBuffers();
-            this.resized = true;
-        }
-
-        if (this.resized) {
-            this.dirty = true;
             glNamedBufferData(this.buffer, this.size, GL_DYNAMIC_DRAW);
+            this.dirty = true;
         }
 
         if (this.dirty) {
+            this.dirty = false;
             this.upload = glMapNamedBuffer(this.buffer, GL_WRITE_ONLY, this.size, this.upload);
             if (this.upload != null) {
                 if (this.value != null) {
@@ -70,9 +55,6 @@ public class DSADynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements 
             }
             glUnmapNamedBuffer(this.buffer);
         }
-
-        this.resized = false;
-        this.dirty = false;
 
         glBindBufferBase(this.binding, index, this.buffer);
     }

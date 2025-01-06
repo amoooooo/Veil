@@ -56,6 +56,7 @@ public class SizedShaderBlockImpl<T> extends ShaderBlockImpl<T> {
                     MemoryUtil.memSet(this.upload, 0);
                 }
             }
+            glUnmapBuffer(this.binding);
         }
 
         glBindBufferBase(this.binding, index, this.buffer);

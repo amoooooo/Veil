@@ -1,10 +1,7 @@
 package foundry.veil.api.client.render.shader.definition;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.shader.definition.DSADynamicShaderBlockImpl;
-import foundry.veil.impl.client.render.shader.definition.DynamicShaderBlockImpl;
-import foundry.veil.impl.client.render.shader.definition.SizedShaderBlockImpl;
-import foundry.veil.impl.client.render.shader.definition.WrapperShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.definition.*;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
@@ -34,7 +31,7 @@ public interface ShaderBlock<T> extends NativeResource {
      * @return A new shader block
      */
     static <T> ShaderBlock<T> withSize(int binding, int size, BiConsumer<T, ByteBuffer> serializer) {
-        return new SizedShaderBlockImpl<>(binding, size, serializer);
+        return VeilRenderSystem.directStateAccessSupported() ? new DSASizedShaderBlockImpl<>(binding, size, serializer) : new SizedShaderBlockImpl<>(binding, size, serializer);
     }
 
     /**
