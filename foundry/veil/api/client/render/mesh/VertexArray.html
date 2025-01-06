@@ -199,54 +199,67 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Replaces each element of the specified array with a new vertex array.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(int)" class="member-name-link">draw</a><wbr>(int&nbsp;mode)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createBuffer()" class="member-name-link">createBuffer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawIndirect(int,long,int,int)" class="member-name-link">drawIndirect</a><wbr>(int&nbsp;mode,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw(int)" class="member-name-link">draw</a><wbr>(int&nbsp;mode)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawIndirect(int,long,int,int)" class="member-name-link">drawIndirect</a><wbr>(int&nbsp;mode,
  long&nbsp;indirect,
  int&nbsp;drawCount,
  int&nbsp;stride)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawInstanced(int,int)" class="member-name-link">drawInstanced</a><wbr>(int&nbsp;mode,
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawInstanced(int,int)" class="member-name-link">drawInstanced</a><wbr>(int&nbsp;mode,
  int&nbsp;instances)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIndexCount()" class="member-name-link">getIndexCount</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrCreateBuffer(int)" class="member-name-link">getOrCreateBuffer</a><wbr>(int&nbsp;index)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIndexType()" class="member-name-link">getIndexType</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOrCreateBuffer(int)" class="member-name-link">getOrCreateBuffer</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a new buffer object owned by this vertex array or retrieves an existing buffer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIndexCount(int)" class="member-name-link">setIndexCount</a><wbr>(int&nbsp;indexCount)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unbind()" class="member-name-link">unbind</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(int&nbsp;attributeStart,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIndexCount(int)" class="member-name-link">setIndexCount</a><wbr>(int&nbsp;indexCount)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unbind()" class="member-name-link">unbind</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(int&nbsp;attributeStart,
  com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
+ <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uploads vanilla mc mesh data into this vertex array.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
  <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Uploads vanilla mc mesh data into this vertex array.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
- <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Uploads vanilla mc mesh data into this vertex array.</div>
-</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)" class="member-name-link">uploadIndexBuffer</a><wbr>(com.mojang.blaze3d.vertex.MeshData.DrawState&nbsp;drawState,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ int&nbsp;usage)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#uploadVertexBuffer(foundry.veil.api.client.render.mesh.VertexArrayBuilder,int,int,java.nio.ByteBuffer)" class="member-name-link">uploadVertexBuffer</a><wbr>(<a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a>&nbsp;builder,
- int&nbsp;buffer,
- int&nbsp;usage,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#uploadVertexBuffer(int,java.nio.ByteBuffer,int)" class="member-name-link">uploadVertexBuffer</a><wbr>(int&nbsp;buffer,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
+ int&nbsp;usage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
@@ -392,6 +405,18 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
+<section class="detail" id="getIndexCount()">
+<h3>getIndexCount</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getIndexCount</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getIndexType()">
+<h3>getIndexType</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a></span>&nbsp;<span class="element-name">getIndexType</span>()</div>
+</section>
+</li>
+<li>
 <section class="detail" id="upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">
 <h3>upload</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upload</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
@@ -420,13 +445,26 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="uploadVertexBuffer(foundry.veil.api.client.render.mesh.VertexArrayBuilder,int,int,java.nio.ByteBuffer)">
-<h3>uploadVertexBuffer</h3>
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadVertexBuffer</span><wbr><span class="parameters">(<a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a>&nbsp;builder,
- int&nbsp;buffer,
- int&nbsp;usage,
+<section class="detail" id="uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)">
+<h3>uploadIndexBuffer</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadIndexBuffer</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.MeshData.DrawState&nbsp;drawState,
  @Nullable
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ int&nbsp;usage)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="createBuffer()">
+<h3>createBuffer</h3>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">createBuffer</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="uploadVertexBuffer(int,java.nio.ByteBuffer,int)">
+<h3>uploadVertexBuffer</h3>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadVertexBuffer</span><wbr><span class="parameters">(int&nbsp;buffer,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
+ int&nbsp;usage)</span></div>
 </section>
 </li>
 <li>

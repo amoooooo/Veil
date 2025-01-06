@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../../../../impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="enum class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></code>, <code><a href="../../../../impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></code>, <code><a href="../../../../impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></code></dd>
+<dd><code><a href="../../../../impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="enum class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></code>, <code><a href="../../../../impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">VertexArrayBuilder</span></div>
@@ -144,7 +144,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#defineVertexBuffer(int,int,int,int)" class="member-name-link">defineVertexBuffer</a><wbr>(int&nbsp;index,
  int&nbsp;buffer,
  int&nbsp;offset,
- int&nbsp;size)</code></div>
+ int&nbsp;stride)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Maps a buffer region to the specified index.</div>
 </div>
@@ -235,14 +235,14 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">defineVertexBuffer</span><wbr><span class="parameters">(int&nbsp;index,
  int&nbsp;buffer,
  int&nbsp;offset,
- int&nbsp;size)</span></div>
+ int&nbsp;stride)</span></div>
 <div class="block">Maps a buffer region to the specified index. Allows swapping out vertex data with a single GL call.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - The index to assign to. It must be between 0 and <a href="../VeilRenderSystem.html#maxVertexAttributes()"><code>VeilRenderSystem.maxVertexAttributes()</code></a></dd>
 <dd><code>buffer</code> - The buffer to assign</dd>
 <dd><code>offset</code> - The offset into the buffer to bind to</dd>
-<dd><code>size</code> - The size of the region to map</dd>
+<dd><code>stride</code> - The size of the region to map</dd>
 </dl>
 </section>
 </li>

@@ -144,21 +144,28 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createBuffer()" class="member-name-link">createBuffer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)" class="member-name-link">uploadIndexBuffer</a><wbr>(com.mojang.blaze3d.vertex.MeshData.DrawState&nbsp;drawState,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ int&nbsp;usage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#uploadVertexBuffer(foundry.veil.api.client.render.mesh.VertexArrayBuilder,int,int,java.nio.ByteBuffer)" class="member-name-link">uploadVertexBuffer</a><wbr>(<a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a>&nbsp;builder,
- int&nbsp;buffer,
- int&nbsp;usage,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#uploadVertexBuffer(int,java.nio.ByteBuffer,int)" class="member-name-link">uploadVertexBuffer</a><wbr>(int&nbsp;buffer,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
+ int&nbsp;usage)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.client.render.mesh.VertexArray">Methods inherited from class&nbsp;foundry.veil.api.client.render.mesh.<a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></h3>
-<code><a href="../../../../api/client/render/mesh/VertexArray.html#bind()">bind</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#create()">create</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#create(int)">create</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#create(foundry.veil.api.client.render.mesh.VertexArray%5B%5D)">create</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#draw(int)">draw</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#drawIndirect(int,long,int,int)">drawIndirect</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#drawInstanced(int,int)">drawInstanced</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#free()">free</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#getOrCreateBuffer(int)">getOrCreateBuffer</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#setIndexCount(int)">setIndexCount</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#unbind()">unbind</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">upload</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">upload</a></code></div>
+<code><a href="../../../../api/client/render/mesh/VertexArray.html#bind()">bind</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#create()">create</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#create(int)">create</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#create(foundry.veil.api.client.render.mesh.VertexArray%5B%5D)">create</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#draw(int)">draw</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#drawIndirect(int,long,int,int)">drawIndirect</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#drawInstanced(int,int)">drawInstanced</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#free()">free</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#getIndexCount()">getIndexCount</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#getIndexType()">getIndexType</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#getOrCreateBuffer(int)">getOrCreateBuffer</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#setIndexCount(int)">setIndexCount</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#unbind()">unbind</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">upload</a>, <a href="../../../../api/client/render/mesh/VertexArray.html#upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">upload</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -191,16 +198,37 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="uploadVertexBuffer(foundry.veil.api.client.render.mesh.VertexArrayBuilder,int,int,java.nio.ByteBuffer)">
-<h3>uploadVertexBuffer</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadVertexBuffer</span><wbr><span class="parameters">(<a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a>&nbsp;builder,
- int&nbsp;buffer,
- int&nbsp;usage,
+<section class="detail" id="uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)">
+<h3>uploadIndexBuffer</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadIndexBuffer</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.MeshData.DrawState&nbsp;drawState,
  @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data)</span></div>
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ int&nbsp;usage)</span></div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="../../../../api/client/render/mesh/VertexArray.html#uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)">uploadIndexBuffer</a></code>&nbsp;in class&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createBuffer()">
+<h3>createBuffer</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">createBuffer</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/mesh/VertexArray.html#uploadVertexBuffer(foundry.veil.api.client.render.mesh.VertexArrayBuilder,int,int,java.nio.ByteBuffer)">uploadVertexBuffer</a></code>&nbsp;in class&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></dd>
+<dd><code><a href="../../../../api/client/render/mesh/VertexArray.html#createBuffer()">createBuffer</a></code>&nbsp;in class&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="uploadVertexBuffer(int,java.nio.ByteBuffer,int)">
+<h3>uploadVertexBuffer</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadVertexBuffer</span><wbr><span class="parameters">(int&nbsp;buffer,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
+ int&nbsp;usage)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../api/client/render/mesh/VertexArray.html#uploadVertexBuffer(int,java.nio.ByteBuffer,int)">uploadVertexBuffer</a></code>&nbsp;in class&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></dd>
 </dl>
 </section>
 </li>

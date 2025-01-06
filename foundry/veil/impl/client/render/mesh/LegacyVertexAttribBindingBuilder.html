@@ -148,7 +148,7 @@ implements <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" 
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#defineVertexBuffer(int,int,int,int)" class="member-name-link">defineVertexBuffer</a><wbr>(int&nbsp;index,
  int&nbsp;buffer,
  int&nbsp;offset,
- int&nbsp;size)</code></div>
+ int&nbsp;stride)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Maps a buffer region to the specified index.</div>
 </div>
@@ -233,7 +233,7 @@ implements <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" 
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">defineVertexBuffer</span><wbr><span class="parameters">(int&nbsp;index,
  int&nbsp;buffer,
  int&nbsp;offset,
- int&nbsp;size)</span></div>
+ int&nbsp;stride)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int)">VertexArrayBuilder</a></code></span></div>
 <div class="block">Maps a buffer region to the specified index. Allows swapping out vertex data with a single GL call.</div>
 <dl class="notes">
@@ -243,7 +243,7 @@ implements <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" 
 <dd><code>index</code> - The index to assign to. It must be between 0 and <a href="../../../../api/client/render/VeilRenderSystem.html#maxVertexAttributes()"><code>VeilRenderSystem.maxVertexAttributes()</code></a></dd>
 <dd><code>buffer</code> - The buffer to assign</dd>
 <dd><code>offset</code> - The offset into the buffer to bind to</dd>
-<dd><code>size</code> - The size of the region to map</dd>
+<dd><code>stride</code> - The size of the region to map</dd>
 </dl>
 </section>
 </li>
