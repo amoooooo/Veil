@@ -8,7 +8,9 @@ import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.*;
+import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
@@ -18,6 +20,8 @@ import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.shader.DummyResource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.AbstractTexture;
@@ -57,6 +61,7 @@ public class ShaderProgramImpl implements ShaderProgram {
     private final Map<String, ShaderTextureSource> textureSources;
     private final Set<String> definitionDependencies;
     private final ShaderTextureCache textures;
+    private final Object2ObjectMap<CharSequence, ShaderBlock<?>> shaderBlocks;
     private final Supplier<Wrapper> wrapper;
 
     private VertexFormat vertexFormat;
@@ -69,6 +74,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.attachedShaders = new Int2ObjectArrayMap<>(2);
         this.uniforms = new ShaderUniformCache(this);
         this.textures = new ShaderTextureCache(this);
+        this.shaderBlocks = new Object2ObjectArrayMap<>();
         this.textureSources = new HashMap<>();
         this.definitionDependencies = new HashSet<>();
         this.wrapper = Suppliers.memoize(() -> {
@@ -253,6 +259,15 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     @Override
+    public void bind() {
+        VeilRenderSystem.clearShaderBlocks();
+        for (Object2ObjectMap.Entry<CharSequence, ShaderBlock<?>> entry : this.shaderBlocks.object2ObjectEntrySet()) {
+            VeilRenderSystem.bind(entry.getKey(), entry.getValue());
+        }
+        ShaderProgram.super.bind();
+    }
+
+    @Override
     public void free() {
         this.freeInternal();
     }
@@ -365,6 +380,14 @@ public class ShaderProgramImpl implements ShaderProgram {
     @Override
     public void clearSamplers() {
         this.textures.clear();
+    }
+
+    public void addShaderBlock(String name, ShaderBlock<?> block) {
+        this.shaderBlocks.put(name, block);
+    }
+
+    public void clearShaderBlocks() {
+        this.shaderBlocks.clear();
     }
 
     /**

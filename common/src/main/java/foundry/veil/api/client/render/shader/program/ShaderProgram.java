@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.shader.program;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.CompiledShader;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -45,6 +46,7 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
      * Unbinds the currently bound shader program.
      */
     static void unbind() {
+        VeilRenderSystem.clearShaderBlocks();
         GlStateManager._glUseProgram(0);
         ShaderInstance.lastProgramId = -1;
         EffectInstance.lastProgramId = -1;

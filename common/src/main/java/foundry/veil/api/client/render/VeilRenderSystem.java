@@ -883,6 +883,11 @@ public final class VeilRenderSystem {
     }
 
     @ApiStatus.Internal
+    public static void clearShaderBlocks() {
+        SHADER_BUFFER_CACHE.unbindPacked();
+    }
+
+    @ApiStatus.Internal
     public static void shaderUpdate() {
         VeilRenderSystem.shaderLocation = null;
     }

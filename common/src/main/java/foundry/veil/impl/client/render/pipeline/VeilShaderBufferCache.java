@@ -9,6 +9,7 @@ import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.impl.client.render.LayoutSerializer;
 import foundry.veil.impl.client.render.shader.definition.LayoutShaderBlockImpl;
 import foundry.veil.impl.client.render.shader.definition.ShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -34,6 +35,12 @@ public class VeilShaderBufferCache implements NativeResource {
         this.values = new LayoutShaderBlockImpl[this.layouts.length];
 
         VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> {
+            for (ShaderProgram shader : updatedPrograms.values()) {
+                if (shader instanceof ShaderProgramImpl impl) {
+                    impl.clearShaderBlocks();
+                }
+            }
+
             for (int i = 0; i < this.values.length; i++) {
                 LayoutShaderBlockImpl<?> block = this.values[i];
                 if (block != null) {
@@ -42,11 +49,11 @@ public class VeilShaderBufferCache implements NativeResource {
                         // Since no old shaders reference it anymore, delete it and allow it to be created again
                         block.free();
                         this.values[i] = null;
-                        Veil.LOGGER.info("Deleting block: {}", this.layouts[i].name());
                     }
                 }
 
                 VeilShaderBufferLayout<?> layout = this.layouts[i];
+                boolean packed = layout.memoryLayout() == ShaderBlock.MemoryLayout.PACKED;
                 String name = layout.name();
                 for (ShaderProgram shader : updatedPrograms.values()) {
                     int index = switch (layout.binding()) {
@@ -62,16 +69,17 @@ public class VeilShaderBufferCache implements NativeResource {
                         block = LayoutSerializer.create(layout, shader, name, index);
                         block.getReferencedShaders().add(shader.getId());
                         this.values[i] = block;
-                        Veil.LOGGER.info("Defined {} from shader: {}", name, shader.getId());
+                        if (packed && shader instanceof ShaderProgramImpl impl) {
+                            impl.addShaderBlock(name, block);
+                        }
                     } else {
                         this.values[i].getReferencedShaders().add(shader.getId());
-                        Veil.LOGGER.info("Adding {} to shader: {}", name, shader.getId());
                     }
                     break;
                 }
 
                 // Validate only a single shader uses the block
-                if (this.layouts[i].memoryLayout() == ShaderBlock.MemoryLayout.PACKED) {
+                if (packed) {
                     block = this.values[i];
                     if (block == null) {
                         continue;
@@ -89,8 +97,17 @@ public class VeilShaderBufferCache implements NativeResource {
     public void bind() {
         for (int i = 0; i < this.values.length; i++) {
             LayoutShaderBlockImpl<?> block = this.values[i];
-            if (block != null) {
+            if (block != null && this.layouts[i].memoryLayout() != ShaderBlock.MemoryLayout.PACKED) {
                 VeilRenderSystem.bind(this.layouts[i].name(), block);
+            }
+        }
+    }
+
+    public void unbindPacked() {
+        for (int i = 0; i < this.values.length; i++) {
+            LayoutShaderBlockImpl<?> block = this.values[i];
+            if (block != null && this.layouts[i].memoryLayout() == ShaderBlock.MemoryLayout.PACKED) {
+                VeilRenderSystem.unbind(block);
             }
         }
     }
