@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ShaderBufferProcessor implements ShaderPreProcessor {
 
-    private static final String BUFFER_KEY = "#buffer ";
+    private static final String BUFFER_KEY = "#veil:buffer ";
     private final boolean shaderStorageSupported;
 
     public ShaderBufferProcessor(boolean shaderStorageSupported) {

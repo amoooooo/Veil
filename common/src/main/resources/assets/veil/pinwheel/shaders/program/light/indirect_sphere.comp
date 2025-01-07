@@ -2,7 +2,7 @@
 #extension GL_ARB_shader_atomic_counters : enable
 #extension GL_ARB_shader_storage_buffer_object : enable
 
-#include veil:camera
+#veil:buffer veil:camera
 
 layout(std430) readonly buffer VeilLightInstanced {
     float data[];

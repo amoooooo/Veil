@@ -1,31 +1,17 @@
 package foundry.veil.api.client.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import foundry.veil.api.client.registry.VeilShaderBufferRegistry;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import org.joml.*;
-import org.lwjgl.system.NativeResource;
-
-import java.nio.ByteBuffer;
 
 /**
  * Packages all camera matrices and shader uniforms to make shader management easier.
  *
  * @author Ocelot
  */
-public class CameraMatrices implements NativeResource {
+public class CameraMatrices {
 
-    private static final int SIZE =
-            Float.BYTES * 16 +
-                    Float.BYTES * 16 +
-                    Float.BYTES * 16 +
-                    Float.BYTES * 16 +
-                    Float.BYTES * 12 +
-                    Float.BYTES * 3 +
-                    Float.BYTES +
-                    Float.BYTES * 3 +
-                    Float.BYTES;
-
-    private final ShaderBlock<CameraMatrices> block;
     private final Matrix4f projectionMatrix;
     private final Matrix4f inverseProjectionMatrix;
     private final Matrix4f viewMatrix;
@@ -40,7 +26,6 @@ public class CameraMatrices implements NativeResource {
      * Creates a new set of camera matrices.
      */
     public CameraMatrices() {
-        this.block = ShaderBlock.withSize(ShaderBlock.BufferBinding.UNIFORM, CameraMatrices.SIZE, CameraMatrices::write);
         this.projectionMatrix = new Matrix4f();
         this.inverseProjectionMatrix = new Matrix4f();
         this.viewMatrix = new Matrix4f();
@@ -53,31 +38,18 @@ public class CameraMatrices implements NativeResource {
     }
 
     public static VeilShaderBufferLayout<CameraMatrices> createLayout() {
-        return VeilShaderBufferLayout.<CameraMatrices>builder("Test")
+        return VeilShaderBufferLayout.<CameraMatrices>builder()
                 .interfaceName("VeilCamera")
-//                .binding(ShaderBlock.BufferBinding.SHADER_STORAGE)
-                .floating("NearPlane", CameraMatrices::getNearPlane)
-                .floating("FarPlane", CameraMatrices::getFarPlane)
+                .mat4("ProjMat", CameraMatrices::getProjectionMatrix)
+                .mat4("IProjMat", CameraMatrices::getInverseProjectionMatrix)
+                .mat4("ViewMat", CameraMatrices::getViewMatrix)
+                .mat4("IViewMat", CameraMatrices::getInverseViewMatrix)
+                .mat3("IViewRotMat", CameraMatrices::getInverseViewRotMatrix)
+                .vec3("CameraPosition", CameraMatrices::getCameraPosition)
+                .f32("NearPlane", CameraMatrices::getNearPlane)
+                .vec3("CameraBobOffset", CameraMatrices::getCameraBobOffset)
+                .f32("FarPlane", CameraMatrices::getFarPlane)
                 .build();
-    }
-
-    private void write(ByteBuffer buffer) {
-        this.projectionMatrix.get(0, buffer); // 0
-        this.inverseProjectionMatrix.get(Float.BYTES * 16, buffer); // 64
-        this.viewMatrix.get(Float.BYTES * 32, buffer); // 128
-        this.inverseViewMatrix.get(Float.BYTES * 48, buffer); // 192
-        this.inverseViewRotMatrix.get3x4(Float.BYTES * 64, buffer); // 256
-        this.cameraPosition.get(Float.BYTES * 76, buffer); // 304
-        buffer.putFloat(Float.BYTES * 79, this.nearPlane); // 316
-        this.cameraBobOffset.get(Float.BYTES * 80, buffer); // 320
-        buffer.putFloat(Float.BYTES * 83, this.farPlane); // 332
-    }
-
-    /**
-     * Binds the camera data in this shader block.
-     */
-    public void bind() {
-        VeilRenderSystem.bind("CameraMatrices", this.block);
     }
 
     /**
@@ -90,6 +62,11 @@ public class CameraMatrices implements NativeResource {
      * @param zNear      The near clipping plane of the camera
      */
     public void update(Matrix4fc projection, Matrix4fc modelView, Vector3dc pos, float zNear, float zFar) {
+        ShaderBlock<CameraMatrices> block = VeilRenderSystem.getBlock(VeilShaderBufferRegistry.CAMERA.get());
+        if (block == null) {
+            return;
+        }
+
         this.projectionMatrix.set(projection);
         this.projectionMatrix.invertPerspective(this.inverseProjectionMatrix);
 
@@ -105,14 +82,19 @@ public class CameraMatrices implements NativeResource {
         this.nearPlane = zNear;
         this.farPlane = zFar;
 
-        this.block.set(this);
-        this.bind();
+        block.set(this);
+        VeilRenderSystem.bind(VeilShaderBufferRegistry.CAMERA.get());
     }
 
     /**
      * Updates the camera matrices to match the current render system projection.
      */
     public void updateGui() {
+        ShaderBlock<CameraMatrices> block = VeilRenderSystem.getBlock(VeilShaderBufferRegistry.CAMERA.get());
+        if (block == null) {
+            return;
+        }
+
         this.projectionMatrix.set(RenderSystem.getProjectionMatrix());
         this.projectionMatrix.invertAffine(this.inverseProjectionMatrix);
 
@@ -125,15 +107,8 @@ public class CameraMatrices implements NativeResource {
         this.cameraPosition.set(0);
         this.cameraBobOffset.set(0);
 
-        this.block.set(this);
-        this.bind();
-    }
-
-    /**
-     * Unbinds this shader block.
-     */
-    public void unbind() {
-        VeilRenderSystem.unbind(this.block);
+        block.set(this);
+        VeilRenderSystem.bind(VeilShaderBufferRegistry.CAMERA.get());
     }
 
     /**
@@ -215,10 +190,5 @@ public class CameraMatrices implements NativeResource {
      */
     public void setFarPlane(float farPlane) {
         this.farPlane = farPlane;
-    }
-
-    @Override
-    public void free() {
-        this.block.free();
     }
 }

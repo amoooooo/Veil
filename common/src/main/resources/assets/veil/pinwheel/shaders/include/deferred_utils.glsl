@@ -1,4 +1,4 @@
-#include veil:camera
+#veil:buffer veil:camera
 
 float getFov() {
     return 2.0 * atan(1.0 / VeilCamera.ProjMat[1][1]);

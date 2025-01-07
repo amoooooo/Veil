@@ -9,6 +9,7 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
+import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
@@ -208,7 +209,7 @@ public final class VeilRenderSystem {
 
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
-    private static VertexBuffer vbo;
+    private static VertexArray screenQuad;
 
     private VeilRenderSystem() {
     }
@@ -291,9 +292,8 @@ public final class VeilRenderSystem {
         bufferBuilder.addVertex(1, 1, 0);
         bufferBuilder.addVertex(1, -1, 0);
 
-        vbo = new VertexBuffer(VertexBuffer.Usage.STATIC);
-        vbo.bind();
-        vbo.upload(bufferBuilder.buildOrThrow());
+        screenQuad = VertexArray.create();
+        screenQuad.upload(bufferBuilder.buildOrThrow(), VertexArray.DrawUsage.STATIC);
         VertexBuffer.unbind();
     }
 
@@ -321,8 +321,8 @@ public final class VeilRenderSystem {
      * Draws a quad onto the full screen using {@link DefaultVertexFormat#POSITION}.
      */
     public static void drawScreenQuad() {
-        vbo.bind();
-        vbo.draw();
+        screenQuad.bind();
+        screenQuad.draw(GL_TRIANGLE_STRIP);
         VertexBuffer.unbind();
     }
 
@@ -739,6 +739,20 @@ public final class VeilRenderSystem {
     }
 
     /**
+     * <p>Binds the specified block into the next available binding spot
+     * and updates all shaders if the binding index has changed.</p>
+     * <p><b>Make sure this is called before trying to use the block on this frame as it may have been overwritten.</b></p>
+     * <p>This binds the block and assigns it to shader values.</p>
+     *
+     * @param layout The layout of the buffer to bind
+     * @throws IllegalArgumentException If the layout is not registered
+     */
+    public static void bind(VeilShaderBufferLayout<?> layout) throws IllegalArgumentException {
+        RenderSystem.assertOnRenderThreadOrInit();
+        SHADER_BUFFER_CACHE.bind(layout);
+    }
+
+    /**
      * Unbinds the specified block and frees the binding it occupied.
      * It isn't strictly necessary to unbind blocks, but they should not be referenced anymore after being deleted.
      *
@@ -747,6 +761,18 @@ public final class VeilRenderSystem {
     public static void unbind(ShaderBlock<?> block) {
         RenderSystem.assertOnRenderThreadOrInit();
         UNIFORM_BLOCK_STATE.unbind(block);
+    }
+
+    /**
+     * Unbinds the specified block and frees the binding it occupied.
+     * It isn't strictly necessary to unbind blocks, but they should not be referenced anymore after being deleted.
+     *
+     * @param layout The layout of the buffer to unbind
+     * @throws IllegalArgumentException If the layout is not registered
+     */
+    public static void unbind(VeilShaderBufferLayout<?> layout) throws IllegalArgumentException {
+        RenderSystem.assertOnRenderThreadOrInit();
+        SHADER_BUFFER_CACHE.unbind(layout);
     }
 
     /**
@@ -878,7 +904,8 @@ public final class VeilRenderSystem {
         if (renderer != null) {
             renderer.free();
         }
-        vbo.close();
+        screenQuad.close();
+        SHADER_BUFFER_CACHE.free();
     }
 
     @ApiStatus.Internal

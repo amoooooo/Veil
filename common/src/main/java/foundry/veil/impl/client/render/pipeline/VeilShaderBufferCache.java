@@ -13,6 +13,7 @@ import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.system.NativeResource;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  * @author Ocelot
  */
 @ApiStatus.Internal
-public class VeilShaderBufferCache {
+public class VeilShaderBufferCache implements NativeResource {
 
     private final LayoutShaderBlockImpl<?>[] values;
     private final VeilShaderBufferLayout<?>[] layouts;
@@ -101,5 +102,38 @@ public class VeilShaderBufferCache {
             throw new IllegalArgumentException("Attempted to use unregistered buffer layout: " + layout.name());
         }
         return (ShaderBlockImpl<T>) this.values[id];
+    }
+
+    public void bind(VeilShaderBufferLayout<?> layout) throws IllegalArgumentException {
+        int id = VeilShaderBufferRegistry.REGISTRY.getId(layout);
+        if (id < 0 || id >= this.values.length) {
+            throw new IllegalArgumentException("Attempted to use unregistered buffer layout: " + layout.name());
+        }
+        LayoutShaderBlockImpl<?> block = this.values[id];
+        if (block != null) {
+            VeilRenderSystem.bind(this.layouts[id].name(), block);
+        }
+    }
+
+    public void unbind(VeilShaderBufferLayout<?> layout) throws IllegalArgumentException {
+        int id = VeilShaderBufferRegistry.REGISTRY.getId(layout);
+        if (id < 0 || id >= this.values.length) {
+            throw new IllegalArgumentException("Attempted to use unregistered buffer layout: " + layout.name());
+        }
+        LayoutShaderBlockImpl<?> block = this.values[id];
+        if (block != null) {
+            VeilRenderSystem.unbind(block);
+        }
+    }
+
+    @Override
+    public void free() {
+        for (int i = 0; i < this.values.length; i++) {
+            LayoutShaderBlockImpl<?> block = this.values[i];
+            if (block != null) {
+                block.free();
+            }
+            this.values[i] = null;
+        }
     }
 }

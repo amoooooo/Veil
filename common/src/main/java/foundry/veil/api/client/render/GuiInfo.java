@@ -1,22 +1,16 @@
 package foundry.veil.api.client.render;
 
-import com.mojang.blaze3d.platform.Window;
+import foundry.veil.api.client.registry.VeilShaderBufferRegistry;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.system.NativeResource;
-
-import java.nio.ByteBuffer;
 
 /**
  * Manages the global gui context variables.
  *
  * @author Ocelot
  */
-public class GuiInfo implements NativeResource {
+public class GuiInfo {
 
-    private static final int SIZE = Float.BYTES;
-
-    private final ShaderBlock<GuiInfo> block;
     private float guiScale;
     private boolean enabled;
 
@@ -24,23 +18,30 @@ public class GuiInfo implements NativeResource {
      * Creates a new set of camera matrices.
      */
     public GuiInfo() {
-        this.block = ShaderBlock.withSize(ShaderBlock.BufferBinding.UNIFORM, GuiInfo.SIZE, GuiInfo::write);
         this.guiScale = 0.0F;
         this.enabled = false;
     }
 
-    private void write(ByteBuffer buffer) {
-        buffer.putFloat(0, this.guiScale);
+    public static VeilShaderBufferLayout<GuiInfo> createLayout() {
+        return VeilShaderBufferLayout.<GuiInfo>builder()
+                .interfaceName("GuiInfo")
+                .f32("GuiScale", GuiInfo::getGuiScale)
+                .build();
     }
 
     /**
      * Updates the camera matrices to match the current render system projection.
      */
     public void update() {
-        Window window = Minecraft.getInstance().getWindow();
-        this.guiScale = (float) window.getGuiScale();
-        this.block.set(this);
-        VeilRenderSystem.bind("GuiInfo", this.block);
+        ShaderBlock<GuiInfo> block = VeilRenderSystem.getBlock(VeilShaderBufferRegistry.GUI_INFO.get());
+        if (block == null) {
+            return;
+        }
+
+        this.guiScale = (float) Minecraft.getInstance().getWindow().getGuiScale();
+
+        block.set(this);
+        VeilRenderSystem.bind(VeilShaderBufferRegistry.GUI_INFO.get());
         this.enabled = true;
     }
 
@@ -48,7 +49,7 @@ public class GuiInfo implements NativeResource {
      * Unbinds this shader block.
      */
     public void unbind() {
-        VeilRenderSystem.unbind(this.block);
+        VeilRenderSystem.unbind(VeilShaderBufferRegistry.GUI_INFO.get());
         this.enabled = false;
     }
 
@@ -64,10 +65,5 @@ public class GuiInfo implements NativeResource {
      */
     public boolean isGuiRendering() {
         return this.enabled;
-    }
-
-    @Override
-    public void free() {
-        this.block.free();
     }
 }

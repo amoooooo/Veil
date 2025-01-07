@@ -241,8 +241,6 @@ public class VeilRenderer {
         this.framebufferManager.free();
         this.postProcessingManager.free();
         this.quasarParticleManager.clear();
-        this.cameraMatrices.free();
         this.lightRenderer.free();
-        this.guiInfo.free();
     }
 }

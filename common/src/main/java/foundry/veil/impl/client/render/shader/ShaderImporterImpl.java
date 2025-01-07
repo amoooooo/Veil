@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.shader;
 
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.shader.ShaderImporter;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
@@ -13,9 +14,14 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class ShaderImporterImpl implements ShaderImporter {
+
+    private static final String DEPRECATED_MARKER = "#veil:deprecated";
 
     private final ResourceProvider resourceProvider;
     private final ObjectSet<ResourceLocation> failedImports;
@@ -58,7 +64,23 @@ public class ShaderImporterImpl implements ShaderImporter {
             }
 
             // TODO add a way to safely clone a glsl tree
-            return context.modifyInclude(name, this.imports.get(name));
+            GlslTree tree = context.modifyInclude(name, this.imports.get(name));
+            Iterator<String> iterator = tree.getDirectives().iterator();
+            while (iterator.hasNext()) {
+                String directive = iterator.next();
+                if (!directive.startsWith(DEPRECATED_MARKER)) {
+                    continue;
+                }
+
+                iterator.remove();
+                String message = directive.substring(DEPRECATED_MARKER.length()).trim();
+                if (message.isEmpty()) {
+                    Veil.LOGGER.warn("Program '{}' uses deprecated import in {} shader '{}'", context.name(), ShaderManager.getTypeName(context.type()), name);
+                } else {
+                    Veil.LOGGER.warn("Program '{}' uses deprecated import in {} shader '{}': {}", context.name(), ShaderManager.getTypeName(context.type()), name, message);
+                }
+            }
+            return tree;
         } catch (Throwable t) {
             this.failedImports.add(name);
             throw new IOException("Failed to add import: " + name, t);

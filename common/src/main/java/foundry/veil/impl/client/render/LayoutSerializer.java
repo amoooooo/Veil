@@ -21,6 +21,12 @@ import java.util.function.BiConsumer;
 import static org.lwjgl.opengl.ARBProgramInterfaceQuery.*;
 import static org.lwjgl.opengl.GL31C.*;
 
+/**
+ * Serializes an object one field at a time.
+ *
+ * @param fields The field offsets and serializers
+ * @param <T>    The type of data being written
+ */
 @ApiStatus.Internal
 public record LayoutSerializer<T>(Field<T>[] fields) implements BiConsumer<T, ByteBuffer> {
 

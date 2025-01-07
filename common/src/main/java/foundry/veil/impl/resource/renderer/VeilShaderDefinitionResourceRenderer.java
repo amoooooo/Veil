@@ -163,7 +163,7 @@ public class VeilShaderDefinitionResourceRenderer {
             RenderSystem.backupProjectionMatrix();
             RenderSystem.setProjectionMatrix(new Matrix4f(), VertexSorting.ORTHOGRAPHIC_Z);
 
-            CAMERA_MATRICES.bind();
+//            CAMERA_MATRICES.bind();
             shader.bind();
             shader.applyRenderSystem();
             shader.addRenderSystemTextures();
@@ -173,7 +173,7 @@ public class VeilShaderDefinitionResourceRenderer {
             BufferUploader.draw(data);
 
             ShaderProgram.unbind();
-            VeilRenderSystem.renderer().getCameraMatrices().bind();
+//            VeilRenderSystem.renderer().getCameraMatrices().bind();
 
             stack.popMatrix();
             RenderSystem.restoreProjectionMatrix();

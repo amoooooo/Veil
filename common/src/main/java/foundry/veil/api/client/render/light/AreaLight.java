@@ -239,7 +239,7 @@ public class AreaLight extends Light implements InstancedLight, PositionedLight<
         ImGui.sameLine(0, ImGui.getStyle().getItemInnerSpacingX());
         ImGui.text("orientation");
 
-        if (ImGui.sliderAngle("##angle", editAngle, 0.0F, 180.0F, "%.1f")) {
+        if (ImGui.sliderAngle("##angle", editAngle, 0.1F, 180.0F, "%.1f")) {
             this.setAngle(editAngle[0]);
         }
         ImGui.sameLine(0, ImGui.getStyle().getItemInnerSpacingX());
