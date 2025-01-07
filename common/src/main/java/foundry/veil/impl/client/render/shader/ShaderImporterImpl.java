@@ -75,9 +75,9 @@ public class ShaderImporterImpl implements ShaderImporter {
                 iterator.remove();
                 String message = directive.substring(DEPRECATED_MARKER.length()).trim();
                 if (message.isEmpty()) {
-                    Veil.LOGGER.warn("Program '{}' uses deprecated import in {} shader '{}'", context.name(), ShaderManager.getTypeName(context.type()), name);
+                    Veil.LOGGER.error("Program '{}' uses deprecated import in {} shader '{}'", context.name(), ShaderManager.getTypeName(context.type()), name);
                 } else {
-                    Veil.LOGGER.warn("Program '{}' uses deprecated import in {} shader '{}': {}", context.name(), ShaderManager.getTypeName(context.type()), name, message);
+                    Veil.LOGGER.error("Program '{}' uses deprecated import in {} shader '{}': {}", context.name(), ShaderManager.getTypeName(context.type()), name, message);
                 }
             }
             return tree;
