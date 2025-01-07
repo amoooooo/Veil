@@ -11,7 +11,7 @@ public class VeilBuiltinPacks {
         if (Veil.platform().isDevelopmentEnvironment()) {
             context.register(Veil.veilPath("test_particles"), false);
             context.register(Veil.veilPath("test_shaders"), false);
-            context.register(Veil.veilPath("volumetric_fog"), false);
+            context.register(Veil.veilPath("fog"), false);
         }
 
 //        if (!Veil.SODIUM) {
