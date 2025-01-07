@@ -38,7 +38,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Summary:</p>
 <ul>
-<li>Nested</li>
+<li><a href="#nested-class-summary">Nested</a></li>
 <li>Field</li>
 <li>Constr</li>
 <li><a href="#method-summary">Method</a></li>
@@ -58,7 +58,7 @@ loadScripts(document, 'script');</script>
 <div id="navbar-sub-list">
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -100,19 +100,40 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../../../../../impl/client/render/shader/definition/DSADynamicShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">DSADynamicShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/DSASizedShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">DSASizedShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/DynamicShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">DynamicShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/ShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">ShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/SizedShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">SizedShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/WrapperShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">WrapperShaderBlockImpl</a></code></dd>
+<dd><code><a href="../../../../../impl/client/render/shader/definition/DynamicShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">DynamicShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/LayoutShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">LayoutShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/ShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">ShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/SizedShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">SizedShaderBlockImpl</a></code>, <code><a href="../../../../../impl/client/render/shader/definition/WrapperShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">WrapperShaderBlockImpl</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">ShaderBlock&lt;T&gt;</span><span class="extends-implements">
 extends org.lwjgl.system.NativeResource</span></div>
-<div class="block"><p>Defines a block of memory on the GPU that can be referenced as a uniform block.</p>
+<div class="block"><p>Defines a block of memory on the GPU that can be referenced as a uniform or shader block.</p>
  <p><a href="#update(T)"><code>update(Object)</code></a> changes the data in the block of memory.</p>
- <p><a href="../../VeilRenderSystem.html#bind(java.lang.CharSequence,foundry.veil.api.client.render.shader.definition.ShaderBlock)"><code>VeilRenderSystem.bind(CharSequence, ShaderBlock)</code></a> updates the data
- if it has previously been changed with <a href="#update(T)"><code>update(Object)</code></a>.</p>
- <p>The end result is a lazy buffer that only updates contents when the Java data has been changed.</p></div>
+ <p><a href="../../VeilRenderSystem.html#bind(java.lang.CharSequence,foundry.veil.api.client.render.shader.definition.ShaderBlock)"><code>VeilRenderSystem.bind(CharSequence, ShaderBlock)</code></a> must be called for shaders to access block data.</p>
+ <p>The result is a lazy buffer that only updates contents when the Java data has been changed.</p></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Interface</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="ShaderBlock.BufferBinding.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">The bindings shaders blocks can be attached to.</div>
+</div>
+<div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second odd-row-color"><code><a href="ShaderBlock.MemoryLayout.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Valid memory layouts for blocks.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -125,14 +146,14 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;<a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#dynamic(int,int,java.util.function.BiConsumer)" class="member-name-link">dynamic</a><wbr>(int&nbsp;binding,
- int&nbsp;initialSize,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#dynamic(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,long,java.util.function.BiConsumer)" class="member-name-link">dynamic</a><wbr>(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
+ long&nbsp;initialSize,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiConsumer.html" title="class or interface in java.util.function" class="external-link">BiConsumer</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;&nbsp;serializer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Creates a new shader block with a dynamically-changing size.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;<a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#dynamic(int,java.util.function.BiConsumer)" class="member-name-link">dynamic</a><wbr>(int&nbsp;binding,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#dynamic(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,java.util.function.BiConsumer)" class="member-name-link">dynamic</a><wbr>(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiConsumer.html" title="class or interface in java.util.function" class="external-link">BiConsumer</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;&nbsp;serializer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Creates a new shader block with a dynamically-changing size.</div>
@@ -151,14 +172,14 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="block">Sets the value of this block.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static &lt;T&gt;&nbsp;<a href="ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#withSize(int,int,java.util.function.BiConsumer)" class="member-name-link">withSize</a><wbr>(int&nbsp;binding,
- int&nbsp;size,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#withSize(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,long,java.util.function.BiConsumer)" class="member-name-link">withSize</a><wbr>(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
+ long&nbsp;size,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiConsumer.html" title="class or interface in java.util.function" class="external-link">BiConsumer</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;&nbsp;serializer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Creates a new shader block with a fixed size.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a><wbr>&lt;?&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#wrapper(int,int)" class="member-name-link">wrapper</a><wbr>(int&nbsp;binding,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#wrapper(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,int)" class="member-name-link">wrapper</a><wbr>(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
  int&nbsp;buffer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Creates a new shader block that points to an existing GL buffer.</div>
@@ -181,10 +202,10 @@ extends org.lwjgl.system.NativeResource</span></div>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="withSize(int,int,java.util.function.BiConsumer)">
+<section class="detail" id="withSize(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,long,java.util.function.BiConsumer)">
 <h3>withSize</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;T&gt;</span>&nbsp;<span class="element-name">withSize</span><wbr><span class="parameters">(int&nbsp;binding,
- int&nbsp;size,
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;T&gt;</span>&nbsp;<span class="element-name">withSize</span><wbr><span class="parameters">(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
+ long&nbsp;size,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiConsumer.html" title="class or interface in java.util.function" class="external-link">BiConsumer</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;&nbsp;serializer)</span></div>
 <div class="block">Creates a new shader block with a fixed size.</div>
 <dl class="notes">
@@ -200,9 +221,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="dynamic(int,java.util.function.BiConsumer)">
+<section class="detail" id="dynamic(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,java.util.function.BiConsumer)">
 <h3>dynamic</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a>&lt;T&gt;</span>&nbsp;<span class="element-name">dynamic</span><wbr><span class="parameters">(int&nbsp;binding,
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a>&lt;T&gt;</span>&nbsp;<span class="element-name">dynamic</span><wbr><span class="parameters">(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiConsumer.html" title="class or interface in java.util.function" class="external-link">BiConsumer</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;&nbsp;serializer)</span></div>
 <div class="block">Creates a new shader block with a dynamically-changing size. The initial size is set to <code>256</code>.</div>
 <dl class="notes">
@@ -217,10 +238,10 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="dynamic(int,int,java.util.function.BiConsumer)">
+<section class="detail" id="dynamic(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,long,java.util.function.BiConsumer)">
 <h3>dynamic</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a>&lt;T&gt;</span>&nbsp;<span class="element-name">dynamic</span><wbr><span class="parameters">(int&nbsp;binding,
- int&nbsp;initialSize,
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a>&lt;T&gt;</span>&nbsp;<span class="element-name">dynamic</span><wbr><span class="parameters">(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
+ long&nbsp;initialSize,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiConsumer.html" title="class or interface in java.util.function" class="external-link">BiConsumer</a>&lt;T,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&gt;&nbsp;serializer)</span></div>
 <div class="block">Creates a new shader block with a dynamically-changing size.</div>
 <dl class="notes">
@@ -236,9 +257,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="wrapper(int,int)">
+<section class="detail" id="wrapper(foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,int)">
 <h3>wrapper</h3>
-<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a>&lt;?&gt;</span>&nbsp;<span class="element-name">wrapper</span><wbr><span class="parameters">(int&nbsp;binding,
+<div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="DynamicShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">DynamicShaderBlock</a>&lt;?&gt;</span>&nbsp;<span class="element-name">wrapper</span><wbr><span class="parameters">(<a href="ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;binding,
  int&nbsp;buffer)</span></div>
 <div class="block">Creates a new shader block that points to an existing GL buffer.</div>
 <dl class="notes">

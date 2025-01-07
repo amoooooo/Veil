@@ -114,7 +114,7 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#beginFrame()" class="member-name-link">beginFrame</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#bind(foundry.veil.api.client.render.shader.definition.ShaderBlock)" class="member-name-link">bind</a><wbr>(<a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;?&gt;&nbsp;block)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#bind(foundry.veil.api.client.render.VeilShaderBufferLayout)" class="member-name-link">bind</a><wbr>(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;?&gt;&nbsp;layout)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Binds the specified block into the next available binding spot
  and updates all shaders if the binding index has changed.</div>
@@ -194,76 +194,84 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Clears all pending shader errors and re-queues uniform block ids to shaders.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.joml.Vector3fc</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCameraBobOffset()" class="member-name-link">getCameraBobOffset</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCullingFrustum()" class="member-name-link">getCullingFrustum</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getIndexCount(com.mojang.blaze3d.vertex.VertexBuffer)" class="member-name-link">getIndexCount</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@Nullable <a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getBlock(foundry.veil.api.client.render.VeilShaderBufferLayout)" class="member-name-link">getBlock</a><wbr>(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;T&gt;&nbsp;layout)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Retrieves the number of indices in the specified vertex buffer.</div>
+<div class="block">Retrieves the registered block for the specified layout.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.joml.Vector3fc</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getLight0Direction()" class="member-name-link">getLight0Direction</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCameraBobOffset()" class="member-name-link">getCameraBobOffset</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCullingFrustum()" class="member-name-link">getCullingFrustum</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getIndexCount(com.mojang.blaze3d.vertex.VertexBuffer)" class="member-name-link">getIndexCount</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Retrieves the number of indices in the specified vertex buffer.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.joml.Vector3fc</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getLight1Direction()" class="member-name-link">getLight1Direction</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getLight0Direction()" class="member-name-link">getLight0Direction</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getShader()" class="member-name-link">getShader</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.joml.Vector3fc</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getLight1Direction()" class="member-name-link">getLight1Direction</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#hasImGui()" class="member-name-link">hasImGui</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getShader()" class="member-name-link">getShader</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#init()" class="member-name-link">init</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#hasImGui()" class="member-name-link">hasImGui</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxArrayTextureLayers()" class="member-name-link">maxArrayTextureLayers</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxAtomicCounterBufferBindings()" class="member-name-link">maxAtomicCounterBufferBindings</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxColorAttachments()" class="member-name-link">maxColorAttachments</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#init()" class="member-name-link">init</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxCombinedTextureUnits()" class="member-name-link">maxCombinedTextureUnits</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxArrayTextureLayers()" class="member-name-link">maxArrayTextureLayers</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupCountX()" class="member-name-link">maxComputeWorkGroupCountX</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxAtomicCounterBufferBindings()" class="member-name-link">maxAtomicCounterBufferBindings</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupCountY()" class="member-name-link">maxComputeWorkGroupCountY</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxColorAttachments()" class="member-name-link">maxColorAttachments</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupCountZ()" class="member-name-link">maxComputeWorkGroupCountZ</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxCombinedTextureUnits()" class="member-name-link">maxCombinedTextureUnits</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupInvocations()" class="member-name-link">maxComputeWorkGroupInvocations</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupCountX()" class="member-name-link">maxComputeWorkGroupCountX</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupSizeX()" class="member-name-link">maxComputeWorkGroupSizeX</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupCountY()" class="member-name-link">maxComputeWorkGroupCountY</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupSizeY()" class="member-name-link">maxComputeWorkGroupSizeY</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupCountZ()" class="member-name-link">maxComputeWorkGroupCountZ</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupSizeZ()" class="member-name-link">maxComputeWorkGroupSizeZ</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupInvocations()" class="member-name-link">maxComputeWorkGroupInvocations</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxFramebufferHeight()" class="member-name-link">maxFramebufferHeight</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupSizeX()" class="member-name-link">maxComputeWorkGroupSizeX</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxFramebufferWidth()" class="member-name-link">maxFramebufferWidth</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupSizeY()" class="member-name-link">maxComputeWorkGroupSizeY</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxSamples()" class="member-name-link">maxSamples</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxComputeWorkGroupSizeZ()" class="member-name-link">maxComputeWorkGroupSizeZ</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxShaderStorageBufferBindings()" class="member-name-link">maxShaderStorageBufferBindings</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxFramebufferHeight()" class="member-name-link">maxFramebufferHeight</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxFramebufferWidth()" class="member-name-link">maxFramebufferWidth</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxSamples()" class="member-name-link">maxSamples</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxShaderStorageBufferBindings()" class="member-name-link">maxShaderStorageBufferBindings</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxShaderStorageBufferSize()" class="member-name-link">maxShaderStorageBufferSize</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxTargetBindings(int)" class="member-name-link">maxTargetBindings</a><wbr>(int&nbsp;target)</code></div>
@@ -276,84 +284,101 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxUniformBuffersBindings()" class="member-name-link">maxUniformBuffersBindings</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxVertexAttributeRelativeOffset()" class="member-name-link">maxVertexAttributeRelativeOffset</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxUniformBufferSize()" class="member-name-link">maxUniformBufferSize</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxVertexAttributes()" class="member-name-link">maxVertexAttributes</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxVertexAttributeRelativeOffset()" class="member-name-link">maxVertexAttributeRelativeOffset</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#maxVertexAttributes()" class="member-name-link">maxVertexAttributes</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#multibindSupported()" class="member-name-link">multibindSupported</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#printGlErrors(java.lang.String)" class="member-name-link">printGlErrors</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;glCall)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Consumes all OpenGL errors and prints them to console.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rebuildChunks()" class="member-name-link">rebuildChunks</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#programInterfaceQuerySupported()" class="member-name-link">programInterfaceQuerySupported</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rebuildChunks()" class="member-name-link">rebuildChunks</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Rebuilds all chunks in view without deleting the old chunks.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderer()" class="member-name-link">renderer</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderPost()" class="member-name-link">renderPost</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderThreadExecutor()" class="member-name-link">renderThreadExecutor</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#resize(int,int)" class="member-name-link">resize</a><wbr>(int&nbsp;width,
- int&nbsp;height)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderer()" class="member-name-link">renderer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setCameraBobOffset(org.joml.Vector3fc)" class="member-name-link">setCameraBobOffset</a><wbr>(org.joml.Vector3fc&nbsp;offset)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderPost()" class="member-name-link">renderPost</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShader(foundry.veil.api.client.render.shader.program.ShaderProgram)" class="member-name-link">setShader</a><wbr>(@Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&nbsp;shader)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#renderThreadExecutor()" class="member-name-link">renderThreadExecutor</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#resize(int,int)" class="member-name-link">resize</a><wbr>(int&nbsp;width,
+ int&nbsp;height)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setCameraBobOffset(org.joml.Vector3fc)" class="member-name-link">setCameraBobOffset</a><wbr>(org.joml.Vector3fc&nbsp;offset)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShader(foundry.veil.api.client.render.shader.program.ShaderProgram)" class="member-name-link">setShader</a><wbr>(@Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&nbsp;shader)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Sets the shader instance to a specific instance of a shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShader(java.util.function.Supplier)" class="member-name-link">setShader</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&gt;&nbsp;shader)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShader(java.util.function.Supplier)" class="member-name-link">setShader</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;<a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&gt;&nbsp;shader)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Sets the shader instance to a specific instance reference of a shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShader(net.minecraft.resources.ResourceLocation)" class="member-name-link">setShader</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shader)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShader(net.minecraft.resources.ResourceLocation)" class="member-name-link">setShader</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shader)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Sets the shader instance to be a reference to the shader manager.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShaderLights(org.joml.Vector3fc,org.joml.Vector3fc)" class="member-name-link">setShaderLights</a><wbr>(org.joml.Vector3fc&nbsp;light0,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#setShaderLights(org.joml.Vector3fc,org.joml.Vector3fc)" class="member-name-link">setShaderLights</a><wbr>(org.joml.Vector3fc&nbsp;light0,
  org.joml.Vector3fc&nbsp;light1)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VeilShaderLimits.html" title="class in foundry.veil.api.client.render">VeilShaderLimits</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#shaderLimits(int)" class="member-name-link">shaderLimits</a><wbr>(int&nbsp;shader)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VeilShaderLimits.html" title="class in foundry.veil.api.client.render">VeilShaderLimits</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#shaderLimits(int)" class="member-name-link">shaderLimits</a><wbr>(int&nbsp;shader)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Retrieves the maximum limits for the specified shader type.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#shaderStorageBufferSupported()" class="member-name-link">shaderStorageBufferSupported</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#shaderUpdate()" class="member-name-link">shaderUpdate</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sparseBuffersSupported()" class="member-name-link">sparseBuffersSupported</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#textureMultibindSupported()" class="member-name-link">textureMultibindSupported</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#throwShaderError()" class="member-name-link">throwShaderError</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#throwShaderError()" class="member-name-link">throwShaderError</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Prints an error to console about the current shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transformFeedbackSupported()" class="member-name-link">transformFeedbackSupported</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transformFeedbackSupported()" class="member-name-link">transformFeedbackSupported</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unbind(foundry.veil.api.client.render.shader.definition.ShaderBlock)" class="member-name-link">unbind</a><wbr>(<a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;?&gt;&nbsp;block)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Unbinds the specified block and frees the binding it occupied.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unbind(foundry.veil.api.client.render.shader.definition.ShaderBlock)" class="member-name-link">unbind</a><wbr>(<a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;?&gt;&nbsp;block)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unbind(foundry.veil.api.client.render.VeilShaderBufferLayout)" class="member-name-link">unbind</a><wbr>(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;?&gt;&nbsp;layout)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Unbinds the specified block and frees the binding it occupied.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#uniformBufferAlignment()" class="member-name-link">uniformBufferAlignment</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -601,12 +626,12 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="textureMultibindSupported()">
-<h3>textureMultibindSupported</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">textureMultibindSupported</span>()</div>
+<section class="detail" id="multibindSupported()">
+<h3>multibindSupported</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">multibindSupported</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>Whether <code>GL44C.glBindTextures(int, java.nio.IntBuffer)</code> is supported</dd>
+<dd>Whether <code>ARBMultiBind</code> is supported</dd>
 </dl>
 </section>
 </li>
@@ -627,6 +652,26 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>Whether <code>ARBDirectStateAccess</code> is supported</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="shaderStorageBufferSupported()">
+<h3>shaderStorageBufferSupported</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">shaderStorageBufferSupported</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether <code>ARBShaderStorageBufferObject</code> is supported</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="programInterfaceQuerySupported()">
+<h3>programInterfaceQuerySupported</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">programInterfaceQuerySupported</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether <code>ARBProgramInterfaceQuery</code> is supported</dd>
 </dl>
 </section>
 </li>
@@ -847,15 +892,32 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="bind(foundry.veil.api.client.render.shader.definition.ShaderBlock)">
-<h3>bind</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bind</span><wbr><span class="parameters">(<a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;?&gt;&nbsp;block)</span></div>
-<div class="block"><p>Binds the specified block into the next available binding spot
- and updates all shaders if the binding index has changed.</p>
- <p><b>Make sure this is called before trying to use the block on this frame as it may have been overwritten.</b></p></div>
+<section class="detail" id="maxUniformBufferSize()">
+<h3>maxUniformBufferSize</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">maxUniformBufferSize</span>()</div>
 <dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>block</code> - The block to bind</dd>
+<dt>Returns:</dt>
+<dd>The GL maximum size of uniform buffers</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="uniformBufferAlignment()">
+<h3>uniformBufferAlignment</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">uniformBufferAlignment</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The GL offset byte alignment requirement of uniform buffers</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="maxShaderStorageBufferSize()">
+<h3>maxShaderStorageBufferSize</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">maxShaderStorageBufferSize</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The GL maximum size of shader storage buffers</dd>
 </dl>
 </section>
 </li>
@@ -876,6 +938,23 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="bind(foundry.veil.api.client.render.VeilShaderBufferLayout)">
+<h3>bind</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bind</span><wbr><span class="parameters">(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;?&gt;&nbsp;layout)</span>
+                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></span></div>
+<div class="block"><p>Binds the specified block into the next available binding spot
+ and updates all shaders if the binding index has changed.</p>
+ <p><b>Make sure this is called before trying to use the block on this frame as it may have been overwritten.</b></p>
+ <p>This binds the block and assigns it to shader values.</p></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>layout</code> - The layout of the buffer to bind</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If the layout is not registered</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="unbind(foundry.veil.api.client.render.shader.definition.ShaderBlock)">
 <h3>unbind</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unbind</span><wbr><span class="parameters">(<a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;?&gt;&nbsp;block)</span></div>
@@ -884,6 +963,40 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>block</code> - The block to unbind</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="unbind(foundry.veil.api.client.render.VeilShaderBufferLayout)">
+<h3>unbind</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unbind</span><wbr><span class="parameters">(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;?&gt;&nbsp;layout)</span>
+                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></span></div>
+<div class="block">Unbinds the specified block and frees the binding it occupied.
+ It isn't strictly necessary to unbind blocks, but they should not be referenced anymore after being deleted.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>layout</code> - The layout of the buffer to unbind</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If the layout is not registered</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getBlock(foundry.veil.api.client.render.VeilShaderBufferLayout)">
+<h3>getBlock</h3>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">@Nullable <a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a>&lt;T&gt;</span>&nbsp;<span class="element-name">getBlock</span><wbr><span class="parameters">(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;T&gt;&nbsp;layout)</span>
+                                             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></span></div>
+<div class="block">Retrieves the registered block for the specified layout. Make sure the layout is registered.</div>
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>T</code> - The type of data the block encodes</dd>
+<dt>Parameters:</dt>
+<dd><code>layout</code> - The layout to retrieve the block for</dd>
+<dt>Returns:</dt>
+<dd>The block created or <code>null</code> if no shaders reference the block. <code>#buffer namespace:path</code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - If the layout is not registered</dd>
 </dl>
 </section>
 </li>

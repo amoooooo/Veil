@@ -88,12 +88,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Superinterfaces:</dt>
-<dd><code><a href="../api/event/VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a></code>, <code><a href="../api/event/VeilPostProcessingEvent.Post.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Post</a></code>, <code><a href="../api/event/VeilPostProcessingEvent.Pre.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Pre</a></code></dd>
+<dd><code><a href="../api/event/VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a></code>, <code><a href="../api/event/VeilPostProcessingEvent.Post.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Post</a></code>, <code><a href="../api/event/VeilPostProcessingEvent.Pre.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Pre</a></code>, <code><a href="../api/event/VeilShaderCompileEvent.html" title="interface in foundry.veil.api.event">VeilShaderCompileEvent</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Internal
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">VeilClientPlatform</span><span class="extends-implements">
-extends <a href="../api/event/VeilPostProcessingEvent.Pre.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Pre</a>, <a href="../api/event/VeilPostProcessingEvent.Post.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Post</a>, <a href="../api/event/VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a></span></div>
+extends <a href="../api/event/VeilPostProcessingEvent.Pre.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Pre</a>, <a href="../api/event/VeilPostProcessingEvent.Post.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Post</a>, <a href="../api/event/VeilAddShaderPreProcessorsEvent.html" title="interface in foundry.veil.api.event">VeilAddShaderPreProcessorsEvent</a>, <a href="../api/event/VeilShaderCompileEvent.html" title="interface in foundry.veil.api.event">VeilShaderCompileEvent</a></span></div>
 <div class="block">Manages client platform-specific features.</div>
 </section>
 <section class="summary">
@@ -120,6 +120,9 @@ extends <a href="../api/event/VeilPostProcessingEvent.Pre.html" title="interface
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.event.VeilPostProcessingEvent.Pre">Methods inherited from interface&nbsp;foundry.veil.api.event.<a href="../api/event/VeilPostProcessingEvent.Pre.html" title="interface in foundry.veil.api.event">VeilPostProcessingEvent.Pre</a></h3>
 <code><a href="../api/event/VeilPostProcessingEvent.Pre.html#preVeilPostProcessing(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.post.PostPipeline,foundry.veil.api.client.render.post.PostPipeline.Context)">preVeilPostProcessing</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-foundry.veil.api.event.VeilShaderCompileEvent">Methods inherited from interface&nbsp;foundry.veil.api.event.<a href="../api/event/VeilShaderCompileEvent.html" title="interface in foundry.veil.api.event">VeilShaderCompileEvent</a></h3>
+<code><a href="../api/event/VeilShaderCompileEvent.html#onVeilCompileShaders(foundry.veil.api.client.render.shader.ShaderManager,java.util.Map)">onVeilCompileShaders</a></code></div>
 </section>
 </li>
 </ul>
