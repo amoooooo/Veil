@@ -2,7 +2,6 @@ package foundry.veil.impl.client.render.shader.program;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
@@ -315,6 +314,11 @@ public class ShaderProgramImpl implements ShaderProgram {
             return GL_INVALID_INDEX;
         }
         return this.uniforms.getStorageBlock(name);
+    }
+
+    @Override
+    public boolean hasStorageBlock(CharSequence name) {
+        return this.program != 0 && this.uniforms.hasStorageBlock(name);
     }
 
     @Override

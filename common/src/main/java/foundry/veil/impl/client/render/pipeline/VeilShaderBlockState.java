@@ -15,16 +15,13 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Objects;
 
-import static org.lwjgl.opengl.GL31C.GL_UNIFORM_BUFFER;
-import static org.lwjgl.opengl.GL43C.GL_SHADER_STORAGE_BUFFER;
-
 /**
  * Manages the state of uniform block bindings and their associated shader names.
  *
  * @author Ocelot
  */
 @ApiStatus.Internal
-public class VeilUniformBlockState {
+public class VeilShaderBlockState {
 
     // Flywheel uses the first 8 buffer bindings for instanced/indirect rendering
     public static final int RESERVED_BINDINGS = Veil.platform().isModLoaded("flywheel") ? 8 : 0;
@@ -34,7 +31,7 @@ public class VeilUniformBlockState {
     private final IntSet usedBindings;
     private int nextBinding;
 
-    public VeilUniformBlockState() {
+    public VeilShaderBlockState() {
         this.boundBlocks = new Object2IntArrayMap<>();
         this.shaderBindings = new Int2ObjectArrayMap<>();
         this.usedBindings = new IntOpenHashSet();
@@ -90,7 +87,7 @@ public class VeilUniformBlockState {
 
         impl.bind(binding + RESERVED_BINDINGS);
         this.usedBindings.add(binding);
-        return binding + RESERVED_BINDINGS;
+        return binding;
     }
 
     /**
@@ -110,8 +107,8 @@ public class VeilUniformBlockState {
             this.shaderBindings.put(binding, name);
             VeilRenderSystem.renderer().getShaderManager().setGlobal(shader -> {
                 switch (impl.getBinding()) {
-                    case GL_UNIFORM_BUFFER -> shader.setUniformBlock(name, binding);
-                    case GL_SHADER_STORAGE_BUFFER -> shader.setStorageBlock(name, binding);
+                    case UNIFORM -> shader.setUniformBlock(name, binding);
+                    case SHADER_STORAGE -> shader.setStorageBlock(name, binding);
                 }
             });
         }
@@ -133,14 +130,14 @@ public class VeilUniformBlockState {
     }
 
     private void unbind(int binding, ShaderBlockImpl<?> block) {
-        block.unbind(binding);
+        block.unbind(binding + RESERVED_BINDINGS);
 
         CharSequence name = this.shaderBindings.remove(binding);
         if (name != null) {
             VeilRenderSystem.renderer().getShaderManager().setGlobal(shader -> {
                 switch (block.getBinding()) {
-                    case GL_UNIFORM_BUFFER -> shader.setUniformBlock(name, 0);
-                    case GL_SHADER_STORAGE_BUFFER -> shader.setStorageBlock(name, 0);
+                    case UNIFORM -> shader.setUniformBlock(name, 0);
+                    case SHADER_STORAGE -> shader.setStorageBlock(name, 0);
                 }
             });
         }

@@ -47,4 +47,9 @@ public class FabricVeilEventPlatform implements VeilEventPlatform {
     public void onVeilRenderLevelStage(VeilRenderLevelStageEvent event) {
         FabricVeilRenderLevelStageEvent.EVENT.register(event);
     }
+
+    @Override
+    public void onVeilShaderCompile(VeilShaderCompileEvent event) {
+        FabricVeilShaderCompileEvent.EVENT.register(event);
+    }
 }

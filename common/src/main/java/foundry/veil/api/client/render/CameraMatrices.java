@@ -7,8 +7,6 @@ import org.lwjgl.system.NativeResource;
 
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL31C.GL_UNIFORM_BUFFER;
-
 /**
  * Packages all camera matrices and shader uniforms to make shader management easier.
  *
@@ -42,7 +40,7 @@ public class CameraMatrices implements NativeResource {
      * Creates a new set of camera matrices.
      */
     public CameraMatrices() {
-        this.block = ShaderBlock.withSize(GL_UNIFORM_BUFFER, CameraMatrices.SIZE, CameraMatrices::write);
+        this.block = ShaderBlock.withSize(ShaderBlock.BufferBinding.UNIFORM, CameraMatrices.SIZE, CameraMatrices::write);
         this.projectionMatrix = new Matrix4f();
         this.inverseProjectionMatrix = new Matrix4f();
         this.viewMatrix = new Matrix4f();
@@ -52,6 +50,15 @@ public class CameraMatrices implements NativeResource {
         this.cameraBobOffset = new Vector3f();
         this.nearPlane = 0.0F;
         this.farPlane = 0.0F;
+    }
+
+    public static VeilShaderBufferLayout<CameraMatrices> createLayout() {
+        return VeilShaderBufferLayout.<CameraMatrices>builder("Test")
+                .interfaceName("VeilCamera")
+//                .binding(ShaderBlock.BufferBinding.SHADER_STORAGE)
+                .floating("NearPlane", CameraMatrices::getNearPlane)
+                .floating("FarPlane", CameraMatrices::getFarPlane)
+                .build();
     }
 
     private void write(ByteBuffer buffer) {
@@ -107,7 +114,7 @@ public class CameraMatrices implements NativeResource {
      */
     public void updateGui() {
         this.projectionMatrix.set(RenderSystem.getProjectionMatrix());
-        this.projectionMatrix.invert(this.inverseProjectionMatrix);
+        this.projectionMatrix.invertAffine(this.inverseProjectionMatrix);
 
         this.viewMatrix.identity();
         this.inverseViewMatrix.identity();

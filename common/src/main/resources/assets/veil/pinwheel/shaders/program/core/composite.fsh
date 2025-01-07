@@ -1,3 +1,5 @@
+#buffer veil:camera
+
 uniform sampler2D DiffuseSampler0;
 uniform sampler2D DiffuseDepthSampler;
 uniform sampler2D LightSampler;

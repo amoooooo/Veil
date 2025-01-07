@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.lwjgl.opengl.GL15C.*;
-import static org.lwjgl.opengl.GL30C.glMapBufferRange;
+import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.opengl.GL45C.glNamedBufferData;
 import static org.lwjgl.system.MemoryUtil.memAddress;
 
@@ -152,20 +152,22 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         if (rebuild || !removedLights.isEmpty()) {
             this.updateAllLights(this.visibleLights);
         } else {
+            this.scratch = glMapBufferRange(GL_ARRAY_BUFFER, 0, (long) this.visibleLights.size() * this.lightSize, GL_MAP_WRITE_BIT | GL_MAP_FLUSH_EXPLICIT_BIT, this.scratch);
             for (int i = 0; i < this.visibleLights.size(); i++) {
                 T light = this.visibleLights.get(i);
                 if (light.isDirty()) {
-                    this.scratch = glMapBufferRange(GL_ARRAY_BUFFER, (long) i * this.lightSize, this.lightSize, GL_READ_ONLY, this.scratch);
                     if (this.scratch != null) {
+                        this.scratch.position(i * this.lightSize);
                         light.clean();
                         light.store(this.scratch);
-                        this.scratch.rewind();
                     }
-                    if (!glUnmapBuffer(GL_ARRAY_BUFFER)) {
-                        light.markDirty();
-                    }
+                    glFlushMappedBufferRange(GL_ARRAY_BUFFER, (long) i * this.lightSize, this.lightSize);
                 }
             }
+            if (this.scratch != null) {
+                this.scratch.rewind();
+            }
+            glUnmapBuffer(GL_ARRAY_BUFFER);
         }
     }
 

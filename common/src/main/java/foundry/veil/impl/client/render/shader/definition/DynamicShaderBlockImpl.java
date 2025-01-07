@@ -6,12 +6,13 @@ import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 import java.util.function.BiConsumer;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.*;
 import static org.lwjgl.opengl.GL15C.*;
 import static org.lwjgl.opengl.GL30C.glBindBufferBase;
 
@@ -24,16 +25,14 @@ import static org.lwjgl.opengl.GL30C.glBindBufferBase;
 @ApiStatus.Internal
 public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements DynamicShaderBlock<T> {
 
-    protected final BiConsumer<T, ByteBuffer> serializer;
-
+    private final Serializer<T> serializer;
     private long size;
     private boolean resized;
-    private ByteBuffer upload;
 
-    public DynamicShaderBlockImpl(int binding, long size, @NotNull BiConsumer<T, ByteBuffer> serializer) {
+    public DynamicShaderBlockImpl(BufferBinding binding, long initialSize, Serializer<T> serializer) {
         super(binding);
         this.serializer = serializer;
-        this.size = size;
+        this.size = initialSize;
         this.resized = false;
     }
 
@@ -45,45 +44,112 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
 
     @Override
     public void bind(int index) {
-        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(this.binding), index);
+        int binding = this.binding.getGlType();
+        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(binding), index);
 
         if (this.buffer == 0) {
-            this.buffer = glGenBuffers();
             this.resized = true;
+            this.buffer = this.serializer.createBuffer(binding);
         }
 
         if (this.resized) {
+            this.resized = false;
             this.dirty = true;
-            RenderSystem.glBindBuffer(this.binding, this.buffer);
-            glBufferData(this.binding, this.size, GL_DYNAMIC_DRAW);
+            this.serializer.resize(binding, this.buffer, this.size);
         }
 
-        if (this.dirty) {
-            if (!this.resized) { // Only bind the buffer once
-                RenderSystem.glBindBuffer(this.binding, this.buffer);
-            }
+        if (this.dirty && this.serializer.write(this.buffer, binding, this.size, this.value)) {
+            this.dirty = false;
+        }
 
-            this.upload = glMapBuffer(this.binding, GL_WRITE_ONLY, this.size, this.upload);
+        glBindBufferBase(binding, index, this.buffer);
+    }
+
+    @Override
+    public void unbind(int index) {
+        int binding = this.binding.getGlType();
+        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(binding), index);
+        glBindBufferBase(binding, index, 0);
+    }
+
+    public sealed interface Serializer<T> {
+
+        int createBuffer(int binding);
+
+        void resize(int binding, int buffer, long size);
+
+        boolean write(int buffer, int binding, long size, @Nullable T value);
+    }
+
+    public static final class DSASerializer<T> implements Serializer<T> {
+
+        private final BiConsumer<T, ByteBuffer> serializer;
+        private ByteBuffer upload;
+
+        public DSASerializer(BiConsumer<T, ByteBuffer> serializer) {
+            this.serializer = serializer;
+        }
+
+        @Override
+        public int createBuffer(int binding) {
+            return glCreateBuffers();
+        }
+
+        @Override
+        public void resize(int binding, int buffer, long size) {
+            glNamedBufferData(buffer, size, GL_DYNAMIC_DRAW);
+        }
+
+        @Override
+        public boolean write(int binding, int buffer, long size, @Nullable T value) {
+            this.upload = glMapNamedBuffer(buffer, GL_WRITE_ONLY, size, this.upload);
             if (this.upload != null) {
-                if (this.value != null) {
-                    this.serializer.accept(this.value, this.upload);
+                if (value != null) {
+                    this.serializer.accept(value, this.upload);
                     this.upload.rewind();
                 } else {
                     MemoryUtil.memSet(this.upload, 0);
                 }
             }
-            if (glUnmapBuffer(this.binding)) {
-                this.dirty = false;
-            }
+            return glUnmapNamedBuffer(buffer);
         }
-
-        this.resized = false;
-        glBindBufferBase(this.binding, index, this.buffer);
     }
 
-    @Override
-    public void unbind(int index) {
-        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(this.binding), index);
-        glBindBufferBase(this.binding, index, 0);
+    public static final class LegacySerializer<T> implements Serializer<T> {
+
+        private final BiConsumer<T, ByteBuffer> serializer;
+        private ByteBuffer upload;
+
+        public LegacySerializer(BiConsumer<T, ByteBuffer> serializer) {
+            this.serializer = serializer;
+        }
+
+        @Override
+        public int createBuffer(int binding) {
+            int buffer = glGenBuffers();
+            RenderSystem.glBindBuffer(binding, buffer);
+            return buffer;
+        }
+
+        @Override
+        public void resize(int binding, int buffer, long size) {
+            RenderSystem.glBindBuffer(binding, buffer);
+            glBufferData(binding, size, GL_DYNAMIC_DRAW);
+        }
+
+        @Override
+        public boolean write(int binding, int buffer, long size, @Nullable T value) {
+            RenderSystem.glBindBuffer(binding, buffer);
+            this.upload = glMapBuffer(binding, GL_WRITE_ONLY, size, this.upload);
+            if (this.upload != null) {
+                if (value != null) {
+                    this.serializer.accept(value, this.upload);
+                    this.upload.rewind();
+                } else {
+                    MemoryUtil.memSet(this.upload, 0);
+                }
+            }
+            return glUnmapBuffer(binding);
+        }
     }
 }

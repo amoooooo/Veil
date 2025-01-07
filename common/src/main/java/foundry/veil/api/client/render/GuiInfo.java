@@ -7,8 +7,6 @@ import org.lwjgl.system.NativeResource;
 
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL31C.GL_UNIFORM_BUFFER;
-
 /**
  * Manages the global gui context variables.
  *
@@ -26,7 +24,7 @@ public class GuiInfo implements NativeResource {
      * Creates a new set of camera matrices.
      */
     public GuiInfo() {
-        this.block = ShaderBlock.withSize(GL_UNIFORM_BUFFER, GuiInfo.SIZE, GuiInfo::write);
+        this.block = ShaderBlock.withSize(ShaderBlock.BufferBinding.UNIFORM, GuiInfo.SIZE, GuiInfo::write);
         this.guiScale = 0.0F;
         this.enabled = false;
     }

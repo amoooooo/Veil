@@ -32,7 +32,6 @@ import static org.lwjgl.opengl.GL15C.*;
 import static org.lwjgl.opengl.GL30C.glBindBufferRange;
 import static org.lwjgl.opengl.GL40C.GL_DRAW_INDIRECT_BUFFER;
 import static org.lwjgl.opengl.GL42C.*;
-import static org.lwjgl.opengl.GL43C.GL_SHADER_STORAGE_BUFFER;
 import static org.lwjgl.opengl.GL43C.glDispatchCompute;
 import static org.lwjgl.opengl.GL45C.glNamedBufferData;
 
@@ -82,8 +81,8 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         if (VeilRenderSystem.computeSupported() && VeilRenderSystem.atomicCounterSupported()) {
             Veil.LOGGER.info("Using GPU Frustum Culling for {} renderer", this.getClass().getSimpleName());
             this.sizeVbo = this.vertexArray.getOrCreateBuffer(4);
-            this.instancedBlock = ShaderBlock.wrapper(GL_SHADER_STORAGE_BUFFER, this.instancedVbo);
-            this.indirectBlock = ShaderBlock.wrapper(GL_SHADER_STORAGE_BUFFER, this.indirectVbo);
+            this.instancedBlock = ShaderBlock.wrapper(ShaderBlock.BufferBinding.SHADER_STORAGE, this.instancedVbo);
+            this.indirectBlock = ShaderBlock.wrapper(ShaderBlock.BufferBinding.SHADER_STORAGE, this.indirectVbo);
 
             if (VeilRenderSystem.directStateAccessSupported()) {
                 glNamedBufferData(this.sizeVbo, Integer.BYTES, GL_DYNAMIC_DRAW);

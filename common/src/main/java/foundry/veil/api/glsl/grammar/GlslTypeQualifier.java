@@ -9,12 +9,16 @@ public sealed interface GlslTypeQualifier {
 
     String getSourceString();
 
-    static GlslTypeQualifier storage(String[] typeNames) {
+    static GlslTypeQualifier storage(String... typeNames) {
         return new StorageSubroutine(typeNames);
     }
 
     static Layout layout(Collection<LayoutId> ids) {
         return new Layout(new ArrayList<>(ids));
+    }
+
+    static Layout layout(LayoutId... ids) {
+        return layout(Arrays.asList(ids));
     }
 
     static LayoutId identifierLayoutId(String identifier, @Nullable GlslNode constantExpression) {
@@ -53,7 +57,7 @@ public sealed interface GlslTypeQualifier {
             StringBuilder builder = new StringBuilder();
             for (GlslTypeQualifier.LayoutId layoutId : this.layoutIds) {
                 if (layoutId.shared()) {
-                    builder.append("shared ");
+                    builder.append("shared, ");
                 } else {
                     builder.append(layoutId.identifier());
                     GlslNode expression = layoutId.expression();

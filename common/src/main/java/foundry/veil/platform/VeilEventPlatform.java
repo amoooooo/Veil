@@ -28,4 +28,6 @@ public interface VeilEventPlatform {
     void onVeilRendererAvailable(VeilRendererAvailableEvent event);
 
     void onVeilRenderLevelStage(VeilRenderLevelStageEvent event);
+
+    void onVeilShaderCompile(VeilShaderCompileEvent event);
 }

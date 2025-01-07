@@ -1,6 +1,6 @@
 package foundry.veil.impl.client.render.shader.program;
 
-import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -12,13 +12,11 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
 
+import static org.lwjgl.opengl.ARBProgramInterfaceQuery.*;
 import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL31C.*;
 import static org.lwjgl.opengl.GL32C.*;
-import static org.lwjgl.opengl.GL40C.*;
 import static org.lwjgl.opengl.GL42C.*;
-import static org.lwjgl.opengl.GL43C.GL_SHADER_STORAGE_BLOCK;
-import static org.lwjgl.opengl.GL43C.glGetProgramResourceIndex;
 
 @ApiStatus.Internal
 public class ShaderUniformCache {
@@ -201,38 +199,88 @@ public class ShaderUniformCache {
         this.requested = true;
 
         int program = this.shader.getProgram();
-        int uniformCount = glGetProgrami(program, GL_ACTIVE_UNIFORMS);
-        int maxUniformLength = glGetProgrami(program, GL_ACTIVE_UNIFORM_MAX_LENGTH);
-        int uniformBlockCount = glGetProgrami(program, GL_ACTIVE_UNIFORM_BLOCKS);
-        int maxUniformBlockLength = glGetProgrami(program, GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH);
+        if (VeilRenderSystem.programInterfaceQuerySupported()) {
+            int uniformCount = glGetProgramInterfacei(program, GL_UNIFORM, GL_ACTIVE_RESOURCES);
+            int uniformBlockCount = glGetProgramInterfacei(program, GL_UNIFORM_BLOCK, GL_ACTIVE_RESOURCES);
+            int storageBlockCount = glGetProgramInterfacei(program, GL_SHADER_STORAGE_BLOCK, GL_ACTIVE_RESOURCES);
 
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer size = stack.mallocInt(1);
-            IntBuffer type = stack.mallocInt(1);
-            for (int i = 0; i < uniformCount; i++) {
-                String name = glGetActiveUniform(program, i, maxUniformLength, size, type);
-                // Don't include struct fields
-                if (name.contains(".")) {
-                    continue;
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                IntBuffer uniformProperties = stack.ints(GL_BLOCK_INDEX, GL_ARRAY_SIZE, GL_NAME_LENGTH, GL_LOCATION, GL_TYPE);
+                IntBuffer uniformBlockProperties = stack.ints(GL_NAME_LENGTH, GL_NUM_ACTIVE_VARIABLES);
+                IntBuffer shaderBlockProperties = stack.ints(GL_NAME_LENGTH);
+                IntBuffer activeUniformProperties = stack.ints(GL_ACTIVE_VARIABLES);
+                IntBuffer values = stack.mallocInt(5);
+
+                for (int i = 0; i < uniformCount; i++) {
+                    glGetProgramResourceiv(program, GL_UNIFORM, i, uniformProperties, null, values);
+
+                    // Don't handle uniform blocks
+                    int blockIndex = values.get(0);
+                    if (blockIndex != GL_INVALID_INDEX) {
+                        continue;
+                    }
+
+                    int length = values.get(1);
+                    String name = glGetProgramResourceName(program, GL_UNIFORM, i, values.get(2));
+                    for (int j = 0; j < length; j++) {
+                        if (length > 1) {
+                            name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
+                        }
+
+                        this.uniforms.put(name, values.get(3) + j);
+                        if (isSampler(values.get(4))) {
+                            this.samplers.add(name);
+                        }
+                    }
                 }
 
-                int length = size.get(0);
-                for (int j = 0; j < length; j++) {
-                    if (length > 1) {
-                        name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
-                    }
+                for (int i = 0; i < uniformBlockCount; i++) {
+                    glGetProgramResourceiv(program, GL_UNIFORM_BLOCK, i, uniformBlockProperties, null, values);
+                    String name = glGetProgramResourceName(program, GL_UNIFORM_BLOCK, i, values.get(0));
+                    this.uniformBlocks.put(name, i);
+                }
 
-                    this.uniforms.put(name, glGetUniformLocation(program, name));
-                    if (isSampler(type.get(0))) {
-                        this.samplers.add(name);
-                    }
+                for (int i = 0; i < storageBlockCount; i++) {
+                    glGetProgramResourceiv(program, GL_SHADER_STORAGE_BLOCK, i, shaderBlockProperties, null, values);
+                    String name = glGetProgramResourceName(program, GL_SHADER_STORAGE_BLOCK, i, values.get(0));
+                    this.storageBlocks.put(name, i);
                 }
             }
+        } else {
+            int uniformCount = glGetProgrami(program, GL_ACTIVE_UNIFORMS);
+            int maxUniformLength = glGetProgrami(program, GL_ACTIVE_UNIFORM_MAX_LENGTH);
+            int uniformBlockCount = glGetProgrami(program, GL_ACTIVE_UNIFORM_BLOCKS);
+            int maxUniformBlockLength = glGetProgrami(program, GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH);
 
-            for (int i = 0; i < uniformBlockCount; i++) {
-                String name = glGetActiveUniformBlockName(program, i, maxUniformBlockLength);
-                int location = glGetUniformBlockIndex(program, name);
-                this.uniformBlocks.put(name, location);
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                IntBuffer size = stack.mallocInt(1);
+                IntBuffer type = stack.mallocInt(1);
+                for (int i = 0; i < uniformCount; i++) {
+                    String name = glGetActiveUniform(program, i, maxUniformLength, size, type);
+
+                    // Don't include struct fields
+                    if (name.contains(".")) {
+                        continue;
+                    }
+
+                    int length = size.get(0);
+                    for (int j = 0; j < length; j++) {
+                        if (length > 1) {
+                            name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
+                        }
+
+                        this.uniforms.put(name, glGetUniformLocation(program, name));
+                        if (isSampler(type.get(0))) {
+                            this.samplers.add(name);
+                        }
+                    }
+                }
+
+                for (int i = 0; i < uniformBlockCount; i++) {
+                    String name = glGetActiveUniformBlockName(program, i, maxUniformBlockLength);
+                    int location = glGetUniformBlockIndex(program, name);
+                    this.uniformBlocks.put(name, location);
+                }
             }
         }
     }
@@ -266,7 +314,17 @@ public class ShaderUniformCache {
     }
 
     public int getStorageBlock(CharSequence name) {
-        return this.storageBlocks.computeIfAbsent(name, k -> glGetProgramResourceIndex(this.shader.getProgram(), GL_SHADER_STORAGE_BLOCK, name));
+        if (!this.requested) {
+            this.updateUniforms();
+        }
+        return this.storageBlocks.getOrDefault(name, GL_INVALID_INDEX);
+    }
+
+    public boolean hasStorageBlock(CharSequence name) {
+        if (!this.requested) {
+            this.updateUniforms();
+        }
+        return this.storageBlocks.containsKey(name);
     }
 
     public boolean hasSampler(CharSequence name) {

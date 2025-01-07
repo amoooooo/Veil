@@ -113,4 +113,9 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
             event.onRenderLevelStage(stage, levelRenderer, bufferSource, poseStack, modelViewMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum);
         });
     }
+
+    @Override
+    public void onVeilShaderCompile(VeilShaderCompileEvent event) {
+        this.getModBus().<ForgeVeilShaderCompileEvent>addListener(forgeEvent -> event.onVeilCompileShaders(forgeEvent.getShaderManager(), forgeEvent.getUpdatedPrograms()));
+    }
 }

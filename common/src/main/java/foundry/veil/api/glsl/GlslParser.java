@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public final class GlslParser {
 
     private static final Pattern VERSION_PATTERN = Pattern.compile("#version\\s+(\\d+)\\s*(\\w+)?");
-    private static final Pattern STRIP_PATTERN = Pattern.compile("#version\\s+(\\d+)\\s*(\\w+)?|#line\\s+(\\d+)\\s*(\\d+)?|#extension\\s+(\\w+)\\s*:\\s*(\\w+)|#include\\s+(\\S+)");
+    private static final Pattern STRIP_PATTERN = Pattern.compile("#version\\s+(\\d+)\\s*(\\w+)?|#line\\s+(\\d+)\\s*(\\d+)?|#extension\\s+(\\w+)\\s*:\\s*(\\w+)|#include\\s+(\\S+)|#buffer\\s+(\\S+)");
     private static final Pattern UNSTRIP_PATTERN = Pattern.compile("// #veil:stripped ");
 
     /**

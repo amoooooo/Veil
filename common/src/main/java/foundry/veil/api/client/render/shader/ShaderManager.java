@@ -93,6 +93,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     private final Map<ResourceLocation, ShaderProgramImpl> shaders;
     private final Map<ResourceLocation, ShaderProgram> shadersView;
     private final Set<ResourceLocation> dirtyShaders;
+    private final boolean shaderStorageSupported;
 
     private CompletableFuture<Void> recompileFuture;
     private CompletableFuture<Void> updateBuffersFuture;
@@ -112,6 +113,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         this.shaders = new HashMap<>();
         this.shadersView = Collections.unmodifiableMap(this.shaders);
         this.dirtyShaders = new HashSet<>();
+        this.shaderStorageSupported = VeilRenderSystem.shaderStorageBufferSupported();
 
         this.recompileFuture = CompletableFuture.completedFuture(null);
         this.updateBuffersFuture = CompletableFuture.completedFuture(null);
@@ -128,6 +130,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
     private void addProcessors(ShaderProcessorList processorList, ResourceProvider provider) {
         processorList.addPreprocessor(new ShaderImportProcessor());
+        processorList.addPreprocessor(new ShaderBufferProcessor(this.shaderStorageSupported));
         processorList.addPreprocessor(new ShaderBindingProcessor());
         processorList.addPreprocessor(new ShaderVersionProcessor(), false);
         processorList.addPreprocessor(new ShaderModifyProcessor(), false);
@@ -368,11 +371,12 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         }
 
         VeilRenderSystem.finalizeShaderCompilation();
+        VeilClient.clientPlatform().onVeilCompileShaders(this, Collections.unmodifiableMap(this.shaders));
 
         Veil.LOGGER.info("Loaded {} shaders from: {}", this.shaders.size(), this.sourceSet.getFolder());
     }
 
-    private void applyRecompile(ShaderManager.ReloadState reloadState, int shaderCount) {
+    private void applyRecompile(ShaderManager.ReloadState reloadState, Map<ResourceLocation, ShaderProgram> updatedShaders) {
         try (ShaderCompiler compiler = reloadState.createCompiler()) {
             for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
                 ResourceLocation id = entry.getKey();
@@ -386,8 +390,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         }
 
         VeilRenderSystem.finalizeShaderCompilation();
+        VeilClient.clientPlatform().onVeilCompileShaders(this, updatedShaders);
 
-        Veil.LOGGER.info("Recompiled {} shaders from: {}", shaderCount, this.sourceSet.getFolder());
+        Veil.LOGGER.info("Recompiled {} shaders from: {}", updatedShaders.size(), this.sourceSet.getFolder());
     }
 
     private void scheduleRecompile(int attempt) {
@@ -402,7 +407,14 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                 shaders = new HashSet<>(this.dirtyShaders);
                 this.dirtyShaders.clear();
             }
-            int shaderCount = shaders.size();
+
+            Map<ResourceLocation, ShaderProgram> updatedShaders = new HashMap<>(shaders.size());
+            for (ResourceLocation id : shaders) {
+                ShaderProgram shader = this.getShader(id);
+                if (shader != null) {
+                    updatedShaders.put(id, shader);
+                }
+            }
 
             Set<DynamicShaderProgramImpl> dynamicShaderPrograms = new HashSet<>();
             Iterator<ResourceLocation> iterator = shaders.iterator();
@@ -418,7 +430,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
             int activeBuffers = this.dynamicBufferManager.getActiveBuffers();
             this.recompileFuture = this.prepare(client.getResourceManager(), dynamicShaderPrograms, shaders, activeBuffers, Util.backgroundExecutor())
-                    .thenAcceptAsync(state -> this.applyRecompile(state, shaderCount), client)
+                    .thenAcceptAsync(state -> this.applyRecompile(state, Collections.unmodifiableMap(updatedShaders)), client)
                     .handle((value, e) -> {
                         if (e != null) {
                             Veil.LOGGER.error("Error recompiling shaders", e);
@@ -466,6 +478,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         try {
             Set<DynamicShaderProgramImpl> dynamicShaders = new HashSet<>();
             Set<ResourceLocation> shaders = new HashSet<>(this.shaders.size());
+            Map<ResourceLocation, ShaderProgram> updatedShaders = new HashMap<>();
             for (ShaderProgram program : this.shaders.values()) {
                 active = program;
                 if (program instanceof ShaderProgramImpl impl) {
@@ -475,12 +488,12 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                         } else {
                             shaders.add(program.getId());
                         }
+                        updatedShaders.put(program.getId(), program);
                     }
                 }
             }
 
             if (!shaders.isEmpty()) {
-                int shaderCount = dynamicShaders.size() + shaders.size();
                 this.updateBuffersFuture = this.updateBuffersFuture
                         .thenCompose(unused -> this.prepare(Minecraft.getInstance().getResourceManager(), dynamicShaders, shaders, activeBuffers, Util.backgroundExecutor()))
                         .thenAcceptAsync(reloadState -> {
@@ -508,8 +521,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                             }
 
                             VeilRenderSystem.finalizeShaderCompilation();
+                            VeilClient.clientPlatform().onVeilCompileShaders(this, Collections.unmodifiableMap(updatedShaders));
 
-                            Veil.LOGGER.info("Compiled {} shaders from: {}", shaderCount, this.sourceSet.getFolder());
+                            Veil.LOGGER.info("Compiled {} shaders from: {}", updatedShaders.size(), this.sourceSet.getFolder());
                         }, Minecraft.getInstance());
             }
         } catch (ShaderException e) {

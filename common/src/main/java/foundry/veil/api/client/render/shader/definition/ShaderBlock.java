@@ -1,20 +1,26 @@
 package foundry.veil.api.client.render.shader.definition;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.shader.definition.*;
+import foundry.veil.api.glsl.grammar.GlslTypeQualifier;
+import foundry.veil.impl.client.render.shader.definition.DynamicShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.definition.SizedShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.definition.WrapperShaderBlockImpl;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
 import java.nio.ByteBuffer;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
+import static org.lwjgl.opengl.GL31C.GL_UNIFORM_BUFFER;
+import static org.lwjgl.opengl.GL43C.GL_SHADER_STORAGE_BUFFER;
+
 /**
- * <p>Defines a block of memory on the GPU that can be referenced as a uniform block.</p>
+ * <p>Defines a block of memory on the GPU that can be referenced as a uniform or shader block.</p>
  * <p>{@link #update(Object)} changes the data in the block of memory.</p>
- * <p>{@link VeilRenderSystem#bind(CharSequence, ShaderBlock)} updates the data
- * if it has previously been changed with {@link #update(Object)}.</p>
- * <p>The end result is a lazy buffer that only updates contents when the Java data has been changed.</p>
+ * <p>{@link VeilRenderSystem#bind(CharSequence, ShaderBlock)} must be called for shaders to access block data.</p>
+ * <p>The result is a lazy buffer that only updates contents when the Java data has been changed.</p>
  *
  * @param <T> The type of object to serialize
  * @author Ocelot
@@ -30,8 +36,8 @@ public interface ShaderBlock<T> extends NativeResource {
      * @param <T>        The type of data to write
      * @return A new shader block
      */
-    static <T> ShaderBlock<T> withSize(int binding, int size, BiConsumer<T, ByteBuffer> serializer) {
-        return VeilRenderSystem.directStateAccessSupported() ? new DSASizedShaderBlockImpl<>(binding, size, serializer) : new SizedShaderBlockImpl<>(binding, size, serializer);
+    static <T> ShaderBlock<T> withSize(BufferBinding binding, long size, BiConsumer<T, ByteBuffer> serializer) {
+        return new SizedShaderBlockImpl<>(binding, size, VeilRenderSystem.directStateAccessSupported() ? new SizedShaderBlockImpl.DSASerializer<>(serializer) : new SizedShaderBlockImpl.LegacySerializer<>(serializer));
     }
 
     /**
@@ -42,7 +48,7 @@ public interface ShaderBlock<T> extends NativeResource {
      * @param <T>        The type of data to write
      * @return A new shader block
      */
-    static <T> DynamicShaderBlock<T> dynamic(int binding, BiConsumer<T, ByteBuffer> serializer) {
+    static <T> DynamicShaderBlock<T> dynamic(BufferBinding binding, BiConsumer<T, ByteBuffer> serializer) {
         return dynamic(binding, 256, serializer);
     }
 
@@ -55,8 +61,8 @@ public interface ShaderBlock<T> extends NativeResource {
      * @param <T>         The type of data to write
      * @return A new shader block
      */
-    static <T> DynamicShaderBlock<T> dynamic(int binding, int initialSize, BiConsumer<T, ByteBuffer> serializer) {
-        return VeilRenderSystem.directStateAccessSupported() ? new DSADynamicShaderBlockImpl<>(binding, initialSize, serializer) : new DynamicShaderBlockImpl<>(binding, initialSize, serializer);
+    static <T> DynamicShaderBlock<T> dynamic(BufferBinding binding, long initialSize, BiConsumer<T, ByteBuffer> serializer) {
+        return new DynamicShaderBlockImpl<>(binding, initialSize, VeilRenderSystem.directStateAccessSupported() ? new DynamicShaderBlockImpl.DSASerializer<>(serializer) : new DynamicShaderBlockImpl.LegacySerializer<>(serializer));
     }
 
     /**
@@ -66,7 +72,7 @@ public interface ShaderBlock<T> extends NativeResource {
      * @param buffer  The buffer to bind as a shader block
      * @return A new shader block
      */
-    static DynamicShaderBlock<?> wrapper(int binding, int buffer) {
+    static DynamicShaderBlock<?> wrapper(BufferBinding binding, int buffer) {
         return new WrapperShaderBlockImpl(binding, buffer);
     }
 
@@ -93,4 +99,39 @@ public interface ShaderBlock<T> extends NativeResource {
      */
     @Nullable
     T getValue();
+
+    /**
+     * The bindings shaders blocks can be attached to.
+     */
+    enum BufferBinding {
+        UNIFORM(GL_UNIFORM_BUFFER),
+        SHADER_STORAGE(GL_SHADER_STORAGE_BUFFER);
+
+        private final int glType;
+
+        BufferBinding(int glType) {
+            this.glType = glType;
+        }
+
+        public int getGlType() {
+            return this.glType;
+        }
+    }
+
+    /**
+     * Valid memory layouts for blocks. Used to decide how to generate GLSL code.
+     */
+    enum MemoryLayout {
+        PACKED, SHARED, STD140, STD430;
+
+        private final GlslTypeQualifier.LayoutId layoutId;
+
+        MemoryLayout() {
+            this.layoutId = new GlslTypeQualifier.LayoutId(this.name().toLowerCase(Locale.ROOT), null);
+        }
+
+        public GlslTypeQualifier.LayoutId getLayoutId() {
+            return this.layoutId;
+        }
+    }
 }

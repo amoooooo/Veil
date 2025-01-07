@@ -53,9 +53,11 @@
   "inspector.veil.device_info.opengl.feature_flag.compute": "Compute? %s",
   "inspector.veil.device_info.opengl.feature_flag.atomic_counter": "Atomic Counter? %s",
   "inspector.veil.device_info.opengl.feature_flag.transform_feedback": "Transform Feedback? %s",
-  "inspector.veil.device_info.opengl.feature_flag.texture_multi_bind": "Texture Multi-bind? %s",
+  "inspector.veil.device_info.opengl.feature_flag.multi_bind": "Multi-bind? %s",
   "inspector.veil.device_info.opengl.feature_flag.sparse_buffers": "Sparse Buffers? %s",
-  "inspector.veil.device_info.opengl.feature_flag.direct_state_access": "Direct Space Access? %s",
+  "inspector.veil.device_info.opengl.feature_flag.direct_state_access": "Direct State Access? %s",
+  "inspector.veil.device_info.opengl.feature_flag.shader_storage_buffers": "Shader Storage Buffers? %s",
+  "inspector.veil.device_info.opengl.feature_flag.program_interface_query": "Program Interface Query? %s",
 
   "inspector.veil.device_info.opengl.shader.max_uniform_components": "Max Uniform Components: %s",
   "inspector.veil.device_info.opengl.shader.max_uniform_blocks": "Max Uniform Blocks: %s",
@@ -71,6 +73,8 @@
   "inspector.veil.device_info.opengl.vertex_array.max_vertex_attribute_relative_offset": "Max Vertex Attribute Relative Offset: %s",
 
   "inspector.veil.device_info.opengl.uniform.max_uniform_buffer_bindings": "Max Uniform Buffer Bindings: %s",
+  "inspector.veil.device_info.opengl.uniform.max_uniform_buffer_size": "Max Uniform Buffer Size: %s",
+  "inspector.veil.device_info.opengl.uniform.uniform_buffer_alignment": "Uniform Buffer Alignment: %s",
   "inspector.veil.device_info.opengl.uniform.max_combined_uniform_blocks": "Max Combined Uniform Blocks: %s",
   "inspector.veil.device_info.opengl.uniform.max_combined_texture_image_units": "Max Combined Texture Image Units: %s",
 
@@ -84,12 +88,14 @@
   "inspector.veil.device_info.opengl.atomic_counter.max_combined_counters": "Max Combined Atomic Counters: %s",
 
   "inspector.veil.device_info.opengl.shader_storage.max_bindings": "Max Shader Storage Buffer Bindings: %s",
+  "inspector.veil.device_info.opengl.shader_storage.max_size": "Max Shader Storage Buffer Size: %s",
   "inspector.veil.device_info.opengl.shader_storage.max_combined_blocks": "Max Combined Shader Storage Blocks: %s",
   "inspector.veil.device_info.opengl.shader_storage.max_output_resources": "Max Combined Shader Output Resources: %s",
 
   "inspector.veil.device_info.opengl.texture.max_texture_size": "Max Texture Size: %1$sx%1$s",
   "inspector.veil.device_info.opengl.texture.max_array_texture_layers": "Max Array Texture Layers: %s",
 
+  "inspector.veil.device_info.opengl.framebuffer.max_size": "Max Framebuffer Size: %sx%s",
   "inspector.veil.device_info.opengl.framebuffer.max_color_attachments": "Max Framebuffer Color Attachments: %s",
   "inspector.veil.device_info.opengl.framebuffer.max_samples": "Max Framebuffer Samples: %s",
 

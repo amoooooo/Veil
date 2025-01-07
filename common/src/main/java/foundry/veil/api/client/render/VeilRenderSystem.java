@@ -21,7 +21,8 @@ import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.impl.client.render.ext.VeilTextureMultiBind;
-import foundry.veil.impl.client.render.pipeline.VeilUniformBlockState;
+import foundry.veil.impl.client.render.pipeline.VeilShaderBlockState;
+import foundry.veil.impl.client.render.pipeline.VeilShaderBufferCache;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.mixin.accessor.BufferSourceAccessor;
 import net.minecraft.client.Minecraft;
@@ -37,16 +38,12 @@ import org.joml.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.NativeResource;
 
-import java.lang.Math;
 import java.nio.IntBuffer;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.Executor;
-import java.util.function.BooleanSupplier;
-import java.util.function.Function;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import static org.lwjgl.opengl.GL11C.glGetInteger;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
@@ -54,7 +51,6 @@ import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 import static org.lwjgl.opengl.GL30C.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL31C.GL_MAX_UNIFORM_BUFFER_BINDINGS;
 import static org.lwjgl.opengl.GL43C.*;
-import static org.lwjgl.opengl.GL44C.glBindTextures;
 
 /**
  * Additional functionality for {@link RenderSystem}.
@@ -69,21 +65,24 @@ public final class VeilRenderSystem {
         }
     };
     private static final Set<ResourceLocation> ERRORED_SHADERS = new HashSet<>();
-    private static final VeilUniformBlockState UNIFORM_BLOCK_STATE = new VeilUniformBlockState();
+    private static final VeilShaderBlockState UNIFORM_BLOCK_STATE = new VeilShaderBlockState();
+    private static final VeilShaderBufferCache SHADER_BUFFER_CACHE = new VeilShaderBufferCache();
 
     private static final BooleanSupplier COMPUTE_SUPPORTED = glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_compute_shader);
     private static final BooleanSupplier ATOMIC_COUNTER_SUPPORTED = glCapability(caps -> caps.OpenGL42 || caps.GL_ARB_shader_atomic_counters);
     private static final BooleanSupplier TRANSFORM_FEEDBACK_SUPPORTED = glCapability(caps -> caps.OpenGL40 || caps.GL_ARB_transform_feedback3);
-    private static final BooleanSupplier TEXTURE_MULTIBIND_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.glBindTextures != 0L);
+    private static final BooleanSupplier MULTIBIND_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_multi_bind);
     private static final BooleanSupplier SPARSE_BUFFERS_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_sparse_buffer);
     private static final BooleanSupplier DIRECT_STATE_ACCESS_SUPPORTED = glCapability(caps -> caps.OpenGL45 || caps.GL_ARB_direct_state_access);
+    private static final BooleanSupplier SHADER_STORAGE_BLOCK_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_shader_storage_buffer_object);
+    private static final BooleanSupplier PROGRAM_INTERFACE_QUERY_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_program_interface_query);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
     private static final IntSupplier MAX_COLOR_ATTACHMENTS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COLOR_ATTACHMENTS));
     private static final IntSupplier MAX_SAMPLES = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SAMPLES));
     private static final IntSupplier MAX_TRANSFORM_FEEDBACK_BUFFERS = VeilRenderSystem.glGetter(() -> TRANSFORM_FEEDBACK_SUPPORTED.getAsBoolean() ? glGetInteger(GL_MAX_TRANSFORM_FEEDBACK_BUFFERS) : 0);
     private static final IntSupplier MAX_UNIFORM_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_UNIFORM_BUFFER_BINDINGS));
     private static final IntSupplier MAX_ATOMIC_COUNTER_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS));
-    private static final IntSupplier MAX_SHADER_STORAGE_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS));
+    private static final IntSupplier MAX_SHADER_STORAGE_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> SHADER_STORAGE_BLOCK_SUPPORTED.getAsBoolean() ? glGetInteger(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS) : 0);
     private static final IntSupplier MAX_ARRAY_TEXTURE_LAYERS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ARRAY_TEXTURE_LAYERS));
     private static final IntSupplier MAX_VERTEX_ATTRIBS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIBS));
     private static final IntSupplier MAX_VERTEX_ATTRIB_RELATIVE_OFFSET = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET));
@@ -199,6 +198,9 @@ public final class VeilRenderSystem {
         return new Vector3i(width, height, depth);
     });
     private static final IntSupplier MAX_COMPUTE_WORK_GROUP_INVOCATIONS = VeilRenderSystem.glGetter(() -> COMPUTE_SUPPORTED.getAsBoolean() ? glGetInteger(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS) : 0);
+    private static final LongSupplier MAX_UNIFORM_BLOCK_SIZE = VeilRenderSystem.glGetter(() -> glGetInteger64(GL_MAX_UNIFORM_BLOCK_SIZE));
+    private static final IntSupplier UNIFORM_BUFFER_OFFSET_ALIGNMENT = VeilRenderSystem.glGetter(() -> glGetInteger(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT));
+    private static final LongSupplier MAX_SHADER_STORAGE_BLOCK_SIZE = VeilRenderSystem.glGetter(() -> SHADER_STORAGE_BLOCK_SUPPORTED.getAsBoolean() ? glGetInteger64(GL_MAX_SHADER_STORAGE_BLOCK_SIZE) : 0);
 
     private static final Vector3f LIGHT0_DIRECTION = new Vector3f();
     private static final Vector3f LIGHT1_DIRECTION = new Vector3f();
@@ -237,6 +239,21 @@ public final class VeilRenderSystem {
                 RenderSystem.assertOnRenderThreadOrInit();
                 if (this.value == Integer.MAX_VALUE) {
                     return this.value = delegate.getAsInt();
+                }
+                return this.value;
+            }
+        };
+    }
+
+    private static LongSupplier glGetter(LongSupplier delegate) {
+        return new LongSupplier() {
+            private long value = Long.MAX_VALUE;
+
+            @Override
+            public long getAsLong() {
+                RenderSystem.assertOnRenderThreadOrInit();
+                if (this.value == Long.MAX_VALUE) {
+                    return this.value = delegate.getAsLong();
                 }
                 return this.value;
             }
@@ -483,10 +500,10 @@ public final class VeilRenderSystem {
     }
 
     /**
-     * @return Whether {@link GL44C#glBindTextures} is supported
+     * @return Whether {@link ARBMultiBind} is supported
      */
-    public static boolean textureMultibindSupported() {
-        return VeilRenderSystem.TEXTURE_MULTIBIND_SUPPORTED.getAsBoolean();
+    public static boolean multibindSupported() {
+        return VeilRenderSystem.MULTIBIND_SUPPORTED.getAsBoolean();
     }
 
     /**
@@ -501,6 +518,20 @@ public final class VeilRenderSystem {
      */
     public static boolean directStateAccessSupported() {
         return VeilRenderSystem.DIRECT_STATE_ACCESS_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBShaderStorageBufferObject} is supported
+     */
+    public static boolean shaderStorageBufferSupported() {
+        return VeilRenderSystem.SHADER_STORAGE_BLOCK_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBProgramInterfaceQuery} is supported
+     */
+    public static boolean programInterfaceQuerySupported() {
+        return VeilRenderSystem.PROGRAM_INTERFACE_QUERY_SUPPORTED.getAsBoolean();
     }
 
     /**
@@ -673,15 +704,24 @@ public final class VeilRenderSystem {
     }
 
     /**
-     * <p>Binds the specified block into the next available binding spot
-     * and updates all shaders if the binding index has changed.</p>
-     * <p><b>Make sure this is called before trying to use the block on this frame as it may have been overwritten.</b></p>
-     *
-     * @param block The block to bind
+     * @return The GL maximum size of uniform buffers
      */
-    public static void bind(ShaderBlock<?> block) {
-        RenderSystem.assertOnRenderThreadOrInit();
-        UNIFORM_BLOCK_STATE.bind(block);
+    public static long maxUniformBufferSize() {
+        return VeilRenderSystem.MAX_UNIFORM_BLOCK_SIZE.getAsLong();
+    }
+
+    /**
+     * @return The GL offset byte alignment requirement of uniform buffers
+     */
+    public static int uniformBufferAlignment() {
+        return VeilRenderSystem.UNIFORM_BUFFER_OFFSET_ALIGNMENT.getAsInt();
+    }
+
+    /**
+     * @return The GL maximum size of shader storage buffers
+     */
+    public static long maxShaderStorageBufferSize() {
+        return VeilRenderSystem.MAX_SHADER_STORAGE_BLOCK_SIZE.getAsLong();
     }
 
     /**
@@ -707,6 +747,19 @@ public final class VeilRenderSystem {
     public static void unbind(ShaderBlock<?> block) {
         RenderSystem.assertOnRenderThreadOrInit();
         UNIFORM_BLOCK_STATE.unbind(block);
+    }
+
+    /**
+     * Retrieves the registered block for the specified layout. Make sure the layout is registered.
+     *
+     * @param layout The layout to retrieve the block for
+     * @param <T>    The type of data the block encodes
+     * @return The block created or <code>null</code> if no shaders reference the block. <code>#buffer namespace:path</code>
+     * @throws IllegalArgumentException If the layout is not registered
+     */
+    public static <T> @Nullable ShaderBlock<T> getBlock(VeilShaderBufferLayout<T> layout) throws IllegalArgumentException {
+        RenderSystem.assertOnRenderThreadOrInit();
+        return SHADER_BUFFER_CACHE.getBlock(layout);
     }
 
     /**
@@ -782,6 +835,8 @@ public final class VeilRenderSystem {
     @ApiStatus.Internal
     public static void beginFrame() {
         VeilImGuiImpl.get().beginFrame();
+
+        SHADER_BUFFER_CACHE.bind();
     }
 
     @ApiStatus.Internal

@@ -13,31 +13,33 @@ public class WrapperShaderBlockImpl extends ShaderBlockImpl<Object> implements D
 
     private long size;
 
-    public WrapperShaderBlockImpl(int binding, int buffer) {
+    public WrapperShaderBlockImpl(BufferBinding binding, int buffer) {
         super(binding);
         this.buffer = buffer;
     }
 
     @Override
     public void bind(int index) {
-        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(this.binding), index);
-        glBindBufferRange(this.binding, index, this.buffer, 0, this.size);
+        int binding = this.binding.getGlType();
+        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(binding), index);
+        glBindBufferRange(binding, index, this.buffer, 0, this.size);
     }
 
     @Override
     public void unbind(int index) {
-        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(this.binding), index);
-        glBindBufferRange(this.binding, index, 0, 0, this.size);
+        int binding = this.binding.getGlType();
+        Validate.inclusiveBetween(0, VeilRenderSystem.maxTargetBindings(binding), index);
+        glBindBufferRange(binding, index, 0, 0, this.size);
     }
 
     @Override
     public void set(@Nullable Object value) {
-        throw new UnsupportedOperationException("Buffer Shader Block cannot be set to a java object");
+        throw new UnsupportedOperationException("Wrapper Shader Block cannot be set to a java object");
     }
 
     @Override
     public @Nullable Object getValue() {
-        throw new UnsupportedOperationException("Buffer Shader Block cannot be read as a java object");
+        throw new UnsupportedOperationException("Wrapper Shader Block cannot be read as a java object");
     }
 
     @Override

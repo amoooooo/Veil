@@ -75,6 +75,7 @@ public class VeilClient {
         PostPipelineStageRegistry.bootstrap();
         LightTypeRegistry.bootstrap();
         RenderTypeLayerRegistry.bootstrap();
+        VeilShaderBufferRegistry.bootstrap();
         VeilResourceEditorRegistry.bootstrap();
         EmitterShapeRegistry.bootstrap();
         RenderStyleRegistry.bootstrap();

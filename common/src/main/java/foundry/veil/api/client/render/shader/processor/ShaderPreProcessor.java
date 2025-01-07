@@ -163,13 +163,25 @@ public interface ShaderPreProcessor {
         /**
          * Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl</code> and adds it to this source tree.
          *
-         * @param name             The name of the import to load
-         * @param tree             The tree to include the file into
+         * @param name     The name of the import to load
+         * @param tree     The tree to include the file into
          * @param strategy How duplicate shader methods should be handled
          * @throws IOException If there was an error loading the import file
          */
         default void include(GlslTree tree, ResourceLocation name, IncludeOverloadStrategy strategy) throws IOException, GlslSyntaxException, LexerException {
-            GlslTree loadedImport = this.shaderImporter().loadImport(this, name, false);
+            this.include(tree, name.toString(), this.shaderImporter().loadImport(this, name, false), strategy);
+        }
+
+        /**
+         * Adds the specified import to this source tree.
+         *
+         * @param name         The name of the import
+         * @param loadedImport The loaded import source code
+         * @param tree         The tree to include the file into
+         * @param strategy     How duplicate shader methods should be handled
+         * @throws IOException If there was an error loading the import file
+         */
+        default void include(GlslTree tree, String name, GlslTree loadedImport, IncludeOverloadStrategy strategy) throws IOException, GlslSyntaxException, LexerException {
             tree.getDirectives().addAll(loadedImport.getDirectives());
 
             Set<String> fieldNames = loadedImport.fields()

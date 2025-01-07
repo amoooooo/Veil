@@ -1,11 +1,10 @@
 package foundry.veil.impl.client.render.shader.definition;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-
-import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
 
 /**
  * Abstract implementation of {@link ShaderBlock}.
@@ -16,12 +15,12 @@ import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
 @ApiStatus.Internal
 public abstract class ShaderBlockImpl<T> implements ShaderBlock<T> {
 
-    protected final int binding;
+    protected final BufferBinding binding;
     protected int buffer;
     protected T value;
     protected boolean dirty;
 
-    protected ShaderBlockImpl(int binding) {
+    protected ShaderBlockImpl(BufferBinding binding) {
         this.binding = binding;
         this.buffer = 0;
         this.value = null;
@@ -48,7 +47,7 @@ public abstract class ShaderBlockImpl<T> implements ShaderBlock<T> {
      */
     public abstract void unbind(int index);
 
-    public int getBinding() {
+    public BufferBinding getBinding() {
         return this.binding;
     }
 
@@ -61,7 +60,7 @@ public abstract class ShaderBlockImpl<T> implements ShaderBlock<T> {
     public void free() {
         VeilRenderSystem.unbind(this);
         if (this.buffer != 0) {
-            glDeleteBuffers(this.buffer);
+            GlStateManager._glDeleteBuffers(this.buffer);
             this.buffer = 0;
         }
     }
