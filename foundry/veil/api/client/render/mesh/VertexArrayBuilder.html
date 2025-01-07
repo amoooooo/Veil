@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../../../../impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="enum class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></code>, <code><a href="../../../../impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></code></dd>
+<dd><code><a href="../../../../impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></code>, <code><a href="../../../../impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">VertexArrayBuilder</span></div>
@@ -123,7 +123,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#applyFrom(int,int,int,com.mojang.blaze3d.vertex.VertexFormat)" class="member-name-link">applyFrom</a><wbr>(int&nbsp;index,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#applyFrom(int,int,int,com.mojang.blaze3d.vertex.VertexFormat)" class="member-name-link">applyFrom</a><wbr>(int&nbsp;bufferIndex,
  int&nbsp;buffer,
  int&nbsp;attributeStart,
  com.mojang.blaze3d.vertex.VertexFormat&nbsp;format)</code></div>
@@ -192,6 +192,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#validateRelativeOffset(int)" class="member-name-link">validateRelativeOffset</a><wbr>(int&nbsp;offset)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#vertexArray()" class="member-name-link">vertexArray</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -213,16 +216,26 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="vertexArray()">
+<h3>vertexArray</h3>
+<div class="member-signature"><span class="return-type"><a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></span>&nbsp;<span class="element-name">vertexArray</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The source vertex array</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="applyFrom(int,int,int,com.mojang.blaze3d.vertex.VertexFormat)">
 <h3>applyFrom</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">applyFrom</span><wbr><span class="parameters">(int&nbsp;index,
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">applyFrom</span><wbr><span class="parameters">(int&nbsp;bufferIndex,
  int&nbsp;buffer,
  int&nbsp;attributeStart,
  com.mojang.blaze3d.vertex.VertexFormat&nbsp;format)</span></div>
 <div class="block">Applies the vanilla mc format at the specified index.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>index</code> - The index to map the buffer to</dd>
+<dd><code>bufferIndex</code> - The index to map the buffer to</dd>
 <dd><code>buffer</code> - The buffer to get data from</dd>
 <dd><code>attributeStart</code> - The first attribute index to start applying the format from</dd>
 <dd><code>format</code> - The format to apply</dd>

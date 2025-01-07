@@ -150,16 +150,20 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)" class="member-name-link">uploadIndexBuffer</a><wbr>(com.mojang.blaze3d.vertex.MeshData.DrawState&nbsp;drawState,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
  int&nbsp;usage)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uploads index data to the vertex array.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#uploadVertexBuffer(int,java.nio.ByteBuffer,int)" class="member-name-link">uploadVertexBuffer</a><wbr>(int&nbsp;buffer,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
  int&nbsp;usage)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Uploads vertex data to the specified buffer.</div>
+</div>
 </div>
 </div>
 </div>
@@ -200,13 +204,19 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)">
 <h3>uploadIndexBuffer</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadIndexBuffer</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.MeshData.DrawState&nbsp;drawState,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadIndexBuffer</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.MeshData.DrawState&nbsp;drawState,
  @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
  int&nbsp;usage)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html#uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)">VertexArray</a></code></span></div>
+<div class="block">Uploads index data to the vertex array.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="../../../../api/client/render/mesh/VertexArray.html#uploadIndexBuffer(com.mojang.blaze3d.vertex.MeshData.DrawState,java.nio.ByteBuffer,int)">uploadIndexBuffer</a></code>&nbsp;in class&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>drawState</code> - The buffer draw state</dd>
+<dd><code>data</code> - The data to upload or <code>null</code> to use sequential indices</dd>
+<dd><code>usage</code> - The data usage</dd>
 </dl>
 </section>
 </li>
@@ -217,6 +227,8 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../../api/client/render/mesh/VertexArray.html#createBuffer()">createBuffer</a></code>&nbsp;in class&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></dd>
+<dt>Returns:</dt>
+<dd>Creates a new vertex buffer</dd>
 </dl>
 </section>
 </li>
@@ -226,9 +238,15 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">uploadVertexBuffer</span><wbr><span class="parameters">(int&nbsp;buffer,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
  int&nbsp;usage)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html#uploadVertexBuffer(int,java.nio.ByteBuffer,int)">VertexArray</a></code></span></div>
+<div class="block">Uploads vertex data to the specified buffer.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../../../../api/client/render/mesh/VertexArray.html#uploadVertexBuffer(int,java.nio.ByteBuffer,int)">uploadVertexBuffer</a></code>&nbsp;in class&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>buffer</code> - The buffer to upload into</dd>
+<dd><code>data</code> - The data to upload</dd>
+<dd><code>usage</code> - The data usage</dd>
 </dl>
 </section>
 </li>
