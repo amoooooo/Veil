@@ -21,10 +21,8 @@ import org.joml.Vector4fc;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.List;
 import java.util.Set;
 
@@ -98,7 +96,6 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
             this.indirectBlock = null;
         }
 
-        this.vertexArray.bind();
         this.vertexArray.upload(this.createMesh(), VertexArray.DrawUsage.STATIC);
 
         this.highResSize = this.vertexArray.getIndexCount() - lowResSize;
@@ -107,15 +104,11 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         this.rangeOffset = rangeOffset;
 
         // Initialize data buffers
-        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
-        RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
-
         this.initBuffers();
 
-        RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
-        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        this.setupBufferState(this.vertexArray.editFormat()); // Only set up state for instanced buffer
+        VertexArrayBuilder builder = this.vertexArray.editFormat();
+        builder.defineVertexBuffer(2, this.instancedVbo, 0, this.lightSize);
+        this.setupBufferState(builder); // Only set up state for instanced buffer
 
         VertexBuffer.unbind();
     }
@@ -147,8 +140,15 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     protected abstract void clearRenderState(LightRenderer lightRenderer, List<T> lights);
 
     private void initBuffers() {
-        glBufferData(GL_ARRAY_BUFFER, (long) this.maxLights * this.lightSize, GL_DYNAMIC_DRAW);
-        glBufferData(GL_DRAW_INDIRECT_BUFFER, (long) this.maxLights * Integer.BYTES * 5, GL_DYNAMIC_DRAW);
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            glNamedBufferData(this.instancedVbo, (long) this.maxLights * this.lightSize, GL_DYNAMIC_DRAW);
+            glNamedBufferData(this.indirectVbo, (long) this.maxLights * Integer.BYTES * 5, GL_DYNAMIC_DRAW);
+        } else {
+            RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
+            RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
+            glBufferData(GL_ARRAY_BUFFER, (long) this.maxLights * this.lightSize, GL_DYNAMIC_DRAW);
+            glBufferData(GL_DRAW_INDIRECT_BUFFER, (long) this.maxLights * Integer.BYTES * 5, GL_DYNAMIC_DRAW);
+        }
         if (this.sizeVbo != 0) {
             this.instancedBlock.setSize((long) this.maxLights * this.lightSize);
             this.indirectBlock.setSize((long) this.maxLights * Integer.BYTES * 5);
@@ -167,17 +167,18 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     }
 
     private void updateAllLights(List<T> lights) {
-        ByteBuffer dataBuffer = MemoryUtil.memAlloc(lights.size() * this.lightSize);
+        ByteBuffer dataBuffer = glMapBuffer(GL_ARRAY_BUFFER, GL_MAP_WRITE_BIT, (long) lights.size() * this.lightSize, null);
+        if (dataBuffer == null) {
+            return;
+        }
+
         for (int i = 0; i < lights.size(); i++) {
             T light = lights.get(i);
             light.clean();
             dataBuffer.position(i * this.lightSize);
             light.store(dataBuffer);
         }
-
-        dataBuffer.rewind();
-        glBufferSubData(GL_ARRAY_BUFFER, 0, dataBuffer);
-        MemoryUtil.memFree(dataBuffer);
+        glUnmapBuffer(GL_ARRAY_BUFFER);
     }
 
     private int updateVisibility(List<T> lights, CullFrustum frustum) {
@@ -191,6 +192,9 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
                     glBindBufferRange(GL_ATOMIC_COUNTER_BUFFER, 0, this.sizeVbo, 0, Integer.BYTES);
                     glBufferSubData(GL_ATOMIC_COUNTER_BUFFER, 0, stack.callocInt(1));
+
+                    int maxX = VeilRenderSystem.maxComputeWorkGroupCountX();
+                    int maxY = VeilRenderSystem.maxComputeWorkGroupCountY();
 
                     shader.setInt("HighResSize", this.highResSize);
                     shader.setInt("LowResSize", this.lowResSize);
@@ -208,22 +212,21 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
                         values[i * 4 + 3] = plane.w();
                     }
                     shader.setFloats("FrustumPlanes", values);
+                    shader.setInt("Width", maxX);
 
                     shader.bind();
 
-                    glDispatchCompute(Math.min(lights.size(), VeilRenderSystem.maxComputeWorkGroupCountX()), 1, 1);
+                    glDispatchCompute(Math.min(lights.size(), maxX), Math.min(1 + lights.size() / maxX, maxY), 1);
                     glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT | GL_ATOMIC_COUNTER_BARRIER_BIT);
 
                     ShaderProgram.unbind();
 
-                    IntBuffer counter = stack.mallocInt(1);
-                    RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, this.sizeVbo);
-                    glGetBufferSubData(GL_ATOMIC_COUNTER_BUFFER, 0L, counter);
-                    RenderSystem.glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
-                    return counter.get(0);
+                    ByteBuffer counter = glMapBufferRange(GL_ATOMIC_COUNTER_BUFFER, 0, Integer.BYTES, GL_MAP_READ_BIT);
+                    return counter != null ? counter.getInt(0) : 0;
                 } finally {
                     VeilRenderSystem.unbind(this.instancedBlock);
                     VeilRenderSystem.unbind(this.indirectBlock);
+                    glUnmapBuffer(GL_ATOMIC_COUNTER_BUFFER);
                     glBindBufferRange(GL_ATOMIC_COUNTER_BUFFER, 0, 0, 0, Integer.BYTES);
                 }
             }
@@ -259,9 +262,9 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
     @Override
     public void prepareLights(LightRenderer lightRenderer, List<T> lights, Set<T> removedLights, CullFrustum frustum) {
+        ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
         RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
 
-        ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
         profiler.push("resize");
 
         // If there is no space, then resize
@@ -269,13 +272,12 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         if (lights.size() > this.maxLights) {
             rebuild = true;
             this.maxLights = (int) Math.max(Math.max(Math.ceil(this.maxLights / 2.0), MIN_LIGHTS), lights.size() * 1.5);
-            RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
             this.initBuffers();
-            RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
         }
         profiler.popPush("update");
 
         // The instanced buffer needs to be updated
+        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.instancedVbo);
         if (rebuild || !removedLights.isEmpty()) {
             this.updateAllLights(lights);
         } else {
@@ -292,7 +294,6 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
                 }
             }
         }
-        RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         profiler.popPush("visibility");
 

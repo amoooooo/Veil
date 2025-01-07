@@ -16,7 +16,7 @@ import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
-import foundry.veil.mixin.accessor.ReloadableResourceManagerAccessor;
+import foundry.veil.mixin.pipeline.accessor.PipelineReloadableResourceManagerAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -74,7 +74,7 @@ public class VeilRenderer {
         this.lightRenderer = new LightRenderer();
         this.guiInfo = new GuiInfo();
 
-        List<PreparableReloadListener> listeners = ((ReloadableResourceManagerAccessor) resourceManager).getListeners();
+        List<PreparableReloadListener> listeners = ((PipelineReloadableResourceManagerAccessor) resourceManager).getListeners();
 
         // This must finish loading before the game renderer so modifications can apply on load
         listeners.add(0, this.shaderModificationManager);

@@ -20,10 +20,10 @@ public class DSAVertexAttribBindingVertexArray extends VertexArray {
     }
 
     @Override
-    protected void uploadIndexBuffer(MeshData.DrawState drawState, @Nullable ByteBuffer buffer, int usage) {
-        if (buffer != null) {
+    public void uploadIndexBuffer(MeshData.DrawState drawState, @Nullable ByteBuffer data, int usage) {
+        if (data != null) {
             int elementArrayBuffer = this.getOrCreateBuffer(ELEMENT_ARRAY_BUFFER);
-            glNamedBufferData(elementArrayBuffer, buffer, usage);
+            glNamedBufferData(elementArrayBuffer, data, usage);
             glVertexArrayElementBuffer(this.id, elementArrayBuffer);
         } else {
             AutoStorageIndexBufferExtension ext = (AutoStorageIndexBufferExtension) (Object) RenderSystem.getSequentialBuffer(drawState.mode());
@@ -44,6 +44,6 @@ public class DSAVertexAttribBindingVertexArray extends VertexArray {
     @Override
     public VertexArrayBuilder editFormat() {
         this.bind();
-        return ARBVertexAttribBindingBuilder.INSTANCE;
+        return new ARBVertexAttribBindingBuilder(this);
     }
 }

@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.rendertype",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "client": [
+    "accessor.RenderStateShardAccessor",
+    "accessor.RenderTypeAccessor",
+    "accessor.RenderTypeBufferSourceAccessor",
+    "client.CompositeStateBuilderMixin",
+    "client.CompositeStateMixin",
+    "client.RenderTypeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

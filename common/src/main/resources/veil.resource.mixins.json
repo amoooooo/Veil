@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.resource",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "mixins": [
+    "ResourceVanillaPackResourcesMixin"
+  ],
+  "client": [
+    "accessor.ResourceAtlasSetAccessor",
+    "accessor.ResourceModelManagerAccessor",
+    "client.ResourceTextureAtlasMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

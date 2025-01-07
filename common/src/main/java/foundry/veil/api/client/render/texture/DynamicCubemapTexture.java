@@ -3,7 +3,7 @@ package foundry.veil.api.client.render.texture;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-import foundry.veil.mixin.accessor.NativeImageAccessor;
+import foundry.veil.mixin.pipeline.accessor.PipelineNativeImageAccessor;
 import net.minecraft.core.Direction;
 import net.minecraft.server.packs.resources.ResourceManager;
 
@@ -68,7 +68,7 @@ public class DynamicCubemapTexture extends CubemapTexture {
         int width = image.getWidth();
         int height = image.getHeight();
         RenderSystem.assertOnRenderThreadOrInit();
-        NativeImageAccessor accessor = (NativeImageAccessor) (Object) image;
+        PipelineNativeImageAccessor accessor = (PipelineNativeImageAccessor) (Object) image;
         accessor.invokeCheckAllocated();
         GlStateManager._pixelStore(GL_UNPACK_ROW_LENGTH, 0);
         GlStateManager._pixelStore(GL_UNPACK_SKIP_ROWS, 0);
@@ -108,7 +108,7 @@ public class DynamicCubemapTexture extends CubemapTexture {
         int width = image.getWidth();
         int height = image.getHeight();
         RenderSystem.assertOnRenderThreadOrInit();
-        NativeImageAccessor accessor = (NativeImageAccessor) (Object) image;
+        PipelineNativeImageAccessor accessor = (PipelineNativeImageAccessor) (Object) image;
         accessor.invokeCheckAllocated();
         GlStateManager._pixelStore(GL_UNPACK_ROW_LENGTH, 0);
         GlStateManager._pixelStore(GL_UNPACK_SKIP_ROWS, 0);

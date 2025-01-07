@@ -31,6 +31,6 @@ public class ARBVertexAttribBindingVertexArray extends VertexArray {
     @Override
     public VertexArrayBuilder editFormat() {
         this.bind();
-        return ARBVertexAttribBindingBuilder.INSTANCE;
+        return new ARBVertexAttribBindingBuilder(this);
     }
 }

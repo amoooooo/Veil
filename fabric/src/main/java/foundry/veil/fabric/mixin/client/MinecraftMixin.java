@@ -4,14 +4,13 @@ import com.google.common.collect.ImmutableList;
 import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.fabric.FabricRenderTypeStageHandler;
 import foundry.veil.fabric.event.FabricFreeNativeResourcesEvent;
 import foundry.veil.fabric.event.FabricVeilRegisterBlockLayersEvent;
 import foundry.veil.fabric.event.FabricVeilRegisterFixedBuffersEvent;
 import foundry.veil.fabric.event.FabricVeilRendererAvailableEvent;
-import foundry.veil.mixin.accessor.RenderStateShardAccessor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.main.GameConfig;
 import net.minecraft.client.renderer.RenderType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,7 +32,7 @@ public class MinecraftMixin {
         ImmutableList.Builder<RenderType> blockLayers = ImmutableList.builder();
         FabricVeilRegisterBlockLayersEvent.EVENT.invoker().onRegisterBlockLayers(renderType -> {
             if (Veil.platform().isDevelopmentEnvironment() && renderType.bufferSize() > RenderType.SMALL_BUFFER_SIZE) {
-                Veil.LOGGER.warn("Block render layer '{}' uses a large buffer size: {}. If this is intended you can ignore this message", ((RenderStateShardAccessor) renderType).getName(), renderType.bufferSize());
+                Veil.LOGGER.warn("Block render layer '{}' uses a large buffer size: {}. If this is intended you can ignore this message", VeilRenderType.getName(renderType), renderType.bufferSize());
             }
             blockLayers.add(renderType);
         });

@@ -20,24 +20,26 @@ uniform int LightSize;
 uniform int PositionOffset;
 uniform int RangeOffset;
 uniform float FrustumPlanes[24];
+uniform int Width;
 
 bool testSphere(float x, float y, float z, float r) {
-    return FrustumPlanes[0] * x + FrustumPlanes[1] * y + FrustumPlanes[2] * z + FrustumPlanes[3] >= -r &&
-           FrustumPlanes[4] * x + FrustumPlanes[5] * y + FrustumPlanes[6] * z + FrustumPlanes[7] >= -r &&
-           FrustumPlanes[8] * x + FrustumPlanes[9] * y + FrustumPlanes[10] * z + FrustumPlanes[11] >= -r &&
-           FrustumPlanes[12] * x + FrustumPlanes[13] * y + FrustumPlanes[14] * z + FrustumPlanes[15] >= -r &&
-           FrustumPlanes[16] * x + FrustumPlanes[17] * y + FrustumPlanes[18] * z + FrustumPlanes[19] >= -r &&
-           FrustumPlanes[20] * x + FrustumPlanes[21] * y + FrustumPlanes[22] * z + FrustumPlanes[23] >= -r;
+    return
+    FrustumPlanes[0] * x + FrustumPlanes[1] * y + FrustumPlanes[2] * z + FrustumPlanes[3] >= -r &&
+    FrustumPlanes[4] * x + FrustumPlanes[5] * y + FrustumPlanes[6] * z + FrustumPlanes[7] >= -r &&
+    FrustumPlanes[8] * x + FrustumPlanes[9] * y + FrustumPlanes[10] * z + FrustumPlanes[11] >= -r &&
+    FrustumPlanes[12] * x + FrustumPlanes[13] * y + FrustumPlanes[14] * z + FrustumPlanes[15] >= -r &&
+    FrustumPlanes[16] * x + FrustumPlanes[17] * y + FrustumPlanes[18] * z + FrustumPlanes[19] >= -r &&
+    FrustumPlanes[20] * x + FrustumPlanes[21] * y + FrustumPlanes[22] * z + FrustumPlanes[23] >= -r;
 }
 
 layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 void main() {
-    uint lightId = gl_GlobalInvocationID.x;
+    uint lightId = gl_GlobalInvocationID.x + gl_GlobalInvocationID.y * Width;
     uint lightDataIndex = lightId * LightSize;
 
-    float x = data[lightDataIndex + PositionOffset];
-    float y = data[lightDataIndex + PositionOffset + 1];
-    float z = data[lightDataIndex + PositionOffset + 2];
+    float x = 0;//data[lightDataIndex + PositionOffset];
+    float y = 0;//data[lightDataIndex + PositionOffset + 1];
+    float z = 0;//data[lightDataIndex + PositionOffset + 2];
     float range = data[lightDataIndex + RangeOffset];
     float dx = x - VeilCamera.CameraPosition.x;
     float dy = y - VeilCamera.CameraPosition.y;
@@ -49,7 +51,7 @@ void main() {
         bool highRes = dx * dx + dy * dy + dz * dz <= range * range;
         commands[i] = highRes ? HighResSize : LowResSize;
         commands[i + 1] = 1;
-        commands[i + 2] = !highRes ? HighResSize : 0;
+        commands[i + 2] = highRes ? 0 : HighResSize;
         commands[i + 3] = 0;
         commands[i + 4] = int(lightId);
     }

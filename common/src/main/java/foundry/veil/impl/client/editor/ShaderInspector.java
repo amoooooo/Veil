@@ -8,12 +8,12 @@ import foundry.veil.api.client.imgui.VeilLanguageDefinitions;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.api.compat.IrisCompat;
 import foundry.veil.api.compat.SodiumCompat;
-import foundry.veil.mixin.accessor.GameRendererAccessor;
-import foundry.veil.mixin.accessor.LevelRendererAccessor;
-import foundry.veil.mixin.accessor.PostChainAccessor;
+import foundry.veil.impl.client.imgui.VeilImGuiImpl;
+import foundry.veil.mixin.debug.accessor.DebugGameRendererAccessor;
+import foundry.veil.mixin.debug.accessor.DebugLevelRendererAccessor;
+import foundry.veil.mixin.debug.accessor.DebugPostChainAccessor;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiInputTextFlags;
@@ -333,25 +333,25 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
         VANILLA(Component.translatable("inspector.veil.shader.source.vanilla")) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
-                GameRendererAccessor gameRenderer = (GameRendererAccessor) Minecraft.getInstance().gameRenderer;
-                Map<String, ShaderInstance> shaders = gameRenderer.getShaders();
+                DebugGameRendererAccessor accessor = (DebugGameRendererAccessor) Minecraft.getInstance().gameRenderer;
+                Map<String, ShaderInstance> shaders = accessor.getShaders();
                 for (ShaderInstance shader : shaders.values()) {
                     String name = shader.getName().isBlank() ? Integer.toString(shader.getId()) : shader.getName();
                     registry.accept(ResourceLocation.parse(name), shader.getId());
                 }
 
-                ShaderInstance blitShader = gameRenderer.getBlitShader();
+                ShaderInstance blitShader = accessor.getBlitShader();
                 registry.accept(ResourceLocation.parse(blitShader.getName()), blitShader.getId());
             }
         },
         VANILLA_POST(Component.translatable("inspector.veil.shader.source.vanilla_post")) {
             @Override
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
-                LevelRendererAccessor levelRenderer = (LevelRendererAccessor) Minecraft.getInstance().levelRenderer;
-                this.addChainPasses(registry, levelRenderer.getEntityEffect());
-                this.addChainPasses(registry, levelRenderer.getTransparencyChain());
-                GameRendererAccessor gameRenderer = (GameRendererAccessor) Minecraft.getInstance().gameRenderer;
-                this.addChainPasses(registry, gameRenderer.getPostEffect());
+                DebugLevelRendererAccessor levelRendererAccessor = (DebugLevelRendererAccessor) Minecraft.getInstance().levelRenderer;
+                this.addChainPasses(registry, levelRendererAccessor.getEntityEffect());
+                this.addChainPasses(registry, levelRendererAccessor.getTransparencyChain());
+                DebugGameRendererAccessor gameRendererAccessor = (DebugGameRendererAccessor) Minecraft.getInstance().gameRenderer;
+                this.addChainPasses(registry, gameRendererAccessor.getPostEffect());
             }
 
             private void addChainPasses(ObjIntConsumer<ResourceLocation> registry, @Nullable PostChain chain) {
@@ -359,7 +359,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                     return;
                 }
 
-                List<PostPass> passes = ((PostChainAccessor) chain).getPasses();
+                List<PostPass> passes = ((DebugPostChainAccessor) chain).getPasses();
                 for (PostPass pass : passes) {
                     EffectInstance effect = pass.getEffect();
                     registry.accept(ResourceLocation.parse(effect.getName()), effect.getId());

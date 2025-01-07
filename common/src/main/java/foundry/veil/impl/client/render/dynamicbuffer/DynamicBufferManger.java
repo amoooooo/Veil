@@ -11,7 +11,7 @@ import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinitio
 import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.api.compat.SodiumCompat;
-import foundry.veil.mixin.accessor.GameRendererAccessor;
+import foundry.veil.mixin.dynamicbuffer.accessor.DynamicBufferGameRendererAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.Minecraft;
@@ -134,7 +134,9 @@ public class DynamicBufferManger implements NativeResource {
 
         VeilRenderer renderer = VeilRenderSystem.renderer();
         List<ShaderInstance> shaders = new ArrayList<>();
-        for (ShaderInstance shader : ((GameRendererAccessor) Minecraft.getInstance().gameRenderer).getShaders().values()) {
+
+        DynamicBufferGameRendererAccessor accessor = (DynamicBufferGameRendererAccessor) Minecraft.getInstance().gameRenderer;
+        for (ShaderInstance shader : accessor.getShaders().values()) {
             if (((ShaderInstanceExtension) shader).veil$swapBuffers(this.activeBuffers)) {
                 shaders.add(shader);
             }

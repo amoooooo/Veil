@@ -173,17 +173,34 @@ public abstract class VertexArray implements NativeResource {
         }
     }
 
-    protected void uploadIndexBuffer(MeshData.DrawState drawState, @Nullable ByteBuffer buffer, int usage) {
-        if (buffer != null) {
+    /**
+     * Uploads index data to the vertex array.
+     *
+     * @param drawState The buffer draw state
+     * @param data      The data to upload or <code>null</code> to use sequential indices
+     * @param usage     The data usage
+     */
+    public void uploadIndexBuffer(MeshData.DrawState drawState, @Nullable ByteBuffer data, int usage) {
+        if (data != null) {
             GlStateManager._glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.getOrCreateBuffer(ELEMENT_ARRAY_BUFFER));
-            RenderSystem.glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, usage);
+            RenderSystem.glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, usage);
         } else {
             RenderSystem.getSequentialBuffer(drawState.mode()).bind(drawState.indexCount());
         }
     }
 
+    /**
+     * @return Creates a new vertex buffer
+     */
     protected abstract int createBuffer();
 
+    /**
+     * Uploads vertex data to the specified buffer.
+     *
+     * @param buffer The buffer to upload into
+     * @param data   The data to upload
+     * @param usage  The data usage
+     */
     protected abstract void uploadVertexBuffer(int buffer, ByteBuffer data, int usage);
 
     /**
@@ -199,13 +216,16 @@ public abstract class VertexArray implements NativeResource {
         GlStateManager._glBindVertexArray(this.id);
     }
 
+    /**
+     * Unbinds the current vertex array.
+     */
     public static void unbind() {
         BufferUploader.invalidate();
         GlStateManager._glBindVertexArray(0);
     }
 
     public void draw(int mode) {
-        GlStateManager._drawElements(mode, this.indexCount, this.indexType.getGlType(), 0L);
+        glDrawElements(mode, this.indexCount, this.indexType.getGlType(), 0L);
     }
 
     public void drawInstanced(int mode, int instances) {

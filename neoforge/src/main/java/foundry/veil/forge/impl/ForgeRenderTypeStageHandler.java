@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import foundry.veil.Veil;
 import foundry.veil.ext.LevelRendererBlockLayerExtension;
-import foundry.veil.mixin.accessor.BufferSourceAccessor;
+import foundry.veil.mixin.rendertype.accessor.RenderTypeBufferSourceAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -28,7 +28,7 @@ public class ForgeRenderTypeStageHandler {
     private static List<RenderType> BLOCK_LAYERS;
 
     public static synchronized void register(@Nullable RenderLevelStageEvent.Stage stage, RenderType renderType) {
-        SequencedMap<RenderType, ByteBufferBuilder> fixedBuffers = ((BufferSourceAccessor) Minecraft.getInstance().renderBuffers().bufferSource()).getFixedBuffers();
+        SequencedMap<RenderType, ByteBufferBuilder> fixedBuffers = ((RenderTypeBufferSourceAccessor) Minecraft.getInstance().renderBuffers().bufferSource()).getFixedBuffers();
         ByteBufferBuilder old = fixedBuffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize()));
         if (old != null) {
             old.close();

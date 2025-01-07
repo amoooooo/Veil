@@ -7,7 +7,7 @@ import foundry.veil.api.client.render.VeilRenderBridge;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.ext.LevelRendererBlockLayerExtension;
 import foundry.veil.fabric.event.FabricVeilRenderLevelStageEvent;
-import foundry.veil.mixin.accessor.BufferSourceAccessor;
+import foundry.veil.mixin.rendertype.accessor.RenderTypeBufferSourceAccessor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -31,7 +31,7 @@ public class FabricRenderTypeStageHandler {
     private static List<RenderType> BLOCK_LAYERS;
 
     public static void register(@Nullable VeilRenderLevelStageEvent.Stage stage, RenderType renderType) {
-        SequencedMap<RenderType, ByteBufferBuilder> fixedBuffers = ((BufferSourceAccessor) Minecraft.getInstance().renderBuffers().bufferSource()).getFixedBuffers();
+        SequencedMap<RenderType, ByteBufferBuilder> fixedBuffers = ((RenderTypeBufferSourceAccessor) Minecraft.getInstance().renderBuffers().bufferSource()).getFixedBuffers();
         ByteBufferBuilder old = fixedBuffers.put(renderType, new ByteBufferBuilder(renderType.bufferSize()));
         if (old != null) {
             old.close();

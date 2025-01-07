@@ -25,7 +25,8 @@ import foundry.veil.impl.client.render.ext.VeilTextureMultiBind;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBlockState;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBufferCache;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
-import foundry.veil.mixin.accessor.BufferSourceAccessor;
+import foundry.veil.mixin.pipeline.accessor.PipelineBufferSourceAccessor;
+import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -295,6 +296,8 @@ public final class VeilRenderSystem {
         screenQuad = VertexArray.create();
         screenQuad.upload(bufferBuilder.buildOrThrow(), VertexArray.DrawUsage.STATIC);
         VertexBuffer.unbind();
+
+        VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> ERRORED_SHADERS.clear());
     }
 
     /**
@@ -362,29 +365,10 @@ public final class VeilRenderSystem {
         });
 
         ShaderProgram value = getShader();
-        if (value == null) {
-            throwShaderError();
-        }
-        return value;
-    }
-
-    /**
-     * Clears all pending shader errors and re-queues uniform block ids to shaders.
-     */
-    @ApiStatus.Internal
-    public static void finalizeShaderCompilation() {
-        ERRORED_SHADERS.clear();
-        UNIFORM_BLOCK_STATE.queueUpload();
-    }
-
-    /**
-     * Prints an error to console about the current shader.
-     * This is useful to debug if a shader has an error while trying to be used.
-     */
-    public static void throwShaderError() {
-        if (VeilRenderSystem.shaderLocation != null && ERRORED_SHADERS.add(VeilRenderSystem.shaderLocation)) {
+        if (value == null && shaderLocation != null && ERRORED_SHADERS.add(shaderLocation)) {
             Veil.LOGGER.error("Failed to apply shader: {}", VeilRenderSystem.shaderLocation);
         }
+        return value;
     }
 
     /**
@@ -418,7 +402,7 @@ public final class VeilRenderSystem {
      * @param name   The name of the buffer to end
      */
     public static void endLastBatch(MultiBufferSource.BufferSource source, String name) {
-        if (source instanceof BufferSourceAccessor accessor) {
+        if (source instanceof PipelineBufferSourceAccessor accessor) {
             RenderType renderType = accessor.getLastSharedType();
             if (renderType != null && VeilRenderType.getName(renderType).equals(name)) {
                 source.endLastBatch();
@@ -433,7 +417,7 @@ public final class VeilRenderSystem {
      * @param renderType The render type to end
      */
     public static void endLastBatch(MultiBufferSource.BufferSource source, RenderType renderType) {
-        if (source instanceof BufferSourceAccessor accessor) {
+        if (source instanceof PipelineBufferSourceAccessor accessor) {
             RenderType lastSharedType = accessor.getLastSharedType();
             if (lastSharedType != null && lastSharedType.equals(renderType)) {
                 source.endLastBatch();

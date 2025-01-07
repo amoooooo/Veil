@@ -7,8 +7,8 @@ import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.api.resource.VeilResourceManager;
 import foundry.veil.ext.TextureAtlasExtension;
-import foundry.veil.mixin.accessor.AtlasSetAccessor;
-import foundry.veil.mixin.accessor.ModelManagerAccessor;
+import foundry.veil.mixin.resource.accessor.ResourceAtlasSetAccessor;
+import foundry.veil.mixin.resource.accessor.ResourceModelManagerAccessor;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
@@ -76,12 +76,12 @@ public record TextureResource(VeilResourceInfo resourceInfo) implements VeilReso
         Minecraft client = Minecraft.getInstance();
         client.getTextureManager().release(location);
 
-        ModelManagerAccessor modelManager = (ModelManagerAccessor) client.getModelManager();
+        ResourceModelManagerAccessor modelManager = (ResourceModelManagerAccessor) client.getModelManager();
         int mipLevel = modelManager.getMaxMipmapLevels();
         AtlasSet atlases = modelManager.getAtlases();
         ResourceLocation id = SpriteSource.TEXTURE_ID_CONVERTER.fileToId(location);
 
-        for (Map.Entry<ResourceLocation, AtlasSet.AtlasEntry> entry : ((AtlasSetAccessor) atlases).getAtlases().entrySet()) {
+        for (Map.Entry<ResourceLocation, AtlasSet.AtlasEntry> entry : ((ResourceAtlasSetAccessor) atlases).getAtlases().entrySet()) {
             TextureAtlas atlas = entry.getValue().atlas();
             if (((TextureAtlasExtension) atlas).veil$hasTexture(id)) {
                 SpriteLoader.create(atlas)

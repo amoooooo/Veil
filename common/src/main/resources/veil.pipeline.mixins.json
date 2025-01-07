@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.pipeline",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "client": [
+    "accessor.PipelineBufferSourceAccessor",
+    "accessor.PipelineNativeImageAccessor",
+    "accessor.PipelineReloadableResourceManagerAccessor",
+    "client.PipelineAutoStorageIndexBufferMixin",
+    "client.PipelineFrustumMixin",
+    "client.PipelineGameRendererMixin",
+    "client.PipelineLevelRendererMixin",
+    "client.PipelineMinecraftMixin",
+    "client.PipelineParticleRenderTypeMixin",
+    "client.PipelinePoseStackMixin",
+    "client.PipelineRenderSystemMixin",
+    "client.PipelineRenderTargetMixin",
+    "client.PipelineShaderInstanceMixin",
+    "client.PipelineVertexBufferMixin",
+    "client.PipelineWindowMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

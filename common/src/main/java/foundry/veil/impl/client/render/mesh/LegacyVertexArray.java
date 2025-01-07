@@ -40,6 +40,6 @@ public class LegacyVertexArray extends VertexArray {
     @Override
     public VertexArrayBuilder editFormat() {
         this.bind();
-        return new LegacyVertexAttribBindingBuilder();
+        return new LegacyVertexAttribBindingBuilder(this);
     }
 }

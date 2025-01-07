@@ -1,7 +1,7 @@
 package foundry.veil.api.resource;
 
 import com.mojang.serialization.Lifecycle;
-import foundry.veil.mixin.accessor.RegistryDataAccessor;
+import foundry.veil.mixin.registry.accessor.RegistryDataAccessor;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.RegistryDataLoader;

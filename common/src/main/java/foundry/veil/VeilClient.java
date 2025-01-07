@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.registry.*;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.api.quasar.data.ParticleModuleTypeRegistry;
 import foundry.veil.api.quasar.registry.EmitterShapeRegistry;
@@ -14,8 +15,6 @@ import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferShard;
 import foundry.veil.impl.quasar.QuasarParticleHandler;
 import foundry.veil.impl.resource.VeilResourceManagerImpl;
-import foundry.veil.mixin.accessor.CompositeStateAccessor;
-import foundry.veil.mixin.accessor.RenderStateShardAccessor;
 import foundry.veil.platform.VeilClientPlatform;
 import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.KeyMapping;
@@ -65,13 +64,13 @@ public class VeilClient {
 
         // This fixes moving transparent blocks drawing too early
         VeilEventPlatform.INSTANCE.onVeilRegisterFixedBuffers(registry -> registry.registerFixedBuffer(VeilRenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS, RenderType.translucentMovingBlock()));
-        RenderTypeStageRegistry.addGenericStage(renderType -> "main_target".equals(getOutputName(renderType)), new DynamicBufferShard(DynamicBufferManger.MAIN_WRAPPER, () -> Minecraft.getInstance().getMainRenderTarget()));
-        RenderTypeStageRegistry.addGenericStage(renderType -> "outline_target".equals(getOutputName(renderType)), new DynamicBufferShard("outline", () -> null));
-        RenderTypeStageRegistry.addGenericStage(renderType -> "translucent_target".equals(getOutputName(renderType)), new DynamicBufferShard("translucent", () -> Minecraft.getInstance().levelRenderer.getTranslucentTarget()));
-        RenderTypeStageRegistry.addGenericStage(renderType -> "particles_target".equals(getOutputName(renderType)), new DynamicBufferShard("particles", () -> Minecraft.getInstance().levelRenderer.getParticlesTarget()));
-        RenderTypeStageRegistry.addGenericStage(renderType -> "weather_target".equals(getOutputName(renderType)), new DynamicBufferShard("weather", () -> Minecraft.getInstance().levelRenderer.getWeatherTarget()));
-        RenderTypeStageRegistry.addGenericStage(renderType -> "clouds_target".equals(getOutputName(renderType)), new DynamicBufferShard("clouds", () -> Minecraft.getInstance().levelRenderer.getCloudsTarget()));
-        RenderTypeStageRegistry.addGenericStage(renderType -> "item_entity_target".equals(getOutputName(renderType)), new DynamicBufferShard("item_entity", () -> Minecraft.getInstance().levelRenderer.getItemEntityTarget()));
+        RenderTypeShardRegistry.addGenericShard(renderType -> "main_target".equals(getOutputName(renderType)), new DynamicBufferShard(DynamicBufferManger.MAIN_WRAPPER, () -> Minecraft.getInstance().getMainRenderTarget()));
+        RenderTypeShardRegistry.addGenericShard(renderType -> "outline_target".equals(getOutputName(renderType)), new DynamicBufferShard("outline", () -> null));
+        RenderTypeShardRegistry.addGenericShard(renderType -> "translucent_target".equals(getOutputName(renderType)), new DynamicBufferShard("translucent", () -> Minecraft.getInstance().levelRenderer.getTranslucentTarget()));
+        RenderTypeShardRegistry.addGenericShard(renderType -> "particles_target".equals(getOutputName(renderType)), new DynamicBufferShard("particles", () -> Minecraft.getInstance().levelRenderer.getParticlesTarget()));
+        RenderTypeShardRegistry.addGenericShard(renderType -> "weather_target".equals(getOutputName(renderType)), new DynamicBufferShard("weather", () -> Minecraft.getInstance().levelRenderer.getWeatherTarget()));
+        RenderTypeShardRegistry.addGenericShard(renderType -> "clouds_target".equals(getOutputName(renderType)), new DynamicBufferShard("clouds", () -> Minecraft.getInstance().levelRenderer.getCloudsTarget()));
+        RenderTypeShardRegistry.addGenericShard(renderType -> "item_entity_target".equals(getOutputName(renderType)), new DynamicBufferShard("item_entity", () -> Minecraft.getInstance().levelRenderer.getItemEntityTarget()));
         PostPipelineStageRegistry.bootstrap();
         LightTypeRegistry.bootstrap();
         RenderTypeLayerRegistry.bootstrap();
@@ -83,7 +82,7 @@ public class VeilClient {
     }
 
     private static String getOutputName(RenderType.CompositeRenderType renderType) {
-        return ((RenderStateShardAccessor) ((CompositeStateAccessor) (Object) renderType.state()).getOutputState()).getName();
+        return VeilRenderType.getName(VeilRenderType.getShards(renderType).outputState());
     }
 
     @ApiStatus.Internal

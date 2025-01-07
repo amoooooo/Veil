@@ -23,15 +23,20 @@ public interface VertexArrayBuilder {
     }
 
     /**
+     * @return The source vertex array
+     */
+    VertexArray vertexArray();
+
+    /**
      * Applies the vanilla mc format at the specified index.
      *
-     * @param index          The index to map the buffer to
+     * @param bufferIndex          The index to map the buffer to
      * @param buffer         The buffer to get data from
      * @param attributeStart The first attribute index to start applying the format from
      * @param format         The format to apply
      */
-    default VertexArrayBuilder applyFrom(int index, int buffer, int attributeStart, VertexFormat format) {
-        this.defineVertexBuffer(index, buffer, 0, format.getVertexSize());
+    default VertexArrayBuilder applyFrom(int bufferIndex, int buffer, int attributeStart, VertexFormat format) {
+        this.defineVertexBuffer(bufferIndex, buffer, 0, format.getVertexSize());
         List<VertexFormatElement> elements = format.getElements();
         for (int i = 0; i < elements.size(); i++) {
             VertexFormatElement element = elements.get(i);
@@ -40,7 +45,7 @@ public interface VertexArrayBuilder {
             if (usage == VertexFormatElement.Usage.UV && element.type() != VertexFormatElement.Type.FLOAT) {
                 this.setVertexIAttribute(
                         attributeStart + i,
-                        index,
+                        bufferIndex,
                         element.count(),
                         DataType.fromType(element.type()),
                         format.getOffset(element),
@@ -49,7 +54,7 @@ public interface VertexArrayBuilder {
             } else {
                 this.setVertexAttribute(
                         attributeStart + i,
-                        index,
+                        bufferIndex,
                         element.count(),
                         DataType.fromType(element.type()),
                         usage == VertexFormatElement.Usage.NORMAL || usage == VertexFormatElement.Usage.COLOR,

@@ -293,7 +293,6 @@ public class TextureInspector extends SingleWindowInspector {
         public void render(int width, int height) {
             ShaderProgram shaderProgram = VeilRenderSystem.setShader(VeilShaders.DEBUG_CUBEMAP);
             if (shaderProgram == null) {
-                VeilRenderSystem.throwShaderError();
                 this.free();
                 return;
             }

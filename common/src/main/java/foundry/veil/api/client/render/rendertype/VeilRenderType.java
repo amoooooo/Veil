@@ -13,8 +13,8 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilVertexFormat;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.impl.client.render.pipeline.CullFaceShard;
-import foundry.veil.mixin.accessor.RenderStateShardAccessor;
-import foundry.veil.mixin.accessor.RenderTypeAccessor;
+import foundry.veil.mixin.rendertype.accessor.RenderStateShardAccessor;
+import foundry.veil.mixin.rendertype.accessor.RenderTypeAccessor;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -203,13 +203,20 @@ public final class VeilRenderType extends RenderType {
     }
 
     /**
-     * Retrieves the name of the specified render type.
+     * Retrieves the name of the specified render shard.
      *
-     * @param renderType The render type to get the name of
+     * @param shard The render shard to get the name of
      * @return The name of the render type to get
      */
-    public static String getName(RenderType renderType) {
-        return ((RenderStateShardAccessor) renderType).toString();
+    public static String getName(RenderStateShard shard) {
+        return ((RenderStateShardAccessor) shard).getName();
+    }
+
+    public static VeilRenderTypeAccessor getShards(RenderType renderType) {
+        if (!(renderType instanceof CompositeRenderType compositeRenderType)) {
+            throw new IllegalArgumentException("Expected composite render type to be an instance of " + CompositeRenderType.class.getName() + ", but was " + renderType.getClass());
+        }
+        return (VeilRenderTypeAccessor) (Object) compositeRenderType.state();
     }
 
     /**
@@ -240,7 +247,8 @@ public final class VeilRenderType extends RenderType {
                 throw new IllegalArgumentException("Expected " + layer + " to use " + mode + ", but was " + layer.mode());
             }
             bufferSize = Math.max(bufferSize, layer.bufferSize());
-            if (((RenderTypeAccessor) layer).isSortOnUpload()) {
+            if (((RenderTypeAccessor) layer).
+                    isSortOnUpload()) {
                 sortOnUpload = true;
             }
             builder.add(layer);

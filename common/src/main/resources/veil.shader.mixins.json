@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.shader",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "client": [
+    "client.ShaderEffectInstanceMixin",
+    "client.ShaderGameRendererMixin",
+    "client.ShaderInstanceMixin",
+    "client.ShaderProgramManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

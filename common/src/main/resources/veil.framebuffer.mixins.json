@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.framebuffer",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "client": [
+    "client.FramebufferRenderTargetAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

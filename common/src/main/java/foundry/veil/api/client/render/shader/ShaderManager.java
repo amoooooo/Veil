@@ -370,7 +370,6 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
             }
         }
 
-        VeilRenderSystem.finalizeShaderCompilation();
         VeilClient.clientPlatform().onVeilCompileShaders(this, Collections.unmodifiableMap(this.shaders));
 
         Veil.LOGGER.info("Loaded {} shaders from: {}", this.shaders.size(), this.sourceSet.getFolder());
@@ -389,7 +388,6 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
             }
         }
 
-        VeilRenderSystem.finalizeShaderCompilation();
         VeilClient.clientPlatform().onVeilCompileShaders(this, updatedShaders);
 
         Veil.LOGGER.info("Recompiled {} shaders from: {}", updatedShaders.size(), this.sourceSet.getFolder());
@@ -520,7 +518,6 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                                 }
                             }
 
-                            VeilRenderSystem.finalizeShaderCompilation();
                             VeilClient.clientPlatform().onVeilCompileShaders(this, Collections.unmodifiableMap(updatedShaders));
 
                             Veil.LOGGER.info("Compiled {} shaders from: {}", updatedShaders.size(), this.sourceSet.getFolder());

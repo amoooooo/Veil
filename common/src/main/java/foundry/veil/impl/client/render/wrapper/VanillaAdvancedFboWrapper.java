@@ -7,7 +7,7 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboAttachment;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
 import foundry.veil.ext.RenderTargetExtension;
-import foundry.veil.mixin.accessor.RenderTargetAccessor;
+import foundry.veil.mixin.framebuffer.client.FramebufferRenderTargetAccessor;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
@@ -46,7 +46,7 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
         RenderSystem.assertOnRenderThreadOrInit();
         RenderTarget renderTarget = this.toRenderTarget();
 
-        float[] clearChannels = ((RenderTargetAccessor) renderTarget).getClearChannels();
+        float[] clearChannels = ((FramebufferRenderTargetAccessor) renderTarget).getClearChannels();
         RenderSystem.clearColor(clearChannels[0], clearChannels[1], clearChannels[2], clearChannels[3]);
         int mask = GL_COLOR_BUFFER_BIT;
         if (renderTarget.useDepth) {

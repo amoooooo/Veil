@@ -26,8 +26,20 @@
     "fabric-renderer-indigo:force_compatibility": true
   },
   "mixins": [
-    "veil.mixins.json",
-    "veil.fabric.mixins.json"
+    "${mod_id}.debug.mixins.json",
+    "${mod_id}.dynamicbuffer.mixins.json",
+    "${mod_id}.framebuffer.mixins.json",
+    "${mod_id}.imgui.mixins.json",
+    "${mod_id}.necromancer.mixins.json",
+    "${mod_id}.perspective.mixins.json",
+    "${mod_id}.pipeline.mixins.json",
+    "${mod_id}.quasar.mixins.json",
+    "${mod_id}.registry.mixins.json",
+    "${mod_id}.rendertype.mixins.json",
+    "${mod_id}.resource.mixins.json",
+    "${mod_id}.shader.mixins.json",
+    "${mod_id}.tooltip.mixins.json",
+    "${mod_id}.fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",

@@ -20,12 +20,6 @@ import org.joml.Vector3d;
 
 import java.util.List;
 
-import static org.lwjgl.opengl.GL11C.GL_FLOAT;
-import static org.lwjgl.opengl.GL11C.GL_UNSIGNED_SHORT;
-import static org.lwjgl.opengl.GL20C.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20C.glVertexAttribPointer;
-import static org.lwjgl.opengl.GL33C.glVertexAttribDivisor;
-
 @ApiStatus.Internal
 public class AreaLightRenderer extends InstancedLightRenderer<AreaLight> {
 

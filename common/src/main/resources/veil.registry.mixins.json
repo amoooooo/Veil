@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.registry",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "mixins": [
+    "accessor.RegistryDataAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

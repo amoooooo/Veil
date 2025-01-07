@@ -2,6 +2,7 @@ package foundry.veil.impl.client.render.mesh;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -12,20 +13,13 @@ import static org.lwjgl.opengl.GL33C.*;
 @ApiStatus.Internal
 public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
 
+    private final VertexArray vertexArray;
     private final VertexBuffer[] vertexBuffers;
     private int boundIndex = -1;
 
-    public LegacyVertexAttribBindingBuilder() {
+    public LegacyVertexAttribBindingBuilder(VertexArray vertexArray) {
+        this.vertexArray = vertexArray;
         this.vertexBuffers = new VertexBuffer[VeilRenderSystem.maxVertexAttributes()];
-    }
-
-    private record VertexBuffer(int buffer, int offset, int size) {
-    }
-
-    @Override
-    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride) {
-        this.vertexBuffers[index] = new VertexBuffer(buffer, offset, stride);
-        return this;
     }
 
     private void bindIndex(int index) {
@@ -41,6 +35,17 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
             RenderSystem.glBindBuffer(GL_ARRAY_BUFFER, this.vertexBuffers[index].buffer);
             this.boundIndex = index;
         }
+    }
+
+    @Override
+    public VertexArray vertexArray() {
+        return this.vertexArray;
+    }
+
+    @Override
+    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride) {
+        this.vertexBuffers[index] = new VertexBuffer(buffer, offset, stride);
+        return this;
     }
 
     @Override
@@ -92,5 +97,8 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
             glDisableVertexAttribArray(i);
         }
         return this;
+    }
+
+    private record VertexBuffer(int buffer, int offset, int size) {
     }
 }

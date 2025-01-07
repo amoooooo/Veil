@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.dynamicbuffer",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "client": [
+    "accessor.DynamicBufferGameRendererAccessor",
+    "accessor.DynamicBufferProgramAccessor",
+    "client.DynamicBufferAmbientOcclusionFaceMixin",
+    "client.DynamicBufferDebugScreenOverlayMixin",
+    "client.DynamicBufferGameRendererMixin",
+    "client.DynamicBufferLevelRendererMixin",
+    "client.DynamicBufferShaderInstanceMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  
