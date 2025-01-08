@@ -122,8 +122,8 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     private void onDefinitionChanged(String definition) {
         this.shaders.values().forEach(shader -> {
             if (shader.getDefinitionDependencies().contains(definition)) {
-                Veil.LOGGER.debug("{} changed, recompiling {}", definition, shader.getId());
-                this.scheduleRecompile(shader.getId());
+                Veil.LOGGER.debug("{} changed, recompiling {}", definition, shader.getName());
+                this.scheduleRecompile(shader.getName());
             }
         });
     }
@@ -218,7 +218,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
     }
 
     private void compile(ShaderProgramImpl program, @Nullable ProgramDefinition definition, ShaderCompiler compiler) {
-        ResourceLocation id = program.getId();
+        ResourceLocation id = program.getName();
         try {
             program.compile(this.dynamicBufferManager.getActiveBuffers(), this.sourceSet, definition, compiler);
         } catch (ShaderException e) {
@@ -484,9 +484,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                         if (program instanceof DynamicShaderProgramImpl dynamicShaderProgram) {
                             dynamicShaders.add(dynamicShaderProgram);
                         } else {
-                            shaders.add(program.getId());
+                            shaders.add(program.getName());
                         }
-                        updatedShaders.put(program.getId(), program);
+                        updatedShaders.put(program.getName(), program);
                     }
                 }
             }
@@ -524,7 +524,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                         }, Minecraft.getInstance());
             }
         } catch (ShaderException e) {
-            Veil.LOGGER.error("Failed to set shader active buffers {}: {}", active.getId(), e.getMessage());
+            Veil.LOGGER.error("Failed to set shader active buffers {}: {}", active.getName(), e.getMessage());
             String error = e.getGlError();
             if (error != null) {
                 Veil.LOGGER.warn(error);
@@ -537,7 +537,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         Set<ResourceLocation> dynamicShaders = new HashSet<>();
         for (ShaderProgramImpl program : this.shaders.values()) {
             if (program instanceof DynamicShaderProgramImpl) {
-                dynamicShaders.add(program.getId());
+                dynamicShaders.add(program.getName());
             }
         }
         int activeBuffers = this.dynamicBufferManager.getActiveBuffers();

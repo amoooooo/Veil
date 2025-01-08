@@ -371,7 +371,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
             public void addShaders(ObjIntConsumer<ResourceLocation> registry) {
                 Map<ResourceLocation, ShaderProgram> shaders = VeilRenderSystem.renderer().getShaderManager().getShaders();
                 for (ShaderProgram shader : shaders.values()) {
-                    registry.accept(shader.getId(), shader.getProgram());
+                    registry.accept(shader.getName(), shader.getProgram());
                 }
                 VeilImGuiImpl.get().addImguiShaders(registry);
             }

@@ -17,8 +17,10 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.stage.CompositePostPipeline;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.impl.client.render.pipeline.PostPipelineContext;
 import foundry.veil.platform.VeilClientPlatform;
+import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
@@ -154,7 +156,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
     }
 
     @ApiStatus.Internal
-    public void runPipeline() {
+    public void runDefaultPipeline(@Nullable VeilRenderLevelStageEvent.Stage stage) {
         if (this.activePipelines.isEmpty()) {
             return;
         }
@@ -174,6 +176,11 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
                 this.enabledBuffers |= pipeline.getDynamicBuffersMask();
                 // The buffer hasn't been enabled yet, so wait until next frame
                 if ((renderer.getDynamicBufferManger().getActiveBuffers() & this.enabledBuffers) != this.enabledBuffers) {
+                    continue;
+                }
+
+                // Only draw in the appropriate stage
+                if (pipeline.getRenderStage() != stage) {
                     continue;
                 }
 
@@ -311,7 +318,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
                     break;
                 }
             }
-            data.put(id, new CompositePostPipeline(pipelines.toArray(CompositePostPipeline[]::new), Collections.emptyMap(), Collections.emptyMap(), dynamicBuffers));
+            data.put(id, new CompositePostPipeline(pipelines.toArray(CompositePostPipeline[]::new), Collections.emptyMap(), Collections.emptyMap(), pipelines.getFirst().getRenderStage(), dynamicBuffers));
         }
 
         return data;

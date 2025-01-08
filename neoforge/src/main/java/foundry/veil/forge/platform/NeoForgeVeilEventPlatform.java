@@ -19,6 +19,7 @@ import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.util.Map;
@@ -81,7 +82,7 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
                 return;
             }
 
-            RenderLevelStageEvent.Stage forgeStage = STAGE_MAPPING.get(stage);
+            RenderLevelStageEvent.Stage forgeStage = getForgeStage(stage);
             if (forgeStage != null) {
                 forgeEvent.register(forgeStage, renderType);
             }
@@ -96,7 +97,7 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
     @Override
     public void onVeilRenderLevelStage(VeilRenderLevelStageEvent event) {
         NeoForge.EVENT_BUS.<RenderLevelStageEvent>addListener(forgeEvent -> {
-            VeilRenderLevelStageEvent.Stage stage = STAGE_MAPPING.inverse().get(forgeEvent.getStage());
+            VeilRenderLevelStageEvent.Stage stage = getVeilStage(forgeEvent.getStage());
             if (stage == null) {
                 return;
             }
@@ -117,5 +118,13 @@ public class NeoForgeVeilEventPlatform implements VeilEventPlatform {
     @Override
     public void onVeilShaderCompile(VeilShaderCompileEvent event) {
         this.getModBus().<ForgeVeilShaderCompileEvent>addListener(forgeEvent -> event.onVeilCompileShaders(forgeEvent.getShaderManager(), forgeEvent.getUpdatedPrograms()));
+    }
+
+    public static @Nullable RenderLevelStageEvent.Stage getForgeStage(VeilRenderLevelStageEvent.Stage stage) {
+        return STAGE_MAPPING.get(stage);
+    }
+
+    public static @Nullable VeilRenderLevelStageEvent.Stage getVeilStage(RenderLevelStageEvent.Stage stage) {
+        return STAGE_MAPPING.inverse().get(stage);
     }
 }

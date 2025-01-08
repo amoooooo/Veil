@@ -24,6 +24,6 @@ public class ShaderProgramShard extends RenderStateShard.ShaderStateShard {
     @Override
     public String toString() {
         ShaderProgram shader = this.shader.get();
-        return this.name + "[" + (shader != null ? shader.getId() : "null") + "]";
+        return this.name + "[" + (shader != null ? shader.getName() : "null") + "]";
     }
 }

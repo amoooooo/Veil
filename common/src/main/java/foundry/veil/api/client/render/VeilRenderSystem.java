@@ -16,6 +16,7 @@ import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.api.opencl.VeilOpenCL;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.ext.VertexBufferExtension;
@@ -48,8 +49,6 @@ import java.util.concurrent.Executor;
 import java.util.function.*;
 
 import static org.lwjgl.opengl.GL11C.glGetInteger;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 import static org.lwjgl.opengl.GL30C.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL31C.GL_MAX_UNIFORM_BUFFER_BINDINGS;
 import static org.lwjgl.opengl.GL43C.*;
@@ -348,7 +347,7 @@ public final class VeilRenderSystem {
      * @return The Veil shader instance applied or <code>null</code> if there was an error
      */
     public static @Nullable ShaderProgram setShader(@Nullable ShaderProgram shader) {
-        VeilRenderSystem.shaderLocation = shader != null ? shader.getId() : null;
+        VeilRenderSystem.shaderLocation = shader != null ? shader.getName() : null;
         return VeilRenderSystem.setShader(() -> shader);
     }
 
@@ -894,8 +893,8 @@ public final class VeilRenderSystem {
     }
 
     @ApiStatus.Internal
-    public static void renderPost() {
-        renderer.getPostProcessingManager().runPipeline();
+    public static void renderPost(@Nullable VeilRenderLevelStageEvent.Stage stage) {
+        renderer.getPostProcessingManager().runDefaultPipeline(stage);
     }
 
     @ApiStatus.Internal

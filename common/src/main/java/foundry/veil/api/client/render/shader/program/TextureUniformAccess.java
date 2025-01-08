@@ -88,19 +88,19 @@ public interface TextureUniformAccess {
     /**
      * Loads the samplers set by {@link #addSampler(CharSequence, int)} into the shader.
      *
-     * @param sampler The sampler to start binding to
+     * @param samplerStart The sampler to start binding to
      */
-    default void applyShaderSamplers(int sampler) {
-        this.applyShaderSamplers(ShaderTextureSource.GLOBAL_CONTEXT, sampler);
+    default void applyShaderSamplers(int samplerStart) {
+        this.applyShaderSamplers(ShaderTextureSource.GLOBAL_CONTEXT, samplerStart);
     }
 
     /**
      * Loads the samplers set by {@link #addSampler(CharSequence, int)} into the shader.
      *
      * @param context The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers
-     * @param sampler The sampler to start binding to
+     * @param samplerStart The sampler to start binding to
      */
-    void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int sampler);
+    void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart);
 
     /**
      * Clears all samplers.

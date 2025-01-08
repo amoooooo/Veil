@@ -110,7 +110,7 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
             }
         } catch (IOException e) {
             this.processedShaderSources.clear();
-            Veil.LOGGER.error("Couldn't parse dynamic shader: {}", this.getId(), e);
+            Veil.LOGGER.error("Couldn't parse dynamic shader: {}", this.getName(), e);
         }
     }
 

@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.*;
 import foundry.veil.Veil;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.CameraMatrices;
-import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import imgui.ImGui;
 import imgui.flag.ImGuiWindowFlags;
@@ -51,8 +50,8 @@ public class VeilShaderDefinitionResourceRenderer {
 
     public static void render(ShaderProgram shader, float width, float height) {
         VertexFormat format = Objects.requireNonNull(shader.getFormat());
-        if (!shader.getId().equals(last)) {
-            last = shader.getId();
+        if (!shader.getName().equals(last)) {
+            last = shader.getName();
             valid = true;
         }
 

@@ -50,7 +50,7 @@ public record LayoutSerializer<T>(Field<T>[] fields) implements BiConsumer<T, By
                     String fieldName = name + "." + entry.getKey();
                     int index = glGetProgramResourceIndex(program, fieldInterface, fieldName);
                     if (index == -1) {
-                        Veil.LOGGER.warn("Failed to find buffer field '{}' in shader: {}", fieldName, shader.getId());
+                        Veil.LOGGER.warn("Failed to find buffer field '{}' in shader: {}", fieldName, shader.getName());
                         continue;
                     }
 
@@ -69,13 +69,13 @@ public record LayoutSerializer<T>(Field<T>[] fields) implements BiConsumer<T, By
             String fieldName = name + "." + entry.getKey();
             int index = glGetUniformIndices(program, fieldName);
             if (index == -1) {
-                Veil.LOGGER.warn("Failed to find buffer field '{}' in shader: {}", fieldName, shader.getId());
+                Veil.LOGGER.warn("Failed to find buffer field '{}' in shader: {}", fieldName, shader.getName());
                 continue;
             }
 
             int offset = glGetActiveUniformsi(program, index, GL_UNIFORM_OFFSET);
             if (offset == -1) {
-                Veil.LOGGER.warn("Buffer field '{}' in shader '{}' it not in a uniform block", fieldName, shader.getId());
+                Veil.LOGGER.warn("Buffer field '{}' in shader '{}' it not in a uniform block", fieldName, shader.getName());
                 continue;
             }
 

@@ -3,11 +3,16 @@ package foundry.veil.forge.impl;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilLevelPerspectiveRenderer;
+import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.ext.LevelRendererBlockLayerExtension;
+import foundry.veil.forge.platform.NeoForgeVeilEventPlatform;
 import foundry.veil.mixin.rendertype.accessor.RenderTypeBufferSourceAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -41,7 +46,8 @@ public class ForgeRenderTypeStageHandler {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onRenderLevelStageEnd(RenderLevelStageEvent event) {
-        Set<RenderType> stages = STAGE_RENDER_TYPES.get(event.getStage());
+        RenderLevelStageEvent.Stage stage = event.getStage();
+        Set<RenderType> stages = STAGE_RENDER_TYPES.get(stage);
         if (stages != null) {
             MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
             stages.forEach(renderType -> {
@@ -51,6 +57,16 @@ public class ForgeRenderTypeStageHandler {
                 }
                 bufferSource.endBatch(renderType);
             });
+        }
+
+        if (!VeilLevelPerspectiveRenderer.isRenderingPerspective()) {
+            VeilRenderLevelStageEvent.Stage veilStage = NeoForgeVeilEventPlatform.getVeilStage(stage);
+            if (veilStage != null) {
+                ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
+                profiler.push("post");
+                VeilRenderSystem.renderPost(veilStage);
+                profiler.pop();
+            }
         }
     }
 

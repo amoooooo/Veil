@@ -3,7 +3,9 @@ package foundry.veil.fabric;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import foundry.veil.api.client.render.VeilLevelPerspectiveRenderer;
 import foundry.veil.api.client.render.VeilRenderBridge;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.ext.LevelRendererBlockLayerExtension;
 import foundry.veil.fabric.event.FabricVeilRenderLevelStageEvent;
@@ -45,6 +47,10 @@ public class FabricRenderTypeStageHandler {
     public static void renderStage(LevelRendererBlockLayerExtension extension, ProfilerFiller profiler, VeilRenderLevelStageEvent.Stage stage, LevelRenderer levelRenderer, MultiBufferSource.BufferSource bufferSource, @Nullable PoseStack poseStack, Matrix4fc frustumMatrix, Matrix4fc projectionMatrix, int renderTick, DeltaTracker deltaTracker, Camera camera, Frustum frustum) {
         profiler.push(stage.getName());
         FabricVeilRenderLevelStageEvent.EVENT.invoker().onRenderLevelStage(stage, levelRenderer, bufferSource, VeilRenderBridge.create(poseStack != null ? poseStack : new PoseStack()), frustumMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum);
+        profiler.popPush("post");
+        if (!VeilLevelPerspectiveRenderer.isRenderingPerspective()) {
+            VeilRenderSystem.renderPost(stage);
+        }
         profiler.pop();
 
         Set<RenderType> stages = STAGE_RENDER_TYPES.get(stage);

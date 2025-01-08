@@ -507,9 +507,9 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
     Set<String> getDefinitionDependencies();
 
     /**
-     * @return The id of this program
+     * @return The name of this program
      */
-    ResourceLocation getId();
+    ResourceLocation getName();
 
     /**
      * <p>Wraps this shader with a vanilla Minecraft shader instance wrapper. There are a few special properties about the shader wrapper.</p>

@@ -9,14 +9,13 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferDefinition;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
+import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import gg.moonflower.molangcompiler.api.MolangRuntime;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A pipeline that runs all child pipelines in order.
@@ -24,7 +23,7 @@ import java.util.Map;
 public class CompositePostPipeline implements PostPipeline {
 
     private static final Codec<Map<ResourceLocation, FramebufferDefinition>> FRAMEBUFFER_CODEC = Codec.unboundedMap(
-            ResourceLocation.CODEC.xmap(name -> ResourceLocation.fromNamespaceAndPath("temp", name.getPath()), loc -> loc),
+            Codec.STRING.xmap(name -> ResourceLocation.fromNamespaceAndPath("temp", name), ResourceLocation::getPath),
             FramebufferDefinition.CODEC);
     public static final Codec<CompositePostPipeline> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             PostPipeline.CODEC.listOf().fieldOf("stages").forGetter(pipeline -> Arrays.asList(pipeline.getStages())),
@@ -34,14 +33,16 @@ public class CompositePostPipeline implements PostPipeline {
             CompositePostPipeline.FRAMEBUFFER_CODEC
                     .optionalFieldOf("framebuffers", Collections.emptyMap())
                     .forGetter(CompositePostPipeline::getFramebuffers),
+            VeilRenderLevelStageEvent.Stage.CODEC.optionalFieldOf("renderStage").forGetter(pipeline -> Optional.ofNullable(pipeline.getRenderStage())),
             DynamicBufferType.PACKED_LIST_CODEC.optionalFieldOf("dynamicBuffers", 0).forGetter(CompositePostPipeline::getDynamicBuffersMask),
             Codec.INT.optionalFieldOf("priority", 1000).forGetter(CompositePostPipeline::getPriority),
             Codec.BOOL.optionalFieldOf("replace", false).forGetter(CompositePostPipeline::isReplace)
-    ).apply(instance, (pipelines, textures, framebuffers, dynamicBuffers, priority, replace) -> new CompositePostPipeline(pipelines.toArray(PostPipeline[]::new), textures, framebuffers, dynamicBuffers, priority, replace)));
+    ).apply(instance, (pipelines, textures, framebuffers, renderStage, dynamicBuffers, priority, replace) -> new CompositePostPipeline(pipelines.toArray(PostPipeline[]::new), textures, framebuffers, renderStage.orElse(null), dynamicBuffers, priority, replace)));
 
     private final PostPipeline[] stages;
     private final Map<String, ShaderTextureSource> textures;
     private final Map<ResourceLocation, FramebufferDefinition> framebufferDefinitions;
+    private final VeilRenderLevelStageEvent.Stage renderStage;
     private final Map<ResourceLocation, AdvancedFbo> framebuffers;
     private final DynamicBufferType[] dynamicBuffers;
     private final int dynamicBuffersMask;
@@ -51,10 +52,11 @@ public class CompositePostPipeline implements PostPipeline {
     private int screenWidth = -1;
     private int screenHeight = -1;
 
-    private CompositePostPipeline(PostPipeline[] stages, Map<String, ShaderTextureSource> textures, Map<ResourceLocation, FramebufferDefinition> framebufferDefinitions, int dynamicBuffers, int priority, boolean replace) {
+    private CompositePostPipeline(PostPipeline[] stages, Map<String, ShaderTextureSource> textures, Map<ResourceLocation, FramebufferDefinition> framebufferDefinitions, @Nullable VeilRenderLevelStageEvent.Stage renderStage, int dynamicBuffers, int priority, boolean replace) {
         this.stages = stages;
         this.textures = Collections.unmodifiableMap(textures);
         this.framebufferDefinitions = Collections.unmodifiableMap(framebufferDefinitions);
+        this.renderStage = renderStage;
         this.framebuffers = new HashMap<>();
         this.dynamicBuffers = DynamicBufferType.decode(dynamicBuffers);
         this.dynamicBuffersMask = dynamicBuffers;
@@ -68,10 +70,11 @@ public class CompositePostPipeline implements PostPipeline {
      * @param stages                 The pipelines to run in order
      * @param textures               The textures to bind globally
      * @param framebufferDefinitions The definitions of framebuffers to create for use in the stages
+     * @param renderStage            The stage in the renderer the pipeline should be applied at
      * @param dynamicBuffers         A bit field of all enabled dynamic buffers for this pipeline
      */
-    public CompositePostPipeline(PostPipeline[] stages, Map<String, ShaderTextureSource> textures, Map<ResourceLocation, FramebufferDefinition> framebufferDefinitions, int dynamicBuffers) {
-        this(stages, textures, framebufferDefinitions, dynamicBuffers, 1000, false);
+    public CompositePostPipeline(PostPipeline[] stages, Map<String, ShaderTextureSource> textures, Map<ResourceLocation, FramebufferDefinition> framebufferDefinitions, @Nullable VeilRenderLevelStageEvent.Stage renderStage, int dynamicBuffers) {
+        this(stages, textures, framebufferDefinitions, renderStage, dynamicBuffers, 1000, false);
     }
 
     @Override
@@ -331,6 +334,13 @@ public class CompositePostPipeline implements PostPipeline {
      */
     public DynamicBufferType[] getDynamicBuffers() {
         return this.dynamicBuffers;
+    }
+
+    /**
+     * @return The render stage this pipeline should apply at or <code>null</code> to apply at the default time
+     */
+    public @Nullable VeilRenderLevelStageEvent.Stage getRenderStage() {
+        return this.renderStage;
     }
 
     /**

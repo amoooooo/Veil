@@ -10,7 +10,6 @@ import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
-import java.util.function.BiConsumer;
 
 @ApiStatus.Internal
 public class ShaderTextureCache {
@@ -31,26 +30,18 @@ public class ShaderTextureCache {
         this.bindings = null;
     }
 
-    private void uploadTextures(int start, BiConsumer<Integer, Integer> textureConsumer) {
+    private void uploadTextures(int samplerStart) {
         this.boundSamplers.clear();
 
         int maxSampler = VeilRenderSystem.maxCombinedTextureUnits();
         int count = 1;
         int missingTexture = MissingTextureAtlasSprite.getTexture().getId();
-        textureConsumer.accept(start, missingTexture);
+        this.bindings.put(missingTexture);
 
         ObjectIterator<Object2IntMap.Entry<CharSequence>> iterator = this.textures.object2IntEntrySet().iterator();
         while (iterator.hasNext()) {
             Object2IntMap.Entry<CharSequence> entry = iterator.next();
             CharSequence name = entry.getKey();
-
-            // If there are too many samplers, then refer back to the missing texture
-            int sampler = start + count;
-            if (sampler >= maxSampler) {
-                this.program.setInt(name, 0);
-                Veil.LOGGER.error("Too many samplers were bound for shader (max {}): {}", maxSampler, this.program.getId());
-                break;
-            }
 
             // If the texture is "missing", then refer back to the bound missing texture and remove
             int textureId = entry.getIntValue();
@@ -60,10 +51,21 @@ public class ShaderTextureCache {
                 continue;
             }
 
-            textureConsumer.accept(sampler, textureId);
-            this.program.setInt(name, sampler);
-            this.boundSamplers.put(name, sampler);
+            int sampler = samplerStart + count;
+            if (sampler >= maxSampler) {
+                // If there are too many samplers, then refer back to the missing texture
+                this.program.setInt(name, 0);
+            } else {
+                this.program.setInt(name, sampler);
+                this.bindings.put(textureId);
+                this.boundSamplers.put(name, sampler);
+            }
+
             count++;
+        }
+
+        if (samplerStart + count >= maxSampler) {
+            Veil.LOGGER.error("Too many samplers were bound for shader (max {}): {}", maxSampler, this.program.getName());
         }
 
         Object2IntMap<CharSequence> view = Object2IntMaps.unmodifiable(this.boundSamplers);
@@ -72,7 +74,7 @@ public class ShaderTextureCache {
         }
     }
 
-    public void bind(int start) {
+    public void bind(int samplerStart) {
         if (this.textures.isEmpty()) {
             return;
         }
@@ -86,7 +88,7 @@ public class ShaderTextureCache {
             }
 
             this.bindings.clear();
-            this.uploadTextures(start, (sampler, id) -> this.bindings.put(id));
+            this.uploadTextures(samplerStart);
             this.bindings.flip();
 
             // Delete texture buffer if there aren't any textures
@@ -96,7 +98,7 @@ public class ShaderTextureCache {
             }
         }
         if (this.bindings != null && this.bindings.limit() > 0) {
-            VeilRenderSystem.bindTextures(start, this.bindings);
+            VeilRenderSystem.bindTextures(samplerStart, this.bindings);
         }
     }
 

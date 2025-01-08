@@ -252,7 +252,7 @@ public interface PostPipeline extends MutableUniformAccess, NativeResource {
     interface Context extends ShaderTextureSource.Context {
 
         /**
-         * Binds a named sampler id. All samplers can be applied with {@link #applySamplers(ShaderProgram)} for adding them to shaders.
+         * Binds a named sampler id. All samplers can be applied with {@link #applySamplers(TextureUniformAccess)} for adding them to shaders.
          *
          * @param name The name of the sampler
          * @param id   The id of the texture to bind

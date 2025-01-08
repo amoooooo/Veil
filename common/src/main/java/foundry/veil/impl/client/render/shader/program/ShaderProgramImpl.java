@@ -82,7 +82,7 @@ public class ShaderProgramImpl implements ShaderProgram {
             try {
                 return new Wrapper(this);
             } catch (Exception e) {
-                throw new IllegalStateException("Failed to wrap shader program: " + this.getId(), e);
+                throw new IllegalStateException("Failed to wrap shader program: " + this.getName(), e);
             } finally {
                 Wrapper.constructingProgram = null;
             }
@@ -288,7 +288,7 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     @Override
-    public ResourceLocation getId() {
+    public ResourceLocation getName() {
         return this.id;
     }
 
@@ -347,12 +347,12 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     @Override
-    public void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int sampler) {
+    public void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart) {
         if (context != null) {
             this.textureSources.forEach((name, source) -> this.addSampler(name, source.getId(context)));
         }
 
-        this.textures.bind(sampler);
+        this.textures.bind(samplerStart);
     }
 
     @Override

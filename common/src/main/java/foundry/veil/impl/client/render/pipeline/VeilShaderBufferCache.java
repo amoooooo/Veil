@@ -67,13 +67,13 @@ public class VeilShaderBufferCache implements NativeResource {
 
                     if (this.values[i] == null) {
                         block = LayoutSerializer.create(layout, shader, name, index);
-                        block.getReferencedShaders().add(shader.getId());
+                        block.getReferencedShaders().add(shader.getName());
                         this.values[i] = block;
                         if (packed && shader instanceof ShaderProgramImpl impl) {
                             impl.addShaderBlock(name, block);
                         }
                     } else {
-                        this.values[i].getReferencedShaders().add(shader.getId());
+                        this.values[i].getReferencedShaders().add(shader.getName());
                     }
                     break;
                 }

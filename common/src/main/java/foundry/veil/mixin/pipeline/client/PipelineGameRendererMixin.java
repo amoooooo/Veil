@@ -66,7 +66,7 @@ public class PipelineGameRendererMixin {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V", shift = At.Shift.AFTER))
     public void renderPost(CallbackInfo ci) {
         if (!VeilLevelPerspectiveRenderer.isRenderingPerspective()) {
-            VeilRenderSystem.renderPost();
+            VeilRenderSystem.renderPost(null);
         }
     }
 

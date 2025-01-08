@@ -1,5 +1,7 @@
 package foundry.veil.api.event;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import foundry.veil.api.client.render.MatrixStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
@@ -8,7 +10,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import org.joml.Matrix4fc;
 
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Fired for each render stage to draw arbitrarily to the screen. This is available as a last-resort if {@link VeilRegisterFixedBuffersEvent} doesn't fit the use case.
@@ -52,6 +56,17 @@ public interface VeilRenderLevelStageEvent {
         AFTER_PARTICLES,
         AFTER_WEATHER,
         AFTER_LEVEL;
+
+        private static final Stage[] VALUES = values();
+
+        public static final Codec<Stage> CODEC = Codec.STRING.flatXmap(name -> {
+            for (Stage stage : VALUES) {
+                if (stage.getName().equals(name)) {
+                    return DataResult.success(stage);
+                }
+            }
+            return DataResult.error(() -> "Unknown render stage: " + name + ". Valid stages: " + Arrays.stream(VALUES).map(Stage::getName).collect(Collectors.joining(", ")));
+        }, stage -> DataResult.success(stage.getName()));
 
         private final String name;
 
