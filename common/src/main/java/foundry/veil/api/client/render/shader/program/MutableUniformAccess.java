@@ -1,10 +1,5 @@
 package foundry.veil.api.client.render.shader.program;
 
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
-import foundry.veil.api.client.render.VeilRenderSystem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Direction;
 import org.joml.*;
 
@@ -18,34 +13,6 @@ import java.lang.Math;
 public interface MutableUniformAccess extends UniformAccess {
 
     Direction[] DIRECTIONS = Direction.values();
-
-    /**
-     * Sets default uniforms based on what {@link RenderSystem} provides.
-     */
-    default void applyRenderSystem() {
-        this.setMatrix("ModelViewMat", RenderSystem.getModelViewMatrix());
-        this.setMatrix("ProjMat", RenderSystem.getProjectionMatrix());
-        this.setVector("ColorModulator", RenderSystem.getShaderColor());
-        this.setFloat("GlintAlpha", RenderSystem.getShaderGlintAlpha());
-        this.setFloat("FogStart", RenderSystem.getShaderFogStart());
-        this.setFloat("FogEnd", RenderSystem.getShaderFogEnd());
-        this.setVector("FogColor", RenderSystem.getShaderFogColor());
-        this.setInt("FogShape", RenderSystem.getShaderFogShape().getIndex());
-        this.setMatrix("TextureMatrix", RenderSystem.getTextureMatrix());
-        this.setFloat("GameTime", RenderSystem.getShaderGameTime());
-        Window window = Minecraft.getInstance().getWindow();
-        this.setVector("ScreenSize", window.getWidth(), window.getHeight());
-        this.setVector("Light0_Direction", VeilRenderSystem.getLight0Direction());
-        this.setVector("Light1_Direction", VeilRenderSystem.getLight1Direction());
-
-        // TODO move to uniform block
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level != null) {
-            for (int i = 0; i < DIRECTIONS.length; i++) {
-                this.setFloat("VeilBlockFaceBrightness[" + i + "]", level.getShade(DIRECTIONS[i], true));
-            }
-        }
-    }
 
     /**
      * Sets the binding to use for the specified uniform block.

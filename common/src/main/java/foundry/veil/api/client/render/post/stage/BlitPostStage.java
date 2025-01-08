@@ -1,5 +1,7 @@
 package foundry.veil.api.client.render.post.stage;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,6 +12,7 @@ import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
@@ -66,10 +69,9 @@ public class BlitPostStage extends FramebufferPostStage {
         }
 
         shader.bind();
-        shader.applyRenderSystem();
-        shader.addRenderSystemTextures();
         context.applySamplers(shader);
         this.setupFramebuffer(context, shader);
+        shader.toShaderInstance().setDefaultUniforms(VertexFormat.Mode.TRIANGLE_STRIP, RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), Minecraft.getInstance().getWindow());
         shader.applyShaderSamplers(context, 0);
         VeilRenderSystem.drawScreenQuad();
         context.clearSamplers(shader);

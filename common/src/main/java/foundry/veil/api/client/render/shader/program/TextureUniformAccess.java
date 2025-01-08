@@ -1,6 +1,5 @@
 package foundry.veil.api.client.render.shader.program;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
@@ -13,15 +12,6 @@ import org.jetbrains.annotations.Nullable;
  * @author Ocelot
  */
 public interface TextureUniformAccess {
-
-    /**
-     * Applies the {@link RenderSystem} textures to <code>Sampler0</code>-<code>Sampler11</code>.
-     */
-    default void addRenderSystemTextures() {
-        for (int i = 0; i < 12; ++i) {
-            this.addSampler("Sampler" + i, RenderSystem.getShaderTexture(i));
-        }
-    }
 
     /**
      * Sets <code>DiffuseSampler0</code>-<code>DiffuseSamplerMax</code>
@@ -97,7 +87,7 @@ public interface TextureUniformAccess {
     /**
      * Loads the samplers set by {@link #addSampler(CharSequence, int)} into the shader.
      *
-     * @param context The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers
+     * @param context      The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers
      * @param samplerStart The sampler to start binding to
      */
     void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart);

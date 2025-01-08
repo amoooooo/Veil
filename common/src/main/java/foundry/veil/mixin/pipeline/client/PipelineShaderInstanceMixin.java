@@ -30,6 +30,11 @@ public abstract class PipelineShaderInstanceMixin {
 
     @Inject(method = "setDefaultUniforms", at = @At("TAIL"))
     public void setDefaultUniforms(VertexFormat.Mode mode, Matrix4f projectionMatrix, Matrix4f frustrumMatrix, Window window, CallbackInfo ci) {
+        Uniform renderTime = this.getUniform("VeilRenderTime");
+        if (renderTime != null) {
+            renderTime.set((System.currentTimeMillis() % 3_600_000) / 1000.0F);
+        }
+
         Uniform iModelViewMat = this.getUniform("NormalMat");
         if (iModelViewMat != null) {
             iModelViewMat.set(projectionMatrix.normal(new Matrix3f()));
