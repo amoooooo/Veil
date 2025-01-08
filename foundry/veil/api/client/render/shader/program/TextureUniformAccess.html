@@ -145,13 +145,13 @@ loadScripts(document, 'script');</script>
 <div class="block">Adds a listener for sampler updates.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#applyShaderSamplers(int)" class="member-name-link">applyShaderSamplers</a><wbr>(int&nbsp;sampler)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#applyShaderSamplers(int)" class="member-name-link">applyShaderSamplers</a><wbr>(int&nbsp;samplerStart)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#applyShaderSamplers(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context,int)" class="member-name-link">applyShaderSamplers</a><wbr>(<a href="../texture/ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context,
- int&nbsp;sampler)</code></div>
+ int&nbsp;samplerStart)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
 </div>
@@ -258,11 +258,11 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="applyShaderSamplers(int)">
 <h3>applyShaderSamplers</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">applyShaderSamplers</span><wbr><span class="parameters">(int&nbsp;sampler)</span></div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">applyShaderSamplers</span><wbr><span class="parameters">(int&nbsp;samplerStart)</span></div>
 <div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>sampler</code> - The sampler to start binding to</dd>
+<dd><code>samplerStart</code> - The sampler to start binding to</dd>
 </dl>
 </section>
 </li>
@@ -271,12 +271,12 @@ loadScripts(document, 'script');</script>
 <h3>applyShaderSamplers</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">applyShaderSamplers</span><wbr><span class="parameters">(@Nullable
  <a href="../texture/ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context,
- int&nbsp;sampler)</span></div>
+ int&nbsp;samplerStart)</span></div>
 <div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>context</code> - The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers</dd>
-<dd><code>sampler</code> - The sampler to start binding to</dd>
+<dd><code>samplerStart</code> - The sampler to start binding to</dd>
 </dl>
 </section>
 </li>

@@ -117,38 +117,43 @@ extends <a href="../shader/texture/ShaderTextureSource.Context.html" title="inte
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#applySamplers(foundry.veil.api.client.render.shader.program.ShaderProgram)" class="member-name-link">applySamplers</a><wbr>(<a href="../shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&nbsp;shader)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#applySamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)" class="member-name-link">applySamplers</a><wbr>(<a href="../shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a>&nbsp;shader)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Applies each sampler to the specified shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getDrawFramebuffer()" class="member-name-link">getDrawFramebuffer</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getFramebufferOrDraw(net.minecraft.resources.ResourceLocation)" class="member-name-link">getFramebufferOrDraw</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#clearSamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)" class="member-name-link">clearSamplers</a><wbr>(<a href="../shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a>&nbsp;shader)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Removes all post-processing samplers from the specified shader.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getDrawFramebuffer()" class="member-name-link">getDrawFramebuffer</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default <a href="../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getFramebufferOrDraw(net.minecraft.resources.ResourceLocation)" class="member-name-link">getFramebufferOrDraw</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Retrieves a framebuffer by id or the main framebuffer if it doesn't exist.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @Nullable <a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getPipeline(net.minecraft.resources.ResourceLocation)" class="member-name-link">getPipeline</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @Nullable <a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getPipeline(net.minecraft.resources.ResourceLocation)" class="member-name-link">getPipeline</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Retrieves a post pipeline by name.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @Nullable <a href="../shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getShader(net.minecraft.resources.ResourceLocation)" class="member-name-link">getShader</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default @Nullable <a href="../shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#getShader(net.minecraft.resources.ResourceLocation)" class="member-name-link">getShader</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Retrieves a shader by name.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setFramebuffer(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">setFramebuffer</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setFramebuffer(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">setFramebuffer</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
  <a href="../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;framebuffer)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Sets a framebuffer to a name.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setSampler(java.lang.CharSequence,int)" class="member-name-link">setSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setSampler(java.lang.CharSequence,int)" class="member-name-link">setSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;id)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Binds a named sampler id.</div>
 </div>
 </div>
@@ -173,7 +178,7 @@ extends <a href="../shader/texture/ShaderTextureSource.Context.html" title="inte
 <h3>setSampler</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">setSampler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;id)</span></div>
-<div class="block">Binds a named sampler id. All samplers can be applied with <a href="#applySamplers(foundry.veil.api.client.render.shader.program.ShaderProgram)"><code>applySamplers(ShaderProgram)</code></a> for adding them to shaders.</div>
+<div class="block">Binds a named sampler id. All samplers can be applied with <a href="#applySamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)"><code>applySamplers(TextureUniformAccess)</code></a> for adding them to shaders.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - The name of the sampler</dd>
@@ -195,10 +200,21 @@ extends <a href="../shader/texture/ShaderTextureSource.Context.html" title="inte
 </section>
 </li>
 <li>
-<section class="detail" id="applySamplers(foundry.veil.api.client.render.shader.program.ShaderProgram)">
+<section class="detail" id="applySamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)">
 <h3>applySamplers</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">applySamplers</span><wbr><span class="parameters">(<a href="../shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a>&nbsp;shader)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">applySamplers</span><wbr><span class="parameters">(<a href="../shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a>&nbsp;shader)</span></div>
 <div class="block">Applies each sampler to the specified shader.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>shader</code> - The shader to apply the samplers to</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="clearSamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)">
+<h3>clearSamplers</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">clearSamplers</span><wbr><span class="parameters">(<a href="../shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a>&nbsp;shader)</span></div>
+<div class="block">Removes all post-processing samplers from the specified shader.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shader</code> - The shader to apply the samplers to</dd>

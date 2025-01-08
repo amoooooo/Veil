@@ -701,11 +701,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Sets default uniforms based on what <code>RenderSystem</code> provides.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/post/PostPipeline.Context.html#applySamplers(foundry.veil.api.client.render.shader.program.ShaderProgram)" class="member-name-link">applySamplers(ShaderProgram)</a> - Method in interface foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></dt>
+<dt><a href="foundry/veil/api/client/render/post/PostPipeline.Context.html#applySamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)" class="member-name-link">applySamplers(TextureUniformAccess)</a> - Method in interface foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></dt>
 <dd>
 <div class="block">Applies each sampler to the specified shader.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html#applySamplers(foundry.veil.api.client.render.shader.program.ShaderProgram)" class="member-name-link">applySamplers(ShaderProgram)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html" title="class in foundry.veil.impl.client.render.pipeline">PostPipelineContext</a></dt>
+<dt><a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html#applySamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)" class="member-name-link">applySamplers(TextureUniformAccess)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html" title="class in foundry.veil.impl.client.render.pipeline">PostPipelineContext</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/MatrixStack.html#applyScale(double)" class="member-name-link">applyScale(double)</a> - Method in interface foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a></dt>
 <dd>
@@ -1481,6 +1481,12 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#clearSamplers()" class="member-name-link">clearSamplers()</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/post/PostPipeline.Context.html#clearSamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)" class="member-name-link">clearSamplers(TextureUniformAccess)</a> - Method in interface foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></dt>
+<dd>
+<div class="block">Removes all post-processing samplers from the specified shader.</div>
+</dd>
+<dt><a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html#clearSamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)" class="member-name-link">clearSamplers(TextureUniformAccess)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html" title="class in foundry.veil.impl.client.render.pipeline">PostPipelineContext</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#clearShader()" class="member-name-link">clearShader()</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#clearShaderBlocks()" class="member-name-link">clearShaderBlocks()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
@@ -1635,6 +1641,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/BlendState.html#CODEC" class="member-name-link">CODEC</a> - Static variable in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/BlendState.html" title="class in foundry.veil.api.client.render">BlendState</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html#CODEC" class="member-name-link">CODEC</a> - Static variable in enum class foundry.veil.api.client.render.dynamicbuffer.<a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.DataType.html#CODEC" class="member-name-link">CODEC</a> - Static variable in enum class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.DataType.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.DataType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.Format.html#CODEC" class="member-name-link">CODEC</a> - Static variable in enum class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.Format.html" title="enum class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition.Format</a></dt>
@@ -1702,6 +1710,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/client/render/shader/texture/ShaderTextureSource.html#CODEC" class="member-name-link">CODEC</a> - Static variable in interface foundry.veil.api.client.render.shader.texture.<a href="foundry/veil/api/client/render/shader/texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/util/VertexFormatCodec.html#CODEC" class="member-name-link">CODEC</a> - Static variable in class foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/VertexFormatCodec.html" title="class in foundry.veil.api.client.util">VertexFormatCodec</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/event/VeilRenderLevelStageEvent.Stage.html#CODEC" class="member-name-link">CODEC</a> - Static variable in enum class foundry.veil.api.event.<a href="foundry/veil/api/event/VeilRenderLevelStageEvent.Stage.html" title="enum class in foundry.veil.api.event">VeilRenderLevelStageEvent.Stage</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/molang/MolangExpressionCodec.html#CODEC" class="member-name-link">CODEC</a> - Static variable in class foundry.veil.api.molang.<a href="foundry/veil/api/molang/MolangExpressionCodec.html" title="class in foundry.veil.api.molang">MolangExpressionCodec</a></dt>
 <dd>&nbsp;</dd>
@@ -1988,7 +1998,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A pipeline that runs all child pipelines in order.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html#%3Cinit%3E(foundry.veil.api.client.render.post.PostPipeline%5B%5D,java.util.Map,java.util.Map)" class="member-name-link">CompositePostPipeline(PostPipeline[], Map&lt;String, ShaderTextureSource&gt;, Map&lt;ResourceLocation, FramebufferDefinition&gt;)</a> - Constructor for class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html" title="class in foundry.veil.api.client.render.post.stage">CompositePostPipeline</a></dt>
+<dt><a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html#%3Cinit%3E(foundry.veil.api.client.render.post.PostPipeline%5B%5D,java.util.Map,java.util.Map,foundry.veil.api.event.VeilRenderLevelStageEvent.Stage,int)" class="member-name-link">CompositePostPipeline(PostPipeline[], Map&lt;String, ShaderTextureSource&gt;, Map&lt;ResourceLocation, FramebufferDefinition&gt;, VeilRenderLevelStageEvent.Stage, int)</a> - Constructor for class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html" title="class in foundry.veil.api.client.render.post.stage">CompositePostPipeline</a></dt>
 <dd>
 <div class="block">Creates a new composite post pipeline that runs all child pipelines in order.</div>
 </dd>
@@ -3187,6 +3197,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/client/render/CachedBufferSource.html#endBatch(net.minecraft.client.renderer.RenderType)" class="member-name-link">endBatch(RenderType)</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/CachedBufferSource.html" title="class in foundry.veil.api.client.render">CachedBufferSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/imgui/VeilImGui.html#endFrame()" class="member-name-link">endFrame()</a> - Method in interface foundry.veil.api.client.imgui.<a href="foundry/veil/api/client/imgui/VeilImGui.html" title="interface in foundry.veil.api.client.imgui">VeilImGui</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/post/PostProcessingManager.html#endFrame()" class="member-name-link">endFrame()</a> - Method in class foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostProcessingManager.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/VeilRenderer.html#endFrame()" class="member-name-link">endFrame()</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#endFrame()" class="member-name-link">endFrame()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
@@ -4968,6 +4982,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderer.html#getDynamicBufferManger()" class="member-name-link">getDynamicBufferManger()</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html#getDynamicBuffers()" class="member-name-link">getDynamicBuffers()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html" title="class in foundry.veil.api.client.render.post.stage">CompositePostPipeline</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html#getDynamicBuffersMask()" class="member-name-link">getDynamicBuffersMask()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html" title="class in foundry.veil.api.client.render.post.stage">CompositePostPipeline</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/dynamicbuffer/DynamicBufferManger.html#getDynamicFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo,boolean)" class="member-name-link">getDynamicFbo(AdvancedFbo, boolean)</a> - Method in class foundry.veil.impl.client.render.dynamicbuffer.<a href="foundry/veil/impl/client/render/dynamicbuffer/DynamicBufferManger.html" title="class in foundry.veil.impl.client.render.dynamicbuffer">DynamicBufferManger</a></dt>
 <dd>
 <div class="block">Creates a dynamic fbo from the specified framebuffer.</div>
@@ -5276,13 +5294,9 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/stage/DepthFunctionPostStage.DepthFunc.html#getId()" class="member-name-link">getId()</a> - Method in enum class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/DepthFunctionPostStage.DepthFunc.html" title="enum class in foundry.veil.api.client.render.post.stage">DepthFunctionPostStage.DepthFunc</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html#getId()" class="member-name-link">getId()</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/emitters/AnchorPoint.html#getId()" class="member-name-link">getId()</a> - Method in class foundry.veil.api.quasar.emitters.<a href="foundry/veil/api/quasar/emitters/AnchorPoint.html" title="class in foundry.veil.api.quasar.emitters">AnchorPoint</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/AdvancedFboImpl.html#getId()" class="member-name-link">getId()</a> - Method in class foundry.veil.impl.client.render.<a href="foundry/veil/impl/client/render/AdvancedFboImpl.html" title="class in foundry.veil.impl.client.render">AdvancedFboImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#getId()" class="member-name-link">getId()</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.ShaderWrapper.html#getId()" class="member-name-link">getId()</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.ShaderWrapper.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.ShaderWrapper</a></dt>
 <dd>&nbsp;</dd>
@@ -5558,6 +5572,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/AdvancedFboTextureAttachment.html#getName()" class="member-name-link">getName()</a> - Method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFboTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboTextureAttachment</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html#getName()" class="member-name-link">getName()</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderManager.html#getName()" class="member-name-link">getName()</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderManager.html" title="class in foundry.veil.api.client.render.shader">ShaderManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/event/VeilRenderLevelStageEvent.Stage.html#getName()" class="member-name-link">getName()</a> - Method in enum class foundry.veil.api.event.<a href="foundry/veil/api/event/VeilRenderLevelStageEvent.Stage.html" title="enum class in foundry.veil.api.event">VeilRenderLevelStageEvent.Stage</a></dt>
@@ -5587,6 +5603,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/resource/VeilResourceAction.html#getName()" class="member-name-link">getName()</a> - Method in interface foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceAction.html" title="interface in foundry.veil.api.resource">VeilResourceAction</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/CompositeReloadListener.html#getName()" class="member-name-link">getName()</a> - Method in class foundry.veil.api.util.<a href="foundry/veil/api/util/CompositeReloadListener.html" title="class in foundry.veil.api.util">CompositeReloadListener</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#getName()" class="member-name-link">getName()</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.ShaderWrapper.html#getName()" class="member-name-link">getName()</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.ShaderWrapper.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.ShaderWrapper</a></dt>
 <dd>&nbsp;</dd>
@@ -5847,6 +5865,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/impl/resource/tree/VeilResourceFolder.html#getRenderResources()" class="member-name-link">getRenderResources()</a> - Method in class foundry.veil.impl.resource.tree.<a href="foundry/veil/impl/resource/tree/VeilResourceFolder.html" title="class in foundry.veil.impl.resource.tree">VeilResourceFolder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/RenderData.html#getRenderRotation()" class="member-name-link">getRenderRotation()</a> - Method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/RenderData.html" title="class in foundry.veil.api.quasar.particle">RenderData</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html#getRenderStage()" class="member-name-link">getRenderStage()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/CompositePostPipeline.html" title="class in foundry.veil.api.client.render.post.stage">CompositePostPipeline</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/compat/IrisCompat.html#getRenderTargets()" class="member-name-link">getRenderTargets()</a> - Method in interface foundry.veil.api.compat.<a href="foundry/veil/api/compat/IrisCompat.html" title="interface in foundry.veil.api.compat">IrisCompat</a></dt>
 <dd>&nbsp;</dd>
@@ -9785,6 +9805,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/definition/ShaderBlock.MemoryLayout.html#PACKED" class="member-name-link">PACKED</a> - Enum constant in enum class foundry.veil.api.client.render.shader.definition.<a href="foundry/veil/api/client/render/shader/definition/ShaderBlock.MemoryLayout.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html#PACKED_LIST_CODEC" class="member-name-link">PACKED_LIST_CODEC</a> - Static variable in enum class foundry.veil.api.client.render.dynamicbuffer.<a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/network/handler/PacketContext.html" class="type-name-link" title="interface in foundry.veil.api.network.handler">PacketContext</a> - Interface in <a href="foundry/veil/api/network/handler/package-summary.html">foundry.veil.api.network.handler</a></dt>
 <dd>
 <div class="block">Common context for packet handling.</div>
@@ -11227,7 +11249,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">A module instance called once per frame.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#renderPost()" class="member-name-link">renderPost()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
+<dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#renderPost(foundry.veil.api.event.VeilRenderLevelStageEvent.Stage)" class="member-name-link">renderPost(VeilRenderLevelStageEvent.Stage)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineGameRendererMixin.html#renderPost(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">renderPost(CallbackInfo)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineGameRendererMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineGameRendererMixin</a></dt>
 <dd>&nbsp;</dd>
@@ -11378,6 +11400,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Resets the animation, stopping it and clearing any defined stages.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/tooltip/anim/TooltipTimelineManager.html#resetTimeline(java.lang.String)" class="member-name-link">resetTimeline(String)</a> - Method in class foundry.veil.api.client.tooltip.anim.<a href="foundry/veil/api/client/tooltip/anim/TooltipTimelineManager.html" title="class in foundry.veil.api.client.tooltip.anim">TooltipTimelineManager</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/VeilRenderer.html#resize(int,int)" class="member-name-link">resize(int, int)</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#resize(int,int)" class="member-name-link">resize(int, int)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
@@ -11727,11 +11751,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Runs a single tick and executes all pending tasks for that time.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/post/PostProcessingManager.html#runDefaultPipeline(foundry.veil.api.event.VeilRenderLevelStageEvent.Stage)" class="member-name-link">runDefaultPipeline(VeilRenderLevelStageEvent.Stage)</a> - Method in class foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostProcessingManager.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/animation/Animation.html#running(P,T,float,float)" class="member-name-link">running(P, T, float, float)</a> - Method in class foundry.veil.api.client.necromancer.animation.<a href="foundry/veil/api/client/necromancer/animation/Animation.html" title="class in foundry.veil.api.client.necromancer.animation">Animation</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/animation/keyframed/KeyframedAnimation.html#running(P,T,float,float)" class="member-name-link">running(P, T, float, float)</a> - Method in class foundry.veil.api.client.necromancer.animation.keyframed.<a href="foundry/veil/api/client/necromancer/animation/keyframed/KeyframedAnimation.html" title="class in foundry.veil.api.client.necromancer.animation.keyframed">KeyframedAnimation</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/post/PostProcessingManager.html#runPipeline()" class="member-name-link">runPipeline()</a> - Method in class foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostProcessingManager.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/PostProcessingManager.html#runPipeline(foundry.veil.api.client.render.post.PostPipeline)" class="member-name-link">runPipeline(PostPipeline)</a> - Method in class foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostProcessingManager.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager</a></dt>
 <dd>
@@ -12227,7 +12251,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineShaderInstanceMixin.html#setDefaultUniforms(com.mojang.blaze3d.vertex.VertexFormat.Mode,org.joml.Matrix4f,org.joml.Matrix4f,com.mojang.blaze3d.platform.Window,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">setDefaultUniforms(VertexFormat.Mode, Matrix4f, Matrix4f, Window, CallbackInfo)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineShaderInstanceMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineShaderInstanceMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferManager.html#setDefinition(net.minecraft.resources.ResourceLocation,foundry.veil.api.client.render.framebuffer.FramebufferDefinition)" class="member-name-link">setDefinition(ResourceLocation, FramebufferDefinition)</a> - Method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferManager.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferManager</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Updates a single framebuffer definition and initializes a new framebuffer.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html#setDepthAttachmentTexture(int)" class="member-name-link">setDepthAttachmentTexture(int)</a> - Method in interface foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></dt>
 <dd>
 <div class="block">Updates the 2D depth texture attachment reference for the specified slot.</div>

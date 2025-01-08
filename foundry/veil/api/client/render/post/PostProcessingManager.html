@@ -179,48 +179,51 @@ implements org.lwjgl.system.NativeResource</span></div>
  @NotNull net.minecraft.util.profiling.ProfilerFiller&nbsp;profilerFiller)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="PostProcessingManager.ProfileEntry.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager.ProfileEntry</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActivePipelines()" class="member-name-link">getActivePipelines</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPipeline(net.minecraft.resources.ResourceLocation)" class="member-name-link">getPipeline</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;pipeline)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Retrieves a post pipeline by name.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;net.minecraft.resources.ResourceLocation&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPipelines()" class="member-name-link">getPipelines</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPostPipelineContext()" class="member-name-link">getPostPipelineContext</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isActive(net.minecraft.resources.ResourceLocation)" class="member-name-link">isActive</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;pipeline)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Checks to see if the specified pipeline is active.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;net.minecraft.resources.ResourceLocation,<wbr><a href="stage/CompositePostPipeline.html" title="class in foundry.veil.api.client.render.post.stage">CompositePostPipeline</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#prepare(net.minecraft.server.packs.resources.ResourceManager,net.minecraft.util.profiling.ProfilerFiller)" class="member-name-link">prepare</a><wbr>(@NotNull net.minecraft.server.packs.resources.ResourceManager&nbsp;resourceManager,
- @NotNull net.minecraft.util.profiling.ProfilerFiller&nbsp;profilerFiller)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(net.minecraft.resources.ResourceLocation)" class="member-name-link">remove</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;pipeline)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Removes the specified pipeline from the active profiles.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runPipeline()" class="member-name-link">runPipeline</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#endFrame()" class="member-name-link">endFrame</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runPipeline(foundry.veil.api.client.render.post.PostPipeline)" class="member-name-link">runPipeline</a><wbr>(<a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a>&nbsp;pipeline)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="PostProcessingManager.ProfileEntry.html" title="class in foundry.veil.api.client.render.post">PostProcessingManager.ProfileEntry</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getActivePipelines()" class="member-name-link">getActivePipelines</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPipeline(net.minecraft.resources.ResourceLocation)" class="member-name-link">getPipeline</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;pipeline)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves a post pipeline by name.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;net.minecraft.resources.ResourceLocation&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPipelines()" class="member-name-link">getPipelines</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPostPipelineContext()" class="member-name-link">getPostPipelineContext</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isActive(net.minecraft.resources.ResourceLocation)" class="member-name-link">isActive</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;pipeline)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks to see if the specified pipeline is active.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected @NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;net.minecraft.resources.ResourceLocation,<wbr><a href="stage/CompositePostPipeline.html" title="class in foundry.veil.api.client.render.post.stage">CompositePostPipeline</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#prepare(net.minecraft.server.packs.resources.ResourceManager,net.minecraft.util.profiling.ProfilerFiller)" class="member-name-link">prepare</a><wbr>(@NotNull net.minecraft.server.packs.resources.ResourceManager&nbsp;resourceManager,
+ @NotNull net.minecraft.util.profiling.ProfilerFiller&nbsp;profilerFiller)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#remove(net.minecraft.resources.ResourceLocation)" class="member-name-link">remove</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;pipeline)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Removes the specified pipeline from the active profiles.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runDefaultPipeline(foundry.veil.api.event.VeilRenderLevelStageEvent.Stage)" class="member-name-link">runDefaultPipeline</a><wbr>(<a href="../../../event/VeilRenderLevelStageEvent.Stage.html" title="enum class in foundry.veil.api.event">VeilRenderLevelStageEvent.Stage</a>&nbsp;stage)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runPipeline(foundry.veil.api.client.render.post.PostPipeline)" class="member-name-link">runPipeline</a><wbr>(<a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a>&nbsp;pipeline)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Applies only the specified pipeline.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runPipeline(foundry.veil.api.client.render.post.PostPipeline,boolean)" class="member-name-link">runPipeline</a><wbr>(<a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a>&nbsp;pipeline,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runPipeline(foundry.veil.api.client.render.post.PostPipeline,boolean)" class="member-name-link">runPipeline</a><wbr>(<a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a>&nbsp;pipeline,
  boolean&nbsp;resolvePost)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Applies only the specified pipeline.</div>
 </div>
 </div>
@@ -335,10 +338,18 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="runPipeline()">
-<h3>runPipeline</h3>
+<section class="detail" id="endFrame()">
+<h3>endFrame</h3>
 <div class="member-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">runPipeline</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">endFrame</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="runDefaultPipeline(foundry.veil.api.event.VeilRenderLevelStageEvent.Stage)">
+<h3>runDefaultPipeline</h3>
+<div class="member-signature"><span class="annotations">@Internal
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">runDefaultPipeline</span><wbr><span class="parameters">(@Nullable
+ <a href="../../../event/VeilRenderLevelStageEvent.Stage.html" title="enum class in foundry.veil.api.event">VeilRenderLevelStageEvent.Stage</a>&nbsp;stage)</span></div>
 </section>
 </li>
 <li>
