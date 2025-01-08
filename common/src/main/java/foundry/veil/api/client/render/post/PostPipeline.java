@@ -6,6 +6,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.client.render.shader.program.TextureUniformAccess;
 import foundry.veil.api.client.render.shader.program.UniformAccess;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import net.minecraft.resources.ResourceLocation;
@@ -271,7 +272,14 @@ public interface PostPipeline extends MutableUniformAccess, NativeResource {
          *
          * @param shader The shader to apply the samplers to
          */
-        void applySamplers(ShaderProgram shader);
+        void applySamplers(TextureUniformAccess shader);
+
+        /**
+         * Removes all post-processing samplers from the specified shader.
+         *
+         * @param shader The shader to apply the samplers to
+         */
+        void clearSamplers(TextureUniformAccess shader);
 
         /**
          * Retrieves a framebuffer by id or the main framebuffer if it doesn't exist.

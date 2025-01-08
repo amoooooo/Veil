@@ -21,7 +21,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>Manages all framebuffers and custom definitions specified in files.
@@ -115,6 +118,12 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
         });
     }
 
+    /**
+     * Updates a single framebuffer definition and initializes a new framebuffer.
+     *
+     * @param name       The name of the framebuffer to set
+     * @param definition The new definition
+     */
     public void setDefinition(ResourceLocation name, FramebufferDefinition definition) {
         Window window = Minecraft.getInstance().getWindow();
         MolangRuntime runtime = MolangRuntime.runtime()

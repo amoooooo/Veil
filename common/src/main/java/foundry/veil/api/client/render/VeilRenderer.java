@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
+
 /**
  * Manages the render pipeline for Veil.
  *
@@ -232,6 +235,24 @@ public class VeilRenderer {
      */
     public GuiInfo getGuiInfo() {
         return this.guiInfo;
+    }
+
+    // Internal Implementation
+
+    @ApiStatus.Internal
+    public void resize(int width, int height) {
+        this.framebufferManager.resizeFramebuffers(width, height);
+        this.dynamicBufferManger.resizeFramebuffers(width, height);
+    }
+
+    @ApiStatus.Internal
+    public void endFrame() {
+        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
+        this.framebufferManager.clear();
+        this.dynamicBufferManger.clear();
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // Manual unbind to restore the default mc state
+
+        this.postProcessingManager.endFrame();
     }
 
     @ApiStatus.Internal

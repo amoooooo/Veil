@@ -8,9 +8,9 @@ import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
+import foundry.veil.api.compat.SodiumCompat;
 import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.ext.ShaderInstanceExtension;
-import foundry.veil.api.compat.SodiumCompat;
 import foundry.veil.mixin.dynamicbuffer.accessor.DynamicBufferGameRendererAccessor;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -97,14 +97,14 @@ public class DynamicBufferManger implements NativeResource {
         return this.activeBuffers;
     }
 
-    public int getBufferTexture(DynamicBufferType type) {
-        if ((this.activeBuffers & type.getMask()) != 0) {
-            int index = Integer.bitCount(this.activeBuffers & (type.getMask() - 1));
+    public int getBufferTexture(DynamicBufferType buffer) {
+        if ((this.activeBuffers & buffer.getMask()) != 0) {
+            int index = Integer.bitCount(this.activeBuffers & (buffer.getMask() - 1));
             int texture = ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$getTexture(index);
             if (texture != -1) {
                 return texture;
             }
-            return this.dynamicBuffers.get(type).textureId;
+            return this.dynamicBuffers.get(buffer).textureId;
         }
         return MissingTextureAtlasSprite.getTexture().getId();
     }

@@ -39,7 +39,9 @@ public class ShaderTextureCache {
         int missingTexture = MissingTextureAtlasSprite.getTexture().getId();
         textureConsumer.accept(start, missingTexture);
 
-        for (Object2IntMap.Entry<CharSequence> entry : this.textures.object2IntEntrySet()) {
+        ObjectIterator<Object2IntMap.Entry<CharSequence>> iterator = this.textures.object2IntEntrySet().iterator();
+        while (iterator.hasNext()) {
+            Object2IntMap.Entry<CharSequence> entry = iterator.next();
             CharSequence name = entry.getKey();
 
             // If there are too many samplers, then refer back to the missing texture
@@ -50,10 +52,11 @@ public class ShaderTextureCache {
                 break;
             }
 
-            // If the texture is "missing", then refer back to the bound missing texture
+            // If the texture is "missing", then refer back to the bound missing texture and remove
             int textureId = entry.getIntValue();
             if (textureId == 0 || textureId == missingTexture) {
                 this.program.setInt(name, 0);
+                iterator.remove();
                 continue;
             }
 
@@ -111,6 +114,7 @@ public class ShaderTextureCache {
 
     public void remove(CharSequence name) {
         if (this.textures.removeInt(name) != 0) {
+            this.textures.put(name, 0);
             this.dirty = true;
         }
     }

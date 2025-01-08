@@ -1,10 +1,14 @@
 package foundry.veil.api.client.render.dynamicbuffer;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
 import foundry.veil.api.glsl.grammar.GlslTypeSpecifier;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public enum DynamicBufferType {
     ALBEDO("Albedo", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA8),
@@ -14,6 +18,22 @@ public enum DynamicBufferType {
     DEBUG("Debug", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA16F);
 
     private static final DynamicBufferType[] BUFFERS = values();
+
+    public static final Codec<DynamicBufferType> CODEC = Codec.STRING.flatXmap(name -> {
+        for (DynamicBufferType buffer : BUFFERS) {
+            if (buffer.getName().equals(name)) {
+                return DataResult.success(buffer);
+            }
+        }
+        return DataResult.error(() -> "Unknown dynamic buffer: " + name + ". Valid buffers: " + Arrays.stream(BUFFERS).map(DynamicBufferType::getName).collect(Collectors.joining(", ")));
+    }, buffer -> DataResult.success(buffer.getName()));
+    public static final Codec<Integer> PACKED_LIST_CODEC = CODEC.listOf().xmap(buffers -> {
+        int mask = 0;
+        for (DynamicBufferType buffer : buffers) {
+            mask |= buffer.mask;
+        }
+        return mask;
+    }, mask -> Arrays.asList(decode(mask)));
 
     private final String name;
     private final String sourceName;

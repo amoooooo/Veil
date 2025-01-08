@@ -4,7 +4,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.client.render.shader.program.TextureUniformAccess;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -55,8 +55,13 @@ public class PostPipelineContext implements PostPipeline.Context {
     }
 
     @Override
-    public void applySamplers(ShaderProgram shader) {
+    public void applySamplers(TextureUniformAccess shader) {
         this.samplers.forEach(shader::addSampler);
+    }
+
+    @Override
+    public void clearSamplers(TextureUniformAccess shader) {
+        this.samplers.keySet().forEach(shader::removeSampler);
     }
 
     @Override

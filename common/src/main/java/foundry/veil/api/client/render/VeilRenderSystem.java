@@ -857,10 +857,7 @@ public final class VeilRenderSystem {
             return;
         }
 
-        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
-        renderer.getFramebufferManager().clear();
-        renderer.getDynamicBufferManger().clear();
-        glBindFramebuffer(GL_FRAMEBUFFER, 0); // Manual unbind to restore the default mc state
+        renderer.endFrame();
 
         UNIFORM_BLOCK_STATE.clear();
         VanillaShaderCompiler.clear();
@@ -879,8 +876,7 @@ public final class VeilRenderSystem {
     @ApiStatus.Internal
     public static void resize(int width, int height) {
         if (renderer != null) {
-            renderer.getFramebufferManager().resizeFramebuffers(width, height);
-            renderer.getDynamicBufferManger().resizeFramebuffers(width, height);
+            renderer.resize(width, height);
         }
     }
 

@@ -12,6 +12,7 @@ import foundry.veil.Veil;
 import foundry.veil.VeilClient;
 import foundry.veil.api.CodecReloadListener;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.stage.CompositePostPipeline;
@@ -48,11 +49,13 @@ import static org.lwjgl.opengl.GL11C.GL_LEQUAL;
 public class PostProcessingManager extends CodecReloadListener<CompositePostPipeline> implements NativeResource {
 
     private static final Comparator<ProfileEntry> PIPELINE_SORTER = Comparator.comparingInt(ProfileEntry::getPriority).reversed();
+    private static final ResourceLocation POST = Veil.veilPath("post");
 
     private final PostPipelineContext context;
     private final List<ProfileEntry> activePipelines;
     private final List<ProfileEntry> activePipelinesView;
-    private final Map<ResourceLocation, PostPipeline> pipelines;
+    private final Map<ResourceLocation, CompositePostPipeline> pipelines;
+    private int enabledBuffers;
 
     /**
      * Creates a new instance of the post-processing manager.
@@ -63,6 +66,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         this.activePipelines = new LinkedList<>();
         this.activePipelinesView = Collections.unmodifiableList(this.activePipelines);
         this.pipelines = new HashMap<>();
+        this.enabledBuffers = 0;
     }
 
     /**
@@ -123,6 +127,12 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         return this.pipelines.get(pipeline);
     }
 
+    @ApiStatus.Internal
+    public void endFrame() {
+        // Disable any buffers that didn't draw this frame
+        VeilRenderSystem.renderer().getDynamicBufferManger().setActiveBuffers(POST, this.enabledBuffers);
+    }
+
     private void setup() {
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(GL_ALWAYS);
@@ -149,7 +159,8 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
             return;
         }
 
-        AdvancedFbo postFramebuffer = VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
+        VeilRenderer renderer = VeilRenderSystem.renderer();
+        AdvancedFbo postFramebuffer = renderer.getFramebufferManager().getFramebuffer(VeilFramebuffers.POST);
         VeilClientPlatform platform = VeilClient.clientPlatform();
         this.context.begin();
         this.setup();
@@ -158,8 +169,14 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         this.activePipelines.sort(PIPELINE_SORTER);
         for (ProfileEntry entry : this.activePipelines) {
             ResourceLocation id = entry.getPipeline();
-            PostPipeline pipeline = this.pipelines.get(id);
+            CompositePostPipeline pipeline = this.pipelines.get(id);
             if (pipeline != null) {
+                this.enabledBuffers |= pipeline.getDynamicBuffersMask();
+                // The buffer hasn't been enabled yet, so wait until next frame
+                if ((renderer.getDynamicBufferManger().getActiveBuffers() & this.enabledBuffers) != this.enabledBuffers) {
+                    continue;
+                }
+
                 platform.preVeilPostProcessing(id, pipeline, this.context);
                 try {
                     pipeline.apply(this.context);
@@ -200,6 +217,15 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
      * @param resolvePost Whether to copy the main buffer into the post framebuffer before running the pipeline
      */
     public void runPipeline(PostPipeline pipeline, boolean resolvePost) {
+        VeilRenderer renderer = VeilRenderSystem.renderer();
+        if (pipeline instanceof CompositePostPipeline compositePostPipeline) {
+            this.enabledBuffers |= compositePostPipeline.getDynamicBuffersMask();
+            // The buffer hasn't been enabled yet, so wait until next frame
+            if ((renderer.getDynamicBufferManger().getActiveBuffers() & this.enabledBuffers) != this.enabledBuffers) {
+                return;
+            }
+        }
+
         this.context.begin();
         this.setup();
         int activeTexture = GlStateManager._getActiveTexture();
@@ -214,8 +240,8 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         RenderSystem.activeTexture(activeTexture);
         this.clear();
         this.context.end();
-        
-        AdvancedFbo postFramebuffer = resolvePost ? VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(VeilFramebuffers.POST) : null;
+
+        AdvancedFbo postFramebuffer = resolvePost ? renderer.getFramebufferManager().getFramebuffer(VeilFramebuffers.POST) : null;
         if (postFramebuffer != null) {
             postFramebuffer.resolveToFramebuffer(
                     Minecraft.getInstance().getMainRenderTarget(),
@@ -275,15 +301,17 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
                 continue;
             }
 
+            int dynamicBuffers = 0;
             pipelines.sort(Comparator.comparingInt(CompositePostPipeline::getPriority));
             for (int i = 0; i < pipelines.size(); i++) {
                 CompositePostPipeline pipeline = pipelines.get(i);
+                dynamicBuffers |= pipeline.getDynamicBuffersMask();
                 if (pipeline.isReplace()) {
                     pipelines = pipelines.subList(0, i + 1);
                     break;
                 }
             }
-            data.put(id, new CompositePostPipeline(pipelines.toArray(CompositePostPipeline[]::new), Collections.emptyMap(), Collections.emptyMap()));
+            data.put(id, new CompositePostPipeline(pipelines.toArray(CompositePostPipeline[]::new), Collections.emptyMap(), Collections.emptyMap(), dynamicBuffers));
         }
 
         return data;
