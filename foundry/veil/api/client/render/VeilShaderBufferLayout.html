@@ -96,14 +96,13 @@ loadScripts(document, 'script');</script>
 <dd><code>T</code> - The type of data the shader block will serialize</dd>
 <dt>Record Components:</dt>
 <dd><code><span id="param-name">name</span></code> - The name of the block. This is the name of the block referenced in the code</dd>
-<dd><code><span id="param-interfaceName">interfaceName</span></code> - The name in GLSL code. If <code>null</code> then the variables do not have a namespace to access them. (<code>fieldname</code> instead of <code>name.fieldname</code>)</dd>
 <dd><code><span id="param-fields">fields</span></code> - Each field and how to serialize it from the java type</dd>
 <dd><code><span id="param-requestedBinding">requestedBinding</span></code> - The user requested binding to use. This will only be respected if the requested buffer type is supported on the hardware</dd>
 <dd><code><span id="param-memoryLayout">memoryLayout</span></code> - The memory layout OpenGL should use</dd>
 <dd><code><span id="param-structSpecifier">structSpecifier</span></code> - The specified for the struct data in the layout</dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">VeilShaderBufferLayout&lt;T&gt;</span>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;interfaceName, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="VeilShaderBufferLayout.FieldSerializer.html" title="interface in foundry.veil.api.client.render">VeilShaderBufferLayout.FieldSerializer</a>&lt;<a href="VeilShaderBufferLayout.html" title="type parameter in VeilShaderBufferLayout">T</a>&gt;&gt;&nbsp;fields, <a href="shader/definition/ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;requestedBinding, <a href="shader/definition/ShaderBlock.MemoryLayout.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a>&nbsp;memoryLayout, <a href="../../glsl/grammar/GlslStructSpecifier.html" title="class in foundry.veil.api.glsl.grammar">GlslStructSpecifier</a>&nbsp;structSpecifier)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">VeilShaderBufferLayout&lt;T&gt;</span>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="VeilShaderBufferLayout.FieldSerializer.html" title="interface in foundry.veil.api.client.render">VeilShaderBufferLayout.FieldSerializer</a>&lt;<a href="VeilShaderBufferLayout.html" title="type parameter in VeilShaderBufferLayout">T</a>&gt;&gt;&nbsp;fields, <a href="shader/definition/ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;requestedBinding, <a href="shader/definition/ShaderBlock.MemoryLayout.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a>&nbsp;memoryLayout, <a href="../../glsl/grammar/GlslStructSpecifier.html" title="class in foundry.veil.api.glsl.grammar">GlslStructSpecifier</a>&nbsp;structSpecifier)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Defines the full layout of a shader block.</div>
 </section>
@@ -139,8 +138,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.lang.String,java.util.Map,foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,foundry.veil.api.client.render.shader.definition.ShaderBlock.MemoryLayout,foundry.veil.api.glsl.grammar.GlslStructSpecifier)" class="member-name-link">VeilShaderBufferLayout</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;interfaceName,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,java.util.Map,foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,foundry.veil.api.client.render.shader.definition.ShaderBlock.MemoryLayout,foundry.veil.api.glsl.grammar.GlslStructSpecifier)" class="member-name-link">VeilShaderBufferLayout</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="VeilShaderBufferLayout.FieldSerializer.html" title="interface in foundry.veil.api.client.render">VeilShaderBufferLayout.FieldSerializer</a>&lt;<a href="VeilShaderBufferLayout.html" title="type parameter in VeilShaderBufferLayout">T</a>&gt;&gt;&nbsp;fields,
  <a href="shader/definition/ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;requestedBinding,
  <a href="shader/definition/ShaderBlock.MemoryLayout.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a>&nbsp;memoryLayout,
@@ -171,7 +169,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a new shader buffer builder.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../glsl/node/GlslNode.html" title="interface in foundry.veil.api.glsl.node">GlslNode</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createNode(boolean)" class="member-name-link">createNode</a><wbr>(boolean&nbsp;shaderStorageSupported)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createNode(boolean,java.lang.String)" class="member-name-link">createNode</a><wbr>(boolean&nbsp;shaderStorageSupported,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;interfaceName)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a GLSL node representation of this layout.</div>
 </div>
@@ -190,34 +189,29 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#interfaceName()" class="member-name-link">interfaceName</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="shader/definition/ShaderBlock.MemoryLayout.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#memoryLayout()" class="member-name-link">memoryLayout</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-interfaceName"><code>interfaceName</code></a> record component.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="shader/definition/ShaderBlock.MemoryLayout.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#memoryLayout()" class="member-name-link">memoryLayout</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-memoryLayout"><code>memoryLayout</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#name()" class="member-name-link">name</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-name"><code>name</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="shader/definition/ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requestedBinding()" class="member-name-link">requestedBinding</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="shader/definition/ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requestedBinding()" class="member-name-link">requestedBinding</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-requestedBinding"><code>requestedBinding</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../glsl/grammar/GlslStructSpecifier.html" title="class in foundry.veil.api.glsl.grammar">GlslStructSpecifier</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#structSpecifier()" class="member-name-link">structSpecifier</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../glsl/grammar/GlslStructSpecifier.html" title="class in foundry.veil.api.glsl.grammar">GlslStructSpecifier</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#structSpecifier()" class="member-name-link">structSpecifier</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-structSpecifier"><code>structSpecifier</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
 </div>
@@ -238,11 +232,9 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String,java.lang.String,java.util.Map,foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,foundry.veil.api.client.render.shader.definition.ShaderBlock.MemoryLayout,foundry.veil.api.glsl.grammar.GlslStructSpecifier)">
+<section class="detail" id="&lt;init&gt;(java.lang.String,java.util.Map,foundry.veil.api.client.render.shader.definition.ShaderBlock.BufferBinding,foundry.veil.api.client.render.shader.definition.ShaderBlock.MemoryLayout,foundry.veil.api.glsl.grammar.GlslStructSpecifier)">
 <h3>VeilShaderBufferLayout</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">VeilShaderBufferLayout</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
- @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;interfaceName,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="VeilShaderBufferLayout.FieldSerializer.html" title="interface in foundry.veil.api.client.render">VeilShaderBufferLayout.FieldSerializer</a>&lt;<a href="VeilShaderBufferLayout.html" title="type parameter in VeilShaderBufferLayout">T</a>&gt;&gt;&nbsp;fields,
  <a href="shader/definition/ShaderBlock.BufferBinding.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.BufferBinding</a>&nbsp;requestedBinding,
  <a href="shader/definition/ShaderBlock.MemoryLayout.html" title="enum class in foundry.veil.api.client.render.shader.definition">ShaderBlock.MemoryLayout</a>&nbsp;memoryLayout,
@@ -251,7 +243,6 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - the value for the <a href="#param-name"><code>name</code></a> record component</dd>
-<dd><code>interfaceName</code> - the value for the <a href="#param-interfaceName"><code>interfaceName</code></a> record component</dd>
 <dd><code>fields</code> - the value for the <a href="#param-fields"><code>fields</code></a> record component</dd>
 <dd><code>requestedBinding</code> - the value for the <a href="#param-requestedBinding"><code>requestedBinding</code></a> record component</dd>
 <dd><code>memoryLayout</code> - the value for the <a href="#param-memoryLayout"><code>memoryLayout</code></a> record component</dd>
@@ -268,13 +259,16 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="createNode(boolean)">
+<section class="detail" id="createNode(boolean,java.lang.String)">
 <h3>createNode</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../glsl/node/GlslNode.html" title="interface in foundry.veil.api.glsl.node">GlslNode</a></span>&nbsp;<span class="element-name">createNode</span><wbr><span class="parameters">(boolean&nbsp;shaderStorageSupported)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../glsl/node/GlslNode.html" title="interface in foundry.veil.api.glsl.node">GlslNode</a></span>&nbsp;<span class="element-name">createNode</span><wbr><span class="parameters">(boolean&nbsp;shaderStorageSupported,
+ @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;interfaceName)</span></div>
 <div class="block">Creates a GLSL node representation of this layout.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>shaderStorageSupported</code> - Whether shader storage blocks are supported and can be attempted</dd>
+<dd><code>interfaceName</code> - The namespace of the shader block in the shader</dd>
 <dt>Returns:</dt>
 <dd>A node for</dd>
 </dl>
@@ -352,18 +346,6 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the value of the <a href="#param-name"><code>name</code></a> record component</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="interfaceName()">
-<h3>interfaceName</h3>
-<div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">interfaceName</span>()</div>
-<div class="block">Returns the value of the <a href="#param-interfaceName"><code>interfaceName</code></a> record component.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the value of the <a href="#param-interfaceName"><code>interfaceName</code></a> record component</dd>
 </dl>
 </section>
 </li>
