@@ -1,12 +1,4 @@
-#veil:buffer veil:camera
-
-float getFov() {
-    return 2.0 * atan(1.0 / VeilCamera.ProjMat[1][1]);
-}
-
-float getAspectRatio() {
-    return VeilCamera.ProjMat[1][1] / VeilCamera.ProjMat[0][0];
-}
+#veil:buffer veil:camera VeilCamera
 
 vec3 viewPosFromDepth(float depth, vec2 uv) {
     float z = depth * 2.0 - 1.0;
