@@ -507,7 +507,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                                     }
 
                                     try {
-                                        impl.updateActiveBuffers(activeBuffers, this.sourceSet, compiler);
+                                        impl.recompile(activeBuffers, this.sourceSet, compiler);
                                     } catch (ShaderException e) {
                                         Veil.LOGGER.error("Failed to update shader active buffers: {}. {}", id, e.getMessage());
                                         String error = e.getGlError();

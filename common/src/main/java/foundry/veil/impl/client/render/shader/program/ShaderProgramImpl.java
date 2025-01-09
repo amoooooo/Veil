@@ -16,10 +16,10 @@ import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import foundry.veil.api.client.util.VertexFormatCodec;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.shader.DummyResource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.client.Minecraft;
@@ -33,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.NativeResource;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -54,29 +55,23 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     public static final VeilShaderSource DUMMY_FRAGMENT_SHADER = new VeilShaderSource(null, "out vec4 fragColor;void main(){fragColor=vec4(1.0);}");
 
-    protected final ResourceLocation id;
-    protected final Int2ObjectMap<CompiledShader> shaders;
-    protected final Int2ObjectMap<CompiledShader> attachedShaders;
-    private final ShaderUniformCache uniforms;
-    private final Map<String, ShaderTextureSource> textureSources;
-    private final Set<String> definitionDependencies;
+    private final ResourceLocation id;
     private final ShaderTextureCache textures;
+    private final Int2ObjectMap<CompiledProgram> programs;
+    private final Map<String, ShaderTextureSource> textureSources;
     private final Object2ObjectMap<CharSequence, ShaderBlock<?>> shaderBlocks;
     private final Supplier<Wrapper> wrapper;
 
     private VertexFormat vertexFormat;
-    protected ProgramDefinition definition;
-    protected int program;
+    private ProgramDefinition definition;
+    private CompiledProgram compiledProgram;
 
     public ShaderProgramImpl(ResourceLocation id) {
         this.id = id;
-        this.shaders = new Int2ObjectArrayMap<>(2);
-        this.attachedShaders = new Int2ObjectArrayMap<>(2);
-        this.uniforms = new ShaderUniformCache(this::getProgram);
         this.textures = new ShaderTextureCache(this);
+        this.programs = new Int2ObjectArrayMap<>(1);
+        this.textureSources = new Object2ObjectArrayMap<>();
         this.shaderBlocks = new Object2ObjectArrayMap<>();
-        this.textureSources = new HashMap<>();
-        this.definitionDependencies = new HashSet<>();
         this.wrapper = Suppliers.memoize(() -> {
             Wrapper.constructingProgram = this;
             try {
@@ -89,173 +84,77 @@ public class ShaderProgramImpl implements ShaderProgram {
         });
     }
 
-    private @Nullable VertexFormat detectVertexFormat() {
-        VertexFormat best = null;
-        int bestElements = 0;
-
-        int activeAttributes = glGetProgrami(this.program, GL_ACTIVE_ATTRIBUTES);
-        Int2ObjectMap<String> names = new Int2ObjectArrayMap<>(activeAttributes);
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer size = stack.mallocInt(1);
-            IntBuffer type = stack.mallocInt(1);
-            for (int i = 0; i < activeAttributes; i++) {
-                String name = glGetActiveAttrib(this.program, i, size, type);
-                names.put(glGetAttribLocation(this.program, name), name);
-            }
-        }
-
-        for (VertexFormat format : VertexFormatCodec.getDefaultFormats().values()) {
-            List<VertexFormatElement> elements = format.getElements();
-            int foundElements = 0;
-            if (elements.size() > activeAttributes) {
-                continue;
-            }
-
-            for (int i = 0; i < elements.size(); i++) {
-                if (!format.getElementName(elements.get(i)).equals(names.get(i))) {
-                    break;
-                }
-                foundElements++;
-            }
-
-            if (foundElements < elements.size()) {
-                continue;
-            }
-
-            if (bestElements <= activeAttributes && foundElements > bestElements) {
-                best = format;
-                bestElements = foundElements;
-            }
-        }
-
-        return best;
-    }
-
-    protected void attachShader(int glType, CompiledShader shader, int activeBuffers) {
-        CompiledShader old = this.shaders.put(DynamicBufferManger.getShaderIndex(glType, activeBuffers), shader);
-        if (old != null) {
-            old.free();
-        }
-        this.attachedShaders.put(glType, shader);
-        glAttachShader(this.program, shader.id());
-    }
-
-    protected void detachShaders() {
-        if (this.program != 0) {
-            for (CompiledShader shader : this.attachedShaders.values()) {
-                glDetachShader(this.program, shader.id());
-            }
-        }
-        this.attachedShaders.clear();
-    }
-
-    protected void clearShader() {
-        this.detachShaders();
-        this.uniforms.clear();
+    /**
+     * Links and applies the specified shader program.
+     *
+     * @param program The program to apply
+     * @throws ShaderException If there is any problem linking the shader
+     */
+    protected void applyProgram(CompiledProgram program) throws ShaderException {
+        program.link(this);
         this.textures.clear();
-        this.textureSources.clear();
-        this.definitionDependencies.clear();
-        this.vertexFormat = null;
+        this.compiledProgram = program;
+        this.vertexFormat = program.detectVertexFormat();
     }
 
-    protected void link() throws ShaderException {
-        this.uniforms.clear();
-        this.textures.clear();
-
-        glLinkProgram(this.program);
-        if (glGetProgrami(this.program, GL_LINK_STATUS) != GL_TRUE) {
-            String log = StringUtils.trim(glGetProgramInfoLog(this.program));
-            throw new ShaderException("Failed to link shader", log);
+    protected void attachShaders(CompiledProgram compiledProgram, ShaderSourceSet sourceSet, ShaderCompiler compiler) throws ShaderException, IOException {
+        Int2ObjectMap<ProgramDefinition.ShaderSource> shaders = this.definition.shaders();
+        for (Int2ObjectMap.Entry<ProgramDefinition.ShaderSource> entry : shaders.int2ObjectEntrySet()) {
+            int glType = entry.getIntKey();
+            ProgramDefinition.ShaderSource source = entry.getValue();
+            compiledProgram.attachShader(glType, compiler.compile(glType, source.sourceType(), sourceSet.getTypeConverter(glType).idToFile(source.location())));
         }
 
-        glValidateProgram(this.program);
-        if (glGetProgrami(this.program, GL_VALIDATE_STATUS) != GL_TRUE) {
-            String log = StringUtils.trim(glGetProgramInfoLog(this.program));
-            Veil.LOGGER.warn("Failed to validate shader ({}) : {}", this.id, log);
-        }
-
-        this.attachedShaders.values().forEach(shader -> {
-            shader.apply(this);
-            this.definitionDependencies.addAll(shader.definitionDependencies());
-        });
-
-        this.vertexFormat = this.detectVertexFormat();
-    }
-
-    protected void compileInternal(int activeBuffers, ShaderSourceSet sourceSet, ShaderCompiler compiler) throws ShaderException, IOException {
-        if (this.program == 0) {
-            this.program = glCreateProgram();
-        }
-
-        try {
-            Int2ObjectMap<ProgramDefinition.ShaderSource> shaders = this.definition.shaders();
-            for (Int2ObjectMap.Entry<ProgramDefinition.ShaderSource> entry : shaders.int2ObjectEntrySet()) {
-                int glType = entry.getIntKey();
-                ProgramDefinition.ShaderSource source = entry.getValue();
-                this.attachShader(glType, compiler.compile(glType, source.sourceType(), sourceSet.getTypeConverter(glType).idToFile(source.location())), activeBuffers);
-            }
-
-            // Fragment shaders aren't strictly necessary if the fragment output isn't used,
-            // however mac shaders don't work without a fragment shader. This adds a "dummy" fragment shader
-            // on mac specifically for all rendering shaders.
-            if (Minecraft.ON_OSX && !shaders.containsKey(GL_COMPUTE_SHADER) && !shaders.containsKey(GL_FRAGMENT_SHADER)) {
-                this.attachShader(GL_FRAGMENT_SHADER, compiler.compile(GL_FRAGMENT_SHADER, ProgramDefinition.SourceType.GLSL, DUMMY_FRAGMENT_SHADER), activeBuffers);
-            }
-
-            this.link();
-        } catch (Exception e) {
-            this.freeInternal(); // F
-            throw e;
+        // Fragment shaders aren't strictly necessary if the fragment output isn't used,
+        // however mac shaders don't work without a fragment shader. This adds a "dummy" fragment shader
+        // on mac specifically for all rendering shaders.
+        if (Minecraft.ON_OSX && !shaders.containsKey(GL_COMPUTE_SHADER) && !shaders.containsKey(GL_FRAGMENT_SHADER)) {
+            compiledProgram.attachShader(GL_FRAGMENT_SHADER, compiler.compile(GL_FRAGMENT_SHADER, ProgramDefinition.SourceType.GLSL, DUMMY_FRAGMENT_SHADER));
         }
     }
 
     public void compile(int activeBuffers, ShaderSourceSet sourceSet, @Nullable ProgramDefinition definition, ShaderCompiler compiler) throws ShaderException, IOException {
         this.definition = definition;
-        this.clearShader();
+        this.recompile(activeBuffers, sourceSet, compiler);
+        // Compilation was successful, so update the state of this program
+        this.textureSources.clear();
         if (this.definition != null) {
             this.textureSources.putAll(this.definition.textures());
         }
-        for (CompiledShader shader : this.shaders.values()) {
-            shader.free();
-        }
-        this.shaders.clear();
-        this.compileInternal(activeBuffers, sourceSet, compiler);
     }
 
-    public boolean setActiveBuffers(int activeBuffers) throws ShaderException {
-        for (int shaderType : this.attachedShaders.keySet()) {
-            if (!this.shaders.containsKey(DynamicBufferManger.getShaderIndex(shaderType, activeBuffers))) {
-                return true;
+    public void recompile(int activeBuffers, ShaderSourceSet sourceSet, ShaderCompiler compiler) throws ShaderException, IOException {
+        CompiledProgram compiledProgram = this.programs.computeIfAbsent(activeBuffers, unused -> CompiledProgram.create());
+        try {
+            this.attachShaders(compiledProgram, sourceSet, compiler);
+            this.applyProgram(compiledProgram);
+        } catch (Exception e) {
+            if (this.compiledProgram == null) {
+                // The initial program failed, so fully fail
+                this.freeInternal();
+            } else {
+                compiledProgram.free();
             }
+            throw e;
         }
-
-        int[] shaders = this.attachedShaders.keySet().toIntArray();
-        this.detachShaders();
-        for (int shaderType : shaders) {
-            CompiledShader shader = this.shaders.get(DynamicBufferManger.getShaderIndex(shaderType, activeBuffers));
-            glAttachShader(this.program, shader.id());
-            this.attachedShaders.put(shaderType, shader);
-        }
-
-        this.link();
-        return false;
     }
 
-    public void updateActiveBuffers(int activeBuffers, ShaderSourceSet sourceSet, ShaderCompiler compiler) throws ShaderException, IOException {
-        this.detachShaders();
-        this.compileInternal(activeBuffers, sourceSet, compiler);
-    }
-
-    protected void freeInternal() {
-        this.clearShader();
-        for (CompiledShader shader : this.shaders.values()) {
-            shader.free();
+    /**
+     * Sets the active buffers for this shader
+     *
+     * @param activeBuffers The new active buffers
+     * @return Whether this shader needs to be scheduled for a recompilation
+     * @throws ShaderException If there is any problem linking the shader
+     */
+    public boolean setActiveBuffers(int activeBuffers) throws ShaderException {
+        CompiledProgram compiledProgram = this.programs.get(activeBuffers);
+        if (compiledProgram != null) {
+            if (this.compiledProgram != compiledProgram) {
+                this.applyProgram(compiledProgram);
+            }
+            return false;
         }
-        this.shaders.clear();
-        if (this.program > 0) {
-            glDeleteProgram(this.program);
-            this.program = 0;
-        }
+        return true;
     }
 
     @Override
@@ -267,6 +166,16 @@ public class ShaderProgramImpl implements ShaderProgram {
         ShaderProgram.super.bind();
     }
 
+    private void freeInternal() {
+        this.textures.clear();
+        for (CompiledProgram program : this.programs.values()) {
+            program.free();
+        }
+        this.vertexFormat = null;
+        this.definition = null;
+        this.compiledProgram = null;
+    }
+
     @Override
     public void free() {
         this.freeInternal();
@@ -274,7 +183,7 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public Int2ObjectMap<CompiledShader> getShaders() {
-        return this.attachedShaders;
+        return this.compiledProgram != null ? this.compiledProgram.shaders : Int2ObjectMaps.emptyMap();
     }
 
     @Override
@@ -284,7 +193,7 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public Set<String> getDefinitionDependencies() {
-        return this.definitionDependencies;
+        return this.compiledProgram != null ? this.compiledProgram.definitionDependencies : Collections.emptySet();
     }
 
     @Override
@@ -299,49 +208,49 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public int getUniform(CharSequence name) {
-        if (this.program == 0) {
+        if (this.compiledProgram == null) {
             return -1;
         }
-        ShaderUniformCache.Uniform uniform = this.uniforms.getUniform(name);
+        ShaderUniformCache.Uniform uniform = this.compiledProgram.uniforms.getUniform(name);
         return uniform != null ? uniform.location() : -1;
     }
 
     @Override
     public boolean hasUniform(CharSequence name) {
-        return this.program != 0 && this.uniforms.hasUniform(name.toString());
+        return this.compiledProgram != null && this.compiledProgram.uniforms.hasUniform(name.toString());
     }
 
     @Override
     public int getUniformBlock(CharSequence name) {
-        if (this.program == 0) {
+        if (this.compiledProgram == null) {
             return GL_INVALID_INDEX;
         }
-        ShaderUniformCache.UniformBlock block = this.uniforms.getUniformBlock(name.toString());
+        ShaderUniformCache.UniformBlock block = this.compiledProgram.uniforms.getUniformBlock(name.toString());
         return block != null ? block.index() : GL_INVALID_INDEX;
     }
 
     @Override
     public boolean hasUniformBlock(CharSequence name) {
-        return this.program != 0 && this.uniforms.hasUniformBlock(name.toString());
+        return this.compiledProgram != null && this.compiledProgram.uniforms.hasUniformBlock(name.toString());
     }
 
     @Override
     public int getStorageBlock(CharSequence name) {
-        if (this.program == 0) {
+        if (this.compiledProgram == null) {
             return GL_INVALID_INDEX;
         }
-        ShaderUniformCache.StorageBlock block = this.uniforms.getStorageBlock(name.toString());
+        ShaderUniformCache.StorageBlock block = this.compiledProgram.uniforms.getStorageBlock(name.toString());
         return block != null ? block.index() : GL_INVALID_INDEX;
     }
 
     @Override
     public boolean hasStorageBlock(CharSequence name) {
-        return this.program != 0 && this.uniforms.hasStorageBlock(name.toString());
+        return this.compiledProgram != null && this.compiledProgram.uniforms.hasStorageBlock(name.toString());
     }
 
     @Override
     public int getProgram() {
-        return this.program;
+        return this.compiledProgram != null ? this.compiledProgram.program : 0;
     }
 
     @Override
@@ -370,7 +279,7 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public void addSampler(CharSequence name, int textureId) {
-        if (this.uniforms.hasSampler(name.toString())) {
+        if (this.compiledProgram != null && this.compiledProgram.uniforms.hasSampler(name.toString())) {
             this.textures.put(name, textureId);
         }
     }
@@ -391,6 +300,104 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     public void clearShaderBlocks() {
         this.shaderBlocks.clear();
+    }
+
+    public record CompiledProgram(int program,
+                                  Int2ObjectMap<CompiledShader> shaders,
+                                  Int2ObjectMap<CompiledShader> shadersView,
+                                  ShaderUniformCache uniforms,
+                                  Set<String> definitionDependencies) implements NativeResource {
+
+        public static CompiledProgram create() {
+            int program = glCreateProgram();
+            Int2ObjectMap<CompiledShader> shaders = new Int2ObjectArrayMap<>(2);
+            Int2ObjectMap<CompiledShader> shadersView = Int2ObjectMaps.unmodifiable(shaders);
+            ShaderUniformCache uniforms = new ShaderUniformCache(() -> program);
+            Set<String> definitionDependencies = new HashSet<>();
+            return new CompiledProgram(program, shaders, shadersView, uniforms, definitionDependencies);
+        }
+
+        public void attachShader(int glType, CompiledShader shader) {
+            CompiledShader old = this.shaders.put(glType, shader);
+            if (old != null) {
+                old.free();
+            }
+            glAttachShader(this.program, shader.id());
+        }
+
+        public @Nullable VertexFormat detectVertexFormat() {
+            VertexFormat best = null;
+            int bestElements = 0;
+
+            int activeAttributes = glGetProgrami(this.program, GL_ACTIVE_ATTRIBUTES);
+            Int2ObjectMap<String> names = new Int2ObjectArrayMap<>(activeAttributes);
+            try (MemoryStack stack = MemoryStack.stackPush()) {
+                IntBuffer size = stack.mallocInt(1);
+                IntBuffer type = stack.mallocInt(1);
+                for (int i = 0; i < activeAttributes; i++) {
+                    String name = glGetActiveAttrib(this.program, i, size, type);
+                    names.put(glGetAttribLocation(this.program, name), name);
+                }
+            }
+
+            for (VertexFormat format : VertexFormatCodec.getDefaultFormats().values()) {
+                List<VertexFormatElement> elements = format.getElements();
+                int foundElements = 0;
+                if (elements.size() > activeAttributes) {
+                    continue;
+                }
+
+                for (int i = 0; i < elements.size(); i++) {
+                    if (!format.getElementName(elements.get(i)).equals(names.get(i))) {
+                        break;
+                    }
+                    foundElements++;
+                }
+
+                if (foundElements < elements.size()) {
+                    continue;
+                }
+
+                if (bestElements <= activeAttributes && foundElements > bestElements) {
+                    best = format;
+                    bestElements = foundElements;
+                }
+            }
+
+            return best;
+        }
+
+        public void link(ShaderProgram shaderProgram) throws ShaderException {
+            glLinkProgram(this.program);
+            if (glGetProgrami(this.program, GL_LINK_STATUS) != GL_TRUE) {
+                String log = StringUtils.trim(glGetProgramInfoLog(this.program));
+                throw new ShaderException("Failed to link shader", log);
+            }
+
+            glValidateProgram(this.program);
+            if (glGetProgrami(this.program, GL_VALIDATE_STATUS) != GL_TRUE) {
+                String log = StringUtils.trim(glGetProgramInfoLog(this.program));
+                Veil.LOGGER.warn("Failed to validate shader ({}) : {}", shaderProgram.getName(), log);
+            }
+
+            this.uniforms.clear();
+            this.definitionDependencies.clear();
+            this.shaders.values().forEach(shader -> {
+                shader.apply(shaderProgram);
+                this.definitionDependencies.addAll(shader.definitionDependencies());
+            });
+        }
+
+        @Override
+        public void free() {
+            for (CompiledShader shader : this.shaders.values()) {
+                shader.free();
+            }
+            this.shaders.clear();
+            glDeleteProgram(this.program);
+            this.uniforms.clear();
+            this.definitionDependencies.clear();
+        }
     }
 
     /**

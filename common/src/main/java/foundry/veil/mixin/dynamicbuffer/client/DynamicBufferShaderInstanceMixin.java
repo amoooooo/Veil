@@ -1,6 +1,5 @@
 package foundry.veil.mixin.dynamicbuffer.client;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
@@ -8,11 +7,11 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
-import foundry.veil.mixin.dynamicbuffer.accessor.DynamicBufferProgramAccessor;
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,6 +38,7 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
     @Final
     private Program fragmentProgram;
 
+    @Mutable
     @Shadow
     @Final
     private int programId;
@@ -46,9 +46,6 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
     @Shadow
     @Final
     private VertexFormat vertexFormat;
-
-    @Shadow
-    protected abstract void updateLocations();
 
     @Shadow
     @Final
@@ -65,6 +62,10 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
     @Shadow
     @Final
     private String name;
+
+    @Shadow
+    protected abstract void updateLocations();
+
     @Unique
     private String veil$vertexSource;
     @Unique
@@ -72,7 +73,12 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
     @Unique
     private int veil$activeBuffers;
     @Unique
-    private final Int2ObjectMap<Program> veil$programCache = new Int2ObjectArrayMap<>(2);
+    private final Int2IntMap veil$programCache = new Int2IntArrayMap(1);
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void init(ResourceProvider resourceProvider, String name, VertexFormat vertexFormat, CallbackInfo ci) {
+        this.veil$programCache.put(0, this.programId);
+    }
 
     @Inject(method = "apply", at = @At("HEAD"))
     public void apply(CallbackInfo ci) {
@@ -90,12 +96,11 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
             return;
         }
 
-        // Swap out the shaders before vanilla mc tries to delete them
-        this.vertexProgram = this.veil$programCache.remove(0);
-        this.fragmentProgram = this.veil$programCache.remove(1);
+        // Swap out the program before vanilla mc tries to delete them
+        this.programId = this.veil$programCache.remove(0);
         // Delete all extra shaders created by veil
-        for (Program program : this.veil$programCache.values()) {
-            glDeleteShader(((DynamicBufferProgramAccessor) program).getId());
+        for (int program : this.veil$programCache.values()) {
+            glDeleteProgram(program);
         }
         this.veil$programCache.clear();
     }
@@ -103,32 +108,55 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
     @Unique
     private void veil$applyCompile() {
         if (this.veil$vertexSource != null && this.veil$fragmentSource != null) {
+            int programId = glCreateProgram();
+            int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+            int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+
             try {
-                Program vertexProgram = this.veil$programCache.computeIfAbsent(this.veil$activeBuffers << 1, unused -> new Program(Program.Type.VERTEX, GlStateManager.glCreateShader(GL_VERTEX_SHADER), this.vertexProgram.getName()));
-                Program fragmentProgram = this.veil$programCache.computeIfAbsent((this.veil$activeBuffers << 1) + 1, unused -> new Program(Program.Type.FRAGMENT, GlStateManager.glCreateShader(GL_FRAGMENT_SHADER), this.fragmentProgram.getName()));
-
-                DynamicBufferProgramAccessor vertexAccessor = (DynamicBufferProgramAccessor) vertexProgram;
-                DynamicBufferProgramAccessor fragmentAccessor = (DynamicBufferProgramAccessor) fragmentProgram;
-                int vertexShader = vertexAccessor.getId();
-                int fragmentShader = fragmentAccessor.getId();
-
                 glShaderSource(vertexShader, this.veil$vertexSource);
                 glCompileShader(vertexShader);
                 if (glGetShaderi(vertexShader, GL_COMPILE_STATUS) != GL_TRUE) {
                     String error = StringUtils.trim(glGetShaderInfoLog(vertexShader));
-                    throw new IOException("Couldn't compile vertex program (" + vertexProgram.getName() + ", " + this.name + ") : " + error);
+                    throw new IOException("Couldn't compile dynamic vertex program (" + this.vertexProgram.getName() + ", " + this.name + ") : " + error);
                 }
 
                 glShaderSource(fragmentShader, this.veil$fragmentSource);
                 glCompileShader(fragmentShader);
                 if (glGetShaderi(fragmentShader, GL_COMPILE_STATUS) != GL_TRUE) {
                     String error = StringUtils.trim(glGetShaderInfoLog(fragmentShader));
-                    throw new IOException("Couldn't compile fragment program (" + fragmentProgram.getName() + ", " + this.name + ") : " + error);
+                    throw new IOException("Couldn't compile dynamic fragment program (" + this.fragmentProgram.getName() + ", " + this.name + ") : " + error);
                 }
 
-                this.veil$link(vertexProgram, fragmentProgram);
+                glAttachShader(programId, vertexShader);
+                glAttachShader(programId, fragmentShader);
+
+                int index = 0;
+                for (String name : this.vertexFormat.getElementAttributeNames()) {
+                    glBindAttribLocation(programId, index, name);
+                    index++;
+                }
+
+                glLinkProgram(programId);
+                if (glGetProgrami(programId, GL_LINK_STATUS) != GL_TRUE) {
+                    String error = StringUtils.trim(glGetProgramInfoLog(programId));
+                    throw new IOException("Couldn't link shader (" + this.name + ") : " + error);
+                }
+
+                this.programId = programId;
+                this.veil$invalidate();
+
+                // This is a *bit* of a waste, but it's more compatible than trying to attach new shaders to the program
+                int old = this.veil$programCache.put(this.veil$activeBuffers, programId);
+                if (old != 0) {
+                    glDeleteProgram(old);
+                }
             } catch (Throwable t) {
+                this.veil$programCache.remove(this.veil$activeBuffers);
+                glDeleteProgram(programId);
                 Veil.LOGGER.error("Failed to recompile vanilla shader: {}", this.name, t);
+            } finally {
+                glDeleteShader(vertexShader);
+                glDeleteShader(fragmentShader);
             }
             this.veil$vertexSource = null;
             this.veil$fragmentSource = null;
@@ -136,26 +164,7 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
     }
 
     @Unique
-    private void veil$link(Program vertexProgram, Program fragmentProgram) throws IOException {
-        glDetachShader(this.programId, ((DynamicBufferProgramAccessor) this.vertexProgram).getId());
-        glDetachShader(this.programId, ((DynamicBufferProgramAccessor) this.fragmentProgram).getId());
-        this.vertexProgram = vertexProgram;
-        this.fragmentProgram = fragmentProgram;
-        vertexProgram.attachToShader(this);
-        fragmentProgram.attachToShader(this);
-
-        int index = 0;
-        for (String name : this.vertexFormat.getElementAttributeNames()) {
-            glBindAttribLocation(this.programId, index, name);
-            index++;
-        }
-
-        glLinkProgram(this.programId);
-        if (glGetProgrami(this.programId, GL_LINK_STATUS) != GL_TRUE) {
-            String error = StringUtils.trim(glGetProgramInfoLog(this.programId));
-            throw new IOException("Couldn't link shader (" + this.name + ") : " + error);
-        }
-
+    private void veil$invalidate() {
         this.uniformLocations.clear();
         this.samplerLocations.clear();
         this.uniformMap.clear();
@@ -181,15 +190,11 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
 
         // This makes sure shaders aren't recompiled multiple times
         this.veil$applyCompile();
-        Program vertexProgram = this.veil$programCache.get(activeBuffers << 1);
-        Program fragmentProgram = this.veil$programCache.get((activeBuffers << 1) + 1);
-        if (vertexProgram != null && fragmentProgram != null) {
+        int programId = this.veil$programCache.get(activeBuffers);
+        if (programId != 0) {
             this.veil$activeBuffers = activeBuffers;
-            try {
-                this.veil$link(vertexProgram, fragmentProgram);
-            } catch (Throwable t) {
-                Veil.LOGGER.error("Failed to swap vanilla shader: {}", this.name, t);
-            }
+            this.programId = programId;
+            this.veil$invalidate();
             return false;
         }
         return true;
@@ -202,10 +207,6 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
             this.veil$fragmentSource = null;
         }
 
-        if (this.veil$activeBuffers == 0) {
-            this.veil$programCache.put(0, this.vertexProgram);
-            this.veil$programCache.put(1, this.fragmentProgram);
-        }
         this.veil$activeBuffers = activeBuffers;
         if (vertex) {
             this.veil$vertexSource = source;
