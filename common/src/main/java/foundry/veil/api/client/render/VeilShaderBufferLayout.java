@@ -20,7 +20,6 @@ import java.util.function.Function;
  * Defines the full layout of a shader block.
  *
  * @param name             The name of the block. This is the name of the block referenced in the code
- * @param interfaceName    The name in GLSL code. If <code>null</code> then the variables do not have a namespace to access them. (<code>fieldname</code> instead of <code>name.fieldname</code>)
  * @param fields           Each field and how to serialize it from the java type
  * @param requestedBinding The user requested binding to use. This will only be respected if the requested buffer type is supported on the hardware
  * @param memoryLayout     The memory layout OpenGL should use
@@ -28,7 +27,6 @@ import java.util.function.Function;
  * @param <T>              The type of data the shader block will serialize
  */
 public record VeilShaderBufferLayout<T>(String name,
-                                        @Nullable String interfaceName,
                                         Map<String, FieldSerializer<T>> fields,
                                         ShaderBlock.BufferBinding requestedBinding,
                                         ShaderBlock.MemoryLayout memoryLayout,
@@ -38,9 +36,10 @@ public record VeilShaderBufferLayout<T>(String name,
      * Creates a GLSL node representation of this layout.
      *
      * @param shaderStorageSupported Whether shader storage blocks are supported and can be attempted
+     * @param interfaceName          The namespace of the shader block in the shader
      * @return A node for
      */
-    public GlslNode createNode(boolean shaderStorageSupported) {
+    public GlslNode createNode(boolean shaderStorageSupported, @Nullable String interfaceName) {
         GlslTypeQualifier.StorageType storageType = switch (this.requestedBinding) {
             case UNIFORM -> GlslTypeQualifier.StorageType.UNIFORM;
             case SHADER_STORAGE ->
@@ -49,8 +48,8 @@ public record VeilShaderBufferLayout<T>(String name,
 
         GlslSpecifiedType structSpecifier = new GlslSpecifiedType(this.structSpecifier, GlslTypeQualifier.layout(this.memoryLayout.getLayoutId()), storageType);
         GlslNode node;
-        if (this.interfaceName != null) {
-            node = new GlslNewNode(structSpecifier, this.interfaceName, null);
+        if (interfaceName != null) {
+            node = new GlslNewNode(structSpecifier, interfaceName, null);
         } else {
             node = new GlslStructNode(structSpecifier);
         }
@@ -67,7 +66,7 @@ public record VeilShaderBufferLayout<T>(String name,
     /**
      * Creates a new shader buffer builder.
      *
-     * @param <T>  The type of data the shader block will serialize
+     * @param <T> The type of data the shader block will serialize
      * @return A new builder for creating a block
      */
     public static <T> Builder<T> builder() {
@@ -105,7 +104,6 @@ public record VeilShaderBufferLayout<T>(String name,
         private final Map<String, FieldSerializer<T>> fields;
         private ShaderBlock.BufferBinding binding;
         private ShaderBlock.MemoryLayout memoryLayout;
-        private String interfaceName;
 
         public Builder() {
             this.name = "VeilBuffer" + Long.hashCode(System.currentTimeMillis());
@@ -113,7 +111,6 @@ public record VeilShaderBufferLayout<T>(String name,
             this.fields = new Object2ObjectArrayMap<>();
             this.binding = ShaderBlock.BufferBinding.UNIFORM;
             this.memoryLayout = ShaderBlock.MemoryLayout.SHARED;
-            this.interfaceName = null;
         }
 
         public Builder<T> binding(ShaderBlock.BufferBinding binding) {
@@ -123,11 +120,6 @@ public record VeilShaderBufferLayout<T>(String name,
 
         public Builder<T> memoryLayout(ShaderBlock.MemoryLayout memoryLayout) {
             this.memoryLayout = memoryLayout;
-            return this;
-        }
-
-        public Builder<T> interfaceName(@Nullable String interfaceName) {
-            this.interfaceName = interfaceName;
             return this;
         }
 
@@ -405,7 +397,7 @@ public record VeilShaderBufferLayout<T>(String name,
             if (this.fields.isEmpty()) {
                 throw new IllegalArgumentException("At least 1 field must be defined in a shader block");
             }
-            return new VeilShaderBufferLayout<>(this.name, this.interfaceName, Collections.unmodifiableMap(this.fields), this.binding, this.memoryLayout, new GlslStructSpecifier(this.name, this.structFields));
+            return new VeilShaderBufferLayout<>(this.name, Collections.unmodifiableMap(this.fields), this.binding, this.memoryLayout, new GlslStructSpecifier(this.name, this.structFields));
         }
 
         /**

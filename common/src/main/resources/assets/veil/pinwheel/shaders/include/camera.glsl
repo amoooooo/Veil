@@ -1,2 +1,2 @@
-#veil:buffer veil:camera
-#veil:deprecated Use `#veil:buffer veil:camera` instead
+#veil:buffer veil:camera VeilCamera
+#veil:deprecated Use `#veil:buffer veil:camera VeilCamera` instead

@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.editor;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.CodeEditor;
@@ -11,18 +12,15 @@ import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.compat.IrisCompat;
 import foundry.veil.api.compat.SodiumCompat;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
+import foundry.veil.impl.client.render.shader.program.ShaderUniformCache;
 import foundry.veil.mixin.debug.accessor.DebugGameRendererAccessor;
 import foundry.veil.mixin.debug.accessor.DebugLevelRendererAccessor;
 import foundry.veil.mixin.debug.accessor.DebugPostChainAccessor;
 import imgui.ImGui;
-import imgui.flag.ImGuiCol;
-import imgui.flag.ImGuiInputTextFlags;
-import imgui.flag.ImGuiStyleVar;
+import imgui.flag.*;
 import imgui.type.ImBoolean;
 import imgui.type.ImString;
-import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntRBTreeMap;
 import net.minecraft.client.Minecraft;
@@ -37,17 +35,24 @@ import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.system.MemoryStack;
 
+import java.nio.ByteBuffer;
+import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.*;
 import java.util.function.BooleanSupplier;
+import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import static org.lwjgl.opengl.GL20C.*;
+import static org.lwjgl.opengl.GL21C.*;
+import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.opengl.GL32C.GL_GEOMETRY_SHADER;
-import static org.lwjgl.opengl.GL40C.GL_TESS_CONTROL_SHADER;
-import static org.lwjgl.opengl.GL40C.GL_TESS_EVALUATION_SHADER;
+import static org.lwjgl.opengl.GL40C.*;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 @ApiStatus.Internal
@@ -61,9 +66,17 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
     private static final Component SHADER_DEFINITIONS = Component.translatable("inspector.veil.shader.definitions");
     private static final Component SHADER_DEFINITIONS_HINT = Component.translatable("inspector.veil.shader.definitions.hint");
     private static final Component OPEN_SOURCE = Component.translatable("inspector.veil.shader.open_source");
+    private static final Component OPEN_SHADER_INFO = Component.translatable("inspector.veil.shader.open_shader_info");
+    private static final Component SHADER_INFO_WINDOW = Component.translatable("inspector.veil.shader.shader_info");
+    private static final Component SAMPLERS = Component.translatable("inspector.veil.shader.samplers");
+    private static final Component UNIFORMS = Component.translatable("inspector.veil.shader.uniforms");
+    private static final Component UNIFORM_BLOCKS = Component.translatable("inspector.veil.shader.uniform_blocks");
+    private static final Component STORAGE_BLOCKS = Component.translatable("inspector.veil.shader.storage_blocks");
 
     private final CodeEditor codeEditor;
+    private final ImBoolean shaderInfoVisible;
     private final Object2IntMap<ResourceLocation> shaders;
+    private final ShaderUniformCache uniformCache;
 
     private final ImString programFilterText;
     private Pattern programFilter;
@@ -73,8 +86,6 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
     private final ImString addDefinitionText;
     private final Set<String> removedDefinitions;
 
-    private final ImBoolean editSourceOpen;
-
     public ShaderInspector() {
         this.shaders = new Object2IntRBTreeMap<>((a, b) -> {
             int compare = a.getNamespace().compareTo(b.getNamespace());
@@ -83,9 +94,11 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
             }
             return compare;
         });
+        this.uniformCache = new ShaderUniformCache(() -> this.selectedProgram.programId);
 
         this.codeEditor = new CodeEditor(TITLE, null);
         this.codeEditor.getEditor().setLanguageDefinition(VeilLanguageDefinitions.glsl());
+        this.shaderInfoVisible = new ImBoolean(false);
 
         this.programFilterText = new ImString(128);
         this.programFilter = null;
@@ -94,8 +107,6 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
 
         this.addDefinitionText = new ImString(128);
         this.removedDefinitions = new HashSet<>(1);
-
-        this.editSourceOpen = new ImBoolean();
     }
 
     private void setSelectedProgram(@Nullable ResourceLocation name) {
@@ -105,12 +116,13 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                 int[] attachedShaders = new int[glGetProgrami(program, GL_ATTACHED_SHADERS)];
                 glGetAttachedShaders(program, null, attachedShaders);
 
-                Map<Integer, Integer> shaders = new Int2IntArrayMap(attachedShaders.length);
+                Int2IntMap shaders = new Int2IntArrayMap(attachedShaders.length);
                 for (int shader : attachedShaders) {
                     shaders.put(glGetShaderi(shader, GL_SHADER_TYPE), shader);
                 }
 
-                this.selectedProgram = new SelectedProgram(name, program, Collections.unmodifiableMap(shaders));
+                this.selectedProgram = new SelectedProgram(name, program, Int2IntMaps.unmodifiable(shaders));
+                this.uniformCache.clear();
                 return;
             } else {
                 Veil.LOGGER.error("Compiled shader does not exist for program: {}", name);
@@ -118,19 +130,24 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
         }
 
         this.selectedProgram = null;
+        this.uniformCache.clear();
     }
 
     private void setEditShaderSource(int shader) {
-        this.editSourceOpen.set(true);
         this.codeEditor.show(null, glGetShaderSource(shader));
     }
 
     private void reloadShaders() {
         this.shaders.clear();
+        this.uniformCache.clear();
         TabSource.values()[this.selectedTab].addShaders(this.shaders::put);
-        if (this.selectedProgram != null && !this.shaders.containsKey(this.selectedProgram.name)) {
+        if (this.isShaderInvalid() || (this.selectedProgram != null && !this.shaders.containsKey(this.selectedProgram.name))) {
             this.setSelectedProgram(null);
         }
+    }
+
+    private boolean isShaderInvalid() {
+        return this.selectedProgram == null || this.selectedProgram.isShaderInvalid();
     }
 
     @Override
@@ -231,6 +248,12 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                 this.openShaderButton(GL_GEOMETRY_SHADER);
                 this.openShaderButton(GL_TESS_CONTROL_SHADER);
                 this.openShaderButton(GL_TESS_EVALUATION_SHADER);
+
+                ImGui.beginDisabled(this.shaderInfoVisible.get());
+                if (ImGui.button(OPEN_SHADER_INFO.getString())) {
+                    this.shaderInfoVisible.set(true);
+                }
+                ImGui.endDisabled();
             }
             ImGui.endChild();
 
@@ -280,10 +303,341 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
         super.render();
 
         this.codeEditor.renderWindow();
+        if (this.shaderInfoVisible.get()) {
+            ImGui.setNextWindowSizeConstraints(500, 600, Float.MAX_VALUE, Float.MAX_VALUE);
+            if (ImGui.begin(SHADER_INFO_WINDOW.getString(), this.shaderInfoVisible, ImGuiWindowFlags.NoSavedSettings)) {
+                boolean invalid = this.isShaderInvalid();
+                ImGui.beginDisabled(invalid);
+                int program = invalid ? 0 : this.selectedProgram.programId;
+
+                if (ImGui.collapsingHeader(SAMPLERS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
+                    ImGui.indent();
+                    for (CharSequence sampler : this.uniformCache.getSamplers()) {
+                        ImGui.selectable(sampler.toString());
+                    }
+                    ImGui.unindent();
+                }
+
+                if (ImGui.collapsingHeader(UNIFORMS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
+                    ImGui.indent();
+                    List<Map.Entry<String, ShaderUniformCache.Uniform>> sorted = this.uniformCache.getUniforms()
+                            .entrySet()
+                            .stream()
+                            .filter(entry -> !this.uniformCache.getSamplers().contains(entry.getKey()))
+                            .sorted(Comparator.comparingInt(entry -> entry.getValue().location()))
+                            .toList();
+                    for (Map.Entry<String, ShaderUniformCache.Uniform> entry : sorted) {
+                        String name = entry.getKey();
+                        ShaderUniformCache.Uniform uniform = entry.getValue();
+                        ImGui.selectable(this.formatUniform(name, program, uniform));
+                    }
+                    ImGui.unindent();
+                }
+
+                if (ImGui.collapsingHeader(UNIFORM_BLOCKS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
+                    ImGui.indent();
+                    List<Map.Entry<String, ShaderUniformCache.UniformBlock>> sorted = this.uniformCache.getUniformBlocks()
+                            .entrySet()
+                            .stream()
+                            .sorted(Comparator.comparingInt(entry -> entry.getValue().index()))
+                            .toList();
+                    for (Map.Entry<String, ShaderUniformCache.UniformBlock> entry : sorted) {
+                        String blockName = entry.getKey();
+                        if (ImGui.collapsingHeader(blockName)) {
+                            ImGui.indent();
+
+                            ShaderUniformCache.UniformBlock block = entry.getValue();
+                            int buffer = glGetIntegeri(GL_UNIFORM_BUFFER_BINDING, glGetActiveUniformBlocki(program, block.index(), GL_UNIFORM_BLOCK_BINDING));
+                            RenderSystem.glBindBuffer(GL_COPY_READ_BUFFER, buffer);
+                            ByteBuffer data = glMapBuffer(GL_COPY_READ_BUFFER, GL_READ_ONLY, block.size(), null);
+                            for (ShaderUniformCache.Uniform field : block.fields()) {
+                                String name = field.name().startsWith(blockName) ? field.name().substring(blockName.length() + 1) : field.name();
+                                ImGui.selectable(data != null ? this.formatUniformBuffer(name, data, field) : name);
+                            }
+                            glUnmapBuffer(GL_COPY_READ_BUFFER);
+                            ImGui.unindent();
+                        }
+                    }
+                    ImGui.unindent();
+                }
+
+                ImGui.beginDisabled(!VeilRenderSystem.shaderStorageBufferSupported());
+                if (ImGui.collapsingHeader(STORAGE_BLOCKS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
+                    ImGui.indent();
+                    for (CharSequence block : this.uniformCache.getStorageBlockNames()) {
+                        ImGui.selectable(block.toString());
+                    }
+                    ImGui.unindent();
+                }
+                ImGui.endDisabled();
+
+                ImGui.endDisabled();
+            }
+            ImGui.end();
+        }
     }
 
+    //<editor-fold desc="Uniform Formatting">
+
+    private String formatUniform(String name, int program, ShaderUniformCache.Uniform uniform) {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            return switch (uniform.type()) {
+                case GL_FLOAT -> this.formatUniformFloats(stack, "float " + name, program, uniform.location(), 1, 1);
+                case GL_FLOAT_VEC2 ->
+                        this.formatUniformFloats(stack, "vec2 " + name, program, uniform.location(), 2, 1);
+                case GL_FLOAT_VEC3 ->
+                        this.formatUniformFloats(stack, "vec3 " + name, program, uniform.location(), 3, 1);
+                case GL_FLOAT_VEC4 ->
+                        this.formatUniformFloats(stack, "vec4 " + name, program, uniform.location(), 4, 1);
+                case GL_DOUBLE -> this.formatUniformDoubles(stack, "double " + name, program, uniform.location(), 1, 1);
+                case GL_DOUBLE_VEC2 ->
+                        this.formatUniformDoubles(stack, "dvec2 " + name, program, uniform.location(), 2, 1);
+                case GL_DOUBLE_VEC3 ->
+                        this.formatUniformDoubles(stack, "dvec3 " + name, program, uniform.location(), 3, 1);
+                case GL_DOUBLE_VEC4 ->
+                        this.formatUniformDoubles(stack, "dvec4 " + name, program, uniform.location(), 4, 1);
+                case GL_INT -> this.formatUniformInts(stack, "int " + name, program, uniform.location(), 1);
+                case GL_INT_VEC2 -> this.formatUniformInts(stack, "ivec2 " + name, program, uniform.location(), 2);
+                case GL_INT_VEC3 -> this.formatUniformInts(stack, "ivec3 " + name, program, uniform.location(), 3);
+                case GL_INT_VEC4 -> this.formatUniformInts(stack, "ivec4 " + name, program, uniform.location(), 4);
+                case GL_UNSIGNED_INT -> this.formatUniformUInts(stack, "uint " + name, program, uniform.location(), 1);
+                case GL_UNSIGNED_INT_VEC2 ->
+                        this.formatUniformUInts(stack, "uvec2 " + name, program, uniform.location(), 2);
+                case GL_UNSIGNED_INT_VEC3 ->
+                        this.formatUniformUInts(stack, "uvec3 " + name, program, uniform.location(), 3);
+                case GL_UNSIGNED_INT_VEC4 ->
+                        this.formatUniformUInts(stack, "uvec4 " + name, program, uniform.location(), 4);
+                case GL_FLOAT_MAT2 ->
+                        this.formatUniformFloats(stack, "mat2 " + name, program, uniform.location(), 2, 2);
+                case GL_FLOAT_MAT3 ->
+                        this.formatUniformFloats(stack, "mat3 " + name, program, uniform.location(), 3, 3);
+                case GL_FLOAT_MAT4 ->
+                        this.formatUniformFloats(stack, "mat4 " + name, program, uniform.location(), 4, 4);
+                case GL_FLOAT_MAT2x3 ->
+                        this.formatUniformFloats(stack, "mat2x3 " + name, program, uniform.location(), 2, 3);
+                case GL_FLOAT_MAT2x4 ->
+                        this.formatUniformFloats(stack, "mat2x4 " + name, program, uniform.location(), 2, 4);
+                case GL_FLOAT_MAT3x2 ->
+                        this.formatUniformFloats(stack, "mat3x2 " + name, program, uniform.location(), 3, 2);
+                case GL_FLOAT_MAT3x4 ->
+                        this.formatUniformFloats(stack, "mat3x4 " + name, program, uniform.location(), 3, 4);
+                case GL_FLOAT_MAT4x2 ->
+                        this.formatUniformFloats(stack, "mat4x2 " + name, program, uniform.location(), 4, 2);
+                case GL_FLOAT_MAT4x3 ->
+                        this.formatUniformFloats(stack, "mat4x3 " + name, program, uniform.location(), 4, 3);
+                case GL_DOUBLE_MAT2 ->
+                        this.formatUniformDoubles(stack, "dmat2 " + name, program, uniform.location(), 2, 2);
+                case GL_DOUBLE_MAT3 ->
+                        this.formatUniformDoubles(stack, "dmat3 " + name, program, uniform.location(), 3, 3);
+                case GL_DOUBLE_MAT4 ->
+                        this.formatUniformDoubles(stack, "dmat4 " + name, program, uniform.location(), 4, 4);
+                case GL_DOUBLE_MAT2x3 ->
+                        this.formatUniformDoubles(stack, "dmat2x3 " + name, program, uniform.location(), 2, 3);
+                case GL_DOUBLE_MAT2x4 ->
+                        this.formatUniformDoubles(stack, "dmat2x4 " + name, program, uniform.location(), 2, 4);
+                case GL_DOUBLE_MAT3x2 ->
+                        this.formatUniformDoubles(stack, "dmat3x2 " + name, program, uniform.location(), 3, 2);
+                case GL_DOUBLE_MAT3x4 ->
+                        this.formatUniformDoubles(stack, "dmat3x4 " + name, program, uniform.location(), 3, 4);
+                case GL_DOUBLE_MAT4x2 ->
+                        this.formatUniformDoubles(stack, "dmat4x2 " + name, program, uniform.location(), 4, 2);
+                case GL_DOUBLE_MAT4x3 ->
+                        this.formatUniformDoubles(stack, "dmat4x3 " + name, program, uniform.location(), 4, 3);
+                default -> name;
+            };
+        }
+    }
+
+    private String formatUniformBuffer(String name, ByteBuffer buffer, ShaderUniformCache.Uniform uniform) {
+        return switch (uniform.type()) {
+            case GL_FLOAT ->
+                    this.formatFloats(uniform.offset() + ": float " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 1, 1);
+            case GL_FLOAT_VEC2 ->
+                    this.formatFloats(uniform.offset() + ": vec2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 1);
+            case GL_FLOAT_VEC3 ->
+                    this.formatFloats(uniform.offset() + ": vec3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 1);
+            case GL_FLOAT_VEC4 ->
+                    this.formatFloats(uniform.offset() + ": vec4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 1);
+            case GL_DOUBLE ->
+                    this.formatDoubles(uniform.offset() + ": double " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 1, 1);
+            case GL_DOUBLE_VEC2 ->
+                    this.formatDoubles(uniform.offset() + ": dvec2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 1);
+            case GL_DOUBLE_VEC3 ->
+                    this.formatDoubles(uniform.offset() + ": dvec3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 1);
+            case GL_DOUBLE_VEC4 ->
+                    this.formatDoubles(uniform.offset() + ": dvec4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 1);
+            case GL_INT ->
+                    this.formatInts(uniform.offset() + ": int " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 1);
+            case GL_INT_VEC2 ->
+                    this.formatInts(uniform.offset() + ": ivec2 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 2);
+            case GL_INT_VEC3 ->
+                    this.formatInts(uniform.offset() + ": ivec3 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 3);
+            case GL_INT_VEC4 ->
+                    this.formatInts(uniform.offset() + ": ivec4 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 4);
+            case GL_UNSIGNED_INT ->
+                    this.formatUInts(uniform.offset() + ": uint " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 1);
+            case GL_UNSIGNED_INT_VEC2 ->
+                    this.formatUInts(uniform.offset() + ": uvec2 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 2);
+            case GL_UNSIGNED_INT_VEC3 ->
+                    this.formatUInts(uniform.offset() + ": uvec3 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 3);
+            case GL_UNSIGNED_INT_VEC4 ->
+                    this.formatUInts(uniform.offset() + ": uvec4 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 4);
+            case GL_FLOAT_MAT2 ->
+                    this.formatFloats(uniform.offset() + ": mat2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 2);
+            case GL_FLOAT_MAT3 ->
+                    this.formatFloats(uniform.offset() + ": mat3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 3);
+            case GL_FLOAT_MAT4 ->
+                    this.formatFloats(uniform.offset() + ": mat4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 4);
+            case GL_FLOAT_MAT2x3 ->
+                    this.formatFloats(uniform.offset() + ": mat2x3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 3);
+            case GL_FLOAT_MAT2x4 ->
+                    this.formatFloats(uniform.offset() + ": mat2x4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 4);
+            case GL_FLOAT_MAT3x2 ->
+                    this.formatFloats(uniform.offset() + ": mat3x2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 2);
+            case GL_FLOAT_MAT3x4 ->
+                    this.formatFloats(uniform.offset() + ": mat3x4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 4);
+            case GL_FLOAT_MAT4x2 ->
+                    this.formatFloats(uniform.offset() + ": mat4x2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 2);
+            case GL_FLOAT_MAT4x3 ->
+                    this.formatFloats(uniform.offset() + ": mat4x3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 3);
+            case GL_DOUBLE_MAT2 ->
+                    this.formatDoubles(uniform.offset() + ": dmat2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 2);
+            case GL_DOUBLE_MAT3 ->
+                    this.formatDoubles(uniform.offset() + ": dmat3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 3);
+            case GL_DOUBLE_MAT4 ->
+                    this.formatDoubles(uniform.offset() + ": dmat4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 4);
+            case GL_DOUBLE_MAT2x3 ->
+                    this.formatDoubles(uniform.offset() + ": dmat2x3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 3);
+            case GL_DOUBLE_MAT2x4 ->
+                    this.formatDoubles(uniform.offset() + ": dmat2x4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 4);
+            case GL_DOUBLE_MAT3x2 ->
+                    this.formatDoubles(uniform.offset() + ": dmat3x2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 2);
+            case GL_DOUBLE_MAT3x4 ->
+                    this.formatDoubles(uniform.offset() + ": dmat3x4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 4);
+            case GL_DOUBLE_MAT4x2 ->
+                    this.formatDoubles(uniform.offset() + ": dmat4x2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 2);
+            case GL_DOUBLE_MAT4x3 ->
+                    this.formatDoubles(uniform.offset() + ": dmat4x3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 3);
+            default -> name;
+        };
+    }
+
+    private String formatUniformFloats(MemoryStack stack, String key, int program, int location, int cols, int rows) {
+        FloatBuffer values = stack.mallocFloat(rows * cols);
+        glGetUniformfv(program, location, values);
+        return this.formatFloats(key, values::get, cols, rows);
+    }
+
+    private String formatUniformDoubles(MemoryStack stack, String key, int program, int location, int cols, int rows) {
+        DoubleBuffer values = stack.mallocDouble(rows * cols);
+        glGetUniformdv(program, location, values);
+        return this.formatDoubles(key, values::get, cols, rows);
+    }
+
+    private String formatUniformInts(MemoryStack stack, String key, int program, int location, int cols) {
+        IntBuffer values = stack.mallocInt(cols);
+        glGetUniformiv(program, location, values);
+        return this.formatInts(key, values::get, cols);
+    }
+
+    private String formatUniformUInts(MemoryStack stack, String key, int program, int location, int cols) {
+        IntBuffer values = stack.mallocInt(cols);
+        glGetUniformuiv(program, location, values);
+        return this.formatUInts(key, values::get, cols);
+    }
+
+    private String formatFloats(String key, Function<Integer, Float> deserializer, int cols, int rows) {
+        StringBuilder matrix = new StringBuilder(key + ":" + (rows > 1 ? '\n' : ' '));
+
+        int[] colWidths = new int[cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                int size = ("%+.4f").formatted(deserializer.apply(col * rows + row)).length();
+                if (size > colWidths[col]) {
+                    colWidths[col] = size;
+                }
+            }
+        }
+
+        for (int row = 0; row < rows; row++) {
+            matrix.append('[');
+            for (int col = 0; col < cols; col++) {
+                String value = ("%+" + colWidths[col] + ".4f").formatted(deserializer.apply(col * rows + row));
+                matrix.append(value).append(", ");
+            }
+            matrix.replace(matrix.length() - 2, matrix.length(), "]\n");
+        }
+        matrix.delete(matrix.length() - 1, matrix.length());
+        return matrix.toString();
+    }
+
+    private String formatDoubles(String key, Function<Integer, Double> deserializer, int cols, int rows) {
+        StringBuilder matrix = new StringBuilder(key + ":" + (rows > 1 ? '\n' : ' '));
+
+        int[] colWidths = new int[cols];
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                int size = ("%+.4f").formatted(deserializer.apply(col * rows + row)).length();
+                if (size > colWidths[col]) {
+                    colWidths[col] = size;
+                }
+            }
+        }
+
+        for (int row = 0; row < rows; row++) {
+            matrix.append('[');
+            for (int col = 0; col < cols; col++) {
+                String value = ("%+" + colWidths[col] + ".4f").formatted(deserializer.apply(col * rows + row));
+                matrix.append(value).append(", ");
+            }
+            matrix.replace(matrix.length() - 2, matrix.length(), "]\n");
+        }
+        matrix.delete(matrix.length() - 1, matrix.length());
+        return matrix.toString();
+    }
+
+    private String formatInts(String key, Function<Integer, Integer> deserializer, int cols) {
+        StringBuilder matrix = new StringBuilder(key + ": [");
+
+        int[] colWidths = new int[cols];
+        for (int col = 0; col < cols; col++) {
+            int size = ("%+d").formatted(deserializer.apply(col)).length();
+            if (size > colWidths[col]) {
+                colWidths[col] = size;
+            }
+        }
+
+        for (int col = 0; col < cols; col++) {
+            String value = ("%+" + colWidths[col] + "d").formatted(deserializer.apply(col));
+            matrix.append(value).append(", ");
+        }
+        matrix.replace(matrix.length() - 2, matrix.length(), "]");
+        return matrix.toString();
+    }
+
+    private String formatUInts(String key, Function<Integer, Integer> deserializer, int cols) {
+        StringBuilder matrix = new StringBuilder(key + ": [");
+
+        int[] colWidths = new int[cols];
+        for (int col = 0; col < cols; col++) {
+            int size = ("%+d").formatted(Integer.toUnsignedLong(deserializer.apply(col))).length();
+            if (size > colWidths[col]) {
+                colWidths[col] = size;
+            }
+        }
+
+        for (int col = 0; col < cols; col++) {
+            String value = ("%+" + colWidths[col] + "d").formatted(Integer.toUnsignedLong(deserializer.apply(col)));
+            matrix.append(value).append(", ");
+        }
+        matrix.replace(matrix.length() - 2, matrix.length(), "]");
+        return matrix.toString();
+    }
+
+    //</editor-fold>
+
     private void openShaderButton(int type) {
-        boolean disabled = this.selectedProgram == null || !this.selectedProgram.shaders.containsKey(type);
+        boolean disabled = this.isShaderInvalid() || !this.selectedProgram.shaders.containsKey(type);
         ImGui.beginDisabled(disabled);
 
         if (disabled) {
@@ -317,6 +671,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
     public void free() {
         super.free();
         this.codeEditor.free();
+        this.uniformCache.clear();
     }
 
     @Override
@@ -326,7 +681,10 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
         }
     }
 
-    private record SelectedProgram(ResourceLocation name, int programId, Map<Integer, Integer> shaders) {
+    private record SelectedProgram(ResourceLocation name, int programId, Int2IntMap shaders) {
+        public boolean isShaderInvalid() {
+            return this.programId == 0 || !glIsProgram(this.programId);
+        }
     }
 
     private enum TabSource {

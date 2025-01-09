@@ -1,2 +1,2 @@
-#veil:buffer veil:gui_info
-#veil:deprecated Use `#veil:buffer veil:gui_info` instead
+#veil:buffer veil:gui_info GuiInfo
+#veil:deprecated Use `#veil:buffer veil:gui_info GuiInfo` instead

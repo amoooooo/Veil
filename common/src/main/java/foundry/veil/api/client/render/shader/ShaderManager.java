@@ -168,6 +168,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
                 throw new IllegalStateException("Duplicate shader ignored with ID " + definitionId);
             }
 
+            Map<String, Object> customProgramData = new HashMap<>();
             for (Int2ObjectMap.Entry<ProgramDefinition.ShaderSource> shader : definition.shaders().int2ObjectEntrySet()) {
                 int type = shader.getIntKey();
                 ResourceLocation shaderId = shader.getValue().location();
@@ -193,6 +194,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
                     Object2IntMap<String> uniformBindings = new Object2IntArrayMap<>();
                     PreProcessorContext preProcessorContext = new PreProcessorContext(
+                            customProgramData,
                             importProcessor,
                             definition,
                             this.definitions,
@@ -591,7 +593,8 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         this.shaders.clear();
     }
 
-    private record PreProcessorContext(ShaderPreProcessor preProcessor,
+    private record PreProcessorContext(Map<String, Object> customProgramData,
+                                       ShaderPreProcessor preProcessor,
                                        @Nullable ProgramDefinition definition,
                                        ShaderPreDefinitions preDefinitions,
                                        ShaderImporter shaderImporter,
@@ -605,7 +608,7 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
             GlslTree tree = GlslParser.preprocessParse(source, this.macros);
-            PreProcessorContext context = new PreProcessorContext(this.preProcessor, this.definition, this.preDefinitions, this.shaderImporter, this.activeBuffers, this.type, this.uniformBindings, this.macros, name, false);
+            PreProcessorContext context = new PreProcessorContext(this.customProgramData, this.preProcessor, this.definition, this.preDefinitions, this.shaderImporter, this.activeBuffers, this.type, this.uniformBindings, this.macros, name, false);
             this.preProcessor.modify(context, tree);
             return tree;
         }

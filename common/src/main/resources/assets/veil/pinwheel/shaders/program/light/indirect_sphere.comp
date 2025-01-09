@@ -2,7 +2,7 @@
 #extension GL_ARB_shader_atomic_counters : enable
 #extension GL_ARB_shader_storage_buffer_object : enable
 
-#veil:buffer veil:camera
+#veil:buffer veil:camera VeilCamera
 
 layout(std430) readonly buffer VeilLightInstanced {
     float data[];
@@ -37,9 +37,9 @@ void main() {
     uint lightId = gl_GlobalInvocationID.x + gl_GlobalInvocationID.y * Width;
     uint lightDataIndex = lightId * LightSize;
 
-    float x = 0;//data[lightDataIndex + PositionOffset];
-    float y = 0;//data[lightDataIndex + PositionOffset + 1];
-    float z = 0;//data[lightDataIndex + PositionOffset + 2];
+    float x = data[lightDataIndex + PositionOffset];
+    float y = data[lightDataIndex + PositionOffset + 1];
+    float z = data[lightDataIndex + PositionOffset + 2];
     float range = data[lightDataIndex + RangeOffset];
     float dx = x - VeilCamera.CameraPosition.x;
     float dy = y - VeilCamera.CameraPosition.y;

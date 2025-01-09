@@ -1,4 +1,4 @@
-#veil:buffer veil:camera
+#veil:buffer veil:camera VeilCamera
 
 layout (location = 0) in vec3 Position;
 layout (location = 1) in mat4 LightMatrix;

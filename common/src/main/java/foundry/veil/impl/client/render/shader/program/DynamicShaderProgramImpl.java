@@ -83,6 +83,7 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
 
         ShaderPreProcessor processor = processorList.getProcessor();
         ShaderPreProcessor importProcessor = processorList.getImportProcessor();
+        Map<String, Object> customProgramData = new HashMap<>();
 
         try {
             for (Int2ObjectMap.Entry<String> shader : this.shaderSources.int2ObjectEntrySet()) {
@@ -98,7 +99,7 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
                     DynamicBufferType.addMacros(activeBuffers, macros);
                     GlslTree tree = GlslParser.preprocessParse(source, macros);
                     Object2IntMap<String> uniformBindings = new Object2IntArrayMap<>();
-                    PreProcessorContext preProcessorContext = new PreProcessorContext(processorList, activeBuffers, type, uniformBindings, macros, null, true);
+                    PreProcessorContext preProcessorContext = new PreProcessorContext(customProgramData, processorList, activeBuffers, type, uniformBindings, macros, null, true);
                     processor.modify(preProcessorContext, tree);
                     GlslTree.stripGLMacros(macros);
                     tree.getMacros().putAll(macros);
@@ -128,7 +129,8 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
         this.oldShader = program;
     }
 
-    private record PreProcessorContext(ShaderProcessorList processor,
+    private record PreProcessorContext(Map<String, Object> customProgramData,
+                                       ShaderProcessorList processor,
                                        int activeBuffers,
                                        int type,
                                        Object2IntMap<String> uniformBindings,
@@ -139,7 +141,7 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
             GlslTree tree = GlslParser.preprocessParse(source, this.macros);
-            PreProcessorContext context = new PreProcessorContext(this.processor, this.activeBuffers, this.type, this.uniformBindings, this.macros, name, false);
+            PreProcessorContext context = new PreProcessorContext(this.customProgramData, this.processor, this.activeBuffers, this.type, this.uniformBindings, this.macros, name, false);
             this.processor.getImportProcessor().modify(context, tree);
             return tree;
         }

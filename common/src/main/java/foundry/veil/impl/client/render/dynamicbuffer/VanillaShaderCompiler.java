@@ -20,10 +20,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,6 +40,7 @@ public class VanillaShaderCompiler {
         ShaderInstanceExtension extension = (ShaderInstanceExtension) shader;
         Collection<ResourceLocation> shaderSources = extension.veil$getShaderSources();
         VertexFormat vertexFormat = shader.getVertexFormat();
+        Map<String, Object> customProgramData = new HashMap<>();
         ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
         VanillaShaderProcessor.setup(resourceManager);
@@ -77,7 +75,7 @@ public class VanillaShaderCompiler {
                 source = String.join("", preprocessor.process(source));
 
                 boolean vertex = path.getPath().endsWith(".vsh");
-                String processed = VanillaShaderProcessor.modify(shader.getName(), path, vertexFormat, activeBuffers, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
+                String processed = VanillaShaderProcessor.modify(customProgramData, shader.getName(), path, vertexFormat, activeBuffers, vertex ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER, source);
                 RenderSystem.recordRenderCall(() -> extension.veil$recompile(vertex, processed, activeBuffers));
             } catch (Throwable t) {
                 Veil.LOGGER.error("Couldn't load vanilla shader from {}", path, t);

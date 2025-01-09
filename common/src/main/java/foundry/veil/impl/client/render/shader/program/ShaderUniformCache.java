@@ -1,16 +1,21 @@
 package foundry.veil.impl.client.render.shader.program;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.IntSupplier;
 
 import static org.lwjgl.opengl.ARBProgramInterfaceQuery.*;
 import static org.lwjgl.opengl.GL20C.*;
@@ -171,18 +176,18 @@ public class ShaderUniformCache {
         NAMES = Int2ObjectMaps.unmodifiable(names);
     }
 
-    private final ShaderProgram shader;
-    private final ObjectSet<CharSequence> samplers;
-    private final Object2IntMap<CharSequence> uniforms;
-    private final Object2IntMap<CharSequence> uniformBlocks;
-    private final Object2IntMap<CharSequence> storageBlocks;
+    private final IntSupplier shader;
+    private final ObjectSet<String> samplers;
+    private final Object2ObjectMap<String, Uniform> uniforms;
+    private final Object2ObjectMap<String, UniformBlock> uniformBlocks;
+    private final Object2IntMap<String> storageBlocks;
     private boolean requested;
 
-    public ShaderUniformCache(ShaderProgram shader) {
+    public ShaderUniformCache(IntSupplier shader) {
         this.shader = shader;
         this.samplers = new ObjectArraySet<>();
-        this.uniforms = new Object2IntOpenHashMap<>();
-        this.uniformBlocks = new Object2IntArrayMap<>();
+        this.uniforms = new Object2ObjectOpenHashMap<>();
+        this.uniformBlocks = new Object2ObjectOpenHashMap<>();
         this.storageBlocks = new Object2IntArrayMap<>();
         this.requested = false;
     }
@@ -198,7 +203,7 @@ public class ShaderUniformCache {
     private void updateUniforms() {
         this.requested = true;
 
-        int program = this.shader.getProgram();
+        int program = this.shader.getAsInt();
         if (VeilRenderSystem.programInterfaceQuerySupported()) {
             int uniformCount = glGetProgramInterfacei(program, GL_UNIFORM, GL_ACTIVE_RESOURCES);
             int uniformBlockCount = glGetProgramInterfacei(program, GL_UNIFORM_BLOCK, GL_ACTIVE_RESOURCES);
@@ -206,9 +211,9 @@ public class ShaderUniformCache {
 
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 IntBuffer uniformProperties = stack.ints(GL_BLOCK_INDEX, GL_ARRAY_SIZE, GL_NAME_LENGTH, GL_LOCATION, GL_TYPE);
-                IntBuffer uniformBlockProperties = stack.ints(GL_NAME_LENGTH, GL_NUM_ACTIVE_VARIABLES);
+                IntBuffer uniformBlockProperties = stack.ints(GL_NAME_LENGTH, GL_BUFFER_DATA_SIZE, GL_NUM_ACTIVE_VARIABLES);
+                IntBuffer uniformBlockFieldProperties = stack.ints(GL_NAME_LENGTH, GL_LOCATION, GL_OFFSET, GL_TYPE, GL_ATOMIC_COUNTER_BUFFER_INDEX);
                 IntBuffer shaderBlockProperties = stack.ints(GL_NAME_LENGTH);
-                IntBuffer activeUniformProperties = stack.ints(GL_ACTIVE_VARIABLES);
                 IntBuffer values = stack.mallocInt(5);
 
                 for (int i = 0; i < uniformCount; i++) {
@@ -227,8 +232,10 @@ public class ShaderUniformCache {
                             name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
                         }
 
-                        this.uniforms.put(name, values.get(3) + j);
-                        if (isSampler(values.get(4))) {
+                        int location = values.get(3) + j;
+                        int type = values.get(4);
+                        this.uniforms.put(name, new Uniform(name, location, 0, type));
+                        if (isSampler(type)) {
                             this.samplers.add(name);
                         }
                     }
@@ -236,8 +243,27 @@ public class ShaderUniformCache {
 
                 for (int i = 0; i < uniformBlockCount; i++) {
                     glGetProgramResourceiv(program, GL_UNIFORM_BLOCK, i, uniformBlockProperties, null, values);
-                    String name = glGetProgramResourceName(program, GL_UNIFORM_BLOCK, i, values.get(0));
-                    this.uniformBlocks.put(name, i);
+                    String blockName = glGetProgramResourceName(program, GL_UNIFORM_BLOCK, i, values.get(0));
+
+                    int size = values.get(1);
+                    int fieldCount = values.get(2);
+                    List<Uniform> fields = new ArrayList<>(fieldCount);
+
+                    IntBuffer fieldIndices = stack.mallocInt(fieldCount);
+                    glGetProgramResourceiv(program, GL_UNIFORM_BLOCK, i, stack.ints(GL_ACTIVE_VARIABLES), null, fieldIndices);
+
+                    for (int j = 0; j < fieldCount; j++) {
+                        glGetProgramResourceiv(program, GL_UNIFORM, fieldIndices.get(j), uniformBlockFieldProperties, null, values);
+
+                        // It must be an atomic counter, so ignore it
+                        if (values.get(4) != -1) {
+                            continue;
+                        }
+
+                        String name = glGetProgramResourceName(program, GL_UNIFORM, fieldIndices.get(j), values.get(0));
+                        fields.add(new Uniform(name, values.get(1), values.get(2), values.get(3)));
+                    }
+                    this.uniformBlocks.put(blockName, new UniformBlock(blockName, i, size, fields.toArray(Uniform[]::new)));
                 }
 
                 for (int i = 0; i < storageBlockCount; i++) {
@@ -245,6 +271,8 @@ public class ShaderUniformCache {
                     String name = glGetProgramResourceName(program, GL_SHADER_STORAGE_BLOCK, i, values.get(0));
                     this.storageBlocks.put(name, i);
                 }
+
+                // TODO load atomic counters
             }
         } else {
             int uniformCount = glGetProgrami(program, GL_ACTIVE_UNIFORMS);
@@ -269,7 +297,7 @@ public class ShaderUniformCache {
                             name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
                         }
 
-                        this.uniforms.put(name, glGetUniformLocation(program, name));
+                        this.uniforms.put(name, new Uniform(name, glGetUniformLocation(program, name), 0, type.get(0)));
                         if (isSampler(type.get(0))) {
                             this.samplers.add(name);
                         }
@@ -277,61 +305,100 @@ public class ShaderUniformCache {
                 }
 
                 for (int i = 0; i < uniformBlockCount; i++) {
-                    String name = glGetActiveUniformBlockName(program, i, maxUniformBlockLength);
-                    int location = glGetUniformBlockIndex(program, name);
-                    this.uniformBlocks.put(name, location);
+                    String blockName = glGetActiveUniformBlockName(program, i, maxUniformBlockLength);
+                    int bufferSize = glGetActiveUniformBlocki(program, i, GL_UNIFORM_BLOCK_DATA_SIZE);
+
+                    Uniform[] fields = new Uniform[glGetActiveUniformBlocki(program, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS)];
+                    IntBuffer fieldIndices = stack.mallocInt(fields.length);
+                    glGetActiveUniformBlockiv(program, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, fieldIndices);
+
+                    for (int j = 0; j < fields.length; j++) {
+                        int index = fieldIndices.get(j);
+                        String name = glGetActiveUniform(program, index, maxUniformLength, size, type);
+                        int offset = glGetActiveUniformsi(program, index, GL_UNIFORM_OFFSET);
+                        fields[j] = new Uniform(name, glGetUniformLocation(program, name), offset, type.get(0));
+                    }
+                    this.uniformBlocks.put(blockName, new UniformBlock(blockName, i, bufferSize, fields));
                 }
             }
         }
     }
 
-    public int getUniform(CharSequence name) {
+    public @Nullable Uniform getUniform(CharSequence name) {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.uniforms.getOrDefault(name, -1);
+        return this.uniforms.get(name);
     }
 
-    public boolean hasUniform(CharSequence name) {
+    public boolean hasUniform(String name) {
         if (!this.requested) {
             this.updateUniforms();
         }
         return this.uniforms.containsKey(name);
     }
 
-    public int getUniformBlock(CharSequence name) {
+    public @Nullable UniformBlock getUniformBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.uniformBlocks.getOrDefault(name, GL_INVALID_INDEX);
+        return this.uniformBlocks.get(name);
     }
 
-    public boolean hasUniformBlock(CharSequence name) {
+    public boolean hasUniformBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
         }
         return this.uniformBlocks.containsKey(name);
     }
 
-    public int getStorageBlock(CharSequence name) {
+    public int getStorageBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
         }
         return this.storageBlocks.getOrDefault(name, GL_INVALID_INDEX);
     }
 
-    public boolean hasStorageBlock(CharSequence name) {
+    public boolean hasStorageBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
         }
         return this.storageBlocks.containsKey(name);
     }
 
-    public boolean hasSampler(CharSequence name) {
+    public boolean hasSampler(String name) {
         if (!this.requested) {
             this.updateUniforms();
         }
         return this.samplers.contains(name);
+    }
+
+    public Set<String> getSamplers() {
+        if (!this.requested) {
+            this.updateUniforms();
+        }
+        return this.samplers;
+    }
+
+    public Map<String, Uniform> getUniforms() {
+        if (!this.requested) {
+            this.updateUniforms();
+        }
+        return this.uniforms;
+    }
+
+    public Map<String, UniformBlock> getUniformBlocks() {
+        if (!this.requested) {
+            this.updateUniforms();
+        }
+        return this.uniformBlocks;
+    }
+
+    public Set<String> getStorageBlockNames() {
+        if (!this.requested) {
+            this.updateUniforms();
+        }
+        return this.storageBlocks.keySet();
     }
 
     public static boolean isSampler(int type) {
@@ -340,5 +407,11 @@ public class ShaderUniformCache {
 
     public static String getName(int type) {
         return NAMES.getOrDefault(type, "0x%04X".formatted(type));
+    }
+
+    public record Uniform(String name, int location, int offset, int type) {
+    }
+
+    public record UniformBlock(String name, int index, int size, Uniform[] fields) {
     }
 }

@@ -10,23 +10,29 @@ uniform sampler2D Sampler2;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
+#ifdef VEIL_NORMAL
 uniform mat3 NormalMat;
+#endif
 
 out float vertexDistance;
 out vec2 texCoord0;
-out vec2 texCoord2;
 out vec4 vertexColor;
 out vec4 lightmapColor;
-out vec3 normal;
 
 void main() {
     vec4 WorldPosition = ModelViewMat * vec4(Position, 1.0);
     gl_Position = ProjMat * WorldPosition;
     vertexDistance = length(WorldPosition.xyz);
     texCoord0 = UV0;
-    texCoord2 = vec2(UV2 / 256.0);
+    #ifdef VEIL_LIGHT_UV
+    // #veil:light_uv
+    vec2 texCoord2 = vec2(UV2 / 256.0);
+    #endif
     vertexColor = Color;
     lightmapColor = texelFetch(Sampler2, UV2 / 16, 0);
-    normal = NormalMat * Normal;
+    #ifdef VEIL_NORMAL
+    // #veil:normal
+    vec3 normal = NormalMat * Normal;
+    #endif
 }
 

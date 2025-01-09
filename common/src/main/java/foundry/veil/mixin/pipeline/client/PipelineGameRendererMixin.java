@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilLevelPerspectiveRenderer;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilFirstPersonRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -76,9 +75,7 @@ public class PipelineGameRendererMixin {
             return;
         }
 
-        VeilRenderer renderer = VeilRenderSystem.renderer();
-        renderer.getCameraMatrices().updateGui();
-        renderer.getGuiInfo().update();
+        VeilRenderSystem.renderer().getGuiInfo().update();
     }
 
     @Inject(method = "render", at = @At("TAIL"))

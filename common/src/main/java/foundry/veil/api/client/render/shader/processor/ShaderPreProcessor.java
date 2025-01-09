@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.shader.processor;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.ShaderImporter;
+import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.glsl.GlslSyntaxException;
@@ -105,6 +106,11 @@ public interface ShaderPreProcessor {
         GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException;
 
         /**
+         * @return A custom map of data shared for a shader program
+         */
+        Map<String, Object> customProgramData();
+
+        /**
          * @return The id of the shader being compiled or <code>null</code> if the shader is compiled from a raw string
          */
         @Nullable
@@ -124,6 +130,13 @@ public interface ShaderPreProcessor {
          * @return The OpenGL type of the compiling shader
          */
         int type();
+
+        /**
+         * @return The name of this shader type
+         */
+        default String typeName() {
+            return ShaderManager.getTypeName(this.type());
+        }
 
         /**
          * @return Whether the current shader file is the vertex program

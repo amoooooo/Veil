@@ -28,6 +28,7 @@ import java.util.Map;
 public class SodiumShaderProcessor {
 
     private static final ThreadLocal<ShaderProcessorList> PROCESSOR = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String, Object>> CUSTOM_PROGRAM_DATA = new ThreadLocal<>();
 
     public static void setup(ResourceProvider provider) {
         ShaderProcessorList list = new ShaderProcessorList(provider);
@@ -36,10 +37,12 @@ public class SodiumShaderProcessor {
         list.addPreprocessor(new SodiumShaderPreProcessor());
         VeilClient.clientPlatform().onRegisterShaderPreProcessors(provider, list);
         PROCESSOR.set(list);
+        CUSTOM_PROGRAM_DATA.set(new HashMap<>());
     }
 
     public static void free() {
         PROCESSOR.remove();
+        CUSTOM_PROGRAM_DATA.remove();
     }
 
     public static String modify(@Nullable ResourceLocation name, int activeBuffers, int type, String source) throws IOException, GlslSyntaxException, LexerException {
@@ -52,13 +55,14 @@ public class SodiumShaderProcessor {
         Map<String, String> macros = new HashMap<>();
         DynamicBufferType.addMacros(activeBuffers, macros);
         GlslTree tree = GlslParser.preprocessParse(source, macros);
-        processor.getProcessor().modify(new Context(processor, name, activeBuffers, type, macros), tree);
+        processor.getProcessor().modify(new Context(CUSTOM_PROGRAM_DATA.get(), processor, name, activeBuffers, type, macros), tree);
         GlslTree.stripGLMacros(macros);
         tree.getMacros().putAll(macros);
         return tree.toSourceString();
     }
 
-    private record Context(ShaderProcessorList processor,
+    private record Context(Map<String, Object> customProgramData,
+                           ShaderProcessorList processor,
                            ResourceLocation name,
                            int activeBuffers,
                            int type,
@@ -67,7 +71,7 @@ public class SodiumShaderProcessor {
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
             GlslTree tree = GlslParser.preprocessParse(source, this.macros);
-            this.processor.getImportProcessor().modify(new Context(this.processor, name, this.activeBuffers, this.type, this.macros), tree);
+            this.processor.getImportProcessor().modify(new Context(this.customProgramData, this.processor, name, this.activeBuffers, this.type, this.macros), tree);
             return tree;
         }
 

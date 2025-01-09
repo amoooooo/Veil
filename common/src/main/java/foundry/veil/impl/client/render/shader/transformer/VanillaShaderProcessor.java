@@ -41,7 +41,7 @@ public class VanillaShaderProcessor {
         PROCESSOR.remove();
     }
 
-    public static String modify(@Nullable String shaderInstance, @Nullable ResourceLocation name, @Nullable VertexFormat vertexFormat, int activeBuffers, int type, String source) throws IOException, GlslSyntaxException, LexerException {
+    public static String modify(Map<String, Object> customProgramData, @Nullable String shaderInstance, @Nullable ResourceLocation name, @Nullable VertexFormat vertexFormat, int activeBuffers, int type, String source) throws IOException, GlslSyntaxException, LexerException {
         ShaderProcessorList processor = PROCESSOR.get();
         if (processor == null) {
             throw new NullPointerException("Processor not initialized");
@@ -51,13 +51,14 @@ public class VanillaShaderProcessor {
         Map<String, String> macros = new HashMap<>();
         DynamicBufferType.addMacros(activeBuffers, macros);
         GlslTree tree = GlslParser.preprocessParse(source, macros);
-        processor.getProcessor().modify(new Context(processor, shaderInstance, name, activeBuffers, type, vertexFormat, macros), tree);
+        processor.getProcessor().modify(new Context(customProgramData, processor, shaderInstance, name, activeBuffers, type, vertexFormat, macros), tree);
         GlslTree.stripGLMacros(macros);
         tree.getMacros().putAll(macros);
         return tree.toSourceString();
     }
 
-    private record Context(ShaderProcessorList processor,
+    private record Context(Map<String, Object> customProgramData,
+                           ShaderProcessorList processor,
                            String shaderInstance,
                            ResourceLocation name,
                            int activeBuffers,
@@ -68,7 +69,7 @@ public class VanillaShaderProcessor {
         @Override
         public GlslTree modifyInclude(@Nullable ResourceLocation name, String source) throws IOException, GlslSyntaxException, LexerException {
             GlslTree tree = GlslParser.preprocessParse(source, this.macros);
-            this.processor.getImportProcessor().modify(new Context(this.processor, this.shaderInstance, name, this.activeBuffers, this.type, this.vertexFormat, this.macros), tree);
+            this.processor.getImportProcessor().modify(new Context(customProgramData, this.processor, this.shaderInstance, name, this.activeBuffers, this.type, this.vertexFormat, this.macros), tree);
             return tree;
         }
 

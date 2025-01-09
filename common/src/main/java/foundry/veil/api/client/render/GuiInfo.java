@@ -24,7 +24,6 @@ public class GuiInfo {
 
     public static VeilShaderBufferLayout<GuiInfo> createLayout() {
         return VeilShaderBufferLayout.<GuiInfo>builder()
-                .interfaceName("GuiInfo")
                 .f32("GuiScale", GuiInfo::getGuiScale)
                 .build();
     }

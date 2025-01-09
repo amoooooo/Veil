@@ -72,7 +72,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.id = id;
         this.shaders = new Int2ObjectArrayMap<>(2);
         this.attachedShaders = new Int2ObjectArrayMap<>(2);
-        this.uniforms = new ShaderUniformCache(this);
+        this.uniforms = new ShaderUniformCache(this::getProgram);
         this.textures = new ShaderTextureCache(this);
         this.shaderBlocks = new Object2ObjectArrayMap<>();
         this.textureSources = new HashMap<>();
@@ -302,12 +302,13 @@ public class ShaderProgramImpl implements ShaderProgram {
         if (this.program == 0) {
             return -1;
         }
-        return this.uniforms.getUniform(name);
+        ShaderUniformCache.Uniform uniform = this.uniforms.getUniform(name);
+        return uniform != null ? uniform.location() : -1;
     }
 
     @Override
     public boolean hasUniform(CharSequence name) {
-        return this.program != 0 && this.uniforms.hasUniform(name);
+        return this.program != 0 && this.uniforms.hasUniform(name.toString());
     }
 
     @Override
@@ -315,12 +316,13 @@ public class ShaderProgramImpl implements ShaderProgram {
         if (this.program == 0) {
             return GL_INVALID_INDEX;
         }
-        return this.uniforms.getUniformBlock(name);
+        ShaderUniformCache.UniformBlock block = this.uniforms.getUniformBlock(name.toString());
+        return block != null ? block.index() : GL_INVALID_INDEX;
     }
 
     @Override
     public boolean hasUniformBlock(CharSequence name) {
-        return this.program != 0 && this.uniforms.hasUniformBlock(name);
+        return this.program != 0 && this.uniforms.hasUniformBlock(name.toString());
     }
 
     @Override
@@ -328,12 +330,12 @@ public class ShaderProgramImpl implements ShaderProgram {
         if (this.program == 0) {
             return GL_INVALID_INDEX;
         }
-        return this.uniforms.getStorageBlock(name);
+        return this.uniforms.getStorageBlock(name.toString());
     }
 
     @Override
     public boolean hasStorageBlock(CharSequence name) {
-        return this.program != 0 && this.uniforms.hasStorageBlock(name);
+        return this.program != 0 && this.uniforms.hasStorageBlock(name.toString());
     }
 
     @Override
@@ -367,7 +369,7 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public void addSampler(CharSequence name, int textureId) {
-        if (this.uniforms.hasSampler(name)) {
+        if (this.uniforms.hasSampler(name.toString())) {
             this.textures.put(name, textureId);
         }
     }

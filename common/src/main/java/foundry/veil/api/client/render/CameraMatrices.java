@@ -39,7 +39,6 @@ public class CameraMatrices {
 
     public static VeilShaderBufferLayout<CameraMatrices> createLayout() {
         return VeilShaderBufferLayout.<CameraMatrices>builder()
-                .interfaceName("VeilCamera")
                 .mat4("ProjMat", CameraMatrices::getProjectionMatrix)
                 .mat4("IProjMat", CameraMatrices::getInverseProjectionMatrix)
                 .mat4("ViewMat", CameraMatrices::getViewMatrix)

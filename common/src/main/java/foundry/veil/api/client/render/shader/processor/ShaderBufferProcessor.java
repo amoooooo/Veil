@@ -36,7 +36,10 @@ public class ShaderBufferProcessor implements ShaderPreProcessor {
             }
         }
         for (String directive : buffers) {
-            String bufferId = directive.substring(ShaderBufferProcessor.BUFFER_KEY.length()).trim();
+            String[] parts = directive.substring(ShaderBufferProcessor.BUFFER_KEY.length()).split(" +", 2);
+            String bufferId = parts[0].trim();
+            String interfaceName = parts.length > 1 ? parts[1].trim() : null;
+
             try {
                 ResourceLocation name = ResourceLocation.parse(bufferId);
                 VeilShaderBufferLayout<?> layout = VeilShaderBufferRegistry.REGISTRY.get(name);
@@ -45,7 +48,7 @@ public class ShaderBufferProcessor implements ShaderPreProcessor {
                 }
 
                 GlslTree loadedImport = new GlslTree();
-                loadedImport.getBody().add(layout.createNode(this.shaderStorageSupported));
+                loadedImport.getBody().add(layout.createNode(this.shaderStorageSupported, interfaceName));
                 ctx.include(tree, "#buffer " + name, loadedImport, IncludeOverloadStrategy.SOURCE);
             } catch (ResourceLocationException e) {
                 throw new IOException("Invalid buffer: " + bufferId, e);
