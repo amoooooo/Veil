@@ -20,7 +20,6 @@ import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.impl.client.render.pipeline.PostPipelineContext;
 import foundry.veil.platform.VeilClientPlatform;
-import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
@@ -143,7 +142,6 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
 
     private void clear() {
         ShaderProgram.unbind();
-        AdvancedFbo.unbind();
         RenderSystem.depthFunc(GL_LEQUAL);
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(true);

@@ -19,11 +19,11 @@ public class DynamicBufferShard extends RenderStateShard {
     public DynamicBufferShard(ResourceLocation name, Supplier<RenderTarget> targetSupplier) {
         super(Veil.MODID + ":dynamic_buffer", () -> {
             if (!Veil.platform().hasErrors()) {
-                VeilRenderSystem.renderer().getDynamicBufferManger().setupRenderState(name, targetSupplier.get());
+                VeilRenderSystem.renderer().getDynamicBufferManger().setupRenderState(name, targetSupplier.get(), true);
             }
         }, () -> {
             if (!Veil.platform().hasErrors()) {
-                VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState();
+                VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true);
             }
         });
     }

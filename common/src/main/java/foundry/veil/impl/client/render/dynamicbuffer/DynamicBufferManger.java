@@ -183,10 +183,18 @@ public class DynamicBufferManger implements NativeResource {
         this.dynamicBuffers.clear();
     }
 
+    /**
+     * Sets up the rendering state for the specified target.
+     *
+     * @param name         The name of the framebuffer
+     * @param renderTarget The render target to wrap or <code>null</code> to free
+     * @param setViewport  Whether the viewport should also be set
+     * @return Whether the buffer was bound successfully
+     */
     @ApiStatus.Internal
-    public void setupRenderState(ResourceLocation name, @Nullable RenderTarget renderTarget) {
+    public boolean setupRenderState(ResourceLocation name, @Nullable RenderTarget renderTarget, boolean setViewport) {
         if (this.activeBuffers == 0 || !this.enabled) {
-            return;
+            return false;
         }
 
         if (renderTarget == null) {
@@ -195,7 +203,8 @@ public class DynamicBufferManger implements NativeResource {
             if (fbo != null) {
                 fbo.free();
             }
-            return;
+            // If the buffer doesn't exist, then try to bind the main framebuffer
+            return this.setupRenderState(MAIN_WRAPPER, Objects.requireNonNull(Minecraft.getInstance().getMainRenderTarget()), setViewport);
         }
 
         AdvancedFbo fbo = this.framebuffers.get(name);
@@ -214,7 +223,8 @@ public class DynamicBufferManger implements NativeResource {
         }
 
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(name, fbo);
-        fbo.bind(true);
+        fbo.bind(setViewport);
+        return true;
     }
 
     /**
@@ -272,13 +282,19 @@ public class DynamicBufferManger implements NativeResource {
         return fbo;
     }
 
+    /**
+     * Clears the current render state by binding the main framebuffer.
+     *
+     * @param setViewport Whether the viewport should also be set
+     * @return Whether the buffer was bound successfully
+     */
     @ApiStatus.Internal
-    public void clearRenderState() {
+    public boolean clearRenderState(boolean setViewport) {
         if (this.activeBuffers == 0 || !this.enabled) {
-            return;
+            return false;
         }
 
-        this.setupRenderState(MAIN_WRAPPER, Minecraft.getInstance().getMainRenderTarget());
+        return this.setupRenderState(MAIN_WRAPPER, Minecraft.getInstance().getMainRenderTarget(), setViewport);
     }
 
     @ApiStatus.Internal
@@ -303,15 +319,6 @@ public class DynamicBufferManger implements NativeResource {
         for (DynamicBuffer buffer : this.dynamicBuffers.values()) {
             buffer.resize(width, height);
         }
-    }
-
-    public static int getShaderIndex(int glType, int activeBuffers) {
-        for (int i = 0; i < GL_MAPPING.length; i++) {
-            if (GL_MAPPING[i] == glType) {
-                return i | activeBuffers << 4;
-            }
-        }
-        throw new IllegalArgumentException("Invalid GL Shader Type: 0x" + Integer.toHexString(glType).toUpperCase(Locale.ROOT));
     }
 
     private record DynamicBuffer(DynamicBufferType type, int textureId) {

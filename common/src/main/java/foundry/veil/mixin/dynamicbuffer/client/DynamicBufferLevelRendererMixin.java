@@ -1,5 +1,8 @@
 package foundry.veil.mixin.dynamicbuffer.client;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
@@ -18,9 +21,11 @@ public class DynamicBufferLevelRendererMixin {
     }
 
     // Correctly re-binds the
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V", shift = At.Shift.AFTER))
-    public void bindWrite(CallbackInfo ci) {
-        VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState();
+    @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V"))
+    public void bindWrite(RenderTarget instance, boolean setViewport, Operation<Void> original) {
+        if (!VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(setViewport)) {
+            original.call(instance, setViewport);
+        }
     }
 
     // This sets the blend function for rain correctly
