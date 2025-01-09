@@ -17,6 +17,8 @@ import foundry.veil.mixin.debug.accessor.DebugGameRendererAccessor;
 import foundry.veil.mixin.debug.accessor.DebugLevelRendererAccessor;
 import foundry.veil.mixin.debug.accessor.DebugPostChainAccessor;
 import imgui.ImGui;
+import imgui.ImGuiListClipper;
+import imgui.callback.ImListClipperCallback;
 import imgui.flag.*;
 import imgui.type.ImBoolean;
 import imgui.type.ImString;
@@ -48,12 +50,14 @@ import java.util.function.ObjIntConsumer;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static org.lwjgl.opengl.ARBProgramInterfaceQuery.GL_SHADER_STORAGE_BLOCK;
+import static org.lwjgl.opengl.ARBProgramInterfaceQuery.glGetProgramResourceiv;
 import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL21C.*;
 import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.opengl.GL32C.GL_GEOMETRY_SHADER;
 import static org.lwjgl.opengl.GL40C.*;
-import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
+import static org.lwjgl.opengl.GL43C.*;
 
 @ApiStatus.Internal
 public class ShaderInspector extends SingleWindowInspector implements ResourceManagerReloadListener {
@@ -352,7 +356,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                             ByteBuffer data = glMapBuffer(GL_COPY_READ_BUFFER, GL_READ_ONLY, block.size(), null);
                             for (ShaderUniformCache.Uniform field : block.fields()) {
                                 String name = field.name().startsWith(blockName) ? field.name().substring(blockName.length() + 1) : field.name();
-                                ImGui.selectable(data != null ? this.formatUniformBuffer(name, data, field) : name);
+                                ImGui.selectable(data != null ? this.formatBuffer(name, data, field, 0) : name);
                             }
                             glUnmapBuffer(GL_COPY_READ_BUFFER);
                             ImGui.unindent();
@@ -364,8 +368,47 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                 ImGui.beginDisabled(!VeilRenderSystem.shaderStorageBufferSupported());
                 if (ImGui.collapsingHeader(STORAGE_BLOCKS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
                     ImGui.indent();
-                    for (CharSequence block : this.uniformCache.getStorageBlockNames()) {
-                        ImGui.selectable(block.toString());
+                    List<Map.Entry<String, ShaderUniformCache.StorageBlock>> sorted = this.uniformCache.getStorageBlocks()
+                            .entrySet()
+                            .stream()
+                            .sorted(Comparator.comparingInt(entry -> entry.getValue().index()))
+                            .toList();
+                    try (MemoryStack stack = MemoryStack.stackPush()) {
+                        IntBuffer properties = stack.ints(GL_BUFFER_BINDING);
+                        IntBuffer buffer = stack.mallocInt(1);
+
+                        for (Map.Entry<String, ShaderUniformCache.StorageBlock> entry : sorted) {
+                            String blockName = entry.getKey();
+                            if (ImGui.collapsingHeader(blockName)) {
+                                ImGui.indent();
+
+                                ShaderUniformCache.StorageBlock block = entry.getValue();
+                                glGetProgramResourceiv(program, GL_SHADER_STORAGE_BLOCK, block.index(), properties, null, buffer);
+                                RenderSystem.glBindBuffer(GL_COPY_READ_BUFFER, buffer.get(0));
+                                int size = block.array() ? glGetBufferParameteri(GL_COPY_READ_BUFFER, GL_BUFFER_SIZE) : block.size();
+                                ByteBuffer data = glMapBuffer(GL_COPY_READ_BUFFER, GL_READ_ONLY, size, null);
+
+                                ShaderUniformCache.Uniform[] fields = block.fields();
+                                for (int i = 0; i < fields.length; i++) {
+                                    ShaderUniformCache.Uniform field = fields[i];
+                                    String name = field.name().startsWith(blockName) ? field.name().substring(blockName.length() + 1) : field.name();
+
+                                    if (block.array() && i >= fields.length - 1 && data != null) {
+                                        ImGuiListClipper.forEach((data.limit() - field.offset()) / block.arrayStride(), (int) ImGui.getTextLineHeightWithSpacing(), new ImListClipperCallback() {
+                                            @Override
+                                            public void accept(int index) {
+                                                ImGui.selectable(ShaderInspector.this.formatBuffer(name, data, field, index));
+                                            }
+                                        });
+                                        continue;
+                                    }
+
+                                    ImGui.selectable(data != null ? this.formatBuffer(name, data, field, 0) : name);
+                                }
+                                glUnmapBuffer(GL_COPY_READ_BUFFER);
+                                ImGui.unindent();
+                            }
+                        }
                     }
                     ImGui.unindent();
                 }
@@ -448,76 +491,76 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
         }
     }
 
-    private String formatUniformBuffer(String name, ByteBuffer buffer, ShaderUniformCache.Uniform uniform) {
+    private String formatBuffer(String name, ByteBuffer buffer, ShaderUniformCache.Uniform uniform, int offset) {
         return switch (uniform.type()) {
             case GL_FLOAT ->
-                    this.formatFloats(uniform.offset() + ": float " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 1, 1);
+                    this.formatFloats((uniform.offset() + offset) + ": float " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 1, 1);
             case GL_FLOAT_VEC2 ->
-                    this.formatFloats(uniform.offset() + ": vec2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 1);
+                    this.formatFloats((uniform.offset() + offset) + ": vec2 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 2, 1);
             case GL_FLOAT_VEC3 ->
-                    this.formatFloats(uniform.offset() + ": vec3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 1);
+                    this.formatFloats((uniform.offset() + offset) + ": vec3 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 3, 1);
             case GL_FLOAT_VEC4 ->
-                    this.formatFloats(uniform.offset() + ": vec4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 1);
+                    this.formatFloats((uniform.offset() + offset) + ": vec4 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 4, 1);
             case GL_DOUBLE ->
-                    this.formatDoubles(uniform.offset() + ": double " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 1, 1);
+                    this.formatDoubles((uniform.offset() + offset) + ": double " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 1, 1);
             case GL_DOUBLE_VEC2 ->
-                    this.formatDoubles(uniform.offset() + ": dvec2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 1);
+                    this.formatDoubles((uniform.offset() + offset) + ": dvec2 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 2, 1);
             case GL_DOUBLE_VEC3 ->
-                    this.formatDoubles(uniform.offset() + ": dvec3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 1);
+                    this.formatDoubles((uniform.offset() + offset) + ": dvec3 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 3, 1);
             case GL_DOUBLE_VEC4 ->
-                    this.formatDoubles(uniform.offset() + ": dvec4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 1);
+                    this.formatDoubles((uniform.offset() + offset) + ": dvec4 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 4, 1);
             case GL_INT ->
-                    this.formatInts(uniform.offset() + ": int " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 1);
+                    this.formatInts((uniform.offset() + offset) + ": int " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 1);
             case GL_INT_VEC2 ->
-                    this.formatInts(uniform.offset() + ": ivec2 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 2);
+                    this.formatInts((uniform.offset() + offset) + ": ivec2 " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 2);
             case GL_INT_VEC3 ->
-                    this.formatInts(uniform.offset() + ": ivec3 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 3);
+                    this.formatInts((uniform.offset() + offset) + ": ivec3 " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 3);
             case GL_INT_VEC4 ->
-                    this.formatInts(uniform.offset() + ": ivec4 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 4);
+                    this.formatInts((uniform.offset() + offset) + ": ivec4 " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 4);
             case GL_UNSIGNED_INT ->
-                    this.formatUInts(uniform.offset() + ": uint " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 1);
+                    this.formatUInts((uniform.offset() + offset) + ": uint " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 1);
             case GL_UNSIGNED_INT_VEC2 ->
-                    this.formatUInts(uniform.offset() + ": uvec2 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 2);
+                    this.formatUInts((uniform.offset() + offset) + ": uvec2 " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 2);
             case GL_UNSIGNED_INT_VEC3 ->
-                    this.formatUInts(uniform.offset() + ": uvec3 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 3);
+                    this.formatUInts((uniform.offset() + offset) + ": uvec3 " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 3);
             case GL_UNSIGNED_INT_VEC4 ->
-                    this.formatUInts(uniform.offset() + ": uvec4 " + name, i -> buffer.getInt(uniform.offset() + (i << 2)), 4);
+                    this.formatUInts((uniform.offset() + offset) + ": uvec4 " + name, i -> buffer.getInt(uniform.offset() + offset + (i << 2)), 4);
             case GL_FLOAT_MAT2 ->
-                    this.formatFloats(uniform.offset() + ": mat2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 2);
+                    this.formatFloats((uniform.offset() + offset) + ": mat2 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 2, 2);
             case GL_FLOAT_MAT3 ->
-                    this.formatFloats(uniform.offset() + ": mat3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 3);
+                    this.formatFloats((uniform.offset() + offset) + ": mat3 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 3, 3);
             case GL_FLOAT_MAT4 ->
-                    this.formatFloats(uniform.offset() + ": mat4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 4);
+                    this.formatFloats((uniform.offset() + offset) + ": mat4 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 4, 4);
             case GL_FLOAT_MAT2x3 ->
-                    this.formatFloats(uniform.offset() + ": mat2x3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 3);
+                    this.formatFloats((uniform.offset() + offset) + ": mat2x3 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 2, 3);
             case GL_FLOAT_MAT2x4 ->
-                    this.formatFloats(uniform.offset() + ": mat2x4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 2, 4);
+                    this.formatFloats((uniform.offset() + offset) + ": mat2x4 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 2, 4);
             case GL_FLOAT_MAT3x2 ->
-                    this.formatFloats(uniform.offset() + ": mat3x2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 2);
+                    this.formatFloats((uniform.offset() + offset) + ": mat3x2 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 3, 2);
             case GL_FLOAT_MAT3x4 ->
-                    this.formatFloats(uniform.offset() + ": mat3x4 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 3, 4);
+                    this.formatFloats((uniform.offset() + offset) + ": mat3x4 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 3, 4);
             case GL_FLOAT_MAT4x2 ->
-                    this.formatFloats(uniform.offset() + ": mat4x2 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 2);
+                    this.formatFloats((uniform.offset() + offset) + ": mat4x2 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 4, 2);
             case GL_FLOAT_MAT4x3 ->
-                    this.formatFloats(uniform.offset() + ": mat4x3 " + name, i -> buffer.getFloat(uniform.offset() + (i << 2)), 4, 3);
+                    this.formatFloats((uniform.offset() + offset) + ": mat4x3 " + name, i -> buffer.getFloat(uniform.offset() + offset + (i << 2)), 4, 3);
             case GL_DOUBLE_MAT2 ->
-                    this.formatDoubles(uniform.offset() + ": dmat2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 2);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat2 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 2, 2);
             case GL_DOUBLE_MAT3 ->
-                    this.formatDoubles(uniform.offset() + ": dmat3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 3);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat3 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 3, 3);
             case GL_DOUBLE_MAT4 ->
-                    this.formatDoubles(uniform.offset() + ": dmat4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 4);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat4 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 4, 4);
             case GL_DOUBLE_MAT2x3 ->
-                    this.formatDoubles(uniform.offset() + ": dmat2x3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 3);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat2x3 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 2, 3);
             case GL_DOUBLE_MAT2x4 ->
-                    this.formatDoubles(uniform.offset() + ": dmat2x4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 2, 4);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat2x4 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 2, 4);
             case GL_DOUBLE_MAT3x2 ->
-                    this.formatDoubles(uniform.offset() + ": dmat3x2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 2);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat3x2 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 3, 2);
             case GL_DOUBLE_MAT3x4 ->
-                    this.formatDoubles(uniform.offset() + ": dmat3x4 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 3, 4);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat3x4 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 3, 4);
             case GL_DOUBLE_MAT4x2 ->
-                    this.formatDoubles(uniform.offset() + ": dmat4x2 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 2);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat4x2 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 4, 2);
             case GL_DOUBLE_MAT4x3 ->
-                    this.formatDoubles(uniform.offset() + ": dmat4x3 " + name, i -> buffer.getDouble(uniform.offset() + (i << 3)), 4, 3);
+                    this.formatDoubles((uniform.offset() + offset) + ": dmat4x3 " + name, i -> buffer.getDouble(uniform.offset() + offset + (i << 3)), 4, 3);
             default -> name;
         };
     }

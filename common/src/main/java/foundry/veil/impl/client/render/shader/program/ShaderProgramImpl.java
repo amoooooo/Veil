@@ -330,7 +330,8 @@ public class ShaderProgramImpl implements ShaderProgram {
         if (this.program == 0) {
             return GL_INVALID_INDEX;
         }
-        return this.uniforms.getStorageBlock(name.toString());
+        ShaderUniformCache.StorageBlock block = this.uniforms.getStorageBlock(name.toString());
+        return block != null ? block.index() : GL_INVALID_INDEX;
     }
 
     @Override

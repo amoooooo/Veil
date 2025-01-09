@@ -5,7 +5,10 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.ints.IntSet;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
@@ -180,7 +183,7 @@ public class ShaderUniformCache {
     private final ObjectSet<String> samplers;
     private final Object2ObjectMap<String, Uniform> uniforms;
     private final Object2ObjectMap<String, UniformBlock> uniformBlocks;
-    private final Object2IntMap<String> storageBlocks;
+    private final Object2ObjectMap<String, StorageBlock> storageBlocks;
     private boolean requested;
 
     public ShaderUniformCache(IntSupplier shader) {
@@ -188,7 +191,7 @@ public class ShaderUniformCache {
         this.samplers = new ObjectArraySet<>();
         this.uniforms = new Object2ObjectOpenHashMap<>();
         this.uniformBlocks = new Object2ObjectOpenHashMap<>();
-        this.storageBlocks = new Object2IntArrayMap<>();
+        this.storageBlocks = new Object2ObjectOpenHashMap<>();
         this.requested = false;
     }
 
@@ -212,9 +215,10 @@ public class ShaderUniformCache {
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 IntBuffer uniformProperties = stack.ints(GL_BLOCK_INDEX, GL_ARRAY_SIZE, GL_NAME_LENGTH, GL_LOCATION, GL_TYPE);
                 IntBuffer uniformBlockProperties = stack.ints(GL_NAME_LENGTH, GL_BUFFER_DATA_SIZE, GL_NUM_ACTIVE_VARIABLES);
-                IntBuffer uniformBlockFieldProperties = stack.ints(GL_NAME_LENGTH, GL_LOCATION, GL_OFFSET, GL_TYPE, GL_ATOMIC_COUNTER_BUFFER_INDEX);
-                IntBuffer shaderBlockProperties = stack.ints(GL_NAME_LENGTH);
-                IntBuffer values = stack.mallocInt(5);
+                IntBuffer uniformBlockFieldProperties = stack.ints(GL_NAME_LENGTH, GL_ARRAY_SIZE, GL_ARRAY_STRIDE, GL_OFFSET, GL_TYPE, GL_ATOMIC_COUNTER_BUFFER_INDEX);
+                IntBuffer uniformBufferFieldProperties = stack.ints(GL_NAME_LENGTH, GL_ARRAY_SIZE, GL_ARRAY_STRIDE, GL_OFFSET, GL_TYPE);
+                IntBuffer activeVariables = stack.ints(GL_ACTIVE_VARIABLES);
+                IntBuffer values = stack.mallocInt(6);
 
                 for (int i = 0; i < uniformCount; i++) {
                     glGetProgramResourceiv(program, GL_UNIFORM, i, uniformProperties, null, values);
@@ -250,26 +254,68 @@ public class ShaderUniformCache {
                     List<Uniform> fields = new ArrayList<>(fieldCount);
 
                     IntBuffer fieldIndices = stack.mallocInt(fieldCount);
-                    glGetProgramResourceiv(program, GL_UNIFORM_BLOCK, i, stack.ints(GL_ACTIVE_VARIABLES), null, fieldIndices);
+                    glGetProgramResourceiv(program, GL_UNIFORM_BLOCK, i, activeVariables, null, fieldIndices);
 
                     for (int j = 0; j < fieldCount; j++) {
                         glGetProgramResourceiv(program, GL_UNIFORM, fieldIndices.get(j), uniformBlockFieldProperties, null, values);
 
                         // It must be an atomic counter, so ignore it
-                        if (values.get(4) != -1) {
+                        if (values.get(5) != -1) {
                             continue;
                         }
 
                         String name = glGetProgramResourceName(program, GL_UNIFORM, fieldIndices.get(j), values.get(0));
-                        fields.add(new Uniform(name, values.get(1), values.get(2), values.get(3)));
+                        int arrayLength = values.get(1);
+                        int offset = values.get(3);
+                        int type = values.get(4);
+                        if (arrayLength > 0) {
+                            int stride = values.get(2);
+                            String nameBase = name.substring(0, name.length() - 3);
+                            for (int k = 0; k < arrayLength; k++) {
+                                fields.add(new Uniform(nameBase + '[' + k + ']', -1, offset + stride * k, type));
+                            }
+                        } else {
+                            fields.add(new Uniform(name, -1, offset, type));
+                        }
                     }
                     this.uniformBlocks.put(blockName, new UniformBlock(blockName, i, size, fields.toArray(Uniform[]::new)));
                 }
 
                 for (int i = 0; i < storageBlockCount; i++) {
-                    glGetProgramResourceiv(program, GL_SHADER_STORAGE_BLOCK, i, shaderBlockProperties, null, values);
-                    String name = glGetProgramResourceName(program, GL_SHADER_STORAGE_BLOCK, i, values.get(0));
-                    this.storageBlocks.put(name, i);
+                    glGetProgramResourceiv(program, GL_SHADER_STORAGE_BLOCK, i, uniformBlockProperties, null, values);
+                    String blockName = glGetProgramResourceName(program, GL_SHADER_STORAGE_BLOCK, i, values.get(0));
+
+                    int size = values.get(1);
+                    int fieldCount = values.get(2);
+                    List<Uniform> fields = new ArrayList<>(fieldCount);
+
+                    IntBuffer fieldIndices = stack.mallocInt(fieldCount);
+                    glGetProgramResourceiv(program, GL_SHADER_STORAGE_BLOCK, i, activeVariables, null, fieldIndices);
+
+                    for (int j = 0; j < fieldCount; j++) {
+                        glGetProgramResourceiv(program, GL_BUFFER_VARIABLE, fieldIndices.get(j), uniformBufferFieldProperties, null, values);
+
+                        String name = glGetProgramResourceName(program, GL_BUFFER_VARIABLE, fieldIndices.get(j), values.get(0));
+                        int arrayLength = values.get(1);
+                        int offset = values.get(3);
+                        int type = values.get(4);
+                        if (arrayLength > 1) {
+                            int stride = values.get(2);
+                            String nameBase = name.substring(0, name.length() - 3);
+                            for (int k = 0; k < arrayLength; k++) {
+                                fields.add(new Uniform(nameBase + '[' + k + ']', -1, offset + stride * k, type));
+                            }
+                        } else {
+                            fields.add(new Uniform(name, -1, offset, type));
+                        }
+                    }
+
+                    Uniform last = fields.getLast();
+                    boolean array = last.name.endsWith("[0]");
+                    if (array) {
+                        fields.set(fields.size() - 1, new Uniform(last.name.substring(0, last.name.length() - 3), last.location, last.offset, last.type));
+                    }
+                    this.storageBlocks.put(blockName, new StorageBlock(blockName, i, size, values.get(2), fields.toArray(Uniform[]::new)));
                 }
 
                 // TODO load atomic counters
@@ -352,11 +398,11 @@ public class ShaderUniformCache {
         return this.uniformBlocks.containsKey(name);
     }
 
-    public int getStorageBlock(String name) {
+    public @Nullable StorageBlock getStorageBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.storageBlocks.getOrDefault(name, GL_INVALID_INDEX);
+        return this.storageBlocks.get(name);
     }
 
     public boolean hasStorageBlock(String name) {
@@ -394,11 +440,11 @@ public class ShaderUniformCache {
         return this.uniformBlocks;
     }
 
-    public Set<String> getStorageBlockNames() {
+    public Map<String, StorageBlock> getStorageBlocks() {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.storageBlocks.keySet();
+        return this.storageBlocks;
     }
 
     public static boolean isSampler(int type) {
@@ -413,5 +459,11 @@ public class ShaderUniformCache {
     }
 
     public record UniformBlock(String name, int index, int size, Uniform[] fields) {
+    }
+
+    public record StorageBlock(String name, int index, int size, int arrayStride, Uniform[] fields) {
+        public boolean array() {
+            return this.arrayStride > 0;
+        }
     }
 }
