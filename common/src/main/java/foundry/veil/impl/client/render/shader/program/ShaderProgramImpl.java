@@ -124,9 +124,15 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     public void recompile(int activeBuffers, ShaderSourceSet sourceSet, ShaderCompiler compiler) throws ShaderException, IOException {
-        CompiledProgram compiledProgram = this.programs.computeIfAbsent(activeBuffers, unused -> CompiledProgram.create());
+        CompiledProgram compiledProgram = CompiledProgram.create();
         try {
             this.attachShaders(compiledProgram, sourceSet, compiler);
+
+            CompiledProgram old = this.programs.put(activeBuffers, compiledProgram);
+            if (old != null) {
+                old.free();
+            }
+            
             this.applyProgram(compiledProgram);
         } catch (Exception e) {
             if (this.compiledProgram == null) {
