@@ -134,7 +134,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -143,9 +143,11 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearRenderState()" class="member-name-link">clearRenderState</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearRenderState(boolean)" class="member-name-link">clearRenderState</a><wbr>(boolean&nbsp;setViewport)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Clears the current render state by binding the main framebuffer.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -164,25 +166,24 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a dynamic fbo from the specified framebuffer.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getShaderIndex(int,int)" class="member-name-link">getShaderIndex</a><wbr>(int&nbsp;glType,
- int&nbsp;activeBuffers)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resizeFramebuffers(int,int)" class="member-name-link">resizeFramebuffers</a><wbr>(int&nbsp;width,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resizeFramebuffers(int,int)" class="member-name-link">resizeFramebuffers</a><wbr>(int&nbsp;width,
  int&nbsp;height)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActiveBuffers(net.minecraft.resources.ResourceLocation,int)" class="member-name-link">setActiveBuffers</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
- int&nbsp;activeBuffers)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnabled(boolean)" class="member-name-link">setEnabled</a><wbr>(boolean&nbsp;enabled)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setActiveBuffers(net.minecraft.resources.ResourceLocation,int)" class="member-name-link">setActiveBuffers</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
+ int&nbsp;activeBuffers)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupRenderState(net.minecraft.resources.ResourceLocation,com.mojang.blaze3d.pipeline.RenderTarget)" class="member-name-link">setupRenderState</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
- @Nullable com.mojang.blaze3d.pipeline.RenderTarget&nbsp;renderTarget)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setEnabled(boolean)" class="member-name-link">setEnabled</a><wbr>(boolean&nbsp;enabled)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupRenderState(net.minecraft.resources.ResourceLocation,com.mojang.blaze3d.pipeline.RenderTarget,boolean)" class="member-name-link">setupRenderState</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;name,
+ @Nullable com.mojang.blaze3d.pipeline.RenderTarget&nbsp;renderTarget,
+ boolean&nbsp;setViewport)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets up the rendering state for the specified target.</div>
+</div>
 </div>
 </div>
 </div>
@@ -275,12 +276,22 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setupRenderState(net.minecraft.resources.ResourceLocation,com.mojang.blaze3d.pipeline.RenderTarget)">
+<section class="detail" id="setupRenderState(net.minecraft.resources.ResourceLocation,com.mojang.blaze3d.pipeline.RenderTarget,boolean)">
 <h3>setupRenderState</h3>
 <div class="member-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupRenderState</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">setupRenderState</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;name,
  @Nullable
- @Nullable com.mojang.blaze3d.pipeline.RenderTarget&nbsp;renderTarget)</span></div>
+ @Nullable com.mojang.blaze3d.pipeline.RenderTarget&nbsp;renderTarget,
+ boolean&nbsp;setViewport)</span></div>
+<div class="block">Sets up the rendering state for the specified target.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the framebuffer</dd>
+<dd><code>renderTarget</code> - The render target to wrap or <code>null</code> to free</dd>
+<dd><code>setViewport</code> - Whether the viewport should also be set</dd>
+<dt>Returns:</dt>
+<dd>Whether the buffer was bound successfully</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -300,10 +311,17 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="clearRenderState()">
+<section class="detail" id="clearRenderState(boolean)">
 <h3>clearRenderState</h3>
 <div class="member-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clearRenderState</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">clearRenderState</span><wbr><span class="parameters">(boolean&nbsp;setViewport)</span></div>
+<div class="block">Clears the current render state by binding the main framebuffer.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>setViewport</code> - Whether the viewport should also be set</dd>
+<dt>Returns:</dt>
+<dd>Whether the buffer was bound successfully</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -319,13 +337,6 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="member-signature"><span class="annotations">@Internal
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resizeFramebuffers</span><wbr><span class="parameters">(int&nbsp;width,
  int&nbsp;height)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getShaderIndex(int,int)">
-<h3>getShaderIndex</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getShaderIndex</span><wbr><span class="parameters">(int&nbsp;glType,
- int&nbsp;activeBuffers)</span></div>
 </section>
 </li>
 </ul>
