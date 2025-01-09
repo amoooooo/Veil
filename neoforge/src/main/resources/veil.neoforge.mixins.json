@@ -13,6 +13,7 @@
   "client": [
     "client.MinecraftMixin",
     "client.RenderTypeMixin",
+    "client.debug.vanilla.DebugLevelRendererMixin",
     "client.perspective.vanilla.LevelRendererMixin",
     "compat.iris.IrisRenderingPipelineAccessor",
     "compat.sodium.BlockRendererMixin",

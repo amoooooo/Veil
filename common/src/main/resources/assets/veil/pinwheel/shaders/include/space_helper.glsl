@@ -108,3 +108,9 @@ vec4 screenToViewSpace(vec2 uv, float depth) {
 vec4 screenToClipSpace(vec2 uv, float depth) {
     return vec4(uv, depth, 1.0) * 2.0 - 1.0;
 }
+
+// Space Util
+
+vec3 viewDirFromUv(vec2 uv) {
+    return (VeilCamera.IViewMat * vec4(normalize(screenToViewSpace(uv, 1.0).xyz), 0.0)).xyz;
+}

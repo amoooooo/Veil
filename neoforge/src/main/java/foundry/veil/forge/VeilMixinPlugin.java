@@ -14,7 +14,8 @@ public class VeilMixinPlugin implements IMixinConfigPlugin {
 
     private static final Set<String> COMPAT = Set.of(
             "foundry.veil.forge.mixin.client.stage",
-            "foundry.veil.forge.mixin.client.perspective"
+            "foundry.veil.forge.mixin.client.perspective",
+            "foundry.veil.forge.mixin.client.debug"
     );
     private static final Set<String> SODIUM_WITHOUT_IRIS_COMPAT = Set.of();
     private final Map<String, Boolean> loadedMods = new HashMap<>();
