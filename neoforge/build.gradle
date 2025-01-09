@@ -46,15 +46,6 @@ neoForge {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
-def shaderCPlatforms = [
-        "linux",
-        "linux-arm64",
-        "macos",
-        "macos-arm64",
-        "windows",
-        "windows-arm64",
-]
-
 repositories {
     maven {
         url "https://maven.su5ed.dev/releases"
@@ -67,15 +58,10 @@ dependencies {
     jarJar(api(additionalRuntimeClasspath("io.github.spair:imgui-java-binding:$imgui_version")))
     jarJar(api(additionalRuntimeClasspath("io.github.spair:imgui-java-lwjgl3:$imgui_version")))
     jarJar(api(additionalRuntimeClasspath("org.lwjgl:lwjgl-opencl:$lwjgl_version")))
-    jarJar(api(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version")))
 
     jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-linux:$imgui_version"))
-    jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))
+//    jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))
     jarJar(additionalRuntimeClasspath("io.github.spair:imgui-java-natives-windows:$imgui_version"))
-
-    for (final def name in shaderCPlatforms) {
-        jarJar(additionalRuntimeClasspath("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-$name"))
-    }
 
     compileOnly "maven.modrinth:sodium:mc1.21.1-${sodium_version}-neoforge"
     compileOnly "maven.modrinth:iris:1.8.1+1.21.1-neoforge"
@@ -84,33 +70,4 @@ dependencies {
 
     // Allows sodium compat to compile properly
     compileOnly "org.sinytra.forgified-fabric-api:forgified-fabric-api:0.104.0+2.0.19+1.21.1"
-}
-
-jar {
-    // This is a dirty hack to make sure neoforge can detect the jars since they have the same "artifact" name
-    eachFile {
-        if (it.path.endsWith("jarjar/metadata.json")) {
-            StringBuilder contents = new StringBuilder();
-            try (Scanner scanner = new Scanner(it.open())) {
-                def i = -1;
-                while (scanner.hasNextLine()) {
-                    def line = scanner.nextLine()
-                    if (line.contains("\"artifact\": \"lwjgl-shaderc\"")) {
-                        if (i >= 0) {
-                            contents.append("        \"artifact\": \"lwjgl-shaderc-natives-").append(shaderCPlatforms[i]).append("\"\n")
-                        } else {
-                            contents.append("        \"artifact\": \"lwjgl-shaderc\"\n")
-                        }
-                        i++
-                    } else {
-                        contents.append(line).append('\n')
-                    }
-                }
-            }
-
-            try (FileOutputStream os = new FileOutputStream(it.getFile())) {
-                os.write(contents.toString().getBytes(StandardCharsets.UTF_8))
-            }
-        }
-    }
 }

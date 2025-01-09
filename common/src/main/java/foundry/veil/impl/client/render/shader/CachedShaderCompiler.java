@@ -1,10 +1,8 @@
 package foundry.veil.impl.client.render.shader;
 
 import foundry.veil.api.client.render.shader.CompiledShader;
-import foundry.veil.api.client.render.shader.ShaderCompiler;
 import foundry.veil.api.client.render.shader.ShaderException;
 import foundry.veil.api.client.render.shader.VeilShaderSource;
-import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.resources.ResourceLocation;
@@ -30,23 +28,23 @@ public class CachedShaderCompiler extends DirectShaderCompiler {
     }
 
     @Override
-    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException {
+    public CompiledShader compile(int type, ResourceLocation path) throws IOException, ShaderException {
         int hash = Objects.hash(type, path);
         if (this.shaders.containsKey(hash)) {
             return this.shaders.get(hash);
         }
-        CompiledShader shader = super.compile(type, sourceType, path);
+        CompiledShader shader = super.compile(type, path);
         this.shaders.put(hash, shader);
         return shader;
     }
 
     @Override
-    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException {
+    public CompiledShader compile(int type, VeilShaderSource source) throws ShaderException {
         int hash = Objects.hash(type, source.sourceId());
         if (this.shaders.containsKey(hash)) {
             return this.shaders.get(hash);
         }
-        CompiledShader shader = super.compile(type, sourceType, source);
+        CompiledShader shader = super.compile(type, source);
         this.shaders.put(hash, shader);
         return shader;
     }

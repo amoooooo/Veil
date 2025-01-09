@@ -169,9 +169,9 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
             }
 
             Map<String, Object> customProgramData = new HashMap<>();
-            for (Int2ObjectMap.Entry<ProgramDefinition.ShaderSource> shader : definition.shaders().int2ObjectEntrySet()) {
+            for (Int2ObjectMap.Entry<ResourceLocation> shader : definition.shaders().int2ObjectEntrySet()) {
                 int type = shader.getIntKey();
-                ResourceLocation shaderId = shader.getValue().location();
+                ResourceLocation shaderId = shader.getValue();
 
                 FileToIdConverter typeConverter = this.sourceSet.getTypeConverter(type);
                 ResourceLocation location = typeConverter.idToFile(shaderId);

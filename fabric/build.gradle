@@ -55,19 +55,10 @@ dependencies {
     }
 
     runtimeOnly(include("io.github.spair:imgui-java-natives-linux:$imgui_version"))
-    runtimeOnly(include("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))
+//    runtimeOnly(include("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))
     runtimeOnly(include("io.github.spair:imgui-java-natives-windows:$imgui_version"))
 
     api(include("org.lwjgl:lwjgl-opencl:$lwjgl_version")) {
         transitive false
     }
-    api(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version")) {
-        transitive false
-    }
-    runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-linux"))
-    runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-linux-arm64"))
-    runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-macos"))
-    runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-macos-arm64"))
-    runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-windows"))
-    runtimeOnly(include("org.lwjgl:lwjgl-shaderc:$lwjgl_version:natives-windows-arm64"))
 }

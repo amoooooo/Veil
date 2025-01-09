@@ -1,6 +1,5 @@
 package foundry.veil.api.client.render.shader;
 
-import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.impl.client.render.shader.CachedShaderCompiler;
 import foundry.veil.impl.client.render.shader.DirectShaderCompiler;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +29,7 @@ public interface ShaderCompiler extends NativeResource {
      * @throws IOException     If the file could not be found
      * @throws ShaderException If an error occurs while compiling the shader
      */
-    CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException;
+    CompiledShader compile(int type, ResourceLocation path) throws IOException, ShaderException;
 
     /**
      * Creates a new shader and attempts to attach the specified sources to it.
@@ -41,7 +40,7 @@ public interface ShaderCompiler extends NativeResource {
      * @return A new shader that can be attached to programs
      * @throws ShaderException If an error occurs while compiling the shader
      */
-    CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException;
+    CompiledShader compile(int type, VeilShaderSource source) throws ShaderException;
 
     /**
      * Constructs a shader compiler that creates a new shader for each requested type.

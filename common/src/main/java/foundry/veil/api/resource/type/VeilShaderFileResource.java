@@ -45,8 +45,8 @@ public record VeilShaderFileResource(VeilResourceInfo resourceInfo, ShaderManage
                 continue;
             }
 
-            for (Int2ObjectMap.Entry<ProgramDefinition.ShaderSource> shaderEntry : definition.shaders().int2ObjectEntrySet()) {
-                ResourceLocation sourceName = shaderEntry.getValue().location();
+            for (Int2ObjectMap.Entry<ResourceLocation> shaderEntry : definition.shaders().int2ObjectEntrySet()) {
+                ResourceLocation sourceName = shaderEntry.getValue();
                 if (sourceName == null) {
                     continue;
                 }

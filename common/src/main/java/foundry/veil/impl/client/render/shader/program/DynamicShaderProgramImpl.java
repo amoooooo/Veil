@@ -50,14 +50,14 @@ public class DynamicShaderProgramImpl extends ShaderProgramImpl {
         for (Int2ObjectMap.Entry<VeilShaderSource> entry : this.processedShaderSources.int2ObjectEntrySet()) {
             int glType = entry.getIntKey();
             VeilShaderSource source = entry.getValue();
-            compiledProgram.attachShader(glType, compiler.compile(glType, ProgramDefinition.SourceType.GLSL, source));
+            compiledProgram.attachShader(glType, compiler.compile(glType, source));
         }
 
         // Fragment shaders aren't strictly necessary if the fragment output isn't used,
         // however mac shaders don't work without a fragment shader. This adds a "dummy" fragment shader
         // on mac specifically for all rendering shaders.
         if (Minecraft.ON_OSX && !this.processedShaderSources.containsKey(GL_COMPUTE_SHADER) && !this.processedShaderSources.containsKey(GL_FRAGMENT_SHADER)) {
-            compiledProgram.attachShader(GL_FRAGMENT_SHADER, compiler.compile(GL_FRAGMENT_SHADER, ProgramDefinition.SourceType.GLSL, DUMMY_FRAGMENT_SHADER));
+            compiledProgram.attachShader(GL_FRAGMENT_SHADER, compiler.compile(GL_FRAGMENT_SHADER, DUMMY_FRAGMENT_SHADER));
         }
     }
 

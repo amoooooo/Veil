@@ -4,8 +4,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.*;
-import foundry.veil.api.client.render.shader.program.ProgramDefinition;
-import foundry.veil.impl.client.render.ext.VeilShaderSPIRV;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -20,7 +18,7 @@ import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 /**
- * Creates a new shader and compiles each time {@link #compile(int, ProgramDefinition.SourceType, VeilShaderSource)} is called.
+ * Creates a new shader and compiles each time {@link #compile(int, VeilShaderSource)} is called.
  * This should only be used for compiling single shaders.
  *
  * @author Ocelot
@@ -41,27 +39,21 @@ public class DirectShaderCompiler implements ShaderCompiler {
     }
 
     @Override
-    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, ResourceLocation path) throws IOException, ShaderException {
+    public CompiledShader compile(int type, ResourceLocation path) throws IOException, ShaderException {
         if (this.provider == null) {
             throw new IOException("Failed to read " + ShaderManager.getTypeName(type) + " from " + path + " because no provider was specified");
         }
-        return this.compile(type, sourceType, this.provider.getShader(path));
+        return this.compile(type, this.provider.getShader(path));
     }
 
     @Override
-    public CompiledShader compile(int type, ProgramDefinition.SourceType sourceType, VeilShaderSource source) throws ShaderException {
+    public CompiledShader compile(int type, VeilShaderSource source) throws ShaderException {
         this.validateType(type);
 
         String sourceCode = source.sourceCode();
         ResourceLocation sourceId = source.sourceId();
-        String fileName = sourceId != null ? sourceId.toString() : "VeilDynamic" + sourceCode.hashCode();
         int shader = glCreateShader(type);
-        switch (sourceType) {
-            case GLSL -> GlStateManager.glShaderSource(shader, List.of(sourceCode));
-            case GLSL_SPIRV -> VeilShaderSPIRV.get().compile(shader, type, fileName, sourceCode, false);
-            case HLSL_SPIRV -> VeilShaderSPIRV.get().compile(shader, type, fileName, sourceCode, true);
-            case SPIRV -> throw new UnsupportedOperationException("TODO implement");
-        }
+        GlStateManager.glShaderSource(shader, List.of(sourceCode));
 
         glCompileShader(shader);
         if (glGetShaderi(shader, GL_COMPILE_STATUS) != GL_TRUE) {

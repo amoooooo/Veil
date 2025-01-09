@@ -98,18 +98,18 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     protected void attachShaders(CompiledProgram compiledProgram, ShaderSourceSet sourceSet, ShaderCompiler compiler) throws ShaderException, IOException {
-        Int2ObjectMap<ProgramDefinition.ShaderSource> shaders = this.definition.shaders();
-        for (Int2ObjectMap.Entry<ProgramDefinition.ShaderSource> entry : shaders.int2ObjectEntrySet()) {
+        Int2ObjectMap<ResourceLocation> shaders = this.definition.shaders();
+        for (Int2ObjectMap.Entry<ResourceLocation> entry : shaders.int2ObjectEntrySet()) {
             int glType = entry.getIntKey();
-            ProgramDefinition.ShaderSource source = entry.getValue();
-            compiledProgram.attachShader(glType, compiler.compile(glType, source.sourceType(), sourceSet.getTypeConverter(glType).idToFile(source.location())));
+            ResourceLocation source = entry.getValue();
+            compiledProgram.attachShader(glType, compiler.compile(glType, sourceSet.getTypeConverter(glType).idToFile(source)));
         }
 
         // Fragment shaders aren't strictly necessary if the fragment output isn't used,
         // however mac shaders don't work without a fragment shader. This adds a "dummy" fragment shader
         // on mac specifically for all rendering shaders.
         if (Minecraft.ON_OSX && !shaders.containsKey(GL_COMPUTE_SHADER) && !shaders.containsKey(GL_FRAGMENT_SHADER)) {
-            compiledProgram.attachShader(GL_FRAGMENT_SHADER, compiler.compile(GL_FRAGMENT_SHADER, ProgramDefinition.SourceType.GLSL, DUMMY_FRAGMENT_SHADER));
+            compiledProgram.attachShader(GL_FRAGMENT_SHADER, compiler.compile(GL_FRAGMENT_SHADER, DUMMY_FRAGMENT_SHADER));
         }
     }
 
@@ -132,7 +132,7 @@ public class ShaderProgramImpl implements ShaderProgram {
             if (old != null) {
                 old.free();
             }
-            
+
             this.applyProgram(compiledProgram);
         } catch (Exception e) {
             if (this.compiledProgram == null) {
@@ -728,15 +728,15 @@ public class ShaderProgramImpl implements ShaderProgram {
             if (definition != null) {
                 switch (type) {
                     case VERTEX -> {
-                        ProgramDefinition.ShaderSource vertex = definition.vertex();
+                        ResourceLocation vertex = definition.vertex();
                         if (vertex != null) {
-                            return vertex.location().toString();
+                            return vertex.toString();
                         }
                     }
                     case FRAGMENT -> {
-                        ProgramDefinition.ShaderSource fragment = definition.fragment();
+                        ResourceLocation fragment = definition.fragment();
                         if (fragment != null) {
-                            return fragment.location().toString();
+                            return fragment.toString();
                         }
                     }
                 }
