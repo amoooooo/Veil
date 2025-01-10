@@ -11,12 +11,15 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
+import foundry.veil.api.client.render.post.uniform.UniformValue;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -28,12 +31,14 @@ public class BlitPostStage extends FramebufferPostStage {
 
     public static final MapCodec<BlitPostStage> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("shader").forGetter(BlitPostStage::getShaderId),
+            Codec.unboundedMap(Codec.STRING, UniformValue.CODEC).optionalFieldOf("uniforms", Collections.emptyMap()).forGetter(BlitPostStage::getUniforms),
             FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("in").forGetter(stage -> Optional.ofNullable(stage.getIn())),
             FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("out", VeilFramebuffers.POST).forGetter(BlitPostStage::getOut),
             Codec.BOOL.optionalFieldOf("clear", true).forGetter(BlitPostStage::clearOut)
-    ).apply(instance, (shader, in, out, clear) -> new BlitPostStage(shader, in.orElse(null), out, clear)));
+    ).apply(instance, (shader, uniforms, in, out, clear) -> new BlitPostStage(shader, uniforms, in.orElse(null), out, clear)));
 
     private final ResourceLocation shader;
+    private final Map<String, UniformValue> uniforms;
     private boolean printedError;
 
     /**
@@ -45,9 +50,10 @@ public class BlitPostStage extends FramebufferPostStage {
      * @param out    The framebuffer to write into
      * @param clear  Whether to clear the output before drawing
      */
-    public BlitPostStage(ResourceLocation shader, @Nullable ResourceLocation in, ResourceLocation out, boolean clear) {
+    public BlitPostStage(ResourceLocation shader, Map<String, UniformValue> uniforms, @Nullable ResourceLocation in, ResourceLocation out, boolean clear) {
         super(in, out, clear);
         this.shader = shader;
+        this.uniforms = uniforms;
     }
 
     @Override
@@ -73,6 +79,9 @@ public class BlitPostStage extends FramebufferPostStage {
         this.setupFramebuffer(context, shader);
         shader.toShaderInstance().setDefaultUniforms(VertexFormat.Mode.TRIANGLE_STRIP, RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), Minecraft.getInstance().getWindow());
         shader.applyShaderSamplers(context, 0);
+        for (Map.Entry<String, UniformValue> entry : this.uniforms.entrySet()) {
+            entry.getValue().apply(entry.getKey(), shader);
+        }
         VeilRenderSystem.drawScreenQuad();
         context.clearSamplers(shader);
     }
@@ -296,5 +305,12 @@ public class BlitPostStage extends FramebufferPostStage {
      */
     public ResourceLocation getShaderId() {
         return this.shader;
+    }
+
+    /**
+     * @return A view of all uniform values set by this stage
+     */
+    public Map<String, UniformValue> getUniforms() {
+        return this.uniforms;
     }
 }
