@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.lwjgl.opengl.GL11C.*;
 
@@ -253,7 +254,7 @@ public final class VeilRenderType extends RenderType {
             }
             builder.add(layer);
         }
-        return new LayeredRenderType(layers[0], builder.build(), "LayeredRenderType[" + Arrays.stream(layers).map(RenderType::toString) + "]", bufferSize, sortOnUpload);
+        return new LayeredRenderType(layers[0], builder.build(), "LayeredRenderType[" + Arrays.stream(layers).map(VeilRenderType::getName).collect(Collectors.joining(", ")) + "]", bufferSize, sortOnUpload);
     }
 
     private VeilRenderType(String $$0, VertexFormat $$1, VertexFormat.Mode $$2, int $$3, boolean $$4, boolean $$5, Runnable $$6, Runnable $$7) {
@@ -279,6 +280,10 @@ public final class VeilRenderType extends RenderType {
                     layer.clearRenderState();
                 }
             }
+        }
+
+        public List<RenderType> getLayers() {
+            return this.layers;
         }
     }
 }

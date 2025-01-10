@@ -1,18 +1,16 @@
 package foundry.veil.impl.client.render.pipeline;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
-
-import java.util.function.Supplier;
 
 @ApiStatus.Internal
 public class ShaderProgramShard extends RenderStateShard.ShaderStateShard {
 
-    private final Supplier<ShaderProgram> shader;
+    private final ResourceLocation shader;
 
-    public ShaderProgramShard(Supplier<ShaderProgram> shader) {
+    public ShaderProgramShard(ResourceLocation shader) {
         this.shader = shader;
     }
 
@@ -23,7 +21,6 @@ public class ShaderProgramShard extends RenderStateShard.ShaderStateShard {
 
     @Override
     public String toString() {
-        ShaderProgram shader = this.shader.get();
-        return this.name + "[" + (shader != null ? shader.getName() : "null") + "]";
+        return this.name + "[" + this.shader + "]";
     }
 }
