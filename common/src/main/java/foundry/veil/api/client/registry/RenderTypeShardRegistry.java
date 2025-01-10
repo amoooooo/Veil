@@ -38,15 +38,7 @@ public final class RenderTypeShardRegistry {
         if (!(renderType instanceof RenderType.CompositeRenderType compositeRenderType)) {
             throw new IllegalArgumentException("RenderType must be CompositeRenderType");
         }
-
-        List<RenderStateShard> addShards = new ArrayList<>(Arrays.asList(shards));
-        for (GenericShard stage : GENERIC_SHARDS) {
-            if (stage.filter.test(compositeRenderType)) {
-                addShards.addAll(Arrays.asList(stage.shards));
-            }
-        }
-
-        ((CompositeStateExtension) (Object) compositeRenderType.state()).veil$addShards(addShards);
+        ((CompositeStateExtension) (Object) compositeRenderType.state()).veil$addShards(Arrays.asList(shards));
     }
 
     /**
@@ -59,10 +51,13 @@ public final class RenderTypeShardRegistry {
         if (shards.length == 0) {
             throw new IllegalArgumentException("No shards provided");
         }
-        SHARDS.computeIfAbsent(name, unused -> new ArrayList<>()).addAll(Arrays.asList(shards));
+        List<RenderStateShard> newShards = Arrays.asList(shards);
+        SHARDS.computeIfAbsent(name, unused -> new ArrayList<>()).addAll(newShards);
 
         for (RenderType.CompositeRenderType renderType : CREATED_RENDER_TYPES) {
-            inject(renderType);
+            if (name.equals(VeilRenderType.getName(renderType))) {
+                ((CompositeStateExtension) (Object) renderType.state()).veil$addShards(newShards);
+            }
         }
     }
 
@@ -79,7 +74,9 @@ public final class RenderTypeShardRegistry {
         GENERIC_SHARDS.add(new GenericShard(filter, shards));
 
         for (RenderType.CompositeRenderType renderType : CREATED_RENDER_TYPES) {
-            inject(renderType);
+            if (filter.test(renderType)) {
+                ((CompositeStateExtension) (Object) renderType.state()).veil$addShards(Arrays.asList(shards));
+            }
         }
     }
 
