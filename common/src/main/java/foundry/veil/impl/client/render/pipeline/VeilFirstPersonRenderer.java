@@ -17,6 +17,7 @@ public final class VeilFirstPersonRenderer {
     private static final ResourceLocation FIRST_PERSON = Veil.veilPath("core/first_person");
 
     private static boolean printedError;
+    private static boolean enabled;
     private static AdvancedFbo firstPerson;
 
     private VeilFirstPersonRenderer() {
@@ -38,11 +39,13 @@ public final class VeilFirstPersonRenderer {
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
         firstPerson.setColorAttachmentTexture(0, framebufferTexture);
+        enabled = true;
     }
 
     public static void unbind() {
         VeilRenderer renderer = VeilRenderSystem.renderer();
         PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
+        enabled = false;
 
         PostPipeline pipeline = postProcessingManager.getPipeline(FIRST_PERSON);
         if (pipeline == null) {
@@ -64,5 +67,9 @@ public final class VeilFirstPersonRenderer {
             firstPerson = null;
         }
         printedError = false;
+    }
+
+    public static boolean isRenderingFirstPerson() {
+        return enabled;
     }
 }
