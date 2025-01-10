@@ -23,6 +23,7 @@ import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.impl.client.render.ext.VeilTextureMultiBind;
+import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBlockState;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBufferCache;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
@@ -30,6 +31,7 @@ import foundry.veil.mixin.pipeline.accessor.PipelineBufferSourceAccessor;
 import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
@@ -57,6 +59,11 @@ import static org.lwjgl.opengl.GL43C.*;
  * Additional functionality for {@link RenderSystem}.
  */
 public final class VeilRenderSystem {
+
+    /**
+     * Output state for drawing into the bloom framebuffer.
+     */
+    public static final RenderStateShard.OutputStateShard BLOOM_SHARD = new RenderStateShard.OutputStateShard(Veil.MODID + ":bloom", VeilBloomRenderer::setupRenderState, VeilBloomRenderer::clearRenderState);
 
     private static final Executor RENDER_THREAD_EXECUTOR = task -> {
         if (!RenderSystem.isOnRenderThread()) {
@@ -894,6 +901,9 @@ public final class VeilRenderSystem {
 
     @ApiStatus.Internal
     public static void renderPost(@Nullable VeilRenderLevelStageEvent.Stage stage) {
+        if (stage == VeilRenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES || stage == VeilRenderLevelStageEvent.Stage.AFTER_LEVEL) {
+            VeilBloomRenderer.flush();
+        }
         renderer.getPostProcessingManager().runDefaultPipeline(stage);
     }
 
@@ -926,18 +936,10 @@ public final class VeilRenderSystem {
         lightRenderer.clear();
         profiler.pop();
 
-        // Applies effects to the final light image
-        PostPipeline lightPipeline = postProcessingManager.getPipeline(VeilRenderer.LIGHT_POST);
-        if (lightPipeline != null) {
-            profiler.push("light_post");
-            postProcessingManager.runPipeline(lightPipeline, false);
-            profiler.pop();
-        }
-
         PostPipeline compositePipeline = postProcessingManager.getPipeline(VeilRenderer.COMPOSITE);
         if (compositePipeline != null) {
-            profiler.push("composite");
-            postProcessingManager.runPipeline(compositePipeline, true);
+            profiler.push("composite_lights");
+            postProcessingManager.runPipeline(compositePipeline);
             profiler.pop();
         }
 

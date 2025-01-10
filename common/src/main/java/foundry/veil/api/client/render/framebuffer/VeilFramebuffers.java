@@ -15,6 +15,7 @@ public final class VeilFramebuffers {
 
     public static final ResourceLocation MAIN = ResourceLocation.withDefaultNamespace("main");
     public static final ResourceLocation FIRST_PERSON = buffer("first_person");
+    public static final ResourceLocation BLOOM = buffer("bloom");
     public static final ResourceLocation LIGHT = buffer("light");
     public static final ResourceLocation POST = buffer("post");
 

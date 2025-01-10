@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilLevelPerspectiveRenderer;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilFirstPersonRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -54,7 +55,6 @@ public class PipelineGameRendererMixin {
     @Inject(method = "resize", at = @At(value = "HEAD"))
     public void resizeListener(int pWidth, int pHeight, CallbackInfo ci) {
         VeilRenderSystem.resize(pWidth, pHeight);
-        VeilFirstPersonRenderer.free(); // The old texture is deleted, so we have to remake the framebuffer
     }
 
     @WrapWithCondition(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V"))
@@ -100,5 +100,6 @@ public class PipelineGameRendererMixin {
     @Inject(method = "close", at = @At("TAIL"))
     public void free(CallbackInfo ci) {
         VeilFirstPersonRenderer.free();
+        VeilBloomRenderer.free();
     }
 }

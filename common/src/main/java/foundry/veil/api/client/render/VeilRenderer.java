@@ -16,11 +16,15 @@ import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
 import foundry.veil.api.quasar.particle.ParticleSystemManager;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
+import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
+import foundry.veil.impl.client.render.pipeline.VeilFirstPersonRenderer;
 import foundry.veil.mixin.pipeline.accessor.PipelineReloadableResourceManagerAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;
@@ -36,7 +40,7 @@ import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
  *
  * @author Ocelot
  */
-public class VeilRenderer {
+public class VeilRenderer implements ResourceManagerReloadListener {
 
     public static final ResourceLocation ALBEDO_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/albedo");
     public static final ResourceLocation NORMAL_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/normal");
@@ -44,7 +48,6 @@ public class VeilRenderer {
     public static final ResourceLocation LIGHT_COLOR_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/light_color");
     public static final ResourceLocation DEBUG_BUFFER_TEXTURE = Veil.veilPath("dynamic_buffer/debug");
 
-    public static final ResourceLocation LIGHT_POST = Veil.veilPath("core/light_post");
     public static final ResourceLocation COMPOSITE = Veil.veilPath("core/composite");
 
     private final VanillaShaderCompiler vanillaShaderCompiler;
@@ -86,6 +89,7 @@ public class VeilRenderer {
         resourceManager.registerReloadListener(this.framebufferManager);
         resourceManager.registerReloadListener(this.postProcessingManager);
         resourceManager.registerReloadListener(this.dynamicRenderTypeManager);
+        resourceManager.registerReloadListener(this);
     }
 
     @ApiStatus.Internal
@@ -243,6 +247,10 @@ public class VeilRenderer {
     public void resize(int width, int height) {
         this.framebufferManager.resizeFramebuffers(width, height);
         this.dynamicBufferManger.resizeFramebuffers(width, height);
+
+        // The old texture is deleted, so we have to remake the framebuffer
+        VeilFirstPersonRenderer.free();
+        VeilBloomRenderer.free();
     }
 
     @ApiStatus.Internal
@@ -263,5 +271,10 @@ public class VeilRenderer {
         this.postProcessingManager.free();
         this.quasarParticleManager.clear();
         this.lightRenderer.free();
+    }
+
+    @Override
+    public void onResourceManagerReload(ResourceManager resourceManager) {
+        VeilBloomRenderer.enable();
     }
 }
