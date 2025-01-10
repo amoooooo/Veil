@@ -73,8 +73,6 @@ public class ForgeRenderTypeStageHandler {
                 profiler.pop();
             }
         }
-
-        VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(false);
     }
 
     public static List<RenderType> getBlockLayers() {

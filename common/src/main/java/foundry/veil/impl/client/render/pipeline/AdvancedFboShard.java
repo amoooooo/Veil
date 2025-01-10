@@ -1,6 +1,7 @@
 package foundry.veil.impl.client.render.pipeline;
 
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +21,11 @@ public class AdvancedFboShard extends RenderStateShard.OutputStateShard {
             if (value != null) {
                 value.bindDraw(true);
             }
-        }, AdvancedFbo::unbind);
+        }, () -> {
+            if (!Veil.platform().hasErrors() && !VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
+                AdvancedFbo.unbind();
+            }
+        });
         this.fboName = fboName;
     }
 
