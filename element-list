@@ -21,6 +21,7 @@ foundry.veil.api.client.render.light.renderer
 foundry.veil.api.client.render.mesh
 foundry.veil.api.client.render.post
 foundry.veil.api.client.render.post.stage
+foundry.veil.api.client.render.post.uniform
 foundry.veil.api.client.render.rendertype
 foundry.veil.api.client.render.rendertype.layer
 foundry.veil.api.client.render.shader

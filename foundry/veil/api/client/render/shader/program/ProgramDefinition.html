@@ -106,7 +106,7 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-shaders">shaders</span></code> - A map of all sources and their OpenGL types for convenience</dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ProgramDefinition</span>(@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;vertex, @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;tesselationControl, @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;tesselationEvaluation, @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;geometry, @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;fragment, @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;compute, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;definitions, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDefaults, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a>&gt;&nbsp;textures, it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&gt;&nbsp;shaders)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">ProgramDefinition</span>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;vertex, @Nullable net.minecraft.resources.ResourceLocation&nbsp;tesselationControl, @Nullable net.minecraft.resources.ResourceLocation&nbsp;tesselationEvaluation, @Nullable net.minecraft.resources.ResourceLocation&nbsp;geometry, @Nullable net.minecraft.resources.ResourceLocation&nbsp;fragment, @Nullable net.minecraft.resources.ResourceLocation&nbsp;compute, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;definitions, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDefaults, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a>&gt;&nbsp;textures, it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;net.minecraft.resources.ResourceLocation&gt;&nbsp;shaders)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Defines a shader program instance.</div>
 </section>
@@ -126,12 +126,6 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Deserializer for <a href="ProgramDefinition.html" title="class in foundry.veil.api.client.render.shader.program"><code>ProgramDefinition</code></a>.</div>
 </div>
-<div class="col-first odd-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second odd-row-color"><code><a href="ProgramDefinition.ShaderSource.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="ProgramDefinition.SourceType.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -143,16 +137,16 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,java.lang.String%5B%5D,java.util.Map,java.util.Map,it.unimi.dsi.fastutil.ints.Int2ObjectMap)" class="member-name-link">ProgramDefinition</a><wbr>(@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;vertex,
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;tesselationControl,
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;tesselationEvaluation,
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;geometry,
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;fragment,
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;compute,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,java.lang.String%5B%5D,java.util.Map,java.util.Map,it.unimi.dsi.fastutil.ints.Int2ObjectMap)" class="member-name-link">ProgramDefinition</a><wbr>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;vertex,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;tesselationControl,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;tesselationEvaluation,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;geometry,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;fragment,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;compute,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;definitions,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDefaults,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a>&gt;&nbsp;textures,
- it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&gt;&nbsp;shaders)</code></div>
+ it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;net.minecraft.resources.ResourceLocation&gt;&nbsp;shaders)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>ProgramDefinition</code> record class.</div>
 </div>
@@ -170,7 +164,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compute()" class="member-name-link">compute</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-compute"><code>compute</code></a> record component.</div>
@@ -190,12 +184,12 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#fragment()" class="member-name-link">fragment</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-fragment"><code>fragment</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#geometry()" class="member-name-link">geometry</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-geometry"><code>geometry</code></a> record component.</div>
@@ -209,17 +203,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a hash code value for this object.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>it.unimi.dsi.fastutil.ints.Int2ObjectMap<wbr>&lt;<a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>it.unimi.dsi.fastutil.ints.Int2ObjectMap<wbr>&lt;net.minecraft.resources.ResourceLocation&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#shaders()" class="member-name-link">shaders</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-shaders"><code>shaders</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tesselationControl()" class="member-name-link">tesselationControl</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-tesselationControl"><code>tesselationControl</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tesselationEvaluation()" class="member-name-link">tesselationEvaluation</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-tesselationEvaluation"><code>tesselationEvaluation</code></a> record component.</div>
@@ -234,7 +228,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this record class.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable net.minecraft.resources.ResourceLocation</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#vertex()" class="member-name-link">vertex</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-vertex"><code>vertex</code></a> record component.</div>
@@ -257,24 +251,24 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,foundry.veil.api.client.render.shader.program.ProgramDefinition.ShaderSource,java.lang.String[],java.util.Map,java.util.Map,it.unimi.dsi.fastutil.ints.Int2ObjectMap)">
+<section class="detail" id="&lt;init&gt;(net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,java.lang.String[],java.util.Map,java.util.Map,it.unimi.dsi.fastutil.ints.Int2ObjectMap)">
 <h3>ProgramDefinition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ProgramDefinition</span><wbr><span class="parameters">(@Nullable
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;vertex,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;vertex,
  @Nullable
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;tesselationControl,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;tesselationControl,
  @Nullable
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;tesselationEvaluation,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;tesselationEvaluation,
  @Nullable
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;geometry,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;geometry,
  @Nullable
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;fragment,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;fragment,
  @Nullable
- @Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&nbsp;compute,
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;compute,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;definitions,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;definitionDefaults,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a>&gt;&nbsp;textures,
- it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&gt;&nbsp;shaders)</span></div>
+ it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;net.minecraft.resources.ResourceLocation&gt;&nbsp;shaders)</span></div>
 <div class="block">Creates an instance of a <code>ProgramDefinition</code> record class.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -351,7 +345,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="vertex()">
 <h3>vertex</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></span>&nbsp;<span class="element-name">vertex</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">vertex</span>()</div>
 <div class="block">Returns the value of the <a href="#param-vertex"><code>vertex</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -363,7 +357,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="tesselationControl()">
 <h3>tesselationControl</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></span>&nbsp;<span class="element-name">tesselationControl</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">tesselationControl</span>()</div>
 <div class="block">Returns the value of the <a href="#param-tesselationControl"><code>tesselationControl</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -375,7 +369,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="tesselationEvaluation()">
 <h3>tesselationEvaluation</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></span>&nbsp;<span class="element-name">tesselationEvaluation</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">tesselationEvaluation</span>()</div>
 <div class="block">Returns the value of the <a href="#param-tesselationEvaluation"><code>tesselationEvaluation</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -387,7 +381,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="geometry()">
 <h3>geometry</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></span>&nbsp;<span class="element-name">geometry</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">geometry</span>()</div>
 <div class="block">Returns the value of the <a href="#param-geometry"><code>geometry</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -399,7 +393,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="fragment()">
 <h3>fragment</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></span>&nbsp;<span class="element-name">fragment</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">fragment</span>()</div>
 <div class="block">Returns the value of the <a href="#param-fragment"><code>fragment</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -411,7 +405,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compute()">
 <h3>compute</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a></span>&nbsp;<span class="element-name">compute</span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">compute</span>()</div>
 <div class="block">Returns the value of the <a href="#param-compute"><code>compute</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -455,7 +449,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="shaders()">
 <h3>shaders</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;<a href="ProgramDefinition.ShaderSource.html" title="class in foundry.veil.api.client.render.shader.program">ProgramDefinition.ShaderSource</a>&gt;</span>&nbsp;<span class="element-name">shaders</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">it.unimi.dsi.fastutil.ints.Int2ObjectMap&lt;net.minecraft.resources.ResourceLocation&gt;</span>&nbsp;<span class="element-name">shaders</span>()</div>
 <div class="block">Returns the value of the <a href="#param-shaders"><code>shaders</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

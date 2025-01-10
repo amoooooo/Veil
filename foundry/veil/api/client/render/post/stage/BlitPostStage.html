@@ -137,7 +137,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,boolean)" class="member-name-link">BlitPostStage</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shader,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.minecraft.resources.ResourceLocation,java.util.Map,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,boolean)" class="member-name-link">BlitPostStage</a><wbr>(net.minecraft.resources.ResourceLocation&nbsp;shader,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../uniform/UniformValue.html" title="interface in foundry.veil.api.client.render.post.uniform">UniformValue</a>&gt;&nbsp;uniforms,
  @Nullable net.minecraft.resources.ResourceLocation&nbsp;in,
  net.minecraft.resources.ResourceLocation&nbsp;out,
  boolean&nbsp;clear)</code></div>
@@ -172,174 +173,177 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../registry/PostPipelineStageRegistry.PipelineType.html" title="class in foundry.veil.api.client.registry">PostPipelineStageRegistry.PipelineType</a><wbr>&lt;? extends <a href="../PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getType()" class="member-name-link">getType</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStorageBlock(java.lang.CharSequence)" class="member-name-link">hasStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../uniform/UniformValue.html" title="interface in foundry.veil.api.client.render.post.uniform">UniformValue</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniforms()" class="member-name-link">getUniforms</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStorageBlock(java.lang.CharSequence)" class="member-name-link">hasStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if the specified storage block exists in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasUniform(java.lang.CharSequence)" class="member-name-link">hasUniform</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasUniform(java.lang.CharSequence)" class="member-name-link">hasUniform</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if the specified uniform exists in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasUniformBlock(java.lang.CharSequence)" class="member-name-link">hasUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasUniformBlock(java.lang.CharSequence)" class="member-name-link">hasUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks if the specified uniform block exists in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFloat(java.lang.CharSequence,float)" class="member-name-link">setFloat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFloat(java.lang.CharSequence,float)" class="member-name-link">setFloat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  float&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a float in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFloats(java.lang.CharSequence,float...)" class="member-name-link">setFloats</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFloats(java.lang.CharSequence,float...)" class="member-name-link">setFloats</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  float...&nbsp;values)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an array of floats in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInt(java.lang.CharSequence,int)" class="member-name-link">setInt</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInt(java.lang.CharSequence,int)" class="member-name-link">setInt</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an integer in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInts(java.lang.CharSequence,int...)" class="member-name-link">setInts</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInts(java.lang.CharSequence,int...)" class="member-name-link">setInts</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int...&nbsp;values)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an array of integers in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix2fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix2fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Matrix2fc&nbsp;value,
  boolean&nbsp;transpose)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a matrix in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix3fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix3fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Matrix3fc&nbsp;value,
  boolean&nbsp;transpose)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a matrix in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix3x2fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix3x2fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Matrix3x2fc&nbsp;value,
  boolean&nbsp;transpose)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a matrix in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix4fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix4fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Matrix4fc&nbsp;value,
  boolean&nbsp;transpose)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a matrix in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix4x3fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatrix(java.lang.CharSequence,org.joml.Matrix4x3fc,boolean)" class="member-name-link">setMatrix</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Matrix4x3fc&nbsp;value,
  boolean&nbsp;transpose)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a matrix in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStorageBlock(java.lang.CharSequence,int)" class="member-name-link">setStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- int&nbsp;binding)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the binding to use for the specified storage block.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUniformBlock(java.lang.CharSequence,int)" class="member-name-link">setUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStorageBlock(java.lang.CharSequence,int)" class="member-name-link">setStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;binding)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets the binding to use for the specified uniform block.</div>
+<div class="block">Sets the binding to use for the specified storage block.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVector(java.lang.CharSequence,float,float)" class="member-name-link">setVector</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- float&nbsp;x,
- float&nbsp;y)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUniformBlock(java.lang.CharSequence,int)" class="member-name-link">setUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ int&nbsp;binding)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets a vector in the shader.</div>
+<div class="block">Sets the binding to use for the specified uniform block.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVector(java.lang.CharSequence,float,float,float)" class="member-name-link">setVector</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVector(java.lang.CharSequence,float,float)" class="member-name-link">setVector</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ float&nbsp;x,
+ float&nbsp;y)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets a vector in the shader.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVector(java.lang.CharSequence,float,float,float)" class="member-name-link">setVector</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  float&nbsp;x,
  float&nbsp;y,
  float&nbsp;z)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a vector in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVector(java.lang.CharSequence,float,float,float,float)" class="member-name-link">setVector</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVector(java.lang.CharSequence,float,float,float,float)" class="member-name-link">setVector</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  float&nbsp;x,
  float&nbsp;y,
  float&nbsp;z,
  float&nbsp;w)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets a vector in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectorI(java.lang.CharSequence,int,int)" class="member-name-link">setVectorI</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectorI(java.lang.CharSequence,int,int)" class="member-name-link">setVectorI</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;x,
  int&nbsp;y)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets an integer vector in the shader.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectorI(java.lang.CharSequence,int,int,int)" class="member-name-link">setVectorI</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ int&nbsp;x,
+ int&nbsp;y,
+ int&nbsp;z)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an integer vector in the shader.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectorI(java.lang.CharSequence,int,int,int)" class="member-name-link">setVectorI</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- int&nbsp;x,
- int&nbsp;y,
- int&nbsp;z)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets an integer vector in the shader.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectorI(java.lang.CharSequence,int,int,int,int)" class="member-name-link">setVectorI</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectorI(java.lang.CharSequence,int,int,int,int)" class="member-name-link">setVectorI</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;x,
  int&nbsp;y,
  int&nbsp;z,
  int&nbsp;w)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an integer vector in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector2fc...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector2fc...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Vector2fc...&nbsp;values)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an array of vectors in the shader.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector2ic...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector2ic...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Vector2ic...&nbsp;values)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an array of integer vectors in the shader.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector3fc...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector3fc...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  org.joml.Vector3fc...&nbsp;values)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets an array of vectors in the shader.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector3ic...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- org.joml.Vector3ic...&nbsp;values)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets an array of integer vectors in the shader.</div>
+<div class="block">Sets an array of vectors in the shader.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector4fc...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- org.joml.Vector4fc...&nbsp;values)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector3ic...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ org.joml.Vector3ic...&nbsp;values)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets an array of vectors in the shader.</div>
+<div class="block">Sets an array of integer vectors in the shader.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector4ic...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- org.joml.Vector4ic...&nbsp;values)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector4fc...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ org.joml.Vector4fc...&nbsp;values)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets an array of vectors in the shader.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVectors(java.lang.CharSequence,org.joml.Vector4ic...)" class="member-name-link">setVectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ org.joml.Vector4ic...&nbsp;values)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Sets an array of integer vectors in the shader.</div>
 </div>
 </div>
@@ -386,9 +390,10 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,boolean)">
+<section class="detail" id="&lt;init&gt;(net.minecraft.resources.ResourceLocation,java.util.Map,net.minecraft.resources.ResourceLocation,net.minecraft.resources.ResourceLocation,boolean)">
 <h3>BlitPostStage</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BlitPostStage</span><wbr><span class="parameters">(net.minecraft.resources.ResourceLocation&nbsp;shader,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../uniform/UniformValue.html" title="interface in foundry.veil.api.client.render.post.uniform">UniformValue</a>&gt;&nbsp;uniforms,
  @Nullable
  @Nullable net.minecraft.resources.ResourceLocation&nbsp;in,
  net.minecraft.resources.ResourceLocation&nbsp;out,
@@ -846,6 +851,16 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The name of the shader this stage should use</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getUniforms()">
+<h3>getUniforms</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../uniform/UniformValue.html" title="interface in foundry.veil.api.client.render.post.uniform">UniformValue</a>&gt;</span>&nbsp;<span class="element-name">getUniforms</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A view of all uniform values set by this stage</dd>
 </dl>
 </section>
 </li>

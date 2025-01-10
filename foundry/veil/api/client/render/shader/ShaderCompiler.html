@@ -137,15 +137,13 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="block">Constructs a shader compiler that caches duplicate shader sources.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
- <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(int,foundry.veil.api.client.render.shader.VeilShaderSource)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
  <a href="VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a>&nbsp;source)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates a new shader and attempts to attach the specified sources to it.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
- <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#compile(int,net.minecraft.resources.ResourceLocation)" class="member-name-link">compile</a><wbr>(int&nbsp;type,
  net.minecraft.resources.ResourceLocation&nbsp;path)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates a new shader and attempts to attach sources read from file to it.</div>
@@ -173,10 +171,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,net.minecraft.resources.ResourceLocation)">
+<section class="detail" id="compile(int,net.minecraft.resources.ResourceLocation)">
 <h3>compile</h3>
 <div class="member-signature"><span class="return-type"><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(int&nbsp;type,
- <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  net.minecraft.resources.ResourceLocation&nbsp;path)</span>
                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a>,
 <a href="ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></span></div>
@@ -196,10 +193,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.program.ProgramDefinition.SourceType,foundry.veil.api.client.render.shader.VeilShaderSource)">
+<section class="detail" id="compile(int,foundry.veil.api.client.render.shader.VeilShaderSource)">
 <h3>compile</h3>
 <div class="member-signature"><span class="return-type"><a href="CompiledShader.html" title="class in foundry.veil.api.client.render.shader">CompiledShader</a></span>&nbsp;<span class="element-name">compile</span><wbr><span class="parameters">(int&nbsp;type,
- <a href="program/ProgramDefinition.SourceType.html" title="enum class in foundry.veil.api.client.render.shader.program">ProgramDefinition.SourceType</a>&nbsp;sourceType,
  <a href="VeilShaderSource.html" title="class in foundry.veil.api.client.render.shader">VeilShaderSource</a>&nbsp;source)</span>
                 throws <span class="exceptions"><a href="ShaderException.html" title="class in foundry.veil.api.client.render.shader">ShaderException</a></span></div>
 <div class="block">Creates a new shader and attempts to attach the specified sources to it.

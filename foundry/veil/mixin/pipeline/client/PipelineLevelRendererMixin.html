@@ -128,6 +128,12 @@ implements <a href="../../../ext/LevelRendererExtension.html" title="interface i
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#blit(org.spongepowered.asm.mixin.injection.callback.CallbackInfo,net.minecraft.util.profiling.ProfilerFiller)" class="member-name-link">blit</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci,
  net.minecraft.util.profiling.ProfilerFiller&nbsp;profiler)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deinitTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">deinitTransparency</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">initTransparency</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#renderSectionLayer(net.minecraft.client.renderer.RenderType,double,double,double,org.joml.Matrix4f,org.joml.Matrix4f)" class="member-name-link">renderSectionLayer</a><wbr>(net.minecraft.client.renderer.RenderType&nbsp;pRenderType,
  double&nbsp;pX,
@@ -143,21 +149,15 @@ implements <a href="../../../ext/LevelRendererExtension.html" title="interface i
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWorldBorderShader(java.util.function.Supplier)" class="member-name-link">setWorldBorderShader</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;net.minecraft.client.renderer.ShaderInstance&gt;&nbsp;supplier)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$deinitTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">veil$deinitTransparency</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$drawBlockLayer(net.minecraft.client.renderer.RenderType,double,double,double,org.joml.Matrix4fc,org.joml.Matrix4fc)" class="member-name-link">veil$drawBlockLayer</a><wbr>(net.minecraft.client.renderer.RenderType&nbsp;renderType,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$drawBlockLayer(net.minecraft.client.renderer.RenderType,double,double,double,org.joml.Matrix4fc,org.joml.Matrix4fc)" class="member-name-link">veil$drawBlockLayer</a><wbr>(net.minecraft.client.renderer.RenderType&nbsp;renderType,
  double&nbsp;x,
  double&nbsp;y,
  double&nbsp;z,
  org.joml.Matrix4fc&nbsp;frustum,
  org.joml.Matrix4fc&nbsp;projection)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getCullFrustum()" class="member-name-link">veil$getCullFrustum</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$initTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">veil$initTransparency</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getCullFrustum()" class="member-name-link">veil$getCullFrustum</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$markChunksDirty()" class="member-name-link">veil$markChunksDirty</a>()</code></div>
@@ -239,15 +239,15 @@ implements <a href="../../../ext/LevelRendererExtension.html" title="interface i
 </section>
 </li>
 <li>
-<section class="detail" id="veil$deinitTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
-<h3>veil$deinitTransparency</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">veil$deinitTransparency</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+<section class="detail" id="deinitTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
+<h3>deinitTransparency</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">deinitTransparency</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="veil$initTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
-<h3>veil$initTransparency</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">veil$initTransparency</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
+<section class="detail" id="initTransparency(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)">
+<h3>initTransparency</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initTransparency</span><wbr><span class="parameters">(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</span></div>
 </section>
 </li>
 <li>
