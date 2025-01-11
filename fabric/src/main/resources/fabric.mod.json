@@ -31,6 +31,7 @@
     "${mod_id}.framebuffer.mixins.json",
     "${mod_id}.imgui.mixins.json",
     "${mod_id}.necromancer.mixins.json",
+    "${mod_id}.performance.mixins.json",
     "${mod_id}.perspective.mixins.json",
     "${mod_id}.pipeline.mixins.json",
     "${mod_id}.quasar.mixins.json",

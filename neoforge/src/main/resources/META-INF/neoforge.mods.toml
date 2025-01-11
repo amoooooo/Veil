@@ -26,6 +26,8 @@ description='''${description}'''
 [[mixins]]
     config = "${mod_id}.necromancer.mixins.json"
 [[mixins]]
+    config = "${mod_id}.performance.mixins.json"
+[[mixins]]
     config = "${mod_id}.perspective.mixins.json"
 [[mixins]]
     config = "${mod_id}.pipeline.mixins.json"

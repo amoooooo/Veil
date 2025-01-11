@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "foundry.veil.mixin.performance",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "${mod_id}.refmap.json",
+  "client": [
+    "client.PerformanceScreenEffectRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

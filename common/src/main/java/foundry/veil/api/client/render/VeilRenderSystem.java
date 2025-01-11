@@ -929,18 +929,23 @@ public final class VeilRenderSystem {
         lightRenderer.setup(getCullingFrustum());
         profiler.popPush("draw_lights");
         AdvancedFbo lightFbo = framebufferManager.getFramebuffer(VeilFramebuffers.LIGHT);
+        boolean rendered = false;
         if (lightFbo != null) {
             lightFbo.bind(true);
-            lightRenderer.render();
+            rendered = lightRenderer.render();
         }
-        lightRenderer.clear();
         profiler.pop();
 
-        PostPipeline compositePipeline = postProcessingManager.getPipeline(VeilRenderer.COMPOSITE);
-        if (compositePipeline != null) {
-            profiler.push("composite_lights");
-            postProcessingManager.runPipeline(compositePipeline);
-            profiler.pop();
+        // Only run the post pipeline if there are lights to display
+        if (rendered) {
+            PostPipeline compositePipeline = postProcessingManager.getPipeline(VeilRenderer.COMPOSITE);
+            if (compositePipeline != null) {
+                profiler.push("composite_lights");
+                postProcessingManager.runPipeline(compositePipeline);
+                profiler.pop();
+            }
+        } else {
+            AdvancedFbo.unbind();
         }
 
         profiler.pop();

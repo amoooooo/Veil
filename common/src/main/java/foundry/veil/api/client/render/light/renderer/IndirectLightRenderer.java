@@ -76,7 +76,8 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         this.instancedVbo = this.vertexArray.getOrCreateBuffer(2);
         this.indirectVbo = this.vertexArray.getOrCreateBuffer(3);
 
-        if (VeilRenderSystem.computeSupported() && VeilRenderSystem.atomicCounterSupported()) {
+        // TODO fix compute shader
+        if (false && VeilRenderSystem.computeSupported() && VeilRenderSystem.atomicCounterSupported()) {
             Veil.LOGGER.info("Using GPU Frustum Culling for {} renderer", this.getClass().getSimpleName());
             this.sizeVbo = this.vertexArray.getOrCreateBuffer(4);
             this.instancedBlock = ShaderBlock.wrapper(ShaderBlock.BufferBinding.SHADER_STORAGE, this.instancedVbo);
