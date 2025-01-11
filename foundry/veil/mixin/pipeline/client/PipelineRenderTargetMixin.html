@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PipelineRenderTargetMixin</span>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">PipelineRenderTargetMixin</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></span></div>
 </section>
@@ -139,7 +139,7 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -148,21 +148,21 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindRead(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindRead</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindWrite(boolean,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindWrite</a><wbr>(boolean&nbsp;setViewport,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindWrite(boolean)" class="member-name-link">bindWrite</a><wbr>(boolean&nbsp;setViewport)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindWrite(boolean,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindWrite</a><wbr>(boolean&nbsp;setViewport,
  org.spongepowered.asm.mixin.injection.callback.CallbackInfo&nbsp;ci)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getColorTextureId</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDepthTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getDepthTextureId</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getColorTextureId</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$bindDrawFramebuffer()" class="member-name-link">veil$bindDrawFramebuffer</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDepthTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getDepthTextureId</a><wbr>(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;cir)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$bindReadFramebuffer()" class="member-name-link">veil$bindReadFramebuffer</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getFramebuffer()" class="member-name-link">veil$getFramebuffer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#veil$getHeight()" class="member-name-link">veil$getHeight</a>()</code></div>
@@ -234,6 +234,12 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="bindWrite(boolean)">
+<h3>bindWrite</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindWrite</span><wbr><span class="parameters">(boolean&nbsp;setViewport)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="veil$setWrapper(foundry.veil.api.client.render.framebuffer.AdvancedFbo)">
 <h3>veil$setWrapper</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">veil$setWrapper</span><wbr><span class="parameters">(@Nullable
@@ -245,22 +251,12 @@ implements <a href="../../../ext/RenderTargetExtension.html" title="interface in
 </section>
 </li>
 <li>
-<section class="detail" id="veil$bindDrawFramebuffer()">
-<h3>veil$bindDrawFramebuffer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">veil$bindDrawFramebuffer</span>()</div>
+<section class="detail" id="veil$getFramebuffer()">
+<h3>veil$getFramebuffer</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">veil$getFramebuffer</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$bindDrawFramebuffer()">veil$bindDrawFramebuffer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="veil$bindReadFramebuffer()">
-<h3>veil$bindReadFramebuffer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">veil$bindReadFramebuffer</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$bindReadFramebuffer()">veil$bindReadFramebuffer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
+<dd><code><a href="../../../ext/RenderTargetExtension.html#veil$getFramebuffer()">veil$getFramebuffer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../ext/RenderTargetExtension.html" title="interface in foundry.veil.ext">RenderTargetExtension</a></code></dd>
 </dl>
 </section>
 </li>

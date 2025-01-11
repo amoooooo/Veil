@@ -141,7 +141,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attach(int)" class="member-name-link">attach</a><wbr>(int&nbsp;attachment)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attach(int,int)" class="member-name-link">attach</a><wbr>(int&nbsp;framebuffer,
+ int&nbsp;attachment)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Attaches this attachment to the provided target under the specified attachment point.</div>
 </div>
@@ -168,7 +169,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment">Methods inherited from class&nbsp;foundry.veil.api.client.render.framebuffer.<a href="AdvancedFboTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboTextureAttachment</a></h3>
-<code><a href="AdvancedFboTextureAttachment.html#bindAttachment()">bindAttachment</a>, <a href="AdvancedFboTextureAttachment.html#canSample()">canSample</a>, <a href="AdvancedFboTextureAttachment.html#free()">free</a>, <a href="AdvancedFboTextureAttachment.html#getAttachmentType()">getAttachmentType</a>, <a href="AdvancedFboTextureAttachment.html#getFormat()">getFormat</a>, <a href="AdvancedFboTextureAttachment.html#getLevels()">getLevels</a>, <a href="AdvancedFboTextureAttachment.html#getName()">getName</a>, <a href="AdvancedFboTextureAttachment.html#load(net.minecraft.server.packs.resources.ResourceManager)">load</a>, <a href="AdvancedFboTextureAttachment.html#unbindAttachment()">unbindAttachment</a></code></div>
+<code><a href="AdvancedFboTextureAttachment.html#bindAttachment()">bindAttachment</a>, <a href="AdvancedFboTextureAttachment.html#canSample()">canSample</a>, <a href="AdvancedFboTextureAttachment.html#free()">free</a>, <a href="AdvancedFboTextureAttachment.html#getAttachmentType()">getAttachmentType</a>, <a href="AdvancedFboTextureAttachment.html#getDataType()">getDataType</a>, <a href="AdvancedFboTextureAttachment.html#getFormat()">getFormat</a>, <a href="AdvancedFboTextureAttachment.html#getHeight()">getHeight</a>, <a href="AdvancedFboTextureAttachment.html#getLevels()">getLevels</a>, <a href="AdvancedFboTextureAttachment.html#getName()">getName</a>, <a href="AdvancedFboTextureAttachment.html#getTexelFormat()">getTexelFormat</a>, <a href="AdvancedFboTextureAttachment.html#getWidth()">getWidth</a>, <a href="AdvancedFboTextureAttachment.html#getWrapS()">getWrapS</a>, <a href="AdvancedFboTextureAttachment.html#getWrapT()">getWrapT</a>, <a href="AdvancedFboTextureAttachment.html#isLinear()">isLinear</a>, <a href="AdvancedFboTextureAttachment.html#load(net.minecraft.server.packs.resources.ResourceManager)">load</a>, <a href="AdvancedFboTextureAttachment.html#unbindAttachment()">unbindAttachment</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.minecraft.client.renderer.texture.AbstractTexture">Methods inherited from class&nbsp;net.minecraft.client.renderer.texture.AbstractTexture</h3>
 <code>bind, close, reset, setFilter</code></div>
@@ -207,17 +208,19 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="attach(int)">
+<section class="detail" id="attach(int,int)">
 <h3>attach</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">attach</span><wbr><span class="parameters">(int&nbsp;attachment)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AdvancedFboAttachment.html#attach(int)">AdvancedFboAttachment</a></code></span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">attach</span><wbr><span class="parameters">(int&nbsp;framebuffer,
+ int&nbsp;attachment)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AdvancedFboAttachment.html#attach(int,int)">AdvancedFboAttachment</a></code></span></div>
 <div class="block">Attaches this attachment to the provided target under the specified attachment point.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="AdvancedFboAttachment.html#attach(int)">attach</a></code>&nbsp;in interface&nbsp;<code><a href="AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></dd>
+<dd><code><a href="AdvancedFboAttachment.html#attach(int,int)">attach</a></code>&nbsp;in interface&nbsp;<code><a href="AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></dd>
 <dt>Overrides:</dt>
-<dd><code><a href="AdvancedFboTextureAttachment.html#attach(int)">attach</a></code>&nbsp;in class&nbsp;<code><a href="AdvancedFboTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboTextureAttachment</a></code></dd>
+<dd><code><a href="AdvancedFboTextureAttachment.html#attach(int,int)">attach</a></code>&nbsp;in class&nbsp;<code><a href="AdvancedFboTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboTextureAttachment</a></code></dd>
 <dt>Parameters:</dt>
+<dd><code>framebuffer</code> - The id of the framebuffer to attach to</dd>
 <dd><code>attachment</code> - The attachment point to add this attachment to</dd>
 </dl>
 </section>

@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>All Known Implementing Classes:</dt>
-<dd><code><a href="../../../../impl/client/render/AdvancedFboImpl.html" title="class in foundry.veil.impl.client.render">AdvancedFboImpl</a></code>, <code><a href="../../../../impl/client/render/wrapper/VanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">VanillaAdvancedFboWrapper</a></code></dd>
+<dd><code><a href="../../../../impl/client/render/framebuffer/AdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl</a></code>, <code><a href="../../../../impl/client/render/framebuffer/DSAAdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">DSAAdvancedFboImpl</a></code>, <code><a href="../../../../impl/client/render/wrapper/DSAVanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">DSAVanillaAdvancedFboWrapper</a></code>, <code><a href="../../../../impl/client/render/framebuffer/LegacyAdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">LegacyAdvancedFboImpl</a></code>, <code><a href="../../../../impl/client/render/wrapper/LegacyVanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">LegacyVanillaAdvancedFboWrapper</a></code>, <code><a href="../../../../impl/client/render/wrapper/VanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">VanillaAdvancedFboWrapper</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">AdvancedFbo</span><span class="extends-implements">
@@ -151,30 +151,59 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Binds this framebuffer for draw requests.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindRead()" class="member-name-link">bindRead</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#bindRead()" class="member-name-link">bindRead</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Binds this framebuffer for read requests.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Clears the buffers in this framebuffer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#copy(com.mojang.blaze3d.pipeline.RenderTarget)" class="member-name-link">copy</a><wbr>(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;parent)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Creates a copy of the provided <code>RenderTarget</code>.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#clear(float,float,float,float,int)" class="member-name-link">clear</a><wbr>(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha,
+ int&nbsp;buffers)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Clears the specified buffers.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#clear(float,float,float,float,int,int%5B%5D)" class="member-name-link">clear</a><wbr>(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha,
+ int&nbsp;clearMask,
+ int[]&nbsp;clearBuffers)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Clears the specified buffers.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#clear(int)" class="member-name-link">clear</a><wbr>(int&nbsp;buffers)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Clears the specified buffers.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static <a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#copy(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">copy</a><wbr>(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;parent)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#copy(com.mojang.blaze3d.pipeline.RenderTarget)" class="member-name-link">copy</a><wbr>(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;parent)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="block">Creates a copy of the provided <code>RenderTarget</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#copy(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">copy</a><wbr>(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;parent)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Creates a copy of the provided <a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer"><code>AdvancedFbo</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates the framebuffer and all attachments.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#drawBuffers(int...)" class="member-name-link">drawBuffers</a><wbr>(int...&nbsp;buffers)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Sets the buffers to draw to.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getClearMask()" class="member-name-link">getClearMask</a>()</code></div>
@@ -221,9 +250,7 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#getMainFramebuffer()" class="member-name-link">getMainFramebuffer</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
-<div class="block">Gets the main framebuffer.</div>
-</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
@@ -260,95 +287,100 @@ extends org.lwjgl.system.NativeResource</span></div>
 <div class="block">Checks to see if the provided attachment has been added to this framebuffer and is a mutable texture attachment.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">resolveToAdvancedFbo</a><wbr>(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;target)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resetDrawBuffers()" class="member-name-link">resetDrawBuffers</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Resolves this framebuffer to the provided advanced framebuffer as the target.</div>
+<div class="block">Resets the draw buffers to enable all buffers.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo,int,int)" class="member-name-link">resolveToAdvancedFbo</a><wbr>(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;target,
- int&nbsp;mask,
- int&nbsp;filtering)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">resolveToAdvancedFbo</a><wbr>(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;target)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Resolves this framebuffer to the provided advanced framebuffer as the target.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToFbo(int,int,int,int,int)" class="member-name-link">resolveToFbo</a><wbr>(int&nbsp;id,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo,int,int)" class="member-name-link">resolveToAdvancedFbo</a><wbr>(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;target,
+ int&nbsp;mask,
+ int&nbsp;filtering)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Resolves this framebuffer to the provided advanced framebuffer as the target.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#resolveToFbo(int,int,int,int,int)" class="member-name-link">resolveToFbo</a><wbr>(int&nbsp;id,
  int&nbsp;width,
  int&nbsp;height,
  int&nbsp;mask,
  int&nbsp;filtering)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Resolves this framebuffer to the framebuffer with the specified id as the target.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToFramebuffer(com.mojang.blaze3d.pipeline.RenderTarget)" class="member-name-link">resolveToFramebuffer</a><wbr>(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToRenderTarget(com.mojang.blaze3d.pipeline.RenderTarget)" class="member-name-link">resolveToRenderTarget</a><wbr>(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Resolves this framebuffer to the provided minecraft framebuffer as the target.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToFramebuffer(com.mojang.blaze3d.pipeline.RenderTarget,int,int)" class="member-name-link">resolveToFramebuffer</a><wbr>(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#resolveToRenderTarget(com.mojang.blaze3d.pipeline.RenderTarget,int,int)" class="member-name-link">resolveToRenderTarget</a><wbr>(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target,
  int&nbsp;mask,
  int&nbsp;filtering)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Resolves this framebuffer to the provided minecraft framebuffer as the target.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToScreen()" class="member-name-link">resolveToScreen</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Resolves this framebuffer to the window framebuffer as the target.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToScreen(int,int)" class="member-name-link">resolveToScreen</a><wbr>(int&nbsp;mask,
- int&nbsp;filtering)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToScreen()" class="member-name-link">resolveToScreen</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Resolves this framebuffer to the window framebuffer as the target.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
- int&nbsp;textureId)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#resolveToScreen(int,int)" class="member-name-link">resolveToScreen</a><wbr>(int&nbsp;mask,
+ int&nbsp;filtering)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Resolves this framebuffer to the window framebuffer as the target.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
+ int&nbsp;textureId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the 2D texture attachment reference for the specified slot.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setColorAttachmentTexture(int,int,int)" class="member-name-link">setColorAttachmentTexture</a><wbr>(int&nbsp;attachment,
  int&nbsp;textureId,
  int&nbsp;layer)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the texture attachment reference for the specified slot.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the 2D depth texture attachment reference for the specified slot.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int,int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureId,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDepthAttachmentTexture(int,int)" class="member-name-link">setDepthAttachmentTexture</a><wbr>(int&nbsp;textureId,
  int&nbsp;layer)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Updates the depth texture attachment reference for the specified slot.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>com.mojang.blaze3d.pipeline.RenderTarget</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#toRenderTarget()" class="member-name-link">toRenderTarget</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#unbind()" class="member-name-link">unbind</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>com.mojang.blaze3d.pipeline.RenderTarget</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#toRenderTarget()" class="member-name-link">toRenderTarget</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#unbind()" class="member-name-link">unbind</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Binds the main Minecraft framebuffer for writing and reading.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#unbindDraw()" class="member-name-link">unbindDraw</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#unbindDraw()" class="member-name-link">unbindDraw</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Binds the main Minecraft framebuffer for drawing.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#unbindRead()" class="member-name-link">unbindRead</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#unbindRead()" class="member-name-link">unbindRead</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Binds the main Minecraft framebuffer for reading.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1"><code>static <a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1"><code><a href="#withSize(int,int)" class="member-name-link">withSize</a><wbr>(int&nbsp;width,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1"><code>static <a href="AdvancedFbo.Builder.html" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1"><code><a href="#withSize(int,int)" class="member-name-link">withSize</a><wbr>(int&nbsp;width,
  int&nbsp;height)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1">
 <div class="block">Creates a new <a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer"><code>AdvancedFbo</code></a> with the provided width and height.</div>
 </div>
 </div>
@@ -378,8 +410,68 @@ extends org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="clear()">
 <h3>clear</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
 <div class="block">Clears the buffers in this framebuffer.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="clear(int)">
+<h3>clear</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span><wbr><span class="parameters">(int&nbsp;buffers)</span></div>
+<div class="block">Clears the specified buffers.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>buffers</code> - The buffers to clear</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="clear(float,float,float,float,int)">
+<h3>clear</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span><wbr><span class="parameters">(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha,
+ int&nbsp;buffers)</span></div>
+<div class="block">Clears the specified buffers.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>buffers</code> - The buffers to clear</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="clear(float,float,float,float,int,int[])">
+<h3>clear</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">clear</span><wbr><span class="parameters">(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha,
+ int&nbsp;clearMask,
+ int[]&nbsp;clearBuffers)</span></div>
+<div class="block">Clears the specified buffers.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>clearMask</code> - The buffers to clear</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="resetDrawBuffers()">
+<h3>resetDrawBuffers</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetDrawBuffers</span>()</div>
+<div class="block">Resets the draw buffers to enable all buffers.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="drawBuffers(int...)">
+<h3>drawBuffers</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">drawBuffers</span><wbr><span class="parameters">(int...&nbsp;buffers)</span></div>
+<div class="block">Sets the buffers to draw to.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>buffers</code> - The texture units of the color buffers to enable</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -396,7 +488,7 @@ extends org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="bindRead()">
 <h3>bindRead</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">bindRead</span>()</div>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindRead</span>()</div>
 <div class="block">Binds this framebuffer for read requests.</div>
 </section>
 </li>
@@ -415,10 +507,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 <section class="detail" id="getMainFramebuffer()">
 <h3>getMainFramebuffer</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type"><a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></span>&nbsp;<span class="element-name">getMainFramebuffer</span>()</div>
-<div class="block">Gets the main framebuffer.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>main framebuffer</dd>
+<dd>The main framebuffer</dd>
 </dl>
 </section>
 </li>
@@ -446,7 +537,7 @@ extends org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="resolveToFbo(int,int,int,int,int)">
 <h3>resolveToFbo</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resolveToFbo</span><wbr><span class="parameters">(int&nbsp;id,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">resolveToFbo</span><wbr><span class="parameters">(int&nbsp;id,
  int&nbsp;width,
  int&nbsp;height,
  int&nbsp;mask,
@@ -476,7 +567,7 @@ extends org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo,int,int)">
 <h3>resolveToAdvancedFbo</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resolveToAdvancedFbo</span><wbr><span class="parameters">(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;target,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">resolveToAdvancedFbo</span><wbr><span class="parameters">(<a href="AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;target,
  int&nbsp;mask,
  int&nbsp;filtering)</span></div>
 <div class="block">Resolves this framebuffer to the provided advanced framebuffer as the target.</div>
@@ -489,9 +580,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="resolveToFramebuffer(com.mojang.blaze3d.pipeline.RenderTarget)">
-<h3>resolveToFramebuffer</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resolveToFramebuffer</span><wbr><span class="parameters">(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target)</span></div>
+<section class="detail" id="resolveToRenderTarget(com.mojang.blaze3d.pipeline.RenderTarget)">
+<h3>resolveToRenderTarget</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resolveToRenderTarget</span><wbr><span class="parameters">(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target)</span></div>
 <div class="block">Resolves this framebuffer to the provided minecraft framebuffer as the target.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -500,9 +591,9 @@ extends org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="resolveToFramebuffer(com.mojang.blaze3d.pipeline.RenderTarget,int,int)">
-<h3>resolveToFramebuffer</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resolveToFramebuffer</span><wbr><span class="parameters">(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target,
+<section class="detail" id="resolveToRenderTarget(com.mojang.blaze3d.pipeline.RenderTarget,int,int)">
+<h3>resolveToRenderTarget</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">resolveToRenderTarget</span><wbr><span class="parameters">(com.mojang.blaze3d.pipeline.RenderTarget&nbsp;target,
  int&nbsp;mask,
  int&nbsp;filtering)</span></div>
 <div class="block">Resolves this framebuffer to the provided minecraft framebuffer as the target.</div>
@@ -716,9 +807,7 @@ extends org.lwjgl.system.NativeResource</span></div>
  int&nbsp;layer)</span></div>
 <div class="block"><p>Updates the texture attachment reference for the specified slot.
  if the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
- use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</p>
-
- <p><strong>The framebuffer must be bound before calling this</strong></p></div>
+ use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>attachment</code> - The attachment to modify</dd>
@@ -829,9 +918,7 @@ extends org.lwjgl.system.NativeResource</span></div>
  int&nbsp;layer)</span></div>
 <div class="block"><p>Updates the depth texture attachment reference for the specified slot.
  If the attachment is not known to be an <a href="AdvancedFboMutableTextureAttachment.html" title="class in foundry.veil.api.client.render.framebuffer"><code>AdvancedFboMutableTextureAttachment</code></a>,
- use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</p>
-
- <p><strong>The framebuffer must be bound before calling this</strong></p></div>
+ use <a href="#isMutableColorTextureAttachment(int)"><code>isMutableColorTextureAttachment(int)</code></a> before calling this.</p></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>textureId</code> - The id of the texture to draw into</dd>

@@ -93,9 +93,13 @@ loadScripts(document, 'script');</script>
 <dt>All Implemented Interfaces:</dt>
 <dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a></code>, <code>org.lwjgl.system.NativeResource</code></dd>
 </dl>
+<dl class="notes">
+<dt>Direct Known Subclasses:</dt>
+<dd><code><a href="DSAVanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">DSAVanillaAdvancedFboWrapper</a></code>, <code><a href="LegacyVanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">LegacyVanillaAdvancedFboWrapper</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public class </span><span class="element-name type-name-label">VanillaAdvancedFboWrapper</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">VanillaAdvancedFboWrapper</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></span></div>
 <div class="block">Wraps any render target with an <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer"><code>AdvancedFbo</code></a>.</div>
@@ -146,14 +150,14 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <div class="block">Binds this framebuffer for draw requests.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindRead()" class="member-name-link">bindRead</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Binds this framebuffer for read requests.</div>
+<div class="block">Clears the buffers in this framebuffer.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear(int)" class="member-name-link">clear</a><wbr>(int&nbsp;buffers)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Clears the buffers in this framebuffer.</div>
+<div class="block">Clears the specified buffers.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
@@ -161,42 +165,52 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <div class="block">Creates the framebuffer and all attachments.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClearMask()" class="member-name-link">getClearMask</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/framebuffer/AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorAttachment(int)" class="member-name-link">getColorAttachment</a><wbr>(int&nbsp;attachment)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawBuffers(int...)" class="member-name-link">drawBuffers</a><wbr>(int...&nbsp;buffers)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the buffers to draw to.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClearMask()" class="member-name-link">getClearMask</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/framebuffer/AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorAttachment(int)" class="member-name-link">getColorAttachment</a><wbr>(int&nbsp;attachment)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks the attachments for the specified slot.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorAttachments()" class="member-name-link">getColorAttachments</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/framebuffer/AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDepthAttachment()" class="member-name-link">getDepthAttachment</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int[]</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDrawBuffers()" class="member-name-link">getDrawBuffers</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getColorAttachments()" class="member-name-link">getColorAttachments</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/framebuffer/AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDepthAttachment()" class="member-name-link">getDepthAttachment</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDrawBuffers()" class="member-name-link">getDrawBuffers</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasColorAttachment(int)" class="member-name-link">hasColorAttachment</a><wbr>(int&nbsp;attachment)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasColorAttachment(int)" class="member-name-link">hasColorAttachment</a><wbr>(int&nbsp;attachment)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Checks to see if the provided attachment has been added to this framebuffer.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasDepthAttachment()" class="member-name-link">hasDepthAttachment</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasDepthAttachment()" class="member-name-link">hasDepthAttachment</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetDrawBuffers()" class="member-name-link">resetDrawBuffers</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Resets the draw buffers to enable all buffers.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.mojang.blaze3d.pipeline.RenderTarget</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toRenderTarget()" class="member-name-link">toRenderTarget</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -208,7 +222,7 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-foundry.veil.api.client.render.framebuffer.AdvancedFbo">Methods inherited from interface&nbsp;foundry.veil.api.client.render.framebuffer.<a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></h3>
-<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getColorRenderAttachment(int)">getColorRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getColorTextureAttachment(int)">getColorTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getDepthRenderAttachment()">getDepthRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getDepthTextureAttachment()">getDepthTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isColorRenderAttachment(int)">isColorRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isColorTextureAttachment(int)">isColorTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isDepthMutableTextureAttachment()">isDepthMutableTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isDepthRenderAttachment()">isDepthRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isDepthTextureAttachment()">isDepthTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isMutableColorTextureAttachment(int)">isMutableColorTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo)">resolveToAdvancedFbo</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo,int,int)">resolveToAdvancedFbo</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToFbo(int,int,int,int,int)">resolveToFbo</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToFramebuffer(com.mojang.blaze3d.pipeline.RenderTarget)">resolveToFramebuffer</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToFramebuffer(com.mojang.blaze3d.pipeline.RenderTarget,int,int)">resolveToFramebuffer</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToScreen()">resolveToScreen</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToScreen(int,int)">resolveToScreen</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setColorAttachmentTexture(int,int)">setColorAttachmentTexture</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setColorAttachmentTexture(int,int,int)">setColorAttachmentTexture</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setDepthAttachmentTexture(int)">setDepthAttachmentTexture</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setDepthAttachmentTexture(int,int)">setDepthAttachmentTexture</a></code></div>
+<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#bindRead()">bindRead</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#clear(float,float,float,float,int)">clear</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#clear(float,float,float,float,int,int%5B%5D)">clear</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getColorRenderAttachment(int)">getColorRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getColorTextureAttachment(int)">getColorTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getDepthRenderAttachment()">getDepthRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#getDepthTextureAttachment()">getDepthTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isColorRenderAttachment(int)">isColorRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isColorTextureAttachment(int)">isColorTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isDepthMutableTextureAttachment()">isDepthMutableTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isDepthRenderAttachment()">isDepthRenderAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isDepthTextureAttachment()">isDepthTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#isMutableColorTextureAttachment(int)">isMutableColorTextureAttachment</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo)">resolveToAdvancedFbo</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToAdvancedFbo(foundry.veil.api.client.render.framebuffer.AdvancedFbo,int,int)">resolveToAdvancedFbo</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToFbo(int,int,int,int,int)">resolveToFbo</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToRenderTarget(com.mojang.blaze3d.pipeline.RenderTarget)">resolveToRenderTarget</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToRenderTarget(com.mojang.blaze3d.pipeline.RenderTarget,int,int)">resolveToRenderTarget</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToScreen()">resolveToScreen</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resolveToScreen(int,int)">resolveToScreen</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setColorAttachmentTexture(int,int)">setColorAttachmentTexture</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setColorAttachmentTexture(int,int,int)">setColorAttachmentTexture</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setDepthAttachmentTexture(int)">setDepthAttachmentTexture</a>, <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#setDepthAttachmentTexture(int,int)">setDepthAttachmentTexture</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.lwjgl.system.NativeResource">Methods inherited from interface&nbsp;org.lwjgl.system.NativeResource</h3>
 <code>close</code></div>
@@ -262,6 +276,46 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 </section>
 </li>
 <li>
+<section class="detail" id="clear(int)">
+<h3>clear</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span><wbr><span class="parameters">(int&nbsp;buffers)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#clear(int)">AdvancedFbo</a></code></span></div>
+<div class="block">Clears the specified buffers.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#clear(int)">clear</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>buffers</code> - The buffers to clear</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="resetDrawBuffers()">
+<h3>resetDrawBuffers</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">resetDrawBuffers</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resetDrawBuffers()">AdvancedFbo</a></code></span></div>
+<div class="block">Resets the draw buffers to enable all buffers.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#resetDrawBuffers()">resetDrawBuffers</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="drawBuffers(int...)">
+<h3>drawBuffers</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawBuffers</span><wbr><span class="parameters">(int...&nbsp;buffers)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#drawBuffers(int...)">AdvancedFbo</a></code></span></div>
+<div class="block">Sets the buffers to draw to.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#drawBuffers(int...)">drawBuffers</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>buffers</code> - The texture units of the color buffers to enable</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="bind(boolean)">
 <h3>bind</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bind</span><wbr><span class="parameters">(boolean&nbsp;setViewport)</span></div>
@@ -272,18 +326,6 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#bind(boolean)">bind</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>setViewport</code> - Whether to set the viewport to fit the bounds of this framebuffer</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="bindRead()">
-<h3>bindRead</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindRead</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#bindRead()">AdvancedFbo</a></code></span></div>
-<div class="block">Binds this framebuffer for read requests.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#bindRead()">bindRead</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
 </dl>
 </section>
 </li>

@@ -136,6 +136,7 @@ loadScripts(document, 'script');</script>
 <li><a href="foundry/veil/impl/client/render/package-tree.html">foundry.veil.impl.client.render</a>, </li>
 <li><a href="foundry/veil/impl/client/render/dynamicbuffer/package-tree.html">foundry.veil.impl.client.render.dynamicbuffer</a>, </li>
 <li><a href="foundry/veil/impl/client/render/ext/package-tree.html">foundry.veil.impl.client.render.ext</a>, </li>
+<li><a href="foundry/veil/impl/client/render/framebuffer/package-tree.html">foundry.veil.impl.client.render.framebuffer</a>, </li>
 <li><a href="foundry/veil/impl/client/render/light/package-tree.html">foundry.veil.impl.client.render.light</a>, </li>
 <li><a href="foundry/veil/impl/client/render/mesh/package-tree.html">foundry.veil.impl.client.render.mesh</a>, </li>
 <li><a href="foundry/veil/impl/client/render/perspective/package-tree.html">foundry.veil.impl.client.render.perspective</a>, </li>
@@ -163,6 +164,7 @@ loadScripts(document, 'script');</script>
 <li><a href="foundry/veil/mixin/framebuffer/client/package-tree.html">foundry.veil.mixin.framebuffer.client</a>, </li>
 <li><a href="foundry/veil/mixin/imgui/client/package-tree.html">foundry.veil.mixin.imgui.client</a>, </li>
 <li><a href="foundry/veil/mixin/necromancer/client/package-tree.html">foundry.veil.mixin.necromancer.client</a>, </li>
+<li><a href="foundry/veil/mixin/performance/client/package-tree.html">foundry.veil.mixin.performance.client</a>, </li>
 <li><a href="foundry/veil/mixin/perspective/accessor/package-tree.html">foundry.veil.mixin.perspective.accessor</a>, </li>
 <li><a href="foundry/veil/mixin/perspective/client/package-tree.html">foundry.veil.mixin.perspective.client</a>, </li>
 <li><a href="foundry/veil/mixin/pipeline/accessor/package-tree.html">foundry.veil.mixin.pipeline.accessor</a>, </li>
@@ -210,7 +212,12 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.Builder.html" class="type-name-link" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFbo.Builder</a></li>
 <li class="circle">foundry.veil.impl.client.imgui.<a href="foundry/veil/impl/client/imgui/AdvancedFboImGuiAreaImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.imgui">AdvancedFboImGuiAreaImpl</a></li>
-<li class="circle">foundry.veil.impl.client.render.<a href="foundry/veil/impl/client/render/AdvancedFboImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render">AdvancedFboImpl</a> (implements foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>)</li>
+<li class="circle">foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl</a> (implements foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>)
+<ul>
+<li class="circle">foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/DSAAdvancedFboImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.framebuffer">DSAAdvancedFboImpl</a></li>
+<li class="circle">foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/LegacyAdvancedFboImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.framebuffer">LegacyAdvancedFboImpl</a></li>
+</ul>
+</li>
 <li class="circle">foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFboRenderAttachment.html" class="type-name-link" title="class in foundry.veil.api.client.render.framebuffer">AdvancedFboRenderAttachment</a> (implements foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a>)</li>
 <li class="circle">foundry.veil.api.quasar.emitters.<a href="foundry/veil/api/quasar/emitters/AnchorPoint.html" class="type-name-link" title="class in foundry.veil.api.quasar.emitters">AnchorPoint</a></li>
 <li class="circle">foundry.veil.api.client.necromancer.animation.<a href="foundry/veil/api/client/necromancer/animation/Animation.html" class="type-name-link" title="class in foundry.veil.api.client.necromancer.animation">Animation</a>&lt;P,<wbr>T&gt;
@@ -417,6 +424,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html" class="type-name-link" title="class in foundry.veil.api.quasar.data">ParticleModuleTypeRegistry</a></li>
 <li class="circle">foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/ParticleSystemManager.html" class="type-name-link" title="class in foundry.veil.api.quasar.particle">ParticleSystemManager</a></li>
 <li class="circle">foundry.veil.api.client.anim.<a href="foundry/veil/api/client/anim/Path.html" class="type-name-link" title="class in foundry.veil.api.client.anim">Path</a></li>
+<li class="circle">foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceScreenEffectRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.performance.client">PerformanceScreenEffectRendererMixin</a></li>
 <li class="circle">foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineAutoStorageIndexBufferMixin.html" class="type-name-link" title="class in foundry.veil.mixin.pipeline.client">PipelineAutoStorageIndexBufferMixin</a> (implements foundry.veil.ext.<a href="foundry/veil/ext/AutoStorageIndexBufferExtension.html" title="interface in foundry.veil.ext">AutoStorageIndexBufferExtension</a>)</li>
 <li class="circle">foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineFrustumMixin.html" class="type-name-link" title="class in foundry.veil.mixin.pipeline.client">PipelineFrustumMixin</a> (implements foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a>)</li>
 <li class="circle">foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineGameRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.pipeline.client">PipelineGameRendererMixin</a></li>
@@ -482,11 +490,12 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">com.mojang.blaze3d.pipeline.TextureTarget
 <ul>
-<li class="circle">foundry.veil.impl.client.render.<a href="foundry/veil/impl/client/render/AdvancedFboImpl.Wrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render">AdvancedFboImpl.Wrapper</a></li>
+<li class="circle">foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.Wrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl.Wrapper</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="circle">foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" class="type-name-link" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></li>
 <li class="circle">foundry.veil.api.client.registry.<a href="foundry/veil/api/client/registry/RenderTypeLayerRegistry.html" class="type-name-link" title="class in foundry.veil.api.client.registry">RenderTypeLayerRegistry</a></li>
 <li class="circle">foundry.veil.mixin.rendertype.client.<a href="foundry/veil/mixin/rendertype/client/RenderTypeMixin.html" class="type-name-link" title="class in foundry.veil.mixin.rendertype.client">RenderTypeMixin</a></li>
 <li class="circle">foundry.veil.impl.resource.loader.<a href="foundry/veil/impl/resource/loader/RenderTypeResourceLoader.html" class="type-name-link" title="class in foundry.veil.impl.resource.loader">RenderTypeResourceLoader</a> (implements foundry.veil.api.resource.<a href="foundry/veil/api/resource/VeilResourceLoader.html" title="interface in foundry.veil.api.resource">VeilResourceLoader</a>)</li>
@@ -635,7 +644,12 @@ loadScripts(document, 'script');</script>
 <li class="circle">foundry.veil.api.quasar.emitters.module.render.<a href="foundry/veil/api/quasar/emitters/module/render/TrailParticleModule.html" class="type-name-link" title="class in foundry.veil.api.quasar.emitters.module.render">TrailParticleModule</a> (implements foundry.veil.api.quasar.emitters.module.<a href="foundry/veil/api/quasar/emitters/module/InitParticleModule.html" title="interface in foundry.veil.api.quasar.emitters.module">InitParticleModule</a>)</li>
 <li class="circle">foundry.veil.api.quasar.emitters.module.render.<a href="foundry/veil/api/quasar/emitters/module/render/TrailSettings.html" class="type-name-link" title="class in foundry.veil.api.quasar.emitters.module.render">TrailSettings</a></li>
 <li class="circle">foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/UIUtils.html" class="type-name-link" title="class in foundry.veil.api.client.util">UIUtils</a></li>
-<li class="circle">foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/VanillaAdvancedFboWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.wrapper">VanillaAdvancedFboWrapper</a> (implements foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>)</li>
+<li class="circle">foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/VanillaAdvancedFboWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.wrapper">VanillaAdvancedFboWrapper</a> (implements foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>)
+<ul>
+<li class="circle">foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/DSAVanillaAdvancedFboWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.wrapper">DSAVanillaAdvancedFboWrapper</a></li>
+<li class="circle">foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/LegacyVanillaAdvancedFboWrapper.html" class="type-name-link" title="class in foundry.veil.impl.client.render.wrapper">LegacyVanillaAdvancedFboWrapper</a></li>
+</ul>
+</li>
 <li class="circle">foundry.veil.impl.client.render.dynamicbuffer.<a href="foundry/veil/impl/client/render/dynamicbuffer/VanillaShaderCompiler.html" class="type-name-link" title="class in foundry.veil.impl.client.render.dynamicbuffer">VanillaShaderCompiler</a></li>
 <li class="circle">foundry.veil.impl.client.render.shader.transformer.<a href="foundry/veil/impl/client/render/shader/transformer/VanillaShaderProcessor.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.transformer">VanillaShaderProcessor</a></li>
 <li class="circle">foundry.veil.api.quasar.emitters.module.force.<a href="foundry/veil/api/quasar/emitters/module/force/VectorFieldForceModule.html" class="type-name-link" title="class in foundry.veil.api.quasar.emitters.module.force">VectorFieldForceModule</a> (implements foundry.veil.api.quasar.emitters.module.<a href="foundry/veil/api/quasar/emitters/module/ForceParticleModule.html" title="interface in foundry.veil.api.quasar.emitters.module">ForceParticleModule</a>)</li>

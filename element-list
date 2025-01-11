@@ -82,6 +82,7 @@ foundry.veil.impl.client.imgui.style
 foundry.veil.impl.client.render
 foundry.veil.impl.client.render.dynamicbuffer
 foundry.veil.impl.client.render.ext
+foundry.veil.impl.client.render.framebuffer
 foundry.veil.impl.client.render.light
 foundry.veil.impl.client.render.mesh
 foundry.veil.impl.client.render.perspective
@@ -109,6 +110,7 @@ foundry.veil.mixin.dynamicbuffer.client
 foundry.veil.mixin.framebuffer.client
 foundry.veil.mixin.imgui.client
 foundry.veil.mixin.necromancer.client
+foundry.veil.mixin.performance.client
 foundry.veil.mixin.perspective.accessor
 foundry.veil.mixin.perspective.client
 foundry.veil.mixin.pipeline.accessor
