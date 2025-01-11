@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.Locale;
 
 import static org.lwjgl.opengl.ARBClearTexture.glClearTexImage;
@@ -56,6 +57,7 @@ public class DSAAdvancedFboImpl extends AdvancedFboImpl {
             throw new IllegalStateException("Advanced FBO status did not return GL_FRAMEBUFFER_COMPLETE. " + error);
         }
 
+        this.currentDrawBuffers = this.drawBuffers;
         glNamedFramebufferDrawBuffers(this.id, this.drawBuffers);
     }
 
@@ -100,8 +102,23 @@ public class DSAAdvancedFboImpl extends AdvancedFboImpl {
     }
 
     @Override
+    public void resetDrawBuffers() {
+        if (Arrays.mismatch(this.currentDrawBuffers, this.drawBuffers) >= 0) {
+            this.currentDrawBuffers = this.drawBuffers;
+            glNamedFramebufferDrawBuffers(this.id, this.drawBuffers);
+        }
+    }
+
+    @Override
     public void drawBuffers(int... buffers) {
-        glNamedFramebufferDrawBuffers(this.id, buffers);
+        if (Arrays.mismatch(this.currentDrawBuffers, buffers) >= 0) {
+            if (this.currentDrawBuffers.length != buffers.length) {
+                this.currentDrawBuffers = Arrays.copyOf(buffers, buffers.length);
+            } else {
+                System.arraycopy(buffers, 0, this.currentDrawBuffers, 0, buffers.length);
+            }
+            glNamedFramebufferDrawBuffers(this.id, buffers);
+        }
     }
 
     @Override

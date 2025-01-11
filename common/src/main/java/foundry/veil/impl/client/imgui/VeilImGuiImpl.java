@@ -75,7 +75,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
     }
 
     @Override
-    public void begin() {
+    public void start() {
         this.beginLayer++;
 
         if (ImGui.getCurrentContext().ptr == this.imGuiContext.ptr) {
@@ -91,7 +91,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
     @Override
     public void beginFrame() {
-        this.begin();
+        this.start();
 
         if (this.active) {
             Veil.LOGGER.error("ImGui failed to render previous frame, disposing");
@@ -116,7 +116,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
             this.end();
             return;
         }
-        this.begin();
+        this.start();
 
         this.active = false;
         VeilRenderSystem.renderer().getEditorManager().renderLast();
@@ -199,7 +199,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
     @Override
     public void free() {
-        this.begin();
+        this.start();
         this.implGlfw.dispose();
         this.implGl3.dispose();
         ImGui.destroyContext(this.imGuiContext);

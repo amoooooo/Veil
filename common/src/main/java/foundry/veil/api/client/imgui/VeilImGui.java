@@ -13,7 +13,7 @@ import java.util.function.ObjIntConsumer;
 @ApiStatus.Internal
 public interface VeilImGui {
 
-    void begin();
+    void start();
 
     void beginFrame();
 

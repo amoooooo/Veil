@@ -36,9 +36,10 @@ public final class VeilFirstPersonRenderer {
                     .setDepthTextureBuffer()
                     .build(true);
         }
-        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
+        VeilRenderer renderer = VeilRenderSystem.renderer();
+        renderer.getDynamicBufferManger().setEnabled(false);
+        renderer.getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
-        firstPerson.setColorAttachmentTexture(0, framebufferTexture);
         firstPerson.clear(mask);
         enabled = true;
     }
@@ -54,11 +55,15 @@ public final class VeilFirstPersonRenderer {
                 Veil.LOGGER.error("Failed to apply first person pipeline");
                 printedError = true;
             }
-            AdvancedFbo.unbind();
-            return;
+        } else {
+            postProcessingManager.runPipeline(pipeline, false);
         }
 
-        postProcessingManager.runPipeline(pipeline, false);
+        if (!VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
+            AdvancedFbo.unbind();
+        }
+
+        VeilRenderSystem.renderer().getDynamicBufferManger().setEnabled(true);
     }
 
     public static void free() {
@@ -68,9 +73,5 @@ public final class VeilFirstPersonRenderer {
             firstPerson = null;
         }
         printedError = false;
-    }
-
-    public static boolean isRenderingFirstPerson() {
-        return enabled;
     }
 }

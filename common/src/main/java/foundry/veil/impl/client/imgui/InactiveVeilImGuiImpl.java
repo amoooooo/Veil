@@ -10,7 +10,7 @@ import java.util.function.ObjIntConsumer;
 public class InactiveVeilImGuiImpl implements VeilImGui {
 
     @Override
-    public void begin() {
+    public void start() {
     }
 
     @Override

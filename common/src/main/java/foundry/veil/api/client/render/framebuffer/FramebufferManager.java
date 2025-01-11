@@ -208,14 +208,12 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
                 .setQuery("screen_height", window.getHeight())
                 .create();
 
-        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
         this.framebufferDefinitions.forEach((name, definition) -> {
             this.initFramebuffer(name, definition, runtime);
             if (!definition.width().isConstant() || !definition.height().isConstant()) {
                 this.screenFramebuffers.add(name);
             }
         });
-        AdvancedFbo.unbind();
 
         this.setFramebuffer(MAIN, AdvancedFbo.getMainFramebuffer());
     }

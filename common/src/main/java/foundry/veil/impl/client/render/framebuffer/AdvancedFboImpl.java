@@ -49,6 +49,7 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
     protected final AdvancedFboAttachment depthAttachment;
     protected final int clearMask;
     protected final int[] drawBuffers;
+    protected int[] currentDrawBuffers;
     protected final Supplier<Wrapper> wrapper;
 
     public AdvancedFboImpl(int width, int height, AdvancedFboAttachment[] colorAttachments, @Nullable AdvancedFboAttachment depthAttachment) {

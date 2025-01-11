@@ -63,7 +63,7 @@ public class Veil {
      */
     public static VeilImGui beginImGui() {
         VeilImGui imGui = VeilImGuiImpl.get();
-        imGui.begin();
+        imGui.start();
         return imGui;
     }
 

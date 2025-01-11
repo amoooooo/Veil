@@ -13,7 +13,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
     @Override
     public void scrollCallback(long windowId, double xOffset, double yOffset) {
         try {
-            this.impl.begin();
+            this.impl.start();
             super.scrollCallback(windowId, xOffset, yOffset);
         } finally {
             this.impl.end();
@@ -23,7 +23,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
     @Override
     public void keyCallback(long windowId, int key, int scancode, int action, int mods) {
         try {
-            this.impl.begin();
+            this.impl.start();
             super.keyCallback(windowId, key, scancode, action, mods);
         } finally {
             this.impl.end();
@@ -33,7 +33,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
     @Override
     public void windowFocusCallback(long windowId, boolean focused) {
         try {
-            this.impl.begin();
+            this.impl.start();
             super.windowFocusCallback(windowId, focused);
         } finally {
             this.impl.end();
@@ -43,7 +43,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
     @Override
     public void charCallback(long windowId, int c) {
         try {
-            this.impl.begin();
+            this.impl.start();
             super.charCallback(windowId, c);
         } finally {
             this.impl.end();

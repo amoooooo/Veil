@@ -74,9 +74,7 @@ public interface AdvancedFbo extends NativeResource {
     /**
      * Resets the draw buffers to enable all buffers.
      */
-    default void resetDrawBuffers() {
-        this.drawBuffers(this.getDrawBuffers());
-    }
+    void resetDrawBuffers();
 
     /**
      * Sets the buffers to draw to.

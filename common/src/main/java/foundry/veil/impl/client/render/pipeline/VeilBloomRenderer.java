@@ -2,11 +2,13 @@ package foundry.veil.impl.client.render.pipeline;
 
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.compat.IrisCompat;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -59,14 +61,21 @@ public final class VeilBloomRenderer {
                     .setDepthTextureWrapper(framebufferTexture)
                     .build(true);
         }
-        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.BLOOM, bloom);
+        VeilRenderer renderer = VeilRenderSystem.renderer();
+        renderer.getDynamicBufferManger().setEnabled(false);
+        renderer.getFramebufferManager().setFramebuffer(VeilFramebuffers.BLOOM, bloom);
         bloom.bind(true);
-        bloom.setDepthAttachmentTexture(framebufferTexture);
         rendered = true;
     }
 
     public static void clearRenderState() {
-        if (enabled && !Veil.platform().hasErrors() && !VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
+        if (!enabled || Veil.platform().hasErrors()) {
+            return;
+        }
+
+        DynamicBufferManger dynamicBufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
+        dynamicBufferManger.setEnabled(true);
+        if (!dynamicBufferManger.clearRenderState(true)) {
             AdvancedFbo.unbind();
         }
     }

@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.Locale;
 
 import static org.lwjgl.opengl.ARBClearTexture.glClearTexImage;
@@ -58,7 +59,7 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
             throw new IllegalStateException("Advanced FBO status did not return GL_FRAMEBUFFER_COMPLETE. " + error);
         }
 
-        glDrawBuffers(this.drawBuffers);
+        this.currentDrawBuffers = this.drawBuffers;
         glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
     }
 
@@ -111,15 +112,34 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         }
     }
 
-    @Override
-    public void drawBuffers(int... buffers) {
+    private void setDrawBuffers(int[] buffers) {
         int oldFbo = glGetInteger(GL_FRAMEBUFFER_BINDING);
         if (oldFbo != this.id) {
             this.bind(false);
         }
-        glDrawBuffers(this.drawBuffers);
+        glDrawBuffers(buffers);
         if (oldFbo != this.id) {
             glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+        }
+    }
+
+    @Override
+    public void resetDrawBuffers() {
+        if (Arrays.mismatch(this.currentDrawBuffers, this.drawBuffers) >= 0) {
+            this.currentDrawBuffers = this.drawBuffers;
+            this.setDrawBuffers(this.drawBuffers);
+        }
+    }
+
+    @Override
+    public void drawBuffers(int... buffers) {
+        if (Arrays.mismatch(this.currentDrawBuffers, buffers) >= 0) {
+            if (this.currentDrawBuffers.length != buffers.length) {
+                this.currentDrawBuffers = Arrays.copyOf(buffers, buffers.length);
+            } else {
+                System.arraycopy(buffers, 0, this.currentDrawBuffers, 0, buffers.length);
+            }
+            this.setDrawBuffers(buffers);
         }
     }
 
@@ -165,21 +185,25 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
 
     @Override
     public void setColorAttachmentTexture(int attachment, int textureId, int layer) {
-        int oldFbo = glGetInteger(GL_FRAMEBUFFER_BINDING);
-        if (oldFbo != this.id) {
+        int old = glGetInteger(GL_FRAMEBUFFER_BINDING);
+        if (old != this.id) {
             this.bind(false);
         }
         super.setColorAttachmentTexture(attachment, textureId, layer);
-        if (oldFbo != this.id) {
-            glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+        if (old != this.id) {
+            glBindFramebuffer(GL_FRAMEBUFFER, old);
         }
     }
 
     @Override
     public void setDepthAttachmentTexture(int textureId, int layer) {
-        int oldFbo = glGetInteger(GL_FRAMEBUFFER_BINDING);
-        this.bind(false);
+        int old = glGetInteger(GL_FRAMEBUFFER_BINDING);
+        if (old != this.id) {
+            this.bind(false);
+        }
         super.setDepthAttachmentTexture(textureId, layer);
-        glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+        if (old != this.id) {
+            glBindFramebuffer(GL_FRAMEBUFFER, old);
+        }
     }
 }
