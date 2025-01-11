@@ -8,6 +8,8 @@ import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinitio
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
+import foundry.veil.ext.RenderTargetExtension;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -39,13 +41,15 @@ public final class VeilFirstPersonRenderer {
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
         firstPerson.clear(mask);
-        enabled = true;
+        // This redirects calls to the vanilla framebuffer to the first person buffer instead
+        ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$setWrapper(firstPerson);
     }
 
     public static void unbind() {
+        ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$setWrapper(null);
+
         VeilRenderer renderer = VeilRenderSystem.renderer();
         PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
-        enabled = false;
 
         PostPipeline pipeline = postProcessingManager.getPipeline(FIRST_PERSON);
         if (pipeline == null) {
@@ -57,9 +61,7 @@ public final class VeilFirstPersonRenderer {
             postProcessingManager.runPipeline(pipeline, false);
         }
 
-        if (!renderer.getDynamicBufferManger().clearRenderState(true)) {
-            AdvancedFbo.unbind();
-        }
+        AdvancedFbo.unbind();
     }
 
     public static void free() {
