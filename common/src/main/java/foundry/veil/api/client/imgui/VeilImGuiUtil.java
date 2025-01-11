@@ -168,8 +168,7 @@ public class VeilImGuiUtil {
         float[] colors = ImGui.getStyle().getColors()[ImGuiCol.FrameBg];
         AdvancedFbo fbo = AdvancedFboImGuiAreaImpl.allocate(width, height);
         fbo.bind(true);
-        RenderSystem.clearColor(colors[0], colors[1], colors[2], colors[3]);
-        fbo.clear();
+        fbo.clear(colors[0], colors[1], colors[2], colors[3], fbo.getClearMask());
         renderer.accept(fbo);
         AdvancedFbo.unbind();
         return fbo.getColorTextureAttachment(0).getId();

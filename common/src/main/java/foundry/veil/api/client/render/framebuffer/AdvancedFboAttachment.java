@@ -1,6 +1,6 @@
 package foundry.veil.api.client.render.framebuffer;
 
-import foundry.veil.impl.client.render.AdvancedFboImpl;
+import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL30C;
 import org.lwjgl.system.NativeResource;
@@ -20,9 +20,10 @@ public interface AdvancedFboAttachment extends NativeResource, Cloneable {
     /**
      * Attaches this attachment to the provided target under the specified attachment point.
      *
-     * @param attachment The attachment point to add this attachment to
+     * @param framebuffer The id of the framebuffer to attach to
+     * @param attachment  The attachment point to add this attachment to
      */
-    void attach(int attachment);
+    void attach(int framebuffer, int attachment);
 
     /**
      * Binds this attachment.

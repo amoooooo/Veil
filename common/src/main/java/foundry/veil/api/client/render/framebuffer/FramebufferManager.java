@@ -73,7 +73,6 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
     private void initFramebuffer(ResourceLocation name, FramebufferDefinition definition, MolangEnvironment runtime) {
         try {
             AdvancedFbo fbo = definition.createBuilder(runtime).build(true);
-            fbo.bindDraw(false);
             fbo.clear();
             AdvancedFbo old = this.framebuffers.put(name, fbo);
             if (old != null) {
@@ -96,25 +95,20 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
                 .setQuery("screen_height", height)
                 .create();
 
-        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
         for (ResourceLocation name : this.screenFramebuffers) {
             FramebufferDefinition definition = this.framebufferDefinitions.get(name);
             if (definition != null) {
                 this.initFramebuffer(name, definition, runtime);
             }
         }
-        AdvancedFbo.unbind();
     }
 
     @ApiStatus.Internal
     public void clear() {
         this.framebuffers.forEach((name, fbo) -> {
-            if (this.manualFramebuffers.contains(name)) {
-                return;
+            if (!this.manualFramebuffers.contains(name)) {
+                fbo.clear();
             }
-
-            fbo.bindDraw(false);
-            fbo.clear();
         });
     }
 

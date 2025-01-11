@@ -24,16 +24,18 @@ import static org.lwjgl.opengl.GL30C.*;
  * @author Ocelot
  */
 @ApiStatus.Internal
-public class VanillaAdvancedFboWrapper implements AdvancedFbo {
+public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
 
     private final Supplier<RenderTarget> renderTargetSupplier;
     private final Supplier<AttachmentWrapper> colorBuffer;
     private final Supplier<AttachmentWrapper> depthBuffer;
+    private final int[] drawBuffers;
 
     public VanillaAdvancedFboWrapper(Supplier<RenderTarget> renderTargetSupplier) {
         this.renderTargetSupplier = renderTargetSupplier;
         this.colorBuffer = Suppliers.memoize(() -> new AttachmentWrapper(this, () -> this.toRenderTarget().getColorTextureId(), GL_COLOR_ATTACHMENT0));
         this.depthBuffer = Suppliers.memoize(() -> new AttachmentWrapper(this, () -> this.toRenderTarget().getDepthTextureId(), GL_DEPTH_ATTACHMENT));
+        this.drawBuffers = new int[]{GL_COLOR_ATTACHMENT0};
     }
 
     @Override
@@ -43,18 +45,24 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
 
     @Override
     public void clear() {
-        RenderSystem.assertOnRenderThreadOrInit();
-        RenderTarget renderTarget = this.toRenderTarget();
+        float[] clearChannels = ((FramebufferRenderTargetAccessor) this.toRenderTarget()).getClearChannels();
+        this.clear(clearChannels[0], clearChannels[1], clearChannels[2], clearChannels[3], this.getClearMask(), this.getDrawBuffers());
+    }
 
-        float[] clearChannels = ((FramebufferRenderTargetAccessor) renderTarget).getClearChannels();
-        RenderSystem.clearColor(clearChannels[0], clearChannels[1], clearChannels[2], clearChannels[3]);
-        int mask = GL_COLOR_BUFFER_BIT;
-        if (renderTarget.useDepth) {
-            RenderSystem.clearDepth(1.0);
-            mask |= GL_DEPTH_BUFFER_BIT;
-        }
+    @Override
+    public void clear(int buffers) {
+        float[] clearChannels = ((FramebufferRenderTargetAccessor) this.toRenderTarget()).getClearChannels();
+        this.clear(clearChannels[0], clearChannels[1], clearChannels[2], clearChannels[3], buffers, this.getDrawBuffers());
+    }
 
-        RenderSystem.clear(mask, Minecraft.ON_OSX);
+    // Don't do anything here because there's no point in disabling the ONLY draw buffer. Use glColorMask instead
+
+    @Override
+    public void resetDrawBuffers() {
+    }
+
+    @Override
+    public void drawBuffers(int... buffers) {
     }
 
     @Override
@@ -63,17 +71,9 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
     }
 
     @Override
-    public void bindRead() {
-        RenderSystem.assertOnRenderThreadOrInit();
-        ((RenderTargetExtension) this.toRenderTarget()).veil$bindReadFramebuffer();
-    }
-
-    @Override
     public void bindDraw(boolean setViewport) {
-        RenderSystem.assertOnRenderThreadOrInit();
         RenderTarget renderTarget = this.toRenderTarget();
-
-        ((RenderTargetExtension) renderTarget).veil$bindDrawFramebuffer();
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, ((RenderTargetExtension) renderTarget).veil$getFramebuffer());
         if (setViewport) {
             RenderSystem.viewport(0, 0, renderTarget.viewWidth, renderTarget.viewHeight);
         }
@@ -81,7 +81,7 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
 
     @Override
     public int getId() {
-        return this.toRenderTarget().frameBufferId;
+        return ((RenderTargetExtension) this.toRenderTarget()).veil$getFramebuffer();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
 
     @Override
     public int[] getDrawBuffers() {
-        return new int[]{GL_COLOR_ATTACHMENT0};
+        return this.drawBuffers;
     }
 
     @Override
@@ -158,7 +158,7 @@ public class VanillaAdvancedFboWrapper implements AdvancedFbo {
         }
 
         @Override
-        public void attach(int attachment) {
+        public void attach(int framebuffer, int attachment) {
             throw new UnsupportedOperationException("Vanilla framebuffer attachments cannot be attached");
         }
 

@@ -12,10 +12,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static org.lwjgl.opengl.GL30C.*;
-
 @Mixin(RenderTarget.class)
-public class PipelineRenderTargetMixin implements RenderTargetExtension {
+public abstract class PipelineRenderTargetMixin implements RenderTargetExtension {
 
     @Shadow
     public int frameBufferId;
@@ -23,6 +21,9 @@ public class PipelineRenderTargetMixin implements RenderTargetExtension {
     public int viewWidth;
     @Shadow
     public int viewHeight;
+
+    @Shadow
+    public abstract void bindWrite(boolean setViewport);
 
     @Unique
     private AdvancedFbo veil$wrapper;
@@ -33,21 +34,8 @@ public class PipelineRenderTargetMixin implements RenderTargetExtension {
     }
 
     @Override
-    public void veil$bindDrawFramebuffer() {
-        if (this.veil$wrapper != null) {
-            this.veil$wrapper.bindDraw(false);
-        } else {
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this.frameBufferId);
-        }
-    }
-
-    @Override
-    public void veil$bindReadFramebuffer() {
-        if (this.veil$wrapper != null) {
-            this.veil$wrapper.bindRead();
-        } else {
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, this.frameBufferId);
-        }
+    public int veil$getFramebuffer() {
+        return this.veil$wrapper != null ? this.veil$wrapper.getId() : this.frameBufferId;
     }
 
     @Override

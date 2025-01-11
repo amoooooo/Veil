@@ -4,42 +4,49 @@
       "type": "veil:blit",
       "shader": "veil:core/blur",
       "in": "veil:bloom",
-      "out": "layer1"
+      "out": "layer1",
+      "clear": false
     },
     {
       "type": "veil:blit",
       "shader": "veil:core/blur",
       "in": "layer1",
-      "out": "layer2"
+      "out": "layer2",
+      "clear": false
     },
     {
       "type": "veil:blit",
       "shader": "veil:core/blur",
       "in": "layer2",
-      "out": "layer3"
+      "out": "layer3",
+      "clear": false
     },
     {
       "type": "veil:blit",
       "shader": "veil:core/unblur",
       "in": "layer3",
-      "out": "layer2"
+      "out": "layer2",
+      "clear": false
     },
     {
       "type": "veil:blit",
       "shader": "veil:core/unblur",
       "in": "layer2",
-      "out": "layer1"
+      "out": "layer1",
+      "clear": false
     },
     {
       "type": "veil:blit",
       "shader": "veil:core/unblur",
       "in": "layer1",
-      "out": "final"
+      "out": "final",
+      "clear": false
     },
     {
       "type": "veil:blit",
       "shader": "veil:core/bloom",
-      "in": "minecraft:main"
+      "in": "minecraft:main",
+      "clear": false
     }
   ],
   "framebuffers": {

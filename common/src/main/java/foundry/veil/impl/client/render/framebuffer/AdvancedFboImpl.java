@@ -1,4 +1,4 @@
-package foundry.veil.impl.client.render;
+package foundry.veil.impl.client.render.framebuffer;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.RenderTarget;
@@ -13,14 +13,12 @@ import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import static org.lwjgl.opengl.GL11C.GL_OUT_OF_MEMORY;
-import static org.lwjgl.opengl.GL20C.glDrawBuffers;
 import static org.lwjgl.opengl.GL30C.*;
 
 /**
@@ -29,9 +27,9 @@ import static org.lwjgl.opengl.GL30C.*;
  * @author Ocelot
  */
 @ApiStatus.Internal
-public class AdvancedFboImpl implements AdvancedFbo {
+public abstract class AdvancedFboImpl implements AdvancedFbo {
 
-    private static final Map<Integer, String> ERRORS = Map.of(
+    protected static final Map<Integer, String> ERRORS = Map.of(
             GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT, "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT",
             GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT, "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT",
             GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER, "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER",
@@ -42,16 +40,16 @@ public class AdvancedFboImpl implements AdvancedFbo {
             GL_OUT_OF_MEMORY, "GL_OUT_OF_MEMORY"
     );
 
-    public static final AdvancedFbo MAIN_WRAPPER = VeilRenderBridge.wrap(Minecraft.getInstance()::getMainRenderTarget);
+    public static final Supplier<AdvancedFbo> MAIN_WRAPPER = Suppliers.memoize(()->VeilRenderBridge.wrap(Minecraft.getInstance()::getMainRenderTarget));
 
-    private int id;
-    private int width;
-    private int height;
-    private final AdvancedFboAttachment[] colorAttachments;
-    private final AdvancedFboAttachment depthAttachment;
-    private final int clearMask;
-    private final int[] drawBuffers;
-    private final Supplier<Wrapper> wrapper;
+    protected int id;
+    protected int width;
+    protected int height;
+    protected final AdvancedFboAttachment[] colorAttachments;
+    protected final AdvancedFboAttachment depthAttachment;
+    protected final int clearMask;
+    protected final int[] drawBuffers;
+    protected final Supplier<Wrapper> wrapper;
 
     public AdvancedFboImpl(int width, int height, AdvancedFboAttachment[] colorAttachments, @Nullable AdvancedFboAttachment depthAttachment) {
         this.id = -1;
@@ -74,42 +72,61 @@ public class AdvancedFboImpl implements AdvancedFbo {
         this.wrapper = Suppliers.memoize(() -> new Wrapper(this));
     }
 
-    @Override
-    public void create() {
-        for (AdvancedFboAttachment attachment : this.colorAttachments) {
-            attachment.create();
-        }
-        if (this.depthAttachment != null) {
-            this.depthAttachment.create();
-        }
+//    @Override
+//    public void create() {
+//        for (AdvancedFboAttachment attachment : this.colorAttachments) {
+//            attachment.create();
+//        }
+//        if (this.depthAttachment != null) {
+//            this.depthAttachment.create();
+//        }
+//
+//        if (VeilRenderSystem.directStateAccessSupported()) {
+//            this.id = glCreateFramebuffers();
+//
+//            for (int i = 0; i < this.colorAttachments.length; i++) {
+//                this.colorAttachments[i].attach(this.id, i);
+//            }
+//            if (this.depthAttachment != null) {
+//                this.depthAttachment.attach(this.id, 0);
+//            }
+//
+//            int status = glCheckNamedFramebufferStatus(this.id, GL_FRAMEBUFFER);
+//            if (status != GL_FRAMEBUFFER_COMPLETE) {
+//                String error = ERRORS.containsKey(status) ? ERRORS.get(status) : "0x" + Integer.toHexString(status).toUpperCase(Locale.ROOT);
+//                throw new IllegalStateException("Advanced FBO status did not return GL_FRAMEBUFFER_COMPLETE. " + error);
+//            }
+//
+//            glNamedFramebufferDrawBuffers(this.id, this.drawBuffers);
+//        } else {
+//            int oldFbo = glGetInteger(GL_FRAMEBUFFER);
+//            this.id = glGenFramebuffers();
+//            this.bind(false);
+//
+//            for (int i = 0; i < this.colorAttachments.length; i++) {
+//                this.colorAttachments[i].attach(this.id, i);
+//            }
+//            if (this.depthAttachment != null) {
+//                this.depthAttachment.attach(this.id, 0);
+//            }
+//
+//            int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+//            if (status != GL_FRAMEBUFFER_COMPLETE) {
+//                String error = ERRORS.containsKey(status) ? ERRORS.get(status) : "0x" + Integer.toHexString(status).toUpperCase(Locale.ROOT);
+//                throw new IllegalStateException("Advanced FBO status did not return GL_FRAMEBUFFER_COMPLETE. " + error);
+//            }
+//
+//            glDrawBuffers(this.drawBuffers);
+//            glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+//        }
+//    }
 
-        this.id = glGenFramebuffers();
-        this.bind(false);
-
-        for (int i = 0; i < this.colorAttachments.length; i++) {
-            this.colorAttachments[i].attach(i);
-        }
-        if (this.depthAttachment != null) {
-            this.depthAttachment.attach(0);
-        }
-
-        int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-        if (status != GL_FRAMEBUFFER_COMPLETE) {
-            String error = ERRORS.containsKey(status) ? ERRORS.get(status) : "0x" + Integer.toHexString(status).toUpperCase(Locale.ROOT);
-            throw new IllegalStateException("Advanced FBO status did not return GL_FRAMEBUFFER_COMPLETE. " + error);
-        }
-
-        glDrawBuffers(this.drawBuffers);
-
-        AdvancedFbo.unbind();
-    }
-
-    @Override
-    public void clear() {
-        if (this.clearMask != 0) {
-            GlStateManager._clear(this.clearMask, Minecraft.ON_OSX);
-        }
-    }
+//    @Override
+//    public void clear(int clearMask) {
+//        if (clearMask != 0) {
+//            GlStateManager._clear(clearMask, Minecraft.ON_OSX);
+//        }
+//    }
 
     @Override
     public void bind(boolean setViewport) {
@@ -117,11 +134,6 @@ public class AdvancedFboImpl implements AdvancedFbo {
         if (setViewport) {
             RenderSystem.viewport(0, 0, this.width, this.height);
         }
-    }
-
-    @Override
-    public void bindRead() {
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, this.id);
     }
 
     @Override
@@ -207,7 +219,7 @@ public class AdvancedFboImpl implements AdvancedFbo {
     public static Builder copy(RenderTarget parent) {
         if (parent instanceof Wrapper wrapper) {
             AdvancedFbo fbo = wrapper.fbo();
-            return new AdvancedFbo.Builder(fbo.getWidth(), fbo.getHeight()).addAttachments(fbo);
+            return new Builder(fbo.getWidth(), fbo.getHeight()).addAttachments(fbo);
         }
         return new Builder(parent.width, parent.height).addAttachments(parent);
     }
@@ -259,7 +271,6 @@ public class AdvancedFboImpl implements AdvancedFbo {
 
         @Override
         public void setFilterMode(int framebufferFilter) {
-            RenderSystem.assertOnRenderThreadOrInit();
             this.filterMode = framebufferFilter;
             for (int i = 0; i < this.fbo.getColorAttachments(); i++) {
                 this.fbo.getColorAttachment(i).bindAttachment();

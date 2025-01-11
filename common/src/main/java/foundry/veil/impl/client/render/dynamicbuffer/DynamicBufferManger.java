@@ -29,7 +29,8 @@ import java.util.*;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL12C.*;
 import static org.lwjgl.opengl.GL14C.GL_TEXTURE_LOD_BIAS;
-import static org.lwjgl.opengl.GL20C.*;
+import static org.lwjgl.opengl.GL20C.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20C.GL_VERTEX_SHADER;
 import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT1;
 import static org.lwjgl.opengl.GL32C.GL_GEOMETRY_SHADER;
 import static org.lwjgl.opengl.GL40C.GL_TESS_CONTROL_SHADER;
@@ -300,10 +301,7 @@ public class DynamicBufferManger implements NativeResource {
     @ApiStatus.Internal
     public void clear() {
         for (AdvancedFbo framebuffer : this.framebuffers.values()) {
-            framebuffer.bind(false);
-            glDrawBuffers(this.clearBuffers);
-            GlStateManager._clear(GL_COLOR_BUFFER_BIT, Minecraft.ON_OSX);
-            glDrawBuffers(framebuffer.getDrawBuffers());
+            framebuffer.clear(0.0F, 0.0F, 0.0F, 0.0F, GL_COLOR_BUFFER_BIT, this.clearBuffers);
         }
         ListIterator<AdvancedFbo> iterator = this.dynamicFramebuffers.listIterator(this.dynamicFboPointer);
         while (iterator.hasNext()) {

@@ -4,11 +4,11 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.vertex.PoseStack;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.impl.client.render.pipeline.AdvancedFboShard;
 import foundry.veil.impl.client.render.pipeline.PatchStateShard;
 import foundry.veil.impl.client.render.pipeline.ShaderProgramShard;
-import foundry.veil.impl.client.render.wrapper.VanillaAdvancedFboWrapper;
+import foundry.veil.impl.client.render.wrapper.DSAVanillaAdvancedFboWrapper;
+import foundry.veil.impl.client.render.wrapper.LegacyVanillaAdvancedFboWrapper;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
@@ -70,7 +70,7 @@ public interface VeilRenderBridge {
      * @return A new advanced fbo that wraps the target in the api
      */
     static AdvancedFbo wrap(Supplier<RenderTarget> renderTargetSupplier) {
-        return new VanillaAdvancedFboWrapper(renderTargetSupplier);
+        return VeilRenderSystem.directStateAccessSupported() ? new DSAVanillaAdvancedFboWrapper(renderTargetSupplier) : new LegacyVanillaAdvancedFboWrapper(renderTargetSupplier);
     }
 
     /**

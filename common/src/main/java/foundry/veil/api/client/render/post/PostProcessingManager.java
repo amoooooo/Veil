@@ -188,7 +188,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
                     this.clearPipeline();
                     // Resolve back to main for the next pipeline
                     if (postFramebuffer != null) {
-                        postFramebuffer.resolveToFramebuffer(
+                        postFramebuffer.resolveToRenderTarget(
                                 Minecraft.getInstance().getMainRenderTarget(),
                                 GL_COLOR_BUFFER_BIT,
                                 GL_NEAREST
@@ -248,7 +248,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
 
         AdvancedFbo postFramebuffer = resolvePost ? renderer.getFramebufferManager().getFramebuffer(VeilFramebuffers.POST) : null;
         if (postFramebuffer != null) {
-            postFramebuffer.resolveToFramebuffer(
+            postFramebuffer.resolveToRenderTarget(
                     Minecraft.getInstance().getMainRenderTarget(),
                     GL_COLOR_BUFFER_BIT,
                     GL_NEAREST

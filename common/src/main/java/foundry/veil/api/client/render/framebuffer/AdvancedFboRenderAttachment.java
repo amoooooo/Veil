@@ -1,11 +1,13 @@
 package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import foundry.veil.impl.client.render.AdvancedFboImpl;
+import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.*;
 import static org.lwjgl.opengl.GL30.*;
 
 /**
@@ -45,26 +47,50 @@ public class AdvancedFboRenderAttachment implements AdvancedFboAttachment {
 
     @Override
     public void create() {
-        this.bindAttachment();
-        if (this.samples == 1) {
-            glRenderbufferStorage(GL_RENDERBUFFER,
-                    this.attachmentFormat,
-                    this.width,
-                    this.height);
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            if (this.samples == 1) {
+                glNamedRenderbufferStorage(
+                        this.id,
+                        this.attachmentFormat,
+                        this.width,
+                        this.height);
+            } else {
+                glNamedRenderbufferStorageMultisample(
+                        this.id,
+                        this.samples,
+                        this.attachmentFormat,
+                        this.width,
+                        this.height);
+            }
         } else {
-            glRenderbufferStorageMultisample(GL_RENDERBUFFER,
-                    this.samples,
-                    this.attachmentFormat,
-                    this.width,
-                    this.height);
+            this.bindAttachment();
+            if (this.samples == 1) {
+                glRenderbufferStorage(
+                        GL_RENDERBUFFER,
+                        this.attachmentFormat,
+                        this.width,
+                        this.height);
+            } else {
+                glRenderbufferStorageMultisample(
+                        GL_RENDERBUFFER,
+                        this.samples,
+                        this.attachmentFormat,
+                        this.width,
+                        this.height);
+            }
+            this.unbindAttachment();
         }
-        this.unbindAttachment();
     }
 
     @Override
-    public void attach(int attachment) {
+    public void attach(int framebuffer, int attachment) {
         Validate.isTrue(this.attachmentType != GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, this.attachmentType, GL_RENDERBUFFER, this.getId());
+
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            glNamedFramebufferRenderbuffer(framebuffer, this.attachmentType, GL_RENDERBUFFER, this.getId());
+        } else {
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, this.attachmentType, GL_RENDERBUFFER, this.getId());
+        }
     }
 
     @Override
@@ -91,7 +117,7 @@ public class AdvancedFboRenderAttachment implements AdvancedFboAttachment {
     public int getId() {
         RenderSystem.assertOnRenderThreadOrInit();
         if (this.id == 0) {
-            this.id = glGenRenderbuffers();
+            this.id = VeilRenderSystem.directStateAccessSupported() ? glCreateRenderbuffers() : glGenRenderbuffers();
         }
 
         return this.id;

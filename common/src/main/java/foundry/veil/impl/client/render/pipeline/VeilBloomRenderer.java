@@ -96,8 +96,7 @@ public final class VeilBloomRenderer {
         profiler.push("bloom");
 
         VeilRenderSystem.renderer().getPostProcessingManager().runPipeline(pipeline);
-        bloom.bind(false);
-        GlStateManager._clear(GL_COLOR_BUFFER_BIT, Minecraft.ON_OSX);
+        bloom.clear(GL_COLOR_BUFFER_BIT);
         if (!VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
             AdvancedFbo.unbind();
         }

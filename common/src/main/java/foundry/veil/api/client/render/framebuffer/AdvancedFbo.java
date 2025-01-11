@@ -1,11 +1,11 @@
 package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.ext.RenderTargetExtension;
-import foundry.veil.impl.client.render.AdvancedFboImpl;
+import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
+import foundry.veil.impl.client.render.framebuffer.DSAAdvancedFboImpl;
+import foundry.veil.impl.client.render.framebuffer.LegacyAdvancedFboImpl;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +42,48 @@ public interface AdvancedFbo extends NativeResource {
     /**
      * Clears the buffers in this framebuffer.
      */
-    void clear();
+    default void clear() {
+        this.clear(0.0F, 0.0F, 0.0F, 0.0F, this.getClearMask(), this.getDrawBuffers());
+    }
+
+    /**
+     * Clears the specified buffers.
+     *
+     * @param buffers The buffers to clear
+     */
+    default void clear(int buffers) {
+        this.clear(0.0F, 0.0F, 0.0F, 0.0F, buffers, this.getDrawBuffers());
+    }
+
+    /**
+     * Clears the specified buffers.
+     *
+     * @param buffers The buffers to clear
+     */
+    default void clear(float red, float green, float blue, float alpha, int buffers) {
+        this.clear(red, green, blue, alpha, buffers, this.getDrawBuffers());
+    }
+
+    /**
+     * Clears the specified buffers.
+     *
+     * @param clearMask The buffers to clear
+     */
+    void clear(float red, float green, float blue, float alpha, int clearMask, int[] clearBuffers);
+
+    /**
+     * Resets the draw buffers to enable all buffers.
+     */
+    default void resetDrawBuffers() {
+        this.drawBuffers(this.getDrawBuffers());
+    }
+
+    /**
+     * Sets the buffers to draw to.
+     *
+     * @param buffers The texture units of the color buffers to enable
+     */
+    void drawBuffers(int... buffers);
 
     /**
      * Binds this framebuffer for read and draw requests.
@@ -54,7 +95,10 @@ public interface AdvancedFbo extends NativeResource {
     /**
      * Binds this framebuffer for read requests.
      */
-    void bindRead();
+    default void bindRead() {
+        RenderSystem.assertOnRenderThreadOrInit();
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, this.getId());
+    }
 
     /**
      * Binds this framebuffer for draw requests.
@@ -64,12 +108,10 @@ public interface AdvancedFbo extends NativeResource {
     void bindDraw(boolean setViewport);
 
     /**
-     * Gets the main framebuffer.
-     *
-     * @return main framebuffer
+     * @return The main framebuffer
      */
     static AdvancedFbo getMainFramebuffer() {
-        return AdvancedFboImpl.MAIN_WRAPPER;
+        return AdvancedFboImpl.MAIN_WRAPPER.get();
     }
 
     /**
@@ -141,13 +183,7 @@ public interface AdvancedFbo extends NativeResource {
      * @param mask      The buffers to copy into the provided framebuffer
      * @param filtering The filter to use if this framebuffer and the provided framebuffer are different sizes
      */
-    default void resolveToFbo(int id, int width, int height, int mask, int filtering) {
-        RenderSystem.assertOnRenderThreadOrInit();
-        this.bindRead();
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
-        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, width, height, mask, filtering);
-        AdvancedFbo.unbind();
-    }
+    void resolveToFbo(int id, int width, int height, int mask, int filtering);
 
     /**
      * Resolves this framebuffer to the provided advanced framebuffer as the target.
@@ -167,21 +203,15 @@ public interface AdvancedFbo extends NativeResource {
      * @param mask      The buffers to copy into the provided framebuffer
      * @param filtering The filter to use if this framebuffer and the provided framebuffer are different sizes
      */
-    default void resolveToAdvancedFbo(AdvancedFbo target, int mask, int filtering) {
-        RenderSystem.assertOnRenderThreadOrInit();
-        this.bindRead();
-        target.bindDraw(false);
-        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, target.getWidth(), target.getHeight(), mask, filtering);
-        AdvancedFbo.unbind();
-    }
+    void resolveToAdvancedFbo(AdvancedFbo target, int mask, int filtering);
 
     /**
      * Resolves this framebuffer to the provided minecraft framebuffer as the target.
      *
      * @param target The target framebuffer to copy data into
      */
-    default void resolveToFramebuffer(RenderTarget target) {
-        this.resolveToFramebuffer(target,
+    default void resolveToRenderTarget(RenderTarget target) {
+        this.resolveToRenderTarget(target,
                 GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
                 GL_NEAREST);
     }
@@ -193,20 +223,13 @@ public interface AdvancedFbo extends NativeResource {
      * @param mask      The buffers to copy into the provided framebuffer
      * @param filtering The filter to use if this framebuffer and the provided framebuffer are different sizes
      */
-    default void resolveToFramebuffer(RenderTarget target, int mask, int filtering) {
-        RenderSystem.assertOnRenderThreadOrInit();
-        this.bindRead();
-        RenderTargetExtension extension = (RenderTargetExtension) target;
-        extension.veil$bindDrawFramebuffer();
-        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, extension.veil$getWidth(), extension.veil$getHeight(), mask, filtering);
-        AdvancedFbo.unbind();
-    }
+    void resolveToRenderTarget(RenderTarget target, int mask, int filtering);
 
     /**
      * Resolves this framebuffer to the window framebuffer as the target.
      */
     default void resolveToScreen() {
-        this.resolveToScreen(GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        this.resolveToAdvancedFbo(getMainFramebuffer(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
     }
 
     /**
@@ -216,13 +239,7 @@ public interface AdvancedFbo extends NativeResource {
      * @param filtering The filter to use if this framebuffer and the provided framebuffer are different sizes
      */
     default void resolveToScreen(int mask, int filtering) {
-        RenderSystem.assertOnRenderThreadOrInit();
-        Window window = Minecraft.getInstance().getWindow();
-
-        this.bindRead();
-        AdvancedFbo.unbindDraw();
-        glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, window.getWidth(), window.getHeight(), mask, filtering);
-        AdvancedFbo.unbindRead();
+        this.resolveToAdvancedFbo(getMainFramebuffer(), mask, filtering);
     }
 
     /**
@@ -343,8 +360,6 @@ public interface AdvancedFbo extends NativeResource {
      * if the attachment is not known to be an {@link AdvancedFboMutableTextureAttachment},
      * use {@link #isMutableColorTextureAttachment(int)} before calling this.</p>
      *
-     * <p><strong>The framebuffer must be bound before calling this</strong></p>
-     *
      * @param attachment The attachment to modify
      * @param textureId  The id of the texture to draw into
      * @param layer      The texture layer to attach. For cubemaps this is the attachment face
@@ -356,7 +371,7 @@ public interface AdvancedFbo extends NativeResource {
         Validate.isTrue(this.isMutableColorTextureAttachment(attachment), "Color attachment " + attachment + " must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
         mutableTextureAttachment.setTexture(textureId, layer);
-        mutableTextureAttachment.attach(attachment);
+        mutableTextureAttachment.attach(this.getId(), attachment);
     }
 
     /**
@@ -435,8 +450,6 @@ public interface AdvancedFbo extends NativeResource {
      * If the attachment is not known to be an {@link AdvancedFboMutableTextureAttachment},
      * use {@link #isMutableColorTextureAttachment(int)} before calling this.</p>
      *
-     * <p><strong>The framebuffer must be bound before calling this</strong></p>
-     *
      * @param textureId The id of the texture to draw into
      * @param layer     The texture layer to attach. For cubemaps this is the attachment face
      * @throws IllegalArgumentException If there is no attachment in the specified attachment
@@ -447,7 +460,7 @@ public interface AdvancedFbo extends NativeResource {
         Validate.isTrue(this.isDepthMutableTextureAttachment(), "Depth attachment must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
         mutableTextureAttachment.setTexture(textureId, layer);
-        mutableTextureAttachment.attach(0);
+        mutableTextureAttachment.attach(this.getId(), 0);
     }
 
     /**
@@ -938,7 +951,9 @@ public interface AdvancedFbo extends NativeResource {
                 throw new IllegalArgumentException("Framebuffer needs a positive area to be complete. (Was " + this.width + "x" + this.height + ")");
             }
             this.validateSamples();
-            AdvancedFbo framebuffer = new AdvancedFboImpl(this.width, this.height, this.colorAttachments.toArray(new AdvancedFboAttachment[0]), this.depthAttachment);
+            AdvancedFbo framebuffer = VeilRenderSystem.directStateAccessSupported() ?
+                    new DSAAdvancedFboImpl(this.width, this.height, this.colorAttachments.toArray(AdvancedFboAttachment[]::new), this.depthAttachment) :
+                    new LegacyAdvancedFboImpl(this.width, this.height, this.colorAttachments.toArray(AdvancedFboAttachment[]::new), this.depthAttachment);
             if (create) {
                 framebuffer.create();
             }

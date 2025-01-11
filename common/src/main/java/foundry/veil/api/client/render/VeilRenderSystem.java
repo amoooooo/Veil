@@ -82,6 +82,7 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier MULTIBIND_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_multi_bind);
     private static final BooleanSupplier SPARSE_BUFFERS_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_sparse_buffer);
     private static final BooleanSupplier DIRECT_STATE_ACCESS_SUPPORTED = glCapability(caps -> caps.OpenGL45 || caps.GL_ARB_direct_state_access);
+    private static final BooleanSupplier CLEAR_TEXTURE_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_clear_texture);
     private static final BooleanSupplier SHADER_STORAGE_BLOCK_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_shader_storage_buffer_object);
     private static final BooleanSupplier PROGRAM_INTERFACE_QUERY_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_program_interface_query);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
@@ -508,6 +509,13 @@ public final class VeilRenderSystem {
      */
     public static boolean directStateAccessSupported() {
         return VeilRenderSystem.DIRECT_STATE_ACCESS_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBClearTexture} is supported
+     */
+    public static boolean clearTextureSupported() {
+        return VeilRenderSystem.CLEAR_TEXTURE_SUPPORTED.getAsBoolean();
     }
 
     /**

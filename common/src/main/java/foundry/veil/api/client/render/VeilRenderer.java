@@ -255,11 +255,8 @@ public class VeilRenderer implements ResourceManagerReloadListener {
 
     @ApiStatus.Internal
     public void endFrame() {
-        RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
         this.framebufferManager.clear();
         this.dynamicBufferManger.clear();
-        glBindFramebuffer(GL_FRAMEBUFFER, 0); // Manual unbind to restore the default mc state
-
         this.postProcessingManager.endFrame();
     }
 

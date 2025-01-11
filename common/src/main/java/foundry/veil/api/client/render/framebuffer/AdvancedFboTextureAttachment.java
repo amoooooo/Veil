@@ -1,18 +1,20 @@
 package foundry.veil.api.client.render.framebuffer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import foundry.veil.impl.client.render.AdvancedFboImpl;
+import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.ByteBuffer;
+
+import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedFramebufferTexture;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL12C.*;
 import static org.lwjgl.opengl.GL14C.GL_TEXTURE_LOD_BIAS;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30C.GL_DEPTH_ATTACHMENT;
+import static org.lwjgl.opengl.GL30C.*;
 
 /**
  * An attachment for an {@link AdvancedFboImpl} that represents a color texture buffer.
@@ -73,27 +75,35 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     public void create() {
         this.bindAttachment();
         this.setFilter(this.linear, this.mipmapLevels > 1);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, this.mipmapLevels - 1);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, this.mipmapLevels - 1);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this.wrapS);
-        GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this.wrapT);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, this.mipmapLevels - 1);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, this.mipmapLevels - 1);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this.wrapS);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this.wrapT);
 
         for (int i = 0; i < this.mipmapLevels; i++) {
-            GlStateManager._texImage2D(GL_TEXTURE_2D, i, this.format, this.width >> i, this.height >> i, 0, this.texelFormat, this.dataType, null);
+            glTexImage2D(GL_TEXTURE_2D, i, this.format, this.width >> i, this.height >> i, 0, this.texelFormat, this.dataType, (ByteBuffer) null);
         }
-        this.unbindAttachment();
     }
 
     @Override
-    public void attach(int attachment) {
+    public void attach(int framebuffer, int attachment) {
         Validate.isTrue(this.attachmentType < GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
-        GlStateManager._glFramebufferTexture2D(GL_FRAMEBUFFER,
-                this.attachmentType + attachment,
-                GL_TEXTURE_2D,
-                this.getId(),
-                0); // Only draw into the first level
+
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            glNamedFramebufferTexture(framebuffer,
+                    this.attachmentType + attachment,
+                    this.getId(),
+                    0); // Only draw into the first level
+        } else {
+            glFramebufferTexture2D(GL_FRAMEBUFFER,
+                    this.attachmentType + attachment,
+                    GL_TEXTURE_2D,
+                    this.getId(),
+                    0); // Only draw into the first level
+        }
     }
 
     @Override
@@ -125,9 +135,37 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
         return this.format;
     }
 
+    public int getTexelFormat() {
+        return this.texelFormat;
+    }
+
+    public int getDataType() {
+        return this.dataType;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
     @Override
     public int getLevels() {
         return this.mipmapLevels;
+    }
+
+    public boolean isLinear() {
+        return this.linear;
+    }
+
+    public int getWrapS() {
+        return this.wrapS;
+    }
+
+    public int getWrapT() {
+        return this.wrapT;
     }
 
     @Override

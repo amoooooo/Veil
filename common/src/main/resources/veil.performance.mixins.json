@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "${mod_id}.refmap.json",
   "client": [
-    "client.PerformanceScreenEffectRendererMixin"
+    "client.PerformanceScreenEffectRendererMixin",
+    "client.RenderTargetMixin"
   ],
   "injectors": {
     "defaultRequire": 1

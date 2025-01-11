@@ -63,7 +63,7 @@ public class LightInspector extends SingleWindowInspector {
         LightRenderer lightRenderer = VeilRenderSystem.renderer().getLightRenderer();
 
         if (this.selectedTab == null || !LightTypeRegistry.REGISTRY.containsKey(this.selectedTab)) {
-            this.selectedTab = this.lightTypes.get(0);
+            this.selectedTab = this.lightTypes.getFirst();
         }
 
         LightTypeRegistry.LightType<?> lightType = LightTypeRegistry.REGISTRY.get(this.selectedTab);

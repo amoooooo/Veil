@@ -56,6 +56,7 @@
   "inspector.veil.device_info.opengl.feature_flag.multi_bind": "Multi-bind? %s",
   "inspector.veil.device_info.opengl.feature_flag.sparse_buffers": "Sparse Buffers? %s",
   "inspector.veil.device_info.opengl.feature_flag.direct_state_access": "Direct State Access? %s",
+  "inspector.veil.device_info.opengl.feature_flag.clear_texture": "Clear Texture? %s",
   "inspector.veil.device_info.opengl.feature_flag.shader_storage_buffers": "Shader Storage Buffers? %s",
   "inspector.veil.device_info.opengl.feature_flag.program_interface_query": "Program Interface Query? %s",
 

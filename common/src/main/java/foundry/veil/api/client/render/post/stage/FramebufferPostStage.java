@@ -48,7 +48,6 @@ public abstract class FramebufferPostStage implements PostPipeline {
 
         out.bind(true);
         if (this.clear) {
-            RenderSystem.clearColor(0.0F, 0.0F, 0.0F, 0.0F);
             out.clear();
         }
 

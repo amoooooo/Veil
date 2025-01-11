@@ -1,13 +1,16 @@
 package foundry.veil.api.client.render.framebuffer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedFramebufferTexture;
+import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedFramebufferTextureLayer;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.glFramebufferTextureLayer;
 import static org.lwjgl.opengl.GL30C.GL_DEPTH_ATTACHMENT;
+import static org.lwjgl.opengl.GL30C.glFramebufferTexture2D;
 
 @ApiStatus.Internal
 public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttachment {
@@ -21,26 +24,45 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
     }
 
     @Override
-    public void attach(int attachment) {
+    public void attach(int framebuffer, int attachment) {
         int attachmentType = this.getAttachmentType();
         Validate.isTrue(attachmentType < GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
 
-        if (this.layer == -1) {
-            GlStateManager._glFramebufferTexture2D(
-                    GL_FRAMEBUFFER,
-                    attachmentType + attachment,
-                    GL_TEXTURE_2D,
-                    this.textureId,
-                    0
-            );
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            if (this.layer == -1) {
+                glNamedFramebufferTexture(
+                        framebuffer,
+                        attachmentType + attachment,
+                        this.textureId,
+                        0
+                );
+            } else {
+                glNamedFramebufferTextureLayer(
+                        framebuffer,
+                        attachmentType + attachment,
+                        this.textureId,
+                        0,
+                        this.layer
+                );
+            }
         } else {
-            glFramebufferTextureLayer(
-                    GL_FRAMEBUFFER,
-                    attachmentType + attachment,
-                    this.textureId,
-                    0,
-                    this.layer
-            );
+            if (this.layer == -1) {
+                glFramebufferTexture2D(
+                        GL_FRAMEBUFFER,
+                        attachmentType + attachment,
+                        GL_TEXTURE_2D,
+                        this.textureId,
+                        0
+                );
+            } else {
+                glFramebufferTextureLayer(
+                        GL_FRAMEBUFFER,
+                        attachmentType + attachment,
+                        this.textureId,
+                        0,
+                        this.layer
+                );
+            }
         }
     }
 

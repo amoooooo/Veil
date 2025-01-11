@@ -142,10 +142,9 @@ public final class VeilLevelPerspectiveRenderer {
 
         renderTargetExtension.veil$setWrapper(null);
         if (drawFbo != null) {
-            glDrawBuffer(GL_COLOR_ATTACHMENT0);
+            drawFbo.drawBuffers(GL_COLOR_ATTACHMENT0);
             drawFbo.resolveToAdvancedFbo(framebuffer);
-            drawFbo.bind(false);
-            glDrawBuffers(drawFbo.getDrawBuffers());
+            drawFbo.resetDrawBuffers();
         }
         AdvancedFbo.unbind();
         renderingPerspective = false;

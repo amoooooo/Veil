@@ -23,7 +23,7 @@ public final class VeilFirstPersonRenderer {
     private VeilFirstPersonRenderer() {
     }
 
-    public static void bind() {
+    public static void bind(int mask) {
         AdvancedFbo mainRenderTarget = AdvancedFbo.getMainFramebuffer();
         int w = mainRenderTarget.getWidth();
         int h = mainRenderTarget.getHeight();
@@ -39,6 +39,7 @@ public final class VeilFirstPersonRenderer {
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
         firstPerson.setColorAttachmentTexture(0, framebufferTexture);
+        firstPerson.clear(mask);
         enabled = true;
     }
 
