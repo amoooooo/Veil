@@ -2,20 +2,17 @@ package foundry.veil.api.client.render.shader.texture;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.util.EnumCodec;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Locale;
-import java.util.Optional;
 
 /**
  * Source for shader textures. This allows resource location textures as well as other special types.
@@ -24,20 +21,14 @@ import java.util.Optional;
  */
 public sealed interface ShaderTextureSource permits LocationSource, FramebufferSource {
 
-    Codec<Type> TYPE_CODEC = Codec.STRING.flatXmap(name -> Optional.ofNullable(Type.byName(name))
-                    .map(DataResult::success)
-                    .orElseGet(() -> DataResult.error(() -> "Unknown post texture source: " + name)),
-            object -> DataResult.success(object.name().toLowerCase(Locale.ROOT))
-    );
     Codec<ShaderTextureSource> CODEC = Codec.either(ResourceLocation.CODEC,
-                    TYPE_CODEC.<ShaderTextureSource>dispatch(ShaderTextureSource::getType, Type::getCodec))
+                    Type.CODEC.<ShaderTextureSource>dispatch(ShaderTextureSource::getType, Type::getCodec))
             .xmap(either -> either.map(LocationSource::new, right -> right),
                     source -> source instanceof LocationSource(
                             ResourceLocation location
                     ) ? Either.left(location) : Either.right(source));
 
-    Context GLOBAL_CONTEXT = new Context() {
-    };
+    Context GLOBAL_CONTEXT = name -> VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(name);
 
     /**
      * Retrieves the id of this texture based on context.
@@ -61,8 +52,9 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
         LOCATION(LocationSource.CODEC),
         FRAMEBUFFER(FramebufferSource.CODEC);
 
-        private static final Type[] TYPES = Type.values();
         private final MapCodec<? extends ShaderTextureSource> codec;
+
+        public static final Codec<Type> CODEC = EnumCodec.<Type>builder("texture type").values(Type.class).build();
 
         Type(MapCodec<? extends ShaderTextureSource> codec) {
             this.codec = codec;
@@ -74,28 +66,26 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
         public MapCodec<? extends ShaderTextureSource> getCodec() {
             return this.codec;
         }
-
-        /**
-         * Retrieves a type by name.
-         *
-         * @param name The name of the type to retrieve
-         * @return The type by that name
-         */
-        public static @Nullable Type byName(String name) {
-            for (Type type : TYPES) {
-                if (type.name().toLowerCase(Locale.ROOT).equals(name)) {
-                    return type;
-                }
-            }
-            return null;
-        }
     }
+
+//    enum Filter {
+//        DEFAULT,
+//        LINEAR,
+//        NEAREST,
+//        LINEAR_MIPMAP_LINEAR,
+//        LINEAR_MIPMAP_NEAREST,
+//        NEAREST_MIPMAP_LINEAR,
+//        NEAREST_MIPMAP_NEAREST;
+//
+//        public static final Codec<Filter> CODEC = EnumCodec.<Filter>builder("texture filter").values(Filter.class).build();
+//    }
 
     /**
      * Context for applying shader textures.
      *
      * @author Ocelot
      */
+    @FunctionalInterface
     interface Context {
 
         /**
@@ -104,9 +94,7 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
          * @param name The name of the framebuffer to retrieve
          * @return The framebuffer with that id or <code>null</code> if it was not found
          */
-        default @Nullable AdvancedFbo getFramebuffer(ResourceLocation name) {
-            return VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(name);
-        }
+        @Nullable AdvancedFbo getFramebuffer(ResourceLocation name);
 
         /**
          * Retrieves a texture by id.

@@ -6,6 +6,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import foundry.veil.api.util.EnumCodec;
 
 import java.util.Locale;
 import java.util.Map;
@@ -36,22 +37,8 @@ public class BlendState {
             "CRUMBLING", CRUMBLING,
             "TRANSLUCENT", TRANSLUCENT
     );
-    private static final Codec<GlStateManager.SourceFactor> SOURCE_CODEC = Codec.STRING.comapFlatMap(name -> {
-        for (GlStateManager.SourceFactor value : GlStateManager.SourceFactor.values()) {
-            if (name.equalsIgnoreCase(value.name())) {
-                return DataResult.success(value);
-            }
-        }
-        return DataResult.error(() -> "Unknown Source Factory: " + name);
-    }, type -> type.name().toLowerCase(Locale.ROOT));
-    private static final Codec<GlStateManager.DestFactor> DESTINATION_CODEC = Codec.STRING.comapFlatMap(name -> {
-        for (GlStateManager.DestFactor value : GlStateManager.DestFactor.values()) {
-            if (name.equalsIgnoreCase(value.name())) {
-                return DataResult.success(value);
-            }
-        }
-        return DataResult.error(() -> "Unknown Destination Factory: " + name);
-    }, type -> type.name().toLowerCase(Locale.ROOT));
+    private static final Codec<GlStateManager.SourceFactor> SOURCE_CODEC = EnumCodec.<GlStateManager.SourceFactor>builder("Source Factor").uppercase().values(GlStateManager.SourceFactor.class).build();
+    private static final Codec<GlStateManager.DestFactor> DESTINATION_CODEC = EnumCodec.<GlStateManager.DestFactor>builder("Destination Factor").uppercase().values(GlStateManager.DestFactor.class).build();
     private static final Codec<BlendState> DEFAULT_CODEC = Codec.STRING.flatXmap(name -> {
         String key = name.toUpperCase(Locale.ROOT);
         BlendState state = VANILLA_BLEND_STATES.get(key);
