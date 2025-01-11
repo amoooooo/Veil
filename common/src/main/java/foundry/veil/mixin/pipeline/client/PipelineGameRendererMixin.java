@@ -1,7 +1,6 @@
 package foundry.veil.mixin.pipeline.client;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilLevelPerspectiveRenderer;
 import foundry.veil.api.client.render.VeilRenderSystem;

@@ -13,7 +13,6 @@ import net.neoforged.fml.ModLoader;
 import net.neoforged.neoforge.common.NeoForge;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Collection;
 import java.util.Map;
 
 @ApiStatus.Internal

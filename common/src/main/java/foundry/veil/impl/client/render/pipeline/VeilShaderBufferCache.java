@@ -10,12 +10,12 @@ import foundry.veil.impl.client.render.LayoutSerializer;
 import foundry.veil.impl.client.render.shader.definition.LayoutShaderBlockImpl;
 import foundry.veil.impl.client.render.shader.definition.ShaderBlockImpl;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
-import foundry.veil.platform.VeilEventPlatform;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,74 +27,78 @@ import java.util.stream.Collectors;
 @ApiStatus.Internal
 public class VeilShaderBufferCache implements NativeResource {
 
-    private final LayoutShaderBlockImpl<?>[] values;
-    private final VeilShaderBufferLayout<?>[] layouts;
+    private LayoutShaderBlockImpl<?>[] values;
+    private VeilShaderBufferLayout<?>[] layouts;
 
-    public VeilShaderBufferCache() {
-        this.layouts = VeilShaderBufferRegistry.REGISTRY.stream().toArray(VeilShaderBufferLayout[]::new);
-        this.values = new LayoutShaderBlockImpl[this.layouts.length];
+    public void onShaderCompile(Map<ResourceLocation, ShaderProgram> updatedPrograms) {
+        if (this.layouts == null) {
+            this.layouts = VeilShaderBufferRegistry.REGISTRY.stream().toArray(VeilShaderBufferLayout[]::new);
+            this.values = new LayoutShaderBlockImpl[this.layouts.length];
+        }
 
-        VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> {
+        for (ShaderProgram shader : updatedPrograms.values()) {
+            if (shader instanceof ShaderProgramImpl impl) {
+                impl.clearShaderBlocks();
+            }
+        }
+
+        for (int i = 0; i < this.values.length; i++) {
+            LayoutShaderBlockImpl<?> block = this.values[i];
+            if (block != null) {
+                Set<ResourceLocation> shaders = block.getReferencedShaders();
+                if (shaders.removeAll(updatedPrograms.keySet()) && shaders.isEmpty()) {
+                    // Since no old shaders reference it anymore, delete it and allow it to be created again
+                    block.free();
+                    this.values[i] = null;
+                }
+            }
+
+            VeilShaderBufferLayout<?> layout = this.layouts[i];
+            boolean packed = layout.memoryLayout() == ShaderBlock.MemoryLayout.PACKED;
+            String name = layout.name();
             for (ShaderProgram shader : updatedPrograms.values()) {
-                if (shader instanceof ShaderProgramImpl impl) {
-                    impl.clearShaderBlocks();
+                int index = switch (layout.binding()) {
+                    case UNIFORM -> shader.getUniformBlock(name);
+                    case SHADER_STORAGE -> shader.getStorageBlock(name);
+                };
+
+                if (index == -1) {
+                    continue;
                 }
+
+                if (this.values[i] == null) {
+                    block = LayoutSerializer.create(layout, shader, name, index);
+                    block.getReferencedShaders().add(shader.getName());
+                    this.values[i] = block;
+                    if (packed && shader instanceof ShaderProgramImpl impl) {
+                        impl.addShaderBlock(name, block);
+                    }
+                } else {
+                    this.values[i].getReferencedShaders().add(shader.getName());
+                }
+                break;
             }
 
-            for (int i = 0; i < this.values.length; i++) {
-                LayoutShaderBlockImpl<?> block = this.values[i];
-                if (block != null) {
-                    Set<ResourceLocation> shaders = block.getReferencedShaders();
-                    if (shaders.removeAll(updatedPrograms.keySet()) && shaders.isEmpty()) {
-                        // Since no old shaders reference it anymore, delete it and allow it to be created again
-                        block.free();
-                        this.values[i] = null;
-                    }
+            // Validate only a single shader uses the block
+            if (packed) {
+                block = this.values[i];
+                if (block == null) {
+                    continue;
                 }
-
-                VeilShaderBufferLayout<?> layout = this.layouts[i];
-                boolean packed = layout.memoryLayout() == ShaderBlock.MemoryLayout.PACKED;
-                String name = layout.name();
-                for (ShaderProgram shader : updatedPrograms.values()) {
-                    int index = switch (layout.binding()) {
-                        case UNIFORM -> shader.getUniformBlock(name);
-                        case SHADER_STORAGE -> shader.getStorageBlock(name);
-                    };
-
-                    if (index == -1) {
-                        continue;
-                    }
-
-                    if (this.values[i] == null) {
-                        block = LayoutSerializer.create(layout, shader, name, index);
-                        block.getReferencedShaders().add(shader.getName());
-                        this.values[i] = block;
-                        if (packed && shader instanceof ShaderProgramImpl impl) {
-                            impl.addShaderBlock(name, block);
-                        }
-                    } else {
-                        this.values[i].getReferencedShaders().add(shader.getName());
-                    }
-                    break;
-                }
-
-                // Validate only a single shader uses the block
-                if (packed) {
-                    block = this.values[i];
-                    if (block == null) {
-                        continue;
-                    }
-                    Set<ResourceLocation> shaders = block.getReferencedShaders();
-                    if (shaders.size() != 1) {
-                        String error = shaders.stream().map(ResourceLocation::toString).collect(Collectors.joining(", "));
-                        Veil.LOGGER.error("Shader Block {} uses the 'packed' memory layout and only supports a single shader using the block. Either use a different format or only use the block in one shader. Affected shaders: {}", name, error);
-                    }
+                Set<ResourceLocation> shaders = block.getReferencedShaders();
+                if (shaders.size() != 1) {
+                    String error = shaders.stream().map(ResourceLocation::toString).collect(Collectors.joining(", "));
+                    Veil.LOGGER.error("Shader Block {} uses the 'packed' memory layout and only supports a single shader using the block. Either use a different format or only use the block in one shader. Affected shaders: {}", name, error);
                 }
             }
-        });
+        }
     }
 
     public void bind() {
+        if (this.values == null) {
+            return;
+        }
+
         for (int i = 0; i < this.values.length; i++) {
             LayoutShaderBlockImpl<?> block = this.values[i];
             if (block != null && this.layouts[i].memoryLayout() != ShaderBlock.MemoryLayout.PACKED) {
@@ -104,6 +108,10 @@ public class VeilShaderBufferCache implements NativeResource {
     }
 
     public void unbindPacked() {
+        if (this.values == null) {
+            return;
+        }
+
         for (int i = 0; i < this.values.length; i++) {
             LayoutShaderBlockImpl<?> block = this.values[i];
             if (block != null && this.layouts[i].memoryLayout() == ShaderBlock.MemoryLayout.PACKED) {
@@ -114,6 +122,10 @@ public class VeilShaderBufferCache implements NativeResource {
 
     @SuppressWarnings("unchecked")
     public <T> @Nullable ShaderBlock<T> getBlock(VeilShaderBufferLayout<T> layout) throws IllegalArgumentException {
+        if (this.values == null) {
+            return null;
+        }
+
         int id = VeilShaderBufferRegistry.REGISTRY.getId(layout);
         if (id < 0 || id >= this.values.length) {
             throw new IllegalArgumentException("Attempted to use unregistered buffer layout: " + layout.name());
@@ -122,6 +134,10 @@ public class VeilShaderBufferCache implements NativeResource {
     }
 
     public void bind(VeilShaderBufferLayout<?> layout) throws IllegalArgumentException {
+        if (this.values == null) {
+            return;
+        }
+
         int id = VeilShaderBufferRegistry.REGISTRY.getId(layout);
         if (id < 0 || id >= this.values.length) {
             throw new IllegalArgumentException("Attempted to use unregistered buffer layout: " + layout.name());
@@ -133,6 +149,10 @@ public class VeilShaderBufferCache implements NativeResource {
     }
 
     public void unbind(VeilShaderBufferLayout<?> layout) throws IllegalArgumentException {
+        if (this.values == null) {
+            return;
+        }
+
         int id = VeilShaderBufferRegistry.REGISTRY.getId(layout);
         if (id < 0 || id >= this.values.length) {
             throw new IllegalArgumentException("Attempted to use unregistered buffer layout: " + layout.name());
@@ -145,12 +165,14 @@ public class VeilShaderBufferCache implements NativeResource {
 
     @Override
     public void free() {
-        for (int i = 0; i < this.values.length; i++) {
-            LayoutShaderBlockImpl<?> block = this.values[i];
-            if (block != null) {
-                block.free();
+        if (this.values != null) {
+            for (int i = 0; i < this.values.length; i++) {
+                LayoutShaderBlockImpl<?> block = this.values[i];
+                if (block != null) {
+                    block.free();
+                }
+                this.values[i] = null;
             }
-            this.values[i] = null;
         }
     }
 }

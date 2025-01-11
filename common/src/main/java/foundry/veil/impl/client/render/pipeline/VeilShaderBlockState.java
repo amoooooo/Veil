@@ -4,7 +4,6 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.impl.client.render.shader.definition.ShaderBlockImpl;
-import foundry.veil.platform.VeilEventPlatform;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
@@ -36,7 +35,6 @@ public class VeilShaderBlockState {
         this.boundBlocks = new Object2IntArrayMap<>();
         this.shaderBindings = new Int2ObjectArrayMap<>();
         this.usedBindings = new IntOpenHashSet();
-        VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> this.shaderBindings.clear());
     }
 
     /**
@@ -150,10 +148,14 @@ public class VeilShaderBlockState {
         }
     }
 
+    public void onShaderCompile() {
+        this.shaderBindings.clear();
+    }
+
     /**
      * Clears all used bindings from the current frame.
      */
-    public void clear() {
+    public void clearUsedBindings() {
         this.usedBindings.clear();
     }
 }

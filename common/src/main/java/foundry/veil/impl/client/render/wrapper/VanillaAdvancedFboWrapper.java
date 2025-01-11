@@ -8,7 +8,6 @@ import foundry.veil.api.client.render.framebuffer.AdvancedFboAttachment;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
 import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.mixin.framebuffer.client.FramebufferRenderTargetAccessor;
-import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;

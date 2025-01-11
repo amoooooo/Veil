@@ -1,6 +1,5 @@
 package foundry.veil.api.client.render.texture;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.core.Direction;

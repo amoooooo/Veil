@@ -12,8 +12,6 @@ import net.minecraft.client.renderer.RenderType;
 import org.lwjgl.system.NativeResource;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CachedBufferSource implements MultiBufferSource, NativeResource {
 

@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.Event;
 import net.neoforged.fml.event.IModBusEvent;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**

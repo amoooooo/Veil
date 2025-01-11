@@ -1,12 +1,12 @@
 package foundry.veil.impl.client.render.shader.modifier;
 
-import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
 import foundry.veil.api.glsl.GlslParser;
 import foundry.veil.api.glsl.GlslSyntaxException;
 import foundry.veil.api.glsl.grammar.GlslVersionStatement;
 import foundry.veil.api.glsl.node.GlslNode;
 import foundry.veil.api.glsl.node.GlslTree;
 import foundry.veil.api.glsl.node.function.GlslFunctionNode;
+import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;

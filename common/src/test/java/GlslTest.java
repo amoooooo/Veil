@@ -1,4 +1,3 @@
-import foundry.veil.impl.glsl.GlslLexer;
 import foundry.veil.api.glsl.GlslParser;
 import foundry.veil.api.glsl.GlslSyntaxException;
 import foundry.veil.api.glsl.grammar.GlslVersionStatement;
@@ -6,6 +5,7 @@ import foundry.veil.api.glsl.node.GlslNode;
 import foundry.veil.api.glsl.node.GlslTree;
 import foundry.veil.api.glsl.node.function.GlslFunctionNode;
 import foundry.veil.api.glsl.visitor.GlslStringWriter;
+import foundry.veil.impl.glsl.GlslLexer;
 import foundry.veil.lib.anarres.cpp.LexerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

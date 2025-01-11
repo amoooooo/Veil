@@ -5,8 +5,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import org.jetbrains.annotations.ApiStatus;
-import org.joml.Matrix2f;
-import org.joml.Matrix2fc;
 import org.joml.Matrix3f;
 import org.joml.Matrix3fc;
 

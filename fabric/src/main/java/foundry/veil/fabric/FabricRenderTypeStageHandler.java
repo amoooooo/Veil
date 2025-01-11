@@ -12,7 +12,6 @@ import foundry.veil.ext.LevelRendererBlockLayerExtension;
 import foundry.veil.fabric.event.FabricVeilRenderLevelStageEvent;
 import foundry.veil.mixin.rendertype.accessor.RenderTypeBufferSourceAccessor;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;

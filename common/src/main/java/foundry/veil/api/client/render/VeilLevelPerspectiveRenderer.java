@@ -22,8 +22,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
-import static org.lwjgl.opengl.GL11C.glDrawBuffer;
-import static org.lwjgl.opengl.GL20C.glDrawBuffers;
 import static org.lwjgl.opengl.GL30C.GL_COLOR_ATTACHMENT0;
 
 /**

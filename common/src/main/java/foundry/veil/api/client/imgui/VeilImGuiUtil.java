@@ -1,7 +1,6 @@
 package foundry.veil.api.client.imgui;
 
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import foundry.veil.api.client.color.Color;
 import foundry.veil.api.client.editor.EditorManager;

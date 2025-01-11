@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.Collection;
 import java.util.Map;
 
 @ApiStatus.Internal

@@ -32,6 +32,7 @@ public class VeilClient {
 
     @ApiStatus.Internal
     public static void init() {
+        VeilRenderSystem.bootstrap();
         VeilImGuiImpl.setImGuiPath();
         QuasarParticleHandler.init();
 

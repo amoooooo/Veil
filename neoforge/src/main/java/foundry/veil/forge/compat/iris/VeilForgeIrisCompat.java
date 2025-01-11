@@ -1,8 +1,8 @@
 package foundry.veil.forge.compat.iris;
 
+import foundry.veil.api.compat.IrisCompat;
 import foundry.veil.ext.iris.IrisRenderTargetExtension;
 import foundry.veil.forge.mixin.compat.iris.IrisRenderingPipelineAccessor;
-import foundry.veil.api.compat.IrisCompat;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import net.irisshaders.iris.Iris;

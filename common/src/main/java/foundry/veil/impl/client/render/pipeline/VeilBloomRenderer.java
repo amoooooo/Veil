@@ -1,6 +1,5 @@
 package foundry.veil.impl.client.render.pipeline;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;

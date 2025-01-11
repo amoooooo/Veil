@@ -1,6 +1,5 @@
 package foundry.veil.impl.client.imgui.style;
 
-import imgui.ImColor;
 import imgui.ImGui;
 import imgui.ImGuiStyle;
 import imgui.flag.ImGuiCol;

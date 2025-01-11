@@ -1,6 +1,5 @@
 package foundry.veil.impl.resource.action;
 
-import foundry.veil.api.client.registry.VeilResourceEditorRegistry;
 import foundry.veil.api.resource.VeilEditorEnvironment;
 import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceAction;

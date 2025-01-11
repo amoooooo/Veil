@@ -32,9 +32,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
-
 /**
  * Manages the render pipeline for Veil.
  *

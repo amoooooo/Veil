@@ -1,7 +1,6 @@
 package foundry.veil.forge;
 
 import foundry.veil.Veil;
-import foundry.veil.forge.platform.NeoForgeVeilEventPlatform;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import org.jetbrains.annotations.ApiStatus;

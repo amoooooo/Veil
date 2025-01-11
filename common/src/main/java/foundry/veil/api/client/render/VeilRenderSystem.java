@@ -285,6 +285,15 @@ public final class VeilRenderSystem {
     }
 
     @ApiStatus.Internal
+    public static void bootstrap() {
+        VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> {
+            UNIFORM_BLOCK_STATE.onShaderCompile();
+            SHADER_BUFFER_CACHE.onShaderCompile(updatedPrograms);
+            ERRORED_SHADERS.clear();
+        });
+    }
+
+    @ApiStatus.Internal
     public static void init() {
         Minecraft client = Minecraft.getInstance();
         if (!(client.getResourceManager() instanceof ReloadableResourceManager resourceManager)) {
@@ -303,8 +312,6 @@ public final class VeilRenderSystem {
         screenQuad = VertexArray.create();
         screenQuad.upload(bufferBuilder.buildOrThrow(), VertexArray.DrawUsage.STATIC);
         VertexBuffer.unbind();
-
-        VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> ERRORED_SHADERS.clear());
     }
 
     /**
@@ -873,7 +880,7 @@ public final class VeilRenderSystem {
 
         renderer.endFrame();
 
-        UNIFORM_BLOCK_STATE.clear();
+        UNIFORM_BLOCK_STATE.clearUsedBindings();
         VanillaShaderCompiler.clear();
     }
 

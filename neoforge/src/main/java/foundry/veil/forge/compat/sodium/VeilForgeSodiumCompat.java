@@ -1,9 +1,9 @@
 package foundry.veil.forge.compat.sodium;
 
+import foundry.veil.api.compat.SodiumCompat;
 import foundry.veil.forge.ext.ShaderChunkRendererExtension;
 import foundry.veil.forge.mixin.compat.sodium.RenderSectionManagerAccessor;
 import foundry.veil.forge.mixin.compat.sodium.SodiumWorldRendererAccessor;
-import foundry.veil.api.compat.SodiumCompat;
 import it.unimi.dsi.fastutil.longs.Long2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;

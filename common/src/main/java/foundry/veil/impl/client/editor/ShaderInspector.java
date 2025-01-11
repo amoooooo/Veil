@@ -57,7 +57,8 @@ import static org.lwjgl.opengl.GL21C.*;
 import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.opengl.GL32C.GL_GEOMETRY_SHADER;
 import static org.lwjgl.opengl.GL40C.*;
-import static org.lwjgl.opengl.GL43C.*;
+import static org.lwjgl.opengl.GL43C.GL_BUFFER_BINDING;
+import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
 
 @ApiStatus.Internal
 public class ShaderInspector extends SingleWindowInspector implements ResourceManagerReloadListener {

@@ -1,6 +1,5 @@
 package foundry.veil.api.client.render.post.stage;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;

@@ -16,13 +16,7 @@
  */
 package foundry.veil.lib.anarres.cpp;
 
-import org.jetbrains.annotations.NotNull;/*
- * NOTE: This File was edited by the Veil Team based on this commit: https://github.com/shevek/jcpp/commit/5e50e75ec33f5b4567cabfd60b6baca39524a8b7
- *
- * - Updated formatting to more closely follow project standards
- * - Removed all file/IO
- * - Fixed minor errors
- */
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A handler for preprocessor events, primarily errors and warnings.
