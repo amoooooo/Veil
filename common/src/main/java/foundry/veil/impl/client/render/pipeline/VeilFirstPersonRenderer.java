@@ -36,9 +36,7 @@ public final class VeilFirstPersonRenderer {
                     .setDepthTextureBuffer()
                     .build(true);
         }
-        VeilRenderer renderer = VeilRenderSystem.renderer();
-        renderer.getDynamicBufferManger().setEnabled(false);
-        renderer.getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
+        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
         firstPerson.bind(false);
         firstPerson.clear(mask);
         enabled = true;
@@ -59,11 +57,9 @@ public final class VeilFirstPersonRenderer {
             postProcessingManager.runPipeline(pipeline, false);
         }
 
-        if (!VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
+        if (!renderer.getDynamicBufferManger().clearRenderState(true)) {
             AdvancedFbo.unbind();
         }
-
-        VeilRenderSystem.renderer().getDynamicBufferManger().setEnabled(true);
     }
 
     public static void free() {

@@ -23,6 +23,7 @@ public final class VeilBloomRenderer {
     private static final ResourceLocation BLOOM_PIPELINE = Veil.veilPath("core/bloom");
 
     private static boolean enabled;
+    private static boolean dynamicBufferEnabled;
     private static boolean rendered;
     private static AdvancedFbo bloom;
 
@@ -62,7 +63,11 @@ public final class VeilBloomRenderer {
                     .build(true);
         }
         VeilRenderer renderer = VeilRenderSystem.renderer();
-        renderer.getDynamicBufferManger().setEnabled(false);
+
+        DynamicBufferManger dynamicBufferManger = renderer.getDynamicBufferManger();
+        dynamicBufferEnabled = dynamicBufferManger.isEnabled();
+        dynamicBufferManger.setEnabled(false);
+
         renderer.getFramebufferManager().setFramebuffer(VeilFramebuffers.BLOOM, bloom);
         bloom.bind(true);
         rendered = true;
@@ -74,7 +79,7 @@ public final class VeilBloomRenderer {
         }
 
         DynamicBufferManger dynamicBufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
-        dynamicBufferManger.setEnabled(true);
+        dynamicBufferManger.setEnabled(dynamicBufferEnabled);
         if (!dynamicBufferManger.clearRenderState(true)) {
             AdvancedFbo.unbind();
         }

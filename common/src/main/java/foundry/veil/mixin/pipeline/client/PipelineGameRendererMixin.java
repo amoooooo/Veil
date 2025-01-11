@@ -88,7 +88,7 @@ public class PipelineGameRendererMixin {
         VeilRenderSystem.renderer().getGuiInfo().unbind();
     }
 
-    @Redirect(method = "renderLevel", at= @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V"))
+    @Redirect(method = "renderLevel", at= @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", remap = false))
     public void bindFirstPerson(int mask, boolean checkError) {
         VeilFirstPersonRenderer.bind(mask);
     }

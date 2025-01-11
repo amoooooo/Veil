@@ -167,6 +167,11 @@ public class DynamicBufferManger implements NativeResource {
     }
 
     @ApiStatus.Internal
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    @ApiStatus.Internal
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
