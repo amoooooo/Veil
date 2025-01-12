@@ -11,6 +11,6 @@ out vec4 fragColor;
 void main() {
     fragColor = texture(DiffuseSampler0, texCoord);
     vec4 bloomBase = texture(BloomSampler, texCoord);
-    float factor = 1.0 - step(0.9, bloomBase.a) * 0.95;
+    float factor = 1.0;//1.0 - step(0.9, bloomBase.a) * 0.95;
     fragColor.rgb += acesToneMapping(texture(BlurFinal, texCoord).rgb) * factor;
 }
