@@ -70,7 +70,7 @@ public class ShaderTextureCache {
                     hasMissing = true;
                     long address = MemoryUtil.memAddress0(this.bindings);
                     int position = this.bindings.position();
-                    MemoryUtil.memCopy(address, address + 1, position - 1);
+                    MemoryUtil.memCopy(address, address + Integer.BYTES, position - 1);
                     this.bindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
 
                     // Delete the last texture binding
