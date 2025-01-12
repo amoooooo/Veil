@@ -21,6 +21,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static org.lwjgl.opengl.GL11C.GL_TRIANGLE_STRIP;
+import static org.lwjgl.opengl.GL11C.glDrawArrays;
 import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
 
 @Mixin(ScreenEffectRenderer.class)
@@ -70,7 +72,7 @@ public class PerformanceScreenEffectRendererMixin {
         minecraft.getTextureManager().bindForSetup(texture.atlasLocation());
 
         shader.bind();
-        VeilRenderSystem.drawScreenQuad();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
         ShaderProgram.unbind();
 
         RenderSystem.activeTexture(activeTexture);
@@ -111,7 +113,7 @@ public class PerformanceScreenEffectRendererMixin {
 
         RenderSystem.enableBlend();
         shader.bind();
-        VeilRenderSystem.drawScreenQuad();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
         ShaderProgram.unbind();
         RenderSystem.disableBlend();
 

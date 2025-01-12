@@ -83,6 +83,7 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier SPARSE_BUFFERS_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_sparse_buffer);
     private static final BooleanSupplier DIRECT_STATE_ACCESS_SUPPORTED = glCapability(caps -> caps.OpenGL45 || caps.GL_ARB_direct_state_access);
     private static final BooleanSupplier CLEAR_TEXTURE_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_clear_texture);
+    private static final BooleanSupplier COPY_IMAGE_SUPPORTED = glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_copy_image);
     private static final BooleanSupplier SHADER_STORAGE_BLOCK_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_shader_storage_buffer_object);
     private static final BooleanSupplier PROGRAM_INTERFACE_QUERY_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_program_interface_query);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
@@ -217,7 +218,6 @@ public final class VeilRenderSystem {
 
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
-    private static VertexArray screenQuad;
 
     private VeilRenderSystem() {
     }
@@ -302,16 +302,6 @@ public final class VeilRenderSystem {
 
         renderer = new VeilRenderer(resourceManager, client.getWindow());
         VeilImGuiImpl.init(client.getWindow().getWindow());
-
-        BufferBuilder bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.Mode.TRIANGLE_STRIP, DefaultVertexFormat.POSITION);
-        bufferBuilder.addVertex(-1, 1, 0);
-        bufferBuilder.addVertex(-1, -1, 0);
-        bufferBuilder.addVertex(1, 1, 0);
-        bufferBuilder.addVertex(1, -1, 0);
-
-        screenQuad = VertexArray.create();
-        screenQuad.upload(bufferBuilder.buildOrThrow(), VertexArray.DrawUsage.STATIC);
-        VertexBuffer.unbind();
     }
 
     /**
@@ -332,15 +322,6 @@ public final class VeilRenderSystem {
      */
     public static void bindTextures(int first, int... textures) {
         VeilTextureMultiBind.get().bindTextures(first, textures);
-    }
-
-    /**
-     * Draws a quad onto the full screen using {@link DefaultVertexFormat#POSITION}.
-     */
-    public static void drawScreenQuad() {
-        screenQuad.bind();
-        screenQuad.draw(GL_TRIANGLE_STRIP);
-        VertexBuffer.unbind();
     }
 
     /**
@@ -523,6 +504,13 @@ public final class VeilRenderSystem {
      */
     public static boolean clearTextureSupported() {
         return VeilRenderSystem.CLEAR_TEXTURE_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBCopyImage} is supported
+     */
+    public static boolean copyImageSupported() {
+        return VeilRenderSystem.COPY_IMAGE_SUPPORTED.getAsBoolean();
     }
 
     /**
@@ -910,7 +898,6 @@ public final class VeilRenderSystem {
         if (renderer != null) {
             renderer.free();
         }
-        screenQuad.close();
         SHADER_BUFFER_CACHE.free();
     }
 

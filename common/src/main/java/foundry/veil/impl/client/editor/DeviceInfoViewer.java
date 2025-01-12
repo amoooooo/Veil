@@ -117,6 +117,7 @@ public class DeviceInfoViewer extends SingleWindowInspector {
         flagText("inspector.veil.device_info.opengl.feature_flag.sparse_buffers", VeilRenderSystem.sparseBuffersSupported(), "Whether sparse buffers can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.direct_state_access", VeilRenderSystem.directStateAccessSupported(), "Whether direct state accesss can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.clear_texture", VeilRenderSystem.clearTextureSupported(), "Whether glClearTexImage can be used");
+        flagText("inspector.veil.device_info.opengl.feature_flag.copy_image", VeilRenderSystem.copyImageSupported(), "Whether glCopyImageSubData can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.shader_storage_buffers", VeilRenderSystem.shaderStorageBufferSupported(), "Whether shader storage buffers can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.program_interface_query", VeilRenderSystem.programInterfaceQuerySupported(), "Whether the new style program interface query can be used");
         ImGui.separator();

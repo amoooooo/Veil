@@ -318,7 +318,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                 if (ImGui.collapsingHeader(SAMPLERS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
                     ImGui.indent();
                     for (CharSequence sampler : this.uniformCache.getSamplers()) {
-                        ImGui.selectable(sampler.toString());
+                        ImGui.selectable(sampler + ": " + glGetUniformi(program, Objects.requireNonNull(this.uniformCache.getUniform(sampler)).location()));
                     }
                     ImGui.unindent();
                 }

@@ -12,19 +12,17 @@ public final class VeilShaders {
     }
 
     public static final ResourceLocation PARTICLE = quasar("particle");
-    public static final ResourceLocation PARTICLE_ADD = quasar("particle_add");
 
-    public static final ResourceLocation LIGHT_AMBIENT = light("ambient");
     public static final ResourceLocation LIGHT_DIRECTIONAL = light("directional");
     public static final ResourceLocation LIGHT_POINT = light("point");
     public static final ResourceLocation LIGHT_AREA = light("area");
-    public static final ResourceLocation LIGHT_VANILLA_LIGHTMAP = light("vanilla_lightmap");
-    public static final ResourceLocation LIGHT_SKY = light("sky");
     public static final ResourceLocation LIGHT_INDIRECT_SPHERE = light("indirect_sphere");
 
     public static final ResourceLocation SKINNED_MESH = necromancer("skinned_mesh");
 
     public static final ResourceLocation DEBUG_CUBEMAP = debug("cubemap");
+
+    public static final ResourceLocation BLIT_SCREEN = Veil.veilPath("blit_screen");
 
     private static ResourceLocation quasar(String name) {
         return Veil.veilPath("quasar/" + name);

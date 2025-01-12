@@ -22,6 +22,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.lwjgl.opengl.GL11C.GL_TRIANGLE_STRIP;
+import static org.lwjgl.opengl.GL11C.glDrawArrays;
+
 /**
  * A basic stage that draws a quad to the output using a specified shader.
  *
@@ -82,7 +85,7 @@ public class BlitPostStage extends FramebufferPostStage {
         for (Map.Entry<String, UniformValue> entry : this.uniforms.entrySet()) {
             entry.getValue().apply(entry.getKey(), shader);
         }
-        VeilRenderSystem.drawScreenQuad();
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
         context.clearSamplers(shader);
     }
 

@@ -22,9 +22,6 @@ public abstract class PipelineRenderTargetMixin implements RenderTargetExtension
     @Shadow
     public int viewHeight;
 
-    @Shadow
-    public abstract void bindWrite(boolean setViewport);
-
     @Unique
     private AdvancedFbo veil$wrapper;
 
