@@ -15,6 +15,7 @@ foundry.veil.api.client.pose
 foundry.veil.api.client.registry
 foundry.veil.api.client.render
 foundry.veil.api.client.render.dynamicbuffer
+foundry.veil.api.client.render.ext
 foundry.veil.api.client.render.framebuffer
 foundry.veil.api.client.render.light
 foundry.veil.api.client.render.light.renderer
@@ -81,7 +82,6 @@ foundry.veil.impl.client.imgui
 foundry.veil.impl.client.imgui.style
 foundry.veil.impl.client.render
 foundry.veil.impl.client.render.dynamicbuffer
-foundry.veil.impl.client.render.ext
 foundry.veil.impl.client.render.framebuffer
 foundry.veil.impl.client.render.light
 foundry.veil.impl.client.render.mesh

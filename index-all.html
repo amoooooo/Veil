@@ -701,6 +701,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Applies the vanilla mc format at the specified index.</div>
 </dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugTextureManagerMixin.html#applyLabel(net.minecraft.resources.ResourceLocation,net.minecraft.client.renderer.texture.AbstractTexture,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">applyLabel(ResourceLocation, AbstractTexture, CallbackInfo)</a> - Method in class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugTextureManagerMixin.html" title="class in foundry.veil.mixin.debug.client">DebugTextureManagerMixin</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderModificationManager.html#applyModifiers(net.minecraft.resources.ResourceLocation,foundry.veil.api.glsl.node.GlslTree,int)" class="member-name-link">applyModifiers(ResourceLocation, GlslTree, int)</a> - Method in class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderModificationManager.html" title="class in foundry.veil.api.client.render.shader">ShaderModificationManager</a></dt>
 <dd>
 <div class="block">Applies all shader modifiers to the specified shader source.</div>
@@ -948,8 +950,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/definition/WrapperShaderBlockImpl.html#bind(int)" class="member-name-link">bind(int)</a> - Method in class foundry.veil.impl.client.render.shader.definition.<a href="foundry/veil/impl/client/render/shader/definition/WrapperShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">WrapperShaderBlockImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderTextureCache.html#bind(int)" class="member-name-link">bind(int)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderTextureCache.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderTextureCache</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html#bind(foundry.veil.api.client.render.shader.definition.ShaderBlock)" class="member-name-link">bind(ShaderBlock&lt;?&gt;)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html" title="class in foundry.veil.impl.client.render.pipeline">VeilShaderBlockState</a></dt>
 <dd>
 <div class="block">Binds the specified block and returns the used binding.</div>
@@ -960,6 +960,8 @@ loadScripts(document, 'script');</script>
  and updates all shaders if the binding index has changed.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/VeilShaderBufferCache.html#bind(foundry.veil.api.client.render.VeilShaderBufferLayout)" class="member-name-link">bind(VeilShaderBufferLayout&lt;?&gt;)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderBufferCache.html" title="class in foundry.veil.impl.client.render.pipeline">VeilShaderBufferCache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderTextureCache.html#bind(foundry.veil.impl.client.render.shader.program.ShaderUniformCache,int)" class="member-name-link">bind(ShaderUniformCache, int)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderTextureCache.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderTextureCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#bind(java.lang.CharSequence,foundry.veil.api.client.render.shader.definition.ShaderBlock)" class="member-name-link">bind(CharSequence, ShaderBlock&lt;?&gt;)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>
@@ -1002,25 +1004,29 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html#bindRead(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindRead(CallbackInfo)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#bindTextures(int,int...)" class="member-name-link">bindTextures(int, int...)</a> - Method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
+<dd>
+<div class="block">Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#bindTextures(int,int...)" class="member-name-link">bindTextures(int, int...)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>
 <div class="block">Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html#bindTextures(int,int...)" class="member-name-link">bindTextures(int, int...)</a> - Method in enum class foundry.veil.impl.client.render.ext.<a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a></dt>
-<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#bindTextures(int,java.nio.IntBuffer)" class="member-name-link">bindTextures(int, IntBuffer)</a> - Method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
+<dd>
+<div class="block">Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#bindTextures(int,java.nio.IntBuffer)" class="member-name-link">bindTextures(int, IntBuffer)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>
 <div class="block">Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html#bindTextures(int,java.nio.IntBuffer)" class="member-name-link">bindTextures(int, IntBuffer)</a> - Method in enum class foundry.veil.impl.client.render.ext.<a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#bindVertexArray(int)" class="member-name-link">bindVertexArray(int)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>
 <div class="block">Binds the specified vertex array and invalidates the vanilla MC immediate buffer state.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.Wrapper.html#bindWrite(boolean)" class="member-name-link">bindWrite(boolean)</a> - Method in class foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl.Wrapper</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#bindWrite(boolean)" class="member-name-link">bindWrite(boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#bindWrite(boolean)" class="member-name-link">bindWrite(boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html#bindWrite(boolean,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">bindWrite(boolean, CallbackInfo)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
@@ -1457,7 +1463,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelinePoseStackMixin.html#clear()" class="member-name-link">clear()</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelinePoseStackMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelinePoseStackMixin</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#clear(boolean,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">clear(boolean, CallbackInfo)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#clear(boolean,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">clear(boolean, CallbackInfo)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html#clear(float,float,float,float,int)" class="member-name-link">clear(float, float, float, float, int)</a> - Method in interface foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></dt>
 <dd>
@@ -1487,13 +1493,13 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/ParticleEmitter.html#clearErrors()" class="member-name-link">clearErrors()</a> - Static method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/ParticleEmitter.html" title="class in foundry.veil.api.quasar.particle">ParticleEmitter</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html#clearItemEntityDepth(com.mojang.blaze3d.pipeline.RenderTarget,boolean)" class="member-name-link">clearItemEntityDepth(RenderTarget, boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">LevelRendererMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html#clearItemEntityDepth(com.mojang.blaze3d.pipeline.RenderTarget,boolean)" class="member-name-link">clearItemEntityDepth(RenderTarget, boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceLevelRendererMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.html#clearMask" class="member-name-link">clearMask</a> - Variable in class foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/stage/FramebufferPostStage.html#clearOut()" class="member-name-link">clearOut()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/FramebufferPostStage.html" title="class in foundry.veil.api.client.render.post.stage">FramebufferPostStage</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html#clearParticlesDepth(com.mojang.blaze3d.pipeline.RenderTarget,boolean)" class="member-name-link">clearParticlesDepth(RenderTarget, boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">LevelRendererMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html#clearParticlesDepth(com.mojang.blaze3d.pipeline.RenderTarget,boolean)" class="member-name-link">clearParticlesDepth(RenderTarget, boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceLevelRendererMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/color/ColorTheme.html#clearProperties()" class="member-name-link">clearProperties()</a> - Method in class foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/ColorTheme.html" title="class in foundry.veil.api.client.color">ColorTheme</a></dt>
 <dd>&nbsp;</dd>
@@ -1535,7 +1541,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#clearTextureSupported()" class="member-name-link">clearTextureSupported()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html#clearTranslucentDepth(com.mojang.blaze3d.pipeline.RenderTarget,boolean)" class="member-name-link">clearTranslucentDepth(RenderTarget, boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">LevelRendererMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html#clearTranslucentDepth(com.mojang.blaze3d.pipeline.RenderTarget,boolean)" class="member-name-link">clearTranslucentDepth(RenderTarget, boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceLevelRendererMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html#clearUsedBindings()" class="member-name-link">clearUsedBindings()</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html" title="class in foundry.veil.impl.client.render.pipeline">VeilShaderBlockState</a></dt>
 <dd>
@@ -1547,6 +1553,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#clearVertexAttributes()" class="member-name-link">clearVertexAttributes()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#clearVertexAttributes()" class="member-name-link">clearVertexAttributes()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#clearVertexAttributes()" class="member-name-link">clearVertexAttributes()</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html#clearVertexBuffers()" class="member-name-link">clearVertexBuffers()</a> - Method in interface foundry.veil.api.client.render.mesh.<a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></dt>
@@ -1554,6 +1562,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Clears all mapped buffer regions.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#clearVertexBuffers()" class="member-name-link">clearVertexBuffers()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#clearVertexBuffers()" class="member-name-link">clearVertexBuffers()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#clearVertexBuffers()" class="member-name-link">clearVertexBuffers()</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
@@ -2168,7 +2178,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/stage/CopyPostStage.html#copyDepth()" class="member-name-link">copyDepth()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/CopyPostStage.html" title="class in foundry.veil.api.client.render.post.stage">CopyPostStage</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#copyDepthFrom(com.mojang.blaze3d.pipeline.RenderTarget,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">copyDepthFrom(RenderTarget, CallbackInfo)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#copyDepthFrom(com.mojang.blaze3d.pipeline.RenderTarget,org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">copyDepthFrom(RenderTarget, CallbackInfo)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#copyImageSupported()" class="member-name-link">copyImageSupported()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
@@ -2215,8 +2225,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/DSAAdvancedFboImpl.html#create()" class="member-name-link">create()</a> - Method in class foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/DSAAdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">DSAAdvancedFboImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/LegacyAdvancedFboImpl.html#create()" class="member-name-link">create()</a> - Method in class foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/LegacyAdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">LegacyAdvancedFboImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.CompiledProgram.html#create()" class="member-name-link">create()</a> - Static method in record class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.CompiledProgram.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.CompiledProgram</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/wrapper/VanillaAdvancedFboWrapper.html#create()" class="member-name-link">create()</a> - Method in class foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/VanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">VanillaAdvancedFboWrapper</a></dt>
 <dd>&nbsp;</dd>
@@ -2270,6 +2278,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates a <a href="foundry/veil/platform/registry/RegistrationProvider.html" title="interface in foundry.veil.platform.registry"><code>RegistrationProvider</code></a>.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.CompiledProgram.html#create(net.minecraft.resources.ResourceLocation)" class="member-name-link">create(ResourceLocation)</a> - Static method in record class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.CompiledProgram.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.CompiledProgram</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/mesh/VertexArray.html#createBuffer()" class="member-name-link">createBuffer()</a> - Method in class foundry.veil.api.client.render.mesh.<a href="foundry/veil/api/client/render/mesh/VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingVertexArray.html#createBuffer()" class="member-name-link">createBuffer()</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingVertexArray.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingVertexArray</a></dt>
@@ -2517,6 +2527,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/debug/accessor/DebugLevelRendererAccessor.html" class="type-name-link" title="interface in foundry.veil.mixin.debug.accessor">DebugLevelRendererAccessor</a> - Interface in <a href="foundry/veil/mixin/debug/accessor/package-summary.html">foundry.veil.mixin.debug.accessor</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.debug.client">DebugLevelRendererMixin</a> - Class in <a href="foundry/veil/mixin/debug/client/package-summary.html">foundry.veil.mixin.debug.client</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html#%3Cinit%3E()" class="member-name-link">DebugLevelRendererMixin()</a> - Constructor for class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html" title="class in foundry.veil.mixin.debug.client">DebugLevelRendererMixin</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/registry/LightTypeRegistry.LightType.html#debugLightFactory()" class="member-name-link">debugLightFactory()</a> - Method in record class foundry.veil.api.client.registry.<a href="foundry/veil/api/client/registry/LightTypeRegistry.LightType.html" title="class in foundry.veil.api.client.registry">LightTypeRegistry.LightType</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>debugLightFactory</code> record component.</div>
@@ -2525,6 +2539,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/debug/client/DebugMainMixin.html#%3Cinit%3E()" class="member-name-link">DebugMainMixin()</a> - Constructor for class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugMainMixin.html" title="class in foundry.veil.mixin.debug.client">DebugMainMixin</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html#debugMessageInsert(int,int,int,java.lang.CharSequence)" class="member-name-link">debugMessageInsert(int, int, int, CharSequence)</a> - Method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilDebug.html" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a></dt>
+<dd>
+<div class="block">This function can be called by applications and third-party libraries to generate their own messages, such as ones containing timestamp information or signals about specific render system events.</div>
+</dd>
 <dt><a href="foundry/veil/mixin/debug/client/DebugMinecraftMixin.html" class="type-name-link" title="class in foundry.veil.mixin.debug.client">DebugMinecraftMixin</a> - Class in <a href="foundry/veil/mixin/debug/client/package-summary.html">foundry.veil.mixin.debug.client</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/debug/client/DebugMinecraftMixin.html#%3Cinit%3E()" class="member-name-link">DebugMinecraftMixin()</a> - Constructor for class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugMinecraftMixin.html" title="class in foundry.veil.mixin.debug.client">DebugMinecraftMixin</a></dt>
@@ -2534,6 +2552,16 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/client/util/DebugRenderHelper.html" class="type-name-link" title="class in foundry.veil.api.client.util">DebugRenderHelper</a> - Class in <a href="foundry/veil/api/client/util/package-summary.html">foundry.veil.api.client.util</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/util/DebugRenderHelper.html#%3Cinit%3E()" class="member-name-link">DebugRenderHelper()</a> - Constructor for class foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/DebugRenderHelper.html" title="class in foundry.veil.api.client.util">DebugRenderHelper</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugTextureManagerMixin.html" class="type-name-link" title="class in foundry.veil.mixin.debug.client">DebugTextureManagerMixin</a> - Class in <a href="foundry/veil/mixin/debug/client/package-summary.html">foundry.veil.mixin.debug.client</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugTextureManagerMixin.html#%3Cinit%3E()" class="member-name-link">DebugTextureManagerMixin()</a> - Constructor for class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugTextureManagerMixin.html" title="class in foundry.veil.mixin.debug.client">DebugTextureManagerMixin</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/ext/DebugVertexBufferExt.html" class="type-name-link" title="interface in foundry.veil.ext">DebugVertexBufferExt</a> - Interface in <a href="foundry/veil/ext/package-summary.html">foundry.veil.ext</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugVertexBufferMixin.html" class="type-name-link" title="class in foundry.veil.mixin.debug.client">DebugVertexBufferMixin</a> - Class in <a href="foundry/veil/mixin/debug/client/package-summary.html">foundry.veil.mixin.debug.client</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugVertexBufferMixin.html#%3Cinit%3E()" class="member-name-link">DebugVertexBufferMixin()</a> - Constructor for class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugVertexBufferMixin.html" title="class in foundry.veil.mixin.debug.client">DebugVertexBufferMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Token.html#DEC" class="member-name-link">DEC</a> - Static variable in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Token.html" title="class in foundry.veil.lib.anarres.cpp">Token</a></dt>
 <dd>&nbsp;</dd>
@@ -2570,6 +2598,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Maps a buffer region to the specified index.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#defineVertexBuffer(int,int,int,int)" class="member-name-link">defineVertexBuffer(int, int, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#defineVertexBuffer(int,int,int,int)" class="member-name-link">defineVertexBuffer(int, int, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#defineVertexBuffer(int,int,int,int)" class="member-name-link">defineVertexBuffer(int, int, int, int)</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
@@ -2791,6 +2821,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Disables the specified dynamic render buffers.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html#DISABLED" class="member-name-link">DISABLED</a> - Enum constant in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilDebug.html" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/emitters/shape/Disc.html" class="type-name-link" title="class in foundry.veil.api.quasar.emitters.shape">Disc</a> - Class in <a href="foundry/veil/api/quasar/emitters/shape/package-summary.html">foundry.veil.api.quasar.emitters.shape</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/emitters/shape/Disc.html#%3Cinit%3E()" class="member-name-link">Disc()</a> - Constructor for class foundry.veil.api.quasar.emitters.shape.<a href="foundry/veil/api/quasar/emitters/shape/Disc.html" title="class in foundry.veil.api.quasar.emitters.shape">Disc</a></dt>
@@ -2963,6 +2995,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineVertexBufferMixin.html#drawPatches(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">drawPatches(CallbackInfo)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineVertexBufferMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineVertexBufferMixin</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#drawScreenQuad()" class="member-name-link">drawScreenQuad()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
+<dd>
+<div class="block">Draws a quad onto the full screen.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/util/UIUtils.html#drawTexturedRect(org.joml.Matrix4f,int,float,float,float,float,float,float,float,float,int,int,net.minecraft.resources.ResourceLocation)" class="member-name-link">drawTexturedRect(Matrix4f, int, float, float, float, float, float, float, float, float, int, int, ResourceLocation)</a> - Static method in class foundry.veil.api.client.util.<a href="foundry/veil/api/client/util/UIUtils.html" title="class in foundry.veil.api.client.util">UIUtils</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html#driverVersion()" class="member-name-link">driverVersion()</a> - Method in record class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/VeilOpenCL.DeviceInfo.html" title="class in foundry.veil.api.opencl">VeilOpenCL.DeviceInfo</a></dt>
@@ -2985,6 +3021,12 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/wrapper/DSAVanillaAdvancedFboWrapper.html#%3Cinit%3E(java.util.function.Supplier)" class="member-name-link">DSAVanillaAdvancedFboWrapper(Supplier&lt;RenderTarget&gt;)</a> - Constructor for class foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/DSAVanillaAdvancedFboWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">DSAVanillaAdvancedFboWrapper</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" class="type-name-link" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a> - Record Class in <a href="foundry/veil/impl/client/render/mesh/package-summary.html">foundry.veil.impl.client.render.mesh</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#%3Cinit%3E(foundry.veil.api.client.render.mesh.VertexArray,int)" class="member-name-link">DSAVertexAttribBindingBuilder(VertexArray, int)</a> - Constructor for record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>DSAVertexAttribBindingBuilder</code> record class.</div>
+</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingVertexArray.html" class="type-name-link" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingVertexArray</a> - Class in <a href="foundry/veil/impl/client/render/mesh/package-summary.html">foundry.veil.impl.client.render.mesh</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingVertexArray.html#%3Cinit%3E(int)" class="member-name-link">DSAVertexAttribBindingVertexArray(int)</a> - Constructor for class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingVertexArray.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingVertexArray</a></dt>
@@ -3280,6 +3322,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>enabled</code> record component.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html#ENABLED" class="member-name-link">ENABLED</a> - Enum constant in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilDebug.html" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html#encode(foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType...)" class="member-name-link">encode(DynamicBufferType...)</a> - Static method in enum class foundry.veil.api.client.render.dynamicbuffer.<a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/util/EnumCodec.html#encode(T,com.mojang.serialization.DynamicOps,T1)" class="member-name-link">encode(T, DynamicOps&lt;T1&gt;, T1)</a> - Method in class foundry.veil.api.util.<a href="foundry/veil/api/util/EnumCodec.html" title="class in foundry.veil.api.util">EnumCodec</a></dt>
@@ -3844,6 +3888,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/ReplaceShaderModification.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ReplaceShaderModification.html" title="class in foundry.veil.impl.client.render.shader.modifier">ReplaceShaderModification</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -4241,6 +4289,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/dynamicbuffer/package-summary.html">foundry.veil.api.client.render.dynamicbuffer</a> - package foundry.veil.api.client.render.dynamicbuffer</dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/ext/package-summary.html">foundry.veil.api.client.render.ext</a> - package foundry.veil.api.client.render.ext</dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/package-summary.html">foundry.veil.api.client.render.framebuffer</a> - package foundry.veil.api.client.render.framebuffer</dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/light/package-summary.html">foundry.veil.api.client.render.light</a> - package foundry.veil.api.client.render.light</dt>
@@ -4372,8 +4422,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/impl/client/render/package-summary.html">foundry.veil.impl.client.render</a> - package foundry.veil.impl.client.render</dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/dynamicbuffer/package-summary.html">foundry.veil.impl.client.render.dynamicbuffer</a> - package foundry.veil.impl.client.render.dynamicbuffer</dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/ext/package-summary.html">foundry.veil.impl.client.render.ext</a> - package foundry.veil.impl.client.render.ext</dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/package-summary.html">foundry.veil.impl.client.render.framebuffer</a> - package foundry.veil.impl.client.render.framebuffer</dt>
 <dd>&nbsp;</dd>
@@ -4523,7 +4571,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <code>framebufferId</code> record component.</div>
 </dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#frameBufferId" class="member-name-link">frameBufferId</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#frameBufferId" class="member-name-link">frameBufferId</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html#frameBufferId" class="member-name-link">frameBufferId</a> - Variable in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
@@ -4742,13 +4790,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html#GEQUAL_DEPTH_TEST" class="member-name-link">GEQUAL_DEPTH_TEST</a> - Static variable in class foundry.veil.api.client.render.rendertype.<a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html" title="class in foundry.veil.api.client.render.rendertype">VeilRenderType</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html#get()" class="member-name-link">get()</a> - Static method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilDebug.html" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#get()" class="member-name-link">get()</a> - Static method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/molang/VeilMolang.html#get()" class="member-name-link">get()</a> - Static method in class foundry.veil.api.molang.<a href="foundry/veil/api/molang/VeilMolang.html" title="class in foundry.veil.api.molang">VeilMolang</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/opencl/VeilOpenCL.html#get()" class="member-name-link">get()</a> - Static method in class foundry.veil.api.opencl.<a href="foundry/veil/api/opencl/VeilOpenCL.html" title="class in foundry.veil.api.opencl">VeilOpenCL</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html#get()" class="member-name-link">get()</a> - Static method in class foundry.veil.impl.client.imgui.<a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html" title="class in foundry.veil.impl.client.imgui">VeilImGuiImpl</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html#get()" class="member-name-link">get()</a> - Static method in enum class foundry.veil.impl.client.render.ext.<a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/platform/registry/RegistryObject.html#get()" class="member-name-link">get()</a> - Method in interface foundry.veil.platform.registry.<a href="foundry/veil/platform/registry/RegistryObject.html" title="interface in foundry.veil.platform.registry">RegistryObject</a></dt>
 <dd>
@@ -4982,7 +5032,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Retrieves the attachment for the specified slot.</div>
 </dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#getColorTextureId()" class="member-name-link">getColorTextureId()</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#getColorTextureId()" class="member-name-link">getColorTextureId()</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html#getColorTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getColorTextureId(CallbackInfoReturnable&lt;Integer&gt;)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
@@ -5084,7 +5134,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Retrieves a depth buffer texture attachment.</div>
 </dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#getDepthTextureId()" class="member-name-link">getDepthTextureId()</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#getDepthTextureId()" class="member-name-link">getDepthTextureId()</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html#getDepthTextureId(org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable)" class="member-name-link">getDepthTextureId(CallbackInfoReturnable&lt;Integer&gt;)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineRenderTargetMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
@@ -6600,8 +6650,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineShaderInstanceMixin.html#getUniform(java.lang.String)" class="member-name-link">getUniform(String)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineShaderInstanceMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineShaderInstanceMixin</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/shader/client/ShaderInstanceMixin.html#getUniform(java.lang.String)" class="member-name-link">getUniform(String)</a> - Method in class foundry.veil.mixin.shader.client.<a href="foundry/veil/mixin/shader/client/ShaderInstanceMixin.html" title="class in foundry.veil.mixin.shader.client">ShaderInstanceMixin</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/PostPipeline.html#getUniformBlock(java.lang.CharSequence)" class="member-name-link">getUniformBlock(CharSequence)</a> - Method in interface foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/UniformAccess.html#getUniformBlock(java.lang.CharSequence)" class="member-name-link">getUniformBlock(CharSequence)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/UniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">UniformAccess</a></dt>
@@ -7628,6 +7676,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/ReplaceShaderModification.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ReplaceShaderModification.html" title="class in foundry.veil.impl.client.render.shader.modifier">ReplaceShaderModification</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -7762,7 +7814,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.html#height" class="member-name-link">height</a> - Variable in class foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#height" class="member-name-link">height</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#height" class="member-name-link">height</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html#height()" class="member-name-link">height()</a> - Method in record class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a></dt>
 <dd>
@@ -8809,7 +8861,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/glsl/node/expression/GlslOperationNode.Operand.html#LEFT_SHIFT" class="member-name-link">LEFT_SHIFT</a> - Enum constant in enum class foundry.veil.api.glsl.node.expression.<a href="foundry/veil/api/glsl/node/expression/GlslOperationNode.Operand.html" title="enum class in foundry.veil.api.glsl.node.expression">GlslOperationNode.Operand</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html#LEGACY" class="member-name-link">LEGACY</a> - Enum constant in enum class foundry.veil.impl.client.render.ext.<a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a></dt>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#LEGACY" class="member-name-link">LEGACY</a> - Enum constant in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/LegacyAdvancedFboImpl.html" class="type-name-link" title="class in foundry.veil.impl.client.render.framebuffer">LegacyAdvancedFboImpl</a> - Class in <a href="foundry/veil/impl/client/render/framebuffer/package-summary.html">foundry.veil.impl.client.render.framebuffer</a></dt>
 <dd>
@@ -8868,10 +8920,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/ext/LevelRendererBlockLayerExtension.html" class="type-name-link" title="interface in foundry.veil.ext">LevelRendererBlockLayerExtension</a> - Interface in <a href="foundry/veil/ext/package-summary.html">foundry.veil.ext</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/LevelRendererExtension.html" class="type-name-link" title="interface in foundry.veil.ext">LevelRendererExtension</a> - Interface in <a href="foundry/veil/ext/package-summary.html">foundry.veil.ext</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.performance.client">LevelRendererMixin</a> - Class in <a href="foundry/veil/mixin/performance/client/package-summary.html">foundry.veil.mixin.performance.client</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html#%3Cinit%3E()" class="member-name-link">LevelRendererMixin()</a> - Constructor for class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/LevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">LevelRendererMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.html#levels()" class="member-name-link">levels()</a> - Method in record class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferAttachmentDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferAttachmentDefinition</a></dt>
 <dd>
@@ -9717,11 +9765,17 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/glsl/grammar/GlslTypeSpecifier.html#named(java.lang.String)" class="member-name-link">named(String)</a> - Static method in interface foundry.veil.api.glsl.grammar.<a href="foundry/veil/api/glsl/grammar/GlslTypeSpecifier.html" title="interface in foundry.veil.api.glsl.grammar">GlslTypeSpecifier</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html#nameDarkSky(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">nameDarkSky(CallbackInfo)</a> - Method in class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html" title="class in foundry.veil.mixin.debug.client">DebugLevelRendererMixin</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html#nameLightSky(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">nameLightSky(CallbackInfo)</a> - Method in class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html" title="class in foundry.veil.mixin.debug.client">DebugLevelRendererMixin</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/ShaderModificationManager.Preparations.html#names()" class="member-name-link">names()</a> - Method in record class foundry.veil.api.client.render.shader.<a href="foundry/veil/api/client/render/shader/ShaderModificationManager.Preparations.html" title="class in foundry.veil.api.client.render.shader">ShaderModificationManager.Preparations</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>names</code> record component.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html#NAMESPACE" class="member-name-link">NAMESPACE</a> - Enum constant in enum class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html" title="enum class in foundry.veil.impl.client.render.shader.modifier">ShaderModifierLexer.TokenType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html#nameStars(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">nameStars(CallbackInfo)</a> - Method in class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugLevelRendererMixin.html" title="class in foundry.veil.mixin.debug.client">DebugLevelRendererMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Token.html#NE" class="member-name-link">NE</a> - Static variable in class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Token.html" title="class in foundry.veil.lib.anarres.cpp">Token</a></dt>
 <dd>&nbsp;</dd>
@@ -9851,6 +9905,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/lib/anarres/cpp/Feature.html#OBJCSYNTAX" class="member-name-link">OBJCSYNTAX</a> - Enum constant in enum class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Feature.html" title="enum class in foundry.veil.lib.anarres.cpp">Feature</a></dt>
 <dd>
 <div class="block">Supports lexing of objective-C.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html#objectLabel(int,int,java.lang.CharSequence)" class="member-name-link">objectLabel(int, int, CharSequence)</a> - Method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilDebug.html" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a></dt>
+<dd>
+<div class="block">Labels a named object identified within a namespace.</div>
 </dd>
 <dt><a href="foundry/veil/api/glsl/node/primary/GlslIntFormat.html#OCTAL" class="member-name-link">OCTAL</a> - Enum constant in enum class foundry.veil.api.glsl.node.primary.<a href="foundry/veil/api/glsl/node/primary/GlslIntFormat.html" title="enum class in foundry.veil.api.glsl.node.primary">GlslIntFormat</a></dt>
 <dd>&nbsp;</dd>
@@ -10299,7 +10357,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/resource/action/TextEditAction.html#perform(foundry.veil.api.resource.VeilEditorEnvironment,T)" class="member-name-link">perform(VeilEditorEnvironment, T)</a> - Method in record class foundry.veil.impl.resource.action.<a href="foundry/veil/impl/resource/action/TextEditAction.html" title="class in foundry.veil.impl.resource.action">TextEditAction</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.performance.client">PerformanceLevelRendererMixin</a> - Class in <a href="foundry/veil/mixin/performance/client/package-summary.html">foundry.veil.mixin.performance.client</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html#%3Cinit%3E()" class="member-name-link">PerformanceLevelRendererMixin()</a> - Constructor for class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceLevelRendererMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceLevelRendererMixin</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/PerformanceRenderTargetExtension.html" class="type-name-link" title="interface in foundry.veil.ext">PerformanceRenderTargetExtension</a> - Interface in <a href="foundry/veil/ext/package-summary.html">foundry.veil.ext</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" class="type-name-link" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a> - Class in <a href="foundry/veil/mixin/performance/client/package-summary.html">foundry.veil.mixin.performance.client</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#%3Cinit%3E()" class="member-name-link">PerformanceRenderTargetMixin()</a> - Constructor for class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/performance/client/PerformanceScreenEffectRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.performance.client">PerformanceScreenEffectRendererMixin</a> - Class in <a href="foundry/veil/mixin/performance/client/package-summary.html">foundry.veil.mixin.performance.client</a></dt>
 <dd>&nbsp;</dd>
@@ -10322,6 +10388,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineGameRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.pipeline.client">PipelineGameRendererMixin</a> - Class in <a href="foundry/veil/mixin/pipeline/client/package-summary.html">foundry.veil.mixin.pipeline.client</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineGameRendererMixin.html#%3Cinit%3E()" class="member-name-link">PipelineGameRendererMixin()</a> - Constructor for class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineGameRendererMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineGameRendererMixin</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/pipeline/client/PipelineGlStateManagerMixin.html" class="type-name-link" title="class in foundry.veil.mixin.pipeline.client">PipelineGlStateManagerMixin</a> - Class in <a href="foundry/veil/mixin/pipeline/client/package-summary.html">foundry.veil.mixin.pipeline.client</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/pipeline/client/PipelineGlStateManagerMixin.html#%3Cinit%3E()" class="member-name-link">PipelineGlStateManagerMixin()</a> - Constructor for class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineGlStateManagerMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineGlStateManagerMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineLevelRendererMixin.html" class="type-name-link" title="class in foundry.veil.mixin.pipeline.client">PipelineLevelRendererMixin</a> - Class in <a href="foundry/veil/mixin/pipeline/client/package-summary.html">foundry.veil.mixin.pipeline.client</a></dt>
 <dd>&nbsp;</dd>
@@ -11271,6 +11341,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#removeAttribute(int)" class="member-name-link">removeAttribute(int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#removeAttribute(int)" class="member-name-link">removeAttribute(int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#removeAttribute(int)" class="member-name-link">removeAttribute(int)</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/color/ColorTheme.html#removeColor()" class="member-name-link">removeColor()</a> - Method in class foundry.veil.api.client.color.<a href="foundry/veil/api/client/color/ColorTheme.html" title="class in foundry.veil.api.client.color">ColorTheme</a></dt>
@@ -11281,7 +11353,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferManager.html#removeFramebuffer(net.minecraft.resources.ResourceLocation)" class="member-name-link">removeFramebuffer(ResourceLocation)</a> - Method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferManager.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferManager</a></dt>
 <dd>
-<div class="block">Removes the specified manual framebuffer without freeing it</div>
+<div class="block">Removes the specified manual framebuffer without freeing it.</div>
 </dd>
 <dt><a href="foundry/veil/api/glsl/node/GlslNodeList.html#removeLast()" class="member-name-link">removeLast()</a> - Method in class foundry.veil.api.glsl.node.<a href="foundry/veil/api/glsl/node/GlslNodeList.html" title="class in foundry.veil.api.glsl.node">GlslNodeList</a></dt>
 <dd>&nbsp;</dd>
@@ -11316,6 +11388,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Removes the buffer mapping with the specified index.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#removeVertexBuffer(int)" class="member-name-link">removeVertexBuffer(int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#removeVertexBuffer(int)" class="member-name-link">removeVertexBuffer(int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#removeVertexBuffer(int)" class="member-name-link">removeVertexBuffer(int)</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
@@ -11473,6 +11547,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/constraint/Constraint.html#renderDebugInfo(foundry.veil.api.client.necromancer.Skeleton,foundry.veil.api.client.necromancer.SkeletonParent,float,com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource)" class="member-name-link">renderDebugInfo(Skeleton, SkeletonParent, float, PoseStack, MultiBufferSource)</a> - Method in interface foundry.veil.api.client.necromancer.constraint.<a href="foundry/veil/api/client/necromancer/constraint/Constraint.html" title="interface in foundry.veil.api.client.necromancer.constraint">Constraint</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/Veil.html#RENDERDOC" class="member-name-link">RENDERDOC</a> - Static variable in class foundry.veil.<a href="foundry/veil/Veil.html" title="class in foundry.veil">Veil</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/necromancer/render/NecromancerEntityRenderLayer.html#renderer" class="member-name-link">renderer</a> - Variable in class foundry.veil.api.client.necromancer.render.<a href="foundry/veil/api/client/necromancer/render/NecromancerEntityRenderLayer.html" title="class in foundry.veil.api.client.necromancer.render">NecromancerEntityRenderLayer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#renderer()" class="member-name-link">renderer()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
@@ -11594,10 +11670,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/quasar/registry/RenderStyleRegistry.html#%3Cinit%3E()" class="member-name-link">RenderStyleRegistry()</a> - Constructor for class foundry.veil.api.quasar.registry.<a href="foundry/veil/api/quasar/registry/RenderStyleRegistry.html" title="class in foundry.veil.api.quasar.registry">RenderStyleRegistry</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/RenderTargetExtension.html" class="type-name-link" title="interface in foundry.veil.ext">RenderTargetExtension</a> - Interface in <a href="foundry/veil/ext/package-summary.html">foundry.veil.ext</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" class="type-name-link" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a> - Class in <a href="foundry/veil/mixin/performance/client/package-summary.html">foundry.veil.mixin.performance.client</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#%3Cinit%3E()" class="member-name-link">RenderTargetMixin()</a> - Constructor for class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#renderThreadExecutor()" class="member-name-link">renderThreadExecutor()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
@@ -13692,8 +13764,6 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html#setVectors(java.lang.CharSequence,org.joml.Vector4ic...)" class="member-name-link">setVectors(CharSequence, Vector4ic...)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/ShaderProgram.html" title="interface in foundry.veil.api.client.render.shader.program">ShaderProgram</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/shader/client/ShaderInstanceMixin.html#setVeilUniforms(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">setVeilUniforms(CallbackInfo)</a> - Method in class foundry.veil.mixin.shader.client.<a href="foundry/veil/mixin/shader/client/ShaderInstanceMixin.html" title="class in foundry.veil.mixin.shader.client">ShaderInstanceMixin</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/glsl/grammar/GlslVersionStatement.html#setVersion(int)" class="member-name-link">setVersion(int)</a> - Method in class foundry.veil.api.glsl.grammar.<a href="foundry/veil/api/glsl/grammar/GlslVersionStatement.html" title="class in foundry.veil.api.glsl.grammar">GlslVersionStatement</a></dt>
 <dd>
 <div class="block">Sets the GLSL version integer.</div>
@@ -13704,6 +13774,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int,int)" class="member-name-link">setVertexAttribute(int, int, int, VertexArrayBuilder.DataType, boolean, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int,int)" class="member-name-link">setVertexAttribute(int, int, int, VertexArrayBuilder.DataType, boolean, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int,int)" class="member-name-link">setVertexAttribute(int, int, int, VertexArrayBuilder.DataType, boolean, int, int)</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexIAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in interface foundry.veil.api.client.render.mesh.<a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></dt>
@@ -13712,6 +13784,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexIAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexIAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexIAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexLAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in interface foundry.veil.api.client.render.mesh.<a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></dt>
@@ -13719,6 +13793,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Defines a long vertex attribute.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexLAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexLAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexLAttribute(int, int, int, VertexArrayBuilder.DataType, int, int)</a> - Method in class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/LegacyVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexAttribBindingBuilder</a></dt>
 <dd>&nbsp;</dd>
@@ -14549,7 +14625,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/glsl/node/expression/GlslOperationNode.Operand.html#SUBTRACT" class="member-name-link">SUBTRACT</a> - Enum constant in enum class foundry.veil.api.glsl.node.expression.<a href="foundry/veil/api/glsl/node/expression/GlslOperationNode.Operand.html" title="enum class in foundry.veil.api.glsl.node.expression">GlslOperationNode.Operand</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html#SUPPORTED" class="member-name-link">SUPPORTED</a> - Enum constant in enum class foundry.veil.impl.client.render.ext.<a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a></dt>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#SUPPORTED" class="member-name-link">SUPPORTED</a> - Enum constant in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/PreprocessorListener.SourceChangeEvent.html#SUSPEND" class="member-name-link">SUSPEND</a> - Enum constant in enum class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/PreprocessorListener.SourceChangeEvent.html" title="enum class in foundry.veil.lib.anarres.cpp">PreprocessorListener.SourceChangeEvent</a></dt>
 <dd>&nbsp;</dd>
@@ -15465,6 +15541,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#toString()" class="member-name-link">toString()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/AdvancedFboShard.html#toString()" class="member-name-link">toString()</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/AdvancedFboShard.html" title="class in foundry.veil.impl.client.render.pipeline">AdvancedFboShard</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/CullFaceShard.html#toString()" class="member-name-link">toString()</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/CullFaceShard.html" title="class in foundry.veil.impl.client.render.pipeline">CullFaceShard</a></dt>
@@ -15876,7 +15956,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.Wrapper.html#unbindRead()" class="member-name-link">unbindRead()</a> - Method in class foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl.Wrapper</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#unbindWrite()" class="member-name-link">unbindWrite()</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#unbindWrite()" class="member-name-link">unbindWrite()</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/lib/anarres/cpp/Warning.html#UNDEF" class="member-name-link">UNDEF</a> - Enum constant in enum class foundry.veil.lib.anarres.cpp.<a href="foundry/veil/lib/anarres/cpp/Warning.html" title="enum class in foundry.veil.lib.anarres.cpp">Warning</a></dt>
 <dd>&nbsp;</dd>
@@ -16152,7 +16232,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/glsl/GlslLexer.TokenType.html#USAMPLERCUBEARRAY" class="member-name-link">USAMPLERCUBEARRAY</a> - Enum constant in enum class foundry.veil.impl.glsl.<a href="foundry/veil/impl/glsl/GlslLexer.TokenType.html" title="enum class in foundry.veil.impl.glsl">GlslLexer.TokenType</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#useDepth" class="member-name-link">useDepth</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#useDepth" class="member-name-link">useDepth</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/pose/PoseData.html#useTime" class="member-name-link">useTime</a> - Variable in class foundry.veil.api.client.pose.<a href="foundry/veil/api/client/pose/PoseData.html" title="class in foundry.veil.api.client.pose">PoseData</a></dt>
 <dd>&nbsp;</dd>
@@ -16252,6 +16332,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class foundry.veil.api.client.render.dynamicbuffer.<a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilDebug.html" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this class with the specified name.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
@@ -16439,10 +16527,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class foundry.veil.impl.client.render.ext.<a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a></dt>
-<dd>
-<div class="block">Returns the enum constant of this class with the specified name.</div>
-</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html" title="enum class in foundry.veil.impl.client.render.shader.modifier">ShaderModifierLexer.TokenType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this class with the specified name.</div>
@@ -16485,6 +16569,16 @@ loadScripts(document, 'script');</script>
 the order they are declared.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html#values()" class="member-name-link">values()</a> - Static method in enum class foundry.veil.api.client.render.dynamicbuffer.<a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html#values()" class="member-name-link">values()</a> - Static method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilDebug.html" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum class, in
+the order they are declared.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#values()" class="member-name-link">values()</a> - Static method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
@@ -16727,11 +16821,6 @@ the order they are declared.</div>
 <div class="block">Returns an array containing the constants of this enum class, in
 the order they are declared.</div>
 </dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html#values()" class="member-name-link">values()</a> - Static method in enum class foundry.veil.impl.client.render.ext.<a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a></dt>
-<dd>
-<div class="block">Returns an array containing the constants of this enum class, in
-the order they are declared.</div>
-</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html#values()" class="member-name-link">values()</a> - Static method in enum class foundry.veil.impl.client.render.shader.modifier.<a href="foundry/veil/impl/client/render/shader/modifier/ShaderModifierLexer.TokenType.html" title="enum class in foundry.veil.impl.client.render.shader.modifier">ShaderModifierLexer.TokenType</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum class, in
@@ -16827,6 +16916,10 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html#%3Cinit%3E(int,java.lang.String)" class="member-name-link">VanillaUniformWrapper(int, String)</a> - Constructor for class foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">VanillaUniformWrapper</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#vao()" class="member-name-link">vao()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>vao</code> record component.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/VeilShaderBufferLayout.Builder.html#vec2(java.lang.String,foundry.veil.api.client.render.VeilShaderBufferLayout.Builder.FloatSerializer,foundry.veil.api.client.render.VeilShaderBufferLayout.Builder.FloatSerializer)" class="member-name-link">vec2(String, VeilShaderBufferLayout.Builder.FloatSerializer&lt;T&gt;, VeilShaderBufferLayout.Builder.FloatSerializer&lt;T&gt;)</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilShaderBufferLayout.Builder.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout.Builder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilShaderBufferLayout.Builder.html#vec2(java.lang.String,java.util.function.Function)" class="member-name-link">vec2(String, Function&lt;T, Vector2fc&gt;)</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilShaderBufferLayout.Builder.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout.Builder</a></dt>
@@ -16921,7 +17014,7 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/PerformanceRenderTargetExtension.html#veil$clearColorBuffer(boolean)" class="member-name-link">veil$clearColorBuffer(boolean)</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/PerformanceRenderTargetExtension.html" title="interface in foundry.veil.ext">PerformanceRenderTargetExtension</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#veil$clearColorBuffer(boolean)" class="member-name-link">veil$clearColorBuffer(boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#veil$clearColorBuffer(boolean)" class="member-name-link">veil$clearColorBuffer(boolean)</a> - Method in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/LevelRendererBlockLayerExtension.html#veil$drawBlockLayer(net.minecraft.client.renderer.RenderType,double,double,double,org.joml.Matrix4fc,org.joml.Matrix4fc)" class="member-name-link">veil$drawBlockLayer(RenderType, double, double, double, Matrix4fc, Matrix4fc)</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/LevelRendererBlockLayerExtension.html" title="interface in foundry.veil.ext">LevelRendererBlockLayerExtension</a></dt>
 <dd>&nbsp;</dd>
@@ -17019,6 +17112,10 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/sodium/ChunkShaderOptionsExtension.html#veil$setActiveBuffers(int)" class="member-name-link">veil$setActiveBuffers(int)</a> - Method in interface foundry.veil.ext.sodium.<a href="foundry/veil/ext/sodium/ChunkShaderOptionsExtension.html" title="interface in foundry.veil.ext.sodium">ChunkShaderOptionsExtension</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/ext/DebugVertexBufferExt.html#veil$setName(java.lang.String)" class="member-name-link">veil$setName(String)</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/DebugVertexBufferExt.html" title="interface in foundry.veil.ext">DebugVertexBufferExt</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/mixin/debug/client/DebugVertexBufferMixin.html#veil$setName(java.lang.String)" class="member-name-link">veil$setName(String)</a> - Method in class foundry.veil.mixin.debug.client.<a href="foundry/veil/mixin/debug/client/DebugVertexBufferMixin.html" title="class in foundry.veil.mixin.debug.client">DebugVertexBufferMixin</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/sodium/ChunkVertexEncoderVertexExtension.html#veil$setNormal(int)" class="member-name-link">veil$setNormal(int)</a> - Method in interface foundry.veil.ext.sodium.<a href="foundry/veil/ext/sodium/ChunkVertexEncoderVertexExtension.html" title="interface in foundry.veil.ext.sodium">ChunkVertexEncoderVertexExtension</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/ext/FrustumExtension.html#veil$setupFrustum(org.joml.Matrix4fc,org.joml.Matrix4fc)" class="member-name-link">veil$setupFrustum(Matrix4fc, Matrix4fc)</a> - Method in interface foundry.veil.ext.<a href="foundry/veil/ext/FrustumExtension.html" title="interface in foundry.veil.ext">FrustumExtension</a></dt>
@@ -17060,6 +17157,10 @@ the order they are declared.</div>
 <dt><a href="foundry/veil/platform/VeilClientPlatform.html" class="type-name-link" title="interface in foundry.veil.platform">VeilClientPlatform</a> - Interface in <a href="foundry/veil/platform/package-summary.html">foundry.veil.platform</a></dt>
 <dd>
 <div class="block">Manages client platform-specific features.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilDebug.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.ext">VeilDebug</a> - Enum Class in <a href="foundry/veil/api/client/render/ext/package-summary.html">foundry.veil.api.client.render.ext</a></dt>
+<dd>
+<div class="block">Provides access to debug functionality for all platforms.</div>
 </dd>
 <dt><a href="foundry/veil/VeilDebugHooks.html" class="type-name-link" title="class in foundry.veil">VeilDebugHooks</a> - Class in <a href="foundry/veil/package-summary.html">foundry.veil</a></dt>
 <dd>
@@ -17129,6 +17230,10 @@ the order they are declared.</div>
 </dd>
 <dt><a href="foundry/veil/api/molang/VeilMolang.html#%3Cinit%3E()" class="member-name-link">VeilMolang()</a> - Constructor for class foundry.veil.api.molang.<a href="foundry/veil/api/molang/VeilMolang.html" title="class in foundry.veil.api.molang">VeilMolang</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a> - Enum Class in <a href="foundry/veil/api/client/render/ext/package-summary.html">foundry.veil.api.client.render.ext</a></dt>
+<dd>
+<div class="block">Provides access to <code>ARBMultiBind</code> functionality for all platforms.</div>
+</dd>
 <dt><a href="foundry/veil/api/opencl/VeilOpenCL.html" class="type-name-link" title="class in foundry.veil.api.opencl">VeilOpenCL</a> - Class in <a href="foundry/veil/api/opencl/package-summary.html">foundry.veil.api.opencl</a></dt>
 <dd>
 <div class="block">Veil implementation of OpenCL.</div>
@@ -17389,8 +17494,6 @@ the order they are declared.</div>
 </dd>
 <dt><a href="foundry/veil/api/resource/type/VeilTextResource.html" class="type-name-link" title="interface in foundry.veil.api.resource.type">VeilTextResource&lt;T&gt;</a> - Interface in <a href="foundry/veil/api/resource/type/package-summary.html">foundry.veil.api.resource.type</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/ext/VeilTextureMultiBind.html" class="type-name-link" title="enum class in foundry.veil.impl.client.render.ext">VeilTextureMultiBind</a> - Enum Class in <a href="foundry/veil/impl/client/render/ext/package-summary.html">foundry.veil.impl.client.render.ext</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/tooltip/VeilUIItemTooltipDataHolder.html" class="type-name-link" title="class in foundry.veil.api.client.tooltip">VeilUIItemTooltipDataHolder</a> - Class in <a href="foundry/veil/api/client/tooltip/package-summary.html">foundry.veil.api.client.tooltip</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/tooltip/VeilUIItemTooltipDataHolder.html#%3Cinit%3E(net.minecraft.world.item.ItemStack,java.util.function.Function,java.util.function.Function)" class="member-name-link">VeilUIItemTooltipDataHolder(ItemStack, Function&lt;Float, Float&gt;, Function&lt;Float, Float&gt;)</a> - Constructor for class foundry.veil.api.client.tooltip.<a href="foundry/veil/api/client/tooltip/VeilUIItemTooltipDataHolder.html" title="class in foundry.veil.api.client.tooltip">VeilUIItemTooltipDataHolder</a></dt>
@@ -17462,6 +17565,10 @@ the order they are declared.</div>
 <dt><a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html#vertexArray()" class="member-name-link">vertexArray()</a> - Method in interface foundry.veil.api.client.render.mesh.<a href="foundry/veil/api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html#vertexArray()" class="member-name-link">vertexArray()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/ARBVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingBuilder</a></dt>
+<dd>
+<div class="block">Returns the value of the <code>vertexArray</code> record component.</div>
+</dd>
+<dt><a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html#vertexArray()" class="member-name-link">vertexArray()</a> - Method in record class foundry.veil.impl.client.render.mesh.<a href="foundry/veil/impl/client/render/mesh/DSAVertexAttribBindingBuilder.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingBuilder</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>vertexArray</code> record component.</div>
 </dd>
@@ -17638,7 +17745,7 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.html#width" class="member-name-link">width</a> - Variable in class foundry.veil.impl.client.render.framebuffer.<a href="foundry/veil/impl/client/render/framebuffer/AdvancedFboImpl.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html#width" class="member-name-link">width</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/RenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">RenderTargetMixin</a></dt>
+<dt><a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html#width" class="member-name-link">width</a> - Variable in class foundry.veil.mixin.performance.client.<a href="foundry/veil/mixin/performance/client/PerformanceRenderTargetMixin.html" title="class in foundry.veil.mixin.performance.client">PerformanceRenderTargetMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html#width()" class="member-name-link">width()</a> - Method in record class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferDefinition.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferDefinition</a></dt>
 <dd>
