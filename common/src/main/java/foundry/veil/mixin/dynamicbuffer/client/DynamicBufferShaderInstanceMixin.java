@@ -5,8 +5,11 @@ import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
+import foundry.veil.mixin.dynamicbuffer.accessor.DynamicBufferProgramAccessor;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -24,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.lwjgl.opengl.GL20C.*;
+import static org.lwjgl.opengl.KHRDebug.GL_PROGRAM;
+import static org.lwjgl.opengl.KHRDebug.GL_SHADER;
 
 @Mixin(ShaderInstance.class)
 public abstract class DynamicBufferShaderInstanceMixin implements Shader, ShaderInstanceExtension {
@@ -78,6 +83,14 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init(ResourceProvider resourceProvider, String name, VertexFormat vertexFormat, CallbackInfo ci) {
         this.veil$programCache.put(0, this.programId);
+        if ((Object) this instanceof ShaderProgramImpl.Wrapper) {
+            return;
+        }
+
+        VeilDebug debug = VeilDebug.get();
+        debug.objectLabel(GL_PROGRAM, this.programId, "Vanilla Shader Program " + this.name + ":default");
+        debug.objectLabel(GL_SHADER, ((DynamicBufferProgramAccessor) this.vertexProgram).getId(), "Vanilla vertex Shader " + this.vertexProgram.getName() + ":default");
+        debug.objectLabel(GL_SHADER, ((DynamicBufferProgramAccessor) this.fragmentProgram).getId(), "Vanilla fragment Shader " + this.fragmentProgram.getName() + ":default");
     }
 
     @Inject(method = "apply", at = @At("HEAD"))
@@ -150,6 +163,13 @@ public abstract class DynamicBufferShaderInstanceMixin implements Shader, Shader
                 if (old != 0) {
                     glDeleteProgram(old);
                 }
+
+                // Add debug names
+                String type = this.veil$activeBuffers == 0 ? "default" : Integer.toString(this.veil$activeBuffers);
+                VeilDebug debug = VeilDebug.get();
+                debug.objectLabel(GL_PROGRAM, programId, "Vanilla Shader Program " + this.name + ":" + type);
+                debug.objectLabel(GL_SHADER, vertexShader, "Vanilla vertex Shader " + this.vertexProgram.getName() + ":" + type);
+                debug.objectLabel(GL_SHADER, fragmentShader, "Vanilla fragment Shader " + this.fragmentProgram.getName() + ":" + type);
             } catch (Throwable t) {
                 this.veil$programCache.remove(this.veil$activeBuffers);
                 glDeleteProgram(programId);

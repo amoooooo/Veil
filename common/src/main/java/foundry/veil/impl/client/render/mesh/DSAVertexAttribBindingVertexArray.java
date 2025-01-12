@@ -44,6 +44,6 @@ public class DSAVertexAttribBindingVertexArray extends VertexArray {
     @Override
     public VertexArrayBuilder editFormat() {
         this.bind();
-        return new ARBVertexAttribBindingBuilder(this);
+        return new DSAVertexAttribBindingBuilder(this, this.id);
     }
 }

@@ -75,6 +75,7 @@ public class DebugMainMixin {
 
             if (enable.get()) {
                 System.loadLibrary("renderdoc");
+                Veil.RENDERDOC = true;
                 Veil.LOGGER.info("Renderdoc Loaded");
             }
         } catch (Throwable e) {

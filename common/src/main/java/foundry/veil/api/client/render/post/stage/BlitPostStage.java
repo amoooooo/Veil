@@ -85,7 +85,7 @@ public class BlitPostStage extends FramebufferPostStage {
         for (Map.Entry<String, UniformValue> entry : this.uniforms.entrySet()) {
             entry.getValue().apply(entry.getKey(), shader);
         }
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+        VeilRenderSystem.drawScreenQuad();
         context.clearSamplers(shader);
     }
 

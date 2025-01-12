@@ -4,13 +4,10 @@ import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import foundry.veil.impl.client.render.shader.program.ShaderUniformCache;
 import foundry.veil.impl.client.render.shader.transformer.VanillaShaderProcessor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.lwjgl.system.MemoryStack;
@@ -23,7 +20,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
 import java.nio.IntBuffer;
 import java.util.List;
 import java.util.Map;
@@ -50,10 +46,6 @@ public abstract class ShaderInstanceMixin implements Shader {
     @Final
     private List<String> samplerNames;
 
-    @Shadow
-    @Nullable
-    public abstract Uniform getUniform(String name);
-
     @Unique
     private final Map<String, Uniform> veil$uniforms = new Object2ObjectArrayMap<>();
 
@@ -78,20 +70,6 @@ public abstract class ShaderInstanceMixin implements Shader {
             return;
         }
         VanillaShaderProcessor.free();
-    }
-
-    @Inject(method = "setDefaultUniforms", at = @At("TAIL"))
-    public void setVeilUniforms(CallbackInfo ci) {
-        // TODO move to uniform block
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level != null) {
-            for (int i = 0; i < MutableUniformAccess.DIRECTIONS.length; i++) {
-                Uniform uniform = this.getUniform("VeilBlockFaceBrightness[" + i + "]");
-                if (uniform != null) {
-                    uniform.set(level.getShade(MutableUniformAccess.DIRECTIONS[i], true));
-                }
-            }
-        }
     }
 
     @Inject(method = "close", at = @At("HEAD"))

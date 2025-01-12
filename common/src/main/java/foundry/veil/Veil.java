@@ -20,6 +20,7 @@ public class Veil {
     public static final boolean DEBUG;
     public static final boolean IMGUI;
     public static final boolean VERBOSE_SHADER_ERRORS;
+    public static boolean RENDERDOC;
 
     private static final VeilPlatform PLATFORM = ServiceLoader.load(VeilPlatform.class).findFirst().orElseThrow(() -> new RuntimeException("Veil expected platform implementation"));
 

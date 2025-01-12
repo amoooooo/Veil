@@ -10,6 +10,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
+import java.util.Map;
 
 @ApiStatus.Internal
 public class ShaderTextureCache {
@@ -24,36 +25,55 @@ public class ShaderTextureCache {
     public ShaderTextureCache(ShaderProgram program) {
         this.program = program;
         this.textures = new Object2IntArrayMap<>();
-        this.textures.defaultReturnValue(-1);
         this.boundSamplers = new Object2IntArrayMap<>();
         this.listeners = new ObjectArraySet<>();
         this.bindings = null;
     }
 
-    private void uploadTextures(int samplerStart) {
+    private void uploadTextures(ShaderUniformCache cache, int samplerStart) {
         this.boundSamplers.clear();
 
         int maxSampler = VeilRenderSystem.maxCombinedTextureUnits();
-        int count = 1;
+        int count = 0;
         int missingTexture = MissingTextureAtlasSprite.getTexture().getId();
-        this.bindings.put(missingTexture);
+        boolean hasMissing = false;
+        String last = null;
 
-        ObjectIterator<Object2IntMap.Entry<CharSequence>> iterator = this.textures.object2IntEntrySet().iterator();
-        while (iterator.hasNext()) {
-            Object2IntMap.Entry<CharSequence> entry = iterator.next();
-            CharSequence name = entry.getKey();
+        for (Map.Entry<String, ShaderUniformCache.Uniform> entry : cache.getSamplers().entrySet()) {
+            String name = entry.getKey();
 
             // If the texture is "missing", then refer back to the bound missing texture and remove
-            int textureId = entry.getIntValue();
+            int textureId = this.textures.getInt(name);
             if (textureId == 0 || textureId == missingTexture) {
+                if (!hasMissing) {
+                    hasMissing = true;
+                    long address = MemoryUtil.memAddress0(this.bindings);
+                    int position = this.bindings.position();
+                    MemoryUtil.memCopy(address, address + 1, position);
+                    this.bindings.position(position + 1);
+                    this.bindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
+                }
                 this.program.setInt(name, 0);
-                iterator.remove();
+                this.textures.removeInt(name);
                 continue;
             }
 
+            // If there are too many samplers, then delete the latest texture and refer back to the missing texture
             int sampler = samplerStart + count;
             if (sampler >= maxSampler) {
-                // If there are too many samplers, then refer back to the missing texture
+                if (!hasMissing) {
+                    hasMissing = true;
+                    long address = MemoryUtil.memAddress0(this.bindings);
+                    int position = this.bindings.position();
+                    MemoryUtil.memCopy(address, address + 1, position - 1);
+                    this.bindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
+
+                    // Delete the last texture binding
+                    if (last != null) {
+                        this.program.setInt(last, 0);
+                        this.boundSamplers.removeInt(last);
+                    }
+                }
                 this.program.setInt(name, 0);
             } else {
                 this.program.setInt(name, sampler);
@@ -62,6 +82,7 @@ public class ShaderTextureCache {
             }
 
             count++;
+            last = name;
         }
 
         if (samplerStart + count >= maxSampler) {
@@ -74,7 +95,7 @@ public class ShaderTextureCache {
         }
     }
 
-    public void bind(int samplerStart) {
+    public void bind(ShaderUniformCache cache, int samplerStart) {
         if (this.textures.isEmpty()) {
             return;
         }
@@ -88,7 +109,7 @@ public class ShaderTextureCache {
             }
 
             this.bindings.clear();
-            this.uploadTextures(samplerStart);
+            this.uploadTextures(cache, samplerStart);
             this.bindings.flip();
 
             // Delete texture buffer if there aren't any textures

@@ -2,6 +2,7 @@ package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -75,6 +76,10 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     public void create() {
         this.bindAttachment();
         this.setFilter(this.linear, this.mipmapLevels > 1);
+
+        if (this.name != null) {
+            VeilDebug.get().objectLabel(GL_TEXTURE, this.getId(), "Texture " + this.name);
+        }
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, this.mipmapLevels - 1);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);

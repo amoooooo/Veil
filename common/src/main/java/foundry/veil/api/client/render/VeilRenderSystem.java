@@ -3,13 +3,15 @@ package foundry.veil.api.client.render;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.ext.VeilDebug;
+import foundry.veil.api.client.render.ext.VeilMultiBind;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
-import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
@@ -22,7 +24,6 @@ import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
-import foundry.veil.impl.client.render.ext.VeilTextureMultiBind;
 import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBlockState;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBufferCache;
@@ -50,6 +51,7 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.function.*;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
 import static org.lwjgl.opengl.GL11C.glGetInteger;
 import static org.lwjgl.opengl.GL30C.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL31C.GL_MAX_UNIFORM_BUFFER_BINDINGS;
@@ -218,6 +220,7 @@ public final class VeilRenderSystem {
 
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
+    private static int screenQuadVao;
 
     private VeilRenderSystem() {
     }
@@ -302,6 +305,8 @@ public final class VeilRenderSystem {
 
         renderer = new VeilRenderer(resourceManager, client.getWindow());
         VeilImGuiImpl.init(client.getWindow().getWindow());
+        screenQuadVao = directStateAccessSupported() ? glCreateVertexArrays() : glGenVertexArrays();
+        VeilDebug.get().objectLabel(GL_VERTEX_ARRAY, screenQuadVao, "Screen Quad Vertex Array");
     }
 
     /**
@@ -311,7 +316,7 @@ public final class VeilRenderSystem {
      * @param textures The textures to bind
      */
     public static void bindTextures(int first, IntBuffer textures) {
-        VeilTextureMultiBind.get().bindTextures(first, textures);
+        VeilMultiBind.get().bindTextures(first, textures);
     }
 
     /**
@@ -321,7 +326,16 @@ public final class VeilRenderSystem {
      * @param textures The textures to bind
      */
     public static void bindTextures(int first, int... textures) {
-        VeilTextureMultiBind.get().bindTextures(first, textures);
+        VeilMultiBind.get().bindTextures(first, textures);
+    }
+
+    /**
+     * Draws a quad onto the full screen.
+     */
+    public static void drawScreenQuad() {
+        GlStateManager._glBindVertexArray(screenQuadVao);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+        VertexBuffer.unbind();
     }
 
     /**
@@ -898,6 +912,7 @@ public final class VeilRenderSystem {
         if (renderer != null) {
             renderer.free();
         }
+        glDeleteVertexArrays(screenQuadVao);
         SHADER_BUFFER_CACHE.free();
     }
 

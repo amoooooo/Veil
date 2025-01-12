@@ -13,8 +13,11 @@
     "accessor.DebugPostChainAccessor",
     "client.DebugGlDebugMixin",
     "client.DebugKeyboardHandlerMixin",
+    "client.DebugLevelRendererMixin",
     "client.DebugMainMixin",
-    "client.DebugMinecraftMixin"
+    "client.DebugMinecraftMixin",
+    "client.DebugTextureManagerMixin",
+    "client.DebugVertexBufferMixin"
   ],
   "injectors": {
     "defaultRequire": 1

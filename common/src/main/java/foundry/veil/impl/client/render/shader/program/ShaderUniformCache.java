@@ -7,8 +7,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArraySet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
@@ -17,7 +15,6 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.IntSupplier;
 
 import static org.lwjgl.opengl.ARBProgramInterfaceQuery.*;
@@ -180,7 +177,7 @@ public class ShaderUniformCache {
     }
 
     private final IntSupplier shader;
-    private final ObjectSet<String> samplers;
+    private final Object2ObjectMap<String, Uniform> samplers;
     private final Object2ObjectMap<String, Uniform> uniforms;
     private final Object2ObjectMap<String, UniformBlock> uniformBlocks;
     private final Object2ObjectMap<String, StorageBlock> storageBlocks;
@@ -188,7 +185,7 @@ public class ShaderUniformCache {
 
     public ShaderUniformCache(IntSupplier shader) {
         this.shader = shader;
-        this.samplers = new ObjectArraySet<>();
+        this.samplers = new Object2ObjectOpenHashMap<>();
         this.uniforms = new Object2ObjectOpenHashMap<>();
         this.uniformBlocks = new Object2ObjectOpenHashMap<>();
         this.storageBlocks = new Object2ObjectOpenHashMap<>();
@@ -238,9 +235,10 @@ public class ShaderUniformCache {
 
                         int location = values.get(3) + j;
                         int type = values.get(4);
-                        this.uniforms.put(name, new Uniform(name, location, 0, type));
+                        Uniform uniform = new Uniform(name, location, 0, type);
+                        this.uniforms.put(name, uniform);
                         if (isSampler(type)) {
-                            this.samplers.add(name);
+                            this.samplers.put(name, uniform);
                         }
                     }
                 }
@@ -343,9 +341,10 @@ public class ShaderUniformCache {
                             name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
                         }
 
-                        this.uniforms.put(name, new Uniform(name, glGetUniformLocation(program, name), 0, type.get(0)));
+                        Uniform uniform = new Uniform(name, glGetUniformLocation(program, name), 0, type.get(0));
+                        this.uniforms.put(name, uniform);
                         if (isSampler(type.get(0))) {
-                            this.samplers.add(name);
+                            this.samplers.put(name, uniform);
                         }
                     }
                 }
@@ -416,10 +415,10 @@ public class ShaderUniformCache {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.samplers.contains(name);
+        return this.samplers.containsKey(name);
     }
 
-    public Set<String> getSamplers() {
+    public Map<String, Uniform> getSamplers() {
         if (!this.requested) {
             this.updateUniforms();
         }

@@ -23,7 +23,7 @@ import static org.lwjgl.opengl.ARBDirectStateAccess.glClearNamedFramebufferfv;
 import static org.lwjgl.opengl.GL11C.*;
 
 @Mixin(RenderTarget.class)
-public abstract class RenderTargetMixin implements PerformanceRenderTargetExtension {
+public abstract class PerformanceRenderTargetMixin implements PerformanceRenderTargetExtension {
 
     @Shadow
     public int frameBufferId;
@@ -127,7 +127,7 @@ public abstract class RenderTargetMixin implements PerformanceRenderTargetExtens
 
             VeilRenderSystem.bindTextures(0, this.getColorTextureId());
             shader.bind();
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+            VeilRenderSystem.drawScreenQuad();
             ShaderProgram.unbind();
 
             GlStateManager._colorMask(true, true, true, true);

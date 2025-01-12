@@ -11,6 +11,7 @@
     "client.PipelineAutoStorageIndexBufferMixin",
     "client.PipelineFrustumMixin",
     "client.PipelineGameRendererMixin",
+    "client.PipelineGlStateManagerMixin",
     "client.PipelineLevelRendererMixin",
     "client.PipelineMinecraftMixin",
     "client.PipelineParticleRenderTypeMixin",

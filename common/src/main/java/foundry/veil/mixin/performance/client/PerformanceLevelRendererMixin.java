@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LevelRenderer.class)
-public class LevelRendererMixin {
+public class PerformanceLevelRendererMixin {
 
     @Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;clear(Z)V", ordinal = 0))
     public void clearItemEntityDepth(RenderTarget instance, boolean clearError) {

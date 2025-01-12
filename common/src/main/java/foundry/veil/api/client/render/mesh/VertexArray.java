@@ -23,6 +23,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.function.IntFunction;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL15C.*;
 import static org.lwjgl.opengl.GL30C.glDeleteVertexArrays;
@@ -109,7 +110,11 @@ public abstract class VertexArray implements NativeResource {
         int stackPointer = stack.getPointer();
         try {
             IntBuffer arrays = stack.mallocInt(fill.length);
-            glGenVertexArrays(arrays);
+            if (VeilRenderSystem.directStateAccessSupported()) {
+                glCreateVertexArrays(arrays);
+            } else {
+                glGenVertexArrays(arrays);
+            }
 
             for (int i = 0; i < arrays.limit(); i++) {
                 fill[i] = vertexArrayType.factory.apply(arrays.get(i));

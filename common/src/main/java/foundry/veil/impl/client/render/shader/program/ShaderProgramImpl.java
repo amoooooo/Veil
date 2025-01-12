@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.api.client.render.shader.*;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
@@ -46,6 +47,7 @@ import static org.lwjgl.opengl.GL11C.GL_TRUE;
 import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL31C.GL_INVALID_INDEX;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
+import static org.lwjgl.opengl.KHRDebug.GL_PROGRAM;
 
 /**
  * @author Ocelot
@@ -55,7 +57,7 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     public static final VeilShaderSource DUMMY_FRAGMENT_SHADER = new VeilShaderSource(null, "out vec4 fragColor;void main(){fragColor=vec4(1.0);}");
 
-    private final ResourceLocation id;
+    private final ResourceLocation name;
     private final ShaderTextureCache textures;
     private final Int2ObjectMap<CompiledProgram> programs;
     private final Map<String, ShaderTextureSource> textureSources;
@@ -66,8 +68,8 @@ public class ShaderProgramImpl implements ShaderProgram {
     private ProgramDefinition definition;
     private CompiledProgram compiledProgram;
 
-    public ShaderProgramImpl(ResourceLocation id) {
-        this.id = id;
+    public ShaderProgramImpl(ResourceLocation name) {
+        this.name = name;
         this.textures = new ShaderTextureCache(this);
         this.programs = new Int2ObjectArrayMap<>(1);
         this.textureSources = new Object2ObjectArrayMap<>();
@@ -77,7 +79,7 @@ public class ShaderProgramImpl implements ShaderProgram {
             try {
                 return new Wrapper(this);
             } catch (Exception e) {
-                throw new IllegalStateException("Failed to wrap shader program: " + this.getName(), e);
+                throw new IllegalStateException("Failed to wrap shader program: " + name, e);
             } finally {
                 Wrapper.constructingProgram = null;
             }
@@ -124,7 +126,7 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     public void recompile(int activeBuffers, ShaderSourceSet sourceSet, ShaderCompiler compiler) throws ShaderException, IOException {
-        CompiledProgram compiledProgram = CompiledProgram.create();
+        CompiledProgram compiledProgram = CompiledProgram.create(this.name);
         try {
             this.attachShaders(compiledProgram, sourceSet, compiler);
 
@@ -204,7 +206,7 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public ResourceLocation getName() {
-        return this.id;
+        return this.name;
     }
 
     @Override
@@ -270,7 +272,7 @@ public class ShaderProgramImpl implements ShaderProgram {
             this.textureSources.forEach((name, source) -> this.addSampler(name, source.getId(context)));
         }
 
-        this.textures.bind(samplerStart);
+        this.textures.bind(this.compiledProgram.uniforms, samplerStart);
     }
 
     @Override
@@ -314,8 +316,9 @@ public class ShaderProgramImpl implements ShaderProgram {
                                   ShaderUniformCache uniforms,
                                   Set<String> definitionDependencies) implements NativeResource {
 
-        public static CompiledProgram create() {
+        public static CompiledProgram create(ResourceLocation id) {
             int program = glCreateProgram();
+            VeilDebug.get().objectLabel(GL_PROGRAM, program, "Shader Program " + id);
             Int2ObjectMap<CompiledShader> shaders = new Int2ObjectArrayMap<>(2);
             Int2ObjectMap<CompiledShader> shadersView = Int2ObjectMaps.unmodifiable(shaders);
             ShaderUniformCache uniforms = new ShaderUniformCache(() -> program);

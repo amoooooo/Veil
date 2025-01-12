@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import foundry.veil.Veil;
 import foundry.veil.api.CodecReloadListener;
+import foundry.veil.api.client.render.ext.VeilDebug;
 import gg.moonflower.molangcompiler.api.MolangEnvironment;
 import gg.moonflower.molangcompiler.api.MolangRuntime;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
@@ -25,6 +26,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
 
 /**
  * <p>Manages all framebuffers and custom definitions specified in files.
@@ -75,6 +78,7 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
             AdvancedFbo fbo = definition.createBuilder(runtime).build(true);
             fbo.clear();
             AdvancedFbo old = this.framebuffers.put(name, fbo);
+            VeilDebug.get().objectLabel(GL_FRAMEBUFFER, fbo.getId(), "Framebuffer " + name);
             if (old != null) {
                 old.free();
             }
@@ -153,17 +157,22 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
         }
 
         this.framebuffers.put(name, fbo);
+        VeilDebug.get().objectLabel(GL_FRAMEBUFFER, fbo.getId(), "Framebuffer " + name);
     }
 
     /**
-     * Removes the specified manual framebuffer without freeing it
+     * Removes the specified manual framebuffer without freeing it.
      *
      * @param name The name of the framebuffer to remove
      * @return The framebuffer previously defined or <code>null</code> if there was no manual buffer defined
      */
     public @Nullable AdvancedFbo removeFramebuffer(ResourceLocation name) {
         if (this.manualFramebuffers.remove(name)) {
-            return this.framebuffers.remove(name);
+            AdvancedFbo old = this.framebuffers.remove(name);
+            if (old != null) {
+                VeilDebug.get().objectLabel(GL_FRAMEBUFFER, old.getId(), null);
+            }
+            return old;
         }
         return null;
     }

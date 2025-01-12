@@ -317,8 +317,8 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
 
                 if (ImGui.collapsingHeader(SAMPLERS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
                     ImGui.indent();
-                    for (CharSequence sampler : this.uniformCache.getSamplers()) {
-                        ImGui.selectable(sampler + ": " + glGetUniformi(program, Objects.requireNonNull(this.uniformCache.getUniform(sampler)).location()));
+                    for (Map.Entry<String, ShaderUniformCache.Uniform> entry : this.uniformCache.getSamplers().entrySet()) {
+                        ImGui.selectable(entry.getKey() + ": " + glGetUniformi(program, entry.getValue().location()));
                     }
                     ImGui.unindent();
                 }
@@ -328,7 +328,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                     List<Map.Entry<String, ShaderUniformCache.Uniform>> sorted = this.uniformCache.getUniforms()
                             .entrySet()
                             .stream()
-                            .filter(entry -> !this.uniformCache.getSamplers().contains(entry.getKey()))
+                            .filter(entry -> !this.uniformCache.hasSampler(entry.getKey()))
                             .sorted(Comparator.comparingInt(entry -> entry.getValue().location()))
                             .toList();
                     for (Map.Entry<String, ShaderUniformCache.Uniform> entry : sorted) {

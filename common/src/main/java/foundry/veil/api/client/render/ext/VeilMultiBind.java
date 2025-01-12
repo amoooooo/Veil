@@ -1,21 +1,25 @@
-package foundry.veil.impl.client.render.ext;
+package foundry.veil.api.client.render.ext;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
-import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.opengl.ARBMultiBind;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 
 import java.nio.IntBuffer;
 
+import static org.lwjgl.opengl.ARBMultiBind.glBindTextures;
 import static org.lwjgl.opengl.GL11C.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11C.glBindTexture;
 import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL44C.glBindTextures;
 
-@ApiStatus.Internal
-public enum VeilTextureMultiBind {
+/**
+ * Provides access to {@link ARBMultiBind} functionality for all platforms.
+ *
+ * @author Ocelot
+ */
+public enum VeilMultiBind {
     LEGACY {
         @Override
         public void bindTextures(int first, IntBuffer textures) {
@@ -67,13 +71,28 @@ public enum VeilTextureMultiBind {
         }
     };
 
-    private static VeilTextureMultiBind multiBind;
+    private static VeilMultiBind multiBind;
 
+    /**
+     * Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.
+     *
+     * @param first    The first unit to bind to
+     * @param textures The textures to bind
+     */
     public abstract void bindTextures(int first, IntBuffer textures);
 
+    /**
+     * Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.
+     *
+     * @param first    The first unit to bind to
+     * @param textures The textures to bind
+     */
     public abstract void bindTextures(int first, int... textures);
 
-    public static VeilTextureMultiBind get() {
+    /**
+     * @return The best implementation of multi-bind for this platform
+     */
+    public static VeilMultiBind get() {
         if (multiBind == null) {
             GLCapabilities caps = GL.getCapabilities();
             if (caps.OpenGL44 || caps.GL_ARB_multi_bind) {

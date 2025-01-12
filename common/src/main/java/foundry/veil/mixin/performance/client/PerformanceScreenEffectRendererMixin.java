@@ -72,7 +72,7 @@ public class PerformanceScreenEffectRendererMixin {
         minecraft.getTextureManager().bindForSetup(texture.atlasLocation());
 
         shader.bind();
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+        VeilRenderSystem.drawScreenQuad();
         ShaderProgram.unbind();
 
         RenderSystem.activeTexture(activeTexture);
@@ -113,7 +113,7 @@ public class PerformanceScreenEffectRendererMixin {
 
         RenderSystem.enableBlend();
         shader.bind();
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+        VeilRenderSystem.drawScreenQuad();
         ShaderProgram.unbind();
         RenderSystem.disableBlend();
 

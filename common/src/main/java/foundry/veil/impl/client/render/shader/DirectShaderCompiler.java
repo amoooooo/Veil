@@ -3,6 +3,7 @@ package foundry.veil.impl.client.render.shader;
 import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.api.client.render.shader.*;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,7 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11C.GL_TRUE;
 import static org.lwjgl.opengl.GL20C.*;
 import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
+import static org.lwjgl.opengl.KHRDebug.GL_SHADER;
 
 /**
  * Creates a new shader and compiles each time {@link #compile(int, VeilShaderSource)} is called.
@@ -53,6 +55,9 @@ public class DirectShaderCompiler implements ShaderCompiler {
         String sourceCode = source.sourceCode();
         ResourceLocation sourceId = source.sourceId();
         int shader = glCreateShader(type);
+        if (sourceId != null) {
+            VeilDebug.get().objectLabel(GL_SHADER, shader, ShaderManager.getTypeName(type) + " Shader " + sourceId);
+        }
         GlStateManager.glShaderSource(shader, List.of(sourceCode));
 
         glCompileShader(shader);

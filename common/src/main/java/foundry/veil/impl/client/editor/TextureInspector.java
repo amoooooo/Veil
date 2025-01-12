@@ -309,7 +309,7 @@ public class TextureInspector extends SingleWindowInspector {
             this.fbo.clear();
             glBindTexture(GL_TEXTURE_CUBE_MAP, this.texture);
             shaderProgram.bind();
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+            VeilRenderSystem.drawScreenQuad();
             AdvancedFbo.unbind();
         }
 
