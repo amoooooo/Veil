@@ -168,11 +168,7 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
      */
     public @Nullable AdvancedFbo removeFramebuffer(ResourceLocation name) {
         if (this.manualFramebuffers.remove(name)) {
-            AdvancedFbo old = this.framebuffers.remove(name);
-            if (old != null) {
-                VeilDebug.get().objectLabel(GL_FRAMEBUFFER, old.getId(), null);
-            }
-            return old;
+            return this.framebuffers.remove(name);
         }
         return null;
     }

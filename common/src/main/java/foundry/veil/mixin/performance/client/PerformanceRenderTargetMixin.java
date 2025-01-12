@@ -104,7 +104,6 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
         if (disableBlend && VeilRenderSystem.directStateAccessSupported()) {
             ci.cancel();
             RenderSystem.assertOnRenderThread();
-            GlStateManager._viewport(0, 0, width, height);
             GlStateManager._colorMask(true, true, true, false);
             int frameBufferId = ((RenderTargetExtension) this).veil$getFramebuffer();
             glBlitNamedFramebuffer(frameBufferId, 0, 0, 0, this.width, this.height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
