@@ -49,9 +49,14 @@ public class ShaderTextureCache {
                     hasMissing = true;
                     long address = MemoryUtil.memAddress0(this.bindings);
                     int position = this.bindings.position();
-                    MemoryUtil.memCopy(address, address + 1, position);
+                    MemoryUtil.memCopy(address, address + Integer.BYTES, position);
                     this.bindings.position(position + 1);
                     this.bindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
+
+                    // Increment all existing samplers
+                    for (CharSequence boundSampler : this.boundSamplers.keySet()) {
+                        this.boundSamplers.computeInt(boundSampler, (unused, i) -> i + 1);
+                    }
                 }
                 this.program.setInt(name, 0);
                 this.textures.removeInt(name);
@@ -70,19 +75,26 @@ public class ShaderTextureCache {
 
                     // Delete the last texture binding
                     if (last != null) {
-                        this.program.setInt(last, 0);
                         this.boundSamplers.removeInt(last);
+                    }
+
+                    // Increment all existing samplers
+                    for (CharSequence boundSampler : this.boundSamplers.keySet()) {
+                        this.boundSamplers.computeInt(boundSampler, (unused, i) -> i + 1);
                     }
                 }
                 this.program.setInt(name, 0);
             } else {
-                this.program.setInt(name, sampler);
                 this.bindings.put(textureId);
                 this.boundSamplers.put(name, sampler);
             }
 
             count++;
             last = name;
+        }
+
+        for (Object2IntMap.Entry<CharSequence> entry : this.boundSamplers.object2IntEntrySet()) {
+            this.program.setInt(entry.getKey(), entry.getIntValue());
         }
 
         if (samplerStart + count >= maxSampler) {
