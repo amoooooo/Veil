@@ -23,6 +23,7 @@ import foundry.veil.api.opencl.VeilOpenCL;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
+import foundry.veil.impl.client.necromancer.render.NecromancerRenderDispatcher;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
 import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBlockState;
@@ -293,6 +294,13 @@ public final class VeilRenderSystem {
             UNIFORM_BLOCK_STATE.onShaderCompile();
             SHADER_BUFFER_CACHE.onShaderCompile(updatedPrograms);
             ERRORED_SHADERS.clear();
+        });
+        VeilEventPlatform.INSTANCE.onVeilRenderLevelStage((stage, levelRenderer, bufferSource, matrixStack, frustumMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum) -> {
+            if (stage == VeilRenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS) {
+                NecromancerRenderDispatcher.begin();
+            } else if (stage == VeilRenderLevelStageEvent.Stage.AFTER_ENTITIES) {
+                NecromancerRenderDispatcher.end();
+            }
         });
     }
 
@@ -966,5 +974,10 @@ public final class VeilRenderSystem {
         }
 
         profiler.pop();
+    }
+
+    @ApiStatus.Internal
+    public static void clearLevel() {
+        NecromancerRenderDispatcher.delete();
     }
 }

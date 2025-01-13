@@ -268,10 +268,13 @@ public class ShaderProgramImpl implements ShaderProgram {
 
     @Override
     public void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart) {
+        if (this.compiledProgram == null) {
+            return;
+        }
+
         if (context != null) {
             this.textureSources.forEach((name, source) -> this.addSampler(name, source.getId(context)));
         }
-
         this.textures.bind(this.compiledProgram.uniforms, samplerStart);
     }
 

@@ -2,14 +2,15 @@ package foundry.veil.api.client.necromancer;
 
 
 import foundry.veil.api.client.necromancer.animation.Animator;
+import org.jetbrains.annotations.Nullable;
 
-public interface SkeletonParent<P extends SkeletonParent<?, ?>, S extends Skeleton<P>> {
+public interface SkeletonParent<P extends SkeletonParent<?, ?>, S extends Skeleton> {
 
-    void setSkeleton(S skeleton);
+    void setSkeleton(@Nullable S skeleton);
 
-    void setAnimator(Animator<P, S> animator);
+    void setAnimator(@Nullable Animator<P, S> animator);
 
-    S getSkeleton();
+    @Nullable S getSkeleton();
 
-    Animator<P, S> getAnimator();
+    @Nullable Animator<P, S> getAnimator();
 }

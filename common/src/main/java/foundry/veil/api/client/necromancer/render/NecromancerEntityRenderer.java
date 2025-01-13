@@ -1,100 +1,68 @@
 package foundry.veil.api.client.necromancer.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import foundry.veil.api.client.necromancer.Skeleton;
 import foundry.veil.api.client.necromancer.SkeletonParent;
 import foundry.veil.api.client.necromancer.animation.Animator;
-import net.minecraft.client.Minecraft;
+import foundry.veil.api.client.render.MatrixStack;
+import foundry.veil.api.client.render.VeilRenderBridge;
+import foundry.veil.impl.client.necromancer.render.NecromancerRenderDispatcher;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
-public abstract class NecromancerEntityRenderer<T extends Entity & SkeletonParent<T, M>, M extends Skeleton<T>> extends EntityRenderer<T> {
+public abstract class NecromancerEntityRenderer<P extends Entity & SkeletonParent<P, S>, S extends Skeleton> extends EntityRenderer<P> {
 
-    final Function<T, M> skeletonFactory;
-    final BiFunction<T, M, Animator<T, M>> animatorFactory;
-    final List<NecromancerEntityRenderLayer<T, M>> layers;
+    private final List<NecromancerEntityRenderLayer<P, S>> layers;
 
-    protected NecromancerEntityRenderer(EntityRendererProvider.Context pContext,
-                                        Function<T, M> skeletonFactory,
-                                        BiFunction<T, M, Animator<T, M>> animatorFactory,
-                                        float shadowRadius) {
-        super(pContext);
-        this.skeletonFactory = skeletonFactory;
-        this.animatorFactory = animatorFactory;
+    protected NecromancerEntityRenderer(EntityRendererProvider.Context context, float shadowRadius) {
+        super(context);
         this.shadowRadius = shadowRadius;
-        this.layers = new ArrayList<>();
+        this.layers = new ObjectArrayList<>();
     }
 
-    public void addLayer(NecromancerEntityRenderLayer<T, M> layer) {
+    public void addLayer(NecromancerEntityRenderLayer<P, S> layer) {
         this.layers.add(layer);
     }
 
-    public void setupEntity(T entity) {
-        M skeleton = this.skeletonFactory.apply(entity);
-        entity.setSkeleton(skeleton);
-        entity.setAnimator(this.animatorFactory.apply(entity, skeleton));
+    public final void setupEntity(P parent) {
+        S skeleton = this.createSkeleton(parent);
+        parent.setSkeleton(skeleton);
+        parent.setAnimator(this.createAnimator(parent, skeleton));
     }
 
-    public abstract Skin<M> getSkin(T parent);
+    public abstract S createSkeleton(P parent);
+
+    public abstract Animator<P, S> createAnimator(P parent, S skeleton);
 
     @Override
-    public void render(T pEntity, float pEntityYaw, float pPartialTicks, PoseStack poseStack, MultiBufferSource pBuffer, int pPackedLight) {
-        poseStack.pushPose();
-        float scale = 1.0F / 16.0F;
-        poseStack.scale(scale, scale, scale);
-
-        Minecraft minecraft = Minecraft.getInstance();
-        boolean invisible = pEntity.isInvisibleTo(minecraft.player);
-        boolean glowing = minecraft.shouldEntityAppearGlowing(pEntity);
-
-        boolean shouldRender = !invisible;
-
-        RenderType rendertype = this.getRenderType(pEntity, this.getTextureLocation(pEntity));
-        M skeleton = pEntity.getSkeleton();
-        Skin<M> skin = this.getSkin(pEntity);
-
-        if (shouldRender && skeleton != null && skin != null) {
-            this.renderSkin(pEntity, skeleton, skin, pEntity.tickCount, pPartialTicks, poseStack, pBuffer.getBuffer(rendertype), pPackedLight, this.getOverlayCoords(pEntity), 1, 1, 1, 1);
-        }
-
-        if (!pEntity.isSpectator() && rendertype != null && skeleton != null) {
-            for (NecromancerEntityRenderLayer<T, M> layer : this.layers) {
-                layer.render(poseStack, pBuffer, pPackedLight, pEntity, skeleton, pPartialTicks);
-            }
-        }
-
-        poseStack.popPose();
-        super.render(pEntity, pEntityYaw, pPartialTicks, poseStack, pBuffer, pPackedLight);
+    public void render(P parent, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        NecromancerRenderer renderer = NecromancerRenderDispatcher.getRenderer();
+        this.render(parent, renderer, VeilRenderBridge.create(poseStack), partialTick);
+        super.render(parent, entityYaw, partialTick, poseStack, renderer, packedLight);
     }
 
-    public int getOverlayCoords(T pEntity) {
-        return (pEntity instanceof LivingEntity living) ? LivingEntityRenderer.getOverlayCoords(living, 0) : OverlayTexture.NO_OVERLAY;
-    }
-
-    public void renderSkin(T entity, M skeleton, Skin<M> skin, int ticksExisted, float partialTicks, PoseStack poseStack, VertexConsumer consumer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        skin.render(skeleton, ticksExisted, partialTicks, poseStack, consumer, packedLight, packedOverlay, r, g, b, a);
-    }
-
-    public abstract RenderType getRenderType(T entity, ResourceLocation texture);
-
-    protected RenderType getRenderType(T pLivingEntity, boolean visible, boolean spectator, boolean glowing) {
-        ResourceLocation texture = this.getTextureLocation(pLivingEntity);
-        if (!visible) {
-            return null;
+    public void render(P parent, NecromancerRenderer context, MatrixStack matrixStack, float partialTicks) {
+        S skeleton = parent.getSkeleton();
+        if (skeleton == null) {
+            return;
         }
-        return this.getRenderType(pLivingEntity, texture);
+
+        matrixStack.matrixPush();
+        matrixStack.applyScale(0.0625F);
+        for (NecromancerEntityRenderLayer<P, S> layer : this.layers) {
+            layer.render(parent, skeleton, context, matrixStack, partialTicks);
+        }
+        matrixStack.matrixPop();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(P entity) {
+        throw new UnsupportedOperationException("");
     }
 }

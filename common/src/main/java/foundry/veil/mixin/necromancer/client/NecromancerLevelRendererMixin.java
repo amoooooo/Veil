@@ -27,6 +27,7 @@ public class NecromancerLevelRendererMixin {
             return;
         }
 
+        // TODO separate list
         for (Entity entity : this.level.entitiesForRendering()) {
             if (entity instanceof SkeletonParent parent) {
                 Animator animator = parent.getAnimator();

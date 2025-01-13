@@ -43,6 +43,11 @@ public class WrapperShaderBlockImpl extends ShaderBlockImpl<Object> implements D
     }
 
     @Override
+    public long getSize() {
+        return this.size;
+    }
+
+    @Override
     public void setSize(long newSize) {
         this.size = newSize;
     }

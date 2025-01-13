@@ -37,6 +37,11 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
     }
 
     @Override
+    public long getSize() {
+        return this.size;
+    }
+
+    @Override
     public void setSize(long size) {
         this.size = size;
         this.resized = true;

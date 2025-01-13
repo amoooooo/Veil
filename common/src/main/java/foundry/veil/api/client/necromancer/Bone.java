@@ -1,35 +1,35 @@
 package foundry.veil.api.client.necromancer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import foundry.veil.api.client.necromancer.render.Skin;
-import foundry.veil.api.client.necromancer.render.mesh.Mesh;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
+import org.joml.Matrix4x3f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bone {
+
     public float x, y, z, pX, pY, pZ;
     public Quaternionf rotation, pRotation;
-    protected Quaternionf currentRotation;
     public float xSize, ySize, zSize, pXSize, pYSize, pZSize;
 
     public float initialX, initialY, initialZ;
     public Quaternionf initialRotation;
     public float initialXSize, initialYSize, initialZSize;
 
+    public Vector4f pColor;
+    public Vector4f color;
+    public Vector4f initialColor;
+
     @Nullable
     public Bone parent;
     public List<Bone> children;
 
     public final String identifier;
-    public boolean shouldRender = true;
 
     // list of all parents, starting from the root and going down
     public List<Bone> parentChain;
@@ -39,7 +39,6 @@ public class Bone {
 
         this.rotation = new Quaternionf();
         this.pRotation = new Quaternionf();
-        this.currentRotation = new Quaternionf();
         this.initialRotation = new Quaternionf();
 
         this.xSize = 1.0F;
@@ -51,6 +50,10 @@ public class Bone {
         this.initialXSize = 1.0F;
         this.initialYSize = 1.0F;
         this.initialZSize = 1.0F;
+
+        this.pColor = new Vector4f(1.0F);
+        this.color = new Vector4f(1.0F);
+        this.initialColor = new Vector4f(1.0F);
 
         this.children = new ArrayList<>();
         this.parentChain = new ArrayList<>();
@@ -69,7 +72,6 @@ public class Bone {
         this.initialRotation.set(rotation);
         this.rotation.set(this.initialRotation);
         this.pRotation.set(this.initialRotation);
-        this.currentRotation.set(this.initialRotation);
     }
 
     public void reset() {
@@ -80,6 +82,7 @@ public class Bone {
         this.xSize = this.initialXSize;
         this.ySize = this.initialYSize;
         this.zSize = this.initialZSize;
+        this.color.set(this.initialColor);
     }
 
     protected void updatePreviousPosition() {
@@ -90,98 +93,78 @@ public class Bone {
         this.pXSize = this.xSize;
         this.pYSize = this.ySize;
         this.pZSize = this.zSize;
+        this.pColor.set(this.color);
     }
 
-    public void setGlobalSpaceRotation(Quaternionf globalSpaceRotation) {
-        Quaternionf parentRotation = new Quaternionf();
-
-        //add together the rotations of all parents.
+    public Matrix4x3f getModelTransform(Matrix4x3f matrix, Quaternionf orientation, float partialTicks) {
         for (Bone bone : this.parentChain) {
-            parentRotation.mul(bone.rotation);
+            bone.getLocalTransform(matrix, orientation, partialTicks);
+        }
+        this.getLocalTransform(matrix, orientation, partialTicks);
+        return matrix;
+    }
+
+    public Matrix4x3f getModelTransform(Matrix4x3f matrix, float partialTicks) {
+        return this.getModelTransform(matrix, new Quaternionf(), partialTicks);
+    }
+
+    public void getLocalTransform(Matrix4x3f matrix, Quaternionf orientation, float partialTicks) {
+        matrix.translate(Mth.lerp(partialTicks, this.pX, this.x), Mth.lerp(partialTicks, this.pY, this.y), Mth.lerp(partialTicks, this.pZ, this.z));
+        this.pRotation.slerp(this.rotation, partialTicks, orientation);
+        matrix.rotate(orientation.normalize());
+        matrix.scale(Mth.lerp(partialTicks, this.pXSize, this.xSize), Mth.lerp(partialTicks, this.pYSize, this.ySize), Mth.lerp(partialTicks, this.pZSize, this.zSize));
+    }
+
+    public void getLocalTransform(Matrix4x3f matrix, float partialTicks) {
+        this.getLocalTransform(matrix, new Quaternionf(), partialTicks);
+    }
+
+    public void getColor(Vector4f color, float partialTicks) {
+        this.pColor.lerp(this.color, partialTicks, color);
+    }
+
+    protected void tick(float deltaTime) {
+    }
+
+//    public void transform(Matrix4f matrix4f, float partialTick) {
+//        matrix4f.translate(Mth.lerp(partialTick, this.pX, this.x), Mth.lerp(partialTick, this.pY, this.y), Mth.lerp(partialTick, this.pZ, this.z));
+//        this.currentRotation = this.pRotation.slerp(this.rotation, partialTick, this.currentRotation);
+//        this.currentRotation.normalize();
+//        matrix4f.rotate(this.currentRotation);
+//        matrix4f.scale(Mth.lerp(partialTick, this.pXSize, this.xSize), Mth.lerp(partialTick, this.pYSize, this.ySize), Mth.lerp(partialTick, this.pZSize, this.zSize));
+//    }
+
+//    public void render(Skin skin, float partialTick, PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean drawChildren) {
+//        if (!shouldRender) return;
+//        Mesh mesh = skin.getMesh(this);
+//
+//        pPoseStack.pushPose();
+//
+//        this.transform(pPoseStack, partialTick);
+//        mesh.render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
+//
+//        if (drawChildren) {
+//            for (Bone child : this.children) {
+//                child.render(skin, partialTick, pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
+//            }
+//        }
+//
+//        pPoseStack.popPose();
+//    }
+
+    public void addChild(Bone child) {
+        if (child.parent != null) {
+            child.parent.children.remove(child);
         }
 
-        //subtract that from the global space rotation
-        //and set the current rotation to the result of that.
-        parentRotation.difference(globalSpaceRotation, this.rotation);
-    }
-
-    public void setModelSpaceTransform(Vector3f position, Quaternionf rotation) {
-        Matrix4f parentTransform = new Matrix4f();
-
-        for (Bone bone : this.parentChain) {
-            parentTransform.translate(bone.x, bone.y, bone.z);
-            parentTransform.rotate(bone.rotation);
-            parentTransform.scale(bone.xSize, bone.ySize, bone.zSize);
-        }
-
-        Matrix4f modelSpaceBoneTransform = new Matrix4f().translate(position).rotate(rotation);
-        modelSpaceBoneTransform.mul(parentTransform.invert());
-
-        // position = modelSpaceBoneTransform.transformPosition(new Vector3f(0, 0, 0));
-        // rotation = modelSpaceBoneTransform.getNormalizedRotation(new Quaternionf());
-
-    }
-
-    protected void tick(float deltaTime) {}
-
-    public void transform(PoseStack pPoseStack, float partialTick) {
-        pPoseStack.translate(Mth.lerp(partialTick, pX, x), Mth.lerp(partialTick, pY, y), Mth.lerp(partialTick, pZ, z));
-        this.currentRotation = pRotation.slerp(rotation, partialTick, currentRotation);
-        this.currentRotation.normalize();
-        pPoseStack.mulPose(this.currentRotation);
-        pPoseStack.scale(Mth.lerp(partialTick, pXSize, xSize), Mth.lerp(partialTick, pYSize, ySize), Mth.lerp(partialTick, pZSize, zSize));
-    }
-
-    public void transform(Matrix4f matrix4f, float partialTick) {
-        matrix4f.translate(Mth.lerp(partialTick, pX, x), Mth.lerp(partialTick, pY, y), Mth.lerp(partialTick, pZ, z));
-        this.currentRotation = pRotation.slerp(rotation, partialTick, currentRotation);
-        this.currentRotation.normalize();
-        matrix4f.rotate(this.currentRotation);
-        matrix4f.scale(Mth.lerp(partialTick, pXSize, xSize), Mth.lerp(partialTick, pYSize, ySize), Mth.lerp(partialTick, pZSize, zSize));
-    }
-
-    public void render(Skin skin, float partialTick, PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha, boolean drawChildren) {
-        if (!shouldRender) return;
-        Mesh mesh = skin.getMesh(this);
-
-        pPoseStack.pushPose();
-
-        this.transform(pPoseStack, partialTick);
-        mesh.render(pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha);
-
-        if (drawChildren) {
-            for (Bone child : this.children) {
-                child.render(skin, partialTick, pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
-            }
-        }
-
-        pPoseStack.popPose();
-    }
-
-    public void addChild(Bone children) {
-        if (children.parent != null) {
-            children.parent.children.remove(children);
-        }
-
-        this.children.add(children);
-        children.parent = this;
+        this.children.add(child);
+        child.parent = this;
     }
 
     public void setParent(Bone parent) {
         this.parent = parent;
         parent.children.add(this);
     }
-
-    public Matrix4f getModelSpaceTransformMatrix(PoseStack pPoseStack, float partialTick) {
-        Bone parent = this.parent;
-        if (parent != null) {
-            parent.getModelSpaceTransformMatrix(pPoseStack, partialTick);
-        }
-        this.transform(pPoseStack, partialTick);
-
-        return pPoseStack.last().pose();
-    }
-
 
     public void rotate(float angle, Direction.Axis axis) {
         switch (axis) {
@@ -190,6 +173,7 @@ public class Bone {
             case Z -> this.rotation.rotateZ(angle);
         }
     }
+
     public void rotateDeg(float angle, Direction.Axis axis) {
         switch (axis) {
             case X -> this.rotation.rotateX(angle * Mth.DEG_TO_RAD);

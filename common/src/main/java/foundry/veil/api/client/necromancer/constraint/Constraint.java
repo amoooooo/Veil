@@ -6,15 +6,9 @@ import foundry.veil.api.client.necromancer.SkeletonParent;
 import net.minecraft.client.renderer.MultiBufferSource;
 
 public interface Constraint {
-    void initialize();
 
     void apply();
 
-    boolean isSatisfied();
-
-    boolean isIterative();
-
-    default void renderDebugInfo(Skeleton skeleton, SkeletonParent parent, float pPartialTicks, PoseStack poseStack, MultiBufferSource pBuffer) {
-        return;
+    default void renderDebugInfo(Skeleton skeleton, SkeletonParent<?, ?> parent, float pPartialTicks, PoseStack poseStack, MultiBufferSource pBuffer) {
     }
 }

@@ -18,16 +18,17 @@ import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
 
-import javax.annotation.Nullable;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.function.IntFunction;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
+import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedBufferData;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL15C.*;
 import static org.lwjgl.opengl.GL30C.glDeleteVertexArrays;
 import static org.lwjgl.opengl.GL30C.glGenVertexArrays;
+import static org.lwjgl.opengl.GL31C.GL_COPY_READ_BUFFER;
 import static org.lwjgl.opengl.GL31C.glDrawElementsInstanced;
 import static org.lwjgl.opengl.GL43C.glMultiDrawElementsIndirect;
 
@@ -137,12 +138,32 @@ public abstract class VertexArray implements NativeResource {
         return this.buffers.computeIfAbsent(index, unused -> this.createBuffer());
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public int getIndexCount() {
         return this.indexCount;
     }
 
     public IndexType getIndexType() {
         return this.indexType;
+    }
+
+    /**
+     * Uploads mesh data into the specified buffer.
+     *
+     * @param data  The data to upload
+     * @param usage The draw usage
+     */
+    public static void upload(int buffer, ByteBuffer data, DrawUsage usage) {
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            glNamedBufferData(buffer, data, usage.getGlType());
+        } else {
+            glBindBuffer(GL_ARRAY_BUFFER, buffer);
+            glBufferData(GL_ARRAY_BUFFER, data, usage.getGlType());
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
     }
 
     /**
@@ -172,7 +193,12 @@ public abstract class VertexArray implements NativeResource {
             this.uploadVertexBuffer(vertexBuffer, meshData.vertexBuffer(), usage.getGlType());
             builder.applyFrom(VERTEX_BUFFER, vertexBuffer, attributeStart, drawState.format());
 
-            this.uploadIndexBuffer(drawState, meshData.indexBuffer(), usage.getGlType());
+            ByteBuffer indexBuffer = meshData.indexBuffer();
+            if (indexBuffer != null) {
+                this.uploadIndexBuffer(indexBuffer);
+            } else {
+                this.uploadIndexBuffer(drawState);
+            }
             this.indexCount = drawState.indexCount();
             this.indexType = IndexType.fromBlaze3D(drawState.indexType());
         }
@@ -182,16 +208,19 @@ public abstract class VertexArray implements NativeResource {
      * Uploads index data to the vertex array.
      *
      * @param drawState The buffer draw state
-     * @param data      The data to upload or <code>null</code> to use sequential indices
-     * @param usage     The data usage
      */
-    public void uploadIndexBuffer(MeshData.DrawState drawState, @Nullable ByteBuffer data, int usage) {
-        if (data != null) {
-            GlStateManager._glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.getOrCreateBuffer(ELEMENT_ARRAY_BUFFER));
-            RenderSystem.glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, usage);
-        } else {
-            RenderSystem.getSequentialBuffer(drawState.mode()).bind(drawState.indexCount());
-        }
+    public void uploadIndexBuffer(MeshData.DrawState drawState) {
+        RenderSystem.getSequentialBuffer(drawState.mode()).bind(drawState.indexCount());
+    }
+
+    /**
+     * Uploads index data to the vertex array.
+     *
+     * @param data The data to upload
+     */
+    public void uploadIndexBuffer(ByteBuffer data) {
+        GlStateManager._glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.getOrCreateBuffer(ELEMENT_ARRAY_BUFFER));
+        RenderSystem.glBufferData(GL_ELEMENT_ARRAY_BUFFER, data, GL_STATIC_DRAW);
     }
 
     /**
@@ -241,9 +270,9 @@ public abstract class VertexArray implements NativeResource {
         glMultiDrawElementsIndirect(mode, this.indexType.getGlType(), indirect, drawCount, stride);
     }
 
-    public void setIndexCount(int indexCount) {
+    public void setIndexCount(int indexCount, IndexType indexType) {
         this.indexCount = indexCount;
-        this.indexType = IndexType.least(indexCount);
+        this.indexType = indexType;
     }
 
     @Override
@@ -294,11 +323,11 @@ public abstract class VertexArray implements NativeResource {
             };
         }
 
-        public static IndexType least(int indexCount) {
-            if ((indexCount & 0xFFFFFF00) == 0) {
+        public static IndexType least(int maxIndex) {
+            if ((maxIndex & 0xFFFFFF00) == 0) {
                 return BYTE;
             }
-            if ((indexCount & 0xFFFF0000) == 0) {
+            if ((maxIndex & 0xFFFF0000) == 0) {
                 return SHORT;
             }
             return INT;
@@ -308,7 +337,7 @@ public abstract class VertexArray implements NativeResource {
     public enum DrawUsage {
         STATIC(GL_STATIC_DRAW),
         DYNAMIC(GL_DYNAMIC_DRAW),
-        STREAM(GL_STATIC_DRAW);
+        STREAM(GL_STREAM_DRAW);
 
         private final int glType;
 
