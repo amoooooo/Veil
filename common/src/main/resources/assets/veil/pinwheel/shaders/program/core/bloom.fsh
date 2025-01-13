@@ -1,5 +1,5 @@
 #include veil:color_utilities
-#define SMOOTHING 0.01
+#define SMOOTHING 0.3
 
 uniform sampler2D DiffuseSampler0;
 uniform sampler2D BloomSampler;
@@ -19,5 +19,5 @@ void main() {
     float baseLum = luminance(bloomBase.rgb);
     factor = max(factor, smoothstep(baseLum - SMOOTHING, baseLum + SMOOTHING, luminance(bloomBlur.rgb)));
 
-    fragColor.rgb += acesToneMapping(bloomBlur.rgb) * factor;
+    fragColor.rgb += acesToneMapping(bloomBlur.rgb) * factor * 0.5;
 }
