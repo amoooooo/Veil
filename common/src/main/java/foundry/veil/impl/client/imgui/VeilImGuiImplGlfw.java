@@ -16,7 +16,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
             this.impl.start();
             super.scrollCallback(windowId, xOffset, yOffset);
         } finally {
-            this.impl.end();
+            this.impl.stop();
         }
     }
 
@@ -26,7 +26,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
             this.impl.start();
             super.keyCallback(windowId, key, scancode, action, mods);
         } finally {
-            this.impl.end();
+            this.impl.stop();
         }
     }
 
@@ -36,7 +36,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
             this.impl.start();
             super.windowFocusCallback(windowId, focused);
         } finally {
-            this.impl.end();
+            this.impl.stop();
         }
     }
 
@@ -46,7 +46,7 @@ public class VeilImGuiImplGlfw extends ImGuiImplGlfw {
             this.impl.start();
             super.charCallback(windowId, c);
         } finally {
-            this.impl.end();
+            this.impl.stop();
         }
     }
 }

@@ -14,15 +14,15 @@ public class InactiveVeilImGuiImpl implements VeilImGui {
     }
 
     @Override
+    public void stop() {
+    }
+
+    @Override
     public void beginFrame() {
     }
 
     @Override
     public void endFrame() {
-    }
-
-    @Override
-    public void end() {
     }
 
     @Override

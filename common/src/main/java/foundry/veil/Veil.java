@@ -51,11 +51,11 @@ public class Veil {
      * @param task The ImGui task to run
      */
     public static void withImGui(Runnable task) {
-        beginImGui();
         if (VeilRenderSystem.hasImGui()) {
+            beginImGui();
             task.run();
+            endImGui();
         }
-        endImGui();
     }
 
     /**
@@ -72,7 +72,7 @@ public class Veil {
      * Disables ImGui writing. This should be called after done using ImGui during the main render loop.
      */
     public static void endImGui() {
-        VeilImGuiImpl.get().end();
+        VeilImGuiImpl.get().stop();
     }
 
     public static ResourceLocation veilPath(String path) {

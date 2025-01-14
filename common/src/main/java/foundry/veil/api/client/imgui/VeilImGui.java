@@ -15,11 +15,11 @@ public interface VeilImGui {
 
     void start();
 
+    void stop();
+
     void beginFrame();
 
     void endFrame();
-
-    void end();
 
     void onGrabMouse();
 
