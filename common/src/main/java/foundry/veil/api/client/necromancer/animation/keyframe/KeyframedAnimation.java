@@ -12,7 +12,7 @@ import org.joml.Vector3fc;
 
 import java.util.*;
 
-public class KeyframedAnimation<P extends SkeletonParent, S extends Skeleton<P>> extends Animation<P, S> {
+public class KeyframedAnimation<P extends SkeletonParent<?, ?>, S extends Skeleton> extends Animation<P, S> {
     private final Map<String, KeyframeTimeline> keyframesByBoneName;
     private final boolean additive;
     private final boolean looping;
