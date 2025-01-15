@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Bone {
 
-    public Vector3f position, previousPosition, initialPosition;
-    public Quaternionf rotation, previousRotation, initialRotation;
-    public Vector3f size, previousSize, initialSize;
-    public Vector4f color, previousColor, initialColor;
+    public Vector3f position, previousPosition, basePosition;
+    public Quaternionf rotation, previousRotation, baseRotation;
+    public Vector3f size, previousSize, baseSize;
+    public Vector4f color, previousColor, baseColor;
 
     @Nullable
     public Bone parent;
@@ -29,47 +29,47 @@ public class Bone {
 
         this.position = new Vector3f(0.0F);
         this.previousPosition = new Vector3f(0.0F);
-        this.initialPosition = new Vector3f(0.0F);
+        this.basePosition = new Vector3f(0.0F);
 
         this.rotation = new Quaternionf();
         this.previousRotation = new Quaternionf();
-        this.initialRotation = new Quaternionf();
+        this.baseRotation = new Quaternionf();
 
         this.size = new Vector3f(1.0F);
         this.previousSize = new Vector3f(1.0F);
-        this.initialSize = new Vector3f(1.0F);
+        this.baseSize = new Vector3f(1.0F);
 
         this.color = new Vector4f(1.0F);
         this.previousColor = new Vector4f(1.0F);
-        this.initialColor = new Vector4f(1.0F);
+        this.baseColor = new Vector4f(1.0F);
 
         this.children = new ArrayList<>();
         this.parentChain = new ArrayList<>();
     }
 
     public void setBaseAttributes(Vector3fc pos, Quaternionfc rotation, Vector3fc scale, Vector4fc color) {
-        this.initialPosition.set(pos);
-        this.position.set(this.initialPosition);
-        this.previousPosition.set(this.initialPosition);
+        this.basePosition.set(pos);
+        this.position.set(this.basePosition);
+        this.previousPosition.set(this.basePosition);
 
-        this.initialSize.set(scale);
-        this.size.set(this.initialSize);
-        this.previousSize.set(this.initialSize);
+        this.baseSize.set(scale);
+        this.size.set(this.baseSize);
+        this.previousSize.set(this.baseSize);
 
-        this.initialRotation.set(rotation);
-        this.rotation.set(this.initialRotation);
-        this.previousRotation.set(this.initialRotation);
+        this.baseRotation.set(rotation);
+        this.rotation.set(this.baseRotation);
+        this.previousRotation.set(this.baseRotation);
 
-        this.initialColor.set(color);
-        this.color.set(this.initialColor);
-        this.previousColor.set(this.initialColor);
+        this.baseColor.set(color);
+        this.color.set(this.baseColor);
+        this.previousColor.set(this.baseColor);
     }
 
     public void reset() {
-        this.position.set(this.initialPosition);
-        this.rotation.set(this.initialRotation);
-        this.size.set(this.initialSize);
-        this.color.set(this.initialColor);
+        this.position.set(this.basePosition);
+        this.rotation.set(this.baseRotation);
+        this.size.set(this.baseSize);
+        this.color.set(this.baseColor);
     }
 
     protected void updatePreviousAttributes() {
