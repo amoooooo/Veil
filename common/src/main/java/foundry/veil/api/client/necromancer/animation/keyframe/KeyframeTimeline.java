@@ -1,40 +1,15 @@
 package foundry.veil.api.client.necromancer.animation.keyframe;
 
+import foundry.veil.api.client.necromancer.Bone;
+import net.minecraft.util.Mth;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.Arrays;
 
 public record KeyframeTimeline(Keyframe[] keyframes) {
-    public void getTransform(float time, boolean looped, Vector3f pos, Vector3f size, Quaternionf orientation, Quaternionf temp, Keyframe[] emptyArray) {
-        float t = getAdjacentKeyframes(time, looped, emptyArray);
-        Keyframe a = emptyArray[1];
-        Keyframe b = emptyArray[2];
-        Interpolation interpolation = a.interpolation();
 
-        // todo: cubic interpolation
-        // position interpolation
-        pos.set(
-                interpolation.interpolate(a.transform().px(), b.transform().px(), t),
-                interpolation.interpolate(a.transform().py(), b.transform().py(), t),
-                interpolation.interpolate(a.transform().pz(), b.transform().pz(), t)
-        );
-
-        // size interpolation
-        // this is technically wrong but whatever
-        size.set(
-                interpolation.interpolate(a.transform().sx(), b.transform().sx(), t),
-                interpolation.interpolate(a.transform().sy(), b.transform().sy(), t),
-                interpolation.interpolate(a.transform().sz(), b.transform().sz(), t)
-        );
-
-        // rotation interpolation
-        orientation.set(a.transform().qx(), a.transform().qy(), a.transform().qz(), a.transform().qw());
-        temp.set(b.transform().qx(), b.transform().qy(), b.transform().qz(), b.transform().qw());
-        interpolation.interpolate(orientation, temp, t, orientation);
-    }
-
-    private float getAdjacentKeyframes(float time, boolean looped, Keyframe[] listToPopulate) {
+    protected float getAdjacentKeyframes(float time, boolean looped, Keyframe[] listToPopulate) {
         int currentIndex = findKeyframeIndex(time, looped);
         listToPopulate[1] = keyframes[currentIndex];
 

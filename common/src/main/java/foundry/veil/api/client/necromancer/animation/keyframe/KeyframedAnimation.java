@@ -26,9 +26,8 @@ public class KeyframedAnimation<P extends SkeletonParent<?, ?>, S extends Skelet
     // todo: make this more static
     // so it works with multithreading.
     // no idea how to do that though without
-    // a ton of allocations.
-    private final Vector3f tempPos = new Vector3f(), tempScale = new Vector3f();
-    private final Quaternionf tempRotA = new Quaternionf(), tempRotB = new Quaternionf();
+    // a ton of allocations though!
+    private final Quaternionf tempRotationA = new Quaternionf(), tempRotationB = new Quaternionf();
     private final Keyframe[] tempKeyframes = new Keyframe[4];
     @Override
     public void apply(P parent, S skeleton, float mixFactor, float time) {
@@ -37,29 +36,43 @@ public class KeyframedAnimation<P extends SkeletonParent<?, ?>, S extends Skelet
             if (bone == null) continue;
 
             KeyframeTimeline keyframes = timeline.getValue();
-            keyframes.getTransform(time, looping, tempPos, tempScale, tempRotA, tempRotB, tempKeyframes);
+            float t = keyframes.getAdjacentKeyframes(time, this.looping, tempKeyframes);
+            Keyframe a = tempKeyframes[1];
+            Keyframe b = tempKeyframes[2];
+            Interpolation interpolation = a.interpolation();
+
+            // todo: cubic interpolation
             if (additive) {
-                bone.x += tempPos.x() * mixFactor;
-                bone.y += tempPos.y() * mixFactor;
-                bone.z += tempPos.z() * mixFactor;
-
-                bone.xSize *= tempScale.x();
-                bone.ySize *= tempScale.y();
-                bone.zSize *= tempScale.z();
-
-                bone.rotation.premul(tempRotA.slerp(tempRotB.identity(), (1 - mixFactor)));
+                bone.position.add(
+                        interpolation.interpolate(a.transform().px(), b.transform().px(), t),
+                        interpolation.interpolate(a.transform().py(), b.transform().py(), t),
+                        interpolation.interpolate(a.transform().pz(), b.transform().pz(), t)
+                );
+                tempRotationA.set(a.transform().qx(), a.transform().qy(), a.transform().qz(), a.transform().qw());
+                tempRotationB.set(b.transform().qx(), b.transform().qy(), b.transform().qz(), b.transform().qw());
+                interpolation.interpolate(tempRotationA, tempRotationB, t, tempRotationA);
+                tempRotationA.slerp(tempRotationB.identity(), mixFactor);
+                bone.rotation.premul(tempRotationA);
+                bone.size.mul(
+                        Mth.lerp(mixFactor, 1, interpolation.interpolate(a.transform().sx(), b.transform().sx(), t)),
+                        Mth.lerp(mixFactor, 1, interpolation.interpolate(a.transform().sy(), b.transform().sy(), t)),
+                        Mth.lerp(mixFactor, 1, interpolation.interpolate(a.transform().sz(), b.transform().sz(), t))
+                );
             } else {
-                bone.x = Mth.lerp(mixFactor, bone.x, tempPos.x());
-                bone.y = Mth.lerp(mixFactor, bone.y, tempPos.y());
-                bone.z = Mth.lerp(mixFactor, bone.z, tempPos.z());
-
-                // linear interpolation technically wrong here
-                // todo: fix
-                bone.xSize = Mth.lerp(mixFactor, bone.xSize, tempScale.x());
-                bone.ySize = Mth.lerp(mixFactor, bone.ySize, tempScale.y());
-                bone.zSize = Mth.lerp(mixFactor, bone.zSize, tempScale.z());
-
-                bone.rotation.slerp(tempRotA, mixFactor);
+                bone.size.set(
+                        Mth.lerp(mixFactor, bone.position.x, interpolation.interpolate(a.transform().px(), b.transform().px(), t)),
+                        Mth.lerp(mixFactor, bone.position.y, interpolation.interpolate(a.transform().py(), b.transform().py(), t)),
+                        Mth.lerp(mixFactor, bone.position.z, interpolation.interpolate(a.transform().pz(), b.transform().pz(), t))
+                );
+                tempRotationA.set(a.transform().qx(), a.transform().qy(), a.transform().qz(), a.transform().qw());
+                tempRotationB.set(b.transform().qx(), b.transform().qy(), b.transform().qz(), b.transform().qw());
+                interpolation.interpolate(tempRotationA, tempRotationB, t, tempRotationA);
+                bone.rotation.slerp(tempRotationA, mixFactor);
+                bone.size.set(
+                        Mth.lerp(mixFactor, bone.size.x, interpolation.interpolate(a.transform().sx(), b.transform().sx(), t)),
+                        Mth.lerp(mixFactor, bone.size.y, interpolation.interpolate(a.transform().sy(), b.transform().sy(), t)),
+                        Mth.lerp(mixFactor, bone.size.z, interpolation.interpolate(a.transform().sz(), b.transform().sz(), t))
+                );
             }
         }
     }

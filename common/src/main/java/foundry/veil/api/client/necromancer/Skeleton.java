@@ -26,7 +26,7 @@ public abstract class Skeleton {
 
     public void tick() {
         for (Bone part : this.bones.values()) {
-            part.updatePreviousPosition();
+            part.updatePreviousAttributes();
         }
         for (Bone bone : this.bones.values()) {
             bone.tick(1.0F / 20.0F);
