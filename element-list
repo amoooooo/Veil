@@ -7,7 +7,7 @@ foundry.veil.api.client.editor
 foundry.veil.api.client.imgui
 foundry.veil.api.client.necromancer
 foundry.veil.api.client.necromancer.animation
-foundry.veil.api.client.necromancer.animation.keyframed
+foundry.veil.api.client.necromancer.animation.keyframe
 foundry.veil.api.client.necromancer.constraint
 foundry.veil.api.client.necromancer.render
 foundry.veil.api.client.necromancer.render.mesh
