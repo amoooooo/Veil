@@ -6,9 +6,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 @Mixin(value = ImGuiImplGlfw.class, remap = false)
 public class ImGuiImplGlfwMixin {
@@ -33,5 +35,12 @@ public class ImGuiImplGlfwMixin {
     @ModifyArg(method = "init", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwCreateStandardCursor(I)J", ordinal = 8))
     public int getNotAllowedCursor(int shape) {
         return GLFW_NOT_ALLOWED_CURSOR;
+    }
+
+    @Redirect(method = "dispose", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwDestroyCursor(J)V"))
+    public void destroyCursor(long cursor) {
+        if (cursor != NULL) {
+            glfwDestroyCursor(cursor);
+        }
     }
 }
