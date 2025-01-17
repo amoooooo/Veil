@@ -30,13 +30,13 @@ public interface VertexArrayBuilder {
     /**
      * Applies the vanilla mc format at the specified index.
      *
-     * @param bufferIndex          The index to map the buffer to
+     * @param bufferIndex    The index to map the buffer to
      * @param buffer         The buffer to get data from
      * @param attributeStart The first attribute index to start applying the format from
      * @param format         The format to apply
      */
     default VertexArrayBuilder applyFrom(int bufferIndex, int buffer, int attributeStart, VertexFormat format) {
-        this.defineVertexBuffer(bufferIndex, buffer, 0, format.getVertexSize());
+        this.defineVertexBuffer(bufferIndex, buffer, 0, format.getVertexSize(), 0);
         List<VertexFormatElement> elements = format.getElements();
         for (int i = 0; i < elements.size(); i++) {
             VertexFormatElement element = elements.get(i);
@@ -48,8 +48,7 @@ public interface VertexArrayBuilder {
                         bufferIndex,
                         element.count(),
                         DataType.fromType(element.type()),
-                        format.getOffset(element),
-                        0
+                        format.getOffset(element)
                 );
             } else {
                 this.setVertexAttribute(
@@ -58,8 +57,7 @@ public interface VertexArrayBuilder {
                         element.count(),
                         DataType.fromType(element.type()),
                         usage == VertexFormatElement.Usage.NORMAL || usage == VertexFormatElement.Usage.COLOR,
-                        format.getOffset(element),
-                        0
+                        format.getOffset(element)
                 );
             }
         }
@@ -69,12 +67,13 @@ public interface VertexArrayBuilder {
     /**
      * Maps a buffer region to the specified index. Allows swapping out vertex data with a single GL call.
      *
-     * @param index  The index to assign to. It must be between 0 and {@link VeilRenderSystem#maxVertexAttributes()}
-     * @param buffer The buffer to assign
-     * @param offset The offset into the buffer to bind to
-     * @param stride The size of the region to map
+     * @param index   The index to assign to. It must be between 0 and {@link VeilRenderSystem#maxVertexAttributes()}
+     * @param buffer  The buffer to assign
+     * @param offset  The offset into the buffer to bind to
+     * @param stride  The size of the region to map
+     * @param divisor The number of instances that have to pass to increment this data or <code>0</code> to increment per vertex
      */
-    VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride);
+    VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride, int divisor);
 
     /**
      * Defines a floating-point vertex attribute.
@@ -85,9 +84,8 @@ public interface VertexArrayBuilder {
      * @param type           The type of data the shader will use
      * @param normalized     Whether to normalize the data from <code>-1</code> to <code>1</code> automatically
      * @param relativeOffset The offset in the buffer region the vertex data is defined at. It must be between 0 and {@link VeilRenderSystem#maxVertexAttributeRelativeOffset()}
-     * @param divisor        The number of instances that have to pass to increment this attribute or <code>0</code> to increment per vertex
      */
-    VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset, int divisor);
+    VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset);
 
     /**
      * Defines an integer vertex attribute.
@@ -97,9 +95,8 @@ public interface VertexArrayBuilder {
      * @param size           The size of the attribute. Can be 1, 2, 3, or 4
      * @param type           The type of data the shader will use
      * @param relativeOffset The offset in the buffer region the vertex data is defined at. It must be between 0 and {@link VeilRenderSystem#maxVertexAttributeRelativeOffset()}
-     * @param divisor        The number of instances that have to pass to increment this attribute or <code>0</code> to increment per vertex
      */
-    VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor);
+    VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset);
 
     /**
      * Defines a long vertex attribute.
@@ -109,9 +106,8 @@ public interface VertexArrayBuilder {
      * @param size           The size of the attribute. Can be 1, 2, 3, or 4
      * @param type           The type of data the shader will use
      * @param relativeOffset The offset in the buffer region the vertex data is defined at. It must be between 0 and {@link VeilRenderSystem#maxVertexAttributeRelativeOffset()}
-     * @param divisor        The number of instances that have to pass to increment this attribute or <code>0</code> to increment per vertex
      */
-    VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor);
+    VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset);
 
     /**
      * Removes the buffer mapping with the specified index.

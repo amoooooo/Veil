@@ -13,35 +13,33 @@ import static org.lwjgl.opengl.GL20C.glEnableVertexAttribArray;
 public record ARBVertexAttribBindingBuilder(VertexArray vertexArray) implements VertexArrayBuilder {
 
     @Override
-    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride) {
+    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride, int divisor) {
         glBindVertexBuffer(index, buffer, offset, stride);
+        glVertexBindingDivisor(index, divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset) {
         glEnableVertexAttribArray(index);
         glVertexAttribFormat(index, size, type.getGlType(), normalized, relativeOffset);
         glVertexAttribBinding(index, bufferIndex);
-        glVertexBindingDivisor(index, divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
         glEnableVertexAttribArray(index);
         glVertexAttribIFormat(index, size, type.getGlType(), relativeOffset);
         glVertexAttribBinding(index, bufferIndex);
-        glVertexBindingDivisor(index, divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
         glEnableVertexAttribArray(index);
         glVertexAttribLFormat(index, size, type.getGlType(), relativeOffset);
         glVertexAttribBinding(index, bufferIndex);
-        glVertexBindingDivisor(index, divisor);
         return this;
     }
 

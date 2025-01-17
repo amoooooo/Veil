@@ -108,7 +108,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         this.initBuffers();
 
         VertexArrayBuilder builder = this.vertexArray.editFormat();
-        builder.defineVertexBuffer(2, this.instancedVbo, 0, this.lightSize);
+        builder.defineVertexBuffer(2, this.instancedVbo, 0, this.lightSize, 1);
         this.setupBufferState(builder); // Only set up state for instanced buffer
 
         VertexBuffer.unbind();

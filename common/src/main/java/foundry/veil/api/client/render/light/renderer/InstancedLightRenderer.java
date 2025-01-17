@@ -63,7 +63,7 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         }
 
         VertexArrayBuilder builder = this.vertexArray.editFormat();
-        builder.defineVertexBuffer(2, this.instancedVbo, 0, this.lightSize);
+        builder.defineVertexBuffer(2, this.instancedVbo, 0, this.lightSize, 1);
         this.setupBufferState(builder);
     }
 

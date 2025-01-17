@@ -20,7 +20,10 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import org.jetbrains.annotations.ApiStatus;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
@@ -95,15 +98,16 @@ public class NecromancerRenderDispatcher {
         protected int g;
         protected int b;
         protected int a;
+        protected final Matrix4f transform = new Matrix4f();
 
         @Override
         public void setUv1(int u, int v) {
-            this.overlay = (u & 15) << 4 | v & 15;
+            this.overlay = (v & 15) << 4 | u & 15;
         }
 
         @Override
         public void setUv2(int u, int v) {
-            this.light = (u & 15) << 4 | v & 15;
+            this.light = (v & 15) << 4 | u & 15;
         }
 
         @Override
@@ -124,12 +128,18 @@ public class NecromancerRenderDispatcher {
 
         @Override
         public void reset() {
-            this.overlay = 10;
+            this.overlay = 160;
             this.light = 255;
             this.r = 255;
             this.g = 255;
             this.b = 255;
             this.a = 255;
+            this.transform.identity();
+        }
+
+        @Override
+        public void setTransform(Matrix4fc transform) {
+            this.transform.set(transform);
         }
     }
 
@@ -163,7 +173,7 @@ public class NecromancerRenderDispatcher {
         @Override
         public void draw(RenderType renderType, Skeleton skeleton, Skin skin, float partialTicks) {
             SkeletonBatch batch = this.skeletonBatches.computeIfAbsent(skin.hashCode() * 31 + renderType.hashCode(), unused -> new SkeletonBatch(renderType, skin));
-            batch.add(skeleton, this.overlay, this.light, this.r, this.g, this.b, this.a, partialTicks);
+            batch.add(this.transform, skeleton, this.overlay, this.light, this.r, this.g, this.b, this.a, partialTicks);
         }
 
         @Override
@@ -218,6 +228,7 @@ public class NecromancerRenderDispatcher {
 
         private final RenderType renderType;
         private final Skin skin;
+        private final List<Matrix4f> transforms;
         private final List<Skeleton> skeletons;
         private final FloatList partialTicks;
 
@@ -226,13 +237,14 @@ public class NecromancerRenderDispatcher {
         private SkeletonBatch(RenderType renderType, Skin skin) {
             this.renderType = renderType;
             this.skin = skin;
+            this.transforms = new ObjectArrayList<>();
             this.skeletons = new ObjectArrayList<>();
             this.partialTicks = new FloatArrayList();
 
             this.instancedData = MemoryUtil.memAlloc(600); // Save space for 100 instances
         }
 
-        public void add(Skeleton skeleton, int overlay, int light, int r, int g, int b, int a, float partialTicks) {
+        public void add(Matrix4fc transform, Skeleton skeleton, int overlay, int light, int r, int g, int b, int a, float partialTicks) {
             if (this.instancedData.capacity() - this.instancedData.position() < 6) {
                 this.instancedData = MemoryUtil.memRealloc(this.instancedData, (int) (this.instancedData.capacity() * 1.5));
             }
@@ -242,6 +254,7 @@ public class NecromancerRenderDispatcher {
             this.instancedData.put((byte) g);
             this.instancedData.put((byte) b);
             this.instancedData.put((byte) a);
+            this.transforms.add(new Matrix4f(transform));
             this.skeletons.add(skeleton);
             this.partialTicks.add(partialTicks);
         }
@@ -254,7 +267,7 @@ public class NecromancerRenderDispatcher {
                 this.instancedData.flip();
                 VertexArray.upload(instancedBuffer, this.instancedData, VertexArray.DrawUsage.DYNAMIC);
                 updateBlockSize(this.skeletons.size(), this.skin.getSkeletonDataSize());
-                this.skin.render(this.renderType, this.skeletons, instancedBuffer, boneBuffer, boneBlock, this.partialTicks);
+                this.skin.render(this.renderType, this.transforms, this.skeletons, instancedBuffer, boneBuffer, boneBlock, this.partialTicks);
             } finally {
                 MemoryUtil.memFree(this.instancedData);
             }

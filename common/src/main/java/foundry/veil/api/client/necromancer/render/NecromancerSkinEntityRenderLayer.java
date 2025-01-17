@@ -18,9 +18,11 @@ public abstract class NecromancerSkinEntityRenderLayer<T extends Entity & Skelet
     public abstract Skin getSkin(T parent);
 
     @Override
-    public void render(T entity, M skeleton, NecromancerRenderer renderer, MatrixStack matrixStack, float partialTicks) {
+    public void render(T entity, M skeleton, NecromancerRenderer renderer, MatrixStack matrixStack, int packedLight, float partialTicks) {
         RenderType renderType = this.getRenderType(entity);
         if (renderType != null) {
+            renderer.setTransform(matrixStack.position());
+            renderer.setLight(packedLight);
             renderer.draw(renderType, skeleton, this.getSkin(entity), partialTicks);
             renderer.reset();
         }

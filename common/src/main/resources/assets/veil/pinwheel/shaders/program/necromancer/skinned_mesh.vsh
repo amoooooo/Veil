@@ -5,12 +5,17 @@ layout(location = 0) in vec3 Position;
 layout(location = 1) in vec2 UV0;
 layout(location = 2) in vec3 Normal;
 layout(location = 3) in uint BoneIndex;
-layout(location = 4) in ivec2 UV1;
-layout(location = 5) in ivec2 UV2;
+layout(location = 4) in uint PackedOverlay;
+layout(location = 5) in uint PackedLight;
 layout(location = 6) in vec4 ModelColor;
 
+struct BoneData {
+    mat4 Transform;
+    mat3 Normal;
+};
+
 layout(std140) uniform NecromancerBones {
-    mat4 BoneData[1]; // TODO set up properly
+    BoneData Bones[1]; // TODO set up properly
 };
 
 uniform sampler2D Sampler1;
@@ -35,18 +40,22 @@ out vec3 normal;
 
 void main() {
     uint index = BoneIndex + NecromancerBoneCount * gl_InstanceID;
-    mat4 transform = mat4(BoneData[index]);
+    mat4 transform = mat4(Bones[index].Transform);
     transform[3] = vec4(0.0, 0.0, 0.0, 1.0); // Last column is color, so set it to identity
     gl_Position = ProjMat * ModelViewMat * transpose(transform) * vec4(Position, 1.0);
 
     vertexDistance = fog_distance(ModelViewMat, Position, FogShape);
 
-    vertexColor = ModelColor * BoneData[index][3] * minecraft_mix_light(Light0_Direction, Light1_Direction, Normal);
+    vec3 BoneNormal = Bones[index].Normal * Normal;
+    vertexColor = ModelColor * Bones[index].Transform[3] * minecraft_mix_light(Light0_Direction, Light1_Direction, Normal);
 
-    lightMapColor = texelFetch(Sampler2, UV2 / 16, 0);
+    ivec2 UV2 = ivec2(PackedLight & 15u, (PackedLight >> 4u) & 15u);
+    ivec2 UV1 = ivec2(PackedOverlay & 15u, (PackedOverlay >> 4u) & 15u);
+
+    lightMapColor = texelFetch(Sampler2, UV2, 0);
     overlayColor = texelFetch(Sampler1, UV1, 0);
 
     texCoord0 = UV0;
 
-    normal = NormalMat * Normal;
+    normal = NormalMat * BoneNormal;
 }

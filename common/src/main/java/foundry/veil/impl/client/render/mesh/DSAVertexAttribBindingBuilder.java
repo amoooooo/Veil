@@ -4,45 +4,45 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.mesh.VertexArray;
 import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.opengl.ARBDirectStateAccess;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.*;
+import static org.lwjgl.opengl.GL33C.glVertexAttribDivisor;
 
 @ApiStatus.Internal
 public record DSAVertexAttribBindingBuilder(VertexArray vertexArray, int vao) implements VertexArrayBuilder {
 
     @Override
-    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride) {
+    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride, int divisor) {
         glVertexArrayVertexBuffer(this.vao, index, buffer, offset, stride);
+        glVertexArrayBindingDivisor(this.vao, index, divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset) {
         VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         glEnableVertexArrayAttrib(this.vao, index);
         glVertexArrayAttribFormat(this.vao, index, size, type.getGlType(), normalized, relativeOffset);
         glVertexArrayAttribBinding(this.vao, index, bufferIndex);
-        glVertexArrayBindingDivisor(this.vao, index, divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
         VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         glEnableVertexArrayAttrib(this.vao, index);
         glVertexArrayAttribIFormat(this.vao, index, size, type.getGlType(), relativeOffset);
         glVertexArrayAttribBinding(this.vao, index, bufferIndex);
-        glVertexArrayBindingDivisor(this.vao, index, divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
         VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         glEnableVertexArrayAttrib(this.vao, index);
         glVertexArrayAttribLFormat(this.vao, index, size, type.getGlType(), relativeOffset);
         glVertexArrayAttribBinding(this.vao, index, bufferIndex);
-        glVertexArrayBindingDivisor(this.vao, index, divisor);
         return this;
     }
 

@@ -43,33 +43,33 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
     }
 
     @Override
-    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride) {
-        this.vertexBuffers[index] = new VertexBuffer(buffer, offset, stride);
+    public VertexArrayBuilder defineVertexBuffer(int index, int buffer, int offset, int stride, int divisor) {
+        this.vertexBuffers[index] = new VertexBuffer(buffer, offset, stride, divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset) {
         VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         this.bindIndex(bufferIndex);
         glEnableVertexAttribArray(index);
-        glVertexAttribPointer(index, size, type.getGlType(), normalized, this.vertexBuffers[this.boundIndex].size, this.vertexBuffers[this.boundIndex].offset + relativeOffset);
-        glVertexAttribDivisor(index, divisor);
+        glVertexAttribPointer(index, size, type.getGlType(), normalized, this.vertexBuffers[this.boundIndex].stride, this.vertexBuffers[this.boundIndex].offset + relativeOffset);
+        glVertexAttribDivisor(index, this.vertexBuffers[this.boundIndex].divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
         VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         this.bindIndex(bufferIndex);
         glEnableVertexAttribArray(index);
-        glVertexAttribIPointer(index, size, type.getGlType(), this.vertexBuffers[this.boundIndex].size, this.vertexBuffers[this.boundIndex].offset + relativeOffset);
-        glVertexAttribDivisor(index, divisor);
+        glVertexAttribIPointer(index, size, type.getGlType(), this.vertexBuffers[this.boundIndex].stride, this.vertexBuffers[this.boundIndex].offset + relativeOffset);
+        glVertexAttribDivisor(index, this.vertexBuffers[this.boundIndex].divisor);
         return this;
     }
 
     @Override
-    public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset, int divisor) {
+    public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
         throw new UnsupportedOperationException("Long attributes not supported");
     }
 
@@ -99,6 +99,6 @@ public class LegacyVertexAttribBindingBuilder implements VertexArrayBuilder {
         return this;
     }
 
-    private record VertexBuffer(int buffer, int offset, int size) {
+    private record VertexBuffer(int buffer, int offset, int stride, int divisor) {
     }
 }

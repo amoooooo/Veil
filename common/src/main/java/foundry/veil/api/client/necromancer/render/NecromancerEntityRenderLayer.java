@@ -13,5 +13,5 @@ public abstract class NecromancerEntityRenderLayer<T extends Entity & SkeletonPa
         this.renderer = renderer;
     }
 
-    public abstract void render(T entity, M skeleton, NecromancerRenderer renderer, MatrixStack matrixStack, float partialTicks);
+    public abstract void render(T entity, M skeleton, NecromancerRenderer renderer, MatrixStack matrixStack, int packedLight, float partialTicks);
 }

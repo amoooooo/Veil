@@ -3,6 +3,7 @@ package foundry.veil.api.client.necromancer.render;
 import foundry.veil.api.client.necromancer.Skeleton;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import org.joml.Matrix4fc;
 
 public interface NecromancerRenderer extends MultiBufferSource {
 
@@ -14,12 +15,14 @@ public interface NecromancerRenderer extends MultiBufferSource {
 
     void setColor(int color);
 
+    void setTransform(Matrix4fc transform);
+
     default void setLight(int packedLight) {
-        this.setUv2(packedLight & 65535, packedLight >> 16 & 65535);
+        this.setUv2(packedLight >> 4 & 65535, packedLight >> 20 & 65535);
     }
 
     default void setOverlay(int packedOverlay) {
-        this.setUv1(packedOverlay & 65535, packedOverlay >> 16 & 65535);
+        this.setUv1(packedOverlay >> 4 & 65535, packedOverlay >> 20 & 65535);
     }
 
     /**

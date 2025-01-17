@@ -43,11 +43,11 @@ public abstract class NecromancerEntityRenderer<P extends Entity & SkeletonParen
     @Override
     public void render(P parent, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         NecromancerRenderer renderer = NecromancerRenderDispatcher.getRenderer();
-        this.render(parent, renderer, VeilRenderBridge.create(poseStack), partialTick);
+        this.render(parent, renderer, VeilRenderBridge.create(poseStack), packedLight, partialTick);
         super.render(parent, entityYaw, partialTick, poseStack, renderer, packedLight);
     }
 
-    public void render(P parent, NecromancerRenderer context, MatrixStack matrixStack, float partialTicks) {
+    public void render(P parent, NecromancerRenderer context, MatrixStack matrixStack, int packedLight, float partialTicks) {
         S skeleton = parent.getSkeleton();
         if (skeleton == null) {
             return;
@@ -56,7 +56,7 @@ public abstract class NecromancerEntityRenderer<P extends Entity & SkeletonParen
         matrixStack.matrixPush();
         matrixStack.applyScale(0.0625F);
         for (NecromancerEntityRenderLayer<P, S> layer : this.layers) {
-            layer.render(parent, skeleton, context, matrixStack, partialTicks);
+            layer.render(parent, skeleton, context, matrixStack, packedLight, partialTicks);
         }
         matrixStack.matrixPop();
     }

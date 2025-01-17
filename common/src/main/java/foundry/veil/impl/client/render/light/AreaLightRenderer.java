@@ -36,14 +36,14 @@ public class AreaLightRenderer extends InstancedLightRenderer<AreaLight> {
 
     @Override
     protected void setupBufferState(VertexArrayBuilder builder) {
-        builder.setVertexAttribute(1, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, 0, 1);
-        builder.setVertexAttribute(2, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 4, 1);
-        builder.setVertexAttribute(3, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 8, 1);
-        builder.setVertexAttribute(4, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 12, 1); // matrix !
-        builder.setVertexAttribute(5, 2, 3, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 16, 1); // color
-        builder.setVertexAttribute(6, 2, 2, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 19, 1); // size
-        builder.setVertexAttribute(7, 2, 1, VertexArrayBuilder.DataType.UNSIGNED_SHORT, true, Float.BYTES * 21, 1); // angle
-        builder.setVertexAttribute(8, 2, 1, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 21 + 2, 1); // distance
+        builder.setVertexAttribute(1, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, 0);
+        builder.setVertexAttribute(2, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 4);
+        builder.setVertexAttribute(3, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 8);
+        builder.setVertexAttribute(4, 2, 4, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 12); // matrix !
+        builder.setVertexAttribute(5, 2, 3, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 16); // color
+        builder.setVertexAttribute(6, 2, 2, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 19); // size
+        builder.setVertexAttribute(7, 2, 1, VertexArrayBuilder.DataType.UNSIGNED_SHORT, true, Float.BYTES * 21); // angle
+        builder.setVertexAttribute(8, 2, 1, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 21 + 2); // distance
     }
 
     @Override

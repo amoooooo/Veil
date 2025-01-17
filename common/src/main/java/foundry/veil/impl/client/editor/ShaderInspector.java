@@ -38,6 +38,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.NativeResource;
 
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
@@ -81,7 +82,6 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
     private final CodeEditor codeEditor;
     private final ImBoolean shaderInfoVisible;
     private final Object2IntMap<ResourceLocation> shaders;
-    private final ShaderUniformCache uniformCache;
 
     private final ImString programFilterText;
     private Pattern programFilter;
@@ -99,7 +99,6 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
             }
             return compare;
         });
-        this.uniformCache = new ShaderUniformCache(() -> this.selectedProgram.programId);
 
         this.codeEditor = new CodeEditor(TITLE, null);
         this.codeEditor.getEditor().setLanguageDefinition(VeilLanguageDefinitions.glsl());
@@ -115,19 +114,14 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
     }
 
     private void setSelectedProgram(@Nullable ResourceLocation name) {
+        if (this.selectedProgram != null) {
+            this.selectedProgram.free();
+        }
+
         if (name != null && this.shaders.containsKey(name)) {
             int program = this.shaders.getInt(name);
             if (glIsProgram(program)) {
-                int[] attachedShaders = new int[glGetProgrami(program, GL_ATTACHED_SHADERS)];
-                glGetAttachedShaders(program, null, attachedShaders);
-
-                Int2IntMap shaders = new Int2IntArrayMap(attachedShaders.length);
-                for (int shader : attachedShaders) {
-                    shaders.put(glGetShaderi(shader, GL_SHADER_TYPE), shader);
-                }
-
-                this.selectedProgram = new SelectedProgram(name, program, Int2IntMaps.unmodifiable(shaders));
-                this.uniformCache.clear();
+                this.selectedProgram = SelectedProgram.create(name, program);
                 return;
             } else {
                 Veil.LOGGER.error("Compiled shader does not exist for program: {}", name);
@@ -135,7 +129,6 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
         }
 
         this.selectedProgram = null;
-        this.uniformCache.clear();
     }
 
     private void setEditShaderSource(int shader) {
@@ -143,8 +136,10 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
     }
 
     private void reloadShaders() {
+        if (this.selectedProgram != null) {
+            this.selectedProgram.update();
+        }
         this.shaders.clear();
-        this.uniformCache.clear();
         TabSource.values()[this.selectedTab].addShaders(this.shaders::put);
         if (this.isShaderInvalid() || (this.selectedProgram != null && !this.shaders.containsKey(this.selectedProgram.name))) {
             this.setSelectedProgram(null);
@@ -314,10 +309,11 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                 boolean invalid = this.isShaderInvalid();
                 ImGui.beginDisabled(invalid);
                 int program = invalid ? 0 : this.selectedProgram.programId;
+                ShaderUniformCache uniforms = this.selectedProgram != null ? this.selectedProgram.uniforms : null;
 
                 if (ImGui.collapsingHeader(SAMPLERS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
                     ImGui.indent();
-                    for (Map.Entry<String, ShaderUniformCache.Uniform> entry : this.uniformCache.getSamplers().entrySet()) {
+                    for (Map.Entry<String, ShaderUniformCache.Uniform> entry : uniforms.getSamplers().entrySet()) {
                         ImGui.selectable(entry.getKey() + ": " + glGetUniformi(program, entry.getValue().location()));
                     }
                     ImGui.unindent();
@@ -325,10 +321,10 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
 
                 if (ImGui.collapsingHeader(UNIFORMS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
                     ImGui.indent();
-                    List<Map.Entry<String, ShaderUniformCache.Uniform>> sorted = this.uniformCache.getUniforms()
+                    List<Map.Entry<String, ShaderUniformCache.Uniform>> sorted = uniforms.getUniforms()
                             .entrySet()
                             .stream()
-                            .filter(entry -> !this.uniformCache.hasSampler(entry.getKey()))
+                            .filter(entry -> !uniforms.hasSampler(entry.getKey()))
                             .sorted(Comparator.comparingInt(entry -> entry.getValue().location()))
                             .toList();
                     for (Map.Entry<String, ShaderUniformCache.Uniform> entry : sorted) {
@@ -341,7 +337,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
 
                 if (ImGui.collapsingHeader(UNIFORM_BLOCKS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
                     ImGui.indent();
-                    List<Map.Entry<String, ShaderUniformCache.UniformBlock>> sorted = this.uniformCache.getUniformBlocks()
+                    List<Map.Entry<String, ShaderUniformCache.UniformBlock>> sorted = uniforms.getUniformBlocks()
                             .entrySet()
                             .stream()
                             .sorted(Comparator.comparingInt(entry -> entry.getValue().index()))
@@ -369,7 +365,7 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
                 ImGui.beginDisabled(!VeilRenderSystem.shaderStorageBufferSupported());
                 if (ImGui.collapsingHeader(STORAGE_BLOCKS.getString(), ImGuiTreeNodeFlags.DefaultOpen) && !invalid) {
                     ImGui.indent();
-                    List<Map.Entry<String, ShaderUniformCache.StorageBlock>> sorted = this.uniformCache.getStorageBlocks()
+                    List<Map.Entry<String, ShaderUniformCache.StorageBlock>> sorted = uniforms.getStorageBlocks()
                             .entrySet()
                             .stream()
                             .sorted(Comparator.comparingInt(entry -> entry.getValue().index()))
@@ -715,7 +711,10 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
     public void free() {
         super.free();
         this.codeEditor.free();
-        this.uniformCache.clear();
+        if (this.selectedProgram != null) {
+            this.selectedProgram.free();
+            this.selectedProgram = null;
+        }
     }
 
     @Override
@@ -725,9 +724,37 @@ public class ShaderInspector extends SingleWindowInspector implements ResourceMa
         }
     }
 
-    private record SelectedProgram(ResourceLocation name, int programId, Int2IntMap shaders) {
+    private record SelectedProgram(ResourceLocation name,
+                                   int programId,
+                                   Int2IntMap shaders,
+                                   ShaderUniformCache uniforms,
+                                   Int2ObjectMap<ByteBuffer> data) implements NativeResource {
+
+        public static SelectedProgram create(ResourceLocation name, int program) {
+            int[] attachedShaders = new int[glGetProgrami(program, GL_ATTACHED_SHADERS)];
+            glGetAttachedShaders(program, null, attachedShaders);
+
+            Int2IntMap shaders = new Int2IntArrayMap(attachedShaders.length);
+            for (int shader : attachedShaders) {
+                shaders.put(glGetShaderi(shader, GL_SHADER_TYPE), shader);
+            }
+
+            ShaderUniformCache cache = new ShaderUniformCache(() -> program);
+            Int2ObjectArrayMap<ByteBuffer> data = new Int2ObjectArrayMap<>(cache.getUniformBlocks().size());
+            return new SelectedProgram(name, program, Int2IntMaps.unmodifiable(shaders), cache, data);
+        }
+
         public boolean isShaderInvalid() {
             return this.programId == 0 || !glIsProgram(this.programId);
+        }
+
+        public void update() {
+            this.uniforms.clear();
+        }
+
+        @Override
+        public void free() {
+            this.uniforms.clear();
         }
     }
 
