@@ -20,6 +20,8 @@ description='''${description}'''
 [[mixins]]
     config = "${mod_id}.dynamicbuffer.mixins.json"
 [[mixins]]
+    config = "${mod_id}.fix.mixins.json"
+[[mixins]]
     config = "${mod_id}.framebuffer.mixins.json"
 [[mixins]]
     config = "${mod_id}.imgui.mixins.json"
@@ -48,16 +50,16 @@ description='''${description}'''
 [[accessTransformers]]
     file="META-INF/accesstransformer.cfg"
 
-[[dependencies.veil]]
+[[dependencies.${mod_id}]]
     modId = "neoforge"
     versionRange = "${neoforge_version_range}"
-[[dependencies.veil]]
+[[dependencies.${mod_id}]]
     modId = "minecraft"
     versionRange = "${minecraft_version_range}"
-[[dependencies.veil]]
+[[dependencies.${mod_id}]]
     modId = "rubidium"
     type = "incompatible"
-[[dependencies.veil]]
+[[dependencies.${mod_id}]]
     modId = "sodium"
     type = "incompatible"
     versionRange = "(,${sodium_version})"
@@ -65,5 +67,5 @@ description='''${description}'''
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't
 # stop your mod loading on the server for example.
-[features.veil]
+[features.${mod_id}]
     openGLVersion = "[3.2,)"

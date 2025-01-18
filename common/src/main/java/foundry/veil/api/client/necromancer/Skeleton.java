@@ -10,7 +10,7 @@ import java.util.*;
 public abstract class Skeleton {
 
     public static final int MAX_BONES = 256;
-    public static final int UNIFORM_STRIDE = 32 * Float.BYTES;
+    public static final int UNIFORM_STRIDE = 28 * Float.BYTES;
 
     public List<Bone> roots;
     public Map<String, Bone> bones;
@@ -87,7 +87,7 @@ public abstract class Skeleton {
                     bone.getColor(color, partialTicks);
                     color.get(id * UNIFORM_STRIDE + 12 * Float.BYTES, buffer);
                     // Workaround for a JOML bug with get3x4
-                    new Matrix4f().set(matrix.normal(normalMatrix)).get(id * UNIFORM_STRIDE + 16 * Float.BYTES, buffer);
+                    matrix.normal(normalMatrix).get3x4(id * UNIFORM_STRIDE + 16 * Float.BYTES, buffer);
                 }
             }
 

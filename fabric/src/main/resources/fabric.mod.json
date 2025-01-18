@@ -28,6 +28,7 @@
   "mixins": [
     "${mod_id}.debug.mixins.json",
     "${mod_id}.dynamicbuffer.mixins.json",
+    "${mod_id}.fix.mixins.json",
     "${mod_id}.framebuffer.mixins.json",
     "${mod_id}.imgui.mixins.json",
     "${mod_id}.necromancer.mixins.json",

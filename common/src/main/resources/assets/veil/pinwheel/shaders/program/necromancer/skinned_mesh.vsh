@@ -15,7 +15,7 @@ struct BoneData {
 };
 
 layout(std140) uniform NecromancerBones {
-    BoneData Bones[1]; // TODO set up properly
+    BoneData Bones[NECROMANCER_BONE_BUFFER_SIZE];
 };
 
 uniform sampler2D Sampler1;
@@ -39,15 +39,15 @@ out vec2 texCoord0;
 out vec3 normal;
 
 void main() {
-    uint index = BoneIndex + NecromancerBoneCount * gl_InstanceID;
-    mat4 transform = mat4(Bones[index].Transform);
+    BoneData data = Bones[BoneIndex + NecromancerBoneCount * gl_InstanceID];
+    mat4 transform = mat4(data.Transform);
     transform[3] = vec4(0.0, 0.0, 0.0, 1.0); // Last column is color, so set it to identity
     gl_Position = ProjMat * ModelViewMat * transpose(transform) * vec4(Position, 1.0);
 
     vertexDistance = fog_distance(ModelViewMat, Position, FogShape);
 
-    vec3 BoneNormal = Bones[index].Normal * Normal;
-    vertexColor = ModelColor * Bones[index].Transform[3] * minecraft_mix_light(Light0_Direction, Light1_Direction, Normal);
+    vec3 BoneNormal = data.Normal * Normal;
+    vertexColor = ModelColor * data.Transform[3] * minecraft_mix_light(Light0_Direction, Light1_Direction, Normal);
 
     ivec2 UV2 = ivec2(PackedLight & 15u, (PackedLight >> 4u) & 15u);
     ivec2 UV1 = ivec2(PackedOverlay & 15u, (PackedOverlay >> 4u) & 15u);

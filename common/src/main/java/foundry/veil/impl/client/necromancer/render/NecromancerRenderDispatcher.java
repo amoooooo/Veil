@@ -76,10 +76,10 @@ public class NecromancerRenderDispatcher {
             boneBlock = ShaderBlock.wrapper(ShaderBlock.BufferBinding.UNIFORM, boneBuffer);
         }
 
-        long minSize = (long) skeletonCount * dataSize;
+        long minSize = (long) Skeleton.UNIFORM_STRIDE * skeletonCount * dataSize;
         if (boneBlock.getSize() < minSize) {
             boneBlock.setSize(minSize);
-            VeilRenderSystem.renderer().getShaderDefinitions().set("NecromancerBoneCount", Integer.toString(skeletonCount));
+            VeilRenderSystem.renderer().getShaderDefinitions().set("NECROMANCER_BONE_BUFFER_SIZE", Integer.toString(skeletonCount * dataSize));
             if (VeilRenderSystem.directStateAccessSupported()) {
                 glNamedBufferData(boneBuffer, minSize, GL_DYNAMIC_DRAW);
             } else {

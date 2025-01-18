@@ -29,7 +29,6 @@ import org.lwjgl.system.NativeResource;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11C.GL_TRIANGLES;
@@ -42,19 +41,17 @@ public class Skin implements NativeResource {
 
     private final VertexArray vertexArray;
     private final Object2IntMap<String> boneIds;
-    private final int uniformSize;
     private final Vector4f color;
 
-    private int instancedBuffer;
+    private int instances;
 
     private final Matrix3f normalMatrix;
     private Matrix4x3f[] matrixStack;
     private Quaternionf[] orientationStack;
 
-    public Skin(VertexArray vertexArray, Object2IntMap<String> boneIds, int uniformSize) {
+    public Skin(VertexArray vertexArray, Object2IntMap<String> boneIds) {
         this.vertexArray = vertexArray;
         this.boneIds = boneIds;
-        this.uniformSize = uniformSize;
         this.color = new Vector4f();
 
         this.normalMatrix = new Matrix3f();
@@ -62,26 +59,25 @@ public class Skin implements NativeResource {
         this.orientationStack = null;
     }
 
-    public int getSkeletonDataSize() {
-        return Skeleton.UNIFORM_STRIDE * this.boneIds.size();
-    }
-
     @ApiStatus.Internal
-    public void render(RenderType renderType, List<Matrix4f> transforms, Collection<Skeleton> skeletons, int instancedBuffer, int boneBuffer, DynamicShaderBlock<?> boneBlock, FloatList partialTicks) {
+    public void render(RenderType renderType, List<Matrix4f> transforms, List<Skeleton> skeletons, int instancedBuffer, int boneBuffer, DynamicShaderBlock<?> boneBlock, FloatList partialTicks) {
         if (skeletons.isEmpty()) {
             return;
         }
 
-        if (this.instancedBuffer != instancedBuffer) {
-            this.instancedBuffer = instancedBuffer;
+        if (this.instances != skeletons.size()) {
             VertexArrayBuilder format = this.vertexArray.editFormat();
+            // The instanced buffer has to be redefined each time it changes size, so re-attach it
             format.defineVertexBuffer(1, instancedBuffer, 0, 6, 1);
-            format.setVertexIAttribute(4, 1, 1, VertexArrayBuilder.DataType.UNSIGNED_BYTE, 0); // Overlay Coordinates
-            format.setVertexIAttribute(5, 1, 1, VertexArrayBuilder.DataType.UNSIGNED_BYTE, 1); // Lightmap Coordinates
-            format.setVertexAttribute(6, 1, 4, VertexArrayBuilder.DataType.UNSIGNED_BYTE, true, 2); // Color
+            if (this.instances == 0) {
+                format.setVertexIAttribute(4, 1, 1, VertexArrayBuilder.DataType.UNSIGNED_BYTE, 0); // Overlay Coordinates
+                format.setVertexIAttribute(5, 1, 1, VertexArrayBuilder.DataType.UNSIGNED_BYTE, 1); // Lightmap Coordinates
+                format.setVertexAttribute(6, 1, 4, VertexArrayBuilder.DataType.UNSIGNED_BYTE, true, 2); // Color
+            }
+            this.instances = skeletons.size();
         }
 
-        Skeleton first = skeletons.iterator().next();
+        Skeleton first = skeletons.getFirst();
         int maxDepth = first.getMaxDepth();
         if (this.matrixStack == null || this.matrixStack.length < maxDepth) {
             this.matrixStack = new Matrix4x3f[maxDepth];
@@ -93,7 +89,7 @@ public class Skin implements NativeResource {
         }
 
         // Store bone data in buffer
-        int skeletonDataSize = this.getSkeletonDataSize();
+        int skeletonDataSize = Skeleton.UNIFORM_STRIDE * this.getSkeletonDataSize();
         try (MemoryStack stack = MemoryStack.stackPush()) {
             ByteBuffer buffer = stack.malloc(skeletonDataSize);
             int offset = 0;
@@ -121,9 +117,9 @@ public class Skin implements NativeResource {
             shader.setDefaultUniforms(VertexFormat.Mode.TRIANGLES, RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), Minecraft.getInstance().getWindow());
             shader.apply();
 
-            Uniform uniform = shader.getUniform("NecromancerMeshSize");
+            Uniform uniform = shader.getUniform("NecromancerBoneCount");
             if (uniform != null) {
-                glUniform1ui(uniform.getLocation(), skeletonDataSize);
+                glUniform1ui(uniform.getLocation(), this.boneIds.size());
             }
         }
 
@@ -142,8 +138,8 @@ public class Skin implements NativeResource {
         return this.vertexArray;
     }
 
-    public int getUniformSize() {
-        return this.uniformSize;
+    public int getSkeletonDataSize() {
+        return this.boneIds.size();
     }
 
     public static VertexArray createVertexArray() {
@@ -311,15 +307,6 @@ public class Skin implements NativeResource {
                 minX = swap;
             }
 
-            Vector3f ooo = new Vector3f(minX, minY, minZ);
-            Vector3f xoo = new Vector3f(maxX, minY, minZ);
-            Vector3f oyo = new Vector3f(minX, maxY, minZ);
-            Vector3f ooz = new Vector3f(minX, minY, maxZ);
-            Vector3f xyo = new Vector3f(maxX, maxY, minZ);
-            Vector3f oyz = new Vector3f(minX, maxY, maxZ);
-            Vector3f xoz = new Vector3f(maxX, minY, maxZ);
-            Vector3f xyz = new Vector3f(maxX, maxY, maxZ);
-
             float eastUStart = uOffset;
             float northUStart = uOffset + Mth.floor(zSize);
             float westUStart = uOffset + Mth.floor(zSize) + Mth.floor(xSize);
@@ -329,16 +316,6 @@ public class Skin implements NativeResource {
             float topVStart = vOffset;
             float sideVStart = vOffset + Mth.floor(zSize);
             float sideVEnd = vOffset + Mth.floor(zSize) + Mth.floor(ySize);
-
-//            Mesh.Face[] cubeFaces = {
-//                    new Mesh.Face(xoz, ooz, ooo, xoo, u3, v0, u2, v1, this.textureWidth, this.textureHeight, mirrored, Direction.UP),
-//                    new Mesh.Face(xyo, oyo, oyz, xyz, u2, v1, u1, v0, this.textureWidth, this.textureHeight, mirrored, Direction.DOWN),
-//                    new Mesh.Face(ooo, ooz, oyz, oyo, u4, v2, u2, v1, this.textureWidth, this.textureHeight, mirrored, Direction.EAST),
-//                    new Mesh.Face(xoz, xoo, xyo, xyz, u1, v2, u0, v1, this.textureWidth, this.textureHeight, mirrored, Direction.WEST),
-//                    new Mesh.Face(ooz, xoz, xyz, oyz, u5, v2, u4, v1, this.textureWidth, this.textureHeight, mirrored, Direction.NORTH),
-//                    new Mesh.Face(xoo, ooo, oyo, xyo, u2, v2, u1, v1, this.textureWidth, this.textureHeight, mirrored, Direction.SOUTH)};
-//
-//            Collections.addAll(this.faces, cubeFaces);
 
             // Up
             this.addVertex(minX, maxY, minZ, northUStart / this.textureWidth, sideVStart / this.textureHeight, 0.0F, 1.0F, 0.0F);
@@ -382,32 +359,14 @@ public class Skin implements NativeResource {
             this.addVertex(minX, maxY, maxZ, southUStart / this.textureWidth, sideVStart / this.textureHeight, 0.0F, 0.0F, 1.0F);
             this.addQuadIndices(this.nextIndex);
 
-            // 1,0 0,0 0,1 1,1
-
-//            this.vertices = new Mesh.Vertex[]{a, b, c, d};
-//            this.uvs = new Mesh.UV[] {new Mesh.UV(u1 / textureWidth, v0 / textureHeight), new Mesh.UV(u0 / textureWidth, v0 / textureHeight), new Mesh.UV(u0 / textureWidth, v1 / textureHeight), new Mesh.UV(u1 / textureWidth, v1 / textureHeight)};
-//            if (mirrored) {
-//                int i = this.vertices.length;
-//                for(int j = 0; j < i / 2; ++j) {
-//                    Mesh.Vertex vertex = this.vertices[j];
-//                    Mesh.UV uv = this.uvs[j];
-//                    this.vertices[j] = this.vertices[i - 1 - j];
-//                    this.uvs[j] = this.uvs[i - 1 - j];
-//                    this.vertices[i - 1 - j] = vertex;
-//                    this.uvs[i - 1 - j] = uv;
-//                }
-//            }
-//
-//            this.normal = pDirection.step();
-//            if (mirrored) {
-//                this.normal.mul(-1.0F, 1.0F, 1.0F);
-//            }
-//            this.normal.mul(-1.0F, -1.0F, -1.0F);
-
             return this;
         }
 
-        public Builder addTri(float x1, float y1, float z1, float u1, float v1, float x2, float y2, float z2, float u2, float v2, float x3, float y3, float z3, float u3, float v3, float normalX, float normalY, float normalZ) {
+        public Builder addTri(
+                float x1, float y1, float z1, float u1, float v1,
+                float x2, float y2, float z2, float u2, float v2,
+                float x3, float y3, float z3, float u3, float v3,
+                float normalX, float normalY, float normalZ) {
             this.vertices.reserve(72);
             this.addVertex(x1, y1, z1, u1, v1, normalX, normalY, normalZ);
             this.addVertex(x2, y2, z2, u2, v2, normalX, normalY, normalZ);
@@ -466,7 +425,7 @@ public class Skin implements NativeResource {
                     boneIds.put(this.boneNames.get(i), i);
                 }
 
-                return new Skin(this.vertexArray, Object2IntMaps.unmodifiable(boneIds), this.boneNames.size() * Skeleton.UNIFORM_STRIDE);
+                return new Skin(this.vertexArray, Object2IntMaps.unmodifiable(boneIds));
             } finally {
                 MemoryUtil.memFree(indices);
             }
