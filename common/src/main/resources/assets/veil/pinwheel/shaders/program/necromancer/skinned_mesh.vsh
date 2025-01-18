@@ -46,8 +46,8 @@ void main() {
 
     vertexDistance = fog_distance(ModelViewMat, Position, FogShape);
 
-    vec3 BoneNormal = data.Normal * Normal;
-    vertexColor = ModelColor * data.Transform[3] * minecraft_mix_light(Light0_Direction, Light1_Direction, Normal);
+    vec3 BoneNormal = normalize(data.Normal * Normal);
+    vertexColor = ModelColor * data.Transform[3] * minecraft_mix_light(Light0_Direction, Light1_Direction, BoneNormal);
 
     ivec2 UV2 = ivec2(PackedLight & 15u, (PackedLight >> 4u) & 15u);
     ivec2 UV1 = ivec2(PackedOverlay & 15u, (PackedOverlay >> 4u) & 15u);
