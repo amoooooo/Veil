@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
+import java.lang.Math;
 import java.nio.ByteBuffer;
 import java.util.Random;
 import java.util.*;
@@ -106,7 +107,7 @@ public record VeilShaderBufferLayout<T>(String name,
         private ShaderBlock.MemoryLayout memoryLayout;
 
         public Builder() {
-            this.name = "VeilBuffer" + RANDOM.nextLong();
+            this.name = "VeilBuffer" + Math.abs(RANDOM.nextInt());
             this.structFields = new ArrayList<>();
             this.fields = new Object2ObjectArrayMap<>();
             this.binding = ShaderBlock.BufferBinding.UNIFORM;
