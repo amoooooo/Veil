@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.texture;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.core.Direction;
 
@@ -33,6 +34,11 @@ public abstract class CubemapTexture extends AbstractTexture {
 
     @Override
     public void setFilter(boolean blur, boolean mipmap) {
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            super.setFilter(blur, mipmap);
+            return;
+        }
+
         RenderSystem.assertOnRenderThreadOrInit();
         this.blur = blur;
         this.mipmap = mipmap;

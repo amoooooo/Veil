@@ -1,5 +1,6 @@
 package foundry.veil.impl.client.render.shader.definition;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
@@ -54,7 +55,7 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
 
         if (this.buffer == 0) {
             this.resized = true;
-            this.buffer = this.serializer.createBuffer(binding);
+            this.buffer = GlStateManager._glGenBuffers();
         }
 
         if (this.resized) {
@@ -79,8 +80,6 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
 
     public sealed interface Serializer<T> {
 
-        int createBuffer(int binding);
-
         void resize(int binding, int buffer, long size);
 
         boolean write(int buffer, int binding, long size, @Nullable T value);
@@ -93,11 +92,6 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
 
         public DSASerializer(BiConsumer<T, ByteBuffer> serializer) {
             this.serializer = serializer;
-        }
-
-        @Override
-        public int createBuffer(int binding) {
-            return glCreateBuffers();
         }
 
         @Override
@@ -127,13 +121,6 @@ public class DynamicShaderBlockImpl<T> extends ShaderBlockImpl<T> implements Dyn
 
         public LegacySerializer(BiConsumer<T, ByteBuffer> serializer) {
             this.serializer = serializer;
-        }
-
-        @Override
-        public int createBuffer(int binding) {
-            int buffer = glGenBuffers();
-            RenderSystem.glBindBuffer(binding, buffer);
-            return buffer;
         }
 
         @Override

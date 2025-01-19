@@ -53,6 +53,7 @@ import java.util.concurrent.Executor;
 import java.util.function.*;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
+import static org.lwjgl.opengl.ARBDirectStateAccess.glTextureParameteri;
 import static org.lwjgl.opengl.GL11C.glGetInteger;
 import static org.lwjgl.opengl.GL30C.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL31C.GL_MAX_UNIFORM_BUFFER_BINDINGS;

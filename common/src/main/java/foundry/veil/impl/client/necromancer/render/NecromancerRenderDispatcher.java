@@ -20,7 +20,6 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
@@ -41,10 +40,12 @@ public class NecromancerRenderDispatcher {
 
     private static final Batched BATCHED = new Batched();
     private static final Immediate IMMEDIATE = new Immediate();
+    private static final int BASE_INSTANCES = 100;
 
     private static DynamicShaderBlock<?> boneBlock;
     private static int boneBuffer;
     private static int instancedBuffer;
+    private static ByteBufferBuilder boneBuilder;
     private static boolean drawing;
 
     public static void begin() {
@@ -64,6 +65,10 @@ public class NecromancerRenderDispatcher {
         boneBlock = null;
         boneBuffer = 0;
         instancedBuffer = 0;
+        if (boneBuilder != null) {
+            boneBuilder.close();
+            boneBuilder = null;
+        }
     }
 
     public static NecromancerRenderer getRenderer() {
@@ -76,15 +81,16 @@ public class NecromancerRenderDispatcher {
             boneBlock = ShaderBlock.wrapper(ShaderBlock.BufferBinding.UNIFORM, boneBuffer);
         }
 
-        long minSize = (long) Skeleton.UNIFORM_STRIDE * skeletonCount * dataSize;
-        if (boneBlock.getSize() < minSize) {
-            boneBlock.setSize(minSize);
-            VeilRenderSystem.renderer().getShaderDefinitions().set("NECROMANCER_BONE_BUFFER_SIZE", Integer.toString(skeletonCount * dataSize));
+        if (boneBlock.getSize() < (long) Skeleton.UNIFORM_STRIDE * skeletonCount * dataSize) {
+            long newSize = (long) (skeletonCount * 1.5) * dataSize;
+            boneBlock.setSize(Skeleton.UNIFORM_STRIDE * newSize);
+
+            VeilRenderSystem.renderer().getShaderDefinitions().set("NECROMANCER_BONE_BUFFER_SIZE", Long.toString(newSize));
             if (VeilRenderSystem.directStateAccessSupported()) {
-                glNamedBufferData(boneBuffer, minSize, GL_DYNAMIC_DRAW);
+                glNamedBufferData(boneBuffer, boneBlock.getSize(), GL_DYNAMIC_DRAW);
             } else {
                 glBindBuffer(GL_UNIFORM_BUFFER, boneBuffer);
-                glBufferData(GL_UNIFORM_BUFFER, minSize, GL_DYNAMIC_DRAW);
+                glBufferData(GL_UNIFORM_BUFFER, boneBlock.getSize(), GL_DYNAMIC_DRAW);
                 glBindBuffer(GL_UNIFORM_BUFFER, 0);
             }
         }
@@ -241,7 +247,7 @@ public class NecromancerRenderDispatcher {
             this.skeletons = new ObjectArrayList<>();
             this.partialTicks = new FloatArrayList();
 
-            this.instancedData = MemoryUtil.memAlloc(600); // Save space for 100 instances
+            this.instancedData = MemoryUtil.memAlloc(BASE_INSTANCES * 6); // Save space for 100 instances
         }
 
         public void add(Matrix4fc transform, Skeleton skeleton, int overlay, int light, int r, int g, int b, int a, float partialTicks) {
@@ -264,10 +270,13 @@ public class NecromancerRenderDispatcher {
                 if (instancedBuffer == 0) {
                     instancedBuffer = GlStateManager._glGenBuffers();
                 }
+                if (boneBuilder == null) {
+                    boneBuilder = new ByteBufferBuilder(BASE_INSTANCES * Skeleton.UNIFORM_STRIDE);
+                }
                 this.instancedData.flip();
                 VertexArray.upload(instancedBuffer, this.instancedData, VertexArray.DrawUsage.DYNAMIC);
                 updateBlockSize(this.skeletons.size(), this.skin.getSkeletonDataSize());
-                this.skin.render(this.renderType, this.transforms, this.skeletons, instancedBuffer, boneBuffer, boneBlock, this.partialTicks);
+                this.skin.render(this.renderType, this.transforms, this.skeletons, instancedBuffer, boneBuilder, boneBuffer, boneBlock, this.partialTicks);
             } finally {
                 MemoryUtil.memFree(this.instancedData);
             }

@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.*;
-import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.system.NativeResource;
 
@@ -31,6 +30,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedBufferSubData;
 import static org.lwjgl.opengl.GL11C.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL15C.glBindBuffer;
 import static org.lwjgl.opengl.GL15C.glBufferSubData;
@@ -60,7 +60,7 @@ public class Skin implements NativeResource {
     }
 
     @ApiStatus.Internal
-    public void render(RenderType renderType, List<Matrix4f> transforms, List<Skeleton> skeletons, int instancedBuffer, int boneBuffer, DynamicShaderBlock<?> boneBlock, FloatList partialTicks) {
+    public void render(RenderType renderType, List<Matrix4f> transforms, List<Skeleton> skeletons, int instancedBuffer, ByteBufferBuilder boneBuilder, int boneBuffer, DynamicShaderBlock<?> boneBlock, FloatList partialTicks) {
         if (skeletons.isEmpty()) {
             return;
         }
@@ -90,21 +90,32 @@ public class Skin implements NativeResource {
 
         // Store bone data in buffer
         int skeletonDataSize = Skeleton.UNIFORM_STRIDE * this.getSkeletonDataSize();
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            ByteBuffer buffer = stack.malloc(skeletonDataSize);
-            int offset = 0;
+        int size = skeletonDataSize * skeletons.size();
+        ByteBuffer buffer = MemoryUtil.memByteBuffer(boneBuilder.reserve(size), size);
 
-            glBindBuffer(GL_UNIFORM_BUFFER, boneBuffer);
-            for (Skeleton skeleton : skeletons) {
-                for (int i = 0; i < maxDepth; i++) {
-                    this.matrixStack[i].identity();
-                    this.orientationStack[i].identity();
-                }
-                this.matrixStack[0].set(transforms.get(offset));
-                skeleton.storeInstancedData(buffer, skeleton.roots, this.boneIds, 0, this.color, this.normalMatrix, this.matrixStack, this.orientationStack, partialTicks.getFloat(offset));
-                glBufferSubData(GL_UNIFORM_BUFFER, (long) offset * skeletonDataSize, buffer);
-                offset++;
+        for (int i = 0; i < skeletons.size(); i++) {
+            Skeleton skeleton = skeletons.get(i);
+            for (int j = 0; j < maxDepth; j++) {
+                this.matrixStack[j].identity();
+                this.orientationStack[j].identity();
             }
+            this.matrixStack[0].set(transforms.get(i));
+            buffer.position(i * skeletonDataSize);
+            skeleton.storeInstancedData(buffer, skeleton.roots, this.boneIds, 0, this.color, this.normalMatrix, this.matrixStack, this.orientationStack, partialTicks.getFloat(i));
+        }
+
+        buffer.rewind();
+        ByteBufferBuilder.Result result = boneBuilder.build();
+        if (result != null) {
+            result.close();
+        }
+
+        // Upload data
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            glNamedBufferSubData(boneBuffer, 0, buffer);
+        } else {
+            glBindBuffer(GL_UNIFORM_BUFFER, boneBuffer);
+            glBufferSubData(GL_UNIFORM_BUFFER, 0, buffer);
             glBindBuffer(GL_UNIFORM_BUFFER, 0);
         }
 
@@ -158,15 +169,6 @@ public class Skin implements NativeResource {
         VertexArray.unbind();
         return vertexArray;
     }
-
-    //    public void render(Skeleton skeleton, int ticksExisted, float partialTick, PoseStack pPoseStack, VertexConsumer pVertexConsumer, int pPackedLight, int pPackedOverlay, float pRed, float pGreen, float pBlue, float pAlpha) {
-//        for (Map.Entry<String, Mesh> stringMeshEntry : this.meshes.entrySet()) {
-//            Mesh mesh = stringMeshEntry.getValue();
-//        }
-//        for (Bone bone : skeleton.roots) {
-//            bone.render(this, partialTick, pPoseStack, pVertexConsumer, pPackedLight, pPackedOverlay, pRed, pGreen, pBlue, pAlpha, true);
-//        }
-//    }
 
     @Override
     public void free() {

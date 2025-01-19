@@ -1,9 +1,11 @@
 package foundry.veil.api.client.necromancer;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import org.joml.*;
+import org.joml.Matrix3f;
+import org.joml.Matrix4x3f;
+import org.joml.Quaternionf;
+import org.joml.Vector4f;
 
-import java.lang.Math;
 import java.nio.ByteBuffer;
 import java.util.*;
 
@@ -65,6 +67,7 @@ public abstract class Skeleton {
 
     /**
      * Steps through the entire skeleton to store in the specified bone buffer.
+     *
      * @param buffer
      * @param bones
      * @param boneIds
@@ -83,11 +86,11 @@ public abstract class Skeleton {
                 bone.getLocalTransform(matrix, orientation, partialTicks);
                 if (id != -1) {
                     // Turns this into 3 columns, so in the shader we can use the last column for colors
-                    matrix.getTransposed(id * UNIFORM_STRIDE, buffer);
+                    matrix.getTransposed(buffer.position() + id * UNIFORM_STRIDE, buffer);
                     bone.getColor(color, partialTicks);
-                    color.get(id * UNIFORM_STRIDE + 12 * Float.BYTES, buffer);
+                    color.get(buffer.position() + id * UNIFORM_STRIDE + 12 * Float.BYTES, buffer);
                     // Workaround for a JOML bug with get3x4
-                    matrix.normal(normalMatrix).get3x4(id * UNIFORM_STRIDE + 16 * Float.BYTES, buffer);
+                    matrix.normal(normalMatrix).get3x4(buffer.position() + id * UNIFORM_STRIDE + 16 * Float.BYTES, buffer);
                 }
             }
 

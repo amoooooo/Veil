@@ -6,8 +6,8 @@
   "refmap": "${mod_id}.refmap.json",
   "client": [
     "client.PerformanceLevelRendererMixin",
-    "client.PerformanceScreenEffectRendererMixin",
-    "client.PerformanceRenderTargetMixin"
+    "client.PerformanceRenderTargetMixin",
+    "client.PerformanceScreenEffectRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
