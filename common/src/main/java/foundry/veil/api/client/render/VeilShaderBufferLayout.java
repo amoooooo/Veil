@@ -10,10 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -99,6 +97,8 @@ public record VeilShaderBufferLayout<T>(String name,
      */
     public static class Builder<T> {
 
+        private static final Random RANDOM = new Random();
+
         private final String name;
         private final List<GlslStructField> structFields;
         private final Map<String, FieldSerializer<T>> fields;
@@ -106,7 +106,7 @@ public record VeilShaderBufferLayout<T>(String name,
         private ShaderBlock.MemoryLayout memoryLayout;
 
         public Builder() {
-            this.name = "VeilBuffer" + Long.hashCode(System.currentTimeMillis());
+            this.name = "VeilBuffer" + RANDOM.nextLong();
             this.structFields = new ArrayList<>();
             this.fields = new Object2ObjectArrayMap<>();
             this.binding = ShaderBlock.BufferBinding.UNIFORM;
