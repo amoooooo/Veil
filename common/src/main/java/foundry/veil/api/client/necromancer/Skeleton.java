@@ -1,11 +1,9 @@
 package foundry.veil.api.client.necromancer;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import org.joml.Matrix3f;
-import org.joml.Matrix4x3f;
-import org.joml.Quaternionf;
-import org.joml.Vector4f;
+import org.joml.*;
 
+import java.lang.Math;
 import java.nio.ByteBuffer;
 import java.util.*;
 
@@ -38,6 +36,7 @@ public abstract class Skeleton {
     }
 
     public void buildRoots() {
+        this.maxDepth = 0;
         for (Bone part : this.bones.values()) {
             if (part.parent == null) {
                 this.roots.add(part);
@@ -54,8 +53,9 @@ public abstract class Skeleton {
                 parentBone = parentBone.parent;
             }
             Collections.reverse(part.parentChain);
-            this.maxDepth = Math.max(part.parentChain.size() + 1, this.maxDepth);
+            this.maxDepth = Math.max(part.parentChain.size(), this.maxDepth);
         }
+        this.maxDepth++;
     }
 
     /**
@@ -75,12 +75,12 @@ public abstract class Skeleton {
      * @param matrixStack
      * @param orientationStack
      */
-    public void storeInstancedData(ByteBuffer buffer, Collection<Bone> bones, Object2IntMap<String> boneIds, int depth, Vector4f color, Matrix3f normalMatrix, Matrix4x3f[] matrixStack, Quaternionf[] orientationStack, float partialTicks) {
+    public void storeInstancedData(ByteBuffer buffer, Collection<Bone> bones, Object2IntMap<String> boneIds, int depth, Vector4f color, Matrix3f normalMatrix, Matrix4x3f baseTransform, Matrix4x3f[] matrixStack, Quaternionf[] orientationStack, float partialTicks) {
         for (Bone bone : bones) {
             int id = boneIds.getInt(bone.identifier);
             boolean hasChildren = !bone.children.isEmpty();
 
-            Matrix4x3f matrix = matrixStack[depth];
+            Matrix4x3f matrix = matrixStack[depth].set(baseTransform);
             Quaternionf orientation = orientationStack[depth];
             if (id != -1 || hasChildren) {
                 bone.getLocalTransform(matrix, orientation, partialTicks);
@@ -89,16 +89,12 @@ public abstract class Skeleton {
                     matrix.getTransposed(buffer.position() + id * UNIFORM_STRIDE, buffer);
                     bone.getColor(color, partialTicks);
                     color.get(buffer.position() + id * UNIFORM_STRIDE + 12 * Float.BYTES, buffer);
-                    // Workaround for a JOML bug with get3x4
                     matrix.normal(normalMatrix).get3x4(buffer.position() + id * UNIFORM_STRIDE + 16 * Float.BYTES, buffer);
                 }
             }
 
             if (hasChildren) {
-                // Copy from current depth to the next
-                matrixStack[depth + 1].set(matrix);
-                orientationStack[depth + 1].set(orientation);
-                this.storeInstancedData(buffer, bones, boneIds, depth + 1, color, normalMatrix, matrixStack, orientationStack, partialTicks);
+                this.storeInstancedData(buffer, bone.children, boneIds, depth + 1, color, normalMatrix, matrix, matrixStack, orientationStack, partialTicks);
             }
         }
     }

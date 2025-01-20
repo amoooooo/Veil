@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.RenderType;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
+import org.joml.Matrix4x3f;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
@@ -234,7 +235,7 @@ public class NecromancerRenderDispatcher {
 
         private final RenderType renderType;
         private final Skin skin;
-        private final List<Matrix4f> transforms;
+        private final List<Matrix4x3f> transforms;
         private final List<Skeleton> skeletons;
         private final FloatList partialTicks;
 
@@ -260,7 +261,7 @@ public class NecromancerRenderDispatcher {
             this.instancedData.put((byte) g);
             this.instancedData.put((byte) b);
             this.instancedData.put((byte) a);
-            this.transforms.add(new Matrix4f(transform));
+            this.transforms.add(new Matrix4x3f().set(transform));
             this.skeletons.add(skeleton);
             this.partialTicks.add(partialTicks);
         }
