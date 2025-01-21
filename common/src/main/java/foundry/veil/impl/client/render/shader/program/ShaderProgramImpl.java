@@ -180,7 +180,6 @@ public class ShaderProgramImpl implements ShaderProgram {
             program.free();
         }
         this.vertexFormat = null;
-        this.definition = null;
         this.compiledProgram = null;
     }
 
