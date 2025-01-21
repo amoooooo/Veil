@@ -10,7 +10,6 @@ foundry.veil.api.client.necromancer.animation
 foundry.veil.api.client.necromancer.animation.keyframe
 foundry.veil.api.client.necromancer.constraint
 foundry.veil.api.client.necromancer.render
-foundry.veil.api.client.necromancer.render.mesh
 foundry.veil.api.client.pose
 foundry.veil.api.client.registry
 foundry.veil.api.client.render
@@ -80,6 +79,7 @@ foundry.veil.impl.client
 foundry.veil.impl.client.editor
 foundry.veil.impl.client.imgui
 foundry.veil.impl.client.imgui.style
+foundry.veil.impl.client.necromancer.render
 foundry.veil.impl.client.render
 foundry.veil.impl.client.render.dynamicbuffer
 foundry.veil.impl.client.render.framebuffer
@@ -107,6 +107,7 @@ foundry.veil.mixin.debug.accessor
 foundry.veil.mixin.debug.client
 foundry.veil.mixin.dynamicbuffer.accessor
 foundry.veil.mixin.dynamicbuffer.client
+foundry.veil.mixin.fix
 foundry.veil.mixin.framebuffer.client
 foundry.veil.mixin.imgui.client
 foundry.veil.mixin.necromancer.client

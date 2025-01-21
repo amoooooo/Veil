@@ -83,14 +83,14 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.api.client.necromancer</a></div>
-<h1 title="Class Skeleton" class="title">Class Skeleton&lt;P extends <a href="SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&gt;</h1>
+<h1 title="Class Skeleton" class="title">Class Skeleton</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">foundry.veil.api.client.necromancer.Skeleton&lt;P&gt;</div>
+<div class="inheritance">foundry.veil.api.client.necromancer.Skeleton</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Skeleton&lt;P extends <a href="SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&gt;</span>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Skeleton</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 </section>
 <section class="summary">
@@ -107,8 +107,14 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="Bone.html" title="class in foundry.veil.api.client.necromancer">Bone</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#bones" class="member-name-link">bones</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="Bone.html" title="class in foundry.veil.api.client.necromancer">Bone</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#roots" class="member-name-link">roots</a></code></div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#MAX_BONES" class="member-name-link">MAX_BONES</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="Bone.html" title="class in foundry.veil.api.client.necromancer">Bone</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#roots" class="member-name-link">roots</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#UNIFORM_STRIDE" class="member-name-link">UNIFORM_STRIDE</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
@@ -143,6 +149,23 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildRoots()" class="member-name-link">buildRoots</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxDepth()" class="member-name-link">getMaxDepth</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#storeInstancedData(java.nio.ByteBuffer,java.util.Collection,it.unimi.dsi.fastutil.objects.Object2IntMap,int,org.joml.Vector4f,org.joml.Matrix3f,org.joml.Matrix4x3f,org.joml.Matrix4x3f%5B%5D,org.joml.Quaternionf%5B%5D,float)" class="member-name-link">storeInstancedData</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Bone.html" title="class in foundry.veil.api.client.necromancer">Bone</a>&gt;&nbsp;bones,
+ it.unimi.dsi.fastutil.objects.Object2IntMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;boneIds,
+ int&nbsp;depth,
+ org.joml.Vector4f&nbsp;color,
+ org.joml.Matrix3f&nbsp;normalMatrix,
+ org.joml.Matrix4x3f&nbsp;baseTransform,
+ org.joml.Matrix4x3f[]&nbsp;matrixStack,
+ org.joml.Quaternionf[]&nbsp;orientationStack,
+ float&nbsp;partialTicks)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Steps through the entire skeleton to store in the specified bone buffer.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tick()" class="member-name-link">tick</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -163,6 +186,34 @@ loadScripts(document, 'script');</script>
 <section class="field-details" id="field-detail">
 <h2>Field Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="MAX_BONES">
+<h3>MAX_BONES</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">MAX_BONES</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../constant-values.html#foundry.veil.api.client.necromancer.Skeleton.MAX_BONES">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="UNIFORM_STRIDE">
+<h3>UNIFORM_STRIDE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">UNIFORM_STRIDE</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../constant-values.html#foundry.veil.api.client.necromancer.Skeleton.UNIFORM_STRIDE">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="roots">
 <h3>roots</h3>
@@ -213,6 +264,41 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="buildRoots()">
 <h3>buildRoots</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">buildRoots</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getMaxDepth()">
+<h3>getMaxDepth</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxDepth</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The maximum number of bone layers in this skeleton</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="storeInstancedData(java.nio.ByteBuffer,java.util.Collection,it.unimi.dsi.fastutil.objects.Object2IntMap,int,org.joml.Vector4f,org.joml.Matrix3f,org.joml.Matrix4x3f,org.joml.Matrix4x3f[],org.joml.Quaternionf[],float)">
+<h3>storeInstancedData</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">storeInstancedData</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;buffer,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="Bone.html" title="class in foundry.veil.api.client.necromancer">Bone</a>&gt;&nbsp;bones,
+ it.unimi.dsi.fastutil.objects.Object2IntMap&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;boneIds,
+ int&nbsp;depth,
+ org.joml.Vector4f&nbsp;color,
+ org.joml.Matrix3f&nbsp;normalMatrix,
+ org.joml.Matrix4x3f&nbsp;baseTransform,
+ org.joml.Matrix4x3f[]&nbsp;matrixStack,
+ org.joml.Quaternionf[]&nbsp;orientationStack,
+ float&nbsp;partialTicks)</span></div>
+<div class="block">Steps through the entire skeleton to store in the specified bone buffer.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>buffer</code> - </dd>
+<dd><code>bones</code> - </dd>
+<dd><code>boneIds</code> - </dd>
+<dd><code>depth</code> - </dd>
+<dd><code>matrixStack</code> - </dd>
+<dd><code>orientationStack</code> - </dd>
+</dl>
 </section>
 </li>
 </ul>

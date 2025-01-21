@@ -83,11 +83,11 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.api.client.necromancer</a></div>
-<h1 title="Interface SkeletonParent" class="title">Interface SkeletonParent&lt;P extends SkeletonParent&lt;?,<wbr>?&gt;,<wbr>S extends <a href="Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&lt;P&gt;&gt;</h1>
+<h1 title="Interface SkeletonParent" class="title">Interface SkeletonParent&lt;P extends SkeletonParent&lt;?,<wbr>?&gt;,<wbr>S extends <a href="Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">SkeletonParent&lt;P extends SkeletonParent&lt;?,<wbr>?&gt;,<wbr>S extends <a href="Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&lt;P&gt;&gt;</span></div>
+<div class="type-signature"><span class="modifiers">public interface </span><span class="element-name type-name-label">SkeletonParent&lt;P extends SkeletonParent&lt;?,<wbr>?&gt;,<wbr>S extends <a href="Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -102,14 +102,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a><wbr>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a><wbr>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getAnimator()" class="member-name-link">getAnimator</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getSkeleton()" class="member-name-link">getSkeleton</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setAnimator(foundry.veil.api.client.necromancer.animation.Animator)" class="member-name-link">setAnimator</a><wbr>(<a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;&nbsp;animator)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setAnimator(foundry.veil.api.client.necromancer.animation.Animator)" class="member-name-link">setAnimator</a><wbr>(@Nullable <a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;&nbsp;animator)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setSkeleton(S)" class="member-name-link">setSkeleton</a><wbr>(<a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&nbsp;skeleton)</code></div>
@@ -131,25 +131,29 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="setSkeleton(S)">
 <h3 id="setSkeleton(foundry.veil.api.client.necromancer.Skeleton)">setSkeleton</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">setSkeleton</span><wbr><span class="parameters">(<a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&nbsp;skeleton)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">setSkeleton</span><wbr><span class="parameters">(@Nullable
+ <a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&nbsp;skeleton)</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="setAnimator(foundry.veil.api.client.necromancer.animation.Animator)">
 <h3>setAnimator</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">setAnimator</span><wbr><span class="parameters">(<a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;&nbsp;animator)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">setAnimator</span><wbr><span class="parameters">(@Nullable
+ @Nullable <a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;&nbsp;animator)</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="getSkeleton()">
 <h3>getSkeleton</h3>
-<div class="member-signature"><span class="return-type"><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a></span>&nbsp;<span class="element-name">getSkeleton</span>()</div>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="return-type"><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a></span>&nbsp;<span class="element-name">getSkeleton</span>()</div>
 </section>
 </li>
 <li>
 <section class="detail" id="getAnimator()">
 <h3>getAnimator</h3>
-<div class="member-signature"><span class="return-type"><a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;</span>&nbsp;<span class="element-name">getAnimator</span>()</div>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="return-type">@Nullable <a href="animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="SkeletonParent.html" title="type parameter in SkeletonParent">P</a>,<wbr><a href="SkeletonParent.html" title="type parameter in SkeletonParent">S</a>&gt;</span>&nbsp;<span class="element-name">getAnimator</span>()</div>
 </section>
 </li>
 </ul>

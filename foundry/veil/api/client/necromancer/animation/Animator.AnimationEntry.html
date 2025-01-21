@@ -39,7 +39,7 @@ loadScripts(document, 'script');</script>
 <p>Summary:</p>
 <ul>
 <li>Nested</li>
-<li>Field</li>
+<li><a href="#field-summary">Field</a></li>
 <li>Constr</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
@@ -47,7 +47,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Detail:</p>
 <ul>
-<li>Field</li>
+<li><a href="#field-detail">Field</a></li>
 <li>Constr</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -59,13 +59,13 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -83,10 +83,10 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.api.client.necromancer.animation</a></div>
-<h1 title="Class Animator.AnimationEntry" class="title">Class Animator.AnimationEntry&lt;P extends <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>,<wbr>T extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&lt;P&gt;&gt;</h1>
+<h1 title="Class Animator.AnimationEntry" class="title">Class Animator.AnimationEntry&lt;P extends <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;?,<wbr>?&gt;,<wbr>S extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">foundry.veil.api.client.necromancer.animation.Animator.AnimationEntry&lt;P,<wbr>T&gt;</div>
+<div class="inheritance">foundry.veil.api.client.necromancer.animation.Animator.AnimationEntry&lt;P,<wbr>S&gt;</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -95,14 +95,38 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Enclosing class:</dt>
-<dd><code><a href="Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="Animator.html" title="type parameter in Animator">P</a> extends <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>,<wbr><a href="Animator.html" title="type parameter in Animator">T</a> extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&lt;<a href="Animator.html" title="type parameter in Animator">P</a>&gt;&gt;</code></dd>
+<dd><code><a href="Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="Animator.html" title="type parameter in Animator">P</a> extends <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;?,<wbr>?&gt;,<wbr><a href="Animator.html" title="type parameter in Animator">S</a> extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static class </span><span class="element-name type-name-label">Animator.AnimationEntry&lt;P extends <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>,<wbr>T extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&lt;P&gt;&gt;</span>
+<div class="type-signature"><span class="modifiers">public static class </span><span class="element-name type-name-label">Animator.AnimationEntry&lt;P extends <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;?,<wbr>?&gt;,<wbr>S extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>protected final <a href="Animation.html" title="class in foundry.veil.api.client.necromancer.animation">Animation</a><wbr>&lt;<a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">P</a>,<wbr><a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">S</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#animation" class="member-name-link">animation</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected float</code></div>
+<div class="col-second odd-row-color"><code><a href="#mixFactor" class="member-name-link">mixFactor</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected final int</code></div>
+<div class="col-second even-row-color"><code><a href="#priority" class="member-name-link">priority</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected float</code></div>
+<div class="col-second odd-row-color"><code><a href="#time" class="member-name-link">time</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -115,8 +139,8 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#apply(P,T)" class="member-name-link">apply</a><wbr>(<a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">P</a>&nbsp;parent,
- <a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">T</a>&nbsp;skeleton)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#apply(P,S)" class="member-name-link">apply</a><wbr>(<a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">P</a>&nbsp;parent,
+ <a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">S</a>&nbsp;skeleton)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMixFactor()" class="member-name-link">getMixFactor</a>()</code></div>
@@ -142,6 +166,38 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="animation">
+<h3>animation</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="Animation.html" title="class in foundry.veil.api.client.necromancer.animation">Animation</a>&lt;<a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">P</a> extends <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;?,<wbr>?&gt;,<wbr><a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">S</a> extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</span>&nbsp;<span class="element-name">animation</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="priority">
+<h3>priority</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">priority</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="mixFactor">
+<h3>mixFactor</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">mixFactor</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="time">
+<h3>time</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">time</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ============ METHOD DETAIL ========== -->
 <li>
 <section class="method-details" id="method-detail">
@@ -172,10 +228,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="apply(P,T)">
+<section class="detail" id="apply(P,S)">
 <h3 id="apply(foundry.veil.api.client.necromancer.SkeletonParent,foundry.veil.api.client.necromancer.Skeleton)">apply</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">apply</span><wbr><span class="parameters">(<a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">P</a>&nbsp;parent,
- <a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">T</a>&nbsp;skeleton)</span></div>
+ <a href="Animator.AnimationEntry.html" title="type parameter in Animator.AnimationEntry">S</a>&nbsp;skeleton)</span></div>
 </section>
 </li>
 </ul>

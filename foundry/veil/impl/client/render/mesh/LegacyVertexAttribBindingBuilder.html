@@ -145,10 +145,11 @@ implements <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" 
 <div class="block">Clears all mapped buffer regions.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#defineVertexBuffer(int,int,int,int)" class="member-name-link">defineVertexBuffer</a><wbr>(int&nbsp;index,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#defineVertexBuffer(int,int,int,int,int)" class="member-name-link">defineVertexBuffer</a><wbr>(int&nbsp;index,
  int&nbsp;buffer,
  int&nbsp;offset,
- int&nbsp;stride)</code></div>
+ int&nbsp;stride,
+ int&nbsp;divisor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Maps a buffer region to the specified index.</div>
 </div>
@@ -163,33 +164,30 @@ implements <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" 
 <div class="block">Removes the buffer mapping with the specified index.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int,int)" class="member-name-link">setVertexAttribute</a><wbr>(int&nbsp;index,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int)" class="member-name-link">setVertexAttribute</a><wbr>(int&nbsp;index,
  int&nbsp;bufferIndex,
  int&nbsp;size,
  <a href="../../../../api/client/render/mesh/VertexArrayBuilder.DataType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArrayBuilder.DataType</a>&nbsp;type,
  boolean&nbsp;normalized,
- int&nbsp;relativeOffset,
- int&nbsp;divisor)</code></div>
+ int&nbsp;relativeOffset)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines a floating-point vertex attribute.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexIAttribute</a><wbr>(int&nbsp;index,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)" class="member-name-link">setVertexIAttribute</a><wbr>(int&nbsp;index,
  int&nbsp;bufferIndex,
  int&nbsp;size,
  <a href="../../../../api/client/render/mesh/VertexArrayBuilder.DataType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArrayBuilder.DataType</a>&nbsp;type,
- int&nbsp;relativeOffset,
- int&nbsp;divisor)</code></div>
+ int&nbsp;relativeOffset)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines an integer vertex attribute.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)" class="member-name-link">setVertexLAttribute</a><wbr>(int&nbsp;index,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)" class="member-name-link">setVertexLAttribute</a><wbr>(int&nbsp;index,
  int&nbsp;bufferIndex,
  int&nbsp;size,
  <a href="../../../../api/client/render/mesh/VertexArrayBuilder.DataType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArrayBuilder.DataType</a>&nbsp;type,
- int&nbsp;relativeOffset,
- int&nbsp;divisor)</code></div>
+ int&nbsp;relativeOffset)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines a long vertex attribute.</div>
 </div>
@@ -243,96 +241,92 @@ implements <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" 
 </section>
 </li>
 <li>
-<section class="detail" id="defineVertexBuffer(int,int,int,int)">
+<section class="detail" id="defineVertexBuffer(int,int,int,int,int)">
 <h3>defineVertexBuffer</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">defineVertexBuffer</span><wbr><span class="parameters">(int&nbsp;index,
  int&nbsp;buffer,
  int&nbsp;offset,
- int&nbsp;stride)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int)">VertexArrayBuilder</a></code></span></div>
+ int&nbsp;stride,
+ int&nbsp;divisor)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int,int)">VertexArrayBuilder</a></code></span></div>
 <div class="block">Maps a buffer region to the specified index. Allows swapping out vertex data with a single GL call.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int)">defineVertexBuffer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
+<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int,int)">defineVertexBuffer</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>index</code> - The index to assign to. It must be between 0 and <a href="../../../../api/client/render/VeilRenderSystem.html#maxVertexAttributes()"><code>VeilRenderSystem.maxVertexAttributes()</code></a></dd>
 <dd><code>buffer</code> - The buffer to assign</dd>
 <dd><code>offset</code> - The offset into the buffer to bind to</dd>
 <dd><code>stride</code> - The size of the region to map</dd>
+<dd><code>divisor</code> - The number of instances that have to pass to increment this data or <code>0</code> to increment per vertex</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int,int)">
+<section class="detail" id="setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int)">
 <h3>setVertexAttribute</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">setVertexAttribute</span><wbr><span class="parameters">(int&nbsp;index,
  int&nbsp;bufferIndex,
  int&nbsp;size,
  <a href="../../../../api/client/render/mesh/VertexArrayBuilder.DataType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArrayBuilder.DataType</a>&nbsp;type,
  boolean&nbsp;normalized,
- int&nbsp;relativeOffset,
- int&nbsp;divisor)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int,int)">VertexArrayBuilder</a></code></span></div>
+ int&nbsp;relativeOffset)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int)">VertexArrayBuilder</a></code></span></div>
 <div class="block">Defines a floating-point vertex attribute.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int,int)">setVertexAttribute</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
+<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,boolean,int)">setVertexAttribute</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>index</code> - The index of the attribute to assign</dd>
-<dd><code>bufferIndex</code> - The defined buffer index to use. Defined with <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int)"><code>VertexArrayBuilder.defineVertexBuffer(int, int, int, int)</code></a></dd>
+<dd><code>bufferIndex</code> - The defined buffer index to use. Defined with <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int,int)"><code>VertexArrayBuilder.defineVertexBuffer(int, int, int, int, int)</code></a></dd>
 <dd><code>size</code> - The size of the attribute. Can be 1, 2, 3, or 4</dd>
 <dd><code>type</code> - The type of data the shader will use</dd>
 <dd><code>normalized</code> - Whether to normalize the data from <code>-1</code> to <code>1</code> automatically</dd>
 <dd><code>relativeOffset</code> - The offset in the buffer region the vertex data is defined at. It must be between 0 and <a href="../../../../api/client/render/VeilRenderSystem.html#maxVertexAttributeRelativeOffset()"><code>VeilRenderSystem.maxVertexAttributeRelativeOffset()</code></a></dd>
-<dd><code>divisor</code> - The number of instances that have to pass to increment this attribute or <code>0</code> to increment per vertex</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)">
+<section class="detail" id="setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)">
 <h3>setVertexIAttribute</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">setVertexIAttribute</span><wbr><span class="parameters">(int&nbsp;index,
  int&nbsp;bufferIndex,
  int&nbsp;size,
  <a href="../../../../api/client/render/mesh/VertexArrayBuilder.DataType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArrayBuilder.DataType</a>&nbsp;type,
- int&nbsp;relativeOffset,
- int&nbsp;divisor)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)">VertexArrayBuilder</a></code></span></div>
+ int&nbsp;relativeOffset)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)">VertexArrayBuilder</a></code></span></div>
 <div class="block">Defines an integer vertex attribute.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)">setVertexIAttribute</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
+<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexIAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)">setVertexIAttribute</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>index</code> - The index of the attribute to assign</dd>
-<dd><code>bufferIndex</code> - The defined buffer index to use. Defined with <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int)"><code>VertexArrayBuilder.defineVertexBuffer(int, int, int, int)</code></a></dd>
+<dd><code>bufferIndex</code> - The defined buffer index to use. Defined with <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int,int)"><code>VertexArrayBuilder.defineVertexBuffer(int, int, int, int, int)</code></a></dd>
 <dd><code>size</code> - The size of the attribute. Can be 1, 2, 3, or 4</dd>
 <dd><code>type</code> - The type of data the shader will use</dd>
 <dd><code>relativeOffset</code> - The offset in the buffer region the vertex data is defined at. It must be between 0 and <a href="../../../../api/client/render/VeilRenderSystem.html#maxVertexAttributeRelativeOffset()"><code>VeilRenderSystem.maxVertexAttributeRelativeOffset()</code></a></dd>
-<dd><code>divisor</code> - The number of instances that have to pass to increment this attribute or <code>0</code> to increment per vertex</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)">
+<section class="detail" id="setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)">
 <h3>setVertexLAttribute</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">setVertexLAttribute</span><wbr><span class="parameters">(int&nbsp;index,
  int&nbsp;bufferIndex,
  int&nbsp;size,
  <a href="../../../../api/client/render/mesh/VertexArrayBuilder.DataType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArrayBuilder.DataType</a>&nbsp;type,
- int&nbsp;relativeOffset,
- int&nbsp;divisor)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)">VertexArrayBuilder</a></code></span></div>
+ int&nbsp;relativeOffset)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)">VertexArrayBuilder</a></code></span></div>
 <div class="block">Defines a long vertex attribute.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int,int)">setVertexLAttribute</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
+<dd><code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#setVertexLAttribute(int,int,int,foundry.veil.api.client.render.mesh.VertexArrayBuilder.DataType,int)">setVertexLAttribute</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/mesh/VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>index</code> - The index of the attribute to assign</dd>
-<dd><code>bufferIndex</code> - The defined buffer index to use. Defined with <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int)"><code>VertexArrayBuilder.defineVertexBuffer(int, int, int, int)</code></a></dd>
+<dd><code>bufferIndex</code> - The defined buffer index to use. Defined with <a href="../../../../api/client/render/mesh/VertexArrayBuilder.html#defineVertexBuffer(int,int,int,int,int)"><code>VertexArrayBuilder.defineVertexBuffer(int, int, int, int, int)</code></a></dd>
 <dd><code>size</code> - The size of the attribute. Can be 1, 2, 3, or 4</dd>
 <dd><code>type</code> - The type of data the shader will use</dd>
 <dd><code>relativeOffset</code> - The offset in the buffer region the vertex data is defined at. It must be between 0 and <a href="../../../../api/client/render/VeilRenderSystem.html#maxVertexAttributeRelativeOffset()"><code>VeilRenderSystem.maxVertexAttributeRelativeOffset()</code></a></dd>
-<dd><code>divisor</code> - The number of instances that have to pass to increment this attribute or <code>0</code> to increment per vertex</dd>
 </dl>
 </section>
 </li>

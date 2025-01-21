@@ -83,17 +83,23 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.api.client.necromancer.render</a></div>
-<h1 title="Class NecromancerEntityRenderer" class="title">Class NecromancerEntityRenderer&lt;T extends net.minecraft.world.entity.Entity &amp; <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;T,<wbr>M&gt;,<wbr>M extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&lt;T&gt;&gt;</h1>
+<h1 title="Class NecromancerEntityRenderer" class="title">Class NecromancerEntityRenderer&lt;P extends net.minecraft.world.entity.Entity &amp; <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;P,<wbr>S&gt;,<wbr>S extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">net.minecraft.client.renderer.entity.EntityRenderer&lt;T&gt;
-<div class="inheritance">foundry.veil.api.client.necromancer.render.NecromancerEntityRenderer&lt;T,<wbr>M&gt;</div>
+<div class="inheritance">net.minecraft.client.renderer.entity.EntityRenderer&lt;P&gt;
+<div class="inheritance">foundry.veil.api.client.necromancer.render.NecromancerEntityRenderer&lt;P,<wbr>S&gt;</div>
 </div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>Type Parameters:</dt>
+<dd><code>P</code> - The entity to render</dd>
+<dd><code>S</code> - The skeleton for the entity</dd>
+</dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">NecromancerEntityRenderer&lt;T extends net.minecraft.world.entity.Entity &amp; <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;T,<wbr>M&gt;,<wbr>M extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&lt;T&gt;&gt;</span>
-<span class="extends-implements">extends net.minecraft.client.renderer.entity.EntityRenderer&lt;T&gt;</span></div>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">NecromancerEntityRenderer&lt;P extends net.minecraft.world.entity.Entity &amp; <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;P,<wbr>S&gt;,<wbr>S extends <a href="../Skeleton.html" title="class in foundry.veil.api.client.necromancer">Skeleton</a>&gt;</span>
+<span class="extends-implements">extends net.minecraft.client.renderer.entity.EntityRenderer&lt;P&gt;</span></div>
+<div class="block">A renderer for a necromancer entity.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -116,9 +122,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.minecraft.client.renderer.entity.EntityRendererProvider.Context,java.util.function.Function,java.util.function.BiFunction,float)" class="member-name-link">NecromancerEntityRenderer</a><wbr>(net.minecraft.client.renderer.entity.EntityRendererProvider.Context&nbsp;pContext,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&nbsp;skeletonFactory,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiFunction.html" title="class or interface in java.util.function" class="external-link">BiFunction</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>,<wbr><a href="../animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&gt;&nbsp;animatorFactory,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(net.minecraft.client.renderer.entity.EntityRendererProvider.Context,float)" class="member-name-link">NecromancerEntityRenderer</a><wbr>(net.minecraft.client.renderer.entity.EntityRendererProvider.Context&nbsp;context,
  float&nbsp;shadowRadius)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -136,56 +140,52 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addLayer(foundry.veil.api.client.necromancer.render.NecromancerEntityRenderLayer)" class="member-name-link">addLayer</a><wbr>(<a href="NecromancerEntityRenderLayer.html" title="class in foundry.veil.api.client.necromancer.render">NecromancerEntityRenderLayer</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&nbsp;layer)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOverlayCoords(T)" class="member-name-link">getOverlayCoords</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;pEntity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected net.minecraft.client.renderer.RenderType</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRenderType(T,boolean,boolean,boolean)" class="member-name-link">getRenderType</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;pLivingEntity,
- boolean&nbsp;visible,
- boolean&nbsp;spectator,
- boolean&nbsp;glowing)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract net.minecraft.client.renderer.RenderType</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getRenderType(T,net.minecraft.resources.ResourceLocation)" class="member-name-link">getRenderType</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;entity,
- net.minecraft.resources.ResourceLocation&nbsp;texture)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="Skin.html" title="class in foundry.veil.api.client.necromancer.render">Skin</a><wbr>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getSkin(T)" class="member-name-link">getSkin</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;parent)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(T,float,float,com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource,int)" class="member-name-link">render</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;pEntity,
- float&nbsp;pEntityYaw,
- float&nbsp;pPartialTicks,
- com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
- net.minecraft.client.renderer.MultiBufferSource&nbsp;pBuffer,
- int&nbsp;pPackedLight)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addLayer(foundry.veil.api.client.necromancer.render.NecromancerEntityRenderLayer)" class="member-name-link">addLayer</a><wbr>(<a href="NecromancerEntityRenderLayer.html" title="class in foundry.veil.api.client.necromancer.render">NecromancerEntityRenderLayer</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&gt;&nbsp;layer)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a new layer to this renderer.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="../animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a><wbr>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createAnimator(P,S)" class="member-name-link">createAnimator</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent,
+ <a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&nbsp;skeleton)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Creates an animator for the specified entity and skeleton.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#createSkeleton(P)" class="member-name-link">createSkeleton</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Creates a skeleton for the specified entity.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>net.minecraft.resources.ResourceLocation</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTextureLocation(P)" class="member-name-link">getTextureLocation</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;entity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#renderSkin(T,M,foundry.veil.api.client.necromancer.render.Skin,int,float,com.mojang.blaze3d.vertex.PoseStack,com.mojang.blaze3d.vertex.VertexConsumer,int,int,float,float,float,float)" class="member-name-link">renderSkin</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;entity,
- <a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&nbsp;skeleton,
- <a href="Skin.html" title="class in foundry.veil.api.client.necromancer.render">Skin</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&nbsp;skin,
- int&nbsp;ticksExisted,
- float&nbsp;partialTicks,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(P,float,float,com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource,int)" class="member-name-link">render</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent,
+ float&nbsp;entityYaw,
+ float&nbsp;partialTick,
  com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
- com.mojang.blaze3d.vertex.VertexConsumer&nbsp;consumer,
- int&nbsp;packedLight,
- int&nbsp;packedOverlay,
- float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b,
- float&nbsp;a)</code></div>
+ net.minecraft.client.renderer.MultiBufferSource&nbsp;bufferSource,
+ int&nbsp;packedLight)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupEntity(T)" class="member-name-link">setupEntity</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;entity)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(P,foundry.veil.api.client.necromancer.render.NecromancerRenderer,foundry.veil.api.client.render.MatrixStack,int,float)" class="member-name-link">render</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent,
+ <a href="NecromancerRenderer.html" title="interface in foundry.veil.api.client.necromancer.render">NecromancerRenderer</a>&nbsp;renderer,
+ <a href="../../render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a>&nbsp;matrixStack,
+ int&nbsp;packedLight,
+ float&nbsp;partialTicks)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Renders the necromancer entity.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setupEntity(P)" class="member-name-link">setupEntity</a><wbr>(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a skeleton and animator to the specified entity.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-net.minecraft.client.renderer.entity.EntityRenderer">Methods inherited from class&nbsp;net.minecraft.client.renderer.entity.EntityRenderer</h3>
-<code>getBlockLightLevel, getFont, getPackedLightCoords, getRenderOffset, getShadowRadius, getSkyLightLevel, getTextureLocation, renderNameTag, shouldRender, shouldShowName</code></div>
+<code>getBlockLightLevel, getFont, getPackedLightCoords, getRenderOffset, getShadowRadius, getSkyLightLevel, renderNameTag, shouldRender, shouldShowName</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
@@ -201,11 +201,9 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(net.minecraft.client.renderer.entity.EntityRendererProvider.Context,java.util.function.Function,java.util.function.BiFunction,float)">
+<section class="detail" id="&lt;init&gt;(net.minecraft.client.renderer.entity.EntityRendererProvider.Context,float)">
 <h3>NecromancerEntityRenderer</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">NecromancerEntityRenderer</span><wbr><span class="parameters">(net.minecraft.client.renderer.entity.EntityRendererProvider.Context&nbsp;pContext,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&nbsp;skeletonFactory,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BiFunction.html" title="class or interface in java.util.function" class="external-link">BiFunction</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>,<wbr><a href="../animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&gt;&nbsp;animatorFactory,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">NecromancerEntityRenderer</span><wbr><span class="parameters">(net.minecraft.client.renderer.entity.EntityRendererProvider.Context&nbsp;context,
  float&nbsp;shadowRadius)</span></div>
 </section>
 </li>
@@ -220,74 +218,95 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="addLayer(foundry.veil.api.client.necromancer.render.NecromancerEntityRenderLayer)">
 <h3>addLayer</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addLayer</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderLayer.html" title="class in foundry.veil.api.client.necromancer.render">NecromancerEntityRenderLayer</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&nbsp;layer)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="setupEntity(T)">
-<h3 id="setupEntity(net.minecraft.world.entity.Entity)">setupEntity</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupEntity</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;entity)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getSkin(T)">
-<h3 id="getSkin(net.minecraft.world.entity.Entity)">getSkin</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Skin.html" title="class in foundry.veil.api.client.necromancer.render">Skin</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;</span>&nbsp;<span class="element-name">getSkin</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;parent)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="render(T,float,float,com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource,int)">
-<h3 id="render(net.minecraft.world.entity.Entity,float,float,com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource,int)">render</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">render</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;pEntity,
- float&nbsp;pEntityYaw,
- float&nbsp;pPartialTicks,
- com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
- net.minecraft.client.renderer.MultiBufferSource&nbsp;pBuffer,
- int&nbsp;pPackedLight)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addLayer</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderLayer.html" title="class in foundry.veil.api.client.necromancer.render">NecromancerEntityRenderLayer</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&gt;&nbsp;layer)</span></div>
+<div class="block">Adds a new layer to this renderer.</div>
 <dl class="notes">
-<dt>Overrides:</dt>
-<dd><code>render</code>&nbsp;in class&nbsp;<code>net.minecraft.client.renderer.entity.EntityRenderer&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a> extends net.minecraft.world.entity.Entity &amp; <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&gt;</code></dd>
+<dt>Parameters:</dt>
+<dd><code>layer</code> - The layer to add</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="getOverlayCoords(T)">
-<h3 id="getOverlayCoords(net.minecraft.world.entity.Entity)">getOverlayCoords</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getOverlayCoords</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;pEntity)</span></div>
+<section class="detail" id="setupEntity(P)">
+<h3 id="setupEntity(net.minecraft.world.entity.Entity)">setupEntity</h3>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setupEntity</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent)</span></div>
+<div class="block">Adds a skeleton and animator to the specified entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>parent</code> - The entity to set up</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="renderSkin(T,M,foundry.veil.api.client.necromancer.render.Skin,int,float,com.mojang.blaze3d.vertex.PoseStack,com.mojang.blaze3d.vertex.VertexConsumer,int,int,float,float,float,float)">
-<h3 id="renderSkin(net.minecraft.world.entity.Entity,foundry.veil.api.client.necromancer.Skeleton,foundry.veil.api.client.necromancer.render.Skin,int,float,com.mojang.blaze3d.vertex.PoseStack,com.mojang.blaze3d.vertex.VertexConsumer,int,int,float,float,float,float)">renderSkin</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">renderSkin</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;entity,
- <a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&nbsp;skeleton,
- <a href="Skin.html" title="class in foundry.veil.api.client.necromancer.render">Skin</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">M</a>&gt;&nbsp;skin,
- int&nbsp;ticksExisted,
- float&nbsp;partialTicks,
+<section class="detail" id="createSkeleton(P)">
+<h3 id="createSkeleton(net.minecraft.world.entity.Entity)">createSkeleton</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a></span>&nbsp;<span class="element-name">createSkeleton</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent)</span></div>
+<div class="block">Creates a skeleton for the specified entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>parent</code> - The entity to create the skeleton for</dd>
+<dt>Returns:</dt>
+<dd>The skeleton for that entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createAnimator(P,S)">
+<h3 id="createAnimator(net.minecraft.world.entity.Entity,foundry.veil.api.client.necromancer.Skeleton)">createAnimator</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="../animation/Animator.html" title="class in foundry.veil.api.client.necromancer.animation">Animator</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&gt;</span>&nbsp;<span class="element-name">createAnimator</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent,
+ <a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&nbsp;skeleton)</span></div>
+<div class="block">Creates an animator for the specified entity and skeleton.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>parent</code> - The entity to create the animator for</dd>
+<dd><code>skeleton</code> - The skeleton of the entity</dd>
+<dt>Returns:</dt>
+<dd>The animator for that entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="render(P,float,float,com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource,int)">
+<h3 id="render(net.minecraft.world.entity.Entity,float,float,com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource,int)">render</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">render</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent,
+ float&nbsp;entityYaw,
+ float&nbsp;partialTick,
  com.mojang.blaze3d.vertex.PoseStack&nbsp;poseStack,
- com.mojang.blaze3d.vertex.VertexConsumer&nbsp;consumer,
+ net.minecraft.client.renderer.MultiBufferSource&nbsp;bufferSource,
+ int&nbsp;packedLight)</span></div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code>render</code>&nbsp;in class&nbsp;<code>net.minecraft.client.renderer.entity.EntityRenderer&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a> extends net.minecraft.world.entity.Entity &amp; <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&gt;&gt;</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="render(P,foundry.veil.api.client.necromancer.render.NecromancerRenderer,foundry.veil.api.client.render.MatrixStack,int,float)">
+<h3 id="render(net.minecraft.world.entity.Entity,foundry.veil.api.client.necromancer.render.NecromancerRenderer,foundry.veil.api.client.render.MatrixStack,int,float)">render</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">render</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;parent,
+ <a href="NecromancerRenderer.html" title="interface in foundry.veil.api.client.necromancer.render">NecromancerRenderer</a>&nbsp;renderer,
+ <a href="../../render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a>&nbsp;matrixStack,
  int&nbsp;packedLight,
- int&nbsp;packedOverlay,
- float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b,
- float&nbsp;a)</span></div>
+ float&nbsp;partialTicks)</span></div>
+<div class="block">Renders the necromancer entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>parent</code> - The entity to render</dd>
+<dd><code>renderer</code> - The renderer instance</dd>
+<dd><code>matrixStack</code> - The current transform</dd>
+<dd><code>packedLight</code> - The packed lightmap coordinates</dd>
+<dd><code>partialTicks</code> - The percentage from last tick to this tick</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="getRenderType(T,net.minecraft.resources.ResourceLocation)">
-<h3 id="getRenderType(net.minecraft.world.entity.Entity,net.minecraft.resources.ResourceLocation)">getRenderType</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">net.minecraft.client.renderer.RenderType</span>&nbsp;<span class="element-name">getRenderType</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;entity,
- net.minecraft.resources.ResourceLocation&nbsp;texture)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getRenderType(T,boolean,boolean,boolean)">
-<h3 id="getRenderType(net.minecraft.world.entity.Entity,boolean,boolean,boolean)">getRenderType</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">net.minecraft.client.renderer.RenderType</span>&nbsp;<span class="element-name">getRenderType</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">T</a>&nbsp;pLivingEntity,
- boolean&nbsp;visible,
- boolean&nbsp;spectator,
- boolean&nbsp;glowing)</span></div>
+<section class="detail" id="getTextureLocation(P)">
+<h3 id="getTextureLocation(net.minecraft.world.entity.Entity)">getTextureLocation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">net.minecraft.resources.ResourceLocation</span>&nbsp;<span class="element-name">getTextureLocation</span><wbr><span class="parameters">(<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>&nbsp;entity)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code>getTextureLocation</code>&nbsp;in class&nbsp;<code>net.minecraft.client.renderer.entity.EntityRenderer&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a> extends net.minecraft.world.entity.Entity &amp; <a href="../SkeletonParent.html" title="interface in foundry.veil.api.client.necromancer">SkeletonParent</a>&lt;<a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">P</a>,<wbr><a href="NecromancerEntityRenderer.html" title="type parameter in NecromancerEntityRenderer">S</a>&gt;&gt;</code></dd>
+</dl>
 </section>
 </li>
 </ul>
