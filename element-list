@@ -18,7 +18,6 @@ foundry.veil.api.client.render.ext
 foundry.veil.api.client.render.framebuffer
 foundry.veil.api.client.render.light
 foundry.veil.api.client.render.light.renderer
-foundry.veil.api.client.render.mesh
 foundry.veil.api.client.render.post
 foundry.veil.api.client.render.post.stage
 foundry.veil.api.client.render.post.uniform
@@ -30,6 +29,7 @@ foundry.veil.api.client.render.shader.processor
 foundry.veil.api.client.render.shader.program
 foundry.veil.api.client.render.shader.texture
 foundry.veil.api.client.render.texture
+foundry.veil.api.client.render.vertex
 foundry.veil.api.client.tooltip
 foundry.veil.api.client.tooltip.anim
 foundry.veil.api.client.ui.util
@@ -84,7 +84,6 @@ foundry.veil.impl.client.render
 foundry.veil.impl.client.render.dynamicbuffer
 foundry.veil.impl.client.render.framebuffer
 foundry.veil.impl.client.render.light
-foundry.veil.impl.client.render.mesh
 foundry.veil.impl.client.render.perspective
 foundry.veil.impl.client.render.pipeline
 foundry.veil.impl.client.render.shader
@@ -92,6 +91,7 @@ foundry.veil.impl.client.render.shader.definition
 foundry.veil.impl.client.render.shader.modifier
 foundry.veil.impl.client.render.shader.program
 foundry.veil.impl.client.render.shader.transformer
+foundry.veil.impl.client.render.vertex
 foundry.veil.impl.client.render.wrapper
 foundry.veil.impl.compat.sodium
 foundry.veil.impl.glsl

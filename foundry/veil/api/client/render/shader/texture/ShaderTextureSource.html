@@ -148,14 +148,17 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getId(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context)" class="member-name-link">getId</a><wbr>(<a href="ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@Nullable <a href="../../texture/TextureFilter.html" title="class in foundry.veil.api.client.render.texture">TextureFilter</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#filter()" class="member-name-link">filter</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getId(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context)" class="member-name-link">getId</a><wbr>(<a href="ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Retrieves the id of this texture based on context.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ShaderTextureSource.Type.html" title="enum class in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Type</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#getType()" class="member-name-link">getType</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ShaderTextureSource.Type.html" title="enum class in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Type</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#type()" class="member-name-link">type</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -204,9 +207,20 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getType()">
-<h3>getType</h3>
-<div class="member-signature"><span class="return-type"><a href="ShaderTextureSource.Type.html" title="enum class in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Type</a></span>&nbsp;<span class="element-name">getType</span>()</div>
+<section class="detail" id="filter()">
+<h3>filter</h3>
+<div class="member-signature"><span class="annotations">@Nullable
+</span><span class="return-type">@Nullable <a href="../../texture/TextureFilter.html" title="class in foundry.veil.api.client.render.texture">TextureFilter</a></span>&nbsp;<span class="element-name">filter</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The filtering this texture should use or <code>null</code> for the texture default</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="type()">
+<h3>type</h3>
+<div class="member-signature"><span class="return-type"><a href="ShaderTextureSource.Type.html" title="enum class in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Type</a></span>&nbsp;<span class="element-name">type</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The type of shader texture this is</dd>

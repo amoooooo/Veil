@@ -163,8 +163,9 @@ implements <a href="../../../../api/client/render/post/PostPipeline.Context.html
 <div class="block">Sets a framebuffer to a name.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSampler(java.lang.CharSequence,int)" class="member-name-link">setSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- int&nbsp;id)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSampler(java.lang.CharSequence,int,int)" class="member-name-link">setSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ int&nbsp;textureId,
+ int&nbsp;samplerId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Binds a named sampler id.</div>
 </div>
@@ -221,18 +222,20 @@ implements <a href="../../../../api/client/render/post/PostPipeline.Context.html
 </section>
 </li>
 <li>
-<section class="detail" id="setSampler(java.lang.CharSequence,int)">
+<section class="detail" id="setSampler(java.lang.CharSequence,int,int)">
 <h3>setSampler</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSampler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- int&nbsp;id)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/post/PostPipeline.Context.html#setSampler(java.lang.CharSequence,int)">PostPipeline.Context</a></code></span></div>
+ int&nbsp;textureId,
+ int&nbsp;samplerId)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/post/PostPipeline.Context.html#setSampler(java.lang.CharSequence,int,int)">PostPipeline.Context</a></code></span></div>
 <div class="block">Binds a named sampler id. All samplers can be applied with <a href="../../../../api/client/render/post/PostPipeline.Context.html#applySamplers(foundry.veil.api.client.render.shader.program.TextureUniformAccess)"><code>PostPipeline.Context.applySamplers(TextureUniformAccess)</code></a> for adding them to shaders.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/post/PostPipeline.Context.html#setSampler(java.lang.CharSequence,int)">setSampler</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/post/PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></code></dd>
+<dd><code><a href="../../../../api/client/render/post/PostPipeline.Context.html#setSampler(java.lang.CharSequence,int,int)">setSampler</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/post/PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>name</code> - The name of the sampler</dd>
-<dd><code>id</code> - The id of the texture to bind</dd>
+<dd><code>textureId</code> - The id of the texture to bind</dd>
+<dd><code>samplerId</code> - The id of the sampler to bind</dd>
 </dl>
 </section>
 </li>

@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="../PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a></code>, <code><a href="../../shader/program/MutableUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">MutableUniformAccess</a></code>, <code><a href="../../shader/program/UniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">UniformAccess</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link">AutoCloseable</a></code>, <code>org.lwjgl.system.NativeResource</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CompositePostPipeline</span>
+<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">CompositePostPipeline</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a></span></div>
 <div class="block">A pipeline that runs all child pipelines in order.</div>
@@ -187,7 +187,7 @@ implements <a href="../PostPipeline.html" title="interface in foundry.veil.api.c
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStages()" class="member-name-link">getStages</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../shader/texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTextures()" class="member-name-link">getTextures</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTextureSources()" class="member-name-link">getTextureSources</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../../registry/PostPipelineStageRegistry.PipelineType.html" title="class in foundry.veil.api.client.registry">PostPipelineStageRegistry.PipelineType</a><wbr>&lt;? extends <a href="../PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getType()" class="member-name-link">getType</a>()</code></div>
@@ -982,9 +982,9 @@ implements <a href="../PostPipeline.html" title="interface in foundry.veil.api.c
 </section>
 </li>
 <li>
-<section class="detail" id="getTextures()">
-<h3>getTextures</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../shader/texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a>&gt;</span>&nbsp;<span class="element-name">getTextures</span>()</div>
+<section class="detail" id="getTextureSources()">
+<h3>getTextureSources</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../shader/texture/ShaderTextureSource.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource</a>&gt;</span>&nbsp;<span class="element-name">getTextureSources</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The globally bound textures for the child stages to access</dd>

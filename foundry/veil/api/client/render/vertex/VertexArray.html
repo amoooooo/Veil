@@ -5,7 +5,7 @@
 <title>VertexArray (common 1.0.0 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: foundry.veil.api.client.render.mesh, class: VertexArray">
+<meta name="description" content="declaration: package: foundry.veil.api.client.render.vertex, class: VertexArray">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -82,11 +82,11 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.api.client.render.mesh</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.api.client.render.vertex</a></div>
 <h1 title="Class VertexArray" class="title">Class VertexArray</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">foundry.veil.api.client.render.mesh.VertexArray</div>
+<div class="inheritance">foundry.veil.api.client.render.vertex.VertexArray</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
-<dd><code><a href="../../../../impl/client/render/mesh/ARBVertexAttribBindingVertexArray.html" title="class in foundry.veil.impl.client.render.mesh">ARBVertexAttribBindingVertexArray</a></code>, <code><a href="../../../../impl/client/render/mesh/DSAVertexAttribBindingVertexArray.html" title="class in foundry.veil.impl.client.render.mesh">DSAVertexAttribBindingVertexArray</a></code>, <code><a href="../../../../impl/client/render/mesh/LegacyVertexArray.html" title="class in foundry.veil.impl.client.render.mesh">LegacyVertexArray</a></code></dd>
+<dd><code><a href="../../../../impl/client/render/vertex/ARBVertexAttribBindingVertexArray.html" title="class in foundry.veil.impl.client.render.vertex">ARBVertexAttribBindingVertexArray</a></code>, <code><a href="../../../../impl/client/render/vertex/DSAVertexAttribBindingVertexArray.html" title="class in foundry.veil.impl.client.render.vertex">DSAVertexAttribBindingVertexArray</a></code>, <code><a href="../../../../impl/client/render/vertex/LegacyVertexArray.html" title="class in foundry.veil.impl.client.render.vertex">LegacyVertexArray</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">VertexArray</span>
@@ -115,10 +115,10 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="VertexArray.DrawUsage.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a></code></div>
+<div class="col-second even-row-color"><code><a href="VertexArray.DrawUsage.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.DrawUsage</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static enum&nbsp;</code></div>
-<div class="col-second odd-row-color"><code><a href="VertexArray.IndexType.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a></code></div>
+<div class="col-second odd-row-color"><code><a href="VertexArray.IndexType.html" class="type-name-link" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
@@ -144,7 +144,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-first odd-row-color"><code>protected int</code></div>
 <div class="col-second odd-row-color"><code><a href="#indexCount" class="member-name-link">indexCount</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a></code></div>
+<div class="col-first even-row-color"><code>protected <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a></code></div>
 <div class="col-second even-row-color"><code><a href="#indexType" class="member-name-link">indexType</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final int</code></div>
@@ -184,18 +184,18 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Binds this vertex array and applies any changes to the format automatically.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create()" class="member-name-link">create</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a single new vertex array.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a>[]</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a>[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(int)" class="member-name-link">create</a><wbr>(int&nbsp;count)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates an array of vertex arrays.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(foundry.veil.api.client.render.mesh.VertexArray%5B%5D)" class="member-name-link">create</a><wbr>(<a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a>[]&nbsp;fill)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#create(foundry.veil.api.client.render.vertex.VertexArray%5B%5D)" class="member-name-link">create</a><wbr>(<a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a>[]&nbsp;fill)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Replaces each element of the specified array with a new vertex array.</div>
 </div>
@@ -215,7 +215,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawInstanced(int,int)" class="member-name-link">drawInstanced</a><wbr>(int&nbsp;mode,
  int&nbsp;instances)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
@@ -227,7 +227,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIndexCount()" class="member-name-link">getIndexCount</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getIndexType()" class="member-name-link">getIndexType</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
@@ -236,8 +236,8 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="block">Creates a new buffer object owned by this vertex array or retrieves an existing buffer.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIndexCount(int,foundry.veil.api.client.render.mesh.VertexArray.IndexType)" class="member-name-link">setIndexCount</a><wbr>(int&nbsp;indexCount,
- <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a>&nbsp;indexType)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setIndexCount(int,foundry.veil.api.client.render.vertex.VertexArray.IndexType)" class="member-name-link">setIndexCount</a><wbr>(int&nbsp;indexCount,
+ <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a>&nbsp;indexType)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#unbind()" class="member-name-link">unbind</a>()</code></div>
@@ -245,22 +245,22 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="block">Unbinds the current vertex array.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(int&nbsp;attributeStart,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.vertex.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(int&nbsp;attributeStart,
  com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
- <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
+ <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Uploads vanilla mc mesh data into this vertex array.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#upload(int,java.nio.ByteBuffer,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(int&nbsp;buffer,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#upload(int,java.nio.ByteBuffer,foundry.veil.api.client.render.vertex.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(int&nbsp;buffer,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
- <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
+ <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Uploads mesh data into the specified buffer.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
- <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.vertex.VertexArray.DrawUsage)" class="member-name-link">upload</a><wbr>(com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
+ <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.DrawUsage</a>&nbsp;usage)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Uploads vanilla mc mesh data into this vertex array.</div>
 </div>
@@ -309,7 +309,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list">
-<li><a href="../../../../../../constant-values.html#foundry.veil.api.client.render.mesh.VertexArray.VERTEX_BUFFER">Constant Field Values</a></li>
+<li><a href="../../../../../../constant-values.html#foundry.veil.api.client.render.vertex.VertexArray.VERTEX_BUFFER">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -323,7 +323,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list">
-<li><a href="../../../../../../constant-values.html#foundry.veil.api.client.render.mesh.VertexArray.ELEMENT_ARRAY_BUFFER">Constant Field Values</a></li>
+<li><a href="../../../../../../constant-values.html#foundry.veil.api.client.render.vertex.VertexArray.ELEMENT_ARRAY_BUFFER">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -350,7 +350,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="indexType">
 <h3>indexType</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a></span>&nbsp;<span class="element-name">indexType</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a></span>&nbsp;<span class="element-name">indexType</span></div>
 </section>
 </li>
 </ul>
@@ -379,7 +379,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="create()">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a></span>&nbsp;<span class="element-name">create</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a></span>&nbsp;<span class="element-name">create</span>()</div>
 <div class="block">Creates a single new vertex array.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -390,7 +390,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="create(int)">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a>[]</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(int&nbsp;count)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a>[]</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(int&nbsp;count)</span></div>
 <div class="block">Creates an array of vertex arrays.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -401,9 +401,9 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="create(foundry.veil.api.client.render.mesh.VertexArray[])">
+<section class="detail" id="create(foundry.veil.api.client.render.vertex.VertexArray[])">
 <h3>create</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="VertexArray.html" title="class in foundry.veil.api.client.render.mesh">VertexArray</a>[]&nbsp;fill)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a>[]&nbsp;fill)</span></div>
 <div class="block">Replaces each element of the specified array with a new vertex array.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -428,26 +428,38 @@ implements org.lwjgl.system.NativeResource</span></div>
 <section class="detail" id="getId()">
 <h3>getId</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getId</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The OpenGL id of this vertex array</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getIndexCount()">
 <h3>getIndexCount</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getIndexCount</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The number of indices in this array</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getIndexType()">
 <h3>getIndexType</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a></span>&nbsp;<span class="element-name">getIndexType</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a></span>&nbsp;<span class="element-name">getIndexType</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The data type of the index buffer</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="upload(int,java.nio.ByteBuffer,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">
+<section class="detail" id="upload(int,java.nio.ByteBuffer,foundry.veil.api.client.render.vertex.VertexArray.DrawUsage)">
 <h3>upload</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upload</span><wbr><span class="parameters">(int&nbsp;buffer,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;data,
- <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</span></div>
+ <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.DrawUsage</a>&nbsp;usage)</span></div>
 <div class="block">Uploads mesh data into the specified buffer.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -457,10 +469,10 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">
+<section class="detail" id="upload(com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.vertex.VertexArray.DrawUsage)">
 <h3>upload</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upload</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
- <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</span></div>
+ <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.DrawUsage</a>&nbsp;usage)</span></div>
 <div class="block">Uploads vanilla mc mesh data into this vertex array. Only a single mesh can be uploaded this way.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -470,11 +482,11 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.mesh.VertexArray.DrawUsage)">
+<section class="detail" id="upload(int,com.mojang.blaze3d.vertex.MeshData,foundry.veil.api.client.render.vertex.VertexArray.DrawUsage)">
 <h3>upload</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">upload</span><wbr><span class="parameters">(int&nbsp;attributeStart,
  com.mojang.blaze3d.vertex.MeshData&nbsp;meshData,
- <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.DrawUsage</a>&nbsp;usage)</span></div>
+ <a href="VertexArray.DrawUsage.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.DrawUsage</a>&nbsp;usage)</span></div>
 <div class="block">Uploads vanilla mc mesh data into this vertex array. Only a single mesh can be uploaded this way.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -534,7 +546,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="editFormat()">
 <h3>editFormat</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.mesh">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">editFormat</span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">editFormat</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>A builder for applying changes to this array</dd>
@@ -578,10 +590,10 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="setIndexCount(int,foundry.veil.api.client.render.mesh.VertexArray.IndexType)">
+<section class="detail" id="setIndexCount(int,foundry.veil.api.client.render.vertex.VertexArray.IndexType)">
 <h3>setIndexCount</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIndexCount</span><wbr><span class="parameters">(int&nbsp;indexCount,
- <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.mesh">VertexArray.IndexType</a>&nbsp;indexType)</span></div>
+ <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a>&nbsp;indexType)</span></div>
 </section>
 </li>
 <li>

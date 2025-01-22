@@ -138,6 +138,18 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindSamplers(int,int...)" class="member-name-link">bindSamplers</a><wbr>(int&nbsp;first,
+ int...&nbsp;samplers)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Binds the specified sampler ids to sequential texture units and invalidates the GLStateManager.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindSamplers(int,java.nio.IntBuffer)" class="member-name-link">bindSamplers</a><wbr>(int&nbsp;first,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/IntBuffer.html" title="class or interface in java.nio" class="external-link">IntBuffer</a>&nbsp;samplers)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Binds the specified sampler ids to sequential texture units and invalidates the GLStateManager.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindTextures(int,int...)" class="member-name-link">bindTextures</a><wbr>(int&nbsp;first,
  int...&nbsp;textures)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -257,6 +269,32 @@ not permitted.)</div>
 <dt>Parameters:</dt>
 <dd><code>first</code> - The first unit to bind to</dd>
 <dd><code>textures</code> - The textures to bind</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="bindSamplers(int,java.nio.IntBuffer)">
+<h3>bindSamplers</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindSamplers</span><wbr><span class="parameters">(int&nbsp;first,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/IntBuffer.html" title="class or interface in java.nio" class="external-link">IntBuffer</a>&nbsp;samplers)</span></div>
+<div class="block">Binds the specified sampler ids to sequential texture units and invalidates the GLStateManager.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>first</code> - The first unit to bind to</dd>
+<dd><code>samplers</code> - The samplers to bind</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="bindSamplers(int,int...)">
+<h3>bindSamplers</h3>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindSamplers</span><wbr><span class="parameters">(int&nbsp;first,
+ int...&nbsp;samplers)</span></div>
+<div class="block">Binds the specified sampler ids to sequential texture units and invalidates the GLStateManager.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>first</code> - The first unit to bind to</dd>
+<dd><code>samplers</code> - The samplers to bind</dd>
 </dl>
 </section>
 </li>

@@ -124,16 +124,14 @@ implements <a href="AdvancedFboAttachment.html" title="interface in foundry.veil
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int,int,int,int,boolean,int,int,java.lang.String)" class="member-name-link">AdvancedFboTextureAttachment</a><wbr>(int&nbsp;attachmentType,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int,int,int,int,foundry.veil.api.client.render.texture.TextureFilter,java.lang.String)" class="member-name-link">AdvancedFboTextureAttachment</a><wbr>(int&nbsp;attachmentType,
  int&nbsp;format,
  int&nbsp;texelFormat,
  int&nbsp;dataType,
  int&nbsp;width,
  int&nbsp;height,
  int&nbsp;mipmapLevels,
- boolean&nbsp;linear,
- int&nbsp;wrapS,
- int&nbsp;wrapT,
+ <a href="../texture/TextureFilter.html" title="class in foundry.veil.api.client.render.texture">TextureFilter</a>&nbsp;filter,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new attachment that adds a texture.</div>
@@ -185,32 +183,26 @@ implements <a href="AdvancedFboAttachment.html" title="interface in foundry.veil
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDataType()" class="member-name-link">getDataType</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFormat()" class="member-name-link">getFormat</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../texture/TextureFilter.html" title="class in foundry.veil.api.client.render.texture">TextureFilter</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFilter()" class="member-name-link">getFilter</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFormat()" class="member-name-link">getFormat</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLevels()" class="member-name-link">getLevels</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getName()" class="member-name-link">getName</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTexelFormat()" class="member-name-link">getTexelFormat</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLevels()" class="member-name-link">getLevels</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWrapS()" class="member-name-link">getWrapS</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getName()" class="member-name-link">getName</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWrapT()" class="member-name-link">getWrapT</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTexelFormat()" class="member-name-link">getTexelFormat</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isLinear()" class="member-name-link">isLinear</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#load(net.minecraft.server.packs.resources.ResourceManager)" class="member-name-link">load</a><wbr>(net.minecraft.server.packs.resources.ResourceManager&nbsp;manager)</code></div>
@@ -244,7 +236,7 @@ implements <a href="AdvancedFboAttachment.html" title="interface in foundry.veil
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int,int,int,int,int,int,int,boolean,int,int,java.lang.String)">
+<section class="detail" id="&lt;init&gt;(int,int,int,int,int,int,int,foundry.veil.api.client.render.texture.TextureFilter,java.lang.String)">
 <h3>AdvancedFboTextureAttachment</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AdvancedFboTextureAttachment</span><wbr><span class="parameters">(int&nbsp;attachmentType,
  int&nbsp;format,
@@ -253,9 +245,7 @@ implements <a href="AdvancedFboAttachment.html" title="interface in foundry.veil
  int&nbsp;width,
  int&nbsp;height,
  int&nbsp;mipmapLevels,
- boolean&nbsp;linear,
- int&nbsp;wrapS,
- int&nbsp;wrapT,
+ <a href="../texture/TextureFilter.html" title="class in foundry.veil.api.client.render.texture">TextureFilter</a>&nbsp;filter,
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
 <div class="block">Creates a new attachment that adds a texture.</div>
@@ -465,21 +455,9 @@ implements <a href="AdvancedFboAttachment.html" title="interface in foundry.veil
 </section>
 </li>
 <li>
-<section class="detail" id="isLinear()">
-<h3>isLinear</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isLinear</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getWrapS()">
-<h3>getWrapS</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getWrapS</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getWrapT()">
-<h3>getWrapT</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getWrapT</span>()</div>
+<section class="detail" id="getFilter()">
+<h3>getFilter</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../texture/TextureFilter.html" title="class in foundry.veil.api.client.render.texture">TextureFilter</a></span>&nbsp;<span class="element-name">getFilter</span>()</div>
 </section>
 </li>
 <li>
