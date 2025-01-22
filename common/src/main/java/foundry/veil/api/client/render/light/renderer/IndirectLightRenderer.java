@@ -8,8 +8,8 @@ import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.IndirectLight;
 import foundry.veil.api.client.render.light.Light;
-import foundry.veil.api.client.render.mesh.VertexArray;
-import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
+import foundry.veil.api.client.render.vertex.VertexArray;
+import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
@@ -50,6 +50,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     protected final int rangeOffset;
     protected int maxLights;
 
+    private final int drawMode;
     private final VertexArray vertexArray;
     private final int instancedVbo;
     private final int indirectVbo;
@@ -97,7 +98,9 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
             this.indirectBlock = null;
         }
 
-        this.vertexArray.upload(this.createMesh(), VertexArray.DrawUsage.STATIC);
+        MeshData mesh = this.createMesh();
+        this.drawMode = mesh.drawState().mode().asGLMode;
+        this.vertexArray.upload(mesh, VertexArray.DrawUsage.STATIC);
 
         this.highResSize = this.vertexArray.getIndexCount() - lowResSize;
         this.lowResSize = lowResSize;
@@ -314,7 +317,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
         this.vertexArray.bind();
         RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
-        this.vertexArray.drawIndirect(GL_TRIANGLE_STRIP, 0L, this.visibleLights, 0);
+        this.vertexArray.drawIndirect(this.drawMode, 0L, this.visibleLights, 0);
         RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
         VertexBuffer.unbind();
 

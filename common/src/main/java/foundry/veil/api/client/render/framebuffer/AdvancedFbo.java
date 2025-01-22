@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.framebuffer;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.texture.TextureFilter;
 import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
 import foundry.veil.impl.client.render.framebuffer.DSAAdvancedFboImpl;
 import foundry.veil.impl.client.render.framebuffer.LegacyAdvancedFboImpl;
@@ -528,9 +529,15 @@ public interface AdvancedFbo extends NativeResource {
         private int levels;
         private int format;
         private int internalFormat;
-        private boolean linear;
-        private int wrapS;
-        private int wrapT;
+
+        private boolean blur;
+        private boolean mipmap;
+        private float anisotropy;
+        private TextureFilter.CompareFunction compareFunction;
+        private TextureFilter.Wrap wrapS;
+        private TextureFilter.Wrap wrapT;
+        private int edgeColor;
+
         private String name;
 
         /**
@@ -551,9 +558,15 @@ public interface AdvancedFbo extends NativeResource {
             this.levels = 1;
             this.format = GL_RGBA;
             this.internalFormat = GL_RGBA8;
-            this.linear = false;
-            this.wrapS = GL_CLAMP_TO_EDGE;
-            this.wrapT = GL_CLAMP_TO_EDGE;
+
+            this.blur = false;
+            this.mipmap = false;
+            this.anisotropy = 1.0F;
+            this.compareFunction = null;
+            this.wrapS = TextureFilter.Wrap.CLAMP_TO_EDGE;
+            this.wrapT = TextureFilter.Wrap.CLAMP_TO_EDGE;
+            this.edgeColor = 0xFF000000;
+
             this.name = null;
         }
 
@@ -580,6 +593,19 @@ public interface AdvancedFbo extends NativeResource {
             }
         }
 
+        private TextureFilter.EdgeType getEdgeType() {
+            if (this.format == GL_RED_INTEGER ||
+                    this.format == GL_RG_INTEGER ||
+                    this.format == GL_RGB_INTEGER ||
+                    this.format == GL_RGBA_INTEGER) {
+                return TextureFilter.EdgeType.INT;
+            }
+            if (this.format == GL_DEPTH_STENCIL) {
+                return TextureFilter.EdgeType.UINT;
+            }
+            return TextureFilter.EdgeType.FLOAT;
+        }
+
         /**
          * Adds copies of the buffers inside the specified fbo.
          *
@@ -603,15 +629,10 @@ public interface AdvancedFbo extends NativeResource {
          * @param parent The parent to add the attachments for
          */
         public Builder addAttachments(RenderTarget parent) {
-            this.setFormat(FramebufferAttachmentDefinition.Format.RGBA8);
-            this.setLevels(1);
-            this.setLinear(false);
-            this.setName(null);
+            this.reset();
             this.addColorTextureBuffer(parent.width, parent.height, GL_UNSIGNED_BYTE);
             if (parent.useDepth) {
                 Validate.isTrue(this.depthAttachment == null, "Only one depth attachment can be applied to an FBO.");
-                this.setLevels(1);
-                this.setName(null);
                 this.setDepthRenderBuffer(parent.width, parent.height);
             }
             return this;
@@ -652,10 +673,32 @@ public interface AdvancedFbo extends NativeResource {
         /**
          * Sets the sampling mode for textures.
          *
-         * @param linear Whether linear filtering should be used
+         * @param blur   Whether linear filtering should be used
+         * @param mipmap Whether the framebuffer has any mipmaps that should be respected
          */
-        public Builder setLinear(boolean linear) {
-            this.linear = linear;
+        public Builder setFilter(boolean blur, boolean mipmap) {
+            this.blur = blur;
+            this.mipmap = mipmap;
+            return this;
+        }
+
+        /**
+         * Sets the anisotropic filtering value. Set to {@link Float#MAX_VALUE} to set to the platform maximum.
+         *
+         * @param anisotropy The value to use. Any value >1 is considered to be enabled
+         */
+        public Builder setAnisotropy(float anisotropy) {
+            this.anisotropy = anisotropy;
+            return this;
+        }
+
+        /**
+         * Sets the compare function to use. Only valid for depth textures.
+         *
+         * @param compareFunction The compare function to use
+         */
+        public Builder setCompareFunction(@Nullable TextureFilter.CompareFunction compareFunction) {
+            this.compareFunction = compareFunction;
             return this;
         }
 
@@ -664,8 +707,8 @@ public interface AdvancedFbo extends NativeResource {
          *
          * @param wrapS The wrap mode
          */
-        public Builder setWrapS(FramebufferAttachmentDefinition.TextureWrap wrapS) {
-            this.wrapS = wrapS.getId();
+        public Builder setWrapS(TextureFilter.Wrap wrapS) {
+            this.wrapS = wrapS;
             return this;
         }
 
@@ -675,7 +718,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param wrapS The wrap mode
          */
         public Builder setWrapS(int wrapS) {
-            this.wrapS = wrapS;
+            this.wrapS = TextureFilter.Wrap.BY_GL_ID.getOrDefault(wrapS, TextureFilter.Wrap.CLAMP_TO_EDGE);
             return this;
         }
 
@@ -684,8 +727,8 @@ public interface AdvancedFbo extends NativeResource {
          *
          * @param wrapT The wrap mode
          */
-        public Builder setWrapT(FramebufferAttachmentDefinition.TextureWrap wrapT) {
-            this.wrapT = wrapT.getId();
+        public Builder setWrapT(TextureFilter.Wrap wrapT) {
+            this.wrapT = wrapT;
             return this;
         }
 
@@ -695,7 +738,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param wrapT The wrap mode
          */
         public Builder setWrapT(int wrapT) {
-            this.wrapT = wrapT;
+            this.wrapT = TextureFilter.Wrap.BY_GL_ID.getOrDefault(wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE);
             return this;
         }
 
@@ -705,9 +748,9 @@ public interface AdvancedFbo extends NativeResource {
          * @param wrapS The X wrap mode
          * @param wrapT The Y wrap mode
          */
-        public Builder setWrap(FramebufferAttachmentDefinition.TextureWrap wrapS, FramebufferAttachmentDefinition.TextureWrap wrapT) {
-            this.wrapS = wrapS.getId();
-            this.wrapT = wrapT.getId();
+        public Builder setWrap(TextureFilter.Wrap wrapS, TextureFilter.Wrap wrapT) {
+            this.wrapS = wrapS;
+            this.wrapT = wrapT;
             return this;
         }
 
@@ -718,8 +761,32 @@ public interface AdvancedFbo extends NativeResource {
          * @param wrapT The Y wrap mode
          */
         public Builder setWrap(int wrapS, int wrapT) {
-            this.wrapS = wrapS;
-            this.wrapT = wrapT;
+            this.wrapS = TextureFilter.Wrap.BY_GL_ID.getOrDefault(wrapS, TextureFilter.Wrap.CLAMP_TO_EDGE);
+            this.wrapT = TextureFilter.Wrap.BY_GL_ID.getOrDefault(wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE);
+            return this;
+        }
+
+        /**
+         * Sets the color to get when sampling the texture out of bounds when using {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+         *
+         * @param edgeColor The new edge color in ARGB
+         */
+        public Builder setEdgeColor(int edgeColor) {
+            this.edgeColor = edgeColor;
+            return this;
+        }
+
+        /**
+         * Sets the texture filtering options to match the specified filter.
+         *
+         * @param filter The texture filtering options
+         */
+        public Builder setFilter(TextureFilter filter) {
+            this.setFilter(filter.blur(), filter.mipmap());
+            this.setAnisotropy(filter.anisotropy());
+            this.setCompareFunction(filter.compareFunction());
+            this.setWrap(filter.wrapX(), filter.wrapY());
+            this.setEdgeColor(filter.edgeColor());
             return this;
         }
 
@@ -805,9 +872,7 @@ public interface AdvancedFbo extends NativeResource {
                     width,
                     height,
                     this.levels,
-                    this.linear,
-                    this.wrapS,
-                    this.wrapT,
+                    new TextureFilter(this.blur, this.mipmap, this.anisotropy, this.compareFunction, this.wrapS, this.wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE, this.edgeColor, this.getEdgeType(), false),
                     this.name));
         }
 
@@ -906,9 +971,7 @@ public interface AdvancedFbo extends NativeResource {
                     width,
                     height,
                     this.levels,
-                    this.linear,
-                    this.wrapS,
-                    this.wrapT,
+                    new TextureFilter(this.blur, this.mipmap, this.anisotropy, this.compareFunction, this.wrapS, this.wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE, this.edgeColor, this.getEdgeType(), false),
                     this.name));
         }
 

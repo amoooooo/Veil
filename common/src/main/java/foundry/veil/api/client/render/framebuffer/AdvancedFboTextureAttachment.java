@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.framebuffer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.ext.VeilDebug;
+import foundry.veil.api.client.render.texture.TextureFilter;
 import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -31,9 +32,7 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     private final int width;
     private final int height;
     private final int mipmapLevels;
-    private final boolean linear;
-    private final int wrapS;
-    private final int wrapT;
+    private final TextureFilter filter;
     private final String name;
 
     /**
@@ -55,9 +54,7 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
                                         int width,
                                         int height,
                                         int mipmapLevels,
-                                        boolean linear,
-                                        int wrapS,
-                                        int wrapT,
+                                        TextureFilter filter,
                                         @Nullable String name) {
         this.attachmentType = attachmentType;
         this.format = format;
@@ -66,16 +63,14 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
         this.width = width;
         this.height = height;
         this.mipmapLevels = mipmapLevels;
-        this.linear = linear;
-        this.wrapS = wrapS;
-        this.wrapT = wrapT;
+        this.filter = filter;
         this.name = name;
     }
 
     @Override
     public void create() {
         this.bindAttachment();
-        this.setFilter(this.linear, this.mipmapLevels > 1);
+        this.setFilter(this.filter.blur(), this.filter.mipmap());
 
         if (this.name != null) {
             VeilDebug.get().objectLabel(GL_TEXTURE, this.getId(), "Texture " + this.name);
@@ -85,8 +80,7 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, this.mipmapLevels - 1);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0.0F);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this.wrapS);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this.wrapT);
+        this.filter.applyToTextureTarget(GL_TEXTURE_2D);
 
         for (int i = 0; i < this.mipmapLevels; i++) {
             glTexImage2D(GL_TEXTURE_2D, i, this.format, this.width >> i, this.height >> i, 0, this.texelFormat, this.dataType, (ByteBuffer) null);
@@ -113,7 +107,7 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
 
     @Override
     public AdvancedFboTextureAttachment clone() {
-        return new AdvancedFboTextureAttachment(this.attachmentType, this.format, this.texelFormat, this.dataType, this.width, this.height, this.mipmapLevels, this.linear, this.wrapS, this.wrapT, this.name);
+        return new AdvancedFboTextureAttachment(this.attachmentType, this.format, this.texelFormat, this.dataType, this.width, this.height, this.mipmapLevels, this.filter, this.name);
     }
 
     @Override
@@ -161,16 +155,8 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
         return this.mipmapLevels;
     }
 
-    public boolean isLinear() {
-        return this.linear;
-    }
-
-    public int getWrapS() {
-        return this.wrapS;
-    }
-
-    public int getWrapT() {
-        return this.wrapT;
+    public TextureFilter getFilter() {
+        return this.filter;
     }
 
     @Override

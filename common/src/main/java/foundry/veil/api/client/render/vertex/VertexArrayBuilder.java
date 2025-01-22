@@ -1,4 +1,4 @@
-package foundry.veil.api.client.render.mesh;
+package foundry.veil.api.client.render.vertex;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;

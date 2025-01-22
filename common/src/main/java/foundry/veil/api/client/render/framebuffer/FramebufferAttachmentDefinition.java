@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.render.post.PostProcessingManager;
+import foundry.veil.api.client.render.texture.TextureFilter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -16,7 +17,6 @@ import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.opengl.GL31C.*;
 import static org.lwjgl.opengl.GL33C.GL_RGB10_A2UI;
 import static org.lwjgl.opengl.GL41C.GL_RGB565;
-import static org.lwjgl.opengl.GL44C.GL_MIRROR_CLAMP_TO_EDGE;
 
 /**
  * Represents a framebuffer attachment that can be turned into a real framebuffer.
@@ -24,9 +24,7 @@ import static org.lwjgl.opengl.GL44C.GL_MIRROR_CLAMP_TO_EDGE;
  * @param type   The type of attachment this is
  * @param format The internal format of the data
  * @param depth  Whether this is a color or depth attachment
- * @param linear Whether this should have linear filtering. Only applies to texture buffers
- * @param wrapX  The wrap mode this attachment will use for the X axis
- * @param wrapY  The wrap mode this attachment will use for the Y axis
+ * @param filter The texture filtering to apply. Only applies to texture buffers
  * @param levels The number of mipmaps for textures and samples for render buffers
  * @param name   The custom name to use when uploading this as a sampler to shaders
  * @author Ocelot
@@ -38,9 +36,7 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
                                               FramebufferAttachmentDefinition.Format format,
                                               FramebufferAttachmentDefinition.DataType dataType,
                                               boolean depth,
-                                              boolean linear,
-                                              TextureWrap wrapX,
-                                              TextureWrap wrapY,
+                                              TextureFilter filter,
                                               int levels,
                                               @Nullable String name) {
 
@@ -52,18 +48,14 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
                             .forGetter(FramebufferAttachmentDefinition::format),
                     DataType.CODEC.optionalFieldOf("dataType", DataType.UNSIGNED_BYTE)
                             .forGetter(FramebufferAttachmentDefinition::dataType),
-                    Codec.BOOL.optionalFieldOf("linear", false)
-                            .forGetter(FramebufferAttachmentDefinition::linear),
-                    TextureWrap.CODEC.optionalFieldOf("wrapX", TextureWrap.CLAMP_TO_EDGE)
-                            .forGetter(FramebufferAttachmentDefinition::wrapX),
-                    TextureWrap.CODEC.optionalFieldOf("wrapY", TextureWrap.CLAMP_TO_EDGE)
-                            .forGetter(FramebufferAttachmentDefinition::wrapY),
+                    TextureFilter.CLAMP_DEFAULT_CODEC.optionalFieldOf("filter", TextureFilter.CLAMP)
+                            .forGetter(FramebufferAttachmentDefinition::filter),
                     Codec.intRange(1, Integer.MAX_VALUE).optionalFieldOf("levels", 1)
                             .forGetter(FramebufferAttachmentDefinition::levels),
                     Codec.STRING.optionalFieldOf("name")
                             .forGetter(attachment -> Optional.ofNullable(attachment.name()))
-            ).apply(instance, (type, format, dataType, linear, wrapX, wrapY, levels, name) ->
-                    new FramebufferAttachmentDefinition(type, format, dataType, false, linear, wrapX, wrapY, levels, name.orElse(null))));
+            ).apply(instance, (type, format, dataType, filter, levels, name) ->
+                    new FramebufferAttachmentDefinition(type, format, dataType, false, filter, levels, name.orElse(null))));
     public static final Codec<FramebufferAttachmentDefinition> DEPTH_CODEC =
             RecordCodecBuilder.create(instance -> instance.group(
                     Type.CODEC.optionalFieldOf("type", Type.TEXTURE)
@@ -72,24 +64,20 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
                             .forGetter(FramebufferAttachmentDefinition::format),
                     DataType.CODEC.optionalFieldOf("dataType", DataType.FLOAT)
                             .forGetter(FramebufferAttachmentDefinition::dataType),
-                    Codec.BOOL.optionalFieldOf("linear", false)
-                            .forGetter(FramebufferAttachmentDefinition::linear),
-                    TextureWrap.CODEC.optionalFieldOf("wrapX", TextureWrap.REPEAT)
-                            .forGetter(FramebufferAttachmentDefinition::wrapX),
-                    TextureWrap.CODEC.optionalFieldOf("wrapY", TextureWrap.REPEAT)
-                            .forGetter(FramebufferAttachmentDefinition::wrapY),
+                    TextureFilter.CLAMP_DEFAULT_CODEC.optionalFieldOf("filter", TextureFilter.CLAMP)
+                            .forGetter(FramebufferAttachmentDefinition::filter),
                     Codec.intRange(1, Integer.MAX_VALUE).optionalFieldOf("levels", 1)
                             .forGetter(FramebufferAttachmentDefinition::levels),
                     Codec.STRING.optionalFieldOf("name")
                             .forGetter(attachment -> Optional.ofNullable(attachment.name()))
-            ).apply(instance, (type, format, dataType, linear, wrapX, wrapY, levels, name) ->
-                    new FramebufferAttachmentDefinition(type, format, dataType, true, linear, wrapX, wrapY, levels, name.orElse(null))));
+            ).apply(instance, (type, format, dataType, filter, levels, name) ->
+                    new FramebufferAttachmentDefinition(type, format, dataType, true, filter, levels, name.orElse(null))));
 
     /**
      * @return Whether this attachment can be represented as <code>"depth": true</code> in the JSON
      */
     public boolean isCompactDepthAttachment() {
-        return this.type == Type.TEXTURE && this.format == Format.DEPTH_COMPONENT && this.dataType == DataType.FLOAT && !this.linear && this.levels == 1 && this.name == null;
+        return this.type == Type.TEXTURE && this.format == Format.DEPTH_COMPONENT && this.dataType == DataType.FLOAT && this.filter.equals(TextureFilter.CLAMP) && this.levels == 1 && this.name == null;
     }
 
     /**
@@ -117,7 +105,7 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
         }
 
         public String getDisplayName() {
-            return displayName;
+            return this.displayName;
         }
     }
 
@@ -158,7 +146,7 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
         RGBA8(GL_RGBA, GL_RGBA8),
         RGBA8_SNORM(GL_RGBA, GL_RGBA8_SNORM),
         RGB10_A2(GL_RGBA, GL_RGB10_A2),
-        RGB10_A2UI(GL_RGBA, GL_RGB10_A2UI),
+        RGB10_A2UI(GL_RGBA_INTEGER, GL_RGB10_A2UI),
         RGBA12(GL_RGBA, GL_RGBA12),
         RGBA16(GL_RGBA, GL_RGBA16),
         RGBA16_SNORM(GL_RGBA, GL_RGBA16_SNORM),
@@ -290,40 +278,6 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
 
         /**
          * @return The OpenGL id of this data type
-         */
-        public int getId() {
-            return this.id;
-        }
-    }
-
-    /**
-     * The texture wrap modes for attachments.
-     */
-    public enum TextureWrap {
-        CLAMP_TO_EDGE(GL_CLAMP_TO_EDGE),
-        CLAMP_TO_BORDER(GL_CLAMP_TO_BORDER),
-        MIRRORED_REPEAT(GL_MIRRORED_REPEAT),
-        REPEAT(GL_REPEAT),
-        MIRROR_CLAMP_TO_EDGE(GL_MIRROR_CLAMP_TO_EDGE);
-
-        public static final TextureWrap[] VALUES = TextureWrap.values();
-        public static final Codec<TextureWrap> CODEC = Codec.STRING.flatXmap(name -> {
-            for (TextureWrap type : VALUES) {
-                if (type.name().equalsIgnoreCase(name)) {
-                    return DataResult.success(type);
-                }
-            }
-            return DataResult.error(() -> "Unknown attachment data type: " + name);
-        }, type -> DataResult.success(type.name()));
-
-        private final int id;
-
-        TextureWrap(int id) {
-            this.id = id;
-        }
-
-        /**
-         * @return The OpenGL id of this wrap mode
          */
         public int getId() {
             return this.id;

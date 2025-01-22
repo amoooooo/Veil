@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.framebuffer;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.texture.TextureFilter;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -19,7 +20,7 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
     private int layer;
 
     public AdvancedFboMutableTextureAttachment(int attachmentType, int textureId, int layer, String name) {
-        super(attachmentType, 0, 0, 0, 0, 0, 1, false, 0, 0, name);
+        super(attachmentType, 0, 0, 0, 0, 0, 1, TextureFilter.CLAMP, name);
         this.setTexture(textureId, layer);
     }
 

@@ -1,8 +1,8 @@
-package foundry.veil.impl.client.render.mesh;
+package foundry.veil.impl.client.render.vertex;
 
 import com.mojang.blaze3d.vertex.MeshData;
-import foundry.veil.api.client.render.mesh.VertexArray;
-import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
+import foundry.veil.api.client.render.vertex.VertexArray;
+import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.ByteBuffer;

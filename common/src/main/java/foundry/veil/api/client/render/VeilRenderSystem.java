@@ -53,7 +53,7 @@ import java.util.concurrent.Executor;
 import java.util.function.*;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
-import static org.lwjgl.opengl.ARBDirectStateAccess.glTextureParameteri;
+import static org.lwjgl.opengl.ARBTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY;
 import static org.lwjgl.opengl.GL11C.glGetInteger;
 import static org.lwjgl.opengl.GL30C.GL_MAX_COLOR_ATTACHMENTS;
 import static org.lwjgl.opengl.GL31C.GL_MAX_UNIFORM_BUFFER_BINDINGS;
@@ -90,6 +90,9 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier COPY_IMAGE_SUPPORTED = glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_copy_image);
     private static final BooleanSupplier SHADER_STORAGE_BLOCK_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_shader_storage_buffer_object);
     private static final BooleanSupplier PROGRAM_INTERFACE_QUERY_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_program_interface_query);
+    private static final BooleanSupplier TEXTURE_ANISOTROPY_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL46 || caps.GL_ARB_texture_filter_anisotropic || caps.GL_EXT_texture_filter_anisotropic);
+    private static final BooleanSupplier TEXTURE_MIRROR_CLAMP_TO_EDGE_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_texture_mirror_clamp_to_edge);
+    private static final BooleanSupplier TEXTURE_CUBE_MAP_SEAMLESS_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.GL_ARB_seamless_cubemap_per_texture);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
     private static final IntSupplier MAX_COLOR_ATTACHMENTS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COLOR_ATTACHMENTS));
     private static final IntSupplier MAX_SAMPLES = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SAMPLES));
@@ -98,6 +101,7 @@ public final class VeilRenderSystem {
     private static final IntSupplier MAX_ATOMIC_COUNTER_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS));
     private static final IntSupplier MAX_SHADER_STORAGE_BUFFER_BINDINGS = VeilRenderSystem.glGetter(() -> SHADER_STORAGE_BLOCK_SUPPORTED.getAsBoolean() ? glGetInteger(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS) : 0);
     private static final IntSupplier MAX_ARRAY_TEXTURE_LAYERS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ARRAY_TEXTURE_LAYERS));
+    private static final Supplier<Float> MAX_TEXTURE_ANISOTROPY = VeilRenderSystem.glGetter(() -> TEXTURE_ANISOTROPY_SUPPORTED.getAsBoolean() ? glGetFloat(GL_MAX_TEXTURE_MAX_ANISOTROPY) : 1.0F);
     private static final IntSupplier MAX_VERTEX_ATTRIBS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIBS));
     private static final IntSupplier MAX_VERTEX_ATTRIB_RELATIVE_OFFSET = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET));
 
@@ -551,6 +555,27 @@ public final class VeilRenderSystem {
     }
 
     /**
+     * @return Whether {@link ARBTextureFilterAnisotropic} is supported
+     */
+    public static boolean textureAnisotropySupported() {
+        return VeilRenderSystem.TEXTURE_ANISOTROPY_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBTextureMirrorClampToEdge} is supported
+     */
+    public static boolean textureMirrorClampToEdgeSupported() {
+        return VeilRenderSystem.TEXTURE_MIRROR_CLAMP_TO_EDGE_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBSeamlessCubemapPerTexture} is supported
+     */
+    public static boolean textureCubeMapSeamlessSupported() {
+        return VeilRenderSystem.TEXTURE_CUBE_MAP_SEAMLESS_SUPPORTED.getAsBoolean();
+    }
+
+    /**
      * @return The GL maximum number of texture units that can be bound
      */
     public static int maxCombinedTextureUnits() {
@@ -640,6 +665,13 @@ public final class VeilRenderSystem {
      */
     public static int maxArrayTextureLayers() {
         return VeilRenderSystem.MAX_ARRAY_TEXTURE_LAYERS.getAsInt();
+    }
+
+    /**
+     * @return The GL maximum texture anisotropy value
+     */
+    public static float maxTextureAnisotropy() {
+        return VeilRenderSystem.MAX_TEXTURE_ANISOTROPY.get();
     }
 
     /**

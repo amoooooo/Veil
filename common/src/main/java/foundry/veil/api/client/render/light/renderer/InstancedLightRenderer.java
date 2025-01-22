@@ -7,9 +7,9 @@ import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.InstancedLight;
 import foundry.veil.api.client.render.light.Light;
-import foundry.veil.api.client.render.mesh.VertexArray;
-import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.client.render.vertex.VertexArray;
+import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
@@ -36,6 +36,7 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
     protected int maxLights;
 
     private final List<T> visibleLights;
+    private final int drawMode;
     private final VertexArray vertexArray;
     private final int instancedVbo;
     private ByteBuffer scratch;
@@ -51,7 +52,9 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         this.visibleLights = new ArrayList<>();
         this.vertexArray = VertexArray.create();
 
-        this.vertexArray.upload(this.createMesh(), VertexArray.DrawUsage.STATIC);
+        MeshData mesh = this.createMesh();
+        this.drawMode = mesh.drawState().mode().asGLMode;
+        this.vertexArray.upload(mesh, VertexArray.DrawUsage.STATIC);
         this.instancedVbo = this.vertexArray.getOrCreateBuffer(2);
 
         if (VeilRenderSystem.directStateAccessSupported()) {
@@ -180,7 +183,7 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         }
 
         this.vertexArray.bind();
-        this.vertexArray.drawInstanced(GL_TRIANGLE_STRIP, this.visibleLights.size());
+        this.vertexArray.drawInstanced(this.drawMode, this.visibleLights.size());
         VertexBuffer.unbind();
         ShaderProgram.unbind();
         this.clearRenderState(lightRenderer, this.visibleLights);

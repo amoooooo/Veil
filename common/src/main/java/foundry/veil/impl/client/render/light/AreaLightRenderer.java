@@ -11,7 +11,7 @@ import foundry.veil.api.client.render.light.AreaLight;
 import foundry.veil.api.client.render.light.renderer.InstancedLightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
-import foundry.veil.api.client.render.mesh.VertexArrayBuilder;
+import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;

@@ -7,7 +7,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.DirectionalLight;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
-import foundry.veil.api.client.render.mesh.VertexArray;
+import foundry.veil.api.client.render.vertex.VertexArray;
 import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import org.jetbrains.annotations.ApiStatus;

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboAttachment;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
+import foundry.veil.api.client.render.texture.TextureFilter;
 import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.mixin.framebuffer.client.FramebufferRenderTargetAccessor;
 import org.apache.commons.lang3.Validate;
@@ -146,7 +147,7 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
         private final IntSupplier id;
 
         private AttachmentWrapper(AdvancedFbo parent, IntSupplier id, int type) {
-            super(type, 0, 0, 0, 0, 0, 0, false, 0, 0, null);
+            super(type, 0, 0, 0, 0, 0, 0, TextureFilter.CLAMP, null);
             this.parent = parent;
             this.id = id;
         }

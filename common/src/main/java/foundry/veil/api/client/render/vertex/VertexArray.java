@@ -1,4 +1,4 @@
-package foundry.veil.api.client.render.mesh;
+package foundry.veil.api.client.render.vertex;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -7,9 +7,9 @@ import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.mesh.ARBVertexAttribBindingVertexArray;
-import foundry.veil.impl.client.render.mesh.DSAVertexAttribBindingVertexArray;
-import foundry.veil.impl.client.render.mesh.LegacyVertexArray;
+import foundry.veil.impl.client.render.vertex.ARBVertexAttribBindingVertexArray;
+import foundry.veil.impl.client.render.vertex.DSAVertexAttribBindingVertexArray;
+import foundry.veil.impl.client.render.vertex.LegacyVertexArray;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import org.jetbrains.annotations.ApiStatus;
@@ -28,7 +28,6 @@ import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL15C.*;
 import static org.lwjgl.opengl.GL30C.glDeleteVertexArrays;
 import static org.lwjgl.opengl.GL30C.glGenVertexArrays;
-import static org.lwjgl.opengl.GL31C.GL_COPY_READ_BUFFER;
 import static org.lwjgl.opengl.GL31C.glDrawElementsInstanced;
 import static org.lwjgl.opengl.GL43C.glMultiDrawElementsIndirect;
 
@@ -80,7 +79,7 @@ public abstract class VertexArray implements NativeResource {
     public static VertexArray create() {
         RenderSystem.assertOnRenderThreadOrInit();
         loadType();
-        return vertexArrayType.factory.apply(glGenVertexArrays());
+        return vertexArrayType.factory.apply(VeilRenderSystem.directStateAccessSupported() ? glCreateVertexArrays() : glGenVertexArrays());
     }
 
     /**
@@ -107,9 +106,7 @@ public abstract class VertexArray implements NativeResource {
         }
 
         loadType();
-        MemoryStack stack = MemoryStack.stackGet();
-        int stackPointer = stack.getPointer();
-        try {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer arrays = stack.mallocInt(fill.length);
             if (VeilRenderSystem.directStateAccessSupported()) {
                 glCreateVertexArrays(arrays);
@@ -120,8 +117,6 @@ public abstract class VertexArray implements NativeResource {
             for (int i = 0; i < arrays.limit(); i++) {
                 fill[i] = vertexArrayType.factory.apply(arrays.get(i));
             }
-        } finally {
-            stack.setPointer(stackPointer);
         }
     }
 
@@ -138,14 +133,23 @@ public abstract class VertexArray implements NativeResource {
         return this.buffers.computeIfAbsent(index, unused -> this.createBuffer());
     }
 
+    /**
+     * @return The OpenGL id of this vertex array
+     */
     public int getId() {
         return this.id;
     }
 
+    /**
+     * @return The number of indices in this array
+     */
     public int getIndexCount() {
         return this.indexCount;
     }
 
+    /**
+     * @return The data type of the index buffer
+     */
     public IndexType getIndexType() {
         return this.indexType;
     }
