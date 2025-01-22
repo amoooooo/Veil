@@ -6,6 +6,7 @@ import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.shader.program.TextureUniformAccess;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +19,7 @@ import java.util.Map;
 @ApiStatus.Internal
 public class PostPipelineContext implements PostPipeline.Context {
 
-    private final Map<CharSequence, Integer> samplers;
+    private final Map<CharSequence, Pair<Integer, Integer>> samplers;
     private final Map<ResourceLocation, AdvancedFbo> framebuffers;
 
     /**
@@ -45,8 +46,8 @@ public class PostPipelineContext implements PostPipeline.Context {
     }
 
     @Override
-    public void setSampler(CharSequence name, int id) {
-        this.samplers.put(name, id);
+    public void setSampler(CharSequence name, int textureId, int samplerId) {
+        this.samplers.put(name, Pair.of(textureId, samplerId));
     }
 
     @Override
@@ -56,7 +57,7 @@ public class PostPipelineContext implements PostPipeline.Context {
 
     @Override
     public void applySamplers(TextureUniformAccess shader) {
-        this.samplers.forEach(shader::addSampler);
+        this.samplers.forEach((name, pair) -> shader.addSampler(name, pair.getLeft(), pair.getRight()));
     }
 
     @Override

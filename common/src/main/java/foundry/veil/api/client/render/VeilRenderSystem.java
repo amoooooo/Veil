@@ -43,6 +43,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.system.NativeResource;
 
 import java.nio.IntBuffer;
@@ -227,6 +228,7 @@ public final class VeilRenderSystem {
     private static VeilRenderer renderer;
     private static ResourceLocation shaderLocation;
     private static int screenQuadVao;
+    private static IntBuffer emptySamplers;
 
     private VeilRenderSystem() {
     }
@@ -320,6 +322,7 @@ public final class VeilRenderSystem {
         VeilImGuiImpl.init(client.getWindow().getWindow());
         screenQuadVao = directStateAccessSupported() ? glCreateVertexArrays() : glGenVertexArrays();
         VeilDebug.get().objectLabel(GL_VERTEX_ARRAY, screenQuadVao, "Screen Quad Vertex Array");
+        emptySamplers = MemoryUtil.memCallocInt(maxCombinedTextureUnits());
     }
 
     /**
@@ -340,6 +343,36 @@ public final class VeilRenderSystem {
      */
     public static void bindTextures(int first, int... textures) {
         VeilMultiBind.get().bindTextures(first, textures);
+    }
+
+    /**
+     * Binds the specified sampler ids to sequential texture units.
+     *
+     * @param first    The first unit to bind to
+     * @param textures The samplers to bind
+     */
+    public static void bindSamplers(int first, IntBuffer textures) {
+        VeilMultiBind.get().bindSamplers(first, textures);
+    }
+
+    /**
+     * Binds the specified sampler ids to sequential texture units.
+     *
+     * @param first    The first unit to bind to
+     * @param textures The samplers to bind
+     */
+    public static void bindSamplers(int first, int... textures) {
+        VeilMultiBind.get().bindSamplers(first, textures);
+    }
+
+    /**
+     * Unbinds the specified number of sampler from sequential texture units.
+     *
+     * @param first The first unit to unbind from
+     * @param count The number of samplers to unbind
+     */
+    public static void unbindSamplers(int first, int count) {
+        VeilMultiBind.get().bindSamplers(first, emptySamplers.limit(count));
     }
 
     /**
@@ -954,6 +987,7 @@ public final class VeilRenderSystem {
             renderer.free();
         }
         glDeleteVertexArrays(screenQuadVao);
+        MemoryUtil.memFree(emptySamplers);
         SHADER_BUFFER_CACHE.free();
     }
 

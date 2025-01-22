@@ -66,7 +66,18 @@ public interface TextureUniformAccess {
      * @param name      The name of the texture to set
      * @param textureId The id of the texture to bind and assign a texture unit
      */
-    void addSampler(CharSequence name, int textureId);
+    default void addSampler(CharSequence name, int textureId) {
+        this.addSampler(name, textureId, 0);
+    }
+
+    /**
+     * Adds a texture that is dynamically bound and sets texture units.
+     *
+     * @param name      The name of the texture to set
+     * @param textureId The id of the texture to bind and assign a texture unit
+     * @param samplerId The id of the sampler assign a texture unit
+     */
+    void addSampler(CharSequence name, int textureId, int samplerId);
 
     /**
      * Removes the specified sampler binding.
@@ -80,8 +91,8 @@ public interface TextureUniformAccess {
      *
      * @param samplerStart The sampler to start binding to
      */
-    default void applyShaderSamplers(int samplerStart) {
-        this.applyShaderSamplers(ShaderTextureSource.GLOBAL_CONTEXT, samplerStart);
+    default void bindSamplers(int samplerStart) {
+        this.bindSamplers(ShaderTextureSource.GLOBAL_CONTEXT, samplerStart);
     }
 
     /**
@@ -90,7 +101,7 @@ public interface TextureUniformAccess {
      * @param context      The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers
      * @param samplerStart The sampler to start binding to
      */
-    void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart);
+    void bindSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart);
 
     /**
      * Clears all samplers.

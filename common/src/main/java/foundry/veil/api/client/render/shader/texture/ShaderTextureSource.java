@@ -8,6 +8,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.client.render.texture.TextureFilter;
 import foundry.veil.api.util.EnumCodec;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
@@ -22,11 +23,9 @@ import org.jetbrains.annotations.Nullable;
 public sealed interface ShaderTextureSource permits LocationSource, FramebufferSource {
 
     Codec<ShaderTextureSource> CODEC = Codec.either(ResourceLocation.CODEC,
-                    Type.CODEC.<ShaderTextureSource>dispatch(ShaderTextureSource::getType, Type::getCodec))
-            .xmap(either -> either.map(LocationSource::new, right -> right),
-                    source -> source instanceof LocationSource(
-                            ResourceLocation location
-                    ) ? Either.left(location) : Either.right(source));
+                    Type.CODEC.<ShaderTextureSource>dispatch(ShaderTextureSource::type, Type::codec))
+            .xmap(either -> either.map(name -> new LocationSource(name, null), right -> right),
+                    source -> source instanceof LocationSource loc ? Either.left(loc.location()) : Either.right(source));
 
     Context GLOBAL_CONTEXT = name -> VeilRenderSystem.renderer().getFramebufferManager().getFramebuffer(name);
 
@@ -39,9 +38,15 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
     int getId(Context context);
 
     /**
+     * @return The filtering this texture should use or <code>null</code> for the texture default
+     */
+    @Nullable
+    TextureFilter filter();
+
+    /**
      * @return The type of shader texture this is
      */
-    Type getType();
+    Type type();
 
     /**
      * Types of post textures that can be used.
@@ -63,22 +68,10 @@ public sealed interface ShaderTextureSource permits LocationSource, FramebufferS
         /**
          * @return The codec for this specific type
          */
-        public MapCodec<? extends ShaderTextureSource> getCodec() {
+        public MapCodec<? extends ShaderTextureSource> codec() {
             return this.codec;
         }
     }
-
-//    enum Filter {
-//        DEFAULT,
-//        LINEAR,
-//        NEAREST,
-//        LINEAR_MIPMAP_LINEAR,
-//        LINEAR_MIPMAP_NEAREST,
-//        NEAREST_MIPMAP_LINEAR,
-//        NEAREST_MIPMAP_NEAREST;
-//
-//        public static final Codec<Filter> CODEC = EnumCodec.<Filter>builder("texture filter").values(Filter.class).build();
-//    }
 
     /**
      * Context for applying shader textures.

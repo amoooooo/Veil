@@ -4,6 +4,8 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.shader.program.TextureUniformAccess;
+import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import org.jetbrains.annotations.ApiStatus;
@@ -17,17 +19,24 @@ public class ShaderTextureCache {
 
     private final ShaderProgram program;
     private final Object2IntMap<CharSequence> textures;
+    private final Int2IntMap samplers;
     private final Object2IntMap<CharSequence> boundSamplers;
     private final ObjectSet<TextureUniformAccess.SamplerListener> listeners;
-    private boolean dirty;
-    private IntBuffer bindings;
+
+    private boolean textureDirty;
+    private boolean samplerDirty;
+    private IntBuffer textureBindings;
+    private IntBuffer samplerBindings;
 
     public ShaderTextureCache(ShaderProgram program) {
         this.program = program;
         this.textures = new Object2IntArrayMap<>();
+        this.samplers = new Int2IntArrayMap();
         this.boundSamplers = new Object2IntArrayMap<>();
         this.listeners = new ObjectArraySet<>();
-        this.bindings = null;
+
+        this.textureBindings = null;
+        this.samplerBindings = null;
     }
 
     private void uploadTextures(ShaderUniformCache cache, int samplerStart) {
@@ -47,11 +56,11 @@ public class ShaderTextureCache {
             if (textureId == 0 || textureId == missingTexture) {
                 if (!hasMissing) {
                     hasMissing = true;
-                    long address = MemoryUtil.memAddress0(this.bindings);
-                    int position = this.bindings.position();
+                    long address = MemoryUtil.memAddress0(this.textureBindings);
+                    int position = this.textureBindings.position();
                     MemoryUtil.memCopy(address, address + Integer.BYTES, position);
-                    this.bindings.position(position + 1);
-                    this.bindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
+                    this.textureBindings.position(position + 1);
+                    this.textureBindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
 
                     // Increment all existing samplers
                     for (CharSequence boundSampler : this.boundSamplers.keySet()) {
@@ -68,10 +77,10 @@ public class ShaderTextureCache {
             if (sampler >= maxSampler) {
                 if (!hasMissing) {
                     hasMissing = true;
-                    long address = MemoryUtil.memAddress0(this.bindings);
-                    int position = this.bindings.position();
+                    long address = MemoryUtil.memAddress0(this.textureBindings);
+                    int position = this.textureBindings.position();
                     MemoryUtil.memCopy(address, address + Integer.BYTES, position - 1);
-                    this.bindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
+                    this.textureBindings.put(0, MissingTextureAtlasSprite.getTexture().getId());
 
                     // Delete the last texture binding
                     if (last != null) {
@@ -85,7 +94,7 @@ public class ShaderTextureCache {
                 }
                 this.program.setInt(name, 0);
             } else {
-                this.bindings.put(textureId);
+                this.textureBindings.put(textureId);
                 this.boundSamplers.put(name, sampler);
             }
 
@@ -112,26 +121,48 @@ public class ShaderTextureCache {
             return;
         }
 
-        if (this.dirty) {
-            this.dirty = false;
+        if (this.textureDirty) {
+            this.textureDirty = false;
+            // If textures change, then samplers must also change
+            this.samplerDirty = true;
 
             // Not enough space, so realloc
-            if (this.bindings == null || this.bindings.capacity() < 1 + this.textures.size()) {
-                this.bindings = MemoryUtil.memRealloc(this.bindings, 1 + this.textures.size());
+            if (this.textureBindings == null || this.textureBindings.capacity() < 1 + this.textures.size()) {
+                this.textureBindings = MemoryUtil.memRealloc(this.textureBindings, 1 + this.textures.size());
             }
 
-            this.bindings.clear();
+            this.textureBindings.clear();
             this.uploadTextures(cache, samplerStart);
-            this.bindings.flip();
+            this.textureBindings.flip();
 
-            // Delete texture buffer if there aren't any textures
-            if (this.bindings.limit() == 0) {
-                MemoryUtil.memFree(this.bindings);
-                this.bindings = null;
+            // Delete texture and sampler buffers if there aren't any textures
+            if (this.textureBindings.limit() == 0) {
+                MemoryUtil.memFree(this.textureBindings);
+                MemoryUtil.memFree(this.samplerBindings);
+                this.textureBindings = null;
+                this.samplerBindings = null;
             }
         }
-        if (this.bindings != null && this.bindings.limit() > 0) {
-            VeilRenderSystem.bindTextures(samplerStart, this.bindings);
+
+        if (this.textureBindings != null && this.textureBindings.limit() > 0) {
+            VeilRenderSystem.bindTextures(samplerStart, this.textureBindings);
+
+            if (this.samplerDirty) {
+                this.samplerDirty = false;
+
+                // Not enough space, so realloc
+                if (this.samplerBindings == null || this.samplerBindings.capacity() < this.textureBindings.limit()) {
+                    this.samplerBindings = MemoryUtil.memRealloc(this.samplerBindings, this.textureBindings.limit());
+                }
+
+                // Unbound sampler bindings refer back to the innate binding of the texture, so this is fine
+                this.samplerBindings.limit(this.textureBindings.limit());
+                for (int i = 0; i < this.textureBindings.limit(); i++) {
+                    this.samplerBindings.put(i, this.samplers.get(this.textureBindings.get(i)));
+                }
+            }
+
+            VeilRenderSystem.bindSamplers(samplerStart, this.samplerBindings);
         }
     }
 
@@ -143,24 +174,39 @@ public class ShaderTextureCache {
         this.listeners.remove(listener);
     }
 
-    public void put(CharSequence name, int textureId) {
-        this.dirty |= this.textures.put(name, textureId) != textureId;
+    public void put(CharSequence name, int textureId, int samplerId) {
+        this.textureDirty |= this.textures.put(name, textureId) != textureId;
+        if (samplerId != 0) {
+            this.samplerDirty |= this.samplers.put(textureId, samplerId) != samplerId;
+        } else {
+            this.samplerDirty |= this.samplers.remove(textureId) != samplerId;
+        }
     }
 
     public void remove(CharSequence name) {
-        if (this.textures.removeInt(name) != 0) {
+        int oldId = this.textures.removeInt(name);
+        if (oldId != 0) {
             this.textures.put(name, 0);
-            this.dirty = true;
+            this.textureDirty = true;
+            if (this.samplers.remove(oldId) != 0) {
+                this.samplerDirty = true;
+            }
         }
     }
 
     public void clear() {
         this.textures.clear();
+        this.samplers.clear();
         this.boundSamplers.clear();
-        if (this.bindings != null) {
-            MemoryUtil.memFree(this.bindings);
-            this.bindings = null;
+        if (this.textureBindings != null) {
+            MemoryUtil.memFree(this.textureBindings);
+            this.textureBindings = null;
         }
-        this.dirty = true;
+        if (this.samplerBindings != null) {
+            MemoryUtil.memFree(this.samplerBindings);
+            this.samplerBindings = null;
+        }
+        this.textureDirty = true;
+        this.samplerDirty = true;
     }
 }

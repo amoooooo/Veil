@@ -16,6 +16,8 @@ import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
+import foundry.veil.api.client.render.texture.SamplerObject;
+import foundry.veil.api.client.render.texture.TextureFilter;
 import foundry.veil.api.client.util.VertexFormatCodec;
 import foundry.veil.impl.client.render.shader.DummyResource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
@@ -60,7 +62,7 @@ public class ShaderProgramImpl implements ShaderProgram {
     private final ResourceLocation name;
     private final ShaderTextureCache textures;
     private final Int2ObjectMap<CompiledProgram> programs;
-    private final Map<String, ShaderTextureSource> textureSources;
+    private final Map<String, ShaderTexture> definitionTextures;
     private final Object2ObjectMap<CharSequence, ShaderBlock<?>> shaderBlocks;
     private final Supplier<Wrapper> wrapper;
 
@@ -72,7 +74,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.name = name;
         this.textures = new ShaderTextureCache(this);
         this.programs = new Int2ObjectArrayMap<>(1);
-        this.textureSources = new Object2ObjectArrayMap<>();
+        this.definitionTextures = new Object2ObjectArrayMap<>();
         this.shaderBlocks = new Object2ObjectArrayMap<>();
         this.wrapper = Suppliers.memoize(() -> {
             Wrapper.constructingProgram = this;
@@ -119,9 +121,12 @@ public class ShaderProgramImpl implements ShaderProgram {
         this.definition = definition;
         this.recompile(activeBuffers, sourceSet, compiler);
         // Compilation was successful, so update the state of this program
-        this.textureSources.clear();
+        this.definitionTextures.values().forEach(NativeResource::free);
+        this.definitionTextures.clear();
         if (this.definition != null) {
-            this.textureSources.putAll(this.definition.textures());
+            for (Map.Entry<String, ShaderTextureSource> entry : this.definition.textures().entrySet()) {
+                this.definitionTextures.put(entry.getKey(), ShaderTexture.create(entry.getValue()));
+            }
         }
     }
 
@@ -179,6 +184,8 @@ public class ShaderProgramImpl implements ShaderProgram {
         for (CompiledProgram program : this.programs.values()) {
             program.free();
         }
+        this.definitionTextures.values().forEach(NativeResource::free);
+        this.definitionTextures.clear();
         this.vertexFormat = null;
         this.compiledProgram = null;
     }
@@ -266,13 +273,13 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     @Override
-    public void applyShaderSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart) {
+    public void bindSamplers(@Nullable ShaderTextureSource.Context context, int samplerStart) {
         if (this.compiledProgram == null) {
             return;
         }
 
         if (context != null) {
-            this.textureSources.forEach((name, source) -> this.addSampler(name, source.getId(context)));
+            this.definitionTextures.forEach((name, source) -> this.addSampler(name, source.textureSource.getId(context), source.samplerId()));
         }
         this.textures.bind(this.compiledProgram.uniforms, samplerStart);
     }
@@ -288,9 +295,9 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     @Override
-    public void addSampler(CharSequence name, int textureId) {
+    public void addSampler(CharSequence name, int textureId, int samplerId) {
         if (this.compiledProgram != null && this.compiledProgram.uniforms.hasSampler(name.toString())) {
-            this.textures.put(name, textureId);
+            this.textures.put(name, textureId, samplerId);
         }
     }
 
@@ -411,6 +418,33 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
     }
 
+    public record ShaderTexture(ShaderTextureSource textureSource,
+                                @Nullable SamplerObject sampler) implements NativeResource {
+
+        public static ShaderTexture create(ShaderTextureSource source) {
+            TextureFilter filter = source.filter();
+            SamplerObject samplerObject;
+            if (filter != null) {
+                samplerObject = SamplerObject.create();
+                samplerObject.setFilter(filter);
+            } else {
+                samplerObject = null;
+            }
+            return new ShaderTexture(source, samplerObject);
+        }
+
+        @Override
+        public void free() {
+            if (this.sampler != null) {
+                this.sampler.free();
+            }
+        }
+
+        public int samplerId() {
+            return this.sampler != null ? this.sampler.getId() : 0;
+        }
+    }
+
     /**
      * @author Ocelot
      */
@@ -446,7 +480,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         @Override
         public void apply() {
             this.program.bind();
-            this.program.applyShaderSamplers(0);
+            this.program.bindSamplers(0);
         }
 
         @Override

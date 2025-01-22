@@ -13,6 +13,12 @@ import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateSamplers;
 import static org.lwjgl.opengl.ARBTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY;
 import static org.lwjgl.opengl.GL33C.*;
 
+/**
+ * Sampler objects allow shaders to sample from the same texture storage in
+ * different ways depending on what samplers are bound.
+ *
+ * @author Ocelot
+ */
 public class SamplerObject implements NativeResource {
 
     private final int id;
@@ -81,6 +87,10 @@ public class SamplerObject implements NativeResource {
 
     public static void unbind(int unit) {
         glBindSampler(unit, 0);
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public void setFilter(TextureFilter filter) {

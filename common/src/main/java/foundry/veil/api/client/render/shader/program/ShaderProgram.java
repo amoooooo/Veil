@@ -50,6 +50,7 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         GlStateManager._glUseProgram(0);
         ShaderInstance.lastProgramId = -1;
         EffectInstance.lastProgramId = -1;
+        VeilRenderSystem.unbindSamplers(0, VeilRenderSystem.maxCombinedTextureUnits());
     }
 
     /**

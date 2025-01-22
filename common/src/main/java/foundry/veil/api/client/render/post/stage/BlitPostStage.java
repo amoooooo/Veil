@@ -22,9 +22,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.lwjgl.opengl.GL11C.GL_TRIANGLE_STRIP;
-import static org.lwjgl.opengl.GL11C.glDrawArrays;
-
 /**
  * A basic stage that draws a quad to the output using a specified shader.
  *
@@ -81,7 +78,7 @@ public class BlitPostStage extends FramebufferPostStage {
         context.applySamplers(shader);
         this.setupFramebuffer(context, shader);
         shader.toShaderInstance().setDefaultUniforms(VertexFormat.Mode.TRIANGLE_STRIP, RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), Minecraft.getInstance().getWindow());
-        shader.applyShaderSamplers(context, 0);
+        shader.bindSamplers(context, 0);
         for (Map.Entry<String, UniformValue> entry : this.uniforms.entrySet()) {
             entry.getValue().apply(entry.getKey(), shader);
         }

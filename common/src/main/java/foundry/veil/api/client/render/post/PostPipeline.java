@@ -254,10 +254,11 @@ public interface PostPipeline extends MutableUniformAccess, NativeResource {
         /**
          * Binds a named sampler id. All samplers can be applied with {@link #applySamplers(TextureUniformAccess)} for adding them to shaders.
          *
-         * @param name The name of the sampler
-         * @param id   The id of the texture to bind
+         * @param name      The name of the sampler
+         * @param textureId The id of the texture to bind
+         * @param samplerId The id of the sampler to bind
          */
-        void setSampler(CharSequence name, int id);
+        void setSampler(CharSequence name, int textureId, int samplerId);
 
         /**
          * Sets a framebuffer to a name. This allows post stages to create new framebuffers that can be accessed later on.

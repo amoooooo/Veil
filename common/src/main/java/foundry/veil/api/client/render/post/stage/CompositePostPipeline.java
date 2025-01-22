@@ -10,6 +10,7 @@ import foundry.veil.api.client.render.framebuffer.FramebufferDefinition;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import gg.moonflower.molangcompiler.api.MolangRuntime;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +21,7 @@ import java.util.*;
 /**
  * A pipeline that runs all child pipelines in order.
  */
-public class CompositePostPipeline implements PostPipeline {
+public final class CompositePostPipeline implements PostPipeline {
 
     private static final Codec<Map<ResourceLocation, FramebufferDefinition>> FRAMEBUFFER_CODEC = Codec.unboundedMap(
             Codec.STRING.xmap(name -> ResourceLocation.fromNamespaceAndPath("temp", name), ResourceLocation::getPath),
@@ -29,7 +30,7 @@ public class CompositePostPipeline implements PostPipeline {
             PostPipeline.CODEC.listOf().fieldOf("stages").forGetter(pipeline -> Arrays.asList(pipeline.getStages())),
             Codec.unboundedMap(Codec.STRING, ShaderTextureSource.CODEC)
                     .optionalFieldOf("textures", Collections.emptyMap())
-                    .forGetter(CompositePostPipeline::getTextures),
+                    .forGetter(CompositePostPipeline::getTextureSources),
             CompositePostPipeline.FRAMEBUFFER_CODEC
                     .optionalFieldOf("framebuffers", Collections.emptyMap())
                     .forGetter(CompositePostPipeline::getFramebuffers),
@@ -40,7 +41,8 @@ public class CompositePostPipeline implements PostPipeline {
     ).apply(instance, (pipelines, textures, framebuffers, renderStage, dynamicBuffers, priority, replace) -> new CompositePostPipeline(pipelines.toArray(PostPipeline[]::new), textures, framebuffers, renderStage.orElse(null), dynamicBuffers, priority, replace)));
 
     private final PostPipeline[] stages;
-    private final Map<String, ShaderTextureSource> textures;
+    private final Map<String, ShaderTextureSource> textureSources;
+    private final Map<String, ShaderProgramImpl.ShaderTexture> textures;
     private final Map<ResourceLocation, FramebufferDefinition> framebufferDefinitions;
     private final VeilRenderLevelStageEvent.Stage renderStage;
     private final Map<ResourceLocation, AdvancedFbo> framebuffers;
@@ -54,7 +56,11 @@ public class CompositePostPipeline implements PostPipeline {
 
     private CompositePostPipeline(PostPipeline[] stages, Map<String, ShaderTextureSource> textures, Map<ResourceLocation, FramebufferDefinition> framebufferDefinitions, @Nullable VeilRenderLevelStageEvent.Stage renderStage, int dynamicBuffers, int priority, boolean replace) {
         this.stages = stages;
-        this.textures = Collections.unmodifiableMap(textures);
+        this.textureSources = Collections.unmodifiableMap(textures);
+        this.textures = new HashMap<>(textures.size());
+        for (Map.Entry<String, ShaderTextureSource> entry : textures.entrySet()) {
+            this.textures.put(entry.getKey(), ShaderProgramImpl.ShaderTexture.create(entry.getValue()));
+        }
         this.framebufferDefinitions = Collections.unmodifiableMap(framebufferDefinitions);
         this.renderStage = renderStage;
         this.framebuffers = new HashMap<>();
@@ -94,10 +100,10 @@ public class CompositePostPipeline implements PostPipeline {
         }
 
         this.framebuffers.forEach(context::setFramebuffer);
-        this.textures.forEach((name, texture) -> context.setSampler(name, texture.getId(context)));
         for (DynamicBufferType buffer : this.dynamicBuffers) {
-            context.setSampler(buffer.getSourceName(), VeilRenderSystem.renderer().getDynamicBufferManger().getBufferTexture(buffer));
+            context.setSampler(buffer.getSourceName(), VeilRenderSystem.renderer().getDynamicBufferManger().getBufferTexture(buffer), 0);
         }
+        this.textures.forEach((name, texture) -> context.setSampler(name, texture.textureSource().getId(context), texture.samplerId()));
         for (PostPipeline pipeline : this.stages) {
             pipeline.apply(context);
         }
@@ -318,8 +324,8 @@ public class CompositePostPipeline implements PostPipeline {
     /**
      * @return The globally bound textures for the child stages to access
      */
-    public Map<String, ShaderTextureSource> getTextures() {
-        return this.textures;
+    public Map<String, ShaderTextureSource> getTextureSources() {
+        return this.textureSources;
     }
 
     /**

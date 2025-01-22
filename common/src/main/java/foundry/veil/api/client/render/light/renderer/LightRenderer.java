@@ -64,7 +64,7 @@ public class LightRenderer implements NativeResource {
             shader.addSampler(dynamicBuffer.getSourceName() + "Sampler", bufferManger.getBufferTexture(dynamicBuffer));
         }
 
-        shader.applyShaderSamplers(0);
+        shader.bindSamplers(0);
         return false;
     }
 

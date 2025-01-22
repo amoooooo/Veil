@@ -9,10 +9,12 @@ import org.lwjgl.opengl.GLCapabilities;
 
 import java.nio.IntBuffer;
 
+import static org.lwjgl.opengl.ARBMultiBind.glBindSamplers;
 import static org.lwjgl.opengl.ARBMultiBind.glBindTextures;
 import static org.lwjgl.opengl.GL11C.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11C.glBindTexture;
 import static org.lwjgl.opengl.GL13C.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL33C.glBindSampler;
 
 /**
  * Provides access to {@link ARBMultiBind} functionality for all platforms.
@@ -48,6 +50,20 @@ public enum VeilMultiBind {
             }
             RenderSystem.activeTexture(activeTexture);
         }
+
+        @Override
+        public void bindSamplers(int first, IntBuffer samplers) {
+            for (int i = 0; i < samplers.limit(); i++) {
+                glBindSampler(first + i, samplers.get(i));
+            }
+        }
+
+        @Override
+        public void bindSamplers(int first, int... samplers) {
+            for (int i = 0; i < samplers.length; i++) {
+                glBindSampler(first + i, samplers[i]);
+            }
+        }
     },
     SUPPORTED {
         @Override
@@ -69,6 +85,16 @@ public enum VeilMultiBind {
 
             glBindTextures(first, textures);
         }
+
+        @Override
+        public void bindSamplers(int first, IntBuffer samplers) {
+            glBindSamplers(first, samplers);
+        }
+
+        @Override
+        public void bindSamplers(int first, int... samplers) {
+            glBindSamplers(first, samplers);
+        }
     };
 
     private static VeilMultiBind multiBind;
@@ -88,6 +114,22 @@ public enum VeilMultiBind {
      * @param textures The textures to bind
      */
     public abstract void bindTextures(int first, int... textures);
+
+    /**
+     * Binds the specified sampler ids to sequential texture units and invalidates the GLStateManager.
+     *
+     * @param first    The first unit to bind to
+     * @param samplers The samplers to bind
+     */
+    public abstract void bindSamplers(int first, IntBuffer samplers);
+
+    /**
+     * Binds the specified sampler ids to sequential texture units and invalidates the GLStateManager.
+     *
+     * @param first    The first unit to bind to
+     * @param samplers The samplers to bind
+     */
+    public abstract void bindSamplers(int first, int... samplers);
 
     /**
      * @return The best implementation of multi-bind for this platform
