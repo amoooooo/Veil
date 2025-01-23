@@ -53,6 +53,7 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.function.*;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateTextures;
 import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
 import static org.lwjgl.opengl.ARBTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY;
 import static org.lwjgl.opengl.GL11C.glGetInteger;
@@ -877,6 +878,67 @@ public final class VeilRenderSystem {
     public static void bindVertexArray(int vao) {
         BufferUploader.invalidate();
         GlStateManager._glBindVertexArray(vao);
+    }
+
+    public static int getBoundTexture(int target) {
+        return switch (target) {
+            case GL_TEXTURE_1D -> glGetInteger(GL_TEXTURE_BINDING_1D);
+            case GL_TEXTURE_2D -> glGetInteger(GL_TEXTURE_BINDING_2D);
+            case GL_TEXTURE_1D_ARRAY -> glGetInteger(GL_TEXTURE_BINDING_1D_ARRAY);
+            case GL_TEXTURE_RECTANGLE -> glGetInteger(GL_TEXTURE_BINDING_RECTANGLE);
+            case GL_TEXTURE_CUBE_MAP -> glGetInteger(GL_TEXTURE_BINDING_CUBE_MAP);
+            case GL_TEXTURE_3D -> glGetInteger(GL_TEXTURE_BINDING_3D);
+            case GL_TEXTURE_2D_ARRAY -> glGetInteger(GL_TEXTURE_BINDING_2D_ARRAY);
+            case GL_TEXTURE_CUBE_MAP_ARRAY -> glGetInteger(GL_TEXTURE_BINDING_CUBE_MAP_ARRAY);
+            case GL_TEXTURE_BUFFER -> glGetInteger(GL_TEXTURE_BINDING_BUFFER);
+            case GL_TEXTURE_2D_MULTISAMPLE -> glGetInteger(GL_TEXTURE_BINDING_2D_MULTISAMPLE);
+            case GL_TEXTURE_2D_MULTISAMPLE_ARRAY -> glGetInteger(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY);
+            default -> throw new IllegalStateException("Not a texture target: " + target);
+        };
+    }
+
+    /**
+     * Creates a new texture for the specified target when using direct state access,
+     * otherwise calls the regular {@link GL11C#glGenTextures()}.
+     *
+     * @param target The target to create the texture for
+     * @return A new texture object with its state initialized if {@link #directStateAccessSupported()} is <code>true</code>
+     */
+    public static int createTextures(int target) {
+        if (directStateAccessSupported()) {
+            return glCreateTextures(target);
+        }
+        return glGenTextures();
+    }
+
+    /**
+     * Creates new textures for the specified target when using direct state access,
+     * otherwise calls the regular {@link GL11C#glGenTextures()}.
+     *
+     * @param target   The target to create the texture for
+     * @param textures The array to fill with new textures
+     */
+    public static void createTextures(int target, int[] textures) {
+        if (directStateAccessSupported()) {
+            glCreateTextures(target, textures);
+            return;
+        }
+        glGenTextures(textures);
+    }
+
+    /**
+     * Creates new textures for the specified target when using direct state access,
+     * otherwise calls the regular {@link GL11C#glGenTextures()}.
+     *
+     * @param target   The target to create the texture for
+     * @param textures The array to fill with new textures
+     */
+    public static void createTextures(int target, IntBuffer textures) {
+        if (directStateAccessSupported()) {
+            glCreateTextures(target, textures);
+            return;
+        }
+        glGenTextures(textures);
     }
 
     /**

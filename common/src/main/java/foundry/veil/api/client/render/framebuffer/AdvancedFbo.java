@@ -536,7 +536,7 @@ public interface AdvancedFbo extends NativeResource {
         private TextureFilter.CompareFunction compareFunction;
         private TextureFilter.Wrap wrapS;
         private TextureFilter.Wrap wrapT;
-        private int edgeColor;
+        private int borderColor;
 
         private String name;
 
@@ -565,7 +565,7 @@ public interface AdvancedFbo extends NativeResource {
             this.compareFunction = null;
             this.wrapS = TextureFilter.Wrap.CLAMP_TO_EDGE;
             this.wrapT = TextureFilter.Wrap.CLAMP_TO_EDGE;
-            this.edgeColor = 0xFF000000;
+            this.borderColor = 0xFF000000;
 
             this.name = null;
         }
@@ -769,10 +769,10 @@ public interface AdvancedFbo extends NativeResource {
         /**
          * Sets the color to get when sampling the texture out of bounds when using {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
          *
-         * @param edgeColor The new edge color in ARGB
+         * @param borderColor The new border color in ARGB
          */
-        public Builder setEdgeColor(int edgeColor) {
-            this.edgeColor = edgeColor;
+        public Builder setBorderColor(int borderColor) {
+            this.borderColor = borderColor;
             return this;
         }
 
@@ -786,7 +786,7 @@ public interface AdvancedFbo extends NativeResource {
             this.setAnisotropy(filter.anisotropy());
             this.setCompareFunction(filter.compareFunction());
             this.setWrap(filter.wrapX(), filter.wrapY());
-            this.setEdgeColor(filter.edgeColor());
+            this.setBorderColor(filter.borderColor());
             return this;
         }
 
@@ -872,7 +872,7 @@ public interface AdvancedFbo extends NativeResource {
                     width,
                     height,
                     this.levels,
-                    new TextureFilter(this.blur, this.mipmap, this.anisotropy, this.compareFunction, this.wrapS, this.wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE, this.edgeColor, this.getEdgeType(), false),
+                    new TextureFilter(this.blur, this.mipmap, this.anisotropy, this.compareFunction, this.wrapS, this.wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE, this.borderColor, this.getEdgeType(), false),
                     this.name));
         }
 
@@ -971,7 +971,7 @@ public interface AdvancedFbo extends NativeResource {
                     width,
                     height,
                     this.levels,
-                    new TextureFilter(this.blur, this.mipmap, this.anisotropy, this.compareFunction, this.wrapS, this.wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE, this.edgeColor, this.getEdgeType(), false),
+                    new TextureFilter(this.blur, this.mipmap, this.anisotropy, this.compareFunction, this.wrapS, this.wrapT, TextureFilter.Wrap.CLAMP_TO_EDGE, this.borderColor, this.getEdgeType(), false),
                     this.name));
         }
 

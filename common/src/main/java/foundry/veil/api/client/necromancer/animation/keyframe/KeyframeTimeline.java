@@ -1,10 +1,5 @@
 package foundry.veil.api.client.necromancer.animation.keyframe;
 
-import foundry.veil.api.client.necromancer.Bone;
-import net.minecraft.util.Mth;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
 import java.util.Arrays;
 
 public record KeyframeTimeline(Keyframe[] keyframes) {

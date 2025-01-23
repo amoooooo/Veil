@@ -37,8 +37,8 @@ import static org.lwjgl.opengl.GL44C.GL_MIRROR_CLAMP_TO_EDGE;
  * @param wrapX           The clamping for the X axis on the texture
  * @param wrapY           The clamping for the Y axis on the texture
  * @param wrapZ           The clamping for the Z axis on the texture
- * @param edgeColor       The color to get when sampling the texture out of bounds when using {@link TextureFilter.Wrap#CLAMP_TO_BORDER}
- * @param edgeType        The type of data the edge color should be referenced in
+ * @param borderColor     The color to get when sampling the texture out of bounds when using {@link TextureFilter.Wrap#CLAMP_TO_BORDER}
+ * @param borderType      The type of data the border color should be referenced in
  * @param seamless        Whether the texture should be considered seamless if using a cubemap
  * @author Ocelot
  */
@@ -49,8 +49,8 @@ public record TextureFilter(boolean blur,
                             Wrap wrapX,
                             Wrap wrapY,
                             Wrap wrapZ,
-                            int edgeColor,
-                            EdgeType edgeType,
+                            int borderColor,
+                            EdgeType borderType,
                             boolean seamless) {
 
     public static final Codec<TextureFilter> REPEAT_DEFAULT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -61,8 +61,8 @@ public record TextureFilter(boolean blur,
             Wrap.CODEC.optionalFieldOf("wrapX", Wrap.REPEAT).forGetter(TextureFilter::wrapX),
             Wrap.CODEC.optionalFieldOf("wrapY", Wrap.REPEAT).forGetter(TextureFilter::wrapY),
             Wrap.CODEC.optionalFieldOf("wrapZ", Wrap.REPEAT).forGetter(TextureFilter::wrapZ),
-            ColorCodec.ARGB_CODEC.optionalFieldOf("edgeColor", 0xFF000000).forGetter(TextureFilter::edgeColor),
-            EdgeType.CODEC.optionalFieldOf("edgeType", EdgeType.FLOAT).forGetter(TextureFilter::edgeType),
+            ColorCodec.ARGB_CODEC.optionalFieldOf("borderColor", 0xFF000000).forGetter(TextureFilter::borderColor),
+            EdgeType.CODEC.optionalFieldOf("borderType", EdgeType.FLOAT).forGetter(TextureFilter::borderType),
             Codec.BOOL.optionalFieldOf("seamless", false).forGetter(TextureFilter::seamless)
     ).apply(instance, (blur, mipmap, anisotropy, compareFunction, wrapX, wrapY, wrapZ, edgeColor, edgeType, seamless) ->
             new TextureFilter(blur, mipmap, anisotropy, compareFunction.orElse(null), wrapX, wrapY, wrapZ, edgeColor, edgeType, seamless)));
@@ -75,8 +75,8 @@ public record TextureFilter(boolean blur,
             Wrap.CODEC.optionalFieldOf("wrapX", Wrap.CLAMP_TO_EDGE).forGetter(TextureFilter::wrapX),
             Wrap.CODEC.optionalFieldOf("wrapY", Wrap.CLAMP_TO_EDGE).forGetter(TextureFilter::wrapY),
             Wrap.CODEC.optionalFieldOf("wrapZ", Wrap.CLAMP_TO_EDGE).forGetter(TextureFilter::wrapZ),
-            ColorCodec.ARGB_CODEC.optionalFieldOf("edgeColor", -1).forGetter(TextureFilter::edgeColor),
-            EdgeType.CODEC.optionalFieldOf("edgeType", EdgeType.FLOAT).forGetter(TextureFilter::edgeType),
+            ColorCodec.ARGB_CODEC.optionalFieldOf("borderColor", 0xFF000000).forGetter(TextureFilter::borderColor),
+            EdgeType.CODEC.optionalFieldOf("borderType", EdgeType.FLOAT).forGetter(TextureFilter::borderType),
             Codec.BOOL.optionalFieldOf("seamless", false).forGetter(TextureFilter::seamless)
     ).apply(instance, (blur, mipmap, anisotropy, compareFunction, wrapX, wrapY, wrapZ, edgeColor, edgeType, seamless) ->
             new TextureFilter(blur, mipmap, anisotropy, compareFunction.orElse(null), wrapX, wrapY, wrapZ, edgeColor, edgeType, seamless)));
@@ -89,7 +89,7 @@ public record TextureFilter(boolean blur,
             Wrap.REPEAT,
             Wrap.REPEAT,
             Wrap.REPEAT,
-            -1,
+            0xFF000000,
             EdgeType.FLOAT,
             false);
     public static final TextureFilter CLAMP = new TextureFilter(
@@ -100,9 +100,14 @@ public record TextureFilter(boolean blur,
             Wrap.CLAMP_TO_EDGE,
             Wrap.CLAMP_TO_EDGE,
             Wrap.CLAMP_TO_EDGE,
-            -1,
+            0xFF000000,
             EdgeType.FLOAT,
             false);
+
+    @Override
+    public float anisotropy() {
+        return Math.min(this.anisotropy, VeilRenderSystem.maxTextureAnisotropy());
+    }
 
     /**
      * @return The OpenGl filter to use when making the image smaller (minification)
@@ -132,7 +137,7 @@ public record TextureFilter(boolean blur,
         glTexParameteri(target, GL_TEXTURE_MAG_FILTER, this.magFilter());
 
         if (VeilRenderSystem.textureAnisotropySupported()) {
-            glTexParameterf(target, GL_TEXTURE_MAX_ANISOTROPY, Math.min(this.anisotropy, VeilRenderSystem.maxTextureAnisotropy()));
+            glTexParameterf(target, GL_TEXTURE_MAX_ANISOTROPY, this.anisotropy());
         }
 
         if (this.compareFunction != null) {
@@ -147,8 +152,8 @@ public record TextureFilter(boolean blur,
         glTexParameteri(target, GL_TEXTURE_WRAP_R, this.wrapZ.id);
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer data = stack.ints((this.edgeColor >> 16) & 0xFF, (this.edgeColor >> 8) & 0xFF, this.edgeColor & 0xFF, (this.edgeColor >> 24) & 0xFF);
-            switch (this.edgeType) {
+            IntBuffer data = stack.ints((this.borderColor >> 16) & 0xFF, (this.borderColor >> 8) & 0xFF, this.borderColor & 0xFF, (this.borderColor >> 24) & 0xFF);
+            switch (this.borderType) {
                 case FLOAT -> glTexParameteriv(target, GL_TEXTURE_BORDER_COLOR, data);
                 case INT -> glTexParameterIiv(target, GL_TEXTURE_BORDER_COLOR, data);
                 case UINT -> glTexParameterIuiv(target, GL_TEXTURE_BORDER_COLOR, data);
@@ -170,7 +175,7 @@ public record TextureFilter(boolean blur,
         glTextureParameteri(texture, GL_TEXTURE_MAG_FILTER, this.magFilter());
 
         if (VeilRenderSystem.textureAnisotropySupported()) {
-            glTextureParameterf(texture, GL_TEXTURE_MAX_ANISOTROPY, Math.min(this.anisotropy, VeilRenderSystem.maxTextureAnisotropy()));
+            glTextureParameterf(texture, GL_TEXTURE_MAX_ANISOTROPY, this.anisotropy());
         }
 
         if (this.compareFunction != null) {
@@ -185,8 +190,8 @@ public record TextureFilter(boolean blur,
         glTextureParameteri(texture, GL_TEXTURE_WRAP_R, this.wrapZ.id);
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer data = stack.ints((this.edgeColor >> 16) & 0xFF, (this.edgeColor >> 8) & 0xFF, this.edgeColor & 0xFF, (this.edgeColor >> 24) & 0xFF);
-            switch (this.edgeType) {
+            IntBuffer data = stack.ints((this.borderColor >> 16) & 0xFF, (this.borderColor >> 8) & 0xFF, this.borderColor & 0xFF, (this.borderColor >> 24) & 0xFF);
+            switch (this.borderType) {
                 case FLOAT -> glTextureParameteriv(texture, GL_TEXTURE_BORDER_COLOR, data);
                 case INT -> glTextureParameterIiv(texture, GL_TEXTURE_BORDER_COLOR, data);
                 case UINT -> glTextureParameterIuiv(texture, GL_TEXTURE_BORDER_COLOR, data);

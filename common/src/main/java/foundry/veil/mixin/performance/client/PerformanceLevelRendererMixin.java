@@ -11,17 +11,17 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class PerformanceLevelRendererMixin {
 
     @Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;clear(Z)V", ordinal = 0))
-    public void clearItemEntityDepth(RenderTarget instance, boolean clearError) {
+    public void clearItemEntityColor(RenderTarget instance, boolean clearError) {
         ((PerformanceRenderTargetExtension) instance).veil$clearColorBuffer(clearError);
     }
 
     @Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;clear(Z)V", ordinal = 3))
-    public void clearTranslucentDepth(RenderTarget instance, boolean clearError) {
+    public void clearTranslucentColor(RenderTarget instance, boolean clearError) {
         ((PerformanceRenderTargetExtension) instance).veil$clearColorBuffer(clearError);
     }
 
     @Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;clear(Z)V", ordinal = 4))
-    public void clearParticlesDepth(RenderTarget instance, boolean clearError) {
+    public void clearParticlesColor(RenderTarget instance, boolean clearError) {
         ((PerformanceRenderTargetExtension) instance).veil$clearColorBuffer(clearError);
     }
 }

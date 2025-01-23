@@ -7,7 +7,6 @@ import foundry.veil.api.client.necromancer.animation.Animation;
 import net.minecraft.util.Mth;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
-import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import java.util.*;

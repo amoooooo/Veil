@@ -5,6 +5,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.core.Direction;
 
+import static org.lwjgl.opengl.ARBDirectStateAccess.glTextureParameteri;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL13C.*;
 
@@ -34,11 +35,6 @@ public abstract class CubemapTexture extends AbstractTexture {
 
     @Override
     public void setFilter(boolean blur, boolean mipmap) {
-        if (VeilRenderSystem.directStateAccessSupported()) {
-            super.setFilter(blur, mipmap);
-            return;
-        }
-
         RenderSystem.assertOnRenderThreadOrInit();
         this.blur = blur;
         this.mipmap = mipmap;
@@ -52,9 +48,25 @@ public abstract class CubemapTexture extends AbstractTexture {
             magFilter = GL_NEAREST;
         }
 
-        this.bind();
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, minFilter);
-        glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, magFilter);
+        if (VeilRenderSystem.directStateAccessSupported()) {
+            int id = this.getId();
+            glTextureParameteri(id, GL_TEXTURE_MIN_FILTER, minFilter);
+            glTextureParameteri(id, GL_TEXTURE_MAG_FILTER, magFilter);
+        } else {
+            this.bind();
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, minFilter);
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, magFilter);
+        }
+    }
+
+    @Override
+    public int getId() {
+        RenderSystem.assertOnRenderThreadOrInit();
+        if (this.id == -1) {
+            this.id = VeilRenderSystem.createTextures(GL_TEXTURE_CUBE_MAP);
+        }
+
+        return this.id;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package foundry.veil.api.client.necromancer.animation.keyframe;
 
 import org.joml.Quaternionfc;
-import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 public record Keyframe(float time, Interpolation interpolation, KeyframeTransform transform) {

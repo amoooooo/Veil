@@ -1,9 +1,11 @@
 package foundry.veil.api.client.necromancer;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import org.joml.*;
+import org.joml.Matrix3f;
+import org.joml.Matrix4x3f;
+import org.joml.Quaternionf;
+import org.joml.Vector4f;
 
-import java.lang.Math;
 import java.nio.ByteBuffer;
 import java.util.*;
 

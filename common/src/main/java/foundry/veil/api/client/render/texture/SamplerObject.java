@@ -85,28 +85,47 @@ public class SamplerObject implements NativeResource {
         glBindSampler(unit, this.id);
     }
 
+    /**
+     * Unbinds the sampler from the specified unit.
+     *
+     * @param unit The unit to unbind from
+     */
     public static void unbind(int unit) {
         glBindSampler(unit, 0);
     }
 
+    /**
+     * @return The OpenGL id of this sampler
+     */
     public int getId() {
         return this.id;
     }
 
+    /**
+     * Sets the texture filtering to match the specified state.
+     *
+     * @param filter The new texture filtering state to use
+     */
     public void setFilter(TextureFilter filter) {
         glSamplerParameteri(this.id, GL_TEXTURE_MIN_FILTER, filter.minFilter());
         glSamplerParameteri(this.id, GL_TEXTURE_MAG_FILTER, filter.magFilter());
         this.setAnisotropy(filter.anisotropy());
         this.setCompareFunc(filter.compareFunction());
         this.setWrap(filter.wrapX(), filter.wrapY(), filter.wrapZ());
-        switch (filter.edgeType()) {
-            case FLOAT -> this.setBorderColor(filter.edgeColor());
-            case INT -> this.setBorderColorI(filter.edgeColor());
-            case UINT -> this.setBorderColorUI(filter.edgeColor());
+        switch (filter.borderType()) {
+            case FLOAT -> this.setBorderColor(filter.borderColor());
+            case INT -> this.setBorderColorI(filter.borderColor());
+            case UINT -> this.setBorderColorUI(filter.borderColor());
         }
         this.setCubeMapSeamless(filter.seamless());
     }
 
+    /**
+     * Sets the minification and magnification filters to match the specified blur and mipmap states.
+     *
+     * @param blur   Whether to use linear or nearest neighbor filtering
+     * @param mipmap Whether to interpolate between mipmap levels or not
+     */
     public void setFilter(boolean blur, boolean mipmap) {
         int minFilter;
         int magFilter;
@@ -122,12 +141,24 @@ public class SamplerObject implements NativeResource {
         glSamplerParameteri(this.id, GL_TEXTURE_MAG_FILTER, magFilter);
     }
 
+    /**
+     * Sets the anisotropic filtering value.
+     * Any value >1 is considered to be enabled.
+     * Set to {@link Float#MAX_VALUE} to set to the platform maximum
+     *
+     * @param value The new anisotropic filtering value
+     */
     public void setAnisotropy(float value) {
         if (VeilRenderSystem.textureAnisotropySupported()) {
             glSamplerParameterf(this.id, GL_TEXTURE_MAX_ANISOTROPY, Math.min(value, VeilRenderSystem.maxTextureAnisotropy()));
         }
     }
 
+    /**
+     * Sets the depth compare function for depth texture sampling.
+     *
+     * @param compareFunction The new function or <code>null</code> to disable
+     */
     public void setCompareFunc(@Nullable TextureFilter.CompareFunction compareFunction) {
         if (compareFunction != null) {
             glSamplerParameteri(this.id, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
@@ -137,56 +168,125 @@ public class SamplerObject implements NativeResource {
         }
     }
 
+    /**
+     * Sets the X texture wrap function.
+     *
+     * @param wrap The new X wrap value
+     */
     public void setWrapX(TextureFilter.Wrap wrap) {
         glSamplerParameteri(this.id, GL_TEXTURE_WRAP_S, wrap.getId());
     }
 
+    /**
+     * Sets the Y texture wrap function.
+     *
+     * @param wrap The new Y wrap value
+     */
     public void setWrapY(TextureFilter.Wrap wrap) {
         glSamplerParameteri(this.id, GL_TEXTURE_WRAP_T, wrap.getId());
     }
 
+    /**
+     * Sets the Z texture wrap function.
+     *
+     * @param wrap The new Z wrap value
+     */
     public void setWrapZ(TextureFilter.Wrap wrap) {
         glSamplerParameteri(this.id, GL_TEXTURE_WRAP_R, wrap.getId());
     }
 
+    /**
+     * Sets the texture wrap function for all axes.
+     *
+     * @param wrapX The new X wrap value
+     * @param wrapY The new Y wrap value
+     * @param wrapZ The new Z wrap value
+     */
     public void setWrap(TextureFilter.Wrap wrapX, TextureFilter.Wrap wrapY, TextureFilter.Wrap wrapZ) {
         glSamplerParameteri(this.id, GL_TEXTURE_WRAP_S, wrapX.getId());
         glSamplerParameteri(this.id, GL_TEXTURE_WRAP_T, wrapY.getId());
         glSamplerParameteri(this.id, GL_TEXTURE_WRAP_R, wrapZ.getId());
     }
 
+    /**
+     * Sets the border color to use when the wrap mode is {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+     *
+     * @param red   The red value from <code>0</code> to <code>1</code>
+     * @param green The green value from <code>0</code> to <code>1</code>
+     * @param blue  The blue value from <code>0</code> to <code>1</code>
+     * @param alpha The alpha value from <code>0</code> to <code>1</code>
+     */
     public void setBorderColor(float red, float green, float blue, float alpha) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             glSamplerParameterfv(this.id, GL_TEXTURE_BORDER_COLOR, stack.floats(red, green, blue, alpha));
         }
     }
 
+    /**
+     * Sets the border color to use when the wrap mode is {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+     *
+     * @param red   The red value from <code>0</code> to <code>255</code>
+     * @param green The green value from <code>0</code> to <code>255</code>
+     * @param blue  The blue value from <code>0</code> to <code>255</code>
+     * @param alpha The alpha value from <code>0</code> to <code>255</code>
+     */
     public void setBorderColor(int red, int green, int blue, int alpha) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             glSamplerParameteriv(this.id, GL_TEXTURE_BORDER_COLOR, stack.ints(red, green, blue, alpha));
         }
     }
 
+    /**
+     * Sets the border color to use when the wrap mode is {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+     *
+     * @param color The color value encoded as an RGBA int
+     */
     public void setBorderColor(int color) {
         this.setBorderColor((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, (color >> 24) & 0xFF);
     }
 
+    /**
+     * Sets the border color to use when the wrap mode is {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+     *
+     * @param red   The red value from <code>0</code> to <code>255</code>
+     * @param green The green value from <code>0</code> to <code>255</code>
+     * @param blue  The blue value from <code>0</code> to <code>255</code>
+     * @param alpha The alpha value from <code>0</code> to <code>255</code>
+     */
     public void setBorderColorI(int red, int green, int blue, int alpha) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             glGetSamplerParameterIiv(this.id, GL_TEXTURE_BORDER_COLOR, stack.ints(red, green, blue, alpha));
         }
     }
 
+    /**
+     * Sets the border color to use when the wrap mode is {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+     *
+     * @param color The color value encoded as an RGBA int
+     */
     public void setBorderColorI(int color) {
         this.setBorderColorI((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, (color >> 24) & 0xFF);
     }
 
+    /**
+     * Sets the border color to use when the wrap mode is {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+     *
+     * @param red   The red value from <code>0</code> to <code>255</code>
+     * @param green The green value from <code>0</code> to <code>255</code>
+     * @param blue  The blue value from <code>0</code> to <code>255</code>
+     * @param alpha The alpha value from <code>0</code> to <code>255</code>
+     */
     public void setBorderColorUI(int red, int green, int blue, int alpha) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             glGetSamplerParameterIuiv(this.id, GL_TEXTURE_BORDER_COLOR, stack.ints(red, green, blue, alpha));
         }
     }
 
+    /**
+     * Sets the border color to use when the wrap mode is {@link TextureFilter.Wrap#CLAMP_TO_BORDER}.
+     *
+     * @param color The color value encoded as an RGBA int
+     */
     public void setBorderColorUI(int color) {
         this.setBorderColorUI((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, (color >> 24) & 0xFF);
     }

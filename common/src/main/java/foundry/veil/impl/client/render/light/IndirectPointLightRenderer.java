@@ -7,8 +7,8 @@ import foundry.veil.api.client.render.light.PointLight;
 import foundry.veil.api.client.render.light.renderer.IndirectLightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
-import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import foundry.veil.api.client.render.shader.VeilShaders;
+import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 

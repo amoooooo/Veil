@@ -176,33 +176,30 @@ public record FramebufferDefinition(MolangExpression width,
     public AdvancedFbo.Builder createBuilder(MolangEnvironment environment) {
         int width = (int) environment.safeResolve(this.width);
         int height = (int) environment.safeResolve(this.height);
-        Validate.inclusiveBetween(1, VeilRenderSystem.maxFramebufferWidth(), width, "width must be between 1 and " + VeilRenderSystem.maxFramebufferWidth());
-        Validate.inclusiveBetween(1, VeilRenderSystem.maxFramebufferHeight(), height, "height must be between 1 and " + VeilRenderSystem.maxFramebufferHeight());
+        int maxWidth = VeilRenderSystem.maxFramebufferWidth();
+        int maxHeight = VeilRenderSystem.maxFramebufferHeight();
+        Validate.inclusiveBetween(1, maxWidth, width, "width must be between 1 and " + maxWidth);
+        Validate.inclusiveBetween(1, maxHeight, height, "height must be between 1 and " + maxHeight);
         AdvancedFbo.Builder builder = AdvancedFbo.withSize(width, height);
 
         for (FramebufferAttachmentDefinition definition : this.colorBuffers) {
+            builder.setLevels(definition.levels()).setFormat(definition.format());
             if (definition.type() == FramebufferAttachmentDefinition.Type.RENDER_BUFFER) {
-                builder.setLevels(definition.levels())
-                        .setFormat(definition.format())
-                        .addColorRenderBuffer();
+                builder.addColorRenderBuffer();
             } else {
-                builder.setLevels(definition.levels())
-                        .setFilter(definition.filter())
+                builder.setFilter(definition.filter())
                         .setName(definition.name())
-                        .setFormat(definition.format())
                         .addColorTextureBuffer(definition.dataType().getId());
             }
         }
 
         if (this.depthBuffer != null) {
+            builder.setLevels(this.depthBuffer.levels()).setFormat(this.depthBuffer.format());
             if (this.depthBuffer.type() == FramebufferAttachmentDefinition.Type.RENDER_BUFFER) {
-                builder.setLevels(this.depthBuffer.levels())
-                        .setDepthRenderBuffer();
+                builder.setDepthRenderBuffer();
             } else {
-                builder.setLevels(this.depthBuffer.levels())
-                        .setFilter(this.depthBuffer.filter())
+                builder.setFilter(this.depthBuffer.filter())
                         .setName(this.depthBuffer.name())
-                        .setFormat(this.depthBuffer.format())
                         .setDepthTextureBuffer(this.depthBuffer.dataType().getId());
             }
         }
