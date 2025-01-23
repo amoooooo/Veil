@@ -100,12 +100,12 @@ loadScripts(document, 'script');</script>
 <dd><code><span id="param-wrapX">wrapX</span></code> - The clamping for the X axis on the texture</dd>
 <dd><code><span id="param-wrapY">wrapY</span></code> - The clamping for the Y axis on the texture</dd>
 <dd><code><span id="param-wrapZ">wrapZ</span></code> - The clamping for the Z axis on the texture</dd>
-<dd><code><span id="param-edgeColor">edgeColor</span></code> - The color to get when sampling the texture out of bounds when using <a href="TextureFilter.Wrap.html#CLAMP_TO_BORDER"><code>TextureFilter.Wrap.CLAMP_TO_BORDER</code></a></dd>
-<dd><code><span id="param-edgeType">edgeType</span></code> - The type of data the edge color should be referenced in</dd>
+<dd><code><span id="param-borderColor">borderColor</span></code> - The color to get when sampling the texture out of bounds when using <a href="TextureFilter.Wrap.html#CLAMP_TO_BORDER"><code>TextureFilter.Wrap.CLAMP_TO_BORDER</code></a></dd>
+<dd><code><span id="param-borderType">borderType</span></code> - The type of data the border color should be referenced in</dd>
 <dd><code><span id="param-seamless">seamless</span></code> - Whether the texture should be considered seamless if using a cubemap</dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">TextureFilter</span>(boolean&nbsp;blur, boolean&nbsp;mipmap, float&nbsp;anisotropy, @Nullable <a href="TextureFilter.CompareFunction.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.CompareFunction</a>&nbsp;compareFunction, <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapX, <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapY, <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapZ, int&nbsp;edgeColor, <a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a>&nbsp;edgeType, boolean&nbsp;seamless)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">TextureFilter</span>(boolean&nbsp;blur, boolean&nbsp;mipmap, float&nbsp;anisotropy, @Nullable <a href="TextureFilter.CompareFunction.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.CompareFunction</a>&nbsp;compareFunction, <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapX, <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapY, <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapZ, int&nbsp;borderColor, <a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a>&nbsp;borderType, boolean&nbsp;seamless)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Specifies the full texture filter state of a texture or sampler object.</div>
 </section>
@@ -177,8 +177,8 @@ loadScripts(document, 'script');</script>
  <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapX,
  <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapY,
  <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapZ,
- int&nbsp;edgeColor,
- <a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a>&nbsp;edgeType,
+ int&nbsp;borderColor,
+ <a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a>&nbsp;borderType,
  boolean&nbsp;seamless)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>TextureFilter</code> record class.</div>
@@ -217,20 +217,20 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-blur"><code>blur</code></a> record component.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#borderColor()" class="member-name-link">borderColor</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-borderColor"><code>borderColor</code></a> record component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#borderType()" class="member-name-link">borderType</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the value of the <a href="#param-borderType"><code>borderType</code></a> record component.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="TextureFilter.CompareFunction.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.CompareFunction</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compareFunction()" class="member-name-link">compareFunction</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-compareFunction"><code>compareFunction</code></a> record component.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#edgeColor()" class="member-name-link">edgeColor</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-edgeColor"><code>edgeColor</code></a> record component.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#edgeType()" class="member-name-link">edgeType</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the value of the <a href="#param-edgeType"><code>edgeType</code></a> record component.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
@@ -338,8 +338,8 @@ loadScripts(document, 'script');</script>
  <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapX,
  <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapY,
  <a href="TextureFilter.Wrap.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.Wrap</a>&nbsp;wrapZ,
- int&nbsp;edgeColor,
- <a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a>&nbsp;edgeType,
+ int&nbsp;borderColor,
+ <a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a>&nbsp;borderType,
  boolean&nbsp;seamless)</span></div>
 <div class="block">Creates an instance of a <code>TextureFilter</code> record class.</div>
 <dl class="notes">
@@ -351,8 +351,8 @@ loadScripts(document, 'script');</script>
 <dd><code>wrapX</code> - the value for the <a href="#param-wrapX"><code>wrapX</code></a> record component</dd>
 <dd><code>wrapY</code> - the value for the <a href="#param-wrapY"><code>wrapY</code></a> record component</dd>
 <dd><code>wrapZ</code> - the value for the <a href="#param-wrapZ"><code>wrapZ</code></a> record component</dd>
-<dd><code>edgeColor</code> - the value for the <a href="#param-edgeColor"><code>edgeColor</code></a> record component</dd>
-<dd><code>edgeType</code> - the value for the <a href="#param-edgeType"><code>edgeType</code></a> record component</dd>
+<dd><code>borderColor</code> - the value for the <a href="#param-borderColor"><code>borderColor</code></a> record component</dd>
+<dd><code>borderType</code> - the value for the <a href="#param-borderType"><code>borderType</code></a> record component</dd>
 <dd><code>seamless</code> - the value for the <a href="#param-seamless"><code>seamless</code></a> record component</dd>
 </dl>
 </section>
@@ -365,6 +365,17 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="anisotropy()">
+<h3>anisotropy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">anisotropy</span>()</div>
+<div class="block">Returns the value of the <a href="#param-anisotropy"><code>anisotropy</code></a> record component.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the value of the <a href="#param-anisotropy"><code>anisotropy</code></a> record component</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="minFilter()">
 <h3>minFilter</h3>
@@ -471,17 +482,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="anisotropy()">
-<h3>anisotropy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">anisotropy</span>()</div>
-<div class="block">Returns the value of the <a href="#param-anisotropy"><code>anisotropy</code></a> record component.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the value of the <a href="#param-anisotropy"><code>anisotropy</code></a> record component</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="compareFunction()">
 <h3>compareFunction</h3>
 <div class="member-signature"><span class="annotations">@Nullable
@@ -527,24 +527,24 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="edgeColor()">
-<h3>edgeColor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">edgeColor</span>()</div>
-<div class="block">Returns the value of the <a href="#param-edgeColor"><code>edgeColor</code></a> record component.</div>
+<section class="detail" id="borderColor()">
+<h3>borderColor</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">borderColor</span>()</div>
+<div class="block">Returns the value of the <a href="#param-borderColor"><code>borderColor</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <a href="#param-edgeColor"><code>edgeColor</code></a> record component</dd>
+<dd>the value of the <a href="#param-borderColor"><code>borderColor</code></a> record component</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="edgeType()">
-<h3>edgeType</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a></span>&nbsp;<span class="element-name">edgeType</span>()</div>
-<div class="block">Returns the value of the <a href="#param-edgeType"><code>edgeType</code></a> record component.</div>
+<section class="detail" id="borderType()">
+<h3>borderType</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TextureFilter.EdgeType.html" title="enum class in foundry.veil.api.client.render.texture">TextureFilter.EdgeType</a></span>&nbsp;<span class="element-name">borderType</span>()</div>
+<div class="block">Returns the value of the <a href="#param-borderType"><code>borderType</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the value of the <a href="#param-edgeType"><code>edgeType</code></a> record component</dd>
+<dd>the value of the <a href="#param-borderType"><code>borderType</code></a> record component</dd>
 </dl>
 </section>
 </li>

@@ -196,48 +196,71 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#copyImageSupported()" class="member-name-link">copyImageSupported</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#directStateAccessSupported()" class="member-name-link">directStateAccessSupported</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTextures(int)" class="member-name-link">createTextures</a><wbr>(int&nbsp;target)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a new texture for the specified target when using direct state access,
+ otherwise calls the regular <code>GL11C.glGenTextures()</code>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawIndirect(com.mojang.blaze3d.vertex.VertexBuffer,long,int,int)" class="member-name-link">drawIndirect</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTextures(int,int%5B%5D)" class="member-name-link">createTextures</a><wbr>(int&nbsp;target,
+ int[]&nbsp;textures)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates new textures for the specified target when using direct state access,
+ otherwise calls the regular <code>GL11C.glGenTextures()</code>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createTextures(int,java.nio.IntBuffer)" class="member-name-link">createTextures</a><wbr>(int&nbsp;target,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/IntBuffer.html" title="class or interface in java.nio" class="external-link">IntBuffer</a>&nbsp;textures)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates new textures for the specified target when using direct state access,
+ otherwise calls the regular <code>GL11C.glGenTextures()</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#directStateAccessSupported()" class="member-name-link">directStateAccessSupported</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawIndirect(com.mojang.blaze3d.vertex.VertexBuffer,long,int,int)" class="member-name-link">drawIndirect</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
  long&nbsp;indirect,
  int&nbsp;drawCount,
  int&nbsp;stride)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Draws indirect instances of the specified vertex buffer.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawInstanced(com.mojang.blaze3d.vertex.VertexBuffer,int)" class="member-name-link">drawInstanced</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawInstanced(com.mojang.blaze3d.vertex.VertexBuffer,int)" class="member-name-link">drawInstanced</a><wbr>(com.mojang.blaze3d.vertex.VertexBuffer&nbsp;vbo,
  int&nbsp;instances)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Draws instances of the specified vertex buffer.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawScreenQuad()" class="member-name-link">drawScreenQuad</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drawScreenQuad()" class="member-name-link">drawScreenQuad</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Draws a quad onto the full screen.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endFrame()" class="member-name-link">endFrame</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endLastBatch(net.minecraft.client.renderer.MultiBufferSource.BufferSource,java.lang.String)" class="member-name-link">endLastBatch</a><wbr>(net.minecraft.client.renderer.MultiBufferSource.BufferSource&nbsp;source,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endFrame()" class="member-name-link">endFrame</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endLastBatch(net.minecraft.client.renderer.MultiBufferSource.BufferSource,java.lang.String)" class="member-name-link">endLastBatch</a><wbr>(net.minecraft.client.renderer.MultiBufferSource.BufferSource&nbsp;source,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Finishes the last batch of the specified buffer builder if it has the same name.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endLastBatch(net.minecraft.client.renderer.MultiBufferSource.BufferSource,net.minecraft.client.renderer.RenderType)" class="member-name-link">endLastBatch</a><wbr>(net.minecraft.client.renderer.MultiBufferSource.BufferSource&nbsp;source,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#endLastBatch(net.minecraft.client.renderer.MultiBufferSource.BufferSource,net.minecraft.client.renderer.RenderType)" class="member-name-link">endLastBatch</a><wbr>(net.minecraft.client.renderer.MultiBufferSource.BufferSource&nbsp;source,
  net.minecraft.client.renderer.RenderType&nbsp;renderType)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Finishes the last batch of the specified buffer builder if it is the same render type.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@Nullable <a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getBlock(foundry.veil.api.client.render.VeilShaderBufferLayout)" class="member-name-link">getBlock</a><wbr>(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;T&gt;&nbsp;layout)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T&gt;&nbsp;@Nullable <a href="shader/definition/ShaderBlock.html" title="interface in foundry.veil.api.client.render.shader.definition">ShaderBlock</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getBlock(foundry.veil.api.client.render.VeilShaderBufferLayout)" class="member-name-link">getBlock</a><wbr>(<a href="VeilShaderBufferLayout.html" title="class in foundry.veil.api.client.render">VeilShaderBufferLayout</a>&lt;T&gt;&nbsp;layout)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Retrieves the registered block for the specified layout.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getBoundTexture(int)" class="member-name-link">getBoundTexture</a><wbr>(int&nbsp;target)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static org.joml.Vector3fc</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getCameraBobOffset()" class="member-name-link">getCameraBobOffset</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
@@ -1165,6 +1188,54 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>vao</code> - The vao to bind</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getBoundTexture(int)">
+<h3>getBoundTexture</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getBoundTexture</span><wbr><span class="parameters">(int&nbsp;target)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="createTextures(int)">
+<h3>createTextures</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">createTextures</span><wbr><span class="parameters">(int&nbsp;target)</span></div>
+<div class="block">Creates a new texture for the specified target when using direct state access,
+ otherwise calls the regular <code>GL11C.glGenTextures()</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The target to create the texture for</dd>
+<dt>Returns:</dt>
+<dd>A new texture object with its state initialized if <a href="#directStateAccessSupported()"><code>directStateAccessSupported()</code></a> is <code>true</code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createTextures(int,int[])">
+<h3>createTextures</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">createTextures</span><wbr><span class="parameters">(int&nbsp;target,
+ int[]&nbsp;textures)</span></div>
+<div class="block">Creates new textures for the specified target when using direct state access,
+ otherwise calls the regular <code>GL11C.glGenTextures()</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The target to create the texture for</dd>
+<dd><code>textures</code> - The array to fill with new textures</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="createTextures(int,java.nio.IntBuffer)">
+<h3>createTextures</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">createTextures</span><wbr><span class="parameters">(int&nbsp;target,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/IntBuffer.html" title="class or interface in java.nio" class="external-link">IntBuffer</a>&nbsp;textures)</span></div>
+<div class="block">Creates new textures for the specified target when using direct state access,
+ otherwise calls the regular <code>GL11C.glGenTextures()</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>target</code> - The target to create the texture for</dd>
+<dd><code>textures</code> - The array to fill with new textures</dd>
 </dl>
 </section>
 </li>
