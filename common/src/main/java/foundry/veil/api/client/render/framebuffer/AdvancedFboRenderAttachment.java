@@ -154,6 +154,27 @@ public class AdvancedFboRenderAttachment implements AdvancedFboAttachment {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        AdvancedFboRenderAttachment that = (AdvancedFboRenderAttachment) o;
+        return this.id == that.id && this.attachmentType == that.attachmentType && this.attachmentFormat == that.attachmentFormat && this.width == that.width && this.height == that.height && this.samples == that.samples;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.id;
+        result = 31 * result + this.attachmentType;
+        result = 31 * result + this.attachmentFormat;
+        result = 31 * result + this.width;
+        result = 31 * result + this.height;
+        result = 31 * result + this.samples;
+        return result;
+    }
+
+    @Override
     public void free() {
         if (this.id != 0) {
             glDeleteRenderbuffers(this.id);

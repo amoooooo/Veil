@@ -98,7 +98,7 @@ public abstract class PipelineFrustumMixin implements CullFrustum {
     public Vector4fc[] getPlanes() {
         if (this.veil$frustumPlanes == null) {
             try {
-                this.veil$frustumPlanes = (Vector4f[]) PLANES_HANDLE.invoke(this.intersection);
+                this.veil$frustumPlanes = (Vector4f[]) PLANES_HANDLE.invokeExact(this.intersection);
             } catch (Throwable t) {
                 throw new IllegalStateException("Failed to get frustum planes", t);
             }

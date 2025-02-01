@@ -64,7 +64,7 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
     }
 
     @Override
-    public void clear(float red, float green, float blue, float alpha, int clearMask, int[] buffers) {
+    public void clear(float red, float green, float blue, float alpha, int clearMask, int... buffers) {
         if (clearMask == 0) {
             return;
         }

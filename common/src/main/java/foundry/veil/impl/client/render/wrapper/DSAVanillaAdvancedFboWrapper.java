@@ -28,7 +28,7 @@ public class DSAVanillaAdvancedFboWrapper extends VanillaAdvancedFboWrapper {
     }
 
     @Override
-    public void clear(float red, float green, float blue, float alpha, int clearMask, int[] clearBuffers) {
+    public void clear(float red, float green, float blue, float alpha, int clearMask, int... clearBuffers) {
         if (clearMask == 0) {
             return;
         }

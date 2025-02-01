@@ -24,7 +24,7 @@ public class LegacyVanillaAdvancedFboWrapper extends VanillaAdvancedFboWrapper {
     }
 
     @Override
-    public void clear(float red, float green, float blue, float alpha, int buffers, int[] clearBuffers) {
+    public void clear(float red, float green, float blue, float alpha, int buffers, int... clearBuffers) {
         if (buffers == 0) {
             return;
         }

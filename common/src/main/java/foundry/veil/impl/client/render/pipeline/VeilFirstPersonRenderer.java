@@ -9,9 +9,12 @@ import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.ext.RenderTargetExtension;
+import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
+
+import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
 
 @ApiStatus.Internal
 public final class VeilFirstPersonRenderer {
@@ -38,11 +41,20 @@ public final class VeilFirstPersonRenderer {
                     .setDepthTextureBuffer()
                     .build(true);
         }
-        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, firstPerson);
-        firstPerson.bind(false);
-        firstPerson.clear(mask);
+
+        DynamicBufferManger dynamicBufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
+        dynamicBufferManger.setEnabled(true);
+        AdvancedFbo fbo = dynamicBufferManger.getDynamicFbo(firstPerson);
+        dynamicBufferManger.setEnabled(false);
+        if (fbo == null) {
+            fbo = firstPerson;
+        }
+
+        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, fbo);
+        fbo.bind(false);
+        fbo.clear(0.0F, 0.0F, 0.0F, 1.0F, GL_COLOR_BUFFER_BIT | mask, dynamicBufferManger.getClearBuffers());
         // This redirects calls to the vanilla framebuffer to the first person buffer instead
-        ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$setWrapper(firstPerson);
+        ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$setWrapper(fbo);
     }
 
     public static void unbind() {

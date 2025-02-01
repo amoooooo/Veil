@@ -119,7 +119,7 @@ public final class VeilLevelPerspectiveRenderer {
         Entity backupCrosshairPickEntity = minecraft.crosshairPickEntity;
 
         renderingPerspective = true;
-        AdvancedFbo drawFbo = VeilRenderSystem.renderer().getDynamicBufferManger().getDynamicFbo(framebuffer, true);
+        AdvancedFbo drawFbo = VeilRenderSystem.renderer().getDynamicBufferManger().getDynamicFbo(framebuffer);
         if (drawFbo != null) {
             drawFbo.bindDraw(true);
             renderTargetExtension.veil$setWrapper(drawFbo);

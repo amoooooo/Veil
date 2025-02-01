@@ -236,11 +236,10 @@ public class DynamicBufferManger implements NativeResource {
     /**
      * Creates a dynamic fbo from the specified framebuffer. It will only write into the first color texture buffer and optionally the depth texture.
      *
-     * @param framebuffer    The framebuffer to add dynamic buffers to
-     * @param createTextures Whether to create new buffer textures or use the existing ones
+     * @param framebuffer The framebuffer to add dynamic buffers to
      * @return The created buffer or <code>null</code> to use the input value
      */
-    public @Nullable AdvancedFbo getDynamicFbo(AdvancedFbo framebuffer, boolean createTextures) {
+    public @Nullable AdvancedFbo getDynamicFbo(AdvancedFbo framebuffer) {
         if (this.activeBuffers == 0 || !this.enabled) {
             return null;
         }
@@ -252,6 +251,7 @@ public class DynamicBufferManger implements NativeResource {
         if (this.dynamicFboPointer < this.dynamicFramebuffers.size()) {
             AdvancedFbo fbo = this.dynamicFramebuffers.get(this.dynamicFboPointer);
             if (fbo.getWidth() == framebuffer.getWidth() && fbo.getHeight() == framebuffer.getHeight()) {
+                this.dynamicFboPointer++;
                 return fbo;
             }
             fbo.free();
@@ -262,14 +262,14 @@ public class DynamicBufferManger implements NativeResource {
         for (Map.Entry<DynamicBufferType, DynamicBuffer> entry : this.dynamicBuffers.entrySet()) {
             DynamicBufferType type = entry.getKey();
             if ((this.activeBuffers & type.getMask()) != 0) {
-                if (createTextures) {
+//                if (createTextures) {
                     builder.setName(type.getSourceName())
                             .setFormat(type.getTexelFormat(), type.getInternalFormat())
                             .addColorTextureBuffer();
-                } else {
-                    builder.setName(type.getSourceName())
-                            .addColorTextureWrapper(entry.getValue().textureId);
-                }
+//                } else {
+//                    builder.setName(type.getSourceName())
+//                            .addColorTextureWrapper(entry.getValue().textureId);
+//                }
             }
         }
         if (framebuffer.isDepthTextureAttachment()) {
@@ -284,8 +284,13 @@ public class DynamicBufferManger implements NativeResource {
         } else {
             this.dynamicFramebuffers.add(fbo);
         }
+        this.dynamicFboPointer++;
 
         return fbo;
+    }
+
+    public int[] getClearBuffers() {
+        return this.clearBuffers;
     }
 
     /**

@@ -173,6 +173,24 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (o == null || this.getClass() != o.getClass()) {
+                return false;
+            }
+            if (!super.equals(o)) {
+                return false;
+            }
+
+            AttachmentWrapper that = (AttachmentWrapper) o;
+            return this.id.getAsInt() == that.id.getAsInt();
+        }
+
+        @Override
+        public int hashCode() {
+            return this.id.getAsInt();
+        }
+
+        @Override
         public void free() {
             throw new UnsupportedOperationException("Vanilla framebuffer attachments cannot be deleted");
         }

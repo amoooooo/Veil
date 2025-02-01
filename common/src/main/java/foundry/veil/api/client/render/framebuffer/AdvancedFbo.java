@@ -70,7 +70,7 @@ public interface AdvancedFbo extends NativeResource {
      *
      * @param clearMask The buffers to clear
      */
-    void clear(float red, float green, float blue, float alpha, int clearMask, int[] clearBuffers);
+    void clear(float red, float green, float blue, float alpha, int clearMask, int... clearBuffers);
 
     /**
      * Resets the draw buffers to enable all buffers.

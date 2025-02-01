@@ -11,6 +11,7 @@ import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.ByteBuffer;
+import java.util.Objects;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedFramebufferTexture;
 import static org.lwjgl.opengl.GL11C.*;
@@ -108,6 +109,30 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     @Override
     public AdvancedFboTextureAttachment clone() {
         return new AdvancedFboTextureAttachment(this.attachmentType, this.format, this.texelFormat, this.dataType, this.width, this.height, this.mipmapLevels, this.filter, this.name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
+
+        AdvancedFboTextureAttachment that = (AdvancedFboTextureAttachment) o;
+        return this.attachmentType == that.attachmentType && this.format == that.format && this.texelFormat == that.texelFormat && this.dataType == that.dataType && this.width == that.width && this.height == that.height && this.mipmapLevels == that.mipmapLevels && this.filter.equals(that.filter) && Objects.equals(this.name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.attachmentType;
+        result = 31 * result + this.format;
+        result = 31 * result + this.texelFormat;
+        result = 31 * result + this.dataType;
+        result = 31 * result + this.width;
+        result = 31 * result + this.height;
+        result = 31 * result + this.mipmapLevels;
+        result = 31 * result + this.filter.hashCode();
+        result = 31 * result + Objects.hashCode(this.name);
+        return result;
     }
 
     @Override
