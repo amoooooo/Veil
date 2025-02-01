@@ -8,6 +8,7 @@ import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.ext.PerformanceRenderTargetExtension;
 import foundry.veil.ext.RenderTargetExtension;
+import org.lwjgl.opengl.NVDrawTexture;
 import org.lwjgl.system.MemoryStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -101,6 +102,27 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
 
     @Inject(method = "_blitToScreen", at = @At("HEAD"), cancellable = true)
     private void _blitToScreen(int width, int height, boolean disableBlend, CallbackInfo ci) {
+        // This is likely to have better power efficiency on NVIDIA graphics cards, so prefer it
+        // https://registry.khronos.org/OpenGL/extensions/NV/NV_draw_texture.txt
+        if (VeilRenderSystem.nvDrawTextureSupported()) {
+            ci.cancel();
+            RenderSystem.assertOnRenderThread();
+            GlStateManager._colorMask(true, true, true, false);
+            GlStateManager._depthMask(false);
+            GlStateManager._disableDepthTest();
+            if (disableBlend) {
+                GlStateManager._disableBlend();
+            }
+
+            NVDrawTexture.glDrawTextureNV(this.getColorTextureId(), 0,
+                    0, 0, width, height, 0.0F,
+                    0.0F, 0.0F, 1.0F, 1.0F);
+
+            GlStateManager._colorMask(true, true, true, true);
+            GlStateManager._depthMask(true);
+            return;
+        }
+
         if (disableBlend && VeilRenderSystem.directStateAccessSupported()) {
             ci.cancel();
             RenderSystem.assertOnRenderThread();

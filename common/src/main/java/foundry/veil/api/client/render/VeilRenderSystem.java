@@ -95,6 +95,7 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier TEXTURE_ANISOTROPY_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL46 || caps.GL_ARB_texture_filter_anisotropic || caps.GL_EXT_texture_filter_anisotropic);
     private static final BooleanSupplier TEXTURE_MIRROR_CLAMP_TO_EDGE_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_texture_mirror_clamp_to_edge);
     private static final BooleanSupplier TEXTURE_CUBE_MAP_SEAMLESS_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.GL_ARB_seamless_cubemap_per_texture);
+    private static final BooleanSupplier NV_DRAW_TEXTURE_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.GL_NV_draw_texture);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
     private static final IntSupplier MAX_COLOR_ATTACHMENTS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COLOR_ATTACHMENTS));
     private static final IntSupplier MAX_SAMPLES = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SAMPLES));
@@ -607,6 +608,13 @@ public final class VeilRenderSystem {
      */
     public static boolean textureCubeMapSeamlessSupported() {
         return VeilRenderSystem.TEXTURE_CUBE_MAP_SEAMLESS_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link NVDrawTexture} is supported
+     */
+    public static boolean nvDrawTextureSupported() {
+        return VeilRenderSystem.NV_DRAW_TEXTURE_SUPPORTED.getAsBoolean();
     }
 
     /**
