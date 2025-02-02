@@ -370,7 +370,7 @@ public interface AdvancedFbo extends NativeResource {
         Validate.isTrue(this.isMutableColorTextureAttachment(attachment), "Color attachment " + attachment + " must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
         mutableTextureAttachment.setTexture(textureId, layer);
-        mutableTextureAttachment.attach(this.getId(), attachment);
+        mutableTextureAttachment.attach(this, attachment);
     }
 
     /**
@@ -459,7 +459,7 @@ public interface AdvancedFbo extends NativeResource {
         Validate.isTrue(this.isDepthMutableTextureAttachment(), "Depth attachment must be a mutable texture attachment to modify texture information.");
         AdvancedFboMutableTextureAttachment mutableTextureAttachment = (AdvancedFboMutableTextureAttachment) advancedFboAttachment;
         mutableTextureAttachment.setTexture(textureId, layer);
-        mutableTextureAttachment.attach(this.getId(), 0);
+        mutableTextureAttachment.attach(this, 0);
     }
 
     /**
@@ -476,6 +476,12 @@ public interface AdvancedFbo extends NativeResource {
         Validate.isTrue(this.isDepthRenderAttachment(), "Depth attachment must be a render attachment to get render information.");
         return (AdvancedFboRenderAttachment) advancedFboAttachment;
     }
+
+    /**
+     * @return The debug label of this framebuffer in a graphics debugger
+     */
+    @Nullable
+    String getDebugLabel();
 
     /**
      * @return A {@link RenderTarget} that uses this advanced fbo as the target
@@ -526,6 +532,8 @@ public interface AdvancedFbo extends NativeResource {
         private final int height;
         private final List<AdvancedFboAttachment> colorAttachments;
         private AdvancedFboAttachment depthAttachment;
+        private String debugLabel;
+
         private int levels;
         private int format;
         private int internalFormat;
@@ -551,6 +559,7 @@ public interface AdvancedFbo extends NativeResource {
             this.height = height;
             this.colorAttachments = new LinkedList<>();
             this.depthAttachment = null;
+            this.debugLabel = null;
             this.reset();
         }
 
@@ -999,6 +1008,16 @@ public interface AdvancedFbo extends NativeResource {
         }
 
         /**
+         * Sets the debug label for this framebuffer and all attachments in a graphics debugger.
+         *
+         * @param debugLabel The new label or <code>null</code> to use the default
+         */
+        public Builder setDebugLabel(@Nullable String debugLabel) {
+            this.debugLabel = debugLabel;
+            return this;
+        }
+
+        /**
          * Constructs a new {@link AdvancedFbo} with the specified attachments.
          *
          * @param create Whether to immediately create the buffer
@@ -1013,8 +1032,8 @@ public interface AdvancedFbo extends NativeResource {
             }
             this.validateSamples();
             AdvancedFbo framebuffer = VeilRenderSystem.directStateAccessSupported() ?
-                    new DSAAdvancedFboImpl(this.width, this.height, this.colorAttachments.toArray(AdvancedFboAttachment[]::new), this.depthAttachment) :
-                    new LegacyAdvancedFboImpl(this.width, this.height, this.colorAttachments.toArray(AdvancedFboAttachment[]::new), this.depthAttachment);
+                    new DSAAdvancedFboImpl(this.width, this.height, this.colorAttachments.toArray(AdvancedFboAttachment[]::new), this.depthAttachment, this.debugLabel) :
+                    new LegacyAdvancedFboImpl(this.width, this.height, this.colorAttachments.toArray(AdvancedFboAttachment[]::new), this.depthAttachment, this.debugLabel);
             if (create) {
                 framebuffer.create();
             }

@@ -302,6 +302,7 @@ public class TextureInspector extends SingleWindowInspector {
                 this.fbo = AdvancedFbo.withSize(width, height)
                         .addColorTextureBuffer()
                         .setDepthRenderBuffer()
+                        .setDebugLabel("Texture Inspector Cubemap")
                         .build(true);
             }
 

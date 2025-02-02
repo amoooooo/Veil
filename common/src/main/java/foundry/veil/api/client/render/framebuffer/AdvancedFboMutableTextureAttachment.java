@@ -25,21 +25,21 @@ public class AdvancedFboMutableTextureAttachment extends AdvancedFboTextureAttac
     }
 
     @Override
-    public void attach(int framebuffer, int attachment) {
+    public void attach(AdvancedFbo framebuffer, int attachment) {
         int attachmentType = this.getAttachmentType();
         Validate.isTrue(attachmentType < GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
 
         if (VeilRenderSystem.directStateAccessSupported()) {
             if (this.layer == -1) {
                 glNamedFramebufferTexture(
-                        framebuffer,
+                        framebuffer.getId(),
                         attachmentType + attachment,
                         this.textureId,
                         0
                 );
             } else {
                 glNamedFramebufferTextureLayer(
-                        framebuffer,
+                        framebuffer.getId(),
                         attachmentType + attachment,
                         this.textureId,
                         0,

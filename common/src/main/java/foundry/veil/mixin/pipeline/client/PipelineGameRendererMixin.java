@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilLevelPerspectiveRenderer;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.compat.IrisCompat;
 import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilFirstPersonRenderer;
 import net.minecraft.client.Minecraft;
@@ -93,7 +94,7 @@ public class PipelineGameRendererMixin {
     @Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", remap = false))
     public void bindFirstPerson(int mask, boolean checkError) {
         // Don't try to run first person processing if the hand is hidden
-        if (!this.panoramicMode) {
+        if (!this.panoramicMode && (IrisCompat.INSTANCE == null || !IrisCompat.INSTANCE.areShadersLoaded())) {
             VeilFirstPersonRenderer.bind(mask);
         }
     }
@@ -101,7 +102,7 @@ public class PipelineGameRendererMixin {
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;renderItemInHand(Lnet/minecraft/client/Camera;FLorg/joml/Matrix4f;)V", shift = At.Shift.AFTER))
     public void unbindFirstPerson(CallbackInfo ci) {
         // Don't try to run first person processing if the hand is hidden
-        if (!this.panoramicMode) {
+        if (!this.panoramicMode && (IrisCompat.INSTANCE == null || !IrisCompat.INSTANCE.areShadersLoaded())) {
             VeilFirstPersonRenderer.unbind();
         }
     }

@@ -8,7 +8,6 @@
     "accessor.DynamicBufferGameRendererAccessor",
     "accessor.DynamicBufferProgramAccessor",
     "client.DynamicBufferAmbientOcclusionFaceMixin",
-    "client.DynamicBufferDebugScreenOverlayMixin",
     "client.DynamicBufferGameRendererMixin",
     "client.DynamicBufferLevelRendererMixin",
     "client.DynamicBufferShaderInstanceMixin"

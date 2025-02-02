@@ -40,24 +40,26 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
             GL_OUT_OF_MEMORY, "GL_OUT_OF_MEMORY"
     );
 
-    public static final Supplier<AdvancedFbo> MAIN_WRAPPER = Suppliers.memoize(()->VeilRenderBridge.wrap(Minecraft.getInstance()::getMainRenderTarget));
+    public static final Supplier<AdvancedFbo> MAIN_WRAPPER = Suppliers.memoize(() -> VeilRenderBridge.wrap(Minecraft.getInstance()::getMainRenderTarget));
 
     protected int id;
     protected int width;
     protected int height;
     protected final AdvancedFboAttachment[] colorAttachments;
     protected final AdvancedFboAttachment depthAttachment;
+    protected final String debugLabel;
     protected final int clearMask;
     protected final int[] drawBuffers;
     protected int[] currentDrawBuffers;
     protected final Supplier<Wrapper> wrapper;
 
-    public AdvancedFboImpl(int width, int height, AdvancedFboAttachment[] colorAttachments, @Nullable AdvancedFboAttachment depthAttachment) {
+    public AdvancedFboImpl(int width, int height, AdvancedFboAttachment[] colorAttachments, @Nullable AdvancedFboAttachment depthAttachment, @Nullable String debugLabel) {
         this.id = -1;
         this.width = width;
         this.height = height;
         this.colorAttachments = colorAttachments;
         this.depthAttachment = depthAttachment;
+        this.debugLabel = debugLabel;
 
         int mask = 0;
         if (this.hasColorAttachment(0)) {
@@ -209,6 +211,11 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
     @Override
     public AdvancedFboAttachment getDepthAttachment() {
         return Objects.requireNonNull(this.depthAttachment, "Depth attachment does not exist.");
+    }
+
+    @Override
+    public @Nullable String getDebugLabel() {
+        return this.debugLabel;
     }
 
     @Override

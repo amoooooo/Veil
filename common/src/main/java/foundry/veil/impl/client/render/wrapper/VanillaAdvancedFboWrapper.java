@@ -12,6 +12,7 @@ import foundry.veil.mixin.framebuffer.client.FramebufferRenderTargetAccessor;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -132,6 +133,11 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
     }
 
     @Override
+    public @Nullable String getDebugLabel() {
+        return null;
+    }
+
+    @Override
     public RenderTarget toRenderTarget() {
         return this.renderTargetSupplier.get();
     }
@@ -158,7 +164,7 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
         }
 
         @Override
-        public void attach(int framebuffer, int attachment) {
+        public void attach(AdvancedFbo framebuffer, int attachment) {
             throw new UnsupportedOperationException("Vanilla framebuffer attachments cannot be attached");
         }
 

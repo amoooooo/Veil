@@ -3,6 +3,7 @@ package foundry.veil.impl.client.render.framebuffer;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboAttachment;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
@@ -28,8 +29,8 @@ import static org.lwjgl.opengl.GL30C.*;
 @ApiStatus.Internal
 public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
 
-    public LegacyAdvancedFboImpl(int width, int height, AdvancedFboAttachment[] colorAttachments, @Nullable AdvancedFboAttachment depthAttachment) {
-        super(width, height, colorAttachments, depthAttachment);
+    public LegacyAdvancedFboImpl(int width, int height, AdvancedFboAttachment[] colorAttachments, @Nullable AdvancedFboAttachment depthAttachment, @Nullable String debugLabel) {
+        super(width, height, colorAttachments, depthAttachment, debugLabel);
     }
 
     @Override
@@ -46,11 +47,14 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         this.id = glGenFramebuffers();
         this.bind(false);
 
+        VeilDebug debug = VeilDebug.get();
+        debug.objectLabel(GL_FRAMEBUFFER, this.id, "Advanced Fbo " + this.debugLabel);
+
         for (int i = 0; i < this.colorAttachments.length; i++) {
-            this.colorAttachments[i].attach(this.id, i);
+            this.colorAttachments[i].attach(this, i);
         }
         if (this.depthAttachment != null) {
-            this.depthAttachment.attach(this.id, 0);
+            this.depthAttachment.attach(this, 0);
         }
 
         int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);

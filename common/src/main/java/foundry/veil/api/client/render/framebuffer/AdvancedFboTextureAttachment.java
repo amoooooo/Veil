@@ -73,10 +73,6 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
         this.bindAttachment();
         this.setFilter(this.filter.blur(), this.filter.mipmap());
 
-        if (this.name != null) {
-            VeilDebug.get().objectLabel(GL_TEXTURE, this.getId(), "Texture " + this.name);
-        }
-
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, this.mipmapLevels - 1);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, this.mipmapLevels - 1);
@@ -89,20 +85,30 @@ public class AdvancedFboTextureAttachment extends AbstractTexture implements Adv
     }
 
     @Override
-    public void attach(int framebuffer, int attachment) {
+    public void attach(AdvancedFbo framebuffer, int attachment) {
         Validate.isTrue(this.attachmentType < GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
 
+        int id = this.getId();
         if (VeilRenderSystem.directStateAccessSupported()) {
-            glNamedFramebufferTexture(framebuffer,
+            glNamedFramebufferTexture(framebuffer.getId(),
                     this.attachmentType + attachment,
-                    this.getId(),
+                    id,
                     0); // Only draw into the first level
         } else {
             glFramebufferTexture2D(GL_FRAMEBUFFER,
                     this.attachmentType + attachment,
                     GL_TEXTURE_2D,
-                    this.getId(),
+                    id,
                     0); // Only draw into the first level
+        }
+
+        String debugLabel = framebuffer.getDebugLabel();
+        if (debugLabel != null) {
+            if (this.attachmentType == GL_DEPTH_ATTACHMENT) {
+                VeilDebug.get().objectLabel(GL_TEXTURE, id, "Advanced Fbo " + debugLabel + " Depth Texture");
+            } else {
+                VeilDebug.get().objectLabel(GL_TEXTURE, id, "Advanced Fbo " + debugLabel + " Texture " + (this.name != null ? this.name : attachment));
+            }
         }
     }
 

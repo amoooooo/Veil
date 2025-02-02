@@ -75,7 +75,9 @@ public class FramebufferManager extends CodecReloadListener<FramebufferDefinitio
 
     private void initFramebuffer(ResourceLocation name, FramebufferDefinition definition, MolangEnvironment runtime) {
         try {
-            AdvancedFbo fbo = definition.createBuilder(runtime).build(true);
+            AdvancedFbo fbo = definition.createBuilder(runtime)
+                    .setDebugLabel(name.toString())
+                    .build(true);
             fbo.clear();
             AdvancedFbo old = this.framebuffers.put(name, fbo);
             VeilDebug.get().objectLabel(GL_FRAMEBUFFER, fbo.getId(), "Framebuffer " + name);

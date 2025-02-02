@@ -23,7 +23,6 @@ public final class VeilFirstPersonRenderer {
     private static final ResourceLocation FIRST_PERSON = Veil.veilPath("core/first_person");
 
     private static boolean printedError;
-    private static boolean enabled;
     private static AdvancedFbo firstPerson;
 
     private VeilFirstPersonRenderer() {
@@ -40,6 +39,7 @@ public final class VeilFirstPersonRenderer {
                     .addColorTextureWrapper(framebufferTexture)
                     .setFormat(FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT)
                     .setDepthTextureBuffer()
+                    .setDebugLabel("Veil First Person")
                     .build(true);
         }
 

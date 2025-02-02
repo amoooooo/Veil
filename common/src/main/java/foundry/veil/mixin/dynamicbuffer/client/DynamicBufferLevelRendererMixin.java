@@ -20,7 +20,7 @@ public class DynamicBufferLevelRendererMixin {
         VeilRenderSystem.renderer().getDynamicBufferManger().setEnabled(true);
     }
 
-    // Correctly re-binds the
+    // Correctly re-binds the main framebuffer
     @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V"))
     public void bindWrite(RenderTarget instance, boolean setViewport, Operation<Void> original) {
         if (!VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(setViewport)) {

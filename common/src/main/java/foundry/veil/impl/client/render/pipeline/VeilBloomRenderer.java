@@ -60,6 +60,7 @@ public final class VeilBloomRenderer {
                     .setFormat(FramebufferAttachmentDefinition.Format.RGBA16F)
                     .addColorTextureBuffer()
                     .setDepthTextureWrapper(framebufferTexture)
+                    .setDebugLabel("Veil Bloom")
                     .build(true);
         }
         VeilRenderer renderer = VeilRenderSystem.renderer();

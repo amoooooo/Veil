@@ -224,6 +224,7 @@ public class DynamicBufferManger implements NativeResource {
                 }
             }
             builder.setDepthTextureWrapper(renderTarget.getDepthTextureId());
+            builder.setDebugLabel(name.toString());
             fbo = builder.build(true);
             this.framebuffers.put(name, fbo);
         }
@@ -277,6 +278,7 @@ public class DynamicBufferManger implements NativeResource {
         } else {
             builder.setFormat(FramebufferAttachmentDefinition.Format.DEPTH_COMPONENT).setDepthTextureBuffer();
         }
+        builder.setDebugLabel(framebuffer.getDebugLabel());
         AdvancedFbo fbo = builder.build(true);
 
         if (this.dynamicFboPointer < this.dynamicFramebuffers.size()) {

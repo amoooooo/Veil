@@ -18,6 +18,7 @@ public class AdvancedFboImGuiAreaImpl {
             AdvancedFbo fbo = AdvancedFbo.withSize(width, height)
                     .addColorTextureBuffer()
                     .setDepthRenderBuffer()
+                    .setDebugLabel("ImGui Temp " + pointer)
                     .build(true);
             FBO_STACK.add(fbo);
             pointer++;
@@ -30,6 +31,7 @@ public class AdvancedFboImGuiAreaImpl {
             fbo = AdvancedFbo.withSize(width, height)
                     .addColorTextureBuffer()
                     .setDepthRenderBuffer()
+                    .setDebugLabel("ImGui Temp " + pointer)
                     .build(true);
             FBO_STACK.set(pointer, fbo);
         }

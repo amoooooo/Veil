@@ -2,6 +2,7 @@ package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.impl.client.render.framebuffer.AdvancedFboImpl;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
@@ -83,13 +84,23 @@ public class AdvancedFboRenderAttachment implements AdvancedFboAttachment {
     }
 
     @Override
-    public void attach(int framebuffer, int attachment) {
+    public void attach(AdvancedFbo framebuffer, int attachment) {
         Validate.isTrue(this.attachmentType != GL_DEPTH_ATTACHMENT || attachment == 0, "Only one depth buffer attachment is supported.");
 
+        int id = this.getId();
         if (VeilRenderSystem.directStateAccessSupported()) {
-            glNamedFramebufferRenderbuffer(framebuffer, this.attachmentType, GL_RENDERBUFFER, this.getId());
+            glNamedFramebufferRenderbuffer(framebuffer.getId(), this.attachmentType, GL_RENDERBUFFER, id);
         } else {
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, this.attachmentType, GL_RENDERBUFFER, this.getId());
+            glFramebufferRenderbuffer(GL_FRAMEBUFFER, this.attachmentType, GL_RENDERBUFFER, id);
+        }
+
+        String debugLabel = framebuffer.getDebugLabel();
+        if (debugLabel != null) {
+            if (this.attachmentType == GL_DEPTH_ATTACHMENT) {
+                VeilDebug.get().objectLabel(GL_RENDERBUFFER, id, "Advanced Fbo " + debugLabel + " Depth Render Buffer");
+            } else {
+                VeilDebug.get().objectLabel(GL_RENDERBUFFER, id, "Advanced Fbo " + debugLabel + " Render Buffer " + attachment);
+            }
         }
     }
 

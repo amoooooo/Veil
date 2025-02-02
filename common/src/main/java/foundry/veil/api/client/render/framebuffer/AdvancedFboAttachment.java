@@ -20,10 +20,10 @@ public interface AdvancedFboAttachment extends NativeResource, Cloneable {
     /**
      * Attaches this attachment to the provided target under the specified attachment point.
      *
-     * @param framebuffer The id of the framebuffer to attach to
+     * @param framebuffer The framebuffer to attach to
      * @param attachment  The attachment point to add this attachment to
      */
-    void attach(int framebuffer, int attachment);
+    void attach(AdvancedFbo framebuffer, int attachment);
 
     /**
      * Binds this attachment.

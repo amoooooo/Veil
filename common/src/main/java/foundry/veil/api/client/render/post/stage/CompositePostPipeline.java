@@ -96,7 +96,9 @@ public final class CompositePostPipeline implements PostPipeline {
                     .setQuery("screen_width", this.screenWidth)
                     .setQuery("screen_height", this.screenHeight)
                     .create();
-            this.framebufferDefinitions.forEach((name, definition) -> this.framebuffers.put(name, definition.createBuilder(runtime).build(true)));
+            this.framebufferDefinitions.forEach((name, definition) -> this.framebuffers.put(name, definition.createBuilder(runtime)
+                    .setDebugLabel("Temp " + name)
+                    .build(true)));
         }
 
         this.framebuffers.forEach(context::setFramebuffer);
