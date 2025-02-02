@@ -1081,37 +1081,33 @@ public final class VeilRenderSystem {
     }
 
     @ApiStatus.Internal
-    public static void drawLights(ProfilerFiller profiler, CullFrustum cullFrustum) {
+    public static boolean drawLights(ProfilerFiller profiler, CullFrustum cullFrustum) {
         FramebufferManager framebufferManager = renderer.getFramebufferManager();
         AdvancedFbo lightFbo = framebufferManager.getFramebuffer(VeilFramebuffers.LIGHT);
         if (lightFbo == null) {
             AdvancedFbo.unbind();
-            return;
+            return false;
         }
 
         LightRenderer lightRenderer = renderer.getLightRenderer();
-        PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
-
-        profiler.push("lights");
         profiler.push("setup_lights");
         lightRenderer.setup(cullFrustum);
         profiler.popPush("draw_lights");
         boolean rendered = lightRenderer.render(lightFbo);
         profiler.pop();
+        return rendered;
+    }
 
+    @ApiStatus.Internal
+    public static void compositeLights(ProfilerFiller profiler) {
         // Only run the post pipeline if there are lights to display
-        if (rendered) {
-            PostPipeline compositePipeline = postProcessingManager.getPipeline(VeilRenderer.COMPOSITE);
-            if (compositePipeline != null) {
-                profiler.push("composite_lights");
-                postProcessingManager.runPipeline(compositePipeline);
-                profiler.pop();
-            }
-        } else {
-            AdvancedFbo.unbind();
+        PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
+        PostPipeline compositePipeline = postProcessingManager.getPipeline(VeilRenderer.COMPOSITE);
+        if (compositePipeline != null) {
+            profiler.push("composite_lights");
+            postProcessingManager.runPipeline(compositePipeline);
+            profiler.pop();
         }
-
-        profiler.pop();
     }
 
     @ApiStatus.Internal

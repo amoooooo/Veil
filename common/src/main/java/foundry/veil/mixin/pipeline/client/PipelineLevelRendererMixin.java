@@ -12,6 +12,7 @@ import foundry.veil.api.client.render.CameraMatrices;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderBridge;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
@@ -102,7 +103,11 @@ public abstract class PipelineLevelRendererMixin implements LevelRendererExtensi
 
     @Inject(method = "renderLevel", at = @At("TAIL"))
     public void blit(CallbackInfo ci, @Local ProfilerFiller profiler) {
-        VeilRenderSystem.drawLights(profiler, VeilRenderSystem.getCullingFrustum());
+        if (VeilRenderSystem.drawLights(profiler, VeilRenderSystem.getCullingFrustum())) {
+            VeilRenderSystem.compositeLights(profiler);
+        } else {
+            AdvancedFbo.unbind();
+        }
     }
 
     // This sets the blend function for rain correctly
@@ -141,7 +146,7 @@ public abstract class PipelineLevelRendererMixin implements LevelRendererExtensi
         framebufferManager.setFramebuffer(VeilFramebuffers.CLOUDS_TARGET, VeilRenderBridge.wrap(this.cloudsTarget));
     }
 
-    @Inject(method = "setLevel", at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SectionOcclusionGraph;waitAndReset(Lnet/minecraft/client/renderer/ViewArea;)V"))
+    @Inject(method = "setLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/SectionOcclusionGraph;waitAndReset(Lnet/minecraft/client/renderer/ViewArea;)V"))
     public void free(ClientLevel level, CallbackInfo ci) {
         VeilRenderSystem.clearLevel();
     }

@@ -12,6 +12,7 @@ import foundry.veil.ext.RenderTargetExtension;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.ApiStatus;
 
 import static org.lwjgl.opengl.GL11C.GL_COLOR_BUFFER_BIT;
@@ -59,8 +60,13 @@ public final class VeilFirstPersonRenderer {
 
     public static void unbind() {
         // TODO update projection/modelview matrix
-        VeilRenderSystem.drawLights(Minecraft.getInstance().getProfiler(), VeilRenderSystem.getCullingFrustum());
+        ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
+        boolean rendered = VeilRenderSystem.drawLights(profiler, VeilRenderSystem.getCullingFrustum());
         ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$setWrapper(null);
+
+        if (rendered) {
+            VeilRenderSystem.compositeLights(profiler);
+        }
 
         VeilRenderer renderer = VeilRenderSystem.renderer();
         PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
