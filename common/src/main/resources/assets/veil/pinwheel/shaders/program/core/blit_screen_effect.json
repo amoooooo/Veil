@@ -1,7 +1,4 @@
 {
   "vertex": "veil:core/blit_screen_effect",
-  "fragment": "veil:blit_screen"
+  "fragment": "veil:core/blit_screen_effect"
 }
-
-
-
