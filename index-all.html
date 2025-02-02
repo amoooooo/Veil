@@ -1110,8 +1110,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/BlendState.html#%3Cinit%3E(com.mojang.blaze3d.platform.GlStateManager.SourceFactor,com.mojang.blaze3d.platform.GlStateManager.DestFactor,com.mojang.blaze3d.platform.GlStateManager.SourceFactor,com.mojang.blaze3d.platform.GlStateManager.DestFactor)" class="member-name-link">BlendState(GlStateManager.SourceFactor, GlStateManager.DestFactor, GlStateManager.SourceFactor, GlStateManager.DestFactor)</a> - Constructor for class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/BlendState.html" title="class in foundry.veil.api.client.render">BlendState</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#blit(net.minecraft.util.profiling.ProfilerFiller)" class="member-name-link">blit(ProfilerFiller)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/dynamicbuffer/client/DynamicBufferLevelRendererMixin.html#blit(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">blit(CallbackInfo)</a> - Method in class foundry.veil.mixin.dynamicbuffer.client.<a href="foundry/veil/mixin/dynamicbuffer/client/DynamicBufferLevelRendererMixin.html" title="class in foundry.veil.mixin.dynamicbuffer.client">DynamicBufferLevelRendererMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineLevelRendererMixin.html#blit(org.spongepowered.asm.mixin.injection.callback.CallbackInfo,net.minecraft.util.profiling.ProfilerFiller)" class="member-name-link">blit(CallbackInfo, ProfilerFiller)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineLevelRendererMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineLevelRendererMixin</a></dt>
@@ -3136,6 +3134,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Draws instances of the specified vertex buffer.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#drawLights(net.minecraft.util.profiling.ProfilerFiller,foundry.veil.api.client.render.CullFrustum)" class="member-name-link">drawLights(ProfilerFiller, CullFrustum)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelineVertexBufferMixin.html#drawPatches(org.spongepowered.asm.mixin.injection.callback.CallbackInfo)" class="member-name-link">drawPatches(CallbackInfo)</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelineVertexBufferMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelineVertexBufferMixin</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#drawScreenQuad()" class="member-name-link">drawScreenQuad()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
@@ -11652,10 +11652,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Renders the editor onto the stack.</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/light/renderer/LightRenderer.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.client.render.light.renderer.<a href="foundry/veil/api/client/render/light/renderer/LightRenderer.html" title="class in foundry.veil.api.client.render.light.renderer">LightRenderer</a></dt>
-<dd>
-<div class="block">Draws the lights to the screen.</div>
-</dd>
 <dt><a href="foundry/veil/api/resource/editor/BlockModelInspector.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/BlockModelInspector.html" title="class in foundry.veil.api.resource.editor">BlockModelInspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html#render()" class="member-name-link">render()</a> - Method in class foundry.veil.api.resource.editor.<a href="foundry/veil/api/resource/editor/FramebufferFileEditor.html" title="class in foundry.veil.api.resource.editor">FramebufferFileEditor</a></dt>
@@ -11692,6 +11688,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/emitters/AnchorPoint.html#render(com.mojang.blaze3d.vertex.PoseStack,net.minecraft.client.renderer.MultiBufferSource,float)" class="member-name-link">render(PoseStack, MultiBufferSource, float)</a> - Method in class foundry.veil.api.quasar.emitters.<a href="foundry/veil/api/quasar/emitters/AnchorPoint.html" title="class in foundry.veil.api.quasar.emitters">AnchorPoint</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/light/renderer/LightRenderer.html#render(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">render(AdvancedFbo)</a> - Method in class foundry.veil.api.client.render.light.renderer.<a href="foundry/veil/api/client/render/light/renderer/LightRenderer.html" title="class in foundry.veil.api.client.render.light.renderer">LightRenderer</a></dt>
+<dd>
+<div class="block">Draws the lights to the specified framebuffer.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/VeilLevelPerspectiveRenderer.html#render(foundry.veil.api.client.render.framebuffer.AdvancedFbo,net.minecraft.world.entity.Entity,org.joml.Matrix4fc,org.joml.Matrix4fc,org.joml.Vector3dc,org.joml.Quaternionfc,float,net.minecraft.client.DeltaTracker)" class="member-name-link">render(AdvancedFbo, Entity, Matrix4fc, Matrix4fc, Vector3dc, Quaternionfc, float, DeltaTracker)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilLevelPerspectiveRenderer.html" title="class in foundry.veil.api.client.render">VeilLevelPerspectiveRenderer</a></dt>
 <dd>
 <div class="block">Renders the level from another POV.</div>

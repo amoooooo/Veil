@@ -99,7 +99,7 @@ loadScripts(document, 'script');</script>
 implements org.lwjgl.system.NativeResource</span></div>
 <div class="block">Renders all lights in a scene.
  <p>Lights can be added with <a href="#addLight(foundry.veil.api.client.render.light.Light)"><code>addLight(Light)</code></a>, and subsequently removed with
- <a href="#removeLight(T)"><code>removeLight(Light)</code></a>. Lights are automatically updated the next time <a href="#render()"><code>render()</code></a>
+ <a href="#removeLight(T)"><code>removeLight(Light)</code></a>. Lights are automatically updated the next time <a href="#render(foundry.veil.api.client.render.framebuffer.AdvancedFbo)"><code>render(AdvancedFbo)</code></a>
  is called if <a href="../Light.html#isDirty()"><code>Light.isDirty()</code></a> is <code>true</code>.
  </p>
  <p>There is no way to retrieve a light, so care should be taken to keep track of what lights
@@ -173,9 +173,9 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="block">Removes the specified light from the renderer.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render()" class="member-name-link">render</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#render(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">render</a><wbr>(<a href="../../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;lightFbo)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Draws the lights to the screen.</div>
+<div class="block">Draws the lights to the specified framebuffer.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setup(foundry.veil.api.client.render.CullFrustum)" class="member-name-link">setup</a><wbr>(<a href="../../CullFrustum.html" title="interface in foundry.veil.api.client.render">CullFrustum</a>&nbsp;frustum)</code></div>
@@ -230,12 +230,14 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="render()">
+<section class="detail" id="render(foundry.veil.api.client.render.framebuffer.AdvancedFbo)">
 <h3>render</h3>
 <div class="member-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">render</span>()</div>
-<div class="block">Draws the lights to the screen.</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">render</span><wbr><span class="parameters">(<a href="../../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;lightFbo)</span></div>
+<div class="block">Draws the lights to the specified framebuffer.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>lightFbo</code> - The framebuffer to render lights into</dd>
 <dt>Returns:</dt>
 <dd>If any lights were actually rendered</dd>
 </dl>
