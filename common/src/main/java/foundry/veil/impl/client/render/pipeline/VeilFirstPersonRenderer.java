@@ -58,6 +58,8 @@ public final class VeilFirstPersonRenderer {
     }
 
     public static void unbind() {
+        // TODO update projection/modelview matrix
+        VeilRenderSystem.drawLights(Minecraft.getInstance().getProfiler(), VeilRenderSystem.getCullingFrustum());
         ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$setWrapper(null);
 
         VeilRenderer renderer = VeilRenderSystem.renderer();

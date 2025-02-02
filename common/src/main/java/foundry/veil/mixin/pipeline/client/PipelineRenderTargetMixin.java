@@ -38,7 +38,7 @@ public abstract class PipelineRenderTargetMixin implements RenderTargetExtension
     @Override
     public int veil$getTexture(int buffer) {
         if (this.veil$wrapper != null && this.veil$wrapper.isColorTextureAttachment(buffer)) {
-            this.veil$wrapper.getColorTextureAttachment(buffer).getId();
+            return this.veil$wrapper.getColorTextureAttachment(buffer).getId();
         }
         return -1;
     }

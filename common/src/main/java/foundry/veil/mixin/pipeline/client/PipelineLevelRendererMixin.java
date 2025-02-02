@@ -102,7 +102,7 @@ public abstract class PipelineLevelRendererMixin implements LevelRendererExtensi
 
     @Inject(method = "renderLevel", at = @At("TAIL"))
     public void blit(CallbackInfo ci, @Local ProfilerFiller profiler) {
-        VeilRenderSystem.blit(profiler);
+        VeilRenderSystem.drawLights(profiler, VeilRenderSystem.getCullingFrustum());
     }
 
     // This sets the blend function for rain correctly

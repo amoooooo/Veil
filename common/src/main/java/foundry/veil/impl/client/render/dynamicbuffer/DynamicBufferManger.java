@@ -100,7 +100,7 @@ public class DynamicBufferManger implements NativeResource {
 
     public int getBufferTexture(DynamicBufferType buffer) {
         if ((this.activeBuffers & buffer.getMask()) != 0) {
-            int index = Integer.bitCount(this.activeBuffers & (buffer.getMask() - 1));
+            int index = 1 + Integer.bitCount(this.activeBuffers & (buffer.getMask() - 1));
             int texture = ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$getTexture(index);
             if (texture != -1) {
                 return texture;
@@ -263,9 +263,9 @@ public class DynamicBufferManger implements NativeResource {
             DynamicBufferType type = entry.getKey();
             if ((this.activeBuffers & type.getMask()) != 0) {
 //                if (createTextures) {
-                    builder.setName(type.getSourceName())
-                            .setFormat(type.getTexelFormat(), type.getInternalFormat())
-                            .addColorTextureBuffer();
+                builder.setName(type.getSourceName())
+                        .setFormat(type.getTexelFormat(), type.getInternalFormat())
+                        .addColorTextureBuffer();
 //                } else {
 //                    builder.setName(type.getSourceName())
 //                            .addColorTextureWrapper(entry.getValue().textureId);

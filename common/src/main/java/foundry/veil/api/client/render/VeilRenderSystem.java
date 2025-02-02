@@ -1081,21 +1081,22 @@ public final class VeilRenderSystem {
     }
 
     @ApiStatus.Internal
-    public static void blit(ProfilerFiller profiler) {
+    public static void drawLights(ProfilerFiller profiler, CullFrustum cullFrustum) {
+        FramebufferManager framebufferManager = renderer.getFramebufferManager();
+        AdvancedFbo lightFbo = framebufferManager.getFramebuffer(VeilFramebuffers.LIGHT);
+        if (lightFbo == null) {
+            AdvancedFbo.unbind();
+            return;
+        }
+
         LightRenderer lightRenderer = renderer.getLightRenderer();
         PostProcessingManager postProcessingManager = renderer.getPostProcessingManager();
-        FramebufferManager framebufferManager = renderer.getFramebufferManager();
 
         profiler.push("lights");
         profiler.push("setup_lights");
-        lightRenderer.setup(getCullingFrustum());
+        lightRenderer.setup(cullFrustum);
         profiler.popPush("draw_lights");
-        AdvancedFbo lightFbo = framebufferManager.getFramebuffer(VeilFramebuffers.LIGHT);
-        boolean rendered = false;
-        if (lightFbo != null) {
-            lightFbo.bind(true);
-            rendered = lightRenderer.render();
-        }
+        boolean rendered = lightRenderer.render(lightFbo);
         profiler.pop();
 
         // Only run the post pipeline if there are lights to display

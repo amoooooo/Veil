@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 /**
  * Renders all lights in a scene.
  * <p>Lights can be added with {@link #addLight(Light)}, and subsequently removed with
- * {@link #removeLight(Light)}. Lights are automatically updated the next time {@link #render()}
+ * {@link #removeLight(Light)}. Lights are automatically updated the next time {@link #render(AdvancedFbo)}
  * is called if {@link Light#isDirty()} is <code>true</code>.
  * </p>
  * <p>There is no way to retrieve a light, so care should be taken to keep track of what lights
@@ -76,12 +76,13 @@ public class LightRenderer implements NativeResource {
     }
 
     /**
-     * Draws the lights to the screen.
+     * Draws the lights to the specified framebuffer.
      *
+     * @param lightFbo The framebuffer to render lights into
      * @return If any lights were actually rendered
      */
     @ApiStatus.Internal
-    public boolean render() {
+    public boolean render(AdvancedFbo lightFbo) {
         boolean hasRendered = false;
         VeilRenderer renderer = VeilRenderSystem.renderer();
 
@@ -95,6 +96,8 @@ public class LightRenderer implements NativeResource {
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
                 RenderSystem.depthMask(false);
+                lightFbo.bind(true);
+                lightFbo.clear();
             }
 
             hasRendered = true;

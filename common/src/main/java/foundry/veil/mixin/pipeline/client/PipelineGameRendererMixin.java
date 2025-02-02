@@ -27,6 +27,8 @@ public class PipelineGameRendererMixin {
     @Shadow
     @Final
     Minecraft minecraft;
+    @Shadow
+    private boolean panoramicMode;
 
     @Unique
     private final Vector3f veil$cameraBobOffset = new Vector3f();
@@ -88,14 +90,20 @@ public class PipelineGameRendererMixin {
         VeilRenderSystem.renderer().getGuiInfo().unbind();
     }
 
-    @Redirect(method = "renderLevel", at= @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", remap = false))
+    @Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clear(IZ)V", remap = false))
     public void bindFirstPerson(int mask, boolean checkError) {
-        VeilFirstPersonRenderer.bind(mask);
+        // Don't try to run first person processing if the hand is hidden
+        if (!this.panoramicMode) {
+            VeilFirstPersonRenderer.bind(mask);
+        }
     }
 
     @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;renderItemInHand(Lnet/minecraft/client/Camera;FLorg/joml/Matrix4f;)V", shift = At.Shift.AFTER))
     public void unbindFirstPerson(CallbackInfo ci) {
-        VeilFirstPersonRenderer.unbind();
+        // Don't try to run first person processing if the hand is hidden
+        if (!this.panoramicMode) {
+            VeilFirstPersonRenderer.unbind();
+        }
     }
 
     @Inject(method = "close", at = @At("TAIL"))
