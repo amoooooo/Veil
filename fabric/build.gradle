@@ -59,6 +59,6 @@ dependencies {
     runtimeOnly(include("io.github.spair:imgui-java-natives-windows:$imgui_version"))
 
     api(include("org.lwjgl:lwjgl-opencl:$lwjgl_version")) {
-        transitive false
+        transitive = false
     }
 }
