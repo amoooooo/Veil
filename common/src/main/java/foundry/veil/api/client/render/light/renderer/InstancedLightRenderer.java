@@ -36,7 +36,6 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
     protected int maxLights;
 
     private final List<T> visibleLights;
-    private final int drawMode;
     private final VertexArray vertexArray;
     private final int instancedVbo;
     private ByteBuffer scratch;
@@ -53,7 +52,6 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         this.vertexArray = VertexArray.create();
 
         MeshData mesh = this.createMesh();
-        this.drawMode = mesh.drawState().mode().asGLMode;
         this.vertexArray.upload(mesh, VertexArray.DrawUsage.STATIC);
         this.instancedVbo = this.vertexArray.getOrCreateBuffer(2);
 
@@ -183,7 +181,7 @@ public abstract class InstancedLightRenderer<T extends Light & InstancedLight> i
         }
 
         this.vertexArray.bind();
-        this.vertexArray.drawInstanced(this.drawMode, this.visibleLights.size());
+        this.vertexArray.drawInstanced(this.visibleLights.size());
         VertexBuffer.unbind();
         ShaderProgram.unbind();
         this.clearRenderState(lightRenderer, this.visibleLights);

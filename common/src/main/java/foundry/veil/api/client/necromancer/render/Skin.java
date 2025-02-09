@@ -133,7 +133,7 @@ public class Skin implements NativeResource {
         }
 
         // TODO query uniform block size
-        this.vertexArray.drawInstanced(GL_TRIANGLES, skeletons.size());
+        this.vertexArray.drawInstanced(skeletons.size());
 
         if (shader != null) {
             shader.clear();

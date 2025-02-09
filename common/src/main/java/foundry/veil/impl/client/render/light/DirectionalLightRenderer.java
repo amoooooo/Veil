@@ -60,7 +60,7 @@ public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLi
             float brightness = light.getBrightness();
             shader.setVector("LightColor", lightColor.x() * brightness, lightColor.y() * brightness, lightColor.z() * brightness);
             shader.setVector("LightDirection", DIRECTION.set(light.getDirection()).normalize());
-            this.vertexArray.draw(GL_TRIANGLE_STRIP);
+            this.vertexArray.draw();
         }
 
         VertexArray.unbind();

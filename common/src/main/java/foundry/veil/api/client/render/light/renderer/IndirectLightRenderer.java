@@ -50,7 +50,6 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     protected final int rangeOffset;
     protected int maxLights;
 
-    private final int drawMode;
     private final VertexArray vertexArray;
     private final int instancedVbo;
     private final int indirectVbo;
@@ -99,7 +98,6 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
         }
 
         MeshData mesh = this.createMesh();
-        this.drawMode = mesh.drawState().mode().asGLMode;
         this.vertexArray.upload(mesh, VertexArray.DrawUsage.STATIC);
 
         this.highResSize = this.vertexArray.getIndexCount() - lowResSize;
@@ -317,7 +315,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
         this.vertexArray.bind();
         RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, this.indirectVbo);
-        this.vertexArray.drawIndirect(this.drawMode, 0L, this.visibleLights, 0);
+        this.vertexArray.drawIndirect(0L, this.visibleLights, 0);
         RenderSystem.glBindBuffer(GL_DRAW_INDIRECT_BUFFER, 0);
         VertexBuffer.unbind();
 

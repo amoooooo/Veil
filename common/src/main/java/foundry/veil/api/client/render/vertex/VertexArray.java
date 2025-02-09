@@ -32,7 +32,7 @@ import static org.lwjgl.opengl.GL31C.glDrawElementsInstanced;
 import static org.lwjgl.opengl.GL43C.glMultiDrawElementsIndirect;
 
 /**
- * More genetic alternative to {@link com.mojang.blaze3d.vertex.VertexBuffer VertexBuffer} that uses the latest available OpenGL version.
+ * More generic alternative to {@link VertexBuffer} that uses the latest available OpenGL version.
  *
  * @author Ocelot
  */
@@ -47,6 +47,7 @@ public abstract class VertexArray implements NativeResource {
     protected final Int2IntMap buffers;
     protected int indexCount;
     protected IndexType indexType;
+    protected int drawMode;
 
     @ApiStatus.Internal
     protected VertexArray(int id) {
@@ -54,6 +55,7 @@ public abstract class VertexArray implements NativeResource {
         this.buffers = new Int2IntArrayMap();
         this.indexCount = 0;
         this.indexType = IndexType.BYTE;
+        this.drawMode = GL_TRIANGLES;
     }
 
     private static void loadType() {
@@ -155,6 +157,15 @@ public abstract class VertexArray implements NativeResource {
     }
 
     /**
+     * @return The GL polygon draw type
+     * @see #setDrawMode(int)
+     * @see #setDrawMode(VertexFormat.Mode)
+     */
+    public int getDrawMode() {
+        return this.drawMode;
+    }
+
+    /**
      * Uploads mesh data into the specified buffer.
      *
      * @param data  The data to upload
@@ -205,6 +216,7 @@ public abstract class VertexArray implements NativeResource {
             }
             this.indexCount = drawState.indexCount();
             this.indexType = IndexType.fromBlaze3D(drawState.indexType());
+            this.drawMode = drawState.mode().asGLMode;
         }
     }
 
@@ -262,21 +274,45 @@ public abstract class VertexArray implements NativeResource {
         GlStateManager._glBindVertexArray(0);
     }
 
-    public void draw(int mode) {
-        glDrawElements(mode, this.indexCount, this.indexType.getGlType(), 0L);
+    public void draw() {
+        glDrawElements(this.drawMode, this.indexCount, this.indexType.getGlType(), 0L);
     }
 
-    public void drawInstanced(int mode, int instances) {
-        glDrawElementsInstanced(mode, this.indexCount, this.indexType.getGlType(), 0L, instances);
+    public void drawInstanced(int instances) {
+        glDrawElementsInstanced(this.drawMode, this.indexCount, this.indexType.getGlType(), 0L, instances);
     }
 
-    public void drawIndirect(int mode, long indirect, int drawCount, int stride) {
-        glMultiDrawElementsIndirect(mode, this.indexType.getGlType(), indirect, drawCount, stride);
+    public void drawIndirect(long indirect, int drawCount, int stride) {
+        glMultiDrawElementsIndirect(this.drawMode, this.indexType.getGlType(), indirect, drawCount, stride);
     }
 
+    /**
+     * Sets the number of indices and what data type they are.
+     *
+     * @param indexCount The number of indices in the entire mesh
+     * @param indexType  The data type of the indices
+     */
     public void setIndexCount(int indexCount, IndexType indexType) {
         this.indexCount = indexCount;
         this.indexType = indexType;
+    }
+
+    /**
+     * Sets the type of polygons draw calls will draw.
+     *
+     * @param drawMode The new draw mode
+     */
+    public void setDrawMode(int drawMode) {
+        this.drawMode = drawMode;
+    }
+
+    /**
+     * Sets the type of polygons draw calls will draw.
+     *
+     * @param drawMode The new draw mode
+     */
+    public void setDrawMode(VertexFormat.Mode drawMode) {
+        this.drawMode = drawMode.asGLMode;
     }
 
     @Override
@@ -299,6 +335,11 @@ public abstract class VertexArray implements NativeResource {
         }
     }
 
+    /**
+     * The type of GL indices that can be used.
+     *
+     * @author Ocelot
+     */
     public enum IndexType {
         BYTE(GL_UNSIGNED_BYTE),
         SHORT(GL_UNSIGNED_SHORT),
