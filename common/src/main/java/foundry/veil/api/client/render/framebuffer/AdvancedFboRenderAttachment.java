@@ -18,8 +18,6 @@ import static org.lwjgl.opengl.GL30.*;
  */
 public class AdvancedFboRenderAttachment implements AdvancedFboAttachment {
 
-    public static final int MAX_SAMPLES = glGetInteger(GL_MAX_SAMPLES);
-
     private int id;
     private final int attachmentType;
     private final int attachmentFormat;
@@ -35,14 +33,14 @@ public class AdvancedFboRenderAttachment implements AdvancedFboAttachment {
      * @param width            The width of the attachment
      * @param height           The height of the attachment
      * @param samples          The number of samples to have. It must be between<code>1</code>
-     *                         and {@link AdvancedFboRenderAttachment#MAX_SAMPLES}
+     *                         and {@link VeilRenderSystem#maxSamples()}
      */
     public AdvancedFboRenderAttachment(int attachmentType, int attachmentFormat, int width, int height, int samples) {
         this.attachmentType = attachmentType;
         this.attachmentFormat = attachmentFormat;
         this.width = width;
         this.height = height;
-        Validate.inclusiveBetween(1, AdvancedFboRenderAttachment.MAX_SAMPLES, samples);
+        Validate.inclusiveBetween(1, VeilRenderSystem.maxSamples(), samples);
         this.samples = samples;
     }
 

@@ -115,7 +115,6 @@ public class ImGuiFontMetadataSectionSerializer implements MetadataSectionSerial
                     }
                     default -> throw new JsonSyntaxException("Unknown built-in range: " + builtInRange);
                 }
-                ;
             } else if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
                 int min = GsonHelper.getAsInt(object, "min");
