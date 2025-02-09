@@ -23,9 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -145,7 +143,11 @@ public class ImGuiFontManager implements PreparableReloadListener {
         }
     }
 
-    private record FontPack(ImFont regular, ImFont italic, ImFont bold, ImFont boldItalic) implements NativeResource {
+    private record FontPack(ImFont regular,
+                            ImFont italic,
+                            ImFont bold,
+                            ImFont boldItalic,
+                            ImFontConfig[] configs) implements NativeResource {
 
         @Override
         public void free() {
@@ -159,12 +161,16 @@ public class ImGuiFontManager implements PreparableReloadListener {
             if (this.boldItalic != this.regular) {
                 this.boldItalic.destroy();
             }
+            for (ImFontConfig config : this.configs) {
+                config.destroy();
+            }
         }
     }
 
     private static class FontPackBuilder {
 
         private final ResourceLocation name;
+        private final List<ImFontConfig> configs;
         private FontData main;
         private FontData italic;
         private FontData bold;
@@ -172,6 +178,7 @@ public class ImGuiFontManager implements PreparableReloadListener {
 
         private FontPackBuilder(ResourceLocation name) {
             this.name = name;
+            this.configs = new ArrayList<>(4);
         }
 
         private ImFont loadOrDefault(@Nullable FontData data, String type, float sizePixels, ImFont defaultFont) {
@@ -180,13 +187,10 @@ public class ImGuiFontManager implements PreparableReloadListener {
             } else {
                 ImFontAtlas atlas = ImGui.getIO().getFonts();
                 ImFontConfig fontConfig = new ImFontConfig();
-                try {
-                    fontConfig.setName(this.name.getPath() + " " + type + " " + FONT_FORMAT.format(sizePixels) + " px");
-                    fontConfig.setGlyphRanges(data.ranges);
-                    return atlas.addFontFromMemoryTTF(data.bytes, sizePixels, fontConfig);
-                } finally {
-                    fontConfig.destroy();
-                }
+                this.configs.add(fontConfig);
+                fontConfig.setName(this.name.getPath() + " " + type + " " + FONT_FORMAT.format(sizePixels) + " px");
+                fontConfig.setGlyphRanges(data.ranges);
+                return atlas.addFontFromMemoryTTF(data.bytes, sizePixels, fontConfig);
             }
         }
 
@@ -195,7 +199,7 @@ public class ImGuiFontManager implements PreparableReloadListener {
             ImFont italic = this.loadOrDefault(this.italic, "italic", sizePixels, main);
             ImFont bold = this.loadOrDefault(this.bold, "bold", sizePixels, main);
             ImFont boldItalic = this.loadOrDefault(this.boldItalic, "bold_italic", sizePixels, main);
-            return new FontPack(main, italic, bold, boldItalic);
+            return new FontPack(main, italic, bold, boldItalic, this.configs.toArray(ImFontConfig[]::new));
         }
     }
 
