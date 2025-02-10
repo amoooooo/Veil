@@ -7,7 +7,9 @@
   "mixins": [
     "MemUtilMixin"
   ],
-  "client": [],
+  "client": [
+    "NativeImageMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
