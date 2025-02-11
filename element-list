@@ -48,8 +48,6 @@ foundry.veil.api.glsl.visitor
 foundry.veil.api.molang
 foundry.veil.api.network
 foundry.veil.api.network.handler
-foundry.veil.api.opencl
-foundry.veil.api.opencl.event
 foundry.veil.api.quasar.data
 foundry.veil.api.quasar.data.module
 foundry.veil.api.quasar.data.module.collision

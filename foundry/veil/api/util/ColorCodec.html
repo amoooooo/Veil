@@ -94,9 +94,10 @@ loadScripts(document, 'script');</script>
 <dd><code>com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code>, <code>com.mojang.serialization.Decoder&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code>, <code>com.mojang.serialization.Encoder&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ColorCodec</span>
+<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">ColorCodec</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span></div>
+<div class="block">Codec for deserializing colors values. Supports decimal numbers, hexadecimal strings, and 3-4 length arrays of decimal or hexadecimal values.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -123,10 +124,14 @@ implements com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final com.mojang.serialization.Codec<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#ARGB_CODEC" class="member-name-link">ARGB_CODEC</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Allows ARGB components.</div>
+</div>
 <div class="col-first odd-row-color"><code>static final com.mojang.serialization.Codec<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#RGB_CODEC" class="member-name-link">RGB_CODEC</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Allows only RGB components with a full alpha component.</div>
+</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-com.mojang.serialization.Codec">Fields inherited from interface&nbsp;com.mojang.serialization.Codec</h3>
@@ -183,12 +188,14 @@ implements com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en
 <section class="detail" id="RGB_CODEC">
 <h3>RGB_CODEC</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">RGB_CODEC</span></div>
+<div class="block">Allows only RGB components with a full alpha component.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="ARGB_CODEC">
 <h3>ARGB_CODEC</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">ARGB_CODEC</span></div>
+<div class="block">Allows ARGB components.</div>
 </section>
 </li>
 </ul>
