@@ -45,6 +45,7 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.system.NativeResource;
 
+import java.lang.Math;
 import java.nio.IntBuffer;
 import java.util.HashSet;
 import java.util.Locale;
@@ -105,7 +106,7 @@ public final class VeilRenderSystem {
     private static final IntSupplier MAX_ARRAY_TEXTURE_LAYERS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_ARRAY_TEXTURE_LAYERS));
     private static final Supplier<Float> MAX_TEXTURE_ANISOTROPY = VeilRenderSystem.glGetter(() -> TEXTURE_ANISOTROPY_SUPPORTED.getAsBoolean() ? glGetFloat(GL_MAX_TEXTURE_MAX_ANISOTROPY) : 1.0F);
     private static final IntSupplier MAX_VERTEX_ATTRIBS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIBS));
-    private static final IntSupplier MAX_VERTEX_ATTRIB_RELATIVE_OFFSET = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET));
+    private static final IntSupplier MAX_VERTEX_ATTRIB_RELATIVE_OFFSET = VeilRenderSystem.glGetter(() -> Math.max(2047, glGetInteger(GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET)));
 
     private static final Supplier<VeilShaderLimits> VERTEX_SHADER_LIMITS = VeilRenderSystem.glGetter(() -> {
         GLCapabilities caps = GL.getCapabilities();

@@ -21,6 +21,7 @@ public record ARBVertexAttribBindingBuilder(VertexArray vertexArray) implements 
 
     @Override
     public VertexArrayBuilder setVertexAttribute(int index, int bufferIndex, int size, DataType type, boolean normalized, int relativeOffset) {
+        VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         glEnableVertexAttribArray(index);
         glVertexAttribFormat(index, size, type.getGlType(), normalized, relativeOffset);
         glVertexAttribBinding(index, bufferIndex);
@@ -29,6 +30,7 @@ public record ARBVertexAttribBindingBuilder(VertexArray vertexArray) implements 
 
     @Override
     public VertexArrayBuilder setVertexIAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
+        VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         glEnableVertexAttribArray(index);
         glVertexAttribIFormat(index, size, type.getGlType(), relativeOffset);
         glVertexAttribBinding(index, bufferIndex);
@@ -37,6 +39,7 @@ public record ARBVertexAttribBindingBuilder(VertexArray vertexArray) implements 
 
     @Override
     public VertexArrayBuilder setVertexLAttribute(int index, int bufferIndex, int size, DataType type, int relativeOffset) {
+        VertexArrayBuilder.validateRelativeOffset(relativeOffset);
         glEnableVertexAttribArray(index);
         glVertexAttribLFormat(index, size, type.getGlType(), relativeOffset);
         glVertexAttribBinding(index, bufferIndex);
