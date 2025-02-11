@@ -60,6 +60,7 @@ public class VeilResourceManagerImpl implements VeilResourceManager, NativeResou
     public void addVeilLoaders(VeilRenderer renderer) {
         this.addLoader(new ShaderResourceLoader(renderer.getShaderManager()));
         this.addLoader(new ShaderIncludeLoader());
+        this.addLoader(new VanillaShaderResourceLoader());
         this.addLoader(new PostPipelineResourceLoader());
         this.addLoader(new FramebufferResourceLoader());
         this.addLoader(new RenderTypeResourceLoader());

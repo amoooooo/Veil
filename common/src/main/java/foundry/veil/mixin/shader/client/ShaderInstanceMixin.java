@@ -1,6 +1,5 @@
 package foundry.veil.mixin.shader.client;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
@@ -12,6 +11,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.server.packs.resources.ResourceProvider;
 import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,8 +21,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -129,47 +129,47 @@ public abstract class ShaderInstanceMixin implements Shader {
                 int minecraftCount;
                 switch (dataType) {
                     case GL_INT -> {
-                        minecraftType = 0;
+                        minecraftType = Uniform.UT_INT1;
                         minecraftCount = 1;
                     }
                     case GL_INT_VEC2 -> {
-                        minecraftType = 1;
+                        minecraftType = Uniform.UT_INT2;
                         minecraftCount = 2;
                     }
                     case GL_INT_VEC3 -> {
-                        minecraftType = 2;
+                        minecraftType = Uniform.UT_INT3;
                         minecraftCount = 3;
                     }
                     case GL_INT_VEC4 -> {
-                        minecraftType = 3;
+                        minecraftType = Uniform.UT_INT4;
                         minecraftCount = 4;
                     }
                     case GL_FLOAT -> {
-                        minecraftType = 4;
+                        minecraftType = Uniform.UT_FLOAT1;
                         minecraftCount = 1;
                     }
                     case GL_FLOAT_VEC2 -> {
-                        minecraftType = 5;
+                        minecraftType = Uniform.UT_FLOAT2;
                         minecraftCount = 2;
                     }
                     case GL_FLOAT_VEC3 -> {
-                        minecraftType = 6;
+                        minecraftType = Uniform.UT_FLOAT3;
                         minecraftCount = 3;
                     }
                     case GL_FLOAT_VEC4 -> {
-                        minecraftType = 7;
+                        minecraftType = Uniform.UT_FLOAT4;
                         minecraftCount = 4;
                     }
                     case GL_FLOAT_MAT2 -> {
-                        minecraftType = 8;
+                        minecraftType = Uniform.UT_MAT2;
                         minecraftCount = 4;
                     }
                     case GL_FLOAT_MAT3 -> {
-                        minecraftType = 9;
+                        minecraftType = Uniform.UT_MAT3;
                         minecraftCount = 9;
                     }
                     case GL_FLOAT_MAT4 -> {
-                        minecraftType = 10;
+                        minecraftType = Uniform.UT_MAT4;
                         minecraftCount = 16;
                     }
                     default -> {
@@ -195,6 +195,16 @@ public abstract class ShaderInstanceMixin implements Shader {
                         }
                     } else {
                         this.veil$uniforms.put(name, uniform = new Uniform(name, minecraftType, minecraftCount, this));
+                    }
+
+                    IntBuffer intBuffer = uniform.getIntBuffer();
+                    if (intBuffer != null) {
+                        MemoryUtil.memSet(intBuffer, 0);
+                    }
+
+                    FloatBuffer floatBuffer = uniform.getFloatBuffer();
+                    if (floatBuffer != null) {
+                        MemoryUtil.memSet(floatBuffer, Float.floatToIntBits(0.0F));
                     }
 
                     int location = Uniform.glGetUniformLocation(this.programId, name);

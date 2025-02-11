@@ -12,7 +12,7 @@ import static org.lwjgl.glfw.GLFW.*;
 @Mixin(Window.class)
 public class DebugWindowMixin {
 
-    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwDefaultWindowHints()V"))
+    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwDefaultWindowHints()V", remap = false))
     public void enableDebugContext(Operation<Void> original) {
         original.call();
         if (Veil.DEBUG) {
