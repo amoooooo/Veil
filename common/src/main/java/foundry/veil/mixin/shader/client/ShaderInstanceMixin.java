@@ -1,5 +1,6 @@
 package foundry.veil.mixin.shader.client;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
@@ -21,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.nio.IntBuffer;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -206,5 +208,8 @@ public abstract class ShaderInstanceMixin implements Shader {
                 }
             }
         }
+
+        // Clean up invalid uniforms
+        this.veil$uniforms.values().removeIf(uniform -> uniform.getLocation() == -1);
     }
 }

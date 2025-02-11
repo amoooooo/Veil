@@ -9,4 +9,7 @@ public interface DynamicBufferProgramAccessor {
 
     @Accessor
     int getId();
+
+    @Accessor
+    void setId(int id);
 }
