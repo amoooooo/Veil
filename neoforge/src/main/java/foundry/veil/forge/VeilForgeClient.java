@@ -69,7 +69,7 @@ public class VeilForgeClient {
     }
 
     private static void registerListeners(RegisterClientReloadListenersEvent event) {
-        VeilClient.initRenderer();
+        VeilRenderSystem.init();
         VeilReloadListeners.registerListeners((type, id, listener) -> event.registerReloadListener(listener));
         ModLoader.postEvent(new ForgeVeilRendererAvailableEvent(VeilRenderSystem.renderer()));
         ModLoader.postEvent(new ForgeVeilRegisterFixedBuffersEvent(ForgeRenderTypeStageHandler::register));

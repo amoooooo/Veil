@@ -10,9 +10,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class ColorCodec implements Codec<Integer> {
+/**
+ * Codec for deserializing colors values. Supports decimal numbers, hexadecimal strings, and 3-4 length arrays of decimal or hexadecimal values.
+ *
+ * @author Ocelot
+ */
+public final class ColorCodec implements Codec<Integer> {
 
+    /**
+     * Allows only RGB components with a full alpha component.
+     */
     public static final Codec<Integer> RGB_CODEC = new ColorCodec(false);
+
+    /**
+     * Allows ARGB components.
+     */
     public static final Codec<Integer> ARGB_CODEC = new ColorCodec(true);
 
     private final boolean alpha;

@@ -5,14 +5,10 @@ import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilShaderLimits;
-import foundry.veil.api.opencl.VeilOpenCL;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
-import imgui.flag.ImGuiTreeNodeFlags;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -45,13 +41,6 @@ public class DeviceInfoViewer extends SingleWindowInspector {
     private static final Component GL_SHADER_STORAGE = Component.translatable("inspector.veil.device_info.opengl.shader_storage");
     private static final Component GL_TEXTURE = Component.translatable("inspector.veil.device_info.opengl.texture");
     private static final Component GL_FRAMEBUFFER = Component.translatable("inspector.veil.device_info.opengl.framebuffer");
-    private static final Component CL_PLATFORMS = Component.translatable("inspector.veil.device_info.opencl.platforms");
-    private static final Component CL_DEVICES = Component.translatable("inspector.veil.device_info.opencl.devices");
-
-    private static final Component CL_DEVICE_DEFAULT = Component.translatable("inspector.veil.device_info.opencl.device.default");
-    private static final Component CL_DEVICE_CPU = Component.translatable("inspector.veil.device_info.opencl.device.cpu");
-    private static final Component CL_DEVICE_GPU = Component.translatable("inspector.veil.device_info.opencl.device.gpu");
-    private static final Component CL_DEVICE_ACCELERATOR = Component.translatable("inspector.veil.device_info.opencl.device.accelerator");
 
     private static final Map<Integer, Component> SHADER_TYPES;
     private static final int TEXT_COLOR = 0xFFAAAAAA;
@@ -211,69 +200,6 @@ public class DeviceInfoViewer extends SingleWindowInspector {
         ImGui.popStyleColor();
     }
 
-    private void renderOpenCL() {
-        VeilOpenCL cl = VeilOpenCL.get();
-        VeilOpenCL.PlatformInfo[] platforms = cl.getPlatforms();
-
-        title(CL_PLATFORMS);
-        for (int i = 0; i < platforms.length; i++) {
-            VeilOpenCL.PlatformInfo platform = platforms[i];
-            if (!ImGui.collapsingHeader(I18n.get("inspector.veil.device_info.opencl.platform", platform.name(), platform.id()), i == 0 ? ImGuiTreeNodeFlags.DefaultOpen : 0)) {
-                continue;
-            }
-
-            ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
-            text("inspector.veil.device_info.opencl.profile", null, platform.profile());
-            text("inspector.veil.device_info.opencl.cl_version", null, platform.version());
-            text("inspector.veil.device_info.opencl.vendor", null, platform.vendor());
-            ImGui.popStyleColor();
-
-            ImGui.separator();
-
-            VeilOpenCL.DeviceInfo[] devices = platform.devices();
-            title(CL_DEVICES);
-            for (int j = 0; j < devices.length; j++) {
-                VeilOpenCL.DeviceInfo device = devices[j];
-                if (!ImGui.collapsingHeader(I18n.get("inspector.veil.device_info.opencl.device", device.name(), device.id()), j == 0 ? ImGuiTreeNodeFlags.DefaultOpen : 0)) {
-                    continue;
-                }
-
-                ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
-                ImGui.indent();
-                List<Component> types = new ArrayList<>(1);
-                if (device.isDefault()) {
-                    types.add(CL_DEVICE_DEFAULT);
-                }
-                if (device.isCpu()) {
-                    types.add(CL_DEVICE_CPU);
-                }
-                if (device.isGpu()) {
-                    types.add(CL_DEVICE_GPU);
-                }
-                if (device.isAccelerator()) {
-                    types.add(CL_DEVICE_ACCELERATOR);
-                }
-                text("inspector.veil.device_info.opencl.device.type", null, ComponentUtils.formatList(types, Component.literal(", ")));
-                text("inspector.veil.device_info.opencl.device.vendor_id", null, "0x%X".formatted(device.vendorId()));
-                text("inspector.veil.device_info.opencl.device.max_compute_units", null, device.maxComputeUnits());
-                text("inspector.veil.device_info.opencl.device.max_work_item_dimensions", null, device.maxWorkItemDimensions());
-                text("inspector.veil.device_info.opencl.device.max_work_group_size", null, device.maxWorkGroupSize());
-                text("inspector.veil.device_info.opencl.device.max_clock_frequency", null, device.maxClockFrequency());
-                text("inspector.veil.device_info.opencl.device.address_size", null, device.addressBits());
-                flagText("inspector.veil.device_info.opencl.device.available", device.available(), null);
-                flagText("inspector.veil.device_info.opencl.device.compiler_available", device.compilerAvailable(), null);
-                flagText("inspector.veil.device_info.opencl.device.require_manual_sync", device.requireManualInteropSync(), null);
-                text("inspector.veil.device_info.opencl.device.vendor", null, device.vendor());
-                text("inspector.veil.device_info.opencl.device.version", null, device.version());
-                text("inspector.veil.device_info.opencl.device.driver_version", null, device.driverVersion());
-                text("inspector.veil.device_info.opencl.device.profile", null, device.profile());
-                text("inspector.veil.device_info.opencl.device.c_version", null, device.openclCVersion());
-                ImGui.unindent();
-                ImGui.popStyleColor();
-            }
-        }
-    }
-
     public static Component getShaderName(int shader) {
         return SHADER_TYPES.get(shader);
     }
@@ -290,25 +216,26 @@ public class DeviceInfoViewer extends SingleWindowInspector {
 
     @Override
     protected void renderComponents() {
-        if (ImGui.beginTabBar("##info")) {
-            if (ImGui.beginTabItem(I18n.get("inspector.veil.device_info.opencl"))) {
-                this.renderOpenCL();
-                ImGui.endTabItem();
-            }
-            if (ImGui.beginTabItem(I18n.get("inspector.veil.device_info.opengl"))) {
-                ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
-                this.renderOpenGL();
-                ImGui.popStyleColor();
-                ImGui.endTabItem();
-            }
-            if (ImGui.beginTabItem(I18n.get("inspector.veil.device_info.openal"))) {
-                ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
-                this.renderOpenAL();
-                ImGui.popStyleColor();
-                ImGui.endTabItem();
-            }
-            ImGui.endTabBar();
-        }
+        ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
+        this.renderOpenGL();
+        ImGui.popStyleColor();
+        ImGui.endTabItem();
+
+//        if (ImGui.beginTabBar("##info")) {
+//            if (ImGui.beginTabItem(I18n.get("inspector.veil.device_info.opengl"))) {
+//                ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
+//                this.renderOpenGL();
+//                ImGui.popStyleColor();
+//                ImGui.endTabItem();
+//            }
+//            if (ImGui.beginTabItem(I18n.get("inspector.veil.device_info.openal"))) {
+//                ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
+//                this.renderOpenAL();
+//                ImGui.popStyleColor();
+//                ImGui.endTabItem();
+//            }
+//            ImGui.endTabBar();
+//        }
     }
 
     @Override

@@ -24,15 +24,6 @@
 
   "inspector.veil.example.imgui.title": "Dear ImGui Demo",
 
-  "inspector.veil.example.opencl.title": "OpenCL Demo",
-  "inspector.veil.example.opencl.button.edit": "Edit Source",
-  "inspector.veil.example.opencl.button.run": "Run",
-  "inspector.veil.example.opencl.no_platform": "No platforms found",
-  "inspector.veil.example.opencl.device": "Device",
-  "inspector.veil.example.opencl.device.none": "No Device Selected",
-  "inspector.veil.example.opencl.elements": "Elements",
-  "inspector.veil.example.opencl.local_work_groups": "Local Work Groups",
-
   "inspector.veil.device_info.title": "Device Info",
   "inspector.veil.device_info.unsupported": "Unsupported",
 
@@ -105,42 +96,6 @@
   "inspector.veil.device_info.opengl.framebuffer.max_size": "Max Framebuffer Size: %sx%s",
   "inspector.veil.device_info.opengl.framebuffer.max_color_attachments": "Max Framebuffer Color Attachments: %s",
   "inspector.veil.device_info.opengl.framebuffer.max_samples": "Max Framebuffer Samples: %s",
-
-  "inspector.veil.device_info.openal": "OpenAL",
-  "inspector.veil.device_info.openal.vendor": "Vendor: %s",
-  "inspector.veil.device_info.openal.renderer": "Renderer: %s",
-  "inspector.veil.device_info.openal.version": "Version: %s",
-
-  "inspector.veil.device_info.opencl": "OpenCL",
-  "inspector.veil.device_info.opencl.platforms": "Platforms:",
-  "inspector.veil.device_info.opencl.platform": "%s (0x%X)",
-  "inspector.veil.device_info.opencl.devices": "Devices:",
-  "inspector.veil.device_info.opencl.device": "%s (0x%X)",
-
-  "inspector.veil.device_info.opencl.profile": "Profile: %s",
-  "inspector.veil.device_info.opencl.cl_version": "CL Version: %s",
-  "inspector.veil.device_info.opencl.vendor": "Vendor: %s",
-
-  "inspector.veil.device_info.opencl.device.default": "Default",
-  "inspector.veil.device_info.opencl.device.cpu": "CPU",
-  "inspector.veil.device_info.opencl.device.gpu": "GPU",
-  "inspector.veil.device_info.opencl.device.accelerator": "Accelerator",
-
-  "inspector.veil.device_info.opencl.device.type": "Type: %s",
-  "inspector.veil.device_info.opencl.device.vendor_id": "Vendor ID: %s",
-  "inspector.veil.device_info.opencl.device.max_compute_units": "Max Compute Units: %d",
-  "inspector.veil.device_info.opencl.device.max_work_item_dimensions": "Max Work Item Dimensions: %d",
-  "inspector.veil.device_info.opencl.device.max_work_group_size": "Max Work Group Size: %d",
-  "inspector.veil.device_info.opencl.device.max_clock_frequency": "Max Clock Frequency: %d MHz",
-  "inspector.veil.device_info.opencl.device.address_size": "Address Size: %d bits",
-  "inspector.veil.device_info.opencl.device.available": "Available? %s",
-  "inspector.veil.device_info.opencl.device.compiler_available": "Compiler Available? %s",
-  "inspector.veil.device_info.opencl.device.require_manual_sync": "Requires Manual CL/GL Sync? %s",
-  "inspector.veil.device_info.opencl.device.vendor": "Vendor: %s",
-  "inspector.veil.device_info.opencl.device.version": "Version: %s",
-  "inspector.veil.device_info.opencl.device.driver_version": "Driver Version: %s",
-  "inspector.veil.device_info.opencl.device.profile": "Profile: %s",
-  "inspector.veil.device_info.opencl.device.c_version": "OpenCL C Version: %s",
 
   "inspector.veil.post.title": "Post Processing Editor",
   "inspector.veil.post.inactive": "Inactive Pipelines:",

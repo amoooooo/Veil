@@ -28,6 +28,8 @@ public class VeilClient {
 
     private static final VeilClientPlatform PLATFORM = ServiceLoader.load(VeilClientPlatform.class).findFirst().orElseThrow(() -> new RuntimeException("Veil expected client platform implementation"));
     private static final VeilResourceManagerImpl RESOURCE_MANAGER = new VeilResourceManagerImpl();
+
+    @ApiStatus.Internal
     public static final KeyMapping EDITOR_KEY = new KeyMapping("key.veil.editor", InputConstants.Type.KEYSYM, InputConstants.KEY_F6, "key.categories.veil");
 
     @ApiStatus.Internal
@@ -51,11 +53,10 @@ public class VeilClient {
                 }
 
                 // Debug editors
+                editorManager.add(new DeviceInfoViewer());
                 editorManager.add(new PostInspector());
                 editorManager.add(new ShaderInspector());
                 editorManager.add(new TextureInspector());
-                editorManager.add(new OpenCLInspector());
-                editorManager.add(new DeviceInfoViewer());
                 editorManager.add(new LightInspector());
                 editorManager.add(new FramebufferInspector());
                 editorManager.add(new ResourceManagerInspector());
@@ -65,13 +66,14 @@ public class VeilClient {
 
         // This fixes moving transparent blocks drawing too early
         VeilEventPlatform.INSTANCE.onVeilRegisterFixedBuffers(registry -> registry.registerFixedBuffer(VeilRenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS, RenderType.translucentMovingBlock()));
+
         RenderTypeShardRegistry.addGenericShard(renderType -> "main_target".equals(getOutputName(renderType)), new DynamicBufferShard(DynamicBufferManger.MAIN_WRAPPER, () -> Minecraft.getInstance().getMainRenderTarget()));
-//        RenderTypeShardRegistry.addGenericShard(renderType -> "outline_target".equals(getOutputName(renderType)), new DynamicBufferShard("outline", () -> null));
         RenderTypeShardRegistry.addGenericShard(renderType -> "translucent_target".equals(getOutputName(renderType)), new DynamicBufferShard("translucent", () -> Minecraft.getInstance().levelRenderer.getTranslucentTarget()));
         RenderTypeShardRegistry.addGenericShard(renderType -> "particles_target".equals(getOutputName(renderType)), new DynamicBufferShard("particles", () -> Minecraft.getInstance().levelRenderer.getParticlesTarget()));
         RenderTypeShardRegistry.addGenericShard(renderType -> "weather_target".equals(getOutputName(renderType)), new DynamicBufferShard("weather", () -> Minecraft.getInstance().levelRenderer.getWeatherTarget()));
         RenderTypeShardRegistry.addGenericShard(renderType -> "clouds_target".equals(getOutputName(renderType)), new DynamicBufferShard("clouds", () -> Minecraft.getInstance().levelRenderer.getCloudsTarget()));
         RenderTypeShardRegistry.addGenericShard(renderType -> "item_entity_target".equals(getOutputName(renderType)), new DynamicBufferShard("item_entity", () -> Minecraft.getInstance().levelRenderer.getItemEntityTarget()));
+
         PostPipelineStageRegistry.bootstrap();
         LightTypeRegistry.bootstrap();
         RenderTypeLayerRegistry.bootstrap();
@@ -84,15 +86,6 @@ public class VeilClient {
 
     private static String getOutputName(RenderType.CompositeRenderType renderType) {
         return VeilRenderType.getName(VeilRenderType.getShards(renderType).outputState());
-    }
-
-    @ApiStatus.Internal
-    public static void initRenderer() {
-        VeilRenderSystem.init();
-    }
-
-    @ApiStatus.Internal
-    public static void tickClient(float partialTick) {
     }
 
     public static VeilClientPlatform clientPlatform() {

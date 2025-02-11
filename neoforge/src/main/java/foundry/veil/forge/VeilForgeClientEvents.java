@@ -45,11 +45,6 @@ public class VeilForgeClientEvents {
     }
 
     @SubscribeEvent
-    public static void clientTick(ClientTickEvent.Post event) {
-        VeilClient.tickClient(Minecraft.getInstance().getTimer().getRealtimeDeltaTicks());
-    }
-
-    @SubscribeEvent
     public static void tick(LevelTickEvent.Pre event) {
         if (event.getLevel().isClientSide()) {
             VeilRenderSystem.renderer().getParticleManager().tick();

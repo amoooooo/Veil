@@ -19,7 +19,6 @@ import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
-import foundry.veil.api.opencl.VeilOpenCL;
 import foundry.veil.ext.LevelRendererExtension;
 import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
@@ -1052,7 +1051,6 @@ public final class VeilRenderSystem {
         if (VeilImGuiImpl.get() instanceof NativeResource resource) {
             resource.free();
         }
-        VeilOpenCL.tryFree();
         if (renderer != null) {
             renderer.free();
         }

@@ -24,15 +24,6 @@
 
   "inspector.veil.example.imgui.title": "Дорога демонстрація ImGui",
 
-  "inspector.veil.example.opencl.title": "Демонстрація OpenCL",
-  "inspector.veil.example.opencl.button.edit": "Редагувати джерело",
-  "inspector.veil.example.opencl.button.run": "Запустити",
-  "inspector.veil.example.opencl.no_platform": "Не знайдено платформ",
-  "inspector.veil.example.opencl.device": "Пристрій",
-  "inspector.veil.example.opencl.device.none": "Жодного обранного пристрію",
-  "inspector.veil.example.opencl.elements": "Елементи",
-  "inspector.veil.example.opencl.local_work_groups": "Локальні робочі групи",
-
   "inspector.veil.device_info.title": "Інформація о пристрої",
   "inspector.veil.device_info.unsupported": "Не підтримується",
 
@@ -106,43 +97,6 @@
   "inspector.veil.device_info.opengl.framebuffer.max_size": "Максимальний розмір кадрового буферу: %sx%s",
   "inspector.veil.device_info.opengl.framebuffer.max_color_attachments": "Максимальна кількість кольорових вкладок фреймбуфера: %s",
   "inspector.veil.device_info.opengl.framebuffer.max_samples": "Максимальна кількість зразків кадрового буферу: %s",
-
-
-  "inspector.veil.device_info.openal": "OpenAL",
-  "inspector.veil.device_info.openal.vendor": "Вендор: %s",
-  "inspector.veil.device_info.openal.renderer": "Рендерер: %s",
-  "inspector.veil.device_info.openal.version": "Версія: %s",
-
-  "inspector.veil.device_info.opencl": "OpenCL",
-  "inspector.veil.device_info.opencl.platforms": "Платформи:",
-  "inspector.veil.device_info.opencl.platform": "%s (0x%X)",
-  "inspector.veil.device_info.opencl.devices": "Пристрої :",
-  "inspector.veil.device_info.opencl.device": "%s (0x%X)",
-
-  "inspector.veil.device_info.opencl.profile": "Профіль: %s",
-  "inspector.veil.device_info.opencl.cl_version": "Версія CL: %s",
-  "inspector.veil.device_info.opencl.vendor": "Вендор: %s",
-
-  "inspector.veil.device_info.opencl.device.default": "За замовчуванням",
-  "inspector.veil.device_info.opencl.device.cpu": "ЦП",
-  "inspector.veil.device_info.opencl.device.gpu": "ГП",
-  "inspector.veil.device_info.opencl.device.accelerator": "Прискорювач",
-
-  "inspector.veil.device_info.opencl.device.type": "Тип: %s",
-  "inspector.veil.device_info.opencl.device.vendor_id": "Вендор ID: %s",
-  "inspector.veil.device_info.opencl.device.max_compute_units": "Максимальна кількість Комп'ютативних одиниць: %d",
-  "inspector.veil.device_info.opencl.device.max_work_item_dimensions": "Максимальні розміри робочого елемента: %d",
-  "inspector.veil.device_info.opencl.device.max_work_group_size": "Максимальний розмір робочої групи: %d",
-  "inspector.veil.device_info.opencl.device.max_clock_frequency": "Максимальна тактова частота: %d MHz",
-  "inspector.veil.device_info.opencl.device.address_size": "Розмір Адреси: %d Біта",
-  "inspector.veil.device_info.opencl.device.available": "Доступний? %s",
-  "inspector.veil.device_info.opencl.device.compiler_available": "Compiler Available? %s",
-  "inspector.veil.device_info.opencl.device.require_manual_sync": "Потребує ручної синхронизації CL/GL? %s",
-  "inspector.veil.device_info.opencl.device.vendor": "Вендор: %s",
-  "inspector.veil.device_info.opencl.device.version": "Версія: %s",
-  "inspector.veil.device_info.opencl.device.driver_version": "Версія Драйвера: %s",
-  "inspector.veil.device_info.opencl.device.profile": "Профіль: %s",
-  "inspector.veil.device_info.opencl.device.c_version": "Версія OpenCL C: %s",
 
   "inspector.veil.post.title": "Редактор Пост Процесінга",
   "inspector.veil.post.inactive": "Неактивні Пайплайни:",

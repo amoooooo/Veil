@@ -57,8 +57,4 @@ dependencies {
     runtimeOnly(include("io.github.spair:imgui-java-natives-linux:$imgui_version"))
 //    runtimeOnly(include("io.github.spair:imgui-java-natives-macos-ft:$imgui_version"))
     runtimeOnly(include("io.github.spair:imgui-java-natives-windows:$imgui_version"))
-
-    api(include("org.lwjgl:lwjgl-opencl:$lwjgl_version")) {
-        transitive = false
-    }
 }

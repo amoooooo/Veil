@@ -39,7 +39,7 @@ public interface VeilPlatform {
     boolean hasErrors();
 
     enum PlatformType {
-        NEOFORGE("Forge"),
+        NEOFORGE("NeoForge"),
         FABRIC("Fabric");
 
         private final String platformName;

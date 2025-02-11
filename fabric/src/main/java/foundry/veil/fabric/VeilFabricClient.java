@@ -46,7 +46,6 @@ public class VeilFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
         VeilClient.init();
         HudRenderCallback.EVENT.register(VeilUITooltipRenderer::renderOverlay);
-        ClientTickEvents.END_CLIENT_TICK.register(client -> VeilClient.tickClient(client.getTimer().getRealtimeDeltaTicks()));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(VeilRenderSystem.renderer().getLightRenderer()::free));
 
         KeyBindingHelper.registerKeyBinding(VeilClient.EDITOR_KEY);
