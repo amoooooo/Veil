@@ -58,6 +58,8 @@ import static org.lwjgl.opengl.KHRDebug.GL_PROGRAM;
 public class ShaderProgramImpl implements ShaderProgram {
 
     public static final VeilShaderSource DUMMY_FRAGMENT_SHADER = new VeilShaderSource(null, "out vec4 fragColor;void main(){fragColor=vec4(1.0);}");
+    private static final Matrix4f MODEL_VIEW_MATRIX = new Matrix4f();
+    private static final Matrix4f PROJECTION_MATRIX = new Matrix4f();
 
     private final ResourceLocation name;
     private final ShaderTextureCache textures;
@@ -177,6 +179,11 @@ public class ShaderProgramImpl implements ShaderProgram {
             VeilRenderSystem.bind(entry.getKey(), entry.getValue());
         }
         ShaderProgram.super.bind();
+    }
+
+    @Override
+    public void setDefaultUniforms(VertexFormat.Mode mode, Matrix4fc modelViewMatrix, Matrix4fc projectionMatrix) {
+        this.toShaderInstance().setDefaultUniforms(mode, MODEL_VIEW_MATRIX.set(modelViewMatrix), PROJECTION_MATRIX.set(projectionMatrix), Minecraft.getInstance().getWindow());
     }
 
     private void freeInternal() {

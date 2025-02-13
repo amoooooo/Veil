@@ -1,7 +1,9 @@
 package foundry.veil.api.client.render.shader.program;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.shaders.Uniform;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.CompiledShader;
@@ -52,6 +54,24 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         EffectInstance.lastProgramId = -1;
         VeilRenderSystem.unbindSamplers(0, VeilRenderSystem.maxCombinedTextureUnits());
     }
+
+    /**
+     * Sets the default uniforms in this shader.
+     *
+     * @param mode The expected draw mode
+     */
+    default void setDefaultUniforms(VertexFormat.Mode mode) {
+        this.setDefaultUniforms(mode, RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix());
+    }
+
+    /**
+     * Sets the default uniforms in this shader.
+     *
+     * @param mode             The expected draw mode
+     * @param modelViewMatrix  The view matrix transform
+     * @param projectionMatrix The projection matrix transform
+     */
+    void setDefaultUniforms(VertexFormat.Mode mode, Matrix4fc modelViewMatrix, Matrix4fc projectionMatrix);
 
     /**
      * @return The OpenGL id of this program
@@ -475,10 +495,10 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
     Int2ObjectMap<CompiledShader> getShaders();
 
     /**
-     * @return Whether this program has the compute stage
+     * @return Whether this program has the vertex stage
      */
-    default boolean isCompute() {
-        return this.getShaders().containsKey(GL_COMPUTE_SHADER);
+    default boolean hasVertex() {
+        return this.getShaders().containsKey(GL_VERTEX_SHADER);
     }
 
     /**
@@ -489,11 +509,25 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
     }
 
     /**
-     * @return Whether this program has the tesselation stage
+     * @return Whether this program has the fragment stage
+     */
+    default boolean hasFragment() {
+        return this.getShaders().containsKey(GL_VERTEX_SHADER);
+    }
+
+    /**
+     * @return Whether this program has the tesselation stages
      */
     default boolean hasTesselation() {
         Int2ObjectMap<CompiledShader> shaders = this.getShaders();
         return shaders.containsKey(GL_TESS_CONTROL_SHADER) && shaders.containsKey(GL_TESS_EVALUATION_SHADER);
+    }
+
+    /**
+     * @return Whether this program has the compute stage
+     */
+    default boolean isCompute() {
+        return this.getShaders().containsKey(GL_COMPUTE_SHADER);
     }
 
     /**

@@ -3,6 +3,7 @@ package foundry.veil.api.client.render.post.stage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.Veil;
@@ -29,13 +30,19 @@ import java.util.Optional;
  */
 public class BlitPostStage extends FramebufferPostStage {
 
-    public static final MapCodec<BlitPostStage> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            ResourceLocation.CODEC.fieldOf("shader").forGetter(BlitPostStage::getShaderId),
-            Codec.unboundedMap(Codec.STRING, UniformValue.CODEC).optionalFieldOf("uniforms", Collections.emptyMap()).forGetter(BlitPostStage::getUniforms),
-            FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("in").forGetter(stage -> Optional.ofNullable(stage.getIn())),
-            FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("out", VeilFramebuffers.POST).forGetter(BlitPostStage::getOut),
-            Codec.BOOL.optionalFieldOf("clear", true).forGetter(BlitPostStage::clearOut)
-    ).apply(instance, (shader, uniforms, in, out, clear) -> new BlitPostStage(shader, uniforms, in.orElse(null), out, clear)));
+    public static final MapCodec<BlitPostStage> CODEC = RecordCodecBuilder.<BlitPostStage>mapCodec(instance -> instance.group(
+                    ResourceLocation.CODEC.fieldOf("shader").forGetter(BlitPostStage::getShaderId),
+                    Codec.unboundedMap(Codec.STRING, UniformValue.CODEC).optionalFieldOf("uniforms", Collections.emptyMap()).forGetter(BlitPostStage::getUniforms),
+                    FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("in").forGetter(stage -> Optional.ofNullable(stage.getIn())),
+                    FramebufferManager.FRAMEBUFFER_CODEC.optionalFieldOf("out", VeilFramebuffers.POST).forGetter(BlitPostStage::getOut),
+                    Codec.BOOL.optionalFieldOf("clear", true).forGetter(BlitPostStage::clearOut)
+            ).apply(instance, (shader, uniforms, in, out, clear) -> new BlitPostStage(shader, uniforms, in.orElse(null), out, clear)))
+            .flatXmap(stage -> {
+                if (stage.getOut().equals(stage.getIn())) {
+                    return DataResult.error(() -> "Input and output targets cannot be the same");
+                }
+                return DataResult.success(stage);
+            }, DataResult::success);
 
     private final ResourceLocation shader;
     private final Map<String, UniformValue> uniforms;
@@ -67,17 +74,10 @@ public class BlitPostStage extends FramebufferPostStage {
             return;
         }
 
-        if (this.getOut().equals(this.getIn())) {
-            if (!this.printedError) {
-                this.printedError = true;
-                Veil.LOGGER.error("Input and output targets cannot be the same: {}", this.shader);
-            }
-        }
-
         shader.bind();
         context.applySamplers(shader);
         this.setupFramebuffer(context, shader);
-        shader.toShaderInstance().setDefaultUniforms(VertexFormat.Mode.TRIANGLE_STRIP, RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), Minecraft.getInstance().getWindow());
+        shader.setDefaultUniforms(VertexFormat.Mode.TRIANGLE_STRIP);
         shader.bindSamplers(context, 0);
         for (Map.Entry<String, UniformValue> entry : this.uniforms.entrySet()) {
             entry.getValue().apply(entry.getKey(), shader);

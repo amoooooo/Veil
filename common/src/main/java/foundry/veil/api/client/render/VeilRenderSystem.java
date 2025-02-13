@@ -421,8 +421,8 @@ public final class VeilRenderSystem {
             return program != null ? program.toShaderInstance() : null;
         });
 
-        ShaderProgram value = getShader();
-        if (value == null && shaderLocation != null && ERRORED_SHADERS.add(shaderLocation)) {
+        ShaderProgram value = VeilRenderSystem.getShader();
+        if (value == null && VeilRenderSystem.shaderLocation != null && ERRORED_SHADERS.add(VeilRenderSystem.shaderLocation)) {
             Veil.LOGGER.error("Failed to apply shader: {}", VeilRenderSystem.shaderLocation);
         }
         return value;
