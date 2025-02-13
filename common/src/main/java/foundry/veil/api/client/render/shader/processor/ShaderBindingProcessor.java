@@ -1,12 +1,12 @@
 package foundry.veil.api.client.render.shader.processor;
 
-import foundry.veil.api.glsl.GlslSyntaxException;
-import foundry.veil.api.glsl.grammar.GlslSpecifiedType;
-import foundry.veil.api.glsl.grammar.GlslTypeQualifier;
-import foundry.veil.api.glsl.grammar.GlslTypeSpecifier;
-import foundry.veil.api.glsl.node.GlslConstantNode;
-import foundry.veil.api.glsl.node.GlslTree;
-import foundry.veil.lib.anarres.cpp.LexerException;
+import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
+import io.github.ocelot.glslprocessor.api.grammar.GlslSpecifiedType;
+import io.github.ocelot.glslprocessor.api.grammar.GlslTypeQualifier;
+import io.github.ocelot.glslprocessor.api.grammar.GlslTypeSpecifier;
+import io.github.ocelot.glslprocessor.api.node.GlslConstantNode;
+import io.github.ocelot.glslprocessor.api.node.GlslTree;
+import io.github.ocelot.glslprocessor.lib.anarres.cpp.LexerException;
 
 import java.io.IOException;
 import java.util.Iterator;

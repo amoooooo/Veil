@@ -1,10 +1,10 @@
 package foundry.veil.api.client.render;
 
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
-import foundry.veil.api.glsl.grammar.*;
-import foundry.veil.api.glsl.node.GlslNode;
-import foundry.veil.api.glsl.node.variable.GlslNewNode;
-import foundry.veil.api.glsl.node.variable.GlslStructNode;
+import io.github.ocelot.glslprocessor.api.grammar.*;
+import io.github.ocelot.glslprocessor.api.node.GlslNode;
+import io.github.ocelot.glslprocessor.api.node.variable.GlslNewNode;
+import io.github.ocelot.glslprocessor.api.node.variable.GlslStructNode;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;

@@ -3,7 +3,7 @@ package foundry.veil.api.client.render.dynamicbuffer;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
-import foundry.veil.api.glsl.grammar.GlslTypeSpecifier;
+import io.github.ocelot.glslprocessor.api.grammar.GlslTypeSpecifier;
 
 import java.util.Arrays;
 import java.util.Locale;

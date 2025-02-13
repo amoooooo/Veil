@@ -47,6 +47,8 @@ dependencies {
 //    modRuntimeOnly "maven.modrinth:replaymod:1.21-2.6.20"
 
     api(include("gg.moonflower:molang-compiler:${molang_compiler_version}"))
+//    api(include("io.github.ocelot:glsl-processor:${glsl_processor_version}"))
+    api(include("com.github.Ocelot5836:glsl-processor:${glsl_processor_version}"))
 
     api(include("io.github.spair:imgui-java-binding:$imgui_version"))
     api(include(("io.github.spair:imgui-java-lwjgl3:$imgui_version"))) {

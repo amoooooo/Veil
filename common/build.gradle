@@ -24,6 +24,8 @@ dependencies {
 
     compileOnly 'org.jetbrains:annotations:24.0.1'
     implementation "gg.moonflower:molang-compiler:${molang_compiler_version}"
+//    implementation "io.github.ocelot:glsl-processor:${glsl_processor_version}"
+    implementation "com.github.Ocelot5836:glsl-processor:${glsl_processor_version}"
 
     implementation "io.github.spair:imgui-java-binding:$imgui_version"
     implementation("io.github.spair:imgui-java-lwjgl3:$imgui_version") {

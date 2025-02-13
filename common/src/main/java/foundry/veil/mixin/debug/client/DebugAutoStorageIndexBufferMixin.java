@@ -2,7 +2,6 @@ package foundry.veil.mixin.debug.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.ext.VeilDebug;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

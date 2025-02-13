@@ -4,7 +4,7 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.shader.ShaderImporter;
 import foundry.veil.api.client.render.shader.ShaderManager;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
-import foundry.veil.api.glsl.node.GlslTree;
+import io.github.ocelot.glslprocessor.api.node.GlslTree;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
 import it.unimi.dsi.fastutil.objects.ObjectSets;

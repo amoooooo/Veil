@@ -2,9 +2,9 @@ package foundry.veil.api.client.render.shader.processor;
 
 import foundry.veil.api.client.registry.VeilShaderBufferRegistry;
 import foundry.veil.api.client.render.VeilShaderBufferLayout;
-import foundry.veil.api.glsl.GlslSyntaxException;
-import foundry.veil.api.glsl.node.GlslTree;
-import foundry.veil.lib.anarres.cpp.LexerException;
+import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
+import io.github.ocelot.glslprocessor.api.node.GlslTree;
+import io.github.ocelot.glslprocessor.lib.anarres.cpp.LexerException;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.resources.ResourceLocation;
 

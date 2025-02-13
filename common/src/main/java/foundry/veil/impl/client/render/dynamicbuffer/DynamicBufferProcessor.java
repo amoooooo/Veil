@@ -2,27 +2,26 @@ package foundry.veil.impl.client.render.dynamicbuffer;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
-import com.mojang.datafixers.util.Pair;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
-import foundry.veil.api.glsl.GlslInjectionPoint;
-import foundry.veil.api.glsl.GlslParser;
-import foundry.veil.api.glsl.GlslSyntaxException;
-import foundry.veil.api.glsl.grammar.GlslSpecifiedType;
-import foundry.veil.api.glsl.grammar.GlslTypeSpecifier;
-import foundry.veil.api.glsl.grammar.GlslVersionStatement;
-import foundry.veil.api.glsl.node.GlslConstantNode;
-import foundry.veil.api.glsl.node.GlslNode;
-import foundry.veil.api.glsl.node.GlslNodeList;
-import foundry.veil.api.glsl.node.GlslTree;
-import foundry.veil.api.glsl.node.expression.GlslAssignmentNode;
-import foundry.veil.api.glsl.node.expression.GlslOperationNode;
-import foundry.veil.api.glsl.node.function.GlslFunctionNode;
-import foundry.veil.api.glsl.node.function.GlslInvokeFunctionNode;
-import foundry.veil.api.glsl.node.variable.GlslNewNode;
-import foundry.veil.api.glsl.node.variable.GlslVariableNode;
-import foundry.veil.lib.anarres.cpp.LexerException;
+import io.github.ocelot.glslprocessor.api.GlslInjectionPoint;
+import io.github.ocelot.glslprocessor.api.GlslParser;
+import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
+import io.github.ocelot.glslprocessor.api.grammar.GlslSpecifiedType;
+import io.github.ocelot.glslprocessor.api.grammar.GlslTypeSpecifier;
+import io.github.ocelot.glslprocessor.api.grammar.GlslVersionStatement;
+import io.github.ocelot.glslprocessor.api.node.GlslConstantNode;
+import io.github.ocelot.glslprocessor.api.node.GlslNode;
+import io.github.ocelot.glslprocessor.api.node.GlslNodeList;
+import io.github.ocelot.glslprocessor.api.node.GlslTree;
+import io.github.ocelot.glslprocessor.api.node.expression.GlslAssignmentNode;
+import io.github.ocelot.glslprocessor.api.node.expression.GlslOperationNode;
+import io.github.ocelot.glslprocessor.api.node.function.GlslFunctionNode;
+import io.github.ocelot.glslprocessor.api.node.function.GlslInvokeFunctionNode;
+import io.github.ocelot.glslprocessor.api.node.variable.GlslNewNode;
+import io.github.ocelot.glslprocessor.api.node.variable.GlslVariableNode;
+import io.github.ocelot.glslprocessor.lib.anarres.cpp.LexerException;
 
 import java.io.IOException;
 import java.util.*;
@@ -289,26 +288,26 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
             List<GlslNode> body = null;
             int index = 0;
             if (node instanceof GlslNewNode newNode) {
-                Optional<Pair<GlslNodeList, Integer>> block = tree.containingBlock(newNode);
+                Optional<GlslTree.GlslBlock> block = tree.containingBlock(newNode);
                 if (block.isPresent()) {
                     copyName = newNode.getName();
                     specifiedType = newNode.getType();
-                    Pair<GlslNodeList, Integer> pair = block.get();
-                    body = pair.getFirst();
-                    index = pair.getSecond() + 1;
+                    GlslTree.GlslBlock pair = block.get();
+                    body = pair.node().getBody();
+                    index = pair.index() + 1;
 //                            pair.getFirst().add(pair.getSecond() + 1, GlslParser.parseExpression(copyName + " = " + sourceName));
                 }
             } else if (node instanceof GlslAssignmentNode assignmentNode && assignmentNode.getFirst() instanceof GlslVariableNode variableNode) {
-                Optional<Pair<GlslNodeList, Integer>> block = tree.containingBlock(assignmentNode);
+                Optional<GlslTree.GlslBlock> block = tree.containingBlock(assignmentNode);
                 if (block.isPresent()) {
                     copyName = variableNode.getName();
 
                     List<GlslNewNode> fields = tree.searchField(copyName).toList();
                     if (fields.size() == 1) {
                         specifiedType = fields.getFirst().getType();
-                        Pair<GlslNodeList, Integer> pair = block.get();
-                        body = pair.getFirst();
-                        index = pair.getSecond() + 1;
+                        GlslTree.GlslBlock pair = block.get();
+                        body = pair.node().getBody();
+                        index = pair.index() + 1;
                     }
                 }
             }

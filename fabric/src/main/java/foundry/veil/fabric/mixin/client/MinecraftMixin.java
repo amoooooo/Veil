@@ -2,7 +2,6 @@ package foundry.veil.fabric.mixin.client;
 
 import com.google.common.collect.ImmutableList;
 import foundry.veil.Veil;
-import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.fabric.FabricRenderTypeStageHandler;

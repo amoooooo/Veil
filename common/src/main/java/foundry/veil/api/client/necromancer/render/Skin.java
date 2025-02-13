@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedBufferSubData;
-import static org.lwjgl.opengl.GL11C.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL15C.glBindBuffer;
 import static org.lwjgl.opengl.GL15C.glBufferSubData;
 import static org.lwjgl.opengl.GL30C.glUniform1ui;

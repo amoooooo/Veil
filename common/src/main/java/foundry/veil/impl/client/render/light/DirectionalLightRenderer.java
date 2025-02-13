@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static org.lwjgl.opengl.GL11C.GL_TRIANGLE_STRIP;
-
 @ApiStatus.Internal
 public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLight> {
 
