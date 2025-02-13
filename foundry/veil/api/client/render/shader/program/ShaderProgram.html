@@ -242,14 +242,32 @@ extends org.lwjgl.system.NativeResource, <a href="MutableUniformAccess.html" tit
 <div class="block">Retrieves an array of vectors by the specified name.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#hasGeometry()" class="member-name-link">hasGeometry</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#hasFragment()" class="member-name-link">hasFragment</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#hasTesselation()" class="member-name-link">hasTesselation</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#hasGeometry()" class="member-name-link">hasGeometry</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#hasTesselation()" class="member-name-link">hasTesselation</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#hasVertex()" class="member-name-link">hasVertex</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#isCompute()" class="member-name-link">isCompute</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setDefaultUniforms(com.mojang.blaze3d.vertex.VertexFormat.Mode)" class="member-name-link">setDefaultUniforms</a><wbr>(com.mojang.blaze3d.vertex.VertexFormat.Mode&nbsp;mode)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Sets the default uniforms in this shader.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setDefaultUniforms(com.mojang.blaze3d.vertex.VertexFormat.Mode,org.joml.Matrix4fc,org.joml.Matrix4fc)" class="member-name-link">setDefaultUniforms</a><wbr>(com.mojang.blaze3d.vertex.VertexFormat.Mode&nbsp;mode,
+ org.joml.Matrix4fc&nbsp;modelViewMatrix,
+ org.joml.Matrix4fc&nbsp;projectionMatrix)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Sets the default uniforms in this shader.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setFloat(java.lang.CharSequence,float)" class="member-name-link">setFloat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  float&nbsp;value)</code></div>
@@ -453,6 +471,32 @@ extends org.lwjgl.system.NativeResource, <a href="MutableUniformAccess.html" tit
 <h3>unbind</h3>
 <div class="member-signature"><span class="modifiers">static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">unbind</span>()</div>
 <div class="block">Unbinds the currently bound shader program.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setDefaultUniforms(com.mojang.blaze3d.vertex.VertexFormat.Mode)">
+<h3>setDefaultUniforms</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDefaultUniforms</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.VertexFormat.Mode&nbsp;mode)</span></div>
+<div class="block">Sets the default uniforms in this shader.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mode</code> - The expected draw mode</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setDefaultUniforms(com.mojang.blaze3d.vertex.VertexFormat.Mode,org.joml.Matrix4fc,org.joml.Matrix4fc)">
+<h3>setDefaultUniforms</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">setDefaultUniforms</span><wbr><span class="parameters">(com.mojang.blaze3d.vertex.VertexFormat.Mode&nbsp;mode,
+ org.joml.Matrix4fc&nbsp;modelViewMatrix,
+ org.joml.Matrix4fc&nbsp;projectionMatrix)</span></div>
+<div class="block">Sets the default uniforms in this shader.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mode</code> - The expected draw mode</dd>
+<dd><code>modelViewMatrix</code> - The view matrix transform</dd>
+<dd><code>projectionMatrix</code> - The projection matrix transform</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -1124,12 +1168,12 @@ extends org.lwjgl.system.NativeResource, <a href="MutableUniformAccess.html" tit
 </section>
 </li>
 <li>
-<section class="detail" id="isCompute()">
-<h3>isCompute</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCompute</span>()</div>
+<section class="detail" id="hasVertex()">
+<h3>hasVertex</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasVertex</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>Whether this program has the compute stage</dd>
+<dd>Whether this program has the vertex stage</dd>
 </dl>
 </section>
 </li>
@@ -1144,12 +1188,32 @@ extends org.lwjgl.system.NativeResource, <a href="MutableUniformAccess.html" tit
 </section>
 </li>
 <li>
+<section class="detail" id="hasFragment()">
+<h3>hasFragment</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasFragment</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether this program has the fragment stage</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="hasTesselation()">
 <h3>hasTesselation</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasTesselation</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>Whether this program has the tesselation stage</dd>
+<dd>Whether this program has the tesselation stages</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isCompute()">
+<h3>isCompute</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isCompute</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>Whether this program has the compute stage</dd>
 </dl>
 </section>
 </li>
