@@ -180,12 +180,17 @@ public class VeilImGuiUtil {
      * @return color The color based on the hash of the modid
      */
     public static int colorOf(String modid) {
-        int color = (modid.hashCode() & 11184810) + 4473924;
+        int color = (modid.hashCode() & 0xAAAAAA) + 0x444444;
 
-        Color c = Color.of(0xff | (color << 8));
-        c.mix(Color.WHITE.darkenCopy(0.4f), 0.35F);
+//        Color dark = new Color(0.6F, 0.6F, 0.6F);
+//        Color c = new Color(0xFF | color << 8);
+//        c.mix(dark, 0.35F);
+//        return 0xFF | (c.rgb() & 0xFFFFFF) << 8;
 
-        return c.getRGBA();
+        int r = (int) ((color & 0xFF) * 0.65F + 53);
+        int g = (int) (((color >> 8) & 0xFF) * 0.65F + 53);
+        int b = (int) (((color >> 16) & 0xFF) * 0.65F + 53);
+        return 0xFF000000 | r << 16 | g << 8 | b;
     }
 
     /**
@@ -199,7 +204,7 @@ public class VeilImGuiUtil {
     }
 
     /**
-     * Retrieves the ImGui font to use for the specified Minecraft style.
+     * Retrieves the ARGB color for the specified ImGui style color.
      *
      * @param color The
      * @return The ImFont to use

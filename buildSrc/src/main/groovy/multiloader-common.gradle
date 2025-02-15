@@ -69,6 +69,10 @@ repositories {
         }
     }
     maven {
+        name = 'Minecraft Libraries'
+        url = 'https://libraries.minecraft.net'
+    }
+    maven {
         name = 'BlameJared'
         url = 'https://maven.blamejared.com'
     }

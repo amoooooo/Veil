@@ -2,8 +2,8 @@ package foundry.veil.api.client.render.texture;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import foundry.veil.api.client.color.Color;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.util.ColorCodec;
 import foundry.veil.api.util.EnumCodec;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -61,7 +61,7 @@ public record TextureFilter(boolean blur,
             Wrap.CODEC.optionalFieldOf("wrapX", Wrap.REPEAT).forGetter(TextureFilter::wrapX),
             Wrap.CODEC.optionalFieldOf("wrapY", Wrap.REPEAT).forGetter(TextureFilter::wrapY),
             Wrap.CODEC.optionalFieldOf("wrapZ", Wrap.REPEAT).forGetter(TextureFilter::wrapZ),
-            ColorCodec.ARGB_CODEC.optionalFieldOf("borderColor", 0xFF000000).forGetter(TextureFilter::borderColor),
+            Color.ARGB_INT_CODEC.optionalFieldOf("borderColor", 0xFF000000).forGetter(TextureFilter::borderColor),
             EdgeType.CODEC.optionalFieldOf("borderType", EdgeType.FLOAT).forGetter(TextureFilter::borderType),
             Codec.BOOL.optionalFieldOf("seamless", false).forGetter(TextureFilter::seamless)
     ).apply(instance, (blur, mipmap, anisotropy, compareFunction, wrapX, wrapY, wrapZ, edgeColor, edgeType, seamless) ->
@@ -75,7 +75,7 @@ public record TextureFilter(boolean blur,
             Wrap.CODEC.optionalFieldOf("wrapX", Wrap.CLAMP_TO_EDGE).forGetter(TextureFilter::wrapX),
             Wrap.CODEC.optionalFieldOf("wrapY", Wrap.CLAMP_TO_EDGE).forGetter(TextureFilter::wrapY),
             Wrap.CODEC.optionalFieldOf("wrapZ", Wrap.CLAMP_TO_EDGE).forGetter(TextureFilter::wrapZ),
-            ColorCodec.ARGB_CODEC.optionalFieldOf("borderColor", 0xFF000000).forGetter(TextureFilter::borderColor),
+            Color.ARGB_INT_CODEC.optionalFieldOf("borderColor", 0xFF000000).forGetter(TextureFilter::borderColor),
             EdgeType.CODEC.optionalFieldOf("borderType", EdgeType.FLOAT).forGetter(TextureFilter::borderType),
             Codec.BOOL.optionalFieldOf("seamless", false).forGetter(TextureFilter::seamless)
     ).apply(instance, (blur, mipmap, anisotropy, compareFunction, wrapX, wrapY, wrapZ, edgeColor, edgeType, seamless) ->
