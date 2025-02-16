@@ -3,12 +3,6 @@ plugins {
     id 'net.neoforged.moddev'
 }
 
-configurations {
-    shade
-    implementation.extendsFrom shade
-    additionalRuntimeClasspath.extendsFrom(shade)
-}
-
 neoForge {
     version = neoforge_version
     // Automatically enable neoforge AccessTransformers if the file exists
@@ -24,6 +18,11 @@ neoForge {
         configureEach {
             systemProperty('neoforge.enabledGameTestNamespaces', mod_id)
             ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+        }
+        // Add a second client run that is authenticated
+        clientAuth {
+            client()
+            devLogin = true
         }
         client {
             client()
