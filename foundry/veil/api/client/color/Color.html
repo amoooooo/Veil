@@ -89,10 +89,25 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">foundry.veil.api.client.color.Color</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Color</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">A simple color class that can be used to represent a color in RGBA format with utility functions.</div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span></div>
+<div class="block">A representation of color as four floating point elements.</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>1.0.0</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="Colorc.html" title="interface in foundry.veil.api.client.color"><code>Colorc</code></a></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,36 +120,53 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-first even-row-color"><code>static final com.mojang.serialization.Codec<wbr>&lt;<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#ARGB_CODEC" class="member-name-link">ARGB_CODEC</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Allows ARGB components.</div>
+</div>
+<div class="col-first odd-row-color"><code>static final com.mojang.serialization.Codec<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#ARGB_INT_CODEC" class="member-name-link">ARGB_INT_CODEC</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Allows ARGB components.</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
 <div class="col-second even-row-color"><code><a href="#BLACK" class="member-name-link">BLACK</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#BLUE" class="member-name-link">BLUE</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color"><code><a href="#CLEAR" class="member-name-link">CLEAR</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static com.mojang.serialization.Codec<wbr>&lt;<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#CODEC" class="member-name-link">CODEC</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
 <div class="col-second even-row-color"><code><a href="#GREEN" class="member-name-link">GREEN</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#RED" class="member-name-link">RED</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color"><code><a href="#VANILLA_TOOLTIP_BACKGROUND" class="member-name-link">VANILLA_TOOLTIP_BACKGROUND</a></code></div>
+<div class="col-first even-row-color"><code>static final com.mojang.serialization.Codec<wbr>&lt;<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#RGB_CODEC" class="member-name-link">RGB_CODEC</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">Allows only RGB components with a full alpha component.</div>
+</div>
+<div class="col-first odd-row-color"><code>static final com.mojang.serialization.Codec<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#RGB_INT_CODEC" class="member-name-link">RGB_INT_CODEC</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">Allows only RGB components with a full alpha component.</div>
+</div>
+<div class="col-first even-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
+<div class="col-second even-row-color"><code><a href="#TRANSPARENT" class="member-name-link">TRANSPARENT</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#VANILLA_TOOLTIP_BORDER_BOTTOM" class="member-name-link">VANILLA_TOOLTIP_BORDER_BOTTOM</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#VANILLA_TOOLTIP_BACKGROUND" class="member-name-link">VANILLA_TOOLTIP_BACKGROUND</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color"><code><a href="#VANILLA_TOOLTIP_BORDER_TOP" class="member-name-link">VANILLA_TOOLTIP_BORDER_TOP</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
+<div class="col-second even-row-color"><code><a href="#VANILLA_TOOLTIP_BORDER_BOTTOM" class="member-name-link">VANILLA_TOOLTIP_BORDER_BOTTOM</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#WHITE" class="member-name-link">WHITE</a></code></div>
+<div class="col-first odd-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#VANILLA_TOOLTIP_BORDER_TOP" class="member-name-link">VANILLA_TOOLTIP_BORDER_TOP</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></div>
+<div class="col-second even-row-color"><code><a href="#WHITE" class="member-name-link">WHITE</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -147,32 +179,35 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">Color</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(float,float,float)" class="member-name-link">Color</a><wbr>(float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(float,float,float,float)" class="member-name-link">Color</a><wbr>(float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b,
- float&nbsp;a)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">Color</a><wbr>(int&nbsp;hex)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,boolean)" class="member-name-link">Color</a><wbr>(int&nbsp;hex,
- boolean&nbsp;hasAlpha)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int,int)" class="member-name-link">Color</a><wbr>(int&nbsp;r,
- int&nbsp;g,
- int&nbsp;b)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int)" class="member-name-link">Color</a><wbr>(int&nbsp;r,
- int&nbsp;g,
- int&nbsp;b,
- int&nbsp;a)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(java.lang.String)" class="member-name-link">Color</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;hex)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new black color with full alpha.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(float,float,float)" class="member-name-link">Color</a><wbr>(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Sets the red, green, and blue components of this color.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(float,float,float,float)" class="member-name-link">Color</a><wbr>(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Sets the red, green, blue, and alpha components of this color.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">Color</a><wbr>(int&nbsp;rgb)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new color with the specified RGB values.</div>
+</div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,boolean)" class="member-name-link">Color</a><wbr>(int&nbsp;color,
+ boolean&nbsp;alpha)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new color with the specified ARGB values.</div>
+</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(foundry.veil.api.client.color.Colorc)" class="member-name-link">Color</a><wbr>(<a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a>&nbsp;copy)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Copies the color from the specified color.</div>
+</div>
 </div>
 </section>
 </li>
@@ -181,118 +216,178 @@ loadScripts(document, 'script');</script>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#alpha()" class="member-name-link">alpha</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#alpha(float)" class="member-name-link">alpha</a><wbr>(float&nbsp;alpha)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the alpha component.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#add(int)" class="member-name-link">add</a><wbr>(int&nbsp;col)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#darken(float)" class="member-name-link">darken</a><wbr>(float&nbsp;amount)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#alphaInt(int)" class="member-name-link">alphaInt</a><wbr>(int&nbsp;alpha)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the alpha component from <code>0</code> to <code>255</code>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#blue()" class="member-name-link">blue</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#darkenCopy(float)" class="member-name-link">darkenCopy</a><wbr>(float&nbsp;amount)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#desaturate(float)" class="member-name-link">desaturate</a><wbr>(float&nbsp;amount)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#blue(float)" class="member-name-link">blue</a><wbr>(float&nbsp;blue)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the blue component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#blueInt(int)" class="member-name-link">blueInt</a><wbr>(int&nbsp;blue)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the blue component from <code>0</code> to <code>255</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#darken(float)" class="member-name-link">darken</a><wbr>(float&nbsp;amount)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Mixes this color with black to "darken" it.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#desaturateCopy(float)" class="member-name-link">desaturateCopy</a><wbr>(float&nbsp;amount)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#grayscale()" class="member-name-link">grayscale</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Applies a grayscale filter to this color.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAlpha()" class="member-name-link">getAlpha</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#green()" class="member-name-link">green</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#green(float)" class="member-name-link">green</a><wbr>(float&nbsp;green)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the green component.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#greenInt(int)" class="member-name-link">greenInt</a><wbr>(int&nbsp;green)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the green component from <code>0</code> to <code>255</code>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAlphaInt()" class="member-name-link">getAlphaInt</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBlue()" class="member-name-link">getBlue</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBlueInt()" class="member-name-link">getBlueInt</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGreen()" class="member-name-link">getGreen</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGreenInt()" class="member-name-link">getGreenInt</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHex()" class="member-name-link">getHex</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHexStr()" class="member-name-link">getHexStr</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRed()" class="member-name-link">getRed</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRedInt()" class="member-name-link">getRedInt</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRGB()" class="member-name-link">getRGB</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRGBA()" class="member-name-link">getRGBA</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#invert()" class="member-name-link">invert</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Inverts this color.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#invertCopy()" class="member-name-link">invertCopy</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#lerp(foundry.veil.api.client.color.Color,float)" class="member-name-link">lerp</a><wbr>(<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&nbsp;other,
- float&nbsp;t)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#lighten(float)" class="member-name-link">lighten</a><wbr>(float&nbsp;amount)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#lerp(foundry.veil.api.client.color.Colorc,float)" class="member-name-link">lerp</a><wbr>(<a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a>&nbsp;other,
+ float&nbsp;delta)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Linearly interpolates between this color and the specified color.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#lightenCopy(float)" class="member-name-link">lightenCopy</a><wbr>(float&nbsp;amount)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mix(foundry.veil.api.client.color.Color,float)" class="member-name-link">mix</a><wbr>(<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&nbsp;color,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#lighten(float)" class="member-name-link">lighten</a><wbr>(float&nbsp;amount)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Mixes this color with white to "brighten" it.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mix(foundry.veil.api.client.color.Colorc,float)" class="member-name-link">mix</a><wbr>(<a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a>&nbsp;color,
  float&nbsp;amount)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#mixCopy(foundry.veil.api.client.color.Color,float)" class="member-name-link">mixCopy</a><wbr>(<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&nbsp;color,
- float&nbsp;amount)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Mixes this color with the specified color.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#red()" class="member-name-link">red</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#multiply(float,float,float,float)" class="member-name-link">multiply</a><wbr>(float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b,
- float&nbsp;a)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#red(float)" class="member-name-link">red</a><wbr>(float&nbsp;red)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the red component.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#multiply(int)" class="member-name-link">multiply</a><wbr>(int&nbsp;col)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(int)" class="member-name-link">of</a><wbr>(int&nbsp;col)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#saturate(float)" class="member-name-link">saturate</a><wbr>(float&nbsp;amount)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#redInt(int)" class="member-name-link">redInt</a><wbr>(int&nbsp;red)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the value of the red component from <code>0</code> to <code>255</code>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#saturateCopy(float)" class="member-name-link">saturateCopy</a><wbr>(float&nbsp;amount)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sepia()" class="member-name-link">sepia</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Applies a sepia filter to this color.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#set(float,float,float)" class="member-name-link">set</a><wbr>(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the red, green, and blue components of this color.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#set(float,float,float,float)" class="member-name-link">set</a><wbr>(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the red, green, blue, and alpha components of this color.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setARGB(int)" class="member-name-link">setARGB</a><wbr>(int&nbsp;argb)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the red, green, blue, and alpha components of this color to the specified value.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHSV(float,float,float)" class="member-name-link">setHSV</a><wbr>(float&nbsp;hue,
+ float&nbsp;saturation,
+ float&nbsp;luminance)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the specified hue, saturation, and luminance values (HSV) to RGB.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHue(float)" class="member-name-link">setHue</a><wbr>(float&nbsp;hue)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#tickRainbow(int,float)" class="member-name-link">tickRainbow</a><wbr>(int&nbsp;ticks,
- float&nbsp;partialTick)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the specified hue value (HSV) to RGB.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInt(int,int,int)" class="member-name-link">setInt</a><wbr>(int&nbsp;red,
+ int&nbsp;green,
+ int&nbsp;blue)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the red, green, and blue components of this color as ints from <code>0</code> to <code>255</code>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInt(int,int,int,int)" class="member-name-link">setInt</a><wbr>(int&nbsp;red,
+ int&nbsp;green,
+ int&nbsp;blue,
+ int&nbsp;alpha)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the red, green, blue, and alpha components of this color as ints from <code>0</code> to <code>255</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setLuminance(float)" class="member-name-link">setLuminance</a><wbr>(float&nbsp;luminance)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the specified luminance value (HSV) to RGB.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRGB(int)" class="member-name-link">setRGB</a><wbr>(int&nbsp;rgb)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Sets the red, green, and blue components of this color to the specified value.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSaturation(float)" class="member-name-link">setSaturation</a><wbr>(float&nbsp;saturation)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Converts the specified saturation value (HSV) to RGB.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-foundry.veil.api.client.color.Colorc">Methods inherited from interface&nbsp;foundry.veil.api.client.color.<a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></h3>
+<code><a href="Colorc.html#alphaInt()">alphaInt</a>, <a href="Colorc.html#argb()">argb</a>, <a href="Colorc.html#blueInt()">blueInt</a>, <a href="Colorc.html#darken(float,foundry.veil.api.client.color.Color)">darken</a>, <a href="Colorc.html#grayscale(foundry.veil.api.client.color.Color)">grayscale</a>, <a href="Colorc.html#greenInt()">greenInt</a>, <a href="Colorc.html#hue()">hue</a>, <a href="Colorc.html#invert(foundry.veil.api.client.color.Color)">invert</a>, <a href="Colorc.html#lerp(foundry.veil.api.client.color.Colorc,float,foundry.veil.api.client.color.Color)">lerp</a>, <a href="Colorc.html#lighten(float,foundry.veil.api.client.color.Color)">lighten</a>, <a href="Colorc.html#luminance()">luminance</a>, <a href="Colorc.html#maxComponent()">maxComponent</a>, <a href="Colorc.html#minComponent()">minComponent</a>, <a href="Colorc.html#mix(foundry.veil.api.client.color.Colorc,float,foundry.veil.api.client.color.Color)">mix</a>, <a href="Colorc.html#redInt()">redInt</a>, <a href="Colorc.html#rgb()">rgb</a>, <a href="Colorc.html#saturation()">saturation</a>, <a href="Colorc.html#sepia(foundry.veil.api.client.color.Color)">sepia</a>, <a href="Colorc.html#setHSV(float,float,float,foundry.veil.api.client.color.Color)">setHSV</a>, <a href="Colorc.html#setHue(float,foundry.veil.api.client.color.Color)">setHue</a>, <a href="Colorc.html#setLuminance(float,foundry.veil.api.client.color.Color)">setLuminance</a>, <a href="Colorc.html#setSaturation(float,foundry.veil.api.client.color.Color)">setSaturation</a></code></div>
 </section>
 </li>
 </ul>
@@ -305,63 +400,85 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="CODEC">
-<h3>CODEC</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">com.mojang.serialization.Codec&lt;<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&gt;</span>&nbsp;<span class="element-name">CODEC</span></div>
+<section class="detail" id="RGB_INT_CODEC">
+<h3>RGB_INT_CODEC</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">RGB_INT_CODEC</span></div>
+<div class="block">Allows only RGB components with a full alpha component.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="ARGB_INT_CODEC">
+<h3>ARGB_INT_CODEC</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.mojang.serialization.Codec&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">ARGB_INT_CODEC</span></div>
+<div class="block">Allows ARGB components.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="RGB_CODEC">
+<h3>RGB_CODEC</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.mojang.serialization.Codec&lt;<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&gt;</span>&nbsp;<span class="element-name">RGB_CODEC</span></div>
+<div class="block">Allows only RGB components with a full alpha component.</div>
+</section>
+</li>
+<li>
+<section class="detail" id="ARGB_CODEC">
+<h3>ARGB_CODEC</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">com.mojang.serialization.Codec&lt;<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&gt;</span>&nbsp;<span class="element-name">ARGB_CODEC</span></div>
+<div class="block">Allows ARGB components.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="WHITE">
 <h3>WHITE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">WHITE</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">WHITE</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="BLACK">
 <h3>BLACK</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">BLACK</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">BLACK</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="RED">
 <h3>RED</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">RED</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">RED</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="GREEN">
 <h3>GREEN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">GREEN</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">GREEN</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="BLUE">
 <h3>BLUE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">BLUE</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">BLUE</span></div>
 </section>
 </li>
 <li>
-<section class="detail" id="CLEAR">
-<h3>CLEAR</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">CLEAR</span></div>
+<section class="detail" id="TRANSPARENT">
+<h3>TRANSPARENT</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">TRANSPARENT</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="VANILLA_TOOLTIP_BACKGROUND">
 <h3>VANILLA_TOOLTIP_BACKGROUND</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">VANILLA_TOOLTIP_BACKGROUND</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">VANILLA_TOOLTIP_BACKGROUND</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="VANILLA_TOOLTIP_BORDER_TOP">
 <h3>VANILLA_TOOLTIP_BORDER_TOP</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">VANILLA_TOOLTIP_BORDER_TOP</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">VANILLA_TOOLTIP_BORDER_TOP</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="VANILLA_TOOLTIP_BORDER_BOTTOM">
 <h3>VANILLA_TOOLTIP_BORDER_BOTTOM</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">VANILLA_TOOLTIP_BORDER_BOTTOM</span></div>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></span>&nbsp;<span class="element-name">VANILLA_TOOLTIP_BORDER_BOTTOM</span></div>
 </section>
 </li>
 </ul>
@@ -373,62 +490,83 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(float,float,float,float)">
+<section class="detail" id="&lt;init&gt;()">
 <h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b,
- float&nbsp;a)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(float,float,float)">
-<h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(int,int,int,int)">
-<h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(int&nbsp;r,
- int&nbsp;g,
- int&nbsp;b,
- int&nbsp;a)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(int,int,int)">
-<h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(int&nbsp;r,
- int&nbsp;g,
- int&nbsp;b)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span>()</div>
+<div class="block">Creates a new black color with full alpha.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="&lt;init&gt;(int)">
 <h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(int&nbsp;hex)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(int&nbsp;rgb)</span></div>
+<div class="block">Creates a new color with the specified RGB values.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rgb</code> - The color values formatted as RRGGBB</dd>
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list-long">
+<li><a href="#%3Cinit%3E(int,boolean)"><code>Color(int, boolean)</code></a></li>
+</ul>
+</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="&lt;init&gt;(int,boolean)">
 <h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(int&nbsp;hex,
- boolean&nbsp;hasAlpha)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(int&nbsp;color,
+ boolean&nbsp;alpha)</span></div>
+<div class="block">Creates a new color with the specified ARGB values.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>color</code> - The color values formatted as AARRGGBB</dd>
+<dd><code>alpha</code> - Whether the color values contain an alpha component</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;()">
+<section class="detail" id="&lt;init&gt;(float,float,float)">
 <h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue)</span></div>
+<div class="block">Sets the red, green, and blue components of this color.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The red amount</dd>
+<dd><code>green</code> - The green amount</dd>
+<dd><code>blue</code> - The blue amount</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="&lt;init&gt;(java.lang.String)">
+<section class="detail" id="&lt;init&gt;(float,float,float,float)">
 <h3>Color</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;hex)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha)</span></div>
+<div class="block">Sets the red, green, blue, and alpha components of this color.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The red amount</dd>
+<dd><code>green</code> - The green amount</dd>
+<dd><code>blue</code> - The blue amount</dd>
+<dd><code>alpha</code> - The alpha amount</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="&lt;init&gt;(foundry.veil.api.client.color.Colorc)">
+<h3>Color</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Color</span><wbr><span class="parameters">(<a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a>&nbsp;copy)</span></div>
+<div class="block">Copies the color from the specified color.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>copy</code> - The color to copy from</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -440,196 +578,418 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="of(int)">
-<h3>of</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(int&nbsp;col)</span></div>
+<section class="detail" id="red(float)">
+<h3>red</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">red</span><wbr><span class="parameters">(float&nbsp;red)</span></div>
+<div class="block">Sets the value of the red component.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The new red value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="tickRainbow(int,float)">
-<h3>tickRainbow</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">tickRainbow</span><wbr><span class="parameters">(int&nbsp;ticks,
- float&nbsp;partialTick)</span></div>
+<section class="detail" id="green(float)">
+<h3>green</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">green</span><wbr><span class="parameters">(float&nbsp;green)</span></div>
+<div class="block">Sets the value of the green component.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>green</code> - The new green value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="lerp(foundry.veil.api.client.color.Color,float)">
+<section class="detail" id="blue(float)">
+<h3>blue</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">blue</span><wbr><span class="parameters">(float&nbsp;blue)</span></div>
+<div class="block">Sets the value of the blue component.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>blue</code> - The new blue value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="alpha(float)">
+<h3>alpha</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">alpha</span><wbr><span class="parameters">(float&nbsp;alpha)</span></div>
+<div class="block">Sets the value of the alpha component.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>alpha</code> - The new alpha value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="redInt(int)">
+<h3>redInt</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">redInt</span><wbr><span class="parameters">(int&nbsp;red)</span></div>
+<div class="block">Sets the value of the red component from <code>0</code> to <code>255</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The new red value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="greenInt(int)">
+<h3>greenInt</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">greenInt</span><wbr><span class="parameters">(int&nbsp;green)</span></div>
+<div class="block">Sets the value of the green component from <code>0</code> to <code>255</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>green</code> - The new green value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="blueInt(int)">
+<h3>blueInt</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">blueInt</span><wbr><span class="parameters">(int&nbsp;blue)</span></div>
+<div class="block">Sets the value of the blue component from <code>0</code> to <code>255</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>blue</code> - The new blue value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="alphaInt(int)">
+<h3>alphaInt</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">alphaInt</span><wbr><span class="parameters">(int&nbsp;alpha)</span></div>
+<div class="block">Sets the value of the alpha component from <code>0</code> to <code>255</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>alpha</code> - The new alpha value</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="set(float,float,float)">
+<h3>set</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">set</span><wbr><span class="parameters">(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue)</span></div>
+<div class="block">Sets the red, green, and blue components of this color.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The new red amount</dd>
+<dd><code>green</code> - The new green amount</dd>
+<dd><code>blue</code> - The new blue amount</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="set(float,float,float,float)">
+<h3>set</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">set</span><wbr><span class="parameters">(float&nbsp;red,
+ float&nbsp;green,
+ float&nbsp;blue,
+ float&nbsp;alpha)</span></div>
+<div class="block">Sets the red, green, blue, and alpha components of this color.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The new red amount</dd>
+<dd><code>green</code> - The new green amount</dd>
+<dd><code>blue</code> - The new blue amount</dd>
+<dd><code>alpha</code> - The new alpha amount</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setInt(int,int,int)">
+<h3>setInt</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setInt</span><wbr><span class="parameters">(int&nbsp;red,
+ int&nbsp;green,
+ int&nbsp;blue)</span></div>
+<div class="block">Sets the red, green, and blue components of this color as ints from <code>0</code> to <code>255</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The new red amount</dd>
+<dd><code>green</code> - The new green amount</dd>
+<dd><code>blue</code> - The new blue amount</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setInt(int,int,int,int)">
+<h3>setInt</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setInt</span><wbr><span class="parameters">(int&nbsp;red,
+ int&nbsp;green,
+ int&nbsp;blue,
+ int&nbsp;alpha)</span></div>
+<div class="block">Sets the red, green, blue, and alpha components of this color as ints from <code>0</code> to <code>255</code>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>red</code> - The new red amount</dd>
+<dd><code>green</code> - The new green amount</dd>
+<dd><code>blue</code> - The new blue amount</dd>
+<dd><code>alpha</code> - The new alpha amount</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRGB(int)">
+<h3>setRGB</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setRGB</span><wbr><span class="parameters">(int&nbsp;rgb)</span></div>
+<div class="block">Sets the red, green, and blue components of this color to the specified value.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>rgb</code> - The color values formatted as RRGGBB</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setARGB(int)">
+<h3>setARGB</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setARGB</span><wbr><span class="parameters">(int&nbsp;argb)</span></div>
+<div class="block">Sets the red, green, blue, and alpha components of this color to the specified value.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>argb</code> - The color values formatted as AARRGGBB</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="red()">
+<h3>red</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">red</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Colorc.html#red()">red</a></code>&nbsp;in interface&nbsp;<code><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></dd>
+<dt>Returns:</dt>
+<dd>The red component of this color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="green()">
+<h3>green</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">green</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Colorc.html#green()">green</a></code>&nbsp;in interface&nbsp;<code><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></dd>
+<dt>Returns:</dt>
+<dd>The green component of this color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="blue()">
+<h3>blue</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">blue</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Colorc.html#blue()">blue</a></code>&nbsp;in interface&nbsp;<code><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></dd>
+<dt>Returns:</dt>
+<dd>The blue component of this color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="alpha()">
+<h3>alpha</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">alpha</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Colorc.html#alpha()">alpha</a></code>&nbsp;in interface&nbsp;<code><a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a></code></dd>
+<dt>Returns:</dt>
+<dd>The alpha component of this color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="lerp(foundry.veil.api.client.color.Colorc,float)">
 <h3>lerp</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">lerp</span><wbr><span class="parameters">(<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&nbsp;other,
- float&nbsp;t)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">lerp</span><wbr><span class="parameters">(<a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a>&nbsp;other,
+ float&nbsp;delta)</span></div>
+<div class="block">Linearly interpolates between this color and the specified color.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>other</code> - The other color to store in</dd>
+<dd><code>delta</code> - The delta from 0 to 1</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="setHue(float)">
-<h3>setHue</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setHue</span><wbr><span class="parameters">(float&nbsp;hue)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getRed()">
-<h3>getRed</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getRed</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="add(int)">
-<h3>add</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(int&nbsp;col)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getGreen()">
-<h3>getGreen</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getGreen</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getBlue()">
-<h3>getBlue</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getBlue</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getAlpha()">
-<h3>getAlpha</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">getAlpha</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getRedInt()">
-<h3>getRedInt</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getRedInt</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getGreenInt()">
-<h3>getGreenInt</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getGreenInt</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getBlueInt()">
-<h3>getBlueInt</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getBlueInt</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getAlphaInt()">
-<h3>getAlphaInt</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getAlphaInt</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getHex()">
-<h3>getHex</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getHex</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getHexStr()">
-<h3>getHexStr</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getHexStr</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="mix(foundry.veil.api.client.color.Color,float)">
+<section class="detail" id="mix(foundry.veil.api.client.color.Colorc,float)">
 <h3>mix</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">mix</span><wbr><span class="parameters">(<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&nbsp;color,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">mix</span><wbr><span class="parameters">(<a href="Colorc.html" title="interface in foundry.veil.api.client.color">Colorc</a>&nbsp;color,
  float&nbsp;amount)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="mixCopy(foundry.veil.api.client.color.Color,float)">
-<h3>mixCopy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">mixCopy</span><wbr><span class="parameters">(<a href="Color.html" title="class in foundry.veil.api.client.color">Color</a>&nbsp;color,
- float&nbsp;amount)</span></div>
+<div class="block">Mixes this color with the specified color.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>color</code> - The color to mix with</dd>
+<dd><code>amount</code> - The amount of that color to mix from 0 to 1</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="lighten(float)">
 <h3>lighten</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">lighten</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="lightenCopy(float)">
-<h3>lightenCopy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">lightenCopy</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">lighten</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
+<div class="block">Mixes this color with white to "brighten" it.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>amount</code> - The amount of white to add</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="darken(float)">
 <h3>darken</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">darken</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="darkenCopy(float)">
-<h3>darkenCopy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">darkenCopy</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="saturate(float)">
-<h3>saturate</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">saturate</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="saturateCopy(float)">
-<h3>saturateCopy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">saturateCopy</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="multiply(float,float,float,float)">
-<h3>multiply</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">multiply</span><wbr><span class="parameters">(float&nbsp;r,
- float&nbsp;g,
- float&nbsp;b,
- float&nbsp;a)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="multiply(int)">
-<h3>multiply</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">multiply</span><wbr><span class="parameters">(int&nbsp;col)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="desaturate(float)">
-<h3>desaturate</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">desaturate</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="desaturateCopy(float)">
-<h3>desaturateCopy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">desaturateCopy</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">darken</span><wbr><span class="parameters">(float&nbsp;amount)</span></div>
+<div class="block">Mixes this color with black to "darken" it.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>amount</code> - The amount of black to add</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="invert()">
 <h3>invert</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">invert</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">invert</span>()</div>
+<div class="block">Inverts this color.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="invertCopy()">
-<h3>invertCopy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">invertCopy</span>()</div>
+<section class="detail" id="grayscale()">
+<h3>grayscale</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">grayscale</span>()</div>
+<div class="block">Applies a grayscale filter to this color.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The passed in color</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="getRGB()">
-<h3>getRGB</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getRGB</span>()</div>
+<section class="detail" id="sepia()">
+<h3>sepia</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">sepia</span>()</div>
+<div class="block">Applies a sepia filter to this color.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The passed in color</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="getRGBA()">
-<h3>getRGBA</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getRGBA</span>()</div>
+<section class="detail" id="setHue(float)">
+<h3>setHue</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setHue</span><wbr><span class="parameters">(float&nbsp;hue)</span></div>
+<div class="block">Converts the specified hue value (HSV) to RGB.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>hue</code> - The hue angle from 0 to 360 degrees</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setSaturation(float)">
+<h3>setSaturation</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setSaturation</span><wbr><span class="parameters">(float&nbsp;saturation)</span></div>
+<div class="block">Converts the specified saturation value (HSV) to RGB.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>saturation</code> - The saturation percentage from 0 to 1</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setLuminance(float)">
+<h3>setLuminance</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setLuminance</span><wbr><span class="parameters">(float&nbsp;luminance)</span></div>
+<div class="block">Converts the specified luminance value (HSV) to RGB.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>luminance</code> - The brightness percentage from 0 to 1</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setHSV(float,float,float)">
+<h3>setHSV</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Color.html" title="class in foundry.veil.api.client.color">Color</a></span>&nbsp;<span class="element-name">setHSV</span><wbr><span class="parameters">(float&nbsp;hue,
+ float&nbsp;saturation,
+ float&nbsp;luminance)</span></div>
+<div class="block">Converts the specified hue, saturation, and luminance values (HSV) to RGB.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>hue</code> - The hue angle from 0 to 360 degrees</dd>
+<dd><code>saturation</code> - The saturation percentage from 0 to 1</dd>
+<dd><code>luminance</code> - The brightness percentage from 0 to 1</dd>
+<dt>Returns:</dt>
+<dd>This color</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="equals(java.lang.Object)">
+<h3>equals</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="hashCode()">
+<h3>hashCode</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+</dl>
 </section>
 </li>
 </ul>

@@ -1,6 +1,5 @@
 foundry.veil
 foundry.veil.api
-foundry.veil.api.client.anim
 foundry.veil.api.client.color
 foundry.veil.api.client.color.theme
 foundry.veil.api.client.editor
@@ -10,7 +9,6 @@ foundry.veil.api.client.necromancer.animation
 foundry.veil.api.client.necromancer.animation.keyframe
 foundry.veil.api.client.necromancer.constraint
 foundry.veil.api.client.necromancer.render
-foundry.veil.api.client.pose
 foundry.veil.api.client.registry
 foundry.veil.api.client.render
 foundry.veil.api.client.render.dynamicbuffer
@@ -31,7 +29,6 @@ foundry.veil.api.client.render.shader.texture
 foundry.veil.api.client.render.texture
 foundry.veil.api.client.render.vertex
 foundry.veil.api.client.tooltip
-foundry.veil.api.client.tooltip.anim
 foundry.veil.api.client.ui.util
 foundry.veil.api.client.util
 foundry.veil.api.compat
@@ -64,7 +61,6 @@ foundry.veil.ext
 foundry.veil.ext.iris
 foundry.veil.ext.sodium
 foundry.veil.impl
-foundry.veil.impl.client
 foundry.veil.impl.client.editor
 foundry.veil.impl.client.imgui
 foundry.veil.impl.client.imgui.style
