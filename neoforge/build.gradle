@@ -52,8 +52,7 @@ repositories {
 
 dependencies {
     jarJar(api(additionalRuntimeClasspath("gg.moonflower:molang-compiler:$molang_compiler_version")))
-//    jarJar(api(additionalRuntimeClasspath("io.github.ocelot:glsl-processor:${glsl_processor_version}")))
-    jarJar(api(additionalRuntimeClasspath("com.github.Ocelot5836:glsl-processor:${glsl_processor_version}")))
+    jarJar(api(additionalRuntimeClasspath("io.github.ocelot:glsl-processor:${glsl_processor_version}")))
 
     jarJar(api(additionalRuntimeClasspath("io.github.spair:imgui-java-binding:$imgui_version")))
     jarJar(api(additionalRuntimeClasspath("io.github.spair:imgui-java-lwjgl3:$imgui_version")))

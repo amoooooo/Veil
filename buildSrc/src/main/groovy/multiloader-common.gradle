@@ -57,17 +57,6 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "JitPack"
-                url = "https://jitpack.io"
-            }
-        }
-        filter {
-            includeGroup "com.github.Ocelot5836"
-        }
-    }
     maven {
         name = 'Minecraft Libraries'
         url = 'https://libraries.minecraft.net'
