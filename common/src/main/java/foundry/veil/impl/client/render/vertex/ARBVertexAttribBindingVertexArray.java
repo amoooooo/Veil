@@ -1,7 +1,6 @@
 package foundry.veil.impl.client.render.vertex;
 
 import foundry.veil.api.client.render.vertex.VertexArray;
-import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.nio.ByteBuffer;
@@ -12,7 +11,7 @@ import static org.lwjgl.opengl.GL15C.*;
 public class ARBVertexAttribBindingVertexArray extends VertexArray {
 
     public ARBVertexAttribBindingVertexArray(int id) {
-        super(id);
+        super(id, ARBVertexAttribBindingBuilder::new);
     }
 
     @Override
@@ -26,11 +25,5 @@ public class ARBVertexAttribBindingVertexArray extends VertexArray {
         glBindBuffer(GL_ARRAY_BUFFER, buffer);
         glBufferData(GL_ARRAY_BUFFER, data, usage);
         glBindBuffer(GL_ARRAY_BUFFER, old);
-    }
-
-    @Override
-    public VertexArrayBuilder editFormat() {
-        this.bind();
-        return new ARBVertexAttribBindingBuilder(this);
     }
 }

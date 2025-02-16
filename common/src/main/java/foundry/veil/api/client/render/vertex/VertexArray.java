@@ -20,6 +20,7 @@ import org.lwjgl.system.NativeResource;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.util.function.Function;
 import java.util.function.IntFunction;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
@@ -44,14 +45,16 @@ public abstract class VertexArray implements NativeResource {
     private static VertexArrayType vertexArrayType;
 
     protected final int id;
+    protected final VertexArrayBuilder builder;
     protected final Int2IntMap buffers;
     protected int indexCount;
     protected IndexType indexType;
     protected int drawMode;
 
     @ApiStatus.Internal
-    protected VertexArray(int id) {
+    protected VertexArray(int id, Function<VertexArray, VertexArrayBuilder> builder) {
         this.id = id;
+        this.builder = builder.apply(this);
         this.buffers = new Int2IntArrayMap();
         this.indexCount = 0;
         this.indexType = IndexType.BYTE;
@@ -256,7 +259,10 @@ public abstract class VertexArray implements NativeResource {
     /**
      * @return A builder for applying changes to this array
      */
-    public abstract VertexArrayBuilder editFormat();
+    public VertexArrayBuilder editFormat() {
+        this.bind();
+        return this.builder;
+    }
 
     /**
      * Binds this vertex array and applies any changes to the format automatically.

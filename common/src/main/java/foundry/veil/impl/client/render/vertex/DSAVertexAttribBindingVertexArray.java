@@ -3,7 +3,6 @@ package foundry.veil.impl.client.render.vertex;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.MeshData;
 import foundry.veil.api.client.render.vertex.VertexArray;
-import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import foundry.veil.ext.AutoStorageIndexBufferExtension;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -16,7 +15,7 @@ import static org.lwjgl.opengl.GL15C.GL_STATIC_DRAW;
 public class DSAVertexAttribBindingVertexArray extends VertexArray {
 
     public DSAVertexAttribBindingVertexArray(int id) {
-        super(id);
+        super(id, vao -> new DSAVertexAttribBindingBuilder(vao, id));
     }
 
     @Override
@@ -40,11 +39,5 @@ public class DSAVertexAttribBindingVertexArray extends VertexArray {
     @Override
     protected void uploadVertexBuffer(int buffer, ByteBuffer data, int usage) {
         glNamedBufferData(buffer, data, usage);
-    }
-
-    @Override
-    public VertexArrayBuilder editFormat() {
-        this.bind();
-        return new DSAVertexAttribBindingBuilder(this, this.id);
     }
 }

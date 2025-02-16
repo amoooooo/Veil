@@ -2,7 +2,6 @@ package foundry.veil.api.client.imgui;
 
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.color.Color;
 import foundry.veil.api.client.editor.EditorManager;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
