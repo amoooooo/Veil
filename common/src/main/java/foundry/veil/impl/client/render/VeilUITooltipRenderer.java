@@ -3,6 +3,7 @@ package foundry.veil.impl.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import foundry.veil.api.client.color.Color;
+import foundry.veil.api.client.color.Colorc;
 import foundry.veil.api.client.color.theme.NumberThemeProperty;
 import foundry.veil.api.client.tooltip.Tooltippable;
 import foundry.veil.api.client.tooltip.VeilUIItemTooltipDataHolder;
@@ -102,9 +103,9 @@ public class VeilUITooltipRenderer {
 
         float partialTicks = deltaTracker.getRealtimeDeltaTicks();
         float fade = Mth.clamp((hoverTicks + partialTicks) / 24f, 0, 1);
-        Color background = tooltippable.getTheme().getColor("background");
-        Color borderTop = tooltippable.getTheme().getColor("topBorder");
-        Color borderBottom = tooltippable.getTheme().getColor("bottomBorder");
+        Colorc background = tooltippable.getTheme().getColor("background");
+        Colorc borderTop = tooltippable.getTheme().getColor("topBorder");
+        Colorc borderBottom = tooltippable.getTheme().getColor("bottomBorder");
         float heightBonus = tooltippable.getTooltipHeight();
         float widthBonus = tooltippable.getTooltipWidth();
         float textXOffset = tooltippable.getTooltipXOffset();
@@ -122,12 +123,12 @@ public class VeilUITooltipRenderer {
             Vec3i playerPosInt = new Vec3i((int) playerPos.x, (int) playerPos.y, (int) playerPos.z);
             Vec3i cornerInt = new Vec3i((int) pos.x, (int) pos.y, (int) pos.z);
             Vec3i diff = playerPosInt.subtract(cornerInt);
-            desiredPos = pos.add(Math.round(Mth.clamp(Math.round(diff.getX()), -1, 1) * 0.5f) - 0.5f, 0.5, Math.round(Mth.clamp(Math.round(diff.getZ()), -1, 1) * 0.5f) - 0.5f);
+            desiredPos = pos.add(Math.round(Mth.clamp(diff.getX(), -1, 1) * 0.5f) - 0.5f, 0.5, Math.round(Mth.clamp(Math.round(diff.getZ()), -1, 1) * 0.5f) - 0.5f);
             if (fade == 0) {
                 currentPos = currentPos.add(0, -0.25f, 0);
-                background = background.multiply(1, 1, 1, fade);
-                borderTop = borderTop.multiply(1, 1, 1, fade);
-                borderBottom = borderBottom.multiply(1, 1, 1, fade);
+                background = new Color(background).alpha(fade);
+                borderTop = new Color(borderTop).alpha(fade);
+                borderBottom = new Color(borderBottom).alpha(fade);
             }
             currentPos = currentPos.lerp(desiredPos, 0.05f);
             Vector3f screenSpacePos = SpaceHelper.worldToScreenSpace(currentPos, partialTicks);
@@ -139,14 +140,14 @@ public class VeilUITooltipRenderer {
             desiredX = (int) desiredScreenSpacePos.x();
             desiredY = (int) desiredScreenSpacePos.y();
         }
-        UIUtils.drawHoverText(tooltippable, partialTicks, istack, stack, tooltip, tooltipX + (int) textXOffset, tooltipY + (int) textYOffset, width, height, -1, background.getHex(), borderTop.getHex(), borderBottom.getHex(), mc.font, (int) widthBonus, (int) heightBonus, items, desiredX, desiredY);
+        UIUtils.drawHoverText(tooltippable, partialTicks, istack, stack, tooltip, tooltipX + (int) textXOffset, tooltipY + (int) textYOffset, width, height, -1, background.argb(), borderTop.argb(), borderBottom.argb(), mc.font, (int) widthBonus, (int) heightBonus, items, desiredX, desiredY);
         stack.popPose();
     }
 
     public static void drawConnectionLine(PoseStack stack, Tooltippable tooltippable, int tooltipX, int tooltipY, int desiredX, int desiredY) {
         if (tooltippable.getTheme().getColor("connectingLine") != null) {
             stack.pushPose();
-            Color color = tooltippable.getTheme().getColor("connectingLine");
+            Colorc color = tooltippable.getTheme().getColor("connectingLine");
             float thickness = ((NumberThemeProperty) tooltippable.getTheme().getProperty("connectingLineThickness")).getValue(Float.class);
 //            stack.mulPose(Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation());
 //            stack.mulPose(Vector3f.YP.rotationDegrees(180));
@@ -158,10 +159,10 @@ public class VeilUITooltipRenderer {
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
             BufferBuilder buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
             // draw a quad of thickness thickness from desiredX, desiredY to tooltipX, tooltipY with a z value of 399, starting from the top right corner and going anti-clockwise
-            buffer.addVertex(mat, desiredX + thickness, desiredY, 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-            buffer.addVertex(mat, desiredX - thickness, desiredY, 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-            buffer.addVertex(mat, tooltipX - thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-            buffer.addVertex(mat, tooltipX + thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+            buffer.addVertex(mat, desiredX + thickness, desiredY, 399).setColor(color.argb());
+            buffer.addVertex(mat, desiredX - thickness, desiredY, 399).setColor(color.argb());
+            buffer.addVertex(mat, tooltipX - thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).setColor(color.argb());
+            buffer.addVertex(mat, tooltipX + thickness, tooltipY + 3 - (tooltippable.getTooltipHeight() / 2f), 399).setColor(color.argb());
             BufferUploader.drawWithShader(buffer.buildOrThrow());
             RenderSystem.disableBlend();
             stack.popPose();

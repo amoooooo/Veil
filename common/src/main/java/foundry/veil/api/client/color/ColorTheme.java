@@ -25,14 +25,14 @@ public class ColorTheme {
         addColor("bottomBorder", Color.VANILLA_TOOLTIP_BORDER_BOTTOM);
     }};
 
-    private final Map<String, Color> colors = new HashMap<>();
+    private final Map<String, Colorc> colors = new HashMap<>();
     private final Map<String, IThemeProperty<?>> properties = new HashMap<>();
 
     public ColorTheme() {
     }
 
-    public ColorTheme(Color... colors) {
-        for (Color color : colors) {
+    public ColorTheme(Colorc... colors) {
+        for (Colorc color : colors) {
             this.addColor(color);
         }
     }
@@ -62,19 +62,19 @@ public class ColorTheme {
         this.properties.clear();
     }
 
-    public void addColor(@Nullable String name, Color color) {
+    public void addColor(@Nullable String name, Colorc color) {
         this.colors.put(name, color);
     }
 
-    public void addColor(Color color) {
+    public void addColor(Colorc color) {
         this.colors.put(null, color);
     }
 
-    public Color getColor(@Nullable String name) {
+    public Colorc getColor(@Nullable String name) {
         return this.colors.get(name);
     }
 
-    public Color getColor() {
+    public Colorc getColor() {
         return this.colors.get(null);
     }
 
@@ -94,11 +94,11 @@ public class ColorTheme {
         return this.colors.keySet().stream().filter(Objects::nonNull).toList();
     }
 
-    public List<Color> getColors() {
-        return (List<Color>) this.colors.values();
+    public List<Colorc> getColors() {
+        return (List<Colorc>) this.colors.values();
     }
 
-    public Map<String, Color> getColorsMap() {
+    public Map<String, Colorc> getColorsMap() {
         return this.colors;
     }
 }

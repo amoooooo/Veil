@@ -2,9 +2,9 @@ package foundry.veil.mixin.tooltip;
 
 import foundry.veil.api.client.color.Color;
 import foundry.veil.api.client.color.ColorTheme;
+import foundry.veil.api.client.color.Colorc;
 import foundry.veil.api.client.tooltip.Tooltippable;
 import foundry.veil.api.client.tooltip.VeilUIItemTooltipDataHolder;
-import foundry.veil.api.client.tooltip.anim.TooltipTimeline;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+// TODO remove
 @Mixin(BlockEntity.class)
 public class TooltipBlockEntityMixin implements Tooltippable {
 
@@ -30,10 +31,7 @@ public class TooltipBlockEntityMixin implements Tooltippable {
     private ColorTheme veil$theme;
 
     @Unique
-    private List<VeilUIItemTooltipDataHolder> veil$tooltipDataHolder = new ArrayList<>();
-
-    @Unique
-    private TooltipTimeline veil$timeline = null;
+    private final List<VeilUIItemTooltipDataHolder> veil$tooltipDataHolder = new ArrayList<>();
 
     @Unique
     private boolean veil$worldspace = true;
@@ -75,9 +73,9 @@ public class TooltipBlockEntityMixin implements Tooltippable {
 
         if (this.veil$theme != null) {
             CompoundTag themeTag = new CompoundTag();
-            for (Map.Entry<String, Color> entry : this.veil$theme.getColorsMap().entrySet()) {
+            for (Map.Entry<String, Colorc> entry : this.veil$theme.getColorsMap().entrySet()) {
                 String key = entry.getKey() != null ? entry.getKey() : "";
-                themeTag.putInt(key, entry.getValue().getRGB());
+                themeTag.putInt(key, entry.getValue().argb());
             }
             tag.put("theme", themeTag);
         }
@@ -102,7 +100,7 @@ public class TooltipBlockEntityMixin implements Tooltippable {
             }
             CompoundTag themeTag = tag.getCompound("theme");
             for (String key : themeTag.getAllKeys()) {
-                this.veil$theme.addColor(key, Color.of(themeTag.getInt(key)));
+                this.veil$theme.addColor(key, new Color(themeTag.getInt(key)));
             }
         }
     }
@@ -139,27 +137,22 @@ public class TooltipBlockEntityMixin implements Tooltippable {
 
     @Override
     public void setBackgroundColor(int color) {
-        this.veil$theme.addColor("background", Color.of(color));
+        this.veil$theme.addColor("background", new Color(color));
     }
 
     @Override
     public void setTopBorderColor(int color) {
-        this.veil$theme.addColor("topBorder", Color.of(color));
+        this.veil$theme.addColor("topBorder", new Color(color));
     }
 
     @Override
     public void setBottomBorderColor(int color) {
-        this.veil$theme.addColor("bottomBorder", Color.of(color));
+        this.veil$theme.addColor("bottomBorder", new Color(color));
     }
 
     @Override
     public boolean getWorldspace() {
         return this.veil$worldspace;
-    }
-
-    @Override
-    public TooltipTimeline getTimeline() {
-        return this.veil$timeline;
     }
 
     @Override

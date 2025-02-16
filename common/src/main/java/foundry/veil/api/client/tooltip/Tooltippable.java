@@ -1,7 +1,6 @@
 package foundry.veil.api.client.tooltip;
 
 import foundry.veil.api.client.color.ColorTheme;
-import foundry.veil.api.client.tooltip.anim.TooltipTimeline;
 import foundry.veil.impl.client.render.VeilUITooltipRenderer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -101,13 +100,6 @@ public interface Tooltippable {
      * @return true if the tooltip should be rendered in worldspace, false if it should be rendered in screenspace
      */
     boolean getWorldspace();
-
-    /**
-     * Obtain the timeline for the tooltip
-     *
-     * @return the timeline
-     */
-    TooltipTimeline getTimeline();
 
     /**
      * The stack for the tooltip to take components from

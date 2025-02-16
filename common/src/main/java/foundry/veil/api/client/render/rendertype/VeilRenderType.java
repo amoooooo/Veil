@@ -81,17 +81,6 @@ public final class VeilRenderType extends RenderType {
         return RenderType.create(Veil.MODID + ":quasar_trail", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLE_STRIP, TRANSIENT_BUFFER_SIZE, false, false, state);
     });
 
-    private static final Function<ResourceLocation, RenderType> NECROMANCER_SKINNED_MESH = Util.memoize((texture) -> {
-        CompositeState state = RenderType.CompositeState.builder()
-                .setShaderState(SKINNED_MESH)
-                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                .setTransparencyState(NO_TRANSPARENCY)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .createCompositeState(true);
-        return RenderType.create(Veil.MODID + ":skinned_mesh", VeilVertexFormat.SKINNED_MESH, VertexFormat.Mode.QUADS, SMALL_BUFFER_SIZE, true, false, state);
-    });
-
     public static RenderType quasarParticle(ResourceLocation texture, boolean additive) {
         return QUASAR_PARTICLE.apply(texture, additive);
     }
