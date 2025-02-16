@@ -23,6 +23,7 @@ dependencies {
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 
     compileOnly 'org.jetbrains:annotations:24.0.1'
+    implementation "gg.moonflower:molang-compiler:${molang_compiler_version}"
     implementation "io.github.ocelot:glsl-processor:${glsl_processor_version}"
 
     implementation "io.github.spair:imgui-java-binding:$imgui_version"
