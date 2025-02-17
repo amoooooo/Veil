@@ -6,7 +6,7 @@ package foundry.veil.api.quasar.emitters.module.update;//package foundry.veil.qu
 //import java.util.function.BiFunction;
 //import java.util.function.Function;
 //
-///**
+/// **
 // * Vector Field with a set range around a world position.
 // * @see foundry.veil.quasar.emitters.modules.particle.update.fields.VectorField
 // */

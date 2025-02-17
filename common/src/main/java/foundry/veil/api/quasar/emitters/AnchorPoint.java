@@ -18,10 +18,10 @@ import java.util.List;
 public class AnchorPoint {
     public static AnchorPoint TEST_POINT = new AnchorPoint(ResourceLocation.fromNamespaceAndPath("quasar", "test_point"));
     private final ResourceLocation id;
-    public Vector3f localOffset = new Vector3f(0,0,0);
-    public Vector3f worldOffset = new Vector3f(0,0,0);
+    public Vector3f localOffset = new Vector3f(0, 0, 0);
+    public Vector3f worldOffset = new Vector3f(0, 0, 0);
     public List<ModelPart> modelParts = null;
-    public Vector3f origin = new Vector3f(0,0,0);
+    public Vector3f origin = new Vector3f(0, 0, 0);
     public Vector4f transformMatrix = new Vector4f();
 
     public AnchorPoint(ResourceLocation id) {
@@ -36,18 +36,22 @@ public class AnchorPoint {
         return localOffset;
     }
 
-    public Vec3 getWorldOffset(Entity entity){
-        if(entity == null) return Vec3.ZERO;
+    public Vec3 getWorldOffset(Entity entity) {
+        if (entity == null) {
+            return Vec3.ZERO;
+        }
         Vec3 pos = entity.position();
         pos = pos.add(transformMatrix.x(), transformMatrix.y(), transformMatrix.z());
         return pos;
     }
 
-    public void updatePosition(Entity entity){
-        if(this.modelParts == null) return;
+    public void updatePosition(Entity entity) {
+        if (this.modelParts == null) {
+            return;
+        }
         PoseStack stack = new PoseStack();
         stack.scale(1f, -1f, -1f);
-        stack.translate(0,-1.501F,0);
+        stack.translate(0, -1.501F, 0);
         for (ModelPart modelPart : modelParts) {
             modelPart.translateAndRotate(stack);
         }
@@ -57,11 +61,11 @@ public class AnchorPoint {
         transformMatrix = offset;
     }
 
-    public void render(PoseStack stack, MultiBufferSource source, float scalar){
+    public void render(PoseStack stack, MultiBufferSource source, float scalar) {
         stack.pushPose();
         stack.translate(transformMatrix.x(), transformMatrix.y(), transformMatrix.z());
         VertexConsumer consumer = source.getBuffer(RenderType.lines());
-        stack.scale(1/16f, 1/16f, 1/16f);
+        stack.scale(1 / 16f, 1 / 16f, 1 / 16f);
         LevelRenderer.renderLineBox(stack, consumer, new AABB(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5), 1, 1, 1, 1);
         stack.popPose();
     }

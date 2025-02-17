@@ -21,8 +21,8 @@ public class ScissorStack {
      * Pushes a new scissor clipping region onto the stack.
      * The region is automatically constrained by any existing regions on the stack.
      *
-     * @param x The x-coordinate of the top-left corner of the region.
-     * @param y The y-coordinate of the top-left corner of the region.
+     * @param x      The x-coordinate of the top-left corner of the region.
+     * @param y      The y-coordinate of the top-left corner of the region.
      * @param width  The width of the region.
      * @param height The height of the region.
      */

@@ -1092,14 +1092,16 @@ public class FastNoiseLite {
         float n0, n1, n2;
 
         float a = 0.5f - x0 * x0 - y0 * y0;
-        if (a <= 0) n0 = 0;
-        else {
+        if (a <= 0) {
+            n0 = 0;
+        } else {
             n0 = (a * a) * (a * a) * GradCoord(seed, i, j, x0, y0);
         }
 
         float c = (float) (2 * (1 - 2 * G2) * (1 / G2 - 2)) * t + ((float) (-2 * (1 - 2 * G2) * (1 - 2 * G2)) + a);
-        if (c <= 0) n2 = 0;
-        else {
+        if (c <= 0) {
+            n2 = 0;
+        } else {
             float x2 = x0 + (2 * (float) G2 - 1);
             float y2 = y0 + (2 * (float) G2 - 1);
             n2 = (c * c) * (c * c) * GradCoord(seed, i + PrimeX, j + PrimeY, x2, y2);
@@ -1109,16 +1111,18 @@ public class FastNoiseLite {
             float x1 = x0 + (float) G2;
             float y1 = y0 + ((float) G2 - 1);
             float b = 0.5f - x1 * x1 - y1 * y1;
-            if (b <= 0) n1 = 0;
-            else {
+            if (b <= 0) {
+                n1 = 0;
+            } else {
                 n1 = (b * b) * (b * b) * GradCoord(seed, i, j + PrimeY, x1, y1);
             }
         } else {
             float x1 = x0 + ((float) G2 - 1);
             float y1 = y0 + (float) G2;
             float b = 0.5f - x1 * x1 - y1 * y1;
-            if (b <= 0) n1 = 0;
-            else {
+            if (b <= 0) {
+                n1 = 0;
+            } else {
                 n1 = (b * b) * (b * b) * GradCoord(seed, i + PrimeX, j, x1, y1);
             }
         }
@@ -1183,7 +1187,9 @@ public class FastNoiseLite {
                 }
             }
 
-            if (l == 1) break;
+            if (l == 1) {
+                break;
+            }
 
             ax0 = 0.5f - ax0;
             ay0 = 0.5f - ay0;
@@ -2577,7 +2583,9 @@ public class FastNoiseLite {
                 vz += bbbb * zo;
             }
 
-            if (l == 1) break;
+            if (l == 1) {
+                break;
+            }
 
             ax0 = 0.5f - ax0;
             ay0 = 0.5f - ay0;

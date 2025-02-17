@@ -25,12 +25,18 @@ public record KeyframeTimeline(Keyframe[] keyframes) {
     }
 
     private int findKeyframeIndex(float time, boolean looped) {
-        if (keyframes.length == 1) return 0;
+        if (keyframes.length == 1) {
+            return 0;
+        }
 
         int low = 0;
         int high = keyframes.length - 1;
-        if (keyframes[low] .time() > time) return looped ? high : low;
-        if (keyframes[high].time() < time) return high;
+        if (keyframes[low].time() > time) {
+            return looped ? high : low;
+        }
+        if (keyframes[high].time() < time) {
+            return high;
+        }
 
         while (low <= high) {
             int mid = (low + high) >>> 1;
@@ -38,12 +44,13 @@ public record KeyframeTimeline(Keyframe[] keyframes) {
             float t2 = keyframes[mid + 1].time();
 
             // current time is between these two keyframes!
-            if (time > t1 && time < t2)
+            if (time > t1 && time < t2) {
                 return mid;
-            else if (time > t1)
+            } else if (time > t1) {
                 low = mid + 1;
-            else if (time < t1)
+            } else if (time < t1) {
                 high = mid - 1;
+            }
         }
 
         // this should never happen

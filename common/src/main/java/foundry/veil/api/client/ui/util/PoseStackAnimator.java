@@ -20,6 +20,7 @@ public class PoseStackAnimator {
 
     /**
      * Constructs a new {@link PoseStackAnimator} for the given {@link PoseStack}.
+     *
      * @param poseStack The {@link PoseStack} to animate.
      */
     public PoseStackAnimator(PoseStack poseStack) {
@@ -28,9 +29,10 @@ public class PoseStackAnimator {
 
     /**
      * Adds a new animation stage to the sequence.
+     *
      * @param durationMillis The duration of the stage in milliseconds.
-     * @param transform The transformation function to apply during this stage.
-     *                  This function receives the {@link PoseStack} as an argument, allowing you to directly modify its transformations.
+     * @param transform      The transformation function to apply during this stage.
+     *                       This function receives the {@link PoseStack} as an argument, allowing you to directly modify its transformations.
      */
     public void addStage(long durationMillis, BiConsumer<Long, PoseStack> transform) {
         stages.add(new AnimationStage(durationMillis, transform));
@@ -68,6 +70,7 @@ public class PoseStackAnimator {
 
     /**
      * Checks if the animation is currently active.
+     *
      * @return True if the animation is running, false otherwise.
      */
     public boolean isAnimating() {
@@ -85,7 +88,8 @@ public class PoseStackAnimator {
     /**
      * Applies the transformation for the current animation stage based on the animation progress.
      * This method ensures that each stage's transformation is applied independently and doesn't affect other stages.
-     * @param stage The current animation stage.
+     *
+     * @param stage    The current animation stage.
      * @param progress The animation progress within the current stage, ranging from 0.0 to 1.0.
      */
     private void applyStageTransform(AnimationStage stage, float progress) {
@@ -106,8 +110,9 @@ public class PoseStackAnimator {
 
         /**
          * Constructs a new animation stage.
+         *
          * @param durationMillis The duration of the stage in milliseconds.
-         * @param transform The transformation function to apply during this stage.
+         * @param transform      The transformation function to apply during this stage.
          */
         AnimationStage(long durationMillis, BiConsumer<Long, PoseStack> transform) {
             this.durationMillis = durationMillis;

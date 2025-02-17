@@ -25,7 +25,7 @@ vec3 hemiSpherePointCos(vec2 seed, vec3 normal)
     float v = random(seed + 5.236234);
     float a = 6.2831853 * v;
     u = 2.0*u - 1.0;
-    return normalize( normal + vec3(sqrt(1.0-u*u) * vec2(cos(a), sin(a)), u) );
+    return normalize(normal + vec3(sqrt(1.0-u*u) * vec2(cos(a), sin(a)), u));
 }
 
 float map(float value, float min1, float max1, float min2, float max2) {

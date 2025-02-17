@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.function.Function;
 
 public class VeilUIItemTooltipDataHolder {
-    
+
     private ItemStack itemStack;
     private Function<Float, Float> x;
     private Function<Float, Float> y;

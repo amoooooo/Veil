@@ -19,7 +19,7 @@ void main() {
     vec2 screenUv = gl_FragCoord.xy / ScreenSize;
 
     vec4 albedoColor = texture(VeilDynamicAlbedoSampler, screenUv);
-    if(albedoColor.a == 0) {
+    if (albedoColor.a == 0) {
         discard;
     }
 

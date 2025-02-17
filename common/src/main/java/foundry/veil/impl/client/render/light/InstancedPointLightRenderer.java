@@ -34,9 +34,9 @@ public class InstancedPointLightRenderer extends InstancedLightRenderer<PointLig
 
     @Override
     protected void setupBufferState(VertexArrayBuilder builder) {
-        builder.setVertexAttribute(1, 2, 3, VertexArrayBuilder.DataType.FLOAT, false,  0);
-        builder.setVertexAttribute(2, 2, 3, VertexArrayBuilder.DataType.FLOAT, false,  Float.BYTES * 3);
-        builder.setVertexAttribute(3, 2, 1, VertexArrayBuilder.DataType.FLOAT, false,  Float.BYTES * 6);
+        builder.setVertexAttribute(1, 2, 3, VertexArrayBuilder.DataType.FLOAT, false, 0);
+        builder.setVertexAttribute(2, 2, 3, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 3);
+        builder.setVertexAttribute(3, 2, 1, VertexArrayBuilder.DataType.FLOAT, false, Float.BYTES * 6);
     }
 
     @Override

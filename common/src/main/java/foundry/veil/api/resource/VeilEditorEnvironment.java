@@ -13,7 +13,7 @@ public interface VeilEditorEnvironment {
     <T extends VeilResource<?>> void open(T resource, ResourceFileEditor.Factory<T> editor);
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    default void open(VeilResource<?> resource, ResourceLocation editorName){
+    default void open(VeilResource<?> resource, ResourceLocation editorName) {
         ResourceFileEditor.Factory factory = VeilResourceEditorRegistry.REGISTRY.get(editorName);
         if (factory == null) {
             Veil.LOGGER.error("Failed to find editor for resource: {}", resource.resourceInfo().location());

@@ -14,7 +14,7 @@ out vec4 fragColor;
 
 void main() {
     vec4 albedoColor = texture(VeilDynamicAlbedoSampler, texCoord);
-    if(albedoColor.a == 0) {
+    if (albedoColor.a == 0) {
         discard;
     }
 

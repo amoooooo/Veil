@@ -42,7 +42,7 @@ public class Torus implements EmitterShape {
         float x = (float) 0;
         float y = (float) 0;
         float z = (float) 0;
-        for(int i = 0; i < 32; i++){
+        for (int i = 0; i < 32; i++) {
             float x1 = (float) (x + Math.cos(Math.toRadians(angle)) * radius);
             float z1 = (float) (z + Math.sin(Math.toRadians(angle)) * radius);
             float x2 = (float) (x + Math.cos(Math.toRadians(angle + angleStep)) * radius);

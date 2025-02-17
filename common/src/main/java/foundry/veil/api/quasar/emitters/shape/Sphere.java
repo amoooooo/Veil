@@ -35,8 +35,8 @@ public class Sphere implements EmitterShape {
     public void renderShape(PoseStack stack, VertexConsumer consumer, Vector3fc dimensions, Vector3fc rotation) {
         float radius = dimensions.x();
         Matrix4f matrix4f = stack.last().pose();
-        for(int i = 0; i < 32; i++){
-            for(int j = 0; j < 32; j++){
+        for (int i = 0; i < 32; i++) {
+            for (int j = 0; j < 32; j++) {
                 Vector3f v1 = parametricSphere((float) Math.toRadians(i * 11.25f), (float) Math.toRadians(j * 11.25f), radius);
                 Vector3f v2 = parametricSphere((float) Math.toRadians((i + 1) * 11.25f), (float) Math.toRadians(j * 11.25f), radius);
                 Vector3f v3 = parametricSphere((float) Math.toRadians(i * 11.25f), (float) Math.toRadians((j + 1) * 11.25f), radius);
@@ -48,6 +48,7 @@ public class Sphere implements EmitterShape {
             }
         }
     }
+
     public static Vector3f parametricSphere(float u, float v, float r) {
         return new Vector3f(Mth.cos(u) * Mth.sin(v) * r, Mth.cos(v) * r, Mth.sin(u) * Mth.sin(v) * r);
     }

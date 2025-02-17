@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.OptionalInt;
 
-public record OverrideAction<T extends VeilResource<T>>()  implements VeilResourceAction<T> {
+public record OverrideAction<T extends VeilResource<T>>() implements VeilResourceAction<T> {
 
     private static final Component NAME = Component.translatable("resource.veil.action.override");
     private static final Component DESC = Component.translatable("resource.veil.action.override.desc");

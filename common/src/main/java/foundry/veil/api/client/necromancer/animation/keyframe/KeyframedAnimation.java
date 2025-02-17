@@ -28,11 +28,14 @@ public class KeyframedAnimation<P extends SkeletonParent<?, ?>, S extends Skelet
     // a ton of allocations though!
     private final Quaternionf tempRotationA = new Quaternionf(), tempRotationB = new Quaternionf();
     private final Keyframe[] tempKeyframes = new Keyframe[4];
+
     @Override
     public void apply(P parent, S skeleton, float mixFactor, float time) {
         for (Map.Entry<String, KeyframeTimeline> timeline : keyframesByBoneName.entrySet()) {
             Bone bone = skeleton.bones.get(timeline.getKey());
-            if (bone == null) continue;
+            if (bone == null) {
+                continue;
+            }
 
             KeyframeTimeline keyframes = timeline.getValue();
             float t = keyframes.getAdjacentKeyframes(time, this.looping, tempKeyframes);
@@ -79,7 +82,7 @@ public class KeyframedAnimation<P extends SkeletonParent<?, ?>, S extends Skelet
     public static class Builder {
         boolean looped = false, additive = false;
         Map<String, List<Keyframe>> timelines = new HashMap<>();
-        
+
         Builder looped(boolean isLooped) {
             this.looped = isLooped;
             return this;
@@ -95,7 +98,9 @@ public class KeyframedAnimation<P extends SkeletonParent<?, ?>, S extends Skelet
         // idk!
         public void addKeyframe(String boneId, float time, Interpolation interpolation,
                                 Vector3fc position, Vector3fc size, Quaternionfc orientation) {
-            if (!timelines.containsKey(boneId)) timelines.put(boneId, new ArrayList<>(2));
+            if (!timelines.containsKey(boneId)) {
+                timelines.put(boneId, new ArrayList<>(2));
+            }
             timelines.get(boneId).add(new Keyframe(time, interpolation, new Keyframe.KeyframeTransform(position, size, orientation)));
         }
 

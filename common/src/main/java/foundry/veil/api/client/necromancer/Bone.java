@@ -117,7 +117,8 @@ public class Bone {
         this.previousColor.lerp(this.color, partialTicks, color);
     }
 
-    protected void tick(float deltaTime) {}
+    protected void tick(float deltaTime) {
+    }
 
     public void addChild(Bone child) {
         if (child.parent != null) {

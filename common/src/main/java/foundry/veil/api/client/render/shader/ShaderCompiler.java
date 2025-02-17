@@ -23,8 +23,8 @@ public interface ShaderCompiler extends NativeResource {
      * The sources are read from
      * The shader will automatically be deleted at some point in the future.
      *
-     * @param type    The type of shader to create
-     * @param path    The location of the shader to attach
+     * @param type The type of shader to create
+     * @param path The location of the shader to attach
      * @return A new shader that can be attached to programs
      * @throws IOException     If the file could not be found
      * @throws ShaderException If an error occurs while compiling the shader
@@ -35,8 +35,8 @@ public interface ShaderCompiler extends NativeResource {
      * Creates a new shader and attempts to attach the specified sources to it.
      * The shader will automatically be deleted at some point in the future.
      *
-     * @param type    The type of shader to create
-     * @param source  The source of the shader to attach
+     * @param type   The type of shader to create
+     * @param source The source of the shader to attach
      * @return A new shader that can be attached to programs
      * @throws ShaderException If an error occurs while compiling the shader
      */

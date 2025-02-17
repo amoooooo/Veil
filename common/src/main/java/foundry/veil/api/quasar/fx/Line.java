@@ -17,12 +17,13 @@ public class Line {
         STRETCH,
         REPEAT
     }
+
     public enum CurveMode {
         NONE((points, freq) -> points),
         BEZIER((points, freq) -> {
             // calculate bezier curve points and add them to the points array.
             // the number of curve points between each original point should be the frequency divided by amount of input points
-            Vec3[] curvePoints = new Vec3[(points.length-2) * freq];
+            Vec3[] curvePoints = new Vec3[(points.length - 2) * freq];
             for (int i = 0; i < points.length - 1; i++) {
                 Vec3 p0 = points[i];
                 Vec3 p1 = points[i + 1];
@@ -33,17 +34,17 @@ public class Line {
                     float t2 = t * t;
                     float t3 = t2 * t;
                     float x = (float) (0.5f * ((2.0f * p1.x()) +
-                                                (-p0.x() + p2.x()) * t +
-                                                (2.0f * p0.x() - 5.0f * p1.x() + 4 * p2.x() - p3.x()) * t2 +
-                                                (-p0.x() + 3.0f * p1.x() - 3.0f * p2.x() + p3.x()) * t3));
+                            (-p0.x() + p2.x()) * t +
+                            (2.0f * p0.x() - 5.0f * p1.x() + 4 * p2.x() - p3.x()) * t2 +
+                            (-p0.x() + 3.0f * p1.x() - 3.0f * p2.x() + p3.x()) * t3));
                     float y = (float) (0.5f * ((2.0f * p1.y()) +
-                                                (-p0.y() + p2.y()) * t +
-                                                (2.0f * p0.y() - 5.0f * p1.y() + 4 * p2.y() - p3.y()) * t2 +
-                                                (-p0.y() + 3.0f * p1.y() - 3.0f * p2.y() + p3.y()) * t3));
+                            (-p0.y() + p2.y()) * t +
+                            (2.0f * p0.y() - 5.0f * p1.y() + 4 * p2.y() - p3.y()) * t2 +
+                            (-p0.y() + 3.0f * p1.y() - 3.0f * p2.y() + p3.y()) * t3));
                     float z = (float) (0.5f * ((2.0f * p1.z()) +
-                                                (-p0.z() + p2.z()) * t +
-                                                (2.0f * p0.z() - 5.0f * p1.z() + 4 * p2.z() - p3.z()) * t2 +
-                                                (-p0.z() + 3.0f * p1.z() - 3.0f * p2.z() + p3.z()) * t3));
+                            (-p0.z() + p2.z()) * t +
+                            (2.0f * p0.z() - 5.0f * p1.z() + 4 * p2.z() - p3.z()) * t2 +
+                            (-p0.z() + 3.0f * p1.z() - 3.0f * p2.z() + p3.z()) * t3));
                     curvePoints[i * freq + j] = new Vec3(x, y, z);
                 }
             }
@@ -63,17 +64,17 @@ public class Line {
                     float t2 = t * t;
                     float t3 = t2 * t;
                     float x = (float) (0.5f * ((2.0f * p1.x()) +
-                                                (-p0.x() + p2.x()) * t +
-                                                (2.0f * p0.x() - 5.0f * p1.x() + 4 * p2.x() - p3.x()) * t2 +
-                                                (-p0.x() + 3.0f * p1.x() - 3.0f * p2.x() + p3.x()) * t3));
+                            (-p0.x() + p2.x()) * t +
+                            (2.0f * p0.x() - 5.0f * p1.x() + 4 * p2.x() - p3.x()) * t2 +
+                            (-p0.x() + 3.0f * p1.x() - 3.0f * p2.x() + p3.x()) * t3));
                     float y = (float) (0.5f * ((2.0f * p1.y()) +
-                                                (-p0.y() + p2.y()) * t +
-                                                (2.0f * p0.y() - 5.0f * p1.y() + 4 * p2.y() - p3.y()) * t2 +
-                                                (-p0.y() + 3.0f * p1.y() - 3.0f * p2.y() + p3.y()) * t3));
+                            (-p0.y() + p2.y()) * t +
+                            (2.0f * p0.y() - 5.0f * p1.y() + 4 * p2.y() - p3.y()) * t2 +
+                            (-p0.y() + 3.0f * p1.y() - 3.0f * p2.y() + p3.y()) * t3));
                     float z = (float) (0.5f * ((2.0f * p1.z()) +
-                                                (-p0.z() + p2.z()) * t +
-                                                (2.0f * p0.z() - 5.0f * p1.z() + 4 * p2.z() - p3.z()) * t2 +
-                                                (-p0.z() + 3.0f * p1.z() - 3.0f * p2.z() + p3.z()) * t3));
+                            (-p0.z() + p2.z()) * t +
+                            (2.0f * p0.z() - 5.0f * p1.z() + 4 * p2.z() - p3.z()) * t2 +
+                            (-p0.z() + 3.0f * p1.z() - 3.0f * p2.z() + p3.z()) * t3));
                     curvePoints[i * freq + j] = new Vec3(x, y, z);
                 }
             }
@@ -86,6 +87,7 @@ public class Line {
             this.curveFunction = curveFunction;
         }
     }
+
     private Vec3[] points;
     private int color;
     private Function<Float, Float> widthFunction;
@@ -128,7 +130,7 @@ public class Line {
     }
 
     public void setPoints(Vec3[] points) {
-        if(points.length > length) {
+        if (points.length > length) {
             Vec3[] newPoints = new Vec3[length];
             System.arraycopy(points, points.length - length, newPoints, 0, length);
             points = newPoints;
@@ -211,14 +213,14 @@ public class Line {
         return curveMode.curveFunction.apply(points, frequency);
     }
 
-    public void render(PoseStack stack, VertexConsumer consumer, int light){
+    public void render(PoseStack stack, VertexConsumer consumer, int light) {
         stack.pushPose();
         RenderSystem.disableCull();
         Vec3[] curvePoints = setupCurvePoints();
         Vector3f[][] corners = new Vector3f[curvePoints.length][2];
         for (int i = 0; i < curvePoints.length; i++) {
             float width = widthFunction.apply((float) i / (curvePoints.length - 1));
-            Vector3f topOffset = new Vector3f(0, (width / 2f),0);
+            Vector3f topOffset = new Vector3f(0, (width / 2f), 0);
             Vector3f bottomOffset = new Vector3f(0, -(width / 2f), 0);
             if (billboard) {
 //                Vector3f cameraDirection = new Vector3f(Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().subtract(curvePoints[i]).normalize());
@@ -234,8 +236,8 @@ public class Line {
             }
             topOffset.add((float) curvePoints[i].x, (float) curvePoints[i].y, (float) curvePoints[i].z);
             bottomOffset.add((float) curvePoints[i].x, (float) curvePoints[i].y, (float) curvePoints[i].z);
-            corners[i/frequency][0] = topOffset;
-            corners[i/frequency][1] = bottomOffset;
+            corners[i / frequency][0] = topOffset;
+            corners[i / frequency][1] = bottomOffset;
         }
         renderPoints(stack, consumer, light, corners, color);
         RenderSystem.enableCull();
@@ -253,16 +255,18 @@ public class Line {
             Vector3f bottom = corners[i][1];
             Vector3f nextTop = corners[i + 1][0];
             Vector3f nextBottom = corners[i + 1][1];
-            if(nextTop == null) {
+            if (nextTop == null) {
                 nextTop = top;
             }
-            if(nextBottom == null) {
+            if (nextBottom == null) {
                 nextBottom = bottom;
             }
-            if(top == null || bottom == null) continue;
+            if (top == null || bottom == null) {
+                continue;
+            }
             float u = 0;
             float u1 = 1;
-            if(tilingMode == TilingMode.STRETCH) {
+            if (tilingMode == TilingMode.STRETCH) {
                 u = (float) i / (corners.length - 1);
                 u1 = (float) (i + 1) / (corners.length - 1);
             }

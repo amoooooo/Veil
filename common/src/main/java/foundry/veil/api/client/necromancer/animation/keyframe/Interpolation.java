@@ -35,6 +35,7 @@ public enum Interpolation {
     public interface FloatInterpolator {
         float interpolate(float a, float b, float t);
     }
+
     public interface QuaternionInterpolator {
         void interpolate(Quaternionfc a, Quaternionfc b, float t, Quaternionf result);
     }

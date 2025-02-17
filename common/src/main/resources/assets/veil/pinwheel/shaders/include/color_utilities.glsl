@@ -6,7 +6,7 @@ vec3 toGamma(vec3 linear) {
     return pow(linear, vec3(1.0 / 2.2));
 }
 
-float toGamma(float linear) { 
+float toGamma(float linear) {
     return pow(linear, 1.0 / 2.2);
 }
 
@@ -18,7 +18,7 @@ vec3 toLinear(vec3 gamma) {
     return pow(gamma, vec3(2.2));
 }
 
-float toLinear(float gamma) { 
+float toLinear(float gamma) {
     return pow(gamma, 2.2);
 }
 
@@ -38,7 +38,7 @@ vec4 logCToLinear(vec4 color) {
     return vec4(logCToLinear(color.rgb), color.a);
 }
 
-vec3 rgbToHsv(vec3 c) { 
+vec3 rgbToHsv(vec3 c) {
     const vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
     vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
     vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));

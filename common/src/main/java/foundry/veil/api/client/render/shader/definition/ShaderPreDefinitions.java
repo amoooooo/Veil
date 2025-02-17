@@ -51,7 +51,7 @@ public class ShaderPreDefinitions {
     /**
      * Sets the value of a definition pair. If the value has changed, all shaders depending on it will recompile.
      *
-     * @param name       The name of the definition to set
+     * @param name  The name of the definition to set
      * @param value The value to associate with it
      */
     public void set(String name, String value) {
@@ -73,7 +73,7 @@ public class ShaderPreDefinitions {
     /**
      * Sets a definition added to all shaders. These should be treated as static final variables.
      *
-     * @param name       The name of the definition to set
+     * @param name  The name of the definition to set
      * @param value The value to associate with it
      */
     public void setStatic(String name, @Nullable String value) {
