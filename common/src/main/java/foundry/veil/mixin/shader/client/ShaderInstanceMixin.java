@@ -5,7 +5,7 @@ import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
 import foundry.veil.Veil;
 import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
-import foundry.veil.impl.client.render.shader.program.ShaderUniformCache;
+import foundry.veil.api.client.render.shader.program.ShaderUniformCache;
 import foundry.veil.impl.client.render.shader.transformer.VanillaShaderProcessor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.client.renderer.ShaderInstance;

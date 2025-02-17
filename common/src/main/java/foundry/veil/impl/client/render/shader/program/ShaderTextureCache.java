@@ -3,6 +3,7 @@ package foundry.veil.impl.client.render.shader.program;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.client.render.shader.program.ShaderUniformCache;
 import foundry.veil.api.client.render.shader.program.TextureUniformAccess;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;

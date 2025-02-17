@@ -12,7 +12,7 @@ import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.compat.IrisCompat;
 import foundry.veil.api.compat.SodiumCompat;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
-import foundry.veil.impl.client.render.shader.program.ShaderUniformCache;
+import foundry.veil.api.client.render.shader.program.ShaderUniformCache;
 import foundry.veil.mixin.debug.accessor.DebugGameRendererAccessor;
 import foundry.veil.mixin.debug.accessor.DebugLevelRendererAccessor;
 import foundry.veil.mixin.debug.accessor.DebugPostChainAccessor;

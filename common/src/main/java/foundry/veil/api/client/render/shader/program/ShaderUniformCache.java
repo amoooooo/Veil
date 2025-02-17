@@ -1,4 +1,4 @@
-package foundry.veil.impl.client.render.shader.program;
+package foundry.veil.api.client.render.shader.program;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
@@ -6,8 +6,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
@@ -24,7 +24,12 @@ import static org.lwjgl.opengl.GL31C.*;
 import static org.lwjgl.opengl.GL32C.*;
 import static org.lwjgl.opengl.GL42C.*;
 
-@ApiStatus.Internal
+/**
+ * Queries shader programs for all relevant uniform data.
+ *
+ * @author Ocelot
+ * @since 1.0.0
+ */
 public class ShaderUniformCache {
 
     private static final IntSet SAMPLERS = IntSet.of(
@@ -182,6 +187,10 @@ public class ShaderUniformCache {
     private final Object2ObjectMap<String, Uniform> uniforms;
     private final Object2ObjectMap<String, UniformBlock> uniformBlocks;
     private final Object2ObjectMap<String, StorageBlock> storageBlocks;
+    private final Object2ObjectMap<String, Uniform> samplersView;
+    private final Object2ObjectMap<String, Uniform> uniformsView;
+    private final Object2ObjectMap<String, UniformBlock> uniformBlocksView;
+    private final Object2ObjectMap<String, StorageBlock> storageBlocksView;
     private boolean requested;
 
     public ShaderUniformCache(IntSupplier shader) {
@@ -190,9 +199,16 @@ public class ShaderUniformCache {
         this.uniforms = new Object2ObjectOpenHashMap<>();
         this.uniformBlocks = new Object2ObjectOpenHashMap<>();
         this.storageBlocks = new Object2ObjectOpenHashMap<>();
+        this.samplersView = Object2ObjectMaps.unmodifiable(this.samplers);
+        this.uniformsView = Object2ObjectMaps.unmodifiable(this.uniforms);
+        this.uniformBlocksView = Object2ObjectMaps.unmodifiable(this.uniformBlocks);
+        this.storageBlocksView = Object2ObjectMaps.unmodifiable(this.storageBlocks);
         this.requested = false;
     }
 
+    /**
+     * Clears the cache, rebuilding it the next time {@link #getUniform(CharSequence)} is called.
+     */
     public void clear() {
         this.samplers.clear();
         this.uniforms.clear();
@@ -380,6 +396,12 @@ public class ShaderUniformCache {
         }
     }
 
+    /**
+     * Retrieves a uniform by name.
+     *
+     * @param name The name of the uniform to get
+     * @return The uniform found or <code>null</code> if it doesn't exist
+     */
     public @Nullable Uniform getUniform(CharSequence name) {
         if (!this.requested) {
             this.updateUniforms();
@@ -387,6 +409,12 @@ public class ShaderUniformCache {
         return this.uniforms.get(name);
     }
 
+    /**
+     * Checks if a uniform exists by the specified name.
+     *
+     * @param name The name of the uniform to check for
+     * @return Whether that uniform exists
+     */
     public boolean hasUniform(String name) {
         if (!this.requested) {
             this.updateUniforms();
@@ -394,6 +422,12 @@ public class ShaderUniformCache {
         return this.uniforms.containsKey(name);
     }
 
+    /**
+     * Retrieves a uniform block by name.
+     *
+     * @param name The name of the uniform block to get
+     * @return The uniform block found or <code>null</code> if it doesn't exist
+     */
     public @Nullable UniformBlock getUniformBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
@@ -401,6 +435,12 @@ public class ShaderUniformCache {
         return this.uniformBlocks.get(name);
     }
 
+    /**
+     * Checks if a uniform block exists by the specified name.
+     *
+     * @param name The name of the uniform block to check for
+     * @return Whether that uniform block exists
+     */
     public boolean hasUniformBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
@@ -408,6 +448,12 @@ public class ShaderUniformCache {
         return this.uniformBlocks.containsKey(name);
     }
 
+    /**
+     * Retrieves a storage block by name.
+     *
+     * @param name The name of the storage block to get
+     * @return The storage block found or <code>null</code> if it doesn't exist
+     */
     public @Nullable StorageBlock getStorageBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
@@ -415,6 +461,12 @@ public class ShaderUniformCache {
         return this.storageBlocks.get(name);
     }
 
+    /**
+     * Checks if a storage block exists by the specified name.
+     *
+     * @param name The name of the storage block to check for
+     * @return Whether that storage block exists
+     */
     public boolean hasStorageBlock(String name) {
         if (!this.requested) {
             this.updateUniforms();
@@ -422,6 +474,12 @@ public class ShaderUniformCache {
         return this.storageBlocks.containsKey(name);
     }
 
+    /**
+     * Checks if a sampler uniform exists with the specified name.
+     *
+     * @param name The name of the sampler to check for
+     * @return Whether that uniform exists and is a sampler
+     */
     public boolean hasSampler(String name) {
         if (!this.requested) {
             this.updateUniforms();
@@ -429,48 +487,97 @@ public class ShaderUniformCache {
         return this.samplers.containsKey(name);
     }
 
+    /**
+     * @return A view of all sampler uniforms in the shader
+     */
     public Map<String, Uniform> getSamplers() {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.samplers;
+        return this.samplersView;
     }
 
+    /**
+     * @return A view of all uniforms in the shader
+     */
     public Map<String, Uniform> getUniforms() {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.uniforms;
+        return this.uniformsView;
     }
 
+    /**
+     * @return A view of all uniform blocks in the shader
+     */
     public Map<String, UniformBlock> getUniformBlocks() {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.uniformBlocks;
+        return this.uniformBlocksView;
     }
 
+    /**
+     * @return A view of all storage blocks in the shader
+     */
     public Map<String, StorageBlock> getStorageBlocks() {
         if (!this.requested) {
             this.updateUniforms();
         }
-        return this.storageBlocks;
+        return this.storageBlocksView;
     }
 
+    /**
+     * Checks if the specified GL shader type is a sampler.
+     *
+     * @param type The type to check
+     * @return Whether that GL type is a sampler
+     */
     public static boolean isSampler(int type) {
         return SAMPLERS.contains(type);
     }
 
+    /**
+     * Retrieves the human-readable name of the specified GL shader type.
+     *
+     * @param type The type to get the name of
+     * @return The human-readable name
+     */
     public static String getName(int type) {
         return NAMES.getOrDefault(type, "0x%04X".formatted(type));
     }
 
+    /**
+     * A single uniform in a shader program.
+     *
+     * @param name     The name of the uniform
+     * @param location The uniform location
+     * @param offset   The offset of this uniform relative to a containing block
+     * @param type     The GL variable type
+     */
     public record Uniform(String name, int location, int offset, int type) {
     }
 
+    /**
+     * A single uniform block in a shader program.
+     *
+     * @param name   The name of the uniform block
+     * @param index  The block index
+     * @param size   The size in bytes
+     * @param fields All fields in the block
+     */
     public record UniformBlock(String name, int index, int size, Uniform[] fields) {
     }
 
+    /**
+     * A single uniform block in a shader program.
+     *
+     * @param name        The name of the uniform block
+     * @param index       The block index
+     * @param size        The size in bytes
+     * @param arrayStride The stride between array elements
+     * @param fields      All fields in the block
+     */
     public record StorageBlock(String name, int index, int size, int arrayStride, Uniform[] fields) {
         public boolean array() {
             return this.arrayStride > 0;

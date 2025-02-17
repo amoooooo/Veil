@@ -15,6 +15,7 @@ import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
+import foundry.veil.api.client.render.shader.program.ShaderUniformCache;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import foundry.veil.api.client.render.texture.SamplerObject;
 import foundry.veil.api.client.render.texture.TextureFilter;
