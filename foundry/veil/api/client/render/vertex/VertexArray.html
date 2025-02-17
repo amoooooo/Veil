@@ -137,24 +137,27 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-first even-row-color"><code>protected final it.unimi.dsi.fastutil.ints.Int2IntMap</code></div>
 <div class="col-second even-row-color"><code><a href="#buffers" class="member-name-link">buffers</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected int</code></div>
-<div class="col-second odd-row-color"><code><a href="#drawMode" class="member-name-link">drawMode</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final int</code></div>
-<div class="col-second even-row-color"><code><a href="#ELEMENT_ARRAY_BUFFER" class="member-name-link">ELEMENT_ARRAY_BUFFER</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final int</code></div>
-<div class="col-second odd-row-color"><code><a href="#id" class="member-name-link">id</a></code></div>
+<div class="col-first odd-row-color"><code>protected final <a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#builder" class="member-name-link">builder</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>protected int</code></div>
-<div class="col-second even-row-color"><code><a href="#indexCount" class="member-name-link">indexCount</a></code></div>
+<div class="col-second even-row-color"><code><a href="#drawMode" class="member-name-link">drawMode</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#indexType" class="member-name-link">indexType</a></code></div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#ELEMENT_ARRAY_BUFFER" class="member-name-link">ELEMENT_ARRAY_BUFFER</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>static final int</code></div>
-<div class="col-second even-row-color"><code><a href="#VERTEX_BUFFER" class="member-name-link">VERTEX_BUFFER</a></code></div>
+<div class="col-first even-row-color"><code>protected final int</code></div>
+<div class="col-second even-row-color"><code><a href="#id" class="member-name-link">id</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected int</code></div>
+<div class="col-second odd-row-color"><code><a href="#indexCount" class="member-name-link">indexCount</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected <a href="VertexArray.IndexType.html" title="enum class in foundry.veil.api.client.render.vertex">VertexArray.IndexType</a></code></div>
+<div class="col-second even-row-color"><code><a href="#indexType" class="member-name-link">indexType</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final int</code></div>
+<div class="col-second odd-row-color"><code><a href="#VERTEX_BUFFER" class="member-name-link">VERTEX_BUFFER</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -168,7 +171,8 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="table-header col-second">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>protected </code></div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">VertexArray</a><wbr>(int&nbsp;id)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,java.util.function.Function)" class="member-name-link">VertexArray</a><wbr>(int&nbsp;id,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a>,<wbr><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a>&gt;&nbsp;builder)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -218,9 +222,9 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawInstanced(int)" class="member-name-link">drawInstanced</a><wbr>(int&nbsp;instances)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#free()" class="member-name-link">free</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -354,6 +358,12 @@ implements org.lwjgl.system.NativeResource</span></div>
 </section>
 </li>
 <li>
+<section class="detail" id="builder">
+<h3>builder</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">builder</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="buffers">
 <h3>buffers</h3>
 <div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">it.unimi.dsi.fastutil.ints.Int2IntMap</span>&nbsp;<span class="element-name">buffers</span></div>
@@ -386,10 +396,11 @@ implements org.lwjgl.system.NativeResource</span></div>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(int)">
+<section class="detail" id="&lt;init&gt;(int,java.util.function.Function)">
 <h3>VertexArray</h3>
 <div class="member-signature"><span class="annotations">@Internal
-</span><span class="modifiers">protected</span>&nbsp;<span class="element-name">VertexArray</span><wbr><span class="parameters">(int&nbsp;id)</span></div>
+</span><span class="modifiers">protected</span>&nbsp;<span class="element-name">VertexArray</span><wbr><span class="parameters">(int&nbsp;id,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;<a href="VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a>,<wbr><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a>&gt;&nbsp;builder)</span></div>
 </section>
 </li>
 </ul>
@@ -587,7 +598,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <li>
 <section class="detail" id="editFormat()">
 <h3>editFormat</h3>
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">editFormat</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></span>&nbsp;<span class="element-name">editFormat</span>()</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>A builder for applying changes to this array</dd>
