@@ -5,7 +5,7 @@
 <title>ShaderUniformCache (common 1.0.0 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: foundry.veil.impl.client.render.shader.program, class: ShaderUniformCache">
+<meta name="description" content="declaration: package: foundry.veil.api.client.render.shader.program, class: ShaderUniformCache">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -82,17 +82,21 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.impl.client.render.shader.program</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">foundry.veil.api.client.render.shader.program</a></div>
 <h1 title="Class ShaderUniformCache" class="title">Class ShaderUniformCache</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">foundry.veil.impl.client.render.shader.program.ShaderUniformCache</div>
+<div class="inheritance">foundry.veil.api.client.render.shader.program.ShaderUniformCache</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
-<div class="type-signature"><span class="annotations">@Internal
-</span><span class="modifiers">public class </span><span class="element-name type-name-label">ShaderUniformCache</span>
+<div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ShaderUniformCache</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Queries shader programs for all relevant uniform data.</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>1.0.0</dd>
+</dl>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -106,14 +110,20 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="ShaderUniformCache.StorageBlock.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.StorageBlock</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-second even-row-color"><code><a href="ShaderUniformCache.StorageBlock.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.StorageBlock</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">A single uniform block in a shader program.</div>
+</div>
 <div class="col-first odd-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second odd-row-color"><code><a href="ShaderUniformCache.Uniform.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.Uniform</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-second odd-row-color"><code><a href="ShaderUniformCache.Uniform.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.Uniform</a></code></div>
+<div class="col-last odd-row-color">
+<div class="block">A single uniform in a shader program.</div>
+</div>
 <div class="col-first even-row-color"><code>static final record&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="ShaderUniformCache.UniformBlock.html" class="type-name-link" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.UniformBlock</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-second even-row-color"><code><a href="ShaderUniformCache.UniformBlock.html" class="type-name-link" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.UniformBlock</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">A single uniform block in a shader program.</div>
+</div>
 </div>
 </section>
 </li>
@@ -143,46 +153,66 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clear()" class="member-name-link">clear</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Clears the cache, rebuilding it the next time <a href="#getUniform(java.lang.CharSequence)"><code>getUniform(CharSequence)</code></a> is called.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getName(int)" class="member-name-link">getName</a><wbr>(int&nbsp;type)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Retrieves the human-readable name of the specified GL shader type.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSamplers()" class="member-name-link">getSamplers</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.StorageBlock</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.StorageBlock</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStorageBlock(java.lang.String)" class="member-name-link">getStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.StorageBlock</a>&gt;</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves a storage block by name.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.StorageBlock</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStorageBlocks()" class="member-name-link">getStorageBlocks</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.Uniform</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.Uniform</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniform(java.lang.CharSequence)" class="member-name-link">getUniform</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.UniformBlock</a></code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves a uniform by name.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.UniformBlock</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniformBlock(java.lang.String)" class="member-name-link">getUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.UniformBlock</a>&gt;</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Retrieves a uniform block by name.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.UniformBlock</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniformBlocks()" class="member-name-link">getUniformBlocks</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUniforms()" class="member-name-link">getUniforms</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasSampler(java.lang.String)" class="member-name-link">hasSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if a sampler uniform exists with the specified name.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStorageBlock(java.lang.String)" class="member-name-link">hasStorageBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if a storage block exists by the specified name.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasUniform(java.lang.String)" class="member-name-link">hasUniform</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if a uniform exists by the specified name.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasUniformBlock(java.lang.String)" class="member-name-link">hasUniformBlock</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks if a uniform block exists by the specified name.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isSampler(int)" class="member-name-link">isSampler</a><wbr>(int&nbsp;type)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Checks if the specified GL shader type is a sampler.</div>
+</div>
 </div>
 </div>
 </div>
@@ -218,87 +248,167 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="clear()">
 <h3>clear</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
+<div class="block">Clears the cache, rebuilding it the next time <a href="#getUniform(java.lang.CharSequence)"><code>getUniform(CharSequence)</code></a> is called.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="getUniform(java.lang.CharSequence)">
 <h3>getUniform</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.Uniform</a></span>&nbsp;<span class="element-name">getUniform</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.Uniform</a></span>&nbsp;<span class="element-name">getUniform</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</span></div>
+<div class="block">Retrieves a uniform by name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the uniform to get</dd>
+<dt>Returns:</dt>
+<dd>The uniform found or <code>null</code> if it doesn't exist</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="hasUniform(java.lang.String)">
 <h3>hasUniform</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasUniform</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Checks if a uniform exists by the specified name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the uniform to check for</dd>
+<dt>Returns:</dt>
+<dd>Whether that uniform exists</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getUniformBlock(java.lang.String)">
 <h3>getUniformBlock</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.UniformBlock</a></span>&nbsp;<span class="element-name">getUniformBlock</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.UniformBlock</a></span>&nbsp;<span class="element-name">getUniformBlock</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Retrieves a uniform block by name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the uniform block to get</dd>
+<dt>Returns:</dt>
+<dd>The uniform block found or <code>null</code> if it doesn't exist</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="hasUniformBlock(java.lang.String)">
 <h3>hasUniformBlock</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasUniformBlock</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Checks if a uniform block exists by the specified name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the uniform block to check for</dd>
+<dt>Returns:</dt>
+<dd>Whether that uniform block exists</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getStorageBlock(java.lang.String)">
 <h3>getStorageBlock</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.StorageBlock</a></span>&nbsp;<span class="element-name">getStorageBlock</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.StorageBlock</a></span>&nbsp;<span class="element-name">getStorageBlock</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Retrieves a storage block by name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the storage block to get</dd>
+<dt>Returns:</dt>
+<dd>The storage block found or <code>null</code> if it doesn't exist</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="hasStorageBlock(java.lang.String)">
 <h3>hasStorageBlock</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasStorageBlock</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Checks if a storage block exists by the specified name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the storage block to check for</dd>
+<dt>Returns:</dt>
+<dd>Whether that storage block exists</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="hasSampler(java.lang.String)">
 <h3>hasSampler</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasSampler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Checks if a sampler uniform exists with the specified name.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the sampler to check for</dd>
+<dt>Returns:</dt>
+<dd>Whether that uniform exists and is a sampler</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getSamplers()">
 <h3>getSamplers</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</span>&nbsp;<span class="element-name">getSamplers</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</span>&nbsp;<span class="element-name">getSamplers</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A view of all sampler uniforms in the shader</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getUniforms()">
 <h3>getUniforms</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</span>&nbsp;<span class="element-name">getUniforms</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.Uniform.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.Uniform</a>&gt;</span>&nbsp;<span class="element-name">getUniforms</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A view of all uniforms in the shader</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getUniformBlocks()">
 <h3>getUniformBlocks</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.UniformBlock</a>&gt;</span>&nbsp;<span class="element-name">getUniformBlocks</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.UniformBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.UniformBlock</a>&gt;</span>&nbsp;<span class="element-name">getUniformBlocks</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A view of all uniform blocks in the shader</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getStorageBlocks()">
 <h3>getStorageBlocks</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderUniformCache.StorageBlock</a>&gt;</span>&nbsp;<span class="element-name">getStorageBlocks</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="ShaderUniformCache.StorageBlock.html" title="class in foundry.veil.api.client.render.shader.program">ShaderUniformCache.StorageBlock</a>&gt;</span>&nbsp;<span class="element-name">getStorageBlocks</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A view of all storage blocks in the shader</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="isSampler(int)">
 <h3>isSampler</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isSampler</span><wbr><span class="parameters">(int&nbsp;type)</span></div>
+<div class="block">Checks if the specified GL shader type is a sampler.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>type</code> - The type to check</dd>
+<dt>Returns:</dt>
+<dd>Whether that GL type is a sampler</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getName(int)">
 <h3>getName</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span><wbr><span class="parameters">(int&nbsp;type)</span></div>
+<div class="block">Retrieves the human-readable name of the specified GL shader type.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>type</code> - The type to get the name of</dd>
+<dt>Returns:</dt>
+<dd>The human-readable name</dd>
+</dl>
 </section>
 </li>
 </ul>
