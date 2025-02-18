@@ -58,7 +58,6 @@ public final class VeilRenderType extends RenderType {
     }
 
     private static final ShaderStateShard PARTICLE = VeilRenderBridge.shaderState(VeilShaders.PARTICLE);
-    private static final ShaderStateShard SKINNED_MESH = VeilRenderBridge.shaderState(VeilShaders.SKINNED_MESH);
 
     private static final BiFunction<ResourceLocation, Boolean, RenderType> QUASAR_PARTICLE = Util.memoize((texture, additive) -> {
         CompositeState state = RenderType.CompositeState.builder()
@@ -66,7 +65,7 @@ public final class VeilRenderType extends RenderType {
                 .setTextureState(new TextureStateShard(texture, false, false))
                 .setTransparencyState(additive ? ADDITIVE_TRANSPARENCY : TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
-                .setWriteMaskState(additive ? COLOR_WRITE : COLOR_DEPTH_WRITE)
+                .setWriteMaskState(COLOR_WRITE)
                 .createCompositeState(false);
         return create(Veil.MODID + ":quasar_particle", VeilVertexFormat.QUASAR_PARTICLE, VertexFormat.Mode.QUADS, SMALL_BUFFER_SIZE, false, !additive, state);
     });
