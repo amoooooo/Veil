@@ -293,7 +293,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                     copyName = newNode.getName();
                     specifiedType = newNode.getType();
                     GlslTree.GlslBlock pair = block.get();
-                    body = pair.node().getBody();
+                    body = pair.body();
                     index = pair.index() + 1;
 //                            pair.getFirst().add(pair.getSecond() + 1, GlslParser.parseExpression(copyName + " = " + sourceName));
                 }
@@ -306,7 +306,7 @@ public class DynamicBufferProcessor implements ShaderPreProcessor {
                     if (fields.size() == 1) {
                         specifiedType = fields.getFirst().getType();
                         GlslTree.GlslBlock pair = block.get();
-                        body = pair.node().getBody();
+                        body = pair.body();
                         index = pair.index() + 1;
                     }
                 }
