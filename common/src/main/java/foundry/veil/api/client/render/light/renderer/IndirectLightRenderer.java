@@ -169,7 +169,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     }
 
     private void updateAllLights(List<T> lights) {
-        ByteBuffer dataBuffer = glMapBuffer(GL_ARRAY_BUFFER, GL_MAP_WRITE_BIT, (long) lights.size() * this.lightSize, null);
+        ByteBuffer dataBuffer = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, (long) lights.size() * this.lightSize, null);
         if (dataBuffer == null) {
             return;
         }
