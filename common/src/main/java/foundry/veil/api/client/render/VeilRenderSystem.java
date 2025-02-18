@@ -88,6 +88,7 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier MULTIBIND_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_multi_bind);
     private static final BooleanSupplier SPARSE_BUFFERS_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_sparse_buffer);
     private static final BooleanSupplier DIRECT_STATE_ACCESS_SUPPORTED = glCapability(caps -> caps.OpenGL45 || caps.GL_ARB_direct_state_access);
+    private static final BooleanSupplier SEPARATE_SHADER_OBJECTS_SUPPORTED = glCapability(caps -> caps.OpenGL41|| caps.GL_ARB_separate_shader_objects);
     private static final BooleanSupplier CLEAR_TEXTURE_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_clear_texture);
     private static final BooleanSupplier COPY_IMAGE_SUPPORTED = glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_copy_image);
     private static final BooleanSupplier SHADER_STORAGE_BLOCK_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_shader_storage_buffer_object);
@@ -559,6 +560,13 @@ public final class VeilRenderSystem {
      */
     public static boolean directStateAccessSupported() {
         return VeilRenderSystem.DIRECT_STATE_ACCESS_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBSeparateShaderObjects} is supported
+     */
+    public static boolean separateShaderObjectsSupported() {
+        return VeilRenderSystem.SEPARATE_SHADER_OBJECTS_SUPPORTED.getAsBoolean();
     }
 
     /**

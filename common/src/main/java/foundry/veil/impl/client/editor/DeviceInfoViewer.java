@@ -105,6 +105,7 @@ public class DeviceInfoViewer extends SingleWindowInspector {
         flagText("inspector.veil.device_info.opengl.feature_flag.multi_bind", VeilRenderSystem.multibindSupported(), "Whether glBindTextures can be used instead of glBindTexture");
         flagText("inspector.veil.device_info.opengl.feature_flag.sparse_buffers", VeilRenderSystem.sparseBuffersSupported(), "Whether sparse buffers can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.direct_state_access", VeilRenderSystem.directStateAccessSupported(), "Whether direct state accesss can be used");
+        flagText("inspector.veil.device_info.opengl.feature_flag.separate_shader_objects", VeilRenderSystem.separateShaderObjectsSupported(), "Whether program pipelines can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.clear_texture", VeilRenderSystem.clearTextureSupported(), "Whether glClearTexImage can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.copy_image", VeilRenderSystem.copyImageSupported(), "Whether glCopyImageSubData can be used");
         flagText("inspector.veil.device_info.opengl.feature_flag.shader_storage_buffers", VeilRenderSystem.shaderStorageBufferSupported(), "Whether shader storage buffers can be used");
@@ -219,8 +220,6 @@ public class DeviceInfoViewer extends SingleWindowInspector {
         ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);
         this.renderOpenGL();
         ImGui.popStyleColor();
-        ImGui.endTabItem();
-
 //        if (ImGui.beginTabBar("##info")) {
 //            if (ImGui.beginTabItem(I18n.get("inspector.veil.device_info.opengl"))) {
 //                ImGui.pushStyleColor(ImGuiCol.Text, TEXT_COLOR);

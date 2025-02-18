@@ -244,18 +244,25 @@ public class ShaderUniformCache {
                     }
 
                     int length = values.get(1);
-                    String name = glGetProgramResourceName(program, GL_UNIFORM, i, values.get(2));
-                    for (int j = 0; j < length; j++) {
-                        if (length > 1) {
-                            name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
-                        }
+                    int type = values.get(4);
+                    String resourceName = glGetProgramResourceName(program, GL_UNIFORM, i, values.get(2));
+                    String baseName = resourceName.contains("[") ? resourceName.substring(0, resourceName.indexOf('[')) : resourceName;
 
+                    for (int j = 0; j < length; j++) {
+                        String name = length > 1 ? baseName + '[' + j + ']' : baseName;
                         int location = values.get(3) + j;
-                        int type = values.get(4);
-                        Uniform uniform = new Uniform(name, location, 0, type);
+                        Uniform uniform = new Uniform(name, location, 0, type, 1);
                         this.uniforms.put(name, uniform);
                         if (isSampler(type)) {
                             this.samplers.put(name, uniform);
+                        }
+                    }
+
+                    if (length > 1) {
+                        Uniform uniform = new Uniform(baseName, values.get(3), 0, type, length);
+                        this.uniforms.put(baseName, uniform);
+                        if (isSampler(type)) {
+                            this.samplers.put(baseName, uniform);
                         }
                     }
                 }
@@ -287,10 +294,10 @@ public class ShaderUniformCache {
                                 int stride = values.get(2);
                                 String nameBase = name.substring(0, name.length() - 3);
                                 for (int k = 0; k < arrayLength; k++) {
-                                    fields.add(new Uniform(nameBase + '[' + k + ']', -1, offset + stride * k, type));
+                                    fields.add(new Uniform(nameBase + '[' + k + ']', -1, offset + stride * k, type, 1));
                                 }
                             } else {
-                                fields.add(new Uniform(name, -1, offset, type));
+                                fields.add(new Uniform(name, -1, offset, type, 1));
                             }
                         }
                         this.uniformBlocks.put(blockName, new UniformBlock(blockName, i, size, fields.toArray(Uniform[]::new)));
@@ -321,10 +328,10 @@ public class ShaderUniformCache {
                                 int stride = values.get(2);
                                 String nameBase = name.substring(0, name.length() - 3);
                                 for (int k = 0; k < arrayLength; k++) {
-                                    fields.add(new Uniform(nameBase + '[' + k + ']', -1, offset + stride * k, type));
+                                    fields.add(new Uniform(nameBase + '[' + k + ']', -1, offset + stride * k, type, 1));
                                 }
                             } else {
-                                fields.add(new Uniform(name, -1, offset, type));
+                                fields.add(new Uniform(name, -1, offset, type, 1));
                             }
                         }
                     } finally {
@@ -334,7 +341,7 @@ public class ShaderUniformCache {
                     Uniform last = fields.getLast();
                     boolean array = last.name.endsWith("[0]");
                     if (array) {
-                        fields.set(fields.size() - 1, new Uniform(last.name.substring(0, last.name.length() - 3), last.location, last.offset, last.type));
+                        fields.set(fields.size() - 1, new Uniform(last.name.substring(0, last.name.length() - 3), last.location, last.offset, last.type, 1));
                     }
                     this.storageBlocks.put(blockName, new StorageBlock(blockName, i, size, values.get(2), fields.toArray(Uniform[]::new)));
                 }
@@ -351,23 +358,31 @@ public class ShaderUniformCache {
                 IntBuffer size = stack.mallocInt(1);
                 IntBuffer type = stack.mallocInt(1);
                 for (int i = 0; i < uniformCount; i++) {
-                    String name = glGetActiveUniform(program, i, maxUniformLength, size, type);
+                    String baseName = glGetActiveUniform(program, i, maxUniformLength, size, type);
 
                     // Don't include struct fields
-                    if (name.contains(".")) {
+                    if (baseName.contains(".")) {
                         continue;
                     }
 
                     int length = size.get(0);
+                    if (baseName.contains("[")) {
+                        baseName = baseName.substring(0, baseName.indexOf('['));
+                    }
                     for (int j = 0; j < length; j++) {
-                        if (length > 1) {
-                            name = name.substring(0, name.indexOf('[')) + '[' + j + ']';
-                        }
-
-                        Uniform uniform = new Uniform(name, glGetUniformLocation(program, name), 0, type.get(0));
+                        String name = length > 1 ? baseName + '[' + j + ']' : baseName;
+                        Uniform uniform = new Uniform(name, glGetUniformLocation(program, name), 0, type.get(0), 1);
                         this.uniforms.put(name, uniform);
                         if (isSampler(type.get(0))) {
                             this.samplers.put(name, uniform);
+                        }
+                    }
+
+                    if (length > 1) {
+                        Uniform uniform = new Uniform(baseName, glGetUniformLocation(program, baseName), 0, type.get(0), length);
+                        this.uniforms.put(baseName, uniform);
+                        if (isSampler(type.get(0))) {
+                            this.samplers.put(baseName, uniform);
                         }
                     }
                 }
@@ -385,7 +400,7 @@ public class ShaderUniformCache {
                             int index = fieldIndices.get(j);
                             String name = glGetActiveUniform(program, index, maxUniformLength, size, type);
                             int offset = glGetActiveUniformsi(program, index, GL_UNIFORM_OFFSET);
-                            fields[j] = new Uniform(name, glGetUniformLocation(program, name), offset, type.get(0));
+                            fields[j] = new Uniform(name, glGetUniformLocation(program, name), offset, type.get(0), 1);
                         }
                         this.uniformBlocks.put(blockName, new UniformBlock(blockName, i, bufferSize, fields));
                     } finally {
@@ -550,12 +565,13 @@ public class ShaderUniformCache {
     /**
      * A single uniform in a shader program.
      *
-     * @param name     The name of the uniform
-     * @param location The uniform location
-     * @param offset   The offset of this uniform relative to a containing block
-     * @param type     The GL variable type
+     * @param name        The name of the uniform
+     * @param location    The uniform location
+     * @param offset      The offset of this uniform relative to a containing block
+     * @param type        The GL variable type
+     * @param arrayLength The number of elements in the array if an array type
      */
-    public record Uniform(String name, int location, int offset, int type) {
+    public record Uniform(String name, int location, int offset, int type, int arrayLength) {
     }
 
     /**
