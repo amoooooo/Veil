@@ -38,12 +38,10 @@ public class VeilDynamicRegistry {
      */
     @SuppressWarnings("RedundantOperationOnEmptyContainer")
     public static Data loadRegistries(ResourceManager resourceManager, Collection<RegistryDataLoader.RegistryData<?>> registries) {
-        Map<ResourceKey<?>, Exception> errors = new HashMap<>();
-
         LOADING.set(true);
-        Map<ResourceKey<?>, Exception> map = new HashMap<>();
+        Map<ResourceKey<?>, Exception> errors = new HashMap<>();
         List<RegistryDataLoader.Loader<?>> list = registries.stream()
-                .map(data -> ((RegistryDataAccessor) (Object) data).invokeCreate(Lifecycle.stable(), map))
+                .map(data -> ((RegistryDataAccessor) (Object) data).invokeCreate(Lifecycle.stable(), errors))
                 .collect(Collectors.toUnmodifiableList());
         RegistryOps.RegistryInfoLookup ctx = RegistryDataLoader.createContext(RegistryAccess.EMPTY, list);
         list.forEach(loader -> loader.loadFromResources(resourceManager, ctx));
@@ -53,11 +51,11 @@ public class VeilDynamicRegistry {
             try {
                 registry.freeze();
             } catch (Exception e) {
-                map.put(registry.key(), e);
+                errors.put(registry.key(), e);
             }
 
             if (loader.data().requiredNonEmpty() && registry.size() == 0) {
-                map.put(registry.key(), new IllegalStateException("Registry must be non-empty"));
+                errors.put(registry.key(), new IllegalStateException("Registry must be non-empty"));
             }
         });
         LOADING.set(false);
