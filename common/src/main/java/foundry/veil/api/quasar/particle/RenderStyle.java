@@ -80,7 +80,7 @@ public interface RenderStyle {
     final class Billboard implements RenderStyle {
         private static final Vector3fc[] PLANE_POSITIONS = {
                 // plane from -1 to 1 on Y axis and -1 to 1 on X axis
-                new Vector3f(-1, -1, 0), new Vector3f(-1, 1, 0), new Vector3f(1, 1, 0), new Vector3f(1, -1, 0)
+                new Vector3f(1, -1, 0), new Vector3f(1, 1, 0), new Vector3f(-1, 1, 0), new Vector3f(-1, -1, 0),
         };
         private static final float[] PLANE_UVS = {0, 0, 0, 1, 1, 1, 1, 0};
         private static final Vector3f POS = new Vector3f();
