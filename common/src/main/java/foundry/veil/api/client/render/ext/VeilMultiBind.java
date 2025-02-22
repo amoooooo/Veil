@@ -139,10 +139,10 @@ public enum VeilMultiBind {
             GLCapabilities caps = GL.getCapabilities();
             if (caps.OpenGL44 || caps.GL_ARB_multi_bind) {
                 multiBind = SUPPORTED;
-                Veil.LOGGER.info("Texture Multi-Bind supported, using core");
+                Veil.LOGGER.info("Multi-Bind supported, using core");
             } else {
                 multiBind = LEGACY;
-                Veil.LOGGER.info("Texture Multi-Bind unsupported, using legacy");
+                Veil.LOGGER.info("Multi-Bind unsupported, using legacy");
             }
         }
         return multiBind;

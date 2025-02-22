@@ -2,6 +2,7 @@ package foundry.veil.impl.client.render.shader.program;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.shaders.Program;
 import com.mojang.blaze3d.shaders.Shader;
 import com.mojang.blaze3d.shaders.Uniform;
@@ -12,10 +13,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.api.client.render.shader.*;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
-import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
-import foundry.veil.api.client.render.shader.program.ProgramDefinition;
-import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.api.client.render.shader.program.ShaderUniformCache;
+import foundry.veil.api.client.render.shader.program.*;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import foundry.veil.api.client.render.texture.SamplerObject;
 import foundry.veil.api.client.render.texture.TextureFilter;
@@ -62,6 +60,12 @@ public class ShaderProgramImpl implements ShaderProgram {
     private static final Matrix4f MODEL_VIEW_MATRIX = new Matrix4f();
     private static final Matrix4f PROJECTION_MATRIX = new Matrix4f();
 
+    private static boolean restoreEquation = false;
+    private static int srcColorFactor = -1;
+    private static int dstColorFactor = -1;
+    private static int srcAlphaFactor = -1;
+    private static int dstAlphaFactor = -1;
+
     private final ResourceLocation name;
     private final ShaderTextureCache textures;
     private final Int2ObjectMap<CompiledProgram> programs;
@@ -89,6 +93,38 @@ public class ShaderProgramImpl implements ShaderProgram {
                 Wrapper.constructingProgram = null;
             }
         });
+    }
+
+    /**
+     * Saves the current blend state to be restored later with {@link #restoreBlendState()}.
+     *
+     * @param saveEquation Whether the blend equation needs to be reset after
+     */
+    public static void saveBlendState(boolean saveEquation) {
+        restoreEquation = saveEquation;
+        srcColorFactor = GlStateManager.BLEND.srcRgb;
+        dstColorFactor = GlStateManager.BLEND.dstRgb;
+        srcAlphaFactor = GlStateManager.BLEND.srcAlpha;
+        dstAlphaFactor = GlStateManager.BLEND.dstAlpha;
+    }
+
+    /**
+     * Restores the previously saved blend state.
+     */
+    public static void restoreBlendState() {
+        if (srcColorFactor == -1) {
+            return;
+        }
+
+        if (restoreEquation) {
+            glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+        }
+        GlStateManager._blendFuncSeparate(srcColorFactor, dstColorFactor, srcAlphaFactor, dstAlphaFactor);
+        srcColorFactor = -1;
+        dstColorFactor = -1;
+        srcAlphaFactor = -1;
+        dstAlphaFactor = -1;
+        restoreEquation = false;
     }
 
     /**
@@ -178,6 +214,11 @@ public class ShaderProgramImpl implements ShaderProgram {
         VeilRenderSystem.clearShaderBlocks();
         for (Object2ObjectMap.Entry<CharSequence, ShaderBlock<?>> entry : this.shaderBlocks.object2ObjectEntrySet()) {
             VeilRenderSystem.bind(entry.getKey(), entry.getValue());
+        }
+        ShaderBlendMode blendMode = this.definition.blendMode();
+        if (blendMode != null) {
+            saveBlendState(blendMode.hasEquation());
+            blendMode.apply();
         }
         ShaderProgram.super.bind();
     }

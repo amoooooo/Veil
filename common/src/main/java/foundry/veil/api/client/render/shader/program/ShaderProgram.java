@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.CompiledShader;
 import foundry.veil.api.client.render.shader.ShaderManager;
+import foundry.veil.impl.client.render.shader.program.ShaderProgramImpl;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.ShaderInstance;
@@ -38,8 +39,11 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
      * Binds this program for use.
      */
     default void bind() {
-        GlStateManager._glUseProgram(this.getProgram());
-        ShaderInstance.lastProgramId = -1;
+        int program = this.getProgram();
+        if (ShaderInstance.lastProgramId != program) {
+            ShaderInstance.lastProgramId = program;
+            GlStateManager._glUseProgram(program);
+        }
         EffectInstance.lastProgramId = -1;
     }
 
@@ -52,6 +56,7 @@ public interface ShaderProgram extends NativeResource, MutableUniformAccess, Tex
         ShaderInstance.lastProgramId = -1;
         EffectInstance.lastProgramId = -1;
         VeilRenderSystem.unbindSamplers(0, VeilRenderSystem.maxCombinedTextureUnits());
+        ShaderProgramImpl.restoreBlendState();
     }
 
     /**

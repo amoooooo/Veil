@@ -37,6 +37,7 @@ import static org.lwjgl.opengl.GL43C.GL_COMPUTE_SHADER;
  * @param definitionDefaults    The default values for definitions
  * @param textures              The textures to bind when using this shader
  * @param shaders               A map of all sources and their OpenGL types for convenience
+ * @param blendMode             The blend mode to use or <code>null</code> to use the current blend mode
  * @author Ocelot
  */
 public record ProgramDefinition(@Nullable ResourceLocation vertex,
@@ -48,7 +49,8 @@ public record ProgramDefinition(@Nullable ResourceLocation vertex,
                                 String[] definitions,
                                 Map<String, String> definitionDefaults,
                                 Map<String, ShaderTextureSource> textures,
-                                Int2ObjectMap<ResourceLocation> shaders) {
+                                Int2ObjectMap<ResourceLocation> shaders,
+                                @Nullable ShaderBlendMode blendMode) {
 
     public Map<String, String> getMacros(Set<String> dependencies, ShaderPreDefinitions definitions) {
         Map<String, String> macros = new HashMap<>(definitions.getStaticDefinitions());
@@ -144,6 +146,16 @@ public record ProgramDefinition(@Nullable ResourceLocation vertex,
             }
 
             Map<String, ShaderTextureSource> textures = json.has("textures") ? this.deserializeTextures(json.getAsJsonObject("textures")) : Collections.emptyMap();
+            ShaderBlendMode blendMode;
+            if (json.has("blend")) {
+                DataResult<ShaderBlendMode> result = ShaderBlendMode.CODEC.parse(JsonOps.INSTANCE, json.get("blend"));
+                if (result.isError()) {
+                    throw new JsonSyntaxException(result.error().orElseThrow().message());
+                }
+                blendMode = result.result().orElseThrow();
+            } else {
+                blendMode = null;
+            }
 
             Int2ObjectMap<ResourceLocation> sources = new Int2ObjectArrayMap<>();
             if (vertex != null) {
@@ -174,7 +186,8 @@ public record ProgramDefinition(@Nullable ResourceLocation vertex,
                     definitions,
                     definitionDefaults,
                     textures,
-                    Int2ObjectMaps.unmodifiable(sources));
+                    Int2ObjectMaps.unmodifiable(sources),
+                    blendMode);
         }
     }
 }

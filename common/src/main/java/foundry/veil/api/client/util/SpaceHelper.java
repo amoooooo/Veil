@@ -10,6 +10,7 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+@Deprecated
 public class SpaceHelper {
     //    public static Vector3f getNormalizedDeviceCoordsFromViewport(float x, float y, float z, float width, float height) {
 //        float rx = (2.0f * x) / width - 1.0f;
