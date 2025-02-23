@@ -2,6 +2,7 @@ package foundry.veil.api.resource.type;
 
 import foundry.veil.api.client.imgui.VeilImGuiUtil;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.compat.SodiumCompat;
 import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
@@ -10,12 +11,15 @@ import foundry.veil.api.util.CompositeReloadListener;
 import foundry.veil.ext.TextureAtlasExtension;
 import foundry.veil.mixin.resource.accessor.ResourceAtlasSetAccessor;
 import foundry.veil.mixin.resource.accessor.ResourceModelManagerAccessor;
+import foundry.veil.mixin.resource.accessor.ResourceTextureAtlasAccessor;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.SpriteLoader;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.resources.model.AtlasSet;
@@ -98,16 +102,32 @@ public record TextureResource(VeilResourceInfo resourceInfo) implements VeilReso
         }
 
         // FIXME fluids and item models still retain the old sprite objects, so they don't animate after this
-        // The model manager has to be reloaded to make sure the sprites are correctly updated
-        if (reloadRequired) {
-            CompositeReloadListener.of(modelManager, client.getBlockRenderer(), client.getItemRenderer()).reload(
-                    CompletableFuture::completedFuture,
-                    resources,
-                    InactiveProfiler.INSTANCE,
-                    InactiveProfiler.INSTANCE,
-                    Util.backgroundExecutor(),
-                    client
-            ).thenRunAsync(VeilRenderSystem::rebuildChunks, VeilRenderSystem.renderThreadExecutor());
+        if (SodiumCompat.INSTANCE != null) {
+            // The model manager has to be reloaded to make sure the sprites are correctly updated on Sodium
+            if (reloadRequired) {
+                CompositeReloadListener.of(modelManager, client.getBlockRenderer(), client.getItemRenderer()).reload(
+                        CompletableFuture::completedFuture,
+                        resources,
+                        InactiveProfiler.INSTANCE,
+                        InactiveProfiler.INSTANCE,
+                        Util.backgroundExecutor(),
+                        client
+                ).thenRunAsync(VeilRenderSystem::rebuildChunks, VeilRenderSystem.renderThreadExecutor());
+            }
+        } else {
+            for (Map.Entry<ResourceLocation, AtlasSet.AtlasEntry> entry : ((ResourceAtlasSetAccessor) atlases).getAtlases().entrySet()) {
+                TextureAtlas atlas = entry.getValue().atlas();
+                if (((TextureAtlasExtension) atlas).veil$hasTexture(id)) {
+                    int mipLevel = ((ResourceTextureAtlasAccessor) atlas).getMipLevel();
+                    SpriteLoader.create(atlas)
+                            .loadAndStitch(resources, entry.getValue().atlasInfoLocation(), mipLevel, Util.backgroundExecutor())
+                            .thenCompose(SpriteLoader.Preparations::waitForUpload)
+                            .thenAcceptAsync(preparations -> {
+                                atlas.upload(preparations);
+                                VeilRenderSystem.rebuildChunks();
+                            }, VeilRenderSystem.renderThreadExecutor());
+                }
+            }
         }
     }
 
