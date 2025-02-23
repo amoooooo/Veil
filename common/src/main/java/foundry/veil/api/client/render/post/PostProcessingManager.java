@@ -138,6 +138,8 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(GL_ALWAYS);
         RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
     }
 
     private void clear() {
@@ -145,6 +147,7 @@ public class PostProcessingManager extends CodecReloadListener<CompositePostPipe
         RenderSystem.depthFunc(GL_LEQUAL);
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(true);
+        RenderSystem.disableBlend();
     }
 
     private void clearPipeline() {
