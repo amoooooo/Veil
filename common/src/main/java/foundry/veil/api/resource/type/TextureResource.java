@@ -6,6 +6,7 @@ import foundry.veil.api.resource.VeilResource;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
 import foundry.veil.api.resource.VeilResourceManager;
+import foundry.veil.api.util.CompositeReloadListener;
 import foundry.veil.ext.TextureAtlasExtension;
 import foundry.veil.mixin.resource.accessor.ResourceAtlasSetAccessor;
 import foundry.veil.mixin.resource.accessor.ResourceModelManagerAccessor;
@@ -14,16 +15,19 @@ import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.SpriteLoader;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
 import net.minecraft.client.resources.model.AtlasSet;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.InactiveProfiler;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public record TextureResource(VeilResourceInfo resourceInfo) implements VeilResource<TextureResource> {
 
@@ -69,28 +73,41 @@ public record TextureResource(VeilResourceInfo resourceInfo) implements VeilReso
         return true;
     }
 
+    @SuppressWarnings({"ConstantValue", "DataFlowIssue"})
     @Override
     public void hotReload(VeilResourceManager resourceManager) throws IOException {
         ResourceLocation location = this.resourceInfo.location();
         ResourceManager resources = resourceManager.resources(this.resourceInfo);
         Minecraft client = Minecraft.getInstance();
-        client.getTextureManager().release(location);
+        TextureManager textureManager = client.getTextureManager();
+        AbstractTexture texture = textureManager.getTexture(location, null);
+        if (texture != null) {
+            texture.reset(textureManager, resources, location, client);
+        }
 
-        ResourceModelManagerAccessor modelManager = (ResourceModelManagerAccessor) client.getModelManager();
-        int mipLevel = modelManager.getMaxMipmapLevels();
-        AtlasSet atlases = modelManager.getAtlases();
+        ModelManager modelManager = client.getModelManager();
+        AtlasSet atlases = ((ResourceModelManagerAccessor) modelManager).getAtlases();
         ResourceLocation id = SpriteSource.TEXTURE_ID_CONVERTER.fileToId(location);
 
+        boolean reloadRequired = false;
         for (Map.Entry<ResourceLocation, AtlasSet.AtlasEntry> entry : ((ResourceAtlasSetAccessor) atlases).getAtlases().entrySet()) {
-            TextureAtlas atlas = entry.getValue().atlas();
-            if (((TextureAtlasExtension) atlas).veil$hasTexture(id)) {
-                SpriteLoader.create(atlas)
-                        .loadAndStitch(resources, entry.getValue().atlasInfoLocation(), mipLevel, Util.backgroundExecutor())
-                        .thenAcceptAsync(preparations -> {
-                            atlas.upload(preparations);
-                            VeilRenderSystem.rebuildChunks();
-                        }, VeilRenderSystem.renderThreadExecutor());
+            if (((TextureAtlasExtension) entry.getValue().atlas()).veil$hasTexture(id)) {
+                reloadRequired = true;
+                break;
             }
+        }
+
+        // FIXME fluids and item models still retain the old sprite objects, so they don't animate after this
+        // The model manager has to be reloaded to make sure the sprites are correctly updated
+        if (reloadRequired) {
+            CompositeReloadListener.of(modelManager, client.getBlockRenderer(), client.getItemRenderer()).reload(
+                    CompletableFuture::completedFuture,
+                    resources,
+                    InactiveProfiler.INSTANCE,
+                    InactiveProfiler.INSTANCE,
+                    Util.backgroundExecutor(),
+                    client
+            ).thenRunAsync(VeilRenderSystem::rebuildChunks, VeilRenderSystem.renderThreadExecutor());
         }
     }
 

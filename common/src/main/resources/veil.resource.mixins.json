@@ -10,6 +10,7 @@
   "client": [
     "accessor.ResourceAtlasSetAccessor",
     "accessor.ResourceModelManagerAccessor",
+    "accessor.ResourceTextureAtlasAccessor",
     "client.ResourceTextureAtlasMixin"
   ],
   "injectors": {

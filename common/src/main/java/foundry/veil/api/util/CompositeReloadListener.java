@@ -58,12 +58,11 @@ public final class CompositeReloadListener implements PreparableReloadListener {
         for (PreparableReloadListener listener : this.listeners) {
             PreparationBarrier barrier = new PreparationBarrier() {
                 @Override
-                public <T> @NotNull CompletableFuture<T> wait(@Nullable T value) {
-                    preparingListeners.remove(listener);
-                    if (preparingListeners.isEmpty()) {
+                public <T> @NotNull CompletableFuture<T> wait(@Nullable T backgroundResult) {
+                    if (preparingListeners.remove(listener) && preparingListeners.isEmpty()) {
                         preparationBarrier.wait(null).thenRun(() -> allComplete.complete(Unit.INSTANCE));
                     }
-                    return allComplete.thenApply(unused -> value);
+                    return allComplete.thenApply(unused -> backgroundResult);
                 }
             };
             futures.add(listener.reload(barrier, resourceManager, prepareProfiler, applyProfiler, backgroundExecutor, gameExecutor));
