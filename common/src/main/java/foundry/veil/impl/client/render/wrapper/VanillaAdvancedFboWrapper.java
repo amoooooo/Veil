@@ -2,6 +2,7 @@ package foundry.veil.impl.client.render.wrapper;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboAttachment;
@@ -32,11 +33,17 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
     private final Supplier<AttachmentWrapper> depthBuffer;
     private final int[] drawBuffers;
 
+    private boolean hasStencil;
+    private int depthTextureCache;
+
     public VanillaAdvancedFboWrapper(Supplier<RenderTarget> renderTargetSupplier) {
         this.renderTargetSupplier = renderTargetSupplier;
         this.colorBuffer = Suppliers.memoize(() -> new AttachmentWrapper(this, () -> this.toRenderTarget().getColorTextureId(), GL_COLOR_ATTACHMENT0));
         this.depthBuffer = Suppliers.memoize(() -> new AttachmentWrapper(this, () -> this.toRenderTarget().getDepthTextureId(), GL_DEPTH_ATTACHMENT));
         this.drawBuffers = new int[]{GL_COLOR_ATTACHMENT0};
+
+        this.hasStencil = false;
+        this.depthTextureCache = 0;
     }
 
     @Override
@@ -102,6 +109,9 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
 
     @Override
     public int getClearMask() {
+        if (this.hasStencilAttachment()) {
+            return GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
+        }
         return GL_COLOR_BUFFER_BIT | (this.toRenderTarget().useDepth ? GL_DEPTH_BUFFER_BIT : 0);
     }
 
@@ -118,6 +128,24 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
     @Override
     public boolean hasDepthAttachment() {
         return this.toRenderTarget().useDepth;
+    }
+
+    @Override
+    public boolean hasStencilAttachment() {
+        RenderTarget renderTarget = this.toRenderTarget();
+        if (!renderTarget.useDepth) {
+            return false;
+        }
+
+        int depthTextureId = renderTarget.getDepthTextureId();
+        if (this.depthTextureCache == depthTextureId) {
+            return this.hasStencil;
+        }
+
+        this.depthTextureCache = renderTarget.getDepthTextureId();
+        GlStateManager._bindTexture(depthTextureId);
+        int format = glGetTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_INTERNAL_FORMAT);
+        return this.hasStencil = format == GL_DEPTH_STENCIL || format == GL_DEPTH24_STENCIL8 || format == GL_DEPTH32F_STENCIL8;
     }
 
     @Override

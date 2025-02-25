@@ -12,6 +12,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.Locale;
@@ -74,7 +75,6 @@ public class DSAAdvancedFboImpl extends AdvancedFboImpl {
             FloatBuffer color = stack.floats(red, green, blue, alpha);
 
             if ((clearMask & GL_COLOR_BUFFER_BIT) != 0) {
-                this.drawBuffers(buffers);
                 for (int buffer : buffers) {
                     int i = buffer - GL_COLOR_ATTACHMENT0;
                     if (i >= 0 && i < this.colorAttachments.length) {
@@ -86,14 +86,37 @@ public class DSAAdvancedFboImpl extends AdvancedFboImpl {
                         }
                     }
                 }
-                this.resetDrawBuffers();
             }
 
-            if ((clearMask & GL_DEPTH_BUFFER_BIT) != 0 && this.depthAttachment != null) {
-                if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
-                    glClearTexImage(texture.getId(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, stack.floats(1.0F));
+            if (this.depthAttachment != null) {
+                boolean depth = (clearMask & GL_DEPTH_BUFFER_BIT) != 0;
+                boolean stencil = this.hasStencil && (clearMask & GL_STENCIL_BUFFER_BIT) != 0;
+                if (!depth && !stencil) {
+                    return;
+                }
+
+                if (this.hasStencil) {
+                    if (depth && stencil) {
+                        if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
+                            glClearTexImage(texture.getId(), 0, GL_DEPTH_STENCIL, GL_FLOAT_32_UNSIGNED_INT_24_8_REV, (ByteBuffer) null);
+                        } else {
+                            glClearNamedFramebufferfi(this.id, GL_DEPTH_STENCIL, 0, 1.0F, 0);
+                        }
+                    } else {
+                        // Can't clear the texture if only clearing depth or stencil
+                        if (depth) {
+                            glClearNamedFramebufferfv(this.id, GL_DEPTH, 0, stack.floats(1.0F));
+                        }
+                        if (stencil) {
+                            glClearNamedFramebufferiv(this.id, GL_STENCIL, 0, stack.ints(0));
+                        }
+                    }
                 } else {
-                    glClearNamedFramebufferfv(this.id, GL_DEPTH, 0, stack.floats(1.0F));
+                    if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
+                        glClearTexImage(texture.getId(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, stack.floats(1.0F));
+                    } else {
+                        glClearNamedFramebufferfv(this.id, GL_DEPTH, 0, stack.floats(1.0F));
+                    }
                 }
             }
         }

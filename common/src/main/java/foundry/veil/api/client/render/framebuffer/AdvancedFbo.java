@@ -28,7 +28,7 @@ import static org.lwjgl.opengl.GL30C.*;
  * <p>In order to resize, {@link #free()} must be called and a new framebuffer should be created.
  * Multiple color buffers of different types and depth attachments can be added.</p>
  * <p>Draw buffers are set automatically, but the default can be retrieved with {@link #getDrawBuffers()}
- * to effectively reset it. The draw buffers are set once by default and must be reset back if modified.</p>
+ * to effectively reset it. The draw buffers are set once by default and must be reset back with {@link #resetDrawBuffers()} if modified.</p>
  *
  * @author Ocelot
  * @see Builder
@@ -283,6 +283,11 @@ public interface AdvancedFbo extends NativeResource {
      * @return Whether there is a depth attachment added to this framebuffer
      */
     boolean hasDepthAttachment();
+
+    /**
+     * @return Whether a depth-stencil attachment is added to this framebuffer
+     */
+    boolean hasStencilAttachment();
 
     /**
      * Checks the attachments for the specified slot.
@@ -664,7 +669,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param format The new format to use
          */
         public Builder setFormat(FramebufferAttachmentDefinition.Format format) {
-            return this.setFormat(format.getId(), format.getInternalId());
+            return this.setFormat(format.getFormat(), format.getInternalFormat());
         }
 
         /**
@@ -837,7 +842,11 @@ public interface AdvancedFbo extends NativeResource {
          * @param layer     The layer of the texture to use
          */
         public Builder addColorTextureWrapper(int textureId, int layer) {
-            return this.addColorBuffer(new AdvancedFboMutableTextureAttachment(GL_COLOR_ATTACHMENT0, textureId, layer, this.name));
+            return this.addColorBuffer(new AdvancedFboMutableTextureAttachment(
+                    GL_COLOR_ATTACHMENT0,
+                    textureId,
+                    layer,
+                    this.name));
         }
 
         /**
@@ -874,7 +883,9 @@ public interface AdvancedFbo extends NativeResource {
          * @param dataType The format of the data internally
          */
         public Builder addColorTextureBuffer(int width, int height, int dataType) {
-            return this.addColorBuffer(new AdvancedFboTextureAttachment(GL_COLOR_ATTACHMENT0,
+            Validate.isTrue(this.format != GL_DEPTH_COMPONENT && this.format != GL_DEPTH_STENCIL, "A color renderable format must be specified for color attachments");
+            return this.addColorBuffer(new AdvancedFboTextureAttachment(
+                    GL_COLOR_ATTACHMENT0,
                     this.internalFormat,
                     this.format,
                     dataType,
@@ -901,7 +912,9 @@ public interface AdvancedFbo extends NativeResource {
          * @param height The height of the render buffer
          */
         public Builder addColorRenderBuffer(int width, int height) {
-            return this.addColorBuffer(new AdvancedFboRenderAttachment(GL_COLOR_ATTACHMENT0,
+            Validate.isTrue(this.format != GL_DEPTH_COMPONENT && this.format != GL_DEPTH_STENCIL, "A color renderable format must be specified for color attachments");
+            return this.addColorBuffer(new AdvancedFboRenderAttachment(
+                    GL_COLOR_ATTACHMENT0,
                     this.internalFormat,
                     width,
                     height,
@@ -914,7 +927,6 @@ public interface AdvancedFbo extends NativeResource {
          * @param attachment The attachment to add
          */
         public Builder setDepthBuffer(@Nullable AdvancedFboAttachment attachment) {
-            Validate.isTrue(attachment == null || this.depthAttachment == null, "Only one depth attachment can be applied to an FBO.");
             this.depthAttachment = attachment;
             this.reset();
             return this;
@@ -936,14 +948,18 @@ public interface AdvancedFbo extends NativeResource {
          * @param layer     The layer of the texture to use
          */
         public Builder setDepthTextureWrapper(int textureId, int layer) {
-            return this.setDepthBuffer(new AdvancedFboMutableTextureAttachment(GL_DEPTH_ATTACHMENT, textureId, layer, this.name));
+            return this.setDepthBuffer(new AdvancedFboMutableTextureAttachment(
+                    GL_DEPTH_ATTACHMENT,
+                    textureId,
+                    layer,
+                    this.name));
         }
 
         /**
          * Sets the depth texture buffer to the size of the framebuffer and {@link GL11C#GL_FLOAT GL_FLOAT} as the format.
          */
         public Builder setDepthTextureBuffer() {
-            return this.setDepthTextureBuffer(this.width, this.height, GL_FLOAT);
+            return this.setDepthTextureBuffer(this.width, this.height, this.format == GL_DEPTH_STENCIL ? GL_UNSIGNED_INT_24_8 : GL_FLOAT);
         }
 
         /**
@@ -953,7 +969,7 @@ public interface AdvancedFbo extends NativeResource {
          * @param height The height of the texture buffer
          */
         public Builder setDepthTextureBuffer(int width, int height) {
-            return this.setDepthTextureBuffer(width, height, GL_FLOAT);
+            return this.setDepthTextureBuffer(width, height, this.format == GL_DEPTH_STENCIL ? GL_UNSIGNED_INT_24_8 : GL_FLOAT);
         }
 
         /**
@@ -973,7 +989,9 @@ public interface AdvancedFbo extends NativeResource {
          * @param dataType The format of the data internally
          */
         public Builder setDepthTextureBuffer(int width, int height, int dataType) {
-            return this.setDepthBuffer(new AdvancedFboTextureAttachment(GL_DEPTH_ATTACHMENT,
+            Validate.isTrue(this.format == GL_DEPTH_COMPONENT || this.format == GL_DEPTH_STENCIL, "A depth or depth stencil format must be specified for depth attachments");
+            return this.setDepthBuffer(new AdvancedFboTextureAttachment(
+                    this.format == GL_DEPTH_STENCIL ? GL_DEPTH_STENCIL_ATTACHMENT : GL_DEPTH_ATTACHMENT,
                     this.internalFormat,
                     this.format,
                     dataType,
@@ -1000,8 +1018,10 @@ public interface AdvancedFbo extends NativeResource {
          * @param height The height of the render buffer
          */
         public Builder setDepthRenderBuffer(int width, int height) {
-            return this.setDepthBuffer(new AdvancedFboRenderAttachment(GL_DEPTH_ATTACHMENT,
-                    GL_DEPTH_COMPONENT24,
+            Validate.isTrue(this.format == GL_DEPTH_COMPONENT || this.format == GL_DEPTH_STENCIL, "A depth or depth stencil format must be specified for depth attachments");
+            return this.setDepthBuffer(new AdvancedFboRenderAttachment(
+                    this.format,
+                    this.internalFormat,
                     width,
                     height,
                     this.levels));

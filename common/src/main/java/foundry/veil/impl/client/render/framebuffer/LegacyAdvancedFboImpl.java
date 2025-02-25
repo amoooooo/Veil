@@ -13,6 +13,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.Locale;
@@ -98,11 +99,35 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
                 this.resetDrawBuffers();
             }
 
-            if ((clearMask & GL_DEPTH_BUFFER_BIT) != 0 && this.depthAttachment != null) {
-                if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
-                    glClearTexImage(texture.getId(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, stack.floats(1.0F));
+            if (this.depthAttachment != null) {
+                boolean depth = (clearMask & GL_DEPTH_BUFFER_BIT) != 0;
+                boolean stencil = this.hasStencil && (clearMask & GL_STENCIL_BUFFER_BIT) != 0;
+                if (!depth && !stencil) {
+                    return;
+                }
+
+                if (this.hasStencil) {
+                    if (depth && stencil) {
+                        if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
+                            glClearTexImage(texture.getId(), 0, GL_DEPTH_STENCIL, GL_FLOAT_32_UNSIGNED_INT_24_8_REV, (ByteBuffer) null);
+                        } else {
+                            glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0F, 0);
+                        }
+                    } else {
+                        // Can't clear the texture if only clearing depth or stencil
+                        if (depth) {
+                            glClearBufferfv(GL_DEPTH, 0, stack.floats(1.0F));
+                        }
+                        if (stencil) {
+                            glClearBufferiv(GL_STENCIL, 0, stack.ints(0));
+                        }
+                    }
                 } else {
-                    glClearBufferfv(GL_DEPTH, 0, stack.floats(1.0F));
+                    if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
+                        glClearTexImage(texture.getId(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, stack.floats(1.0F));
+                    } else {
+                        glClearBufferfv(GL_DEPTH, 0, stack.floats(1.0F));
+                    }
                 }
             }
 

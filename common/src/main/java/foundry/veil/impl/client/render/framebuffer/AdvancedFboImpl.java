@@ -47,6 +47,7 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
     protected int height;
     protected final AdvancedFboAttachment[] colorAttachments;
     protected final AdvancedFboAttachment depthAttachment;
+    protected final boolean hasStencil;
     protected final String debugLabel;
     protected final int clearMask;
     protected final int[] drawBuffers;
@@ -59,6 +60,7 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
         this.height = height;
         this.colorAttachments = colorAttachments;
         this.depthAttachment = depthAttachment;
+        this.hasStencil = depthAttachment != null && depthAttachment.getFormat() == GL_DEPTH_STENCIL;
         this.debugLabel = debugLabel;
 
         int mask = 0;
@@ -74,62 +76,6 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
                 .toArray();
         this.wrapper = Suppliers.memoize(() -> new Wrapper(this));
     }
-
-//    @Override
-//    public void create() {
-//        for (AdvancedFboAttachment attachment : this.colorAttachments) {
-//            attachment.create();
-//        }
-//        if (this.depthAttachment != null) {
-//            this.depthAttachment.create();
-//        }
-//
-//        if (VeilRenderSystem.directStateAccessSupported()) {
-//            this.id = glCreateFramebuffers();
-//
-//            for (int i = 0; i < this.colorAttachments.length; i++) {
-//                this.colorAttachments[i].attach(this.id, i);
-//            }
-//            if (this.depthAttachment != null) {
-//                this.depthAttachment.attach(this.id, 0);
-//            }
-//
-//            int status = glCheckNamedFramebufferStatus(this.id, GL_FRAMEBUFFER);
-//            if (status != GL_FRAMEBUFFER_COMPLETE) {
-//                String error = ERRORS.containsKey(status) ? ERRORS.get(status) : "0x" + Integer.toHexString(status).toUpperCase(Locale.ROOT);
-//                throw new IllegalStateException("Advanced FBO status did not return GL_FRAMEBUFFER_COMPLETE. " + error);
-//            }
-//
-//            glNamedFramebufferDrawBuffers(this.id, this.drawBuffers);
-//        } else {
-//            int oldFbo = glGetInteger(GL_FRAMEBUFFER);
-//            this.id = glGenFramebuffers();
-//            this.bind(false);
-//
-//            for (int i = 0; i < this.colorAttachments.length; i++) {
-//                this.colorAttachments[i].attach(this.id, i);
-//            }
-//            if (this.depthAttachment != null) {
-//                this.depthAttachment.attach(this.id, 0);
-//            }
-//
-//            int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-//            if (status != GL_FRAMEBUFFER_COMPLETE) {
-//                String error = ERRORS.containsKey(status) ? ERRORS.get(status) : "0x" + Integer.toHexString(status).toUpperCase(Locale.ROOT);
-//                throw new IllegalStateException("Advanced FBO status did not return GL_FRAMEBUFFER_COMPLETE. " + error);
-//            }
-//
-//            glDrawBuffers(this.drawBuffers);
-//            glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
-//        }
-//    }
-
-//    @Override
-//    public void clear(int clearMask) {
-//        if (clearMask != 0) {
-//            GlStateManager._clear(clearMask, Minecraft.ON_OSX);
-//        }
-//    }
 
     @Override
     public void bind(boolean setViewport) {
@@ -200,6 +146,11 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
     @Override
     public boolean hasDepthAttachment() {
         return this.depthAttachment != null;
+    }
+
+    @Override
+    public boolean hasStencilAttachment() {
+        return this.hasStencil;
     }
 
     @Override
@@ -286,8 +237,8 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
                 GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, framebufferFilter);
                 GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
                 GlStateManager._texParameter(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                this.fbo.getColorAttachment(i).unbindAttachment();
             }
+            GlStateManager._bindTexture(0);
         }
 
         @Override

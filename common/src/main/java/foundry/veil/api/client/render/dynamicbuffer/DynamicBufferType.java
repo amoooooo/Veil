@@ -46,8 +46,8 @@ public enum DynamicBufferType {
         this.name = this.name().toLowerCase(Locale.ROOT);
         this.sourceName = "VeilDynamic" + sourceName;
         this.type = type;
-        this.internalFormat = format.getInternalId();
-        this.texelFormat = format.getId();
+        this.internalFormat = format.getInternalFormat();
+        this.texelFormat = format.getFormat();
         this.mask = 1 << this.ordinal();
     }
 

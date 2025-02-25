@@ -218,14 +218,14 @@ public record FramebufferAttachmentDefinition(FramebufferAttachmentDefinition.Ty
         /**
          * @return The OpenGL id of this format
          */
-        public int getId() {
+        public int getFormat() {
             return this.id;
         }
 
         /**
          * @return The OpenGL id of this internal format
          */
-        public int getInternalId() {
+        public int getInternalFormat() {
             return this.internalId;
         }
     }

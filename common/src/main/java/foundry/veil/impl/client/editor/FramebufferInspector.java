@@ -231,7 +231,7 @@ public class FramebufferInspector extends SingleWindowInspector {
 
         int internalFormat = glGetTexLevelParameteri(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT);
         for (FramebufferAttachmentDefinition.Format format : FramebufferAttachmentDefinition.Format.values()) {
-            if (internalFormat == format.getInternalId()) {
+            if (internalFormat == format.getInternalFormat()) {
                 attachmentName.append(" (").append(format.name()).append(")");
                 return attachmentName.toString();
             }
