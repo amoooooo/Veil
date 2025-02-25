@@ -209,14 +209,17 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasDepthAttachment()" class="member-name-link">hasDepthAttachment</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetDrawBuffers()" class="member-name-link">resetDrawBuffers</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStencilAttachment()" class="member-name-link">hasStencilAttachment</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resetDrawBuffers()" class="member-name-link">resetDrawBuffers</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resets the draw buffers to enable all buffers.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.mojang.blaze3d.pipeline.RenderTarget</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toRenderTarget()" class="member-name-link">toRenderTarget</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.mojang.blaze3d.pipeline.RenderTarget</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toRenderTarget()" class="member-name-link">toRenderTarget</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -443,6 +446,18 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#hasDepthAttachment()">hasDepthAttachment</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
 <dt>Returns:</dt>
 <dd>Whether there is a depth attachment added to this framebuffer</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="hasStencilAttachment()">
+<h3>hasStencilAttachment</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasStencilAttachment</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#hasStencilAttachment()">hasStencilAttachment</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
+<dt>Returns:</dt>
+<dd>Whether a depth-stencil attachment is added to this framebuffer</dd>
 </dl>
 </section>
 </li>

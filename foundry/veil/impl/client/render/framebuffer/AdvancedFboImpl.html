@@ -156,21 +156,24 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <div class="col-first even-row-color"><code>protected static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second even-row-color"><code><a href="#ERRORS" class="member-name-link">ERRORS</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected final boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="#hasStencil" class="member-name-link">hasStencil</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected int</code></div>
+<div class="col-second even-row-color"><code><a href="#height" class="member-name-link">height</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>protected int</code></div>
-<div class="col-second odd-row-color"><code><a href="#height" class="member-name-link">height</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#id" class="member-name-link">id</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected int</code></div>
-<div class="col-second even-row-color"><code><a href="#id" class="member-name-link">id</a></code></div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a><wbr>&lt;<a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#MAIN_WRAPPER" class="member-name-link">MAIN_WRAPPER</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a><wbr>&lt;<a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#MAIN_WRAPPER" class="member-name-link">MAIN_WRAPPER</a></code></div>
+<div class="col-first odd-row-color"><code>protected int</code></div>
+<div class="col-second odd-row-color"><code><a href="#width" class="member-name-link">width</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code>protected int</code></div>
-<div class="col-second even-row-color"><code><a href="#width" class="member-name-link">width</a></code></div>
+<div class="col-first even-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a><wbr>&lt;<a href="AdvancedFboImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl.Wrapper</a>&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#wrapper" class="member-name-link">wrapper</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a><wbr>&lt;<a href="AdvancedFboImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl.Wrapper</a>&gt;</code></div>
-<div class="col-second odd-row-color"><code><a href="#wrapper" class="member-name-link">wrapper</a></code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -255,9 +258,12 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasDepthAttachment()" class="member-name-link">hasDepthAttachment</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AdvancedFboImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl.Wrapper</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toRenderTarget()" class="member-name-link">toRenderTarget</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasStencilAttachment()" class="member-name-link">hasStencilAttachment</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="AdvancedFboImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.framebuffer">AdvancedFboImpl.Wrapper</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toRenderTarget()" class="member-name-link">toRenderTarget</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -321,6 +327,12 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <section class="detail" id="depthAttachment">
 <h3>depthAttachment</h3>
 <div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../../../api/client/render/framebuffer/AdvancedFboAttachment.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFboAttachment</a></span>&nbsp;<span class="element-name">depthAttachment</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="hasStencil">
+<h3>hasStencil</h3>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasStencil</span></div>
 </section>
 </li>
 <li>
@@ -516,6 +528,18 @@ implements <a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" 
 <dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#hasDepthAttachment()">hasDepthAttachment</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
 <dt>Returns:</dt>
 <dd>Whether there is a depth attachment added to this framebuffer</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="hasStencilAttachment()">
+<h3>hasStencilAttachment</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasStencilAttachment</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html#hasStencilAttachment()">hasStencilAttachment</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a></code></dd>
+<dt>Returns:</dt>
+<dd>Whether a depth-stencil attachment is added to this framebuffer</dd>
 </dl>
 </section>
 </li>
