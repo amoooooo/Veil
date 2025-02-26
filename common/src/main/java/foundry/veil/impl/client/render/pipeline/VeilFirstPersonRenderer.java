@@ -53,7 +53,7 @@ public final class VeilFirstPersonRenderer {
 
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.FIRST_PERSON, fbo);
         fbo.bind(false);
-        fbo.clear(0.0F, 0.0F, 0.0F, 1.0F, GL_COLOR_BUFFER_BIT | mask, dynamicBufferManger.getClearBuffers());
+        fbo.clear(GL_COLOR_BUFFER_BIT | mask, dynamicBufferManger.getClearBuffers());
         // This redirects calls to the vanilla framebuffer to the first person buffer instead
         ((RenderTargetExtension) Minecraft.getInstance().getMainRenderTarget()).veil$setWrapper(fbo);
     }

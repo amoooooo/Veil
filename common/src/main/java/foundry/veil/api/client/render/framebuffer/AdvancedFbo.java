@@ -59,6 +59,20 @@ public interface AdvancedFbo extends NativeResource {
     /**
      * Clears the specified buffers.
      *
+     * @param buffers      The buffers to clear
+     * @param clearBuffers The color buffers to clear
+     */
+    default void clear(int buffers, int... clearBuffers) {
+        this.clear(0.0F, 0.0F, 0.0F, 0.0F, buffers, clearBuffers);
+    }
+
+    /**
+     * Clears the specified buffers.
+     *
+     * @param red     The red clear value
+     * @param green   The green clear value
+     * @param blue    The blue clear value
+     * @param alpha   The alpha clear value
      * @param buffers The buffers to clear
      */
     default void clear(float red, float green, float blue, float alpha, int buffers) {
@@ -68,7 +82,12 @@ public interface AdvancedFbo extends NativeResource {
     /**
      * Clears the specified buffers.
      *
-     * @param clearMask The buffers to clear
+     * @param red          The red clear value
+     * @param green        The green clear value
+     * @param blue         The blue clear value
+     * @param alpha        The alpha clear value
+     * @param clearMask    The buffers to clear
+     * @param clearBuffers The color buffers to clear
      */
     void clear(float red, float green, float blue, float alpha, int clearMask, int... clearBuffers);
 

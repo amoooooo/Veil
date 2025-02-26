@@ -8,11 +8,11 @@ import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryStack;
 
+import java.nio.ByteBuffer;
 import java.util.function.Supplier;
 
 import static org.lwjgl.opengl.ARBClearTexture.glClearTexImage;
-import static org.lwjgl.opengl.ARBDirectStateAccess.glBlitNamedFramebuffer;
-import static org.lwjgl.opengl.ARBDirectStateAccess.glClearNamedFramebufferfv;
+import static org.lwjgl.opengl.ARBDirectStateAccess.*;
 import static org.lwjgl.opengl.GL30C.*;
 
 /**
@@ -45,11 +45,36 @@ public class DSAVanillaAdvancedFboWrapper extends VanillaAdvancedFboWrapper {
                 }
             }
 
-            if ((clearMask & GL_DEPTH_BUFFER_BIT) != 0 && renderTarget.useDepth) {
-                if (clearTex) {
-                    glClearTexImage(renderTarget.getDepthTextureId(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, stack.floats(1.0F));
+            if (renderTarget.useDepth) {
+                boolean hasStencil = this.hasStencilAttachment();
+                boolean depth = (clearMask & GL_DEPTH_BUFFER_BIT) != 0;
+                boolean stencil = hasStencil && (clearMask & GL_STENCIL_BUFFER_BIT) != 0;
+                if (!depth && !stencil) {
+                    return;
+                }
+
+                if (hasStencil) {
+                    if (depth && stencil) {
+                        if (clearTex) {
+                            glClearTexImage(renderTarget.getDepthTextureId(), 0, GL_DEPTH_STENCIL, GL_FLOAT_32_UNSIGNED_INT_24_8_REV, (ByteBuffer) null);
+                        } else {
+                            glClearNamedFramebufferfi(this.getId(), GL_DEPTH_STENCIL, 0, 1.0F, 0);
+                        }
+                    } else {
+                        // Can't clear the texture if only clearing depth or stencil
+                        if (depth) {
+                            glClearNamedFramebufferfv(this.getId(), GL_DEPTH, 0, stack.floats(1.0F));
+                        }
+                        if (stencil) {
+                            glClearNamedFramebufferiv(this.getId(), GL_STENCIL, 0, stack.ints(0));
+                        }
+                    }
                 } else {
-                    glClearNamedFramebufferfv(renderTarget.getDepthTextureId(), GL_DEPTH, 0, stack.floats(1.0F));
+                    if (clearTex) {
+                        glClearTexImage(renderTarget.getDepthTextureId(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, stack.floats(1.0F));
+                    } else {
+                        glClearNamedFramebufferfv(this.getId(), GL_DEPTH, 0, stack.floats(1.0F));
+                    }
                 }
             }
         }

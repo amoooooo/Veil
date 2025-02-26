@@ -291,6 +291,9 @@ public class DynamicBufferManger implements NativeResource {
         return fbo;
     }
 
+    /**
+     * @return The color buffers used for dynamic buffers for clearing
+     */
     public int[] getClearBuffers() {
         return this.clearBuffers;
     }
