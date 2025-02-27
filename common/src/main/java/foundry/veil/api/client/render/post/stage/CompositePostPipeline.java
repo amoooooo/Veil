@@ -58,9 +58,11 @@ public final class CompositePostPipeline implements PostPipeline {
         this.stages = stages;
         this.textureSources = Collections.unmodifiableMap(textures);
         this.textures = new HashMap<>(textures.size());
-        for (Map.Entry<String, ShaderTextureSource> entry : textures.entrySet()) {
-            this.textures.put(entry.getKey(), ShaderProgramImpl.ShaderTexture.create(entry.getValue()));
-        }
+        VeilRenderSystem.renderThreadExecutor().execute(() -> {
+            for (Map.Entry<String, ShaderTextureSource> entry : textures.entrySet()) {
+                this.textures.put(entry.getKey(), ShaderProgramImpl.ShaderTexture.create(entry.getValue()));
+            }
+        });
         this.framebufferDefinitions = Collections.unmodifiableMap(framebufferDefinitions);
         this.renderStage = renderStage;
         this.framebuffers = new HashMap<>();
