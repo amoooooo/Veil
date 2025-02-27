@@ -9,6 +9,7 @@
     "accessor.PipelineNativeImageAccessor",
     "accessor.PipelineReloadableResourceManagerAccessor",
     "client.PipelineAutoStorageIndexBufferMixin",
+    "client.PipelineDebugScreenOverlayMixin",
     "client.PipelineFrustumMixin",
     "client.PipelineGameRendererMixin",
     "client.PipelineGlStateManagerMixin",
