@@ -356,7 +356,8 @@ implements org.lwjgl.system.NativeResource</span></div>
 <section class="detail" id="runPipeline(foundry.veil.api.client.render.post.PostPipeline)">
 <h3>runPipeline</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">runPipeline</span><wbr><span class="parameters">(<a href="PostPipeline.html" title="interface in foundry.veil.api.client.render.post">PostPipeline</a>&nbsp;pipeline)</span></div>
-<div class="block">Applies only the specified pipeline. Copies the main buffer into the post framebuffer and back before running the pipeline.</div>
+<div class="block">Applies only the specified pipeline.
+ Copies the post framebuffer to the main framebuffer after running the pipeline.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>pipeline</code> - The pipeline to run</dd>
@@ -372,7 +373,7 @@ implements org.lwjgl.system.NativeResource</span></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>pipeline</code> - The pipeline to run</dd>
-<dd><code>resolvePost</code> - Whether to copy the main buffer into the post framebuffer before running the pipeline</dd>
+<dd><code>resolvePost</code> - Whether to copy the post framebuffer to the main framebuffer after running the pipeline</dd>
 </dl>
 </section>
 </li>
