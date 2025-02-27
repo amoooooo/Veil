@@ -88,6 +88,7 @@ public class DynamicBufferManger implements NativeResource {
             fbo.free();
         }
         this.dynamicFramebuffers.clear();
+        this.dynamicFboPointer = 0;
     }
 
     public int getActiveBuffers(ResourceLocation name) {
@@ -255,6 +256,7 @@ public class DynamicBufferManger implements NativeResource {
                 this.dynamicFboPointer++;
                 return fbo;
             }
+            this.dynamicFramebuffers.remove(this.dynamicFboPointer);
             fbo.free();
         }
 
@@ -281,11 +283,7 @@ public class DynamicBufferManger implements NativeResource {
         builder.setDebugLabel(framebuffer.getDebugLabel());
         AdvancedFbo fbo = builder.build(true);
 
-        if (this.dynamicFboPointer < this.dynamicFramebuffers.size()) {
-            this.dynamicFramebuffers.set(this.dynamicFboPointer, fbo);
-        } else {
-            this.dynamicFramebuffers.add(fbo);
-        }
+        this.dynamicFramebuffers.add(this.dynamicFboPointer, fbo);
         this.dynamicFboPointer++;
 
         return fbo;
