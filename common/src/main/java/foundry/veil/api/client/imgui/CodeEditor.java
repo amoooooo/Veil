@@ -7,14 +7,13 @@ import imgui.extension.texteditor.TextEditor;
 import imgui.flag.ImGuiCond;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.type.ImBoolean;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * Creates a text editor window with saving callback support.
@@ -29,7 +28,7 @@ public class CodeEditor implements NativeResource {
     private final Component name;
     private final TextEditor editor;
     private final Component saveText;
-    private String oldSource;
+    private CharSequence oldSource;
     private SaveCallback saveCallback;
     private String fileName;
 
@@ -61,9 +60,9 @@ public class CodeEditor implements NativeResource {
      * Fires the save callback if the text has changed.
      */
     public void save() {
-        Map<Integer, String> errors = new HashMap<>();
+        Int2ObjectMap<String> errors = new Int2ObjectArrayMap<>();
         if (this.saveCallback != null) {
-            this.saveCallback.save(this.editor.getText(), errors::put);
+            this.saveCallback.save(this.editor.getText(), errors);
         }
         if (errors.isEmpty()) {
             this.oldSource = this.editor.getText();
@@ -279,9 +278,9 @@ public class CodeEditor implements NativeResource {
         /**
          * Fired when the editor contents are saved.
          *
-         * @param source        The new source code
-         * @param errorConsumer A consumer for any errors. The first parameter is the line number and the second is the error. Multiple errors are supported
+         * @param source The new source code
+         * @param errors The map of errors. The first parameter is the line number and the second is the error. Multiple errors are supported
          */
-        void save(String source, BiConsumer<Integer, String> errorConsumer);
+        void save(String source, Int2ObjectMap<String> errors);
     }
 }
