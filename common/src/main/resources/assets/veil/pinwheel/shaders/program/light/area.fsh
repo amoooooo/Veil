@@ -1,5 +1,5 @@
 #include veil:common
-#include veil:deferred_utils
+#include veil:space_helper
 #include veil:color_utilities
 #include veil:light
 
@@ -53,8 +53,7 @@ void main() {
 
     vec3 normalVS = texture(VeilDynamicNormalSampler, screenUv).xyz;
     float depth = texture(DiffuseDepthSampler, screenUv).r;
-    vec3 viewPos = viewPosFromDepth(depth, screenUv);
-    vec3 pos = viewToWorldSpace(viewPos);
+    vec3 pos = screenToWorldSpace(screenUv, depth).xyz;
 
     // lighting calculation
     AreaLightResult areaLightInfo = closestPointOnPlaneAndAngle(pos, lightMat, size);

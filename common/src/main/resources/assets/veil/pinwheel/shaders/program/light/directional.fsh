@@ -1,5 +1,5 @@
 #include veil:common
-#include veil:deferred_utils
+#include veil:space_helper
 #include veil:color_utilities
 
 in vec2 texCoord;
@@ -19,7 +19,7 @@ void main() {
     }
 
     vec3 normalVS = texture(VeilDynamicNormalSampler, texCoord).xyz;
-    vec3 lightDirectionVS = worldToViewSpaceDirection(LightDirection);
+    vec3 lightDirectionVS = (VeilCamera.ViewMat * vec4(LightDirection, 0.0)).xyz;
 
     // lighting calculation
     float diffuse = clamp(smoothstep(-0.2, 0.2, -dot(normalVS, lightDirectionVS)), 0.0, 1.0);

@@ -1,4 +1,5 @@
 #veil:buffer veil:camera VeilCamera
+#veil:deprecated Use `#include veil:space_helper` instead
 
 vec3 viewPosFromDepth(float depth, vec2 uv) {
     float z = depth * 2.0 - 1.0;

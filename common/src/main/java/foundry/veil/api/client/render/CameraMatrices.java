@@ -3,7 +3,10 @@ package foundry.veil.api.client.render;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.registry.VeilShaderBufferRegistry;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
-import org.joml.*;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Matrix4fc;
+import org.joml.Vector3f;
 
 /**
  * Packages all camera matrices and shader uniforms to make shader management easier.
@@ -52,15 +55,15 @@ public class CameraMatrices {
     }
 
     /**
-     * Updates the camera matrices to match the specified camera object.
+     * Updates the camera matrices to match the in-game camera.
      *
      * @param projection The projection of the camera
      * @param modelView  The modelview rotation of the camera
-     * @param pos        The position of the camera
-     * @param zFar       The far clipping plane of the camera
-     * @param zNear      The near clipping plane of the camera
+     * @param x          The X position of the camera
+     * @param y          The Y position of the camera
+     * @param z          The Z position of the camera
      */
-    public void update(Matrix4fc projection, Matrix4fc modelView, Vector3dc pos, float zNear, float zFar) {
+    public void update(Matrix4fc projection, Matrix4fc modelView, double x, double y, double z) {
         ShaderBlock<CameraMatrices> block = VeilRenderSystem.getBlock(VeilShaderBufferRegistry.CAMERA.get());
         if (block == null) {
             return;
@@ -69,7 +72,6 @@ public class CameraMatrices {
         this.projectionMatrix.set(projection);
         this.projectionMatrix.invertPerspective(this.inverseProjectionMatrix);
 
-        this.cameraPosition.set((float) pos.x(), (float) pos.y(), (float) pos.z());
         // Adjust the camera position based on the view bobbing
         modelView.invert(this.viewMatrix).transformPosition(VeilRenderSystem.getCameraBobOffset(), this.cameraBobOffset);
 
@@ -78,8 +80,9 @@ public class CameraMatrices {
         this.viewMatrix.invert(this.inverseViewMatrix);
         this.inverseViewMatrix.normal(this.inverseViewRotMatrix);
 
-        this.nearPlane = zNear;
-        this.farPlane = zFar;
+        this.nearPlane = this.inverseProjectionMatrix.transformPosition(0, 0, -1, this.cameraPosition).z();
+        this.farPlane = this.inverseProjectionMatrix.transformPosition(0, 0, 1, this.cameraPosition).z();
+        this.cameraPosition.set(x, y, z);
 
         block.set(this);
         VeilRenderSystem.bind(VeilShaderBufferRegistry.CAMERA.get());
@@ -88,7 +91,7 @@ public class CameraMatrices {
     /**
      * Updates the camera matrices to match the current render system projection.
      */
-    public void updateGui() {
+    public void updateRenderSystem() {
         ShaderBlock<CameraMatrices> block = VeilRenderSystem.getBlock(VeilShaderBufferRegistry.CAMERA.get());
         if (block == null) {
             return;

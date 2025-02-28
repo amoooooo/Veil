@@ -8,7 +8,6 @@ import com.mojang.blaze3d.shaders.Uniform;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import foundry.veil.api.client.render.CameraMatrices;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderBridge;
 import foundry.veil.api.client.render.VeilRenderSystem;
@@ -36,7 +35,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
-import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -92,13 +90,10 @@ public abstract class PipelineLevelRendererMixin implements LevelRendererExtensi
     private final Matrix4f veil$tempFrustum = new Matrix4f();
     @Unique
     private final Matrix4f veil$tempProjection = new Matrix4f();
-    @Unique
-    private final Vector3d veil$tempCameraPos = new Vector3d();
 
     @Inject(method = "prepareCullFrustum", at = @At("HEAD"))
     public void veil$setupLevelCamera(Vec3 pos, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
-        CameraMatrices matrices = VeilRenderSystem.renderer().getCameraMatrices();
-        matrices.update(projectionMatrix, frustumMatrix, this.veil$tempCameraPos.set(pos.x(), pos.y(), pos.z()), 0.05F, this.minecraft.gameRenderer.getDepthFar());
+        VeilRenderSystem.renderer().getCameraMatrices().update(projectionMatrix, frustumMatrix, pos.x(), pos.y(), pos.z());
     }
 
     @Inject(method = "renderLevel", at = @At("TAIL"))

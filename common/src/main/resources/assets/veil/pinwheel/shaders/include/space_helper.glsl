@@ -34,11 +34,11 @@ vec3 worldToScreenSpace(vec4 pos) {
 #define worldToViewSpacePosition(pos) worldToViewSpace(vec4(pos, 1.0)).xyz
 #define worldToLocalSpacePosition(pos) worldToLocalSpace(vec4(pos, 1.0)).xyz
 #define worldToClipSpacePosition(pos) worldToClipSpace(vec4(pos, 1.0)).xyz
-#define worldToScreenSpacePosition(pos) worldToScreenSpace(vec4(pos, 1.0))
+#define worldToScreenSpacePosition(pos) worldToScreenSpace(vec4(pos, 1.0)).xyz
 #define worldToViewSpaceDirection(pos) worldToViewSpace(vec4(pos, 0.0)).xyz
 #define worldToLocalSpaceDirection(pos) worldToLocalSpace(vec4(pos, 0.0)).xyz
 #define worldToClipSpaceDirection(pos) worldToClipSpace(vec4(pos, 0.0)).xyz
-#define worldToScreenSpaceDirection(pos) worldToScreenSpace(vec4(pos, 0.0))
+#define worldToScreenSpaceDirection(pos) worldToScreenSpace(vec4(pos, 0.0)).xyz
 
 // View Space
 

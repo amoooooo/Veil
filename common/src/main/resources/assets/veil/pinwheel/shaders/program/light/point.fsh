@@ -1,5 +1,5 @@
 #include veil:common
-#include veil:deferred_utils
+#include veil:space_helper
 #include veil:color_utilities
 #include veil:light
 
@@ -24,7 +24,7 @@ void main() {
     }
 
     float depth = texture(DiffuseDepthSampler, screenUv).r;
-    vec3 pos = viewToWorldSpace(viewPosFromDepth(depth, screenUv));
+    vec3 pos = screenToWorldSpace(screenUv, depth).xyz;
 
     // lighting calculation
     vec3 offset = lightPos - pos;
