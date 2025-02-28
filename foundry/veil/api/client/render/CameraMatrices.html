@@ -163,16 +163,16 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the near plane of the projection matrix.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(org.joml.Matrix4fc,org.joml.Matrix4fc,org.joml.Vector3dc,float,float)" class="member-name-link">update</a><wbr>(org.joml.Matrix4fc&nbsp;projection,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(org.joml.Matrix4fc,org.joml.Matrix4fc,double,double,double)" class="member-name-link">update</a><wbr>(org.joml.Matrix4fc&nbsp;projection,
  org.joml.Matrix4fc&nbsp;modelView,
- org.joml.Vector3dc&nbsp;pos,
- float&nbsp;zNear,
- float&nbsp;zFar)</code></div>
+ double&nbsp;x,
+ double&nbsp;y,
+ double&nbsp;z)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the camera matrices to match the specified camera object.</div>
+<div class="block">Updates the camera matrices to match the in-game camera.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGui()" class="member-name-link">updateGui</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateRenderSystem()" class="member-name-link">updateRenderSystem</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Updates the camera matrices to match the current render system projection.</div>
 </div>
@@ -215,28 +215,28 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="update(org.joml.Matrix4fc,org.joml.Matrix4fc,org.joml.Vector3dc,float,float)">
+<section class="detail" id="update(org.joml.Matrix4fc,org.joml.Matrix4fc,double,double,double)">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(org.joml.Matrix4fc&nbsp;projection,
  org.joml.Matrix4fc&nbsp;modelView,
- org.joml.Vector3dc&nbsp;pos,
- float&nbsp;zNear,
- float&nbsp;zFar)</span></div>
-<div class="block">Updates the camera matrices to match the specified camera object.</div>
+ double&nbsp;x,
+ double&nbsp;y,
+ double&nbsp;z)</span></div>
+<div class="block">Updates the camera matrices to match the in-game camera.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>projection</code> - The projection of the camera</dd>
 <dd><code>modelView</code> - The modelview rotation of the camera</dd>
-<dd><code>pos</code> - The position of the camera</dd>
-<dd><code>zNear</code> - The near clipping plane of the camera</dd>
-<dd><code>zFar</code> - The far clipping plane of the camera</dd>
+<dd><code>x</code> - The X position of the camera</dd>
+<dd><code>y</code> - The Y position of the camera</dd>
+<dd><code>z</code> - The Z position of the camera</dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="updateGui()">
-<h3>updateGui</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateGui</span>()</div>
+<section class="detail" id="updateRenderSystem()">
+<h3>updateRenderSystem</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateRenderSystem</span>()</div>
 <div class="block">Updates the camera matrices to match the current render system projection.</div>
 </section>
 </li>
