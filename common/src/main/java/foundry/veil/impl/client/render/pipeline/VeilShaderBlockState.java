@@ -107,8 +107,8 @@ public class VeilShaderBlockState {
             this.shaderBindings.put(binding, name);
             VeilRenderSystem.renderer().getShaderManager().setGlobal(shader -> {
                 switch (impl.getBinding()) {
-                    case UNIFORM -> shader.setUniformBlock(name, binding);
-                    case SHADER_STORAGE -> shader.setStorageBlock(name, binding);
+                    case UNIFORM -> shader.setUniformBlock(name, binding + RESERVED_BINDINGS);
+                    case SHADER_STORAGE -> shader.setStorageBlock(name, binding + RESERVED_BINDINGS);
                 }
             });
         }
