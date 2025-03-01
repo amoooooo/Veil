@@ -1,8 +1,8 @@
 package foundry.veil.impl.client.render.pipeline;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.client.render.framebuffer.FramebufferStack;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -13,24 +13,25 @@ import java.util.function.Supplier;
 @ApiStatus.Internal
 public class AdvancedFboShard extends RenderStateShard.OutputStateShard {
 
-    private final ResourceLocation fboName;
+    private final String fboName;
 
     public AdvancedFboShard(@Nullable ResourceLocation fboName, Supplier<AdvancedFbo> fbo) {
         super(Veil.MODID + ":advanced_fbo", () -> {
             AdvancedFbo value = fbo.get();
             if (value != null) {
+                FramebufferStack.push();
                 value.bindDraw(true);
             }
         }, () -> {
-            if (!Veil.platform().hasErrors() && !VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
-                AdvancedFbo.unbind();
+            if (fbo.get() != null) {
+                FramebufferStack.pop();
             }
         });
-        this.fboName = fboName;
+        this.fboName = fboName != null ? fboName.toString() : "custom";
     }
 
     @Override
     public String toString() {
-        return this.name + "[" + (this.fboName != null ? this.fboName : "custom") + "]";
+        return this.name + "[" + this.fboName + "]";
     }
 }

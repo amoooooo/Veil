@@ -24,6 +24,7 @@ import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.necromancer.render.NecromancerRenderDispatcher;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
+import foundry.veil.api.client.render.framebuffer.FramebufferStack;
 import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBlockState;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBufferCache;
@@ -1033,6 +1034,10 @@ public final class VeilRenderSystem {
         }
 
         renderer.endFrame();
+        if(!FramebufferStack.isEmpty()) {
+            Veil.LOGGER.warn("Did not pop all bound framebuffers");
+        }
+        FramebufferStack.clear();
 
         UNIFORM_BLOCK_STATE.clearUsedBindings();
         VanillaShaderCompiler.clear();

@@ -169,7 +169,7 @@ public class DynamicBufferManger implements NativeResource {
 
     @ApiStatus.Internal
     public boolean isEnabled() {
-        return this.enabled;
+        return this.activeBuffers != 0 && this.enabled;
     }
 
     @ApiStatus.Internal
@@ -181,8 +181,8 @@ public class DynamicBufferManger implements NativeResource {
     public void free() {
         this.deleteFramebuffers();
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer textures = stack.mallocInt(DynamicBufferType.values().length);
-            for (DynamicBufferType value : DynamicBufferType.values()) {
+            IntBuffer textures = stack.mallocInt(DynamicBufferType.BUFFERS.length);
+            for (DynamicBufferType value : DynamicBufferType.BUFFERS) {
                 textures.put(value.ordinal(), this.dynamicBuffers.get(value).textureId);
             }
             glDeleteTextures(textures);
@@ -196,12 +196,11 @@ public class DynamicBufferManger implements NativeResource {
      * @param name         The name of the framebuffer
      * @param renderTarget The render target to wrap or <code>null</code> to free
      * @param setViewport  Whether the viewport should also be set
-     * @return Whether the buffer was bound successfully
      */
     @ApiStatus.Internal
-    public boolean setupRenderState(ResourceLocation name, @Nullable RenderTarget renderTarget, boolean setViewport) {
-        if (this.activeBuffers == 0 || !this.enabled) {
-            return false;
+    public void setupRenderState(ResourceLocation name, @Nullable RenderTarget renderTarget, boolean setViewport) {
+        if (!this.isEnabled()) {
+            return;
         }
 
         if (renderTarget == null) {
@@ -211,7 +210,8 @@ public class DynamicBufferManger implements NativeResource {
                 fbo.free();
             }
             // If the buffer doesn't exist, then try to bind the main framebuffer
-            return this.setupRenderState(MAIN_WRAPPER, Objects.requireNonNull(Minecraft.getInstance().getMainRenderTarget()), setViewport);
+            this.setupRenderState(MAIN_WRAPPER, Objects.requireNonNull(Minecraft.getInstance().getMainRenderTarget()), setViewport);
+            return;
         }
 
         AdvancedFbo fbo = this.framebuffers.get(name);
@@ -232,7 +232,6 @@ public class DynamicBufferManger implements NativeResource {
 
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(name, fbo);
         fbo.bind(setViewport);
-        return true;
     }
 
     /**
@@ -294,21 +293,6 @@ public class DynamicBufferManger implements NativeResource {
      */
     public int[] getClearBuffers() {
         return this.clearBuffers;
-    }
-
-    /**
-     * Clears the current render state by binding the main framebuffer.
-     *
-     * @param setViewport Whether the viewport should also be set
-     * @return Whether the buffer was bound successfully
-     */
-    @ApiStatus.Internal
-    public boolean clearRenderState(boolean setViewport) {
-        if (this.activeBuffers == 0 || !this.enabled) {
-            return false;
-        }
-
-        return this.setupRenderState(MAIN_WRAPPER, Minecraft.getInstance().getMainRenderTarget(), setViewport);
     }
 
     @ApiStatus.Internal

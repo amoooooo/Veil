@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
 import io.github.ocelot.glslprocessor.api.grammar.GlslTypeSpecifier;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;
 import java.util.Locale;
@@ -17,7 +18,8 @@ public enum DynamicBufferType {
     LIGHT_COLOR("LightColor", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGB8),
     DEBUG("Debug", GlslTypeSpecifier.BuiltinType.VEC4, FramebufferAttachmentDefinition.Format.RGBA16F);
 
-    private static final DynamicBufferType[] BUFFERS = values();
+    @ApiStatus.Internal
+    public static final DynamicBufferType[] BUFFERS = values();
 
     public static final Codec<DynamicBufferType> CODEC = Codec.STRING.flatXmap(name -> {
         for (DynamicBufferType buffer : BUFFERS) {

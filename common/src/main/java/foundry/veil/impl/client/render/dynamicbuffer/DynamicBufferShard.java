@@ -3,7 +3,7 @@ package foundry.veil.impl.client.render.dynamicbuffer;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.client.render.framebuffer.FramebufferStack;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -20,11 +20,15 @@ public class DynamicBufferShard extends RenderStateShard {
     public DynamicBufferShard(ResourceLocation name, Supplier<RenderTarget> targetSupplier) {
         super(Veil.MODID + ":dynamic_buffer", () -> {
             if (!Veil.platform().hasErrors()) {
-                VeilRenderSystem.renderer().getDynamicBufferManger().setupRenderState(name, targetSupplier.get(), true);
+                DynamicBufferManger dynamicBufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
+                if (dynamicBufferManger.isEnabled()) {
+                    FramebufferStack.push();
+                    dynamicBufferManger.setupRenderState(name, targetSupplier.get(), true);
+                }
             }
         }, () -> {
-            if (!Veil.platform().hasErrors() && !VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
-                AdvancedFbo.unbind();
+            if (!Veil.platform().hasErrors() && VeilRenderSystem.renderer().getDynamicBufferManger().isEnabled()) {
+                FramebufferStack.pop();
             }
         });
     }

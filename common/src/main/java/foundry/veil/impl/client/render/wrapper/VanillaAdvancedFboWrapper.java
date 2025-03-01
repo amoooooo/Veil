@@ -109,9 +109,6 @@ public abstract class VanillaAdvancedFboWrapper implements AdvancedFbo {
 
     @Override
     public int getClearMask() {
-        if (this.hasStencilAttachment()) {
-            return GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT;
-        }
         return GL_COLOR_BUFFER_BIT | (this.toRenderTarget().useDepth ? GL_DEPTH_BUFFER_BIT : 0);
     }
 

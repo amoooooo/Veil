@@ -6,6 +6,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.client.render.framebuffer.FramebufferStack;
 import net.minecraft.client.renderer.LevelRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,8 +24,10 @@ public class DynamicBufferLevelRendererMixin {
     // Correctly re-binds the main framebuffer
     @WrapOperation(method = "renderLevel", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/pipeline/RenderTarget;bindWrite(Z)V"))
     public void bindWrite(RenderTarget instance, boolean setViewport, Operation<Void> original) {
-        if (!VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(setViewport)) {
+        if (FramebufferStack.isEmpty()) {
             original.call(instance, setViewport);
+        } else {
+            FramebufferStack.pop();
         }
     }
 

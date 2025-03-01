@@ -2,13 +2,12 @@ package foundry.veil.impl.client.render.pipeline;
 
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.VeilRenderer;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
+import foundry.veil.api.client.render.framebuffer.FramebufferStack;
 import foundry.veil.api.client.render.framebuffer.FramebufferAttachmentDefinition;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.compat.IrisCompat;
-import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferManger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -23,7 +22,6 @@ public final class VeilBloomRenderer {
     private static final ResourceLocation BLOOM_PIPELINE = Veil.veilPath("core/bloom");
 
     private static boolean enabled;
-    private static boolean dynamicBufferEnabled;
     private static boolean rendered;
     private static AdvancedFbo bloom;
 
@@ -42,7 +40,7 @@ public final class VeilBloomRenderer {
     }
 
     public static void setupRenderState() {
-        if (!enabled || Veil.platform().hasErrors()) {
+        if (!enabled) {
             return;
         }
 
@@ -63,27 +61,19 @@ public final class VeilBloomRenderer {
                     .setDebugLabel("Veil Bloom")
                     .build(true);
         }
-        VeilRenderer renderer = VeilRenderSystem.renderer();
 
-        DynamicBufferManger dynamicBufferManger = renderer.getDynamicBufferManger();
-        dynamicBufferEnabled = dynamicBufferManger.isEnabled();
-        dynamicBufferManger.setEnabled(false);
-
-        renderer.getFramebufferManager().setFramebuffer(VeilFramebuffers.BLOOM, bloom);
+        FramebufferStack.push();
+        VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.BLOOM, bloom);
         bloom.bind(true);
         rendered = true;
     }
 
     public static void clearRenderState() {
-        if (!enabled || Veil.platform().hasErrors()) {
+        if (!enabled) {
             return;
         }
 
-        DynamicBufferManger dynamicBufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
-        dynamicBufferManger.setEnabled(dynamicBufferEnabled);
-        if (!dynamicBufferManger.clearRenderState(true)) {
-            AdvancedFbo.unbind();
-        }
+        FramebufferStack.pop();
     }
 
     private static @Nullable PostPipeline getPipeline() {
@@ -109,11 +99,10 @@ public final class VeilBloomRenderer {
         ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
         profiler.push("bloom");
 
+        FramebufferStack.push();
         VeilRenderSystem.renderer().getPostProcessingManager().runPipeline(pipeline);
         bloom.clear(GL_COLOR_BUFFER_BIT);
-        if (!VeilRenderSystem.renderer().getDynamicBufferManger().clearRenderState(true)) {
-            AdvancedFbo.unbind();
-        }
+        FramebufferStack.pop();
 
         profiler.pop();
     }
