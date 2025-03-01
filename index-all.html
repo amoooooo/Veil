@@ -868,10 +868,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/definition/WrapperShaderBlockImpl.html#bind(int)" class="member-name-link">bind(int)</a> - Method in class foundry.veil.impl.client.render.shader.definition.<a href="foundry/veil/impl/client/render/shader/definition/WrapperShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">WrapperShaderBlockImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html#bind(foundry.veil.api.client.render.shader.definition.ShaderBlock)" class="member-name-link">bind(ShaderBlock&lt;?&gt;)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html" title="class in foundry.veil.impl.client.render.pipeline">VeilShaderBlockState</a></dt>
-<dd>
-<div class="block">Binds the specified block and returns the used binding.</div>
-</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderTextureCache.html#bind(foundry.veil.api.client.render.shader.program.ShaderUniformCache,int)" class="member-name-link">bind(ShaderUniformCache, int)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderTextureCache.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderTextureCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#bind(foundry.veil.api.client.render.VeilShaderBufferLayout)" class="member-name-link">bind(VeilShaderBufferLayout&lt;?&gt;)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
@@ -4733,6 +4729,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/post/stage/FramebufferPostStage.html#getIn()" class="member-name-link">getIn()</a> - Method in class foundry.veil.api.client.render.post.stage.<a href="foundry/veil/api/client/render/post/stage/FramebufferPostStage.html" title="class in foundry.veil.api.client.render.post.stage">FramebufferPostStage</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/definition/ShaderBlockImpl.html#getIndex()" class="member-name-link">getIndex()</a> - Method in class foundry.veil.impl.client.render.shader.definition.<a href="foundry/veil/impl/client/render/shader/definition/ShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">ShaderBlockImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/vertex/VertexArray.html#getIndexCount()" class="member-name-link">getIndexCount()</a> - Method in class foundry.veil.api.client.render.vertex.<a href="foundry/veil/api/client/render/vertex/VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#getIndexCount(com.mojang.blaze3d.vertex.VertexBuffer)" class="member-name-link">getIndexCount(VertexBuffer)</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
@@ -7930,7 +7928,9 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/client/render/VeilRenderer.html#onResourceManagerReload(net.minecraft.server.packs.resources.ResourceManager)" class="member-name-link">onResourceManagerReload(ResourceManager)</a> - Method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderer.html" title="class in foundry.veil.api.client.render">VeilRenderer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html#onShaderCompile()" class="member-name-link">onShaderCompile()</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderBlockState.html" title="class in foundry.veil.impl.client.render.pipeline">VeilShaderBlockState</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Forces all shader bindings to be updated next frame.</div>
+</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/VeilShaderBufferCache.html#onShaderCompile(java.util.Map)" class="member-name-link">onShaderCompile(Map&lt;ResourceLocation, ShaderProgram&gt;)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilShaderBufferCache.html" title="class in foundry.veil.impl.client.render.pipeline">VeilShaderBufferCache</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/editor/Inspector.html#onShow()" class="member-name-link">onShow()</a> - Method in interface foundry.veil.api.client.editor.<a href="foundry/veil/api/client/editor/Inspector.html" title="interface in foundry.veil.api.client.editor">Inspector</a></dt>
@@ -10428,6 +10428,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Sets the current transformation and normal to identity.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html#setImGuiPath()" class="member-name-link">setImGuiPath()</a> - Static method in class foundry.veil.impl.client.imgui.<a href="foundry/veil/impl/client/imgui/VeilImGuiImpl.html" title="class in foundry.veil.impl.client.imgui">VeilImGuiImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/definition/ShaderBlockImpl.html#setIndex(int)" class="member-name-link">setIndex(int)</a> - Method in class foundry.veil.impl.client.render.shader.definition.<a href="foundry/veil/impl/client/render/shader/definition/ShaderBlockImpl.html" title="class in foundry.veil.impl.client.render.shader.definition">ShaderBlockImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/vertex/VertexArray.html#setIndexCount(int,foundry.veil.api.client.render.vertex.VertexArray.IndexType)" class="member-name-link">setIndexCount(int, VertexArray.IndexType)</a> - Method in class foundry.veil.api.client.render.vertex.<a href="foundry/veil/api/client/render/vertex/VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a></dt>
 <dd>
@@ -13137,6 +13139,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html#UPDATE_MODULES_KEY" class="member-name-link">UPDATE_MODULES_KEY</a> - Static variable in class foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html" title="class in foundry.veil.api.quasar.data">ParticleModuleTypeRegistry</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html#UPDATE_MODULES_REGISTRY" class="member-name-link">UPDATE_MODULES_REGISTRY</a> - Static variable in class foundry.veil.api.quasar.data.<a href="foundry/veil/api/quasar/data/ParticleModuleTypeRegistry.html" title="class in foundry.veil.api.quasar.data">ParticleModuleTypeRegistry</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#updateActiveBuffers()" class="member-name-link">updateActiveBuffers()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/ParticleModuleSet.html#updateEnabled()" class="member-name-link">updateEnabled()</a> - Method in class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/ParticleModuleSet.html" title="class in foundry.veil.api.quasar.particle">ParticleModuleSet</a></dt>
 <dd>&nbsp;</dd>
