@@ -1126,4 +1126,9 @@ public final class VeilRenderSystem {
     public static void clearLevel() {
         NecromancerRenderDispatcher.delete();
     }
+
+    @ApiStatus.Internal
+    public static void updateActiveBuffers() {
+        UNIFORM_BLOCK_STATE.onShaderCompile();
+    }
 }

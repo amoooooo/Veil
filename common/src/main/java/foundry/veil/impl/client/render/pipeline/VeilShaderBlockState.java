@@ -4,15 +4,12 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.definition.ShaderBlock;
 import foundry.veil.impl.client.render.shader.definition.ShaderBlockImpl;
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
-import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.BitSet;
 import java.util.Objects;
 
 /**
@@ -26,33 +23,38 @@ public class VeilShaderBlockState {
     // Flywheel uses the first 8 buffer bindings for instanced/indirect rendering
     public static final int RESERVED_BINDINGS = Veil.platform().isModLoaded("flywheel") ? 8 : 0;
 
-    private final Object2IntMap<ShaderBlockImpl<?>> boundBlocks;
-    private final Int2ObjectMap<CharSequence> shaderBindings;
-    private final IntSet usedBindings;
+    private final ObjectSet<ShaderBlockImpl<?>> boundBlocks;
+    private final BitSet usedBindings;
+    private CharSequence[] shaderBindings;
     private int nextBinding;
 
     public VeilShaderBlockState() {
-        this.boundBlocks = new Object2IntArrayMap<>();
-        this.shaderBindings = new Int2ObjectArrayMap<>();
-        this.usedBindings = new IntOpenHashSet();
+        this.boundBlocks = new ObjectArraySet<>();
+        this.usedBindings = new BitSet();
+        this.shaderBindings = null;
     }
 
     /**
      * Looks for a stale binding that can be replaced with a new one.
      */
     private void freeBinding() {
-        ObjectIterator<Object2IntMap.Entry<ShaderBlockImpl<?>>> iterator = this.boundBlocks.object2IntEntrySet().iterator();
+        ObjectIterator<ShaderBlockImpl<?>> iterator = this.boundBlocks.iterator();
         while (iterator.hasNext()) {
-            Object2IntMap.Entry<ShaderBlockImpl<?>> entry = iterator.next();
-            int binding = entry.getIntValue();
-            if (this.usedBindings.contains(binding)) {
+            ShaderBlockImpl<?> block = iterator.next();
+            int index = block.getIndex();
+            if (this.usedBindings.get(index)) {
                 continue;
             }
 
-            this.unbind(binding, entry.getKey());
-            iterator.remove();
+            // Unbind the buffer if it has an index and move on
+            if (index != -1) {
+                block.unbind(index + RESERVED_BINDINGS);
+                this.usedBindings.clear(index);
+                block.setIndex(-1);
+            }
 
-            this.nextBinding = binding;
+            iterator.remove();
+            this.nextBinding = index;
             return;
         }
 
@@ -65,29 +67,28 @@ public class VeilShaderBlockState {
      * @param block The block to bind
      * @return The binding used
      */
-    public int bind(ShaderBlock<?> block) {
+    private int bind(ShaderBlock<?> block) {
         if (!(block instanceof ShaderBlockImpl<?> impl)) {
             throw new UnsupportedOperationException("Cannot bind " + block.getClass());
         }
 
-        int binding = this.boundBlocks.getOrDefault(block, -1);
-        if (binding == -1) {
+        int index = impl.getIndex();
+        if (index == -1) {
             if (this.nextBinding >= VeilRenderSystem.maxUniformBuffersBindings() - RESERVED_BINDINGS) {
                 this.freeBinding();
             }
 
-            binding = this.nextBinding;
-            this.boundBlocks.put(impl, binding);
+            impl.setIndex(index = this.nextBinding);
 
             // Find the next open binding
-            while (this.boundBlocks.containsValue(this.nextBinding)) {
-                this.nextBinding++;
-            }
+            this.nextBinding = this.usedBindings.nextClearBit(this.nextBinding + 1);
         }
 
-        impl.bind(binding + RESERVED_BINDINGS);
-        this.usedBindings.add(binding);
-        return binding;
+        this.boundBlocks.add(impl);
+        this.usedBindings.set(index);
+        impl.bind(index + RESERVED_BINDINGS);
+
+        return index;
     }
 
     /**
@@ -102,9 +103,13 @@ public class VeilShaderBlockState {
         }
 
         int binding = this.bind(block);
-        CharSequence boundName = this.shaderBindings.get(binding);
+        if (this.shaderBindings == null) {
+            this.shaderBindings = new CharSequence[VeilRenderSystem.maxUniformBuffersBindings() - RESERVED_BINDINGS];
+        }
+
+        CharSequence boundName = this.shaderBindings[binding];
         if (!Objects.equals(name, boundName)) {
-            this.shaderBindings.put(binding, name);
+            this.shaderBindings[binding] = name;
             VeilRenderSystem.renderer().getShaderManager().setGlobal(shader -> {
                 switch (impl.getBinding()) {
                     case UNIFORM -> shader.setUniformBlock(name, binding + RESERVED_BINDINGS);
@@ -124,32 +129,40 @@ public class VeilShaderBlockState {
             throw new UnsupportedOperationException("Cannot unbind " + block.getClass());
         }
 
-        if (this.boundBlocks.containsKey(block)) {
-            this.unbind(this.boundBlocks.removeInt(block), impl);
+        int index = impl.getIndex();
+        if (index == -1) {
+            return;
         }
-    }
 
-    private void unbind(int binding, ShaderBlockImpl<?> block) {
-        block.unbind(binding + RESERVED_BINDINGS);
+        impl.unbind(index + RESERVED_BINDINGS);
+        this.boundBlocks.remove(impl);
+        this.usedBindings.clear(index);
+        impl.setIndex(-1);
 
-        CharSequence name = this.shaderBindings.remove(binding);
-        if (name != null) {
-            VeilRenderSystem.renderer().getShaderManager().setGlobal(shader -> {
-                switch (block.getBinding()) {
-                    case UNIFORM -> shader.setUniformBlock(name, 0);
-                    case SHADER_STORAGE -> shader.setStorageBlock(name, 0);
-                }
-            });
+        if (this.shaderBindings != null) {
+            CharSequence name = this.shaderBindings[index];
+            if (name != null) {
+                this.shaderBindings[index] = null;
+                VeilRenderSystem.renderer().getShaderManager().setGlobal(shader -> {
+                    switch (impl.getBinding()) {
+                        case UNIFORM -> shader.setUniformBlock(name, 0);
+                        case SHADER_STORAGE -> shader.setStorageBlock(name, 0);
+                    }
+                });
+            }
         }
 
         // Fill the gap since the spot is open now
-        if (binding < this.nextBinding) {
-            this.nextBinding = binding;
+        if (index < this.nextBinding) {
+            this.nextBinding = index;
         }
     }
 
+    /**
+     * Forces all shader bindings to be updated next frame.
+     */
     public void onShaderCompile() {
-        this.shaderBindings.clear();
+        this.shaderBindings = null;
     }
 
     /**

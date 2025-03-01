@@ -164,6 +164,7 @@ public class DynamicBufferManger implements NativeResource {
             throw new RuntimeException(e);
         }
 
+        VeilRenderSystem.updateActiveBuffers();
         return true;
     }
 

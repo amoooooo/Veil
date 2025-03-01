@@ -20,11 +20,14 @@ public abstract class ShaderBlockImpl<T> implements ShaderBlock<T> {
     protected T value;
     protected boolean dirty;
 
+    private int index;
+
     protected ShaderBlockImpl(BufferBinding binding) {
         this.binding = binding;
         this.buffer = 0;
         this.value = null;
         this.dirty = false;
+        this.index = -1;
     }
 
     @Override
@@ -51,9 +54,17 @@ public abstract class ShaderBlockImpl<T> implements ShaderBlock<T> {
         return this.binding;
     }
 
+    public int getIndex() {
+        return this.index;
+    }
+
     @Override
     public @Nullable T getValue() {
         return this.value;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @Override
