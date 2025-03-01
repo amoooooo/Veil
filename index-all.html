@@ -1116,6 +1116,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/vertex/VertexArray.html#buffers" class="member-name-link">buffers</a> - Variable in class foundry.veil.api.client.render.vertex.<a href="foundry/veil/api/client/render/vertex/VertexArray.html" title="class in foundry.veil.api.client.render.vertex">VertexArray</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html#BUFFERS" class="member-name-link">BUFFERS</a> - Static variable in enum class foundry.veil.api.client.render.dynamicbuffer.<a href="foundry/veil/api/client/render/dynamicbuffer/DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/layer/CompositeRenderTypeData.html#bufferSize()" class="member-name-link">bufferSize()</a> - Method in record class foundry.veil.api.client.render.rendertype.layer.<a href="foundry/veil/api/client/render/rendertype/layer/CompositeRenderTypeData.html" title="class in foundry.veil.api.client.render.rendertype.layer">CompositeRenderTypeData</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>bufferSize</code> record component.</div>
@@ -1317,6 +1319,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferManager.html#clear()" class="member-name-link">clear()</a> - Method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferManager.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferManager</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html#clear()" class="member-name-link">clear()</a> - Static method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferStack</a></dt>
+<dd>
+<div class="block">Clears the entire framebuffer stack.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/MatrixStack.html#clear()" class="member-name-link">clear()</a> - Method in interface foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a></dt>
 <dd>
 <div class="block">Clears all transformations.</div>
@@ -1385,10 +1391,6 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/VeilBloomRenderer.html#clearRenderState()" class="member-name-link">clearRenderState()</a> - Static method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/VeilBloomRenderer.html" title="class in foundry.veil.impl.client.render.pipeline">VeilBloomRenderer</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="foundry/veil/impl/client/render/dynamicbuffer/DynamicBufferManger.html#clearRenderState(boolean)" class="member-name-link">clearRenderState(boolean)</a> - Method in class foundry.veil.impl.client.render.dynamicbuffer.<a href="foundry/veil/impl/client/render/dynamicbuffer/DynamicBufferManger.html" title="class in foundry.veil.impl.client.render.dynamicbuffer">DynamicBufferManger</a></dt>
-<dd>
-<div class="block">Clears the current render state by binding the main framebuffer.</div>
-</dd>
 <dt><a href="foundry/veil/impl/client/render/light/AreaLightRenderer.html#clearRenderState(foundry.veil.api.client.render.light.renderer.LightRenderer,java.util.List)" class="member-name-link">clearRenderState(LightRenderer, List&lt;AreaLight&gt;)</a> - Method in class foundry.veil.impl.client.render.light.<a href="foundry/veil/impl/client/render/light/AreaLightRenderer.html" title="class in foundry.veil.impl.client.render.light">AreaLightRenderer</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/light/IndirectPointLightRenderer.html#clearRenderState(foundry.veil.api.client.render.light.renderer.LightRenderer,java.util.List)" class="member-name-link">clearRenderState(LightRenderer, List&lt;PointLight&gt;)</a> - Method in class foundry.veil.impl.client.render.light.<a href="foundry/veil/impl/client/render/light/IndirectPointLightRenderer.html" title="class in foundry.veil.impl.client.render.light">IndirectPointLightRenderer</a></dt>
@@ -3968,6 +3970,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates an instance of a <code>FramebufferSource</code> record class.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html" class="type-name-link" title="class in foundry.veil.api.client.render.framebuffer">FramebufferStack</a> - Class in <a href="foundry/veil/api/client/render/framebuffer/package-summary.html">foundry.veil.api.client.render.framebuffer</a></dt>
+<dd>
+<div class="block">Pushes/pops the current state of the bound framebuffer.</div>
+</dd>
+<dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html#%3Cinit%3E()" class="member-name-link">FramebufferStack()</a> - Constructor for class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferStack</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/quasar/particle/SpriteData.html#frameCount()" class="member-name-link">frameCount()</a> - Method in record class foundry.veil.api.quasar.particle.<a href="foundry/veil/api/quasar/particle/SpriteData.html" title="class in foundry.veil.api.quasar.particle">SpriteData</a></dt>
 <dd>
 <div class="block">Returns the value of the <code>frameCount</code> record component.</div>
@@ -6719,6 +6727,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/render/light/Light.html#isDirty()" class="member-name-link">isDirty()</a> - Method in class foundry.veil.api.client.render.light.<a href="foundry/veil/api/client/render/light/Light.html" title="class in foundry.veil.api.client.render.light">Light</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html#isEmpty()" class="member-name-link">isEmpty()</a> - Static method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferStack</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/MatrixStack.html#isEmpty()" class="member-name-link">isEmpty()</a> - Method in interface foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/MatrixStack.html" title="interface in foundry.veil.api.client.render">MatrixStack</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/mixin/pipeline/client/PipelinePoseStackMixin.html#isEmpty()" class="member-name-link">isEmpty()</a> - Method in class foundry.veil.mixin.pipeline.client.<a href="foundry/veil/mixin/pipeline/client/PipelinePoseStackMixin.html" title="class in foundry.veil.mixin.pipeline.client">PipelinePoseStackMixin</a></dt>
@@ -8396,6 +8406,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html#polygonOffsetLayering()" class="member-name-link">polygonOffsetLayering()</a> - Static method in class foundry.veil.api.client.render.rendertype.<a href="foundry/veil/api/client/render/rendertype/VeilRenderType.html" title="class in foundry.veil.api.client.render.rendertype">VeilRenderType</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html#pop()" class="member-name-link">pop()</a> - Static method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferStack</a></dt>
+<dd>
+<div class="block">Pushes the current framebuffer and restores the previous state.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/ui/util/ScissorStack.html#pop()" class="member-name-link">pop()</a> - Method in class foundry.veil.api.client.ui.util.<a href="foundry/veil/api/client/ui/util/ScissorStack.html" title="class in foundry.veil.api.client.ui.util">ScissorStack</a></dt>
 <dd>
 <div class="block">Removes the top scissor clipping region from the stack.</div>
@@ -8596,6 +8610,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/render/VeilRenderSystem.html#programInterfaceQuerySupported()" class="member-name-link">programInterfaceQuerySupported()</a> - Static method in class foundry.veil.api.client.render.<a href="foundry/veil/api/client/render/VeilRenderSystem.html" title="class in foundry.veil.api.client.render">VeilRenderSystem</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html#push()" class="member-name-link">push()</a> - Static method in class foundry.veil.api.client.render.framebuffer.<a href="foundry/veil/api/client/render/framebuffer/FramebufferStack.html" title="class in foundry.veil.api.client.render.framebuffer">FramebufferStack</a></dt>
+<dd>
+<div class="block">Pushes the current framebuffer to the stack.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/ui/util/ScissorStack.html#push(int,int,int,int)" class="member-name-link">push(int, int, int, int)</a> - Method in class foundry.veil.api.client.ui.util.<a href="foundry/veil/api/client/ui/util/ScissorStack.html" title="class in foundry.veil.api.client.ui.util">ScissorStack</a></dt>
 <dd>
 <div class="block">Pushes a new scissor clipping region onto the stack.</div>
