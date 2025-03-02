@@ -38,7 +38,7 @@ loadScripts(document, 'script');</script>
 <li>
 <p>Summary:</p>
 <ul>
-<li><a href="#nested-class-summary">Nested</a></li>
+<li>Nested</li>
 <li>Field</li>
 <li>Constr</li>
 <li><a href="#method-summary">Method</a></li>
@@ -58,7 +58,7 @@ loadScripts(document, 'script');</script>
 <div id="navbar-sub-list">
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
-<li><a href="#nested-class-summary">Nested</a>&nbsp;|&nbsp;</li>
+<li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
 <li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
@@ -100,23 +100,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- ======== NESTED CLASS SUMMARY ======== -->
-<li>
-<section class="nested-class-summary" id="nested-class-summary">
-<h2>Nested Class Summary</h2>
-<div class="caption"><span>Nested Classes</span></div>
-<div class="summary-table three-column-summary">
-<div class="table-header col-first">Modifier and Type</div>
-<div class="table-header col-second">Interface</div>
-<div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static interface&nbsp;</code></div>
-<div class="col-second even-row-color"><code><a href="TextureUniformAccess.SamplerListener.html" class="type-name-link" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess.SamplerListener</a></code></div>
-<div class="col-last even-row-color">
-<div class="block">Fired when samplers are resolved to capture the current bindings.</div>
-</div>
-</div>
-</section>
-</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -141,36 +124,26 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addSamplerListener(foundry.veil.api.client.render.shader.program.TextureUniformAccess.SamplerListener)" class="member-name-link">addSamplerListener</a><wbr>(<a href="TextureUniformAccess.SamplerListener.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess.SamplerListener</a>&nbsp;listener)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Adds a listener for sampler updates.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#bindSamplers(int)" class="member-name-link">bindSamplers</a><wbr>(int&nbsp;samplerStart)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindSamplers(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context,int)" class="member-name-link">bindSamplers</a><wbr>(<a href="../texture/ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context,
- int&nbsp;samplerStart)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#bindSamplers(int)" class="member-name-link">bindSamplers</a><wbr>(int&nbsp;samplerStart)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#clearSamplers()" class="member-name-link">clearSamplers</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindSamplers(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context,int)" class="member-name-link">bindSamplers</a><wbr>(<a href="../texture/ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context,
+ int&nbsp;samplerStart)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#clearSamplers()" class="member-name-link">clearSamplers</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Clears all samplers.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeSampler(java.lang.CharSequence)" class="member-name-link">removeSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Removes the specified sampler binding.</div>
-</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeSamplerListener(foundry.veil.api.client.render.shader.program.TextureUniformAccess.SamplerListener)" class="member-name-link">removeSamplerListener</a><wbr>(<a href="TextureUniformAccess.SamplerListener.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess.SamplerListener</a>&nbsp;listener)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeSampler(java.lang.CharSequence)" class="member-name-link">removeSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Removes a listener from sampler updates.</div>
+<div class="block">Removes the specified sampler binding.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setFramebufferSamplers(foundry.veil.api.client.render.framebuffer.AdvancedFbo)" class="member-name-link">setFramebufferSamplers</a><wbr>(<a href="../../framebuffer/AdvancedFbo.html" title="interface in foundry.veil.api.client.render.framebuffer">AdvancedFbo</a>&nbsp;framebuffer)</code></div>
@@ -201,28 +174,6 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>framebuffer</code> - The framebuffer to bind samplers from</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="addSamplerListener(foundry.veil.api.client.render.shader.program.TextureUniformAccess.SamplerListener)">
-<h3>addSamplerListener</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addSamplerListener</span><wbr><span class="parameters">(<a href="TextureUniformAccess.SamplerListener.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess.SamplerListener</a>&nbsp;listener)</span></div>
-<div class="block">Adds a listener for sampler updates.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>listener</code> - The listener instance</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="removeSamplerListener(foundry.veil.api.client.render.shader.program.TextureUniformAccess.SamplerListener)">
-<h3>removeSamplerListener</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">removeSamplerListener</span><wbr><span class="parameters">(<a href="TextureUniformAccess.SamplerListener.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess.SamplerListener</a>&nbsp;listener)</span></div>
-<div class="block">Removes a listener from sampler updates.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>listener</code> - The listener instance</dd>
 </dl>
 </section>
 </li>

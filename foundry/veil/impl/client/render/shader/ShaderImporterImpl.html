@@ -91,12 +91,12 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="../../../../api/client/render/shader/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader">ShaderImporter</a></code></dd>
+<dd><code><a href="../../../../api/client/render/shader/processor/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderImporter</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ShaderImporterImpl</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="../../../../api/client/render/shader/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader">ShaderImporter</a></span></div>
+implements <a href="../../../../api/client/render/shader/processor/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderImporter</a></span></div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -188,11 +188,11 @@ implements <a href="../../../../api/client/render/shader/ShaderImporter.html" ti
  net.minecraft.resources.ResourceLocation&nbsp;name,
  boolean&nbsp;force)</span>
                                                             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/shader/ShaderImporter.html#loadImport(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,net.minecraft.resources.ResourceLocation,boolean)">ShaderImporter</a></code></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../../../../api/client/render/shader/processor/ShaderImporter.html#loadImport(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,net.minecraft.resources.ResourceLocation,boolean)">ShaderImporter</a></code></span></div>
 <div class="block">Loads the specified import from file <code>assets/modid/pinwheel/shaders/include/path.glsl</code>.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/shader/ShaderImporter.html#loadImport(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,net.minecraft.resources.ResourceLocation,boolean)">loadImport</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader">ShaderImporter</a></code></dd>
+<dd><code><a href="../../../../api/client/render/shader/processor/ShaderImporter.html#loadImport(foundry.veil.api.client.render.shader.processor.ShaderPreProcessor.Context,net.minecraft.resources.ResourceLocation,boolean)">loadImport</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/processor/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderImporter</a></code></dd>
 <dt>Parameters:</dt>
 <dd><code>name</code> - The name of the import to load</dd>
 <dd><code>force</code> - Whether to load the import nodes even if the import has already been loaded</dd>
@@ -209,7 +209,7 @@ implements <a href="../../../../api/client/render/shader/ShaderImporter.html" ti
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;net.minecraft.resources.ResourceLocation&gt;</span>&nbsp;<span class="element-name">addedImports</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="../../../../api/client/render/shader/ShaderImporter.html#addedImports()">addedImports</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader">ShaderImporter</a></code></dd>
+<dd><code><a href="../../../../api/client/render/shader/processor/ShaderImporter.html#addedImports()">addedImports</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../api/client/render/shader/processor/ShaderImporter.html" title="interface in foundry.veil.api.client.render.shader.processor">ShaderImporter</a></code></dd>
 <dt>Returns:</dt>
 <dd>A view of all imports added to the current file</dd>
 </dl>

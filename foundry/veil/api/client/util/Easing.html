@@ -196,7 +196,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract float</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#ease(float)" class="member-name-link">ease</a><wbr>(float&nbsp;x)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Applies the easing to the specified input.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Easing.html" title="enum class in foundry.veil.api.client.util">Easing</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#valueOf(java.lang.String)" class="member-name-link">valueOf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -457,6 +459,13 @@ not permitted.)</div>
 <section class="detail" id="ease(float)">
 <h3>ease</h3>
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">float</span>&nbsp;<span class="element-name">ease</span><wbr><span class="parameters">(float&nbsp;x)</span></div>
+<div class="block">Applies the easing to the specified input.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - The input percentage from <code>0</code> to <code>1</code></dd>
+<dt>Returns:</dt>
+<dd>A remapped value from <code>0</code> to <code>1</code> that follows this easing</dd>
+</dl>
 </section>
 </li>
 </ul>

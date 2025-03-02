@@ -98,6 +98,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public enum </span><span class="element-name type-name-label">DynamicBufferType</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;<a href="DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a>&gt;</span></div>
+<div class="block">Built-in dynamic buffers available to sample from.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -166,13 +167,19 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#addMacros(int,java.util.Map)" class="member-name-link">addMacros</a><wbr>(int&nbsp;mask,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;map)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Adds the standard buffer macros to the specified map.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a>[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#decode(int)" class="member-name-link">decode</a><wbr>(int&nbsp;mask)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Decodes the dynamic buffer types from the specified mask.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#encode(foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType...)" class="member-name-link">encode</a><wbr>(<a href="DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a>...&nbsp;types)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Encodes the specified dynamic buffer types as a bit mask.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getInternalFormat()" class="member-name-link">getInternalFormat</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -322,36 +329,60 @@ not permitted.)</div>
 <section class="detail" id="getName()">
 <h3>getName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The code name of this type</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getSourceName()">
 <h3>getSourceName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getSourceName</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The name of this type inside the GLSL file</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getType()">
 <h3>getType</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">io.github.ocelot.glslprocessor.api.grammar.GlslTypeSpecifier.BuiltinType</span>&nbsp;<span class="element-name">getType</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The data type stored in this buffer</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getInternalFormat()">
 <h3>getInternalFormat</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getInternalFormat</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The internal format of the texture</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getTexelFormat()">
 <h3>getTexelFormat</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getTexelFormat</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The format of data assigned to the texture</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getMask()">
 <h3>getMask</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMask</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The bit mask of this type</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -359,18 +390,38 @@ not permitted.)</div>
 <h3>addMacros</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addMacros</span><wbr><span class="parameters">(int&nbsp;mask,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;map)</span></div>
+<div class="block">Adds the standard buffer macros to the specified map.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mask</code> - The mask of enabled buffers</dd>
+<dd><code>map</code> - The map to add macros to</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="encode(foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType...)">
 <h3>encode</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">encode</span><wbr><span class="parameters">(<a href="DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a>...&nbsp;types)</span></div>
+<div class="block">Encodes the specified dynamic buffer types as a bit mask.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>types</code> - The types to encode</dd>
+<dt>Returns:</dt>
+<dd>An integer representing those buffer types</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="decode(int)">
 <h3>decode</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="DynamicBufferType.html" title="enum class in foundry.veil.api.client.render.dynamicbuffer">DynamicBufferType</a>[]</span>&nbsp;<span class="element-name">decode</span><wbr><span class="parameters">(int&nbsp;mask)</span></div>
+<div class="block">Decodes the dynamic buffer types from the specified mask.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>mask</code> - The mask of buffers</dd>
+<dt>Returns:</dt>
+<dd>An array of all decoded buffers</dd>
+</dl>
 </section>
 </li>
 </ul>

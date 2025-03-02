@@ -213,15 +213,21 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#draw()" class="member-name-link">draw</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Draws <a href="#indexCount"><code>indexCount</code></a> number of indices with the previously defined draw mode.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawIndirect(long,int,int)" class="member-name-link">drawIndirect</a><wbr>(long&nbsp;indirect,
  int&nbsp;drawCount,
  int&nbsp;stride)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Draws <a href="#indexCount"><code>indexCount</code></a> number of indices with the previously defined draw mode a number of times.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawInstanced(int)" class="member-name-link">drawInstanced</a><wbr>(int&nbsp;instances)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Draws <a href="#indexCount"><code>indexCount</code></a> number of indices with the previously defined draw mode a number of times.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="VertexArrayBuilder.html" title="interface in foundry.veil.api.client.render.vertex">VertexArrayBuilder</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#editFormat()" class="member-name-link">editFormat</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -623,12 +629,18 @@ implements org.lwjgl.system.NativeResource</span></div>
 <section class="detail" id="draw()">
 <h3>draw</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span>()</div>
+<div class="block">Draws <a href="#indexCount"><code>indexCount</code></a> number of indices with the previously defined draw mode.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="drawInstanced(int)">
 <h3>drawInstanced</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawInstanced</span><wbr><span class="parameters">(int&nbsp;instances)</span></div>
+<div class="block">Draws <a href="#indexCount"><code>indexCount</code></a> number of indices with the previously defined draw mode a number of times.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>instances</code> - The number of instances to draw</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -637,6 +649,15 @@ implements org.lwjgl.system.NativeResource</span></div>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawIndirect</span><wbr><span class="parameters">(long&nbsp;indirect,
  int&nbsp;drawCount,
  int&nbsp;stride)</span></div>
+<div class="block">Draws <a href="#indexCount"><code>indexCount</code></a> number of indices with the previously defined draw mode a number of times.
+ <br>
+ <strong>Note: This only works if <a href="../VeilRenderSystem.html#multiDrawIndirectSupported()"><code>VeilRenderSystem.multiDrawIndirectSupported()</code></a> is <code>true</code></strong></div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>indirect</code> - A pointer into the currently bound <code>GL40C.GL_DRAW_INDIRECT_BUFFER</code> or the address of a struct containing draw data</dd>
+<dd><code>drawCount</code> - The number of instances to draw</dd>
+<dd><code>stride</code> - The stride between commands or <code>0</code> if they are tightly packed</dd>
+</dl>
 </section>
 </li>
 <li>
