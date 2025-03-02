@@ -1,8 +1,8 @@
 package foundry.veil.api.resource.type;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.CompiledShader;
 import foundry.veil.api.client.render.shader.ShaderManager;
+import foundry.veil.api.client.render.shader.compiler.CompiledShader;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.resource.VeilResourceAction;
 import foundry.veil.api.resource.VeilResourceInfo;
