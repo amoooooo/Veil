@@ -13,7 +13,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Registry for custom dynamic render type layers.
  */
-public class RenderTypeLayerRegistry {
+public final class RenderTypeLayerRegistry {
 
     public static final ResourceKey<Registry<LayerType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(Veil.veilPath("render_type_layer"));
     private static final RegistrationProvider<LayerType<?>> VANILLA_PROVIDER = RegistrationProvider.get(REGISTRY_KEY, Veil.MODID);
@@ -35,6 +35,9 @@ public class RenderTypeLayerRegistry {
     public static final RegistryObject<LayerType<LineLayer>> LINE = register("line", LineLayer.CODEC);
     public static final RegistryObject<LayerType<ColorLogicLayer>> COLOR_LOGIC = register("color_logic", ColorLogicLayer.CODEC);
     public static final RegistryObject<LayerType<PatchesLayer>> PATCHES = register(Veil.veilPath("patches"), PatchesLayer.CODEC);
+
+    private RenderTypeLayerRegistry() {
+    }
 
     @ApiStatus.Internal
     public static void bootstrap() {

@@ -5,7 +5,6 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.editor.SingleWindowInspector;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
-import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.util.TextureDownloader;
 import imgui.ImGui;
@@ -21,6 +20,7 @@ import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.NativeResource;
 
@@ -46,6 +46,7 @@ public class TextureInspector extends SingleWindowInspector {
     public static final Component FLIP_X = Component.translatable("inspector.veil.texture.toggle.flip_x");
     public static final Component FLIP_Y = Component.translatable("inspector.veil.texture.toggle.flip_y");
     public static final Component NO_TEXTURE = Component.translatable("inspector.veil.texture.asset.missing");
+    private static final ResourceLocation DEBUG_CUBEMAP_SHADER = Veil.veilPath("debug/cubemap");
 
     private final IntSet texturesSet;
     private final Int2ObjectMap<OpenTexture> openTextures;
@@ -291,7 +292,7 @@ public class TextureInspector extends SingleWindowInspector {
         }
 
         public void render(int width, int height) {
-            ShaderProgram shaderProgram = VeilRenderSystem.setShader(VeilShaders.DEBUG_CUBEMAP);
+            ShaderProgram shaderProgram = VeilRenderSystem.setShader(DEBUG_CUBEMAP_SHADER);
             if (shaderProgram == null) {
                 this.free();
                 return;

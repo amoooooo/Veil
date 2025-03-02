@@ -1,8 +1,8 @@
-package foundry.veil.impl.client.render.shader.definition;
+package foundry.veil.impl.client.render.shader.block;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;

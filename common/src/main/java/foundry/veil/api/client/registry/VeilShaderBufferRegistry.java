@@ -13,10 +13,8 @@ import java.util.function.Supplier;
 
 /**
  * Registry for custom shader buffers created with {@link VeilShaderBufferLayout#builder()}.
- *
- * @author Ocelot
  */
-public class VeilShaderBufferRegistry {
+public final class VeilShaderBufferRegistry {
 
     public static final ResourceKey<Registry<VeilShaderBufferLayout<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(Veil.veilPath("shader_buffer"));
     private static final RegistrationProvider<VeilShaderBufferLayout<?>> PROVIDER = RegistrationProvider.get(REGISTRY_KEY, Veil.MODID);
@@ -24,6 +22,9 @@ public class VeilShaderBufferRegistry {
 
     public static final Supplier<VeilShaderBufferLayout<CameraMatrices>> CAMERA = register("camera", CameraMatrices::createLayout);
     public static final Supplier<VeilShaderBufferLayout<GuiInfo>> GUI_INFO = register("gui_info", GuiInfo::createLayout);
+
+    private VeilShaderBufferRegistry() {
+    }
 
     @ApiStatus.Internal
     public static void bootstrap() {

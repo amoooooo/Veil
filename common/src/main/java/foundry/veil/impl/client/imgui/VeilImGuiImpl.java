@@ -1,9 +1,7 @@
 package foundry.veil.impl.client.imgui;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.imgui.VeilImGui;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.imgui.style.VeilImGuiStylesheet;
 import imgui.ImGui;
 import imgui.ImGuiIO;
 import imgui.callback.ImStrConsumer;

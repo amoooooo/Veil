@@ -1,6 +1,5 @@
 package foundry.veil.impl.client.render.shader.modifier;
 
-import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
 import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
 import net.minecraft.resources.ResourceLocation;

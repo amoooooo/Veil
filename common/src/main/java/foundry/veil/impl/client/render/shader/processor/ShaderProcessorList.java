@@ -1,5 +1,6 @@
-package foundry.veil.api.client.render.shader.processor;
+package foundry.veil.impl.client.render.shader.processor;
 
+import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import foundry.veil.api.event.VeilAddShaderPreProcessorsEvent;
 import foundry.veil.impl.client.render.shader.ShaderImporterImpl;
 import net.minecraft.server.packs.resources.ResourceProvider;

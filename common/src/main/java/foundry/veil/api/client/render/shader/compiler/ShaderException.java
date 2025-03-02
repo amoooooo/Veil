@@ -1,4 +1,4 @@
-package foundry.veil.api.client.render.shader;
+package foundry.veil.api.client.render.shader.compiler;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -1,9 +1,9 @@
-package foundry.veil.api.client.render.shader.definition;
+package foundry.veil.api.client.render.shader.block;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.shader.definition.DynamicShaderBlockImpl;
-import foundry.veil.impl.client.render.shader.definition.SizedShaderBlockImpl;
-import foundry.veil.impl.client.render.shader.definition.WrapperShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.block.DynamicShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.block.SizedShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.block.WrapperShaderBlockImpl;
 import io.github.ocelot.glslprocessor.api.grammar.GlslTypeQualifier;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;

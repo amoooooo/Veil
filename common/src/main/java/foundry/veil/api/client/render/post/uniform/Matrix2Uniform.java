@@ -4,13 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
-import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix2f;
 import org.joml.Matrix2fc;
 
 import java.util.List;
 
-@ApiStatus.Internal
 public record Matrix2Uniform(Matrix2fc value) implements UniformValue {
 
     public static final MapCodec<Matrix2Uniform> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

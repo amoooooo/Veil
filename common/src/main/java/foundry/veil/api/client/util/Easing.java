@@ -186,6 +186,12 @@ public enum Easing {
         }
     };
 
+    /**
+     * Applies the easing to the specified input.
+     *
+     * @param x The input percentage from <code>0</code> to <code>1</code>
+     * @return A remapped value from <code>0</code> to <code>1</code> that follows this easing
+     */
     public abstract float ease(float x);
 
     private static float bounceOut(float x) {

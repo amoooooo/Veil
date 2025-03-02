@@ -1,4 +1,4 @@
-package foundry.veil.api.client.render.rendertype;
+package foundry.veil.impl.client.render.rendertype;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -17,6 +17,7 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,19 +31,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@ApiStatus.Internal
 public class DynamicRenderTypeManager extends SimplePreparableReloadListener<Map<ResourceLocation, byte[]>> {
 
     private static final FileToIdConverter CONVERTER = FileToIdConverter.json("pinwheel/rendertypes");
 
     private final Map<ResourceLocation, RenderTypeCache> renderTypes = new Object2ObjectArrayMap<>();
 
-    /**
-     * Retrieves and caches a rendertype with the specified id.
-     *
-     * @param id     The id of the rendertype to get
-     * @param params Additional parameters to configure the render type
-     * @return The rendertype created or <code>null</code> if unregistered or an error occurs
-     */
     public @Nullable RenderType get(ResourceLocation id, Object... params) {
         RenderTypeCache cache = this.renderTypes.get(id);
         if (cache == null) {

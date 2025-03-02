@@ -24,6 +24,13 @@ public interface IrisCompat {
     IrisCompat INSTANCE = Veil.platform().isModLoaded("iris") ? ServiceLoader.load(IrisCompat.class).findFirst().orElse(null) : null;
 
     /**
+     * @return Whether Iris is loaded
+     */
+    static boolean isLoaded() {
+        return INSTANCE != null;
+    }
+
+    /**
      * @return All loaded shaders created by Iris
      */
     Set<ShaderInstance> getLoadedShaders();

@@ -2,7 +2,7 @@ package foundry.veil.forge.mixin.compat.sodium;
 
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.impl.client.render.shader.transformer.SodiumShaderProcessor;
+import foundry.veil.impl.client.render.shader.processor.SodiumShaderProcessor;
 import net.caffeinemc.mods.sodium.client.gl.shader.GlShader;
 import net.caffeinemc.mods.sodium.client.gl.shader.ShaderConstants;
 import net.caffeinemc.mods.sodium.client.gl.shader.ShaderLoader;

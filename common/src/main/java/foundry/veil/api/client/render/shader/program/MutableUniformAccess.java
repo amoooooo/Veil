@@ -1,6 +1,5 @@
 package foundry.veil.api.client.render.shader.program;
 
-import net.minecraft.core.Direction;
 import org.joml.*;
 
 import java.lang.Math;
@@ -11,8 +10,6 @@ import java.lang.Math;
  * @author Ocelot
  */
 public interface MutableUniformAccess extends UniformAccess {
-
-    Direction[] DIRECTIONS = Direction.values();
 
     /**
      * Sets the binding to use for the specified uniform block.

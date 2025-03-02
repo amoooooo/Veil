@@ -1,6 +1,5 @@
 package foundry.veil.api.client.render.light;
 
-import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
 /**
@@ -14,7 +13,7 @@ public interface PositionedLight<T extends PositionedLight<T>> {
     /**
      * @return The position of this light
      */
-    Vector3d getPosition();
+    Vector3dc getPosition();
 
     /**
      * Sets the origin position of this light.

@@ -17,6 +17,7 @@ import java.util.Objects;
  *
  * @author amo
  */
+@Deprecated
 public class ColorTheme {
 
     public static final ColorTheme DEFAULT = new ColorTheme() {{

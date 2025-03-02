@@ -11,14 +11,17 @@ import com.mojang.blaze3d.vertex.VertexFormatElement;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.ext.VeilDebug;
-import foundry.veil.api.client.render.shader.*;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.ShaderSourceSet;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
+import foundry.veil.api.client.render.shader.compiler.CompiledShader;
+import foundry.veil.api.client.render.shader.compiler.ShaderCompiler;
+import foundry.veil.api.client.render.shader.compiler.ShaderException;
+import foundry.veil.api.client.render.shader.compiler.VeilShaderSource;
 import foundry.veil.api.client.render.shader.program.*;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
 import foundry.veil.api.client.render.texture.SamplerObject;
 import foundry.veil.api.client.render.texture.TextureFilter;
 import foundry.veil.api.client.util.VertexFormatCodec;
-import foundry.veil.impl.client.render.shader.DummyResource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
@@ -28,6 +31,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.repository.KnownPack;
 import net.minecraft.server.packs.resources.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
@@ -334,16 +339,6 @@ public class ShaderProgramImpl implements ShaderProgram {
     }
 
     @Override
-    public void addSamplerListener(SamplerListener listener) {
-        this.textures.addSamplerListener(listener);
-    }
-
-    @Override
-    public void removeSamplerListener(SamplerListener listener) {
-        this.textures.removeSamplerListener(listener);
-    }
-
-    @Override
     public void addSampler(CharSequence name, int textureId, int samplerId) {
         if (this.compiledProgram != null && this.compiledProgram.uniforms.hasSampler(name.toString())) {
             this.textures.put(name, textureId, samplerId);
@@ -494,10 +489,7 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
     }
 
-    /**
-     * @author Ocelot
-     */
-    public static class Wrapper extends ShaderInstance {
+    private static class DummyShaderResource extends Resource {
 
         private static final byte[] DUMMY_SHADER = """
                 {
@@ -505,7 +497,33 @@ public class ShaderProgramImpl implements ShaderProgram {
                     "fragment": "dummy"
                 }
                 """.getBytes(StandardCharsets.UTF_8);
-        private static final Resource RESOURCE = new DummyResource(() -> new ByteArrayInputStream(DUMMY_SHADER));
+
+        public DummyShaderResource() {
+            super(null, () -> new ByteArrayInputStream(DUMMY_SHADER));
+        }
+
+        @Override
+        public PackResources source() {
+            throw new UnsupportedOperationException("No pack source");
+        }
+
+        @Override
+        public String sourcePackId() {
+            return "dummy";
+        }
+
+        @Override
+        public Optional<KnownPack> knownPackInfo() {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * @author Ocelot
+     */
+    public static class Wrapper extends ShaderInstance {
+
+        private static final Resource RESOURCE = new DummyShaderResource();
         private static final VertexFormat DUMMY_FORMAT = VertexFormat.builder().build();
 
         public static ShaderProgram constructingProgram = null;

@@ -4,12 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiStatus.Internal
 public record FloatUniform(float[] values) implements UniformValue {
 
     public static final MapCodec<FloatUniform> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(

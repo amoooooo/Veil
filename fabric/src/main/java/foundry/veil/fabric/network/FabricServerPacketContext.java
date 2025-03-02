@@ -8,13 +8,14 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
 public record FabricServerPacketContext(ServerPlayNetworking.Context context) implements ServerPacketContext {
 
     @Override
-    public ServerPlayer player() {
+    public @NotNull ServerPlayer player() {
         return this.context.player();
     }
 

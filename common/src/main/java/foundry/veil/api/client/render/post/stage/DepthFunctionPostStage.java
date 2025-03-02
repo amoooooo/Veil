@@ -29,7 +29,6 @@ public record DepthFunctionPostStage(DepthFunc func) implements PostPipeline {
         return PostPipelineStageRegistry.DEPTH_FUNC.get();
     }
 
-
     public enum DepthFunc {
         NEVER(GL_NEVER),
         LESS(GL_LESS),

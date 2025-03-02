@@ -1,4 +1,4 @@
-package foundry.veil.api.client.imgui;
+package foundry.veil.impl.client.imgui;
 
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;

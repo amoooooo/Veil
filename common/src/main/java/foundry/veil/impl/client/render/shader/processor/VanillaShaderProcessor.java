@@ -1,12 +1,11 @@
-package foundry.veil.impl.client.render.shader.transformer;
+package foundry.veil.impl.client.render.shader.processor;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.VeilClient;
 import foundry.veil.api.client.render.dynamicbuffer.DynamicBufferType;
-import foundry.veil.api.client.render.shader.ShaderImporter;
+import foundry.veil.api.client.render.shader.processor.ShaderImporter;
 import foundry.veil.api.client.render.shader.processor.ShaderModifyProcessor;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
-import foundry.veil.api.client.render.shader.processor.ShaderProcessorList;
 import foundry.veil.impl.client.render.dynamicbuffer.DynamicBufferProcessor;
 import io.github.ocelot.glslprocessor.api.GlslParser;
 import io.github.ocelot.glslprocessor.api.GlslSyntaxException;

@@ -4,10 +4,10 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.shader.program.ShaderUniformCache;
-import foundry.veil.api.client.render.shader.program.TextureUniformAccess;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryUtil;
@@ -22,7 +22,6 @@ public class ShaderTextureCache {
     private final Object2IntMap<CharSequence> textures;
     private final Int2IntMap samplers;
     private final Object2IntMap<CharSequence> boundSamplers;
-    private final ObjectSet<TextureUniformAccess.SamplerListener> listeners;
 
     private boolean textureDirty;
     private boolean samplerDirty;
@@ -34,7 +33,6 @@ public class ShaderTextureCache {
         this.textures = new Object2IntArrayMap<>();
         this.samplers = new Int2IntArrayMap();
         this.boundSamplers = new Object2IntArrayMap<>();
-        this.listeners = new ObjectArraySet<>();
 
         this.textureBindings = null;
         this.samplerBindings = null;
@@ -110,11 +108,6 @@ public class ShaderTextureCache {
         if (samplerStart + count >= maxSampler) {
             Veil.LOGGER.error("Too many samplers were bound for shader (max {}): {}", maxSampler, this.program.getName());
         }
-
-        Object2IntMap<CharSequence> view = Object2IntMaps.unmodifiable(this.boundSamplers);
-        for (TextureUniformAccess.SamplerListener listener : this.listeners) {
-            listener.onUpdateSamplers(view);
-        }
     }
 
     public void bind(ShaderUniformCache cache, int samplerStart) {
@@ -165,14 +158,6 @@ public class ShaderTextureCache {
 
             VeilRenderSystem.bindSamplers(samplerStart, this.samplerBindings);
         }
-    }
-
-    public void addSamplerListener(TextureUniformAccess.SamplerListener listener) {
-        this.listeners.add(listener);
-    }
-
-    public void removeSamplerListener(TextureUniformAccess.SamplerListener listener) {
-        this.listeners.remove(listener);
     }
 
     public void put(CharSequence name, int textureId, int samplerId) {

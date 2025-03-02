@@ -8,15 +8,15 @@ import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.IndirectLight;
 import foundry.veil.api.client.render.light.Light;
-import foundry.veil.api.client.render.shader.VeilShaders;
-import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.block.DynamicShaderBlock;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.vertex.VertexArray;
 import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.joml.Vector3d;
+import org.joml.Vector3dc;
 import org.joml.Vector4fc;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
@@ -41,6 +41,7 @@ import static org.lwjgl.opengl.GL45C.glNamedBufferData;
  */
 public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> implements LightTypeRenderer<T> {
 
+    private static final ResourceLocation CULL_SHADER = Veil.veilPath("light/indirect_sphere");
     private static final int MIN_LIGHTS = 20;
 
     protected final int lightSize;
@@ -163,7 +164,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
     }
 
     private boolean isVisible(T light, CullFrustum frustum) {
-        Vector3d position = light.getPosition();
+        Vector3dc position = light.getPosition();
         float radius = light.getRadius();
         return frustum.testSphere(position, radius * 1.414F);
     }
@@ -185,7 +186,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
 
     private int updateVisibility(List<T> lights, CullFrustum frustum) {
         if (this.sizeVbo != 0) {
-            VeilRenderSystem.setShader(VeilShaders.LIGHT_INDIRECT_SPHERE);
+            VeilRenderSystem.setShader(CULL_SHADER);
             ShaderProgram shader = VeilRenderSystem.getShader();
             if (shader != null && shader.isCompute()) {
                 try (MemoryStack stack = MemoryStack.stackPush()) {

@@ -1,7 +1,7 @@
-package foundry.veil.api.client.render.shader;
+package foundry.veil.api.client.render.shader.compiler;
 
-import foundry.veil.impl.client.render.shader.CachedShaderCompiler;
-import foundry.veil.impl.client.render.shader.DirectShaderCompiler;
+import foundry.veil.impl.client.render.shader.compiler.CachedShaderCompiler;
+import foundry.veil.impl.client.render.shader.compiler.DirectShaderCompiler;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NativeResource;

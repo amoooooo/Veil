@@ -2,13 +2,14 @@ package foundry.veil.impl.client.render.light;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.PointLight;
 import foundry.veil.api.client.render.light.renderer.IndirectLightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
-import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +17,8 @@ import java.util.List;
 
 @ApiStatus.Internal
 public class IndirectPointLightRenderer extends IndirectLightRenderer<PointLight> {
+
+    private static final ResourceLocation SHADER = Veil.veilPath("light/point");
 
     public IndirectPointLightRenderer() {
         super(Float.BYTES * 7, 4, 0, 6);
@@ -48,7 +51,7 @@ public class IndirectPointLightRenderer extends IndirectLightRenderer<PointLight
 
     @Override
     protected void setupRenderState(@NotNull LightRenderer lightRenderer, @NotNull List<PointLight> lights) {
-        VeilRenderSystem.setShader(VeilShaders.LIGHT_POINT);
+        VeilRenderSystem.setShader(SHADER);
     }
 
     @Override

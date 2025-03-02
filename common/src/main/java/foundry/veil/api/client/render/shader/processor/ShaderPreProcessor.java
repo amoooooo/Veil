@@ -2,9 +2,8 @@ package foundry.veil.api.client.render.shader.processor;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.ShaderImporter;
 import foundry.veil.api.client.render.shader.ShaderManager;
-import foundry.veil.api.client.render.shader.definition.ShaderPreDefinitions;
+import foundry.veil.api.client.render.shader.ShaderPreDefinitions;
 import foundry.veil.api.client.render.shader.program.ProgramDefinition;
 import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
 import io.github.ocelot.glslprocessor.api.node.GlslNode;

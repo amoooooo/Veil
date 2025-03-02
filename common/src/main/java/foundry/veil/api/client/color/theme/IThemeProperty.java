@@ -3,6 +3,7 @@ package foundry.veil.api.client.color.theme;
 /**
  * @author amo
  */
+@Deprecated
 public interface IThemeProperty<T> {
 
     String getName();

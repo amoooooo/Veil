@@ -1,10 +1,14 @@
-package foundry.veil.impl.client.render.shader;
+package foundry.veil.impl.client.render.shader.compiler;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.ext.VeilDebug;
-import foundry.veil.api.client.render.shader.*;
+import foundry.veil.api.client.render.shader.ShaderManager;
+import foundry.veil.api.client.render.shader.compiler.CompiledShader;
+import foundry.veil.api.client.render.shader.compiler.ShaderCompiler;
+import foundry.veil.api.client.render.shader.compiler.ShaderException;
+import foundry.veil.api.client.render.shader.compiler.VeilShaderSource;
 import it.unimi.dsi.fastutil.objects.Object2IntMaps;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;

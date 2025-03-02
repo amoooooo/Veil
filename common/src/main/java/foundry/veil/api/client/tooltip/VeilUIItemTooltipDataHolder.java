@@ -4,6 +4,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Function;
 
+@Deprecated
 public class VeilUIItemTooltipDataHolder {
 
     private ItemStack itemStack;

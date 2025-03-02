@@ -16,7 +16,7 @@ import java.nio.ByteBuffer;
 
 public class AreaLight extends Light implements InstancedLight, PositionedLight<AreaLight>, EditorAttributeProvider {
 
-    private static final float MAX_ANGLE_SIZE = (float) (65535 / 2 / Math.PI);
+    private static final float MAX_ANGLE_SIZE = (float) (65535.0 / 2.0 / Math.PI);
 
     protected final Vector3d position;
     protected final Quaternionf orientation;
@@ -60,21 +60,21 @@ public class AreaLight extends Light implements InstancedLight, PositionedLight<
     }
 
     @Override
-    public Vector3d getPosition() {
+    public Vector3dc getPosition() {
         return this.position;
     }
 
     /**
      * @return The current orientation of the light.
      */
-    public Quaternionf getOrientation() {
+    public Quaternionfc getOrientation() {
         return this.orientation;
     }
 
     /**
      * @return The size of the light's surface
      */
-    public Vector2f getSize() {
+    public Vector2fc getSize() {
         return this.size;
     }
 
@@ -166,21 +166,9 @@ public class AreaLight extends Light implements InstancedLight, PositionedLight<
     }
 
     protected void updateMatrix() {
-        Vector3d position = this.getPosition();
-        Quaternionf orientation = this.getOrientation();
-        this.matrix.rotation(orientation).translate(position);
+        Quaternionfc orientation = this.getOrientation();
+        this.matrix.rotation(orientation).translate(this.position);
         this.markDirty();
-    }
-
-    @Override
-    public AreaLight clone() {
-        AreaLight light = new AreaLight();
-        light.matrix.set(this.matrix);
-        light.size.set(this.size);
-        light.angle = this.angle;
-        light.distance = this.distance;
-        light.markDirty();
-        return light;
     }
 
     @Override

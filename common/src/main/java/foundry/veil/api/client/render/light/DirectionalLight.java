@@ -74,13 +74,6 @@ public class DirectionalLight extends Light implements EditorAttributeProvider {
     }
 
     @Override
-    public DirectionalLight clone() {
-        return new DirectionalLight()
-                .setColor(this.color)
-                .setDirection(this.direction);
-    }
-
-    @Override
     public void renderImGuiAttributes() {
         float[] editDirection = new float[]{this.direction.x(), this.direction.y(), this.direction.z()};
 

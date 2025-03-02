@@ -2,7 +2,7 @@ package foundry.veil.api.client.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.registry.VeilShaderBufferRegistry;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;

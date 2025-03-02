@@ -1,6 +1,6 @@
 package foundry.veil.api.client.render;
 
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import io.github.ocelot.glslprocessor.api.grammar.*;
 import io.github.ocelot.glslprocessor.api.node.GlslNode;
 import io.github.ocelot.glslprocessor.api.node.variable.GlslNewNode;
@@ -11,8 +11,8 @@ import org.joml.*;
 
 import java.lang.Math;
 import java.nio.ByteBuffer;
-import java.util.Random;
 import java.util.*;
+import java.util.Random;
 import java.util.function.Function;
 
 /**

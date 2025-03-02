@@ -1,8 +1,8 @@
 package foundry.veil.impl.client.render.shader;
 
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.shader.ShaderImporter;
 import foundry.veil.api.client.render.shader.ShaderManager;
+import foundry.veil.api.client.render.shader.processor.ShaderImporter;
 import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;

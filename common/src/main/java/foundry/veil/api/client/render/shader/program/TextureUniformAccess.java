@@ -3,7 +3,6 @@ package foundry.veil.api.client.render.shader.program;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
 import foundry.veil.api.client.render.shader.texture.ShaderTextureSource;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -45,20 +44,6 @@ public interface TextureUniformAccess {
             }
         }
     }
-
-    /**
-     * Adds a listener for sampler updates.
-     *
-     * @param listener The listener instance
-     */
-    void addSamplerListener(SamplerListener listener);
-
-    /**
-     * Removes a listener from sampler updates.
-     *
-     * @param listener The listener instance
-     */
-    void removeSamplerListener(SamplerListener listener);
 
     /**
      * Adds a texture that is dynamically bound and sets texture units.
@@ -107,18 +92,4 @@ public interface TextureUniformAccess {
      * Clears all samplers.
      */
     void clearSamplers();
-
-    /**
-     * Fired when samplers are resolved to capture the current bindings.
-     */
-    @FunctionalInterface
-    interface SamplerListener {
-
-        /**
-         * Called to update the listener with the new texture units for the specified textures.
-         *
-         * @param boundSamplers A view of the textures bound
-         */
-        void onUpdateSamplers(Object2IntMap<CharSequence> boundSamplers);
-    }
 }

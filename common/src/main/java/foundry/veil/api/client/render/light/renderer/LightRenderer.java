@@ -30,7 +30,7 @@ import java.util.function.Consumer;
  *
  * @author Ocelot
  */
-public class LightRenderer implements NativeResource {
+public final class LightRenderer implements NativeResource {
 
     private static final ResourceLocation BUFFER_ID = Veil.veilPath("lights");
     private final Map<LightTypeRegistry.LightType<?>, LightData<?>> lights;

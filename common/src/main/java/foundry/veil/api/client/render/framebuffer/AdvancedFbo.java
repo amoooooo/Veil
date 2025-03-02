@@ -17,11 +17,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11C.*;
+import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.opengl.GL30C.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL30C.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL30C.GL_NEAREST;
 import static org.lwjgl.opengl.GL30C.GL_RGBA;
-import static org.lwjgl.opengl.GL30C.*;
 
 /**
  * <p>A framebuffer that has more capabilities than the vanilla Minecraft {@link RenderTarget}.</p>

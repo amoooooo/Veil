@@ -30,11 +30,14 @@ import java.util.function.Consumer;
 
 /**
  * Extra components and helpers for ImGui.
+ *
+ * @author ryan, Ocelot
  */
 public class VeilImGuiUtil {
 
     private static final ImGuiCharSink IM_GUI_CHAR_SINK = new ImGuiCharSink();
     private static final StringSplitter IM_GUI_SPLITTER = new StringSplitter((charId, style) -> getStyleFont(style).getCharAdvance(charId));
+
     public static final ResourceLocation ICON_FONT = Veil.veilPath("remixicon");
 
     /**
@@ -244,7 +247,7 @@ public class VeilImGuiUtil {
         }
 
         @Override
-        public boolean accept(int unknown, Style style, int codePoint) {
+        public boolean accept(int positionInCurrentSequence, Style style, int codePoint) {
             ImFont font = getStyleFont(style);
             int styleColor = style.getColor() != null ? style.getColor().getValue() : this.textColor;
             if (font != this.font || styleColor != this.textColor || style.getHoverEvent() != this.hoverEvent || style.getClickEvent() != this.clickEvent) {

@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * @author amo
  */
+@Deprecated
 public class BooleanThemeProperty implements IThemeProperty<Boolean> {
 
     private String name;

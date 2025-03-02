@@ -1,11 +1,7 @@
 package foundry.veil.api.client.render.shader;
 
 import foundry.veil.Veil;
-import foundry.veil.impl.client.render.shader.modifier.InputShaderModification;
-import foundry.veil.impl.client.render.shader.modifier.ReplaceShaderModification;
-import foundry.veil.impl.client.render.shader.modifier.ShaderModification;
-import foundry.veil.impl.client.render.shader.modifier.SimpleShaderModification;
-import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
+import foundry.veil.impl.client.render.shader.modifier.*;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;

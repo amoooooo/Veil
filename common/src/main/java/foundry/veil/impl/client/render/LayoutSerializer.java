@@ -3,10 +3,10 @@ package foundry.veil.impl.client.render;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.VeilShaderBufferLayout;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
-import foundry.veil.impl.client.render.shader.definition.LayoutShaderBlockImpl;
-import foundry.veil.impl.client.render.shader.definition.SizedShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.block.LayoutShaderBlockImpl;
+import foundry.veil.impl.client.render.shader.block.SizedShaderBlockImpl;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.system.MemoryStack;
 

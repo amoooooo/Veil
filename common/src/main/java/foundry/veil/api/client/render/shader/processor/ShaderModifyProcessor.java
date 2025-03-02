@@ -2,7 +2,7 @@ package foundry.veil.api.client.render.shader.processor;
 
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.shader.ShaderModificationManager;
-import foundry.veil.impl.client.render.shader.transformer.VeilJobParameters;
+import foundry.veil.impl.client.render.shader.modifier.VeilJobParameters;
 import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
 import io.github.ocelot.glslprocessor.lib.anarres.cpp.LexerException;

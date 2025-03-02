@@ -5,16 +5,18 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.ext.PerformanceRenderTargetExtension;
 import foundry.veil.ext.RenderTargetExtension;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.NVDrawTexture;
 import org.lwjgl.system.MemoryStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,6 +29,9 @@ import static org.lwjgl.opengl.GL11C.*;
 
 @Mixin(RenderTarget.class)
 public abstract class PerformanceRenderTargetMixin implements PerformanceRenderTargetExtension {
+
+    @Unique
+    private static final ResourceLocation veil$BLIT_SHADER = Veil.veilPath("blit_screen");
 
     @Shadow
     public int frameBufferId;
@@ -57,6 +62,7 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
     @Shadow
     public abstract void unbindWrite();
 
+    @SuppressWarnings("ConstantValue")
     @Inject(method = "copyDepthFrom", at = @At("HEAD"), cancellable = true)
     public void copyDepthFrom(RenderTarget otherTarget, CallbackInfo ci) {
         if (!(((Object) this.getClass()) instanceof MainTarget) || (((Object) this.getClass()) instanceof TextureTarget)) {
@@ -143,7 +149,7 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
             glBlitNamedFramebuffer(frameBufferId, 0, 0, 0, this.width, this.height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
             GlStateManager._colorMask(true, true, true, true);
         } else {
-            ShaderProgram shader = VeilRenderSystem.setShader(VeilShaders.BLIT_SCREEN);
+            ShaderProgram shader = VeilRenderSystem.setShader(veil$BLIT_SHADER);
             if (shader == null) {
                 return;
             }

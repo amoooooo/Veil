@@ -2,6 +2,7 @@ package foundry.veil.api.molang;
 
 import gg.moonflower.molangcompiler.api.GlobalMolangCompiler;
 import gg.moonflower.molangcompiler.api.MolangCompiler;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Manages the Veil MoLang compiler.
@@ -19,11 +20,7 @@ public final class VeilMolang {
         return compiler;
     }
 
-    /**
-     * Sets the current molang compiler instance.
-     *
-     * @param compiler The new compiler to use
-     */
+    @ApiStatus.Internal
     public static void set(MolangCompiler compiler) {
         VeilMolang.compiler = compiler;
     }

@@ -1,8 +1,8 @@
-package foundry.veil.impl.client.render.shader;
+package foundry.veil.impl.client.render.shader.compiler;
 
-import foundry.veil.api.client.render.shader.CompiledShader;
-import foundry.veil.api.client.render.shader.ShaderException;
-import foundry.veil.api.client.render.shader.VeilShaderSource;
+import foundry.veil.api.client.render.shader.compiler.CompiledShader;
+import foundry.veil.api.client.render.shader.compiler.ShaderException;
+import foundry.veil.api.client.render.shader.compiler.VeilShaderSource;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.resources.ResourceLocation;

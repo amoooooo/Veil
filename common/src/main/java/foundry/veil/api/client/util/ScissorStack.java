@@ -1,4 +1,4 @@
-package foundry.veil.api.client.ui.util;
+package foundry.veil.api.client.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -11,10 +11,12 @@ import java.util.Deque;
  * A utility class to manage scissor clipping regions.
  * This allows for restricting rendering to specific rectangular areas.
  */
-public class ScissorStack {
-    private final Deque<ScissorRegion> regions = new ArrayDeque<>();
+public final class ScissorStack {
+
+    private final Deque<ScissorRegion> regions;
 
     public ScissorStack() {
+        this.regions = new ArrayDeque<>();
     }
 
     /**
@@ -27,8 +29,8 @@ public class ScissorStack {
      * @param height The height of the region.
      */
     public void push(int x, int y, int width, int height) {
-        if (!regions.isEmpty()) {
-            ScissorRegion parent = regions.peek();
+        if (!this.regions.isEmpty()) {
+            ScissorRegion parent = this.regions.peek();
             int x2 = x + width;
             x = Mth.clamp(x, parent.x, parent.x + parent.width);
             width = Mth.clamp(x2, parent.x, parent.x + parent.width) - x;
@@ -38,7 +40,7 @@ public class ScissorStack {
         }
 
         ScissorRegion region = new ScissorRegion(x, y, width, height);
-        regions.push(region);
+        this.regions.push(region);
         region.apply();
     }
 
@@ -47,10 +49,11 @@ public class ScissorStack {
      * If there are any regions remaining, the previous region is reapplied.
      */
     public void pop() {
-        regions.pop();
-        RenderSystem.disableScissor();
-        if (!regions.isEmpty()) {
-            regions.peek().apply();
+        this.regions.pop();
+        if (this.regions.isEmpty()) {
+            RenderSystem.disableScissor();
+        } else {
+            this.regions.peek().apply();
         }
     }
 
@@ -72,8 +75,8 @@ public class ScissorStack {
          */
         void apply() {
             double scale = Minecraft.getInstance().getWindow().getGuiScale();
-            int screenY = (int) ((Minecraft.getInstance().getWindow().getHeight() - (y + height)) * scale);
-            RenderSystem.enableScissor((int) (x * scale), screenY, (int) (width * scale), (int) (height * scale));
+            int screenY = (int) ((Minecraft.getInstance().getWindow().getHeight() - (this.y + this.height)) * scale);
+            RenderSystem.enableScissor((int) (this.x * scale), screenY, (int) (this.width * scale), (int) (this.height * scale));
         }
     }
 }

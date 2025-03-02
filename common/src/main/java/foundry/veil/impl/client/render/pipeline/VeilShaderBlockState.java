@@ -2,8 +2,8 @@ package foundry.veil.impl.client.render.pipeline;
 
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
-import foundry.veil.impl.client.render.shader.definition.ShaderBlockImpl;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
+import foundry.veil.impl.client.render.shader.block.ShaderBlockImpl;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import it.unimi.dsi.fastutil.objects.ObjectSet;

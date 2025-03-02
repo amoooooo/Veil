@@ -1,4 +1,4 @@
-package foundry.veil.api.client.render.shader;
+package foundry.veil.api.client.render.shader.compiler;
 
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;

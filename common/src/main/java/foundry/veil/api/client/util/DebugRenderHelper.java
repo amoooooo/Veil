@@ -12,7 +12,15 @@ import org.joml.Vector3f;
 
 // bunch of static functions for rendering spheres etc
 // all pretty self-explanatory
-public class DebugRenderHelper {
+
+/**
+ * @author cappin
+ */
+public final class DebugRenderHelper {
+
+    private DebugRenderHelper() {
+    }
+
     public static void renderCube(PoseStack pPoseStack, VertexConsumer pConsumer, float pRed, float pGreen, float pBlue, float pAlpha) {
         renderBox(pPoseStack, pConsumer, 0, 0, 0, 1, 1, 1, pRed, pGreen, pBlue, pAlpha);
     }

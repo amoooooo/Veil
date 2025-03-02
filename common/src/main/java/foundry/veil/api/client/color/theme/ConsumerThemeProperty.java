@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 /**
  * @author amo
  */
+@Deprecated
 public class ConsumerThemeProperty implements IThemeProperty<Consumer<?>> {
 
     private String name;

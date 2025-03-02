@@ -1,8 +1,8 @@
 package foundry.veil;
 
-import foundry.veil.api.client.imgui.VeilImGui;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.molang.VeilMolang;
+import foundry.veil.impl.client.imgui.VeilImGui;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.platform.VeilPlatform;
 import gg.moonflower.molangcompiler.api.MolangCompiler;

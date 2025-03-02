@@ -3,11 +3,9 @@ package foundry.veil.api.client.render.post.uniform;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import foundry.veil.api.client.render.shader.program.MutableUniformAccess;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;
 
-@ApiStatus.Internal
 public record IntUniform(int[] values) implements UniformValue {
 
     public static final MapCodec<IntUniform> CODEC = Codec.INT.listOf(1, 4)

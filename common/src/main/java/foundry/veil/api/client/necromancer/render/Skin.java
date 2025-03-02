@@ -8,7 +8,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.api.client.necromancer.Skeleton;
 import foundry.veil.api.client.render.MatrixStack;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.shader.definition.DynamicShaderBlock;
+import foundry.veil.api.client.render.shader.block.DynamicShaderBlock;
 import foundry.veil.api.client.render.vertex.VertexArray;
 import foundry.veil.api.client.render.vertex.VertexArrayBuilder;
 import it.unimi.dsi.fastutil.floats.FloatList;

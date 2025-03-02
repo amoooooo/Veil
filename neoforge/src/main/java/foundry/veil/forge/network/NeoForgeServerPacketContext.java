@@ -9,13 +9,14 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
 public record NeoForgeServerPacketContext(IPayloadContext context) implements ServerPacketContext {
 
     @Override
-    public ServerPlayer player() {
+    public @NotNull ServerPlayer player() {
         return (ServerPlayer) this.context.player();
     }
 

@@ -2,14 +2,15 @@ package foundry.veil.impl.client.render.light;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import foundry.veil.Veil;
 import foundry.veil.api.client.render.CullFrustum;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.DirectionalLight;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
-import foundry.veil.api.client.render.shader.VeilShaders;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.client.render.vertex.VertexArray;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -22,6 +23,7 @@ import java.util.Set;
 public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLight> {
 
     private static final Vector3f DIRECTION = new Vector3f();
+    private static final ResourceLocation SHADER = Veil.veilPath("light/directional");
 
     private final VertexArray vertexArray;
     private int visibleLights;
@@ -46,7 +48,7 @@ public class DirectionalLightRenderer implements LightTypeRenderer<DirectionalLi
 
     @Override
     public void renderLights(LightRenderer lightRenderer, List<DirectionalLight> lights) {
-        VeilRenderSystem.setShader(VeilShaders.LIGHT_DIRECTIONAL);
+        VeilRenderSystem.setShader(SHADER);
         if (lightRenderer.applyShader()) {
             return;
         }

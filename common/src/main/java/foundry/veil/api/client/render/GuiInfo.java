@@ -1,7 +1,7 @@
 package foundry.veil.api.client.render;
 
 import foundry.veil.api.client.registry.VeilShaderBufferRegistry;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import net.minecraft.client.Minecraft;
 
 /**

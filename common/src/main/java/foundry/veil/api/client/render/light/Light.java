@@ -126,7 +126,4 @@ public abstract class Light implements Cloneable {
      */
     public abstract LightTypeRegistry.LightType<?> getType();
 
-    @Override
-    public abstract Light clone();
-
 }

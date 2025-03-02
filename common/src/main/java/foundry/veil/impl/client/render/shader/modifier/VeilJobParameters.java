@@ -1,7 +1,6 @@
-package foundry.veil.impl.client.render.shader.transformer;
+package foundry.veil.impl.client.render.shader.modifier;
 
 import foundry.veil.api.client.render.shader.ShaderModificationManager;
-import foundry.veil.impl.client.render.shader.modifier.ShaderModification;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package foundry.veil.impl.client.imgui.style;
+package foundry.veil.impl.client.imgui;
 
 import imgui.ImGui;
 import imgui.ImGuiStyle;

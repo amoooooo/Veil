@@ -9,7 +9,7 @@ import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.ext.sodium.ChunkShaderOptionsExtension;
 import foundry.veil.fabric.ext.ShaderChunkRendererExtension;
 import foundry.veil.impl.ThreadTaskScheduler;
-import foundry.veil.impl.client.render.shader.transformer.SodiumShaderProcessor;
+import foundry.veil.impl.client.render.shader.processor.SodiumShaderProcessor;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.caffeinemc.mods.sodium.client.gl.shader.*;
 import net.caffeinemc.mods.sodium.client.render.chunk.ShaderChunkRenderer;

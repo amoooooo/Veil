@@ -1,6 +1,5 @@
-package foundry.veil.api.client.render.shader;
+package foundry.veil.api.client.render.shader.processor;
 
-import foundry.veil.api.client.render.shader.processor.ShaderPreProcessor;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
 import net.minecraft.resources.ResourceLocation;
 

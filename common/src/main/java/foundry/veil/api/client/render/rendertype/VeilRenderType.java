@@ -10,8 +10,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderBridge;
 import foundry.veil.api.client.render.VeilRenderSystem;
-import foundry.veil.api.client.render.VeilVertexFormat;
-import foundry.veil.api.client.render.shader.VeilShaders;
+import foundry.veil.api.client.render.vertex.VeilVertexFormat;
 import foundry.veil.impl.client.render.pipeline.CullFaceShard;
 import foundry.veil.mixin.rendertype.accessor.RenderStateShardAccessor;
 import foundry.veil.mixin.rendertype.accessor.RenderTypeAccessor;
@@ -57,7 +56,7 @@ public final class VeilRenderType extends RenderType {
         }
     }
 
-    private static final ShaderStateShard PARTICLE = VeilRenderBridge.shaderState(VeilShaders.PARTICLE);
+    private static final ShaderStateShard PARTICLE = VeilRenderBridge.shaderState(Veil.veilPath("quasar/particle"));
 
     private static final BiFunction<ResourceLocation, Boolean, RenderType> QUASAR_PARTICLE = Util.memoize((texture, additive) -> {
         CompositeState state = RenderType.CompositeState.builder()

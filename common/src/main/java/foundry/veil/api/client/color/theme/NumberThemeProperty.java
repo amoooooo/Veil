@@ -5,6 +5,7 @@ import java.util.Objects;
 /**
  * @author amo
  */
+@Deprecated
 public class NumberThemeProperty implements IThemeProperty<Number> {
 
     private String name;

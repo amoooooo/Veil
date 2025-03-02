@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 /**
  * Registry for all light types.
  */
-public class LightTypeRegistry {
+public final class LightTypeRegistry {
 
     public static final ResourceKey<Registry<LightType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(Veil.veilPath("light_type"));
     private static final RegistrationProvider<LightType<?>> PROVIDER = RegistrationProvider.get(REGISTRY_KEY, Veil.MODID);
@@ -40,6 +40,9 @@ public class LightTypeRegistry {
         }
     }, (level, camera) -> new PointLight().setTo(camera).setRadius(15.0F));
     public static final Supplier<LightType<AreaLight>> AREA = register("area", AreaLightRenderer::new, (level, camera) -> new AreaLight().setDistance(15.0F).setTo(camera));
+
+    private LightTypeRegistry() {
+    }
 
     @ApiStatus.Internal
     public static void bootstrap() {

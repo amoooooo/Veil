@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-public interface UniformValue {
+public sealed interface UniformValue permits FloatUniform, IntUniform, Matrix2Uniform, Matrix3Uniform, Matrix4Uniform {
 
     Codec<UniformValue> CODEC = Type.CODEC.dispatch(UniformValue::type, Type::getCodec);
 

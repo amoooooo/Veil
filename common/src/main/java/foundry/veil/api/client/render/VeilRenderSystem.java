@@ -10,13 +10,14 @@ import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.api.client.render.ext.VeilMultiBind;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.FramebufferManager;
+import foundry.veil.api.client.render.framebuffer.FramebufferStack;
 import foundry.veil.api.client.render.framebuffer.VeilFramebuffers;
 import foundry.veil.api.client.render.light.renderer.LightRenderer;
 import foundry.veil.api.client.render.post.PostPipeline;
 import foundry.veil.api.client.render.post.PostProcessingManager;
 import foundry.veil.api.client.render.rendertype.VeilRenderType;
 import foundry.veil.api.client.render.shader.ShaderManager;
-import foundry.veil.api.client.render.shader.definition.ShaderBlock;
+import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import foundry.veil.api.client.render.shader.program.ShaderProgram;
 import foundry.veil.api.event.VeilRenderLevelStageEvent;
 import foundry.veil.ext.LevelRendererExtension;
@@ -24,7 +25,6 @@ import foundry.veil.ext.VertexBufferExtension;
 import foundry.veil.impl.client.imgui.VeilImGuiImpl;
 import foundry.veil.impl.client.necromancer.render.NecromancerRenderDispatcher;
 import foundry.veil.impl.client.render.dynamicbuffer.VanillaShaderCompiler;
-import foundry.veil.api.client.render.framebuffer.FramebufferStack;
 import foundry.veil.impl.client.render.pipeline.VeilBloomRenderer;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBlockState;
 import foundry.veil.impl.client.render.pipeline.VeilShaderBufferCache;
@@ -89,7 +89,7 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier MULTIBIND_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_multi_bind);
     private static final BooleanSupplier SPARSE_BUFFERS_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_sparse_buffer);
     private static final BooleanSupplier DIRECT_STATE_ACCESS_SUPPORTED = glCapability(caps -> caps.OpenGL45 || caps.GL_ARB_direct_state_access);
-    private static final BooleanSupplier SEPARATE_SHADER_OBJECTS_SUPPORTED = glCapability(caps -> caps.OpenGL41|| caps.GL_ARB_separate_shader_objects);
+    private static final BooleanSupplier SEPARATE_SHADER_OBJECTS_SUPPORTED = glCapability(caps -> caps.OpenGL41 || caps.GL_ARB_separate_shader_objects);
     private static final BooleanSupplier CLEAR_TEXTURE_SUPPORTED = glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_clear_texture);
     private static final BooleanSupplier COPY_IMAGE_SUPPORTED = glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_copy_image);
     private static final BooleanSupplier SHADER_STORAGE_BLOCK_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL43 || caps.GL_ARB_shader_storage_buffer_object);
@@ -98,6 +98,8 @@ public final class VeilRenderSystem {
     private static final BooleanSupplier TEXTURE_MIRROR_CLAMP_TO_EDGE_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL44 || caps.GL_ARB_texture_mirror_clamp_to_edge);
     private static final BooleanSupplier TEXTURE_CUBE_MAP_SEAMLESS_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.GL_ARB_seamless_cubemap_per_texture);
     private static final BooleanSupplier NV_DRAW_TEXTURE_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.GL_NV_draw_texture);
+    private static final BooleanSupplier DRAW_INDIRECT_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.GL_ARB_draw_indirect);
+    private static final BooleanSupplier MULTI_DRAW_INDIRECT_SUPPORTED = VeilRenderSystem.glCapability(caps -> caps.OpenGL40 || caps.GL_ARB_draw_indirect);
     private static final IntSupplier MAX_COMBINED_TEXTURE_IMAGE_UNITS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
     private static final IntSupplier MAX_COLOR_ATTACHMENTS = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_COLOR_ATTACHMENTS));
     private static final IntSupplier MAX_SAMPLES = VeilRenderSystem.glGetter(() -> glGetInteger(GL_MAX_SAMPLES));
@@ -299,36 +301,6 @@ public final class VeilRenderSystem {
         };
     }
 
-    @ApiStatus.Internal
-    public static void bootstrap() {
-        VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> {
-            UNIFORM_BLOCK_STATE.onShaderCompile();
-            SHADER_BUFFER_CACHE.onShaderCompile(updatedPrograms);
-            ERRORED_SHADERS.clear();
-        });
-        VeilEventPlatform.INSTANCE.onVeilRenderLevelStage((stage, levelRenderer, bufferSource, matrixStack, frustumMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum) -> {
-            if (stage == VeilRenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS) {
-                NecromancerRenderDispatcher.begin();
-            } else if (stage == VeilRenderLevelStageEvent.Stage.AFTER_ENTITIES) {
-                NecromancerRenderDispatcher.end();
-            }
-        });
-    }
-
-    @ApiStatus.Internal
-    public static void init() {
-        Minecraft client = Minecraft.getInstance();
-        if (!(client.getResourceManager() instanceof ReloadableResourceManager resourceManager)) {
-            throw new IllegalStateException("Client resource manager is " + client.getResourceManager().getClass());
-        }
-
-        renderer = new VeilRenderer(resourceManager, client.getWindow());
-        VeilImGuiImpl.init(client.getWindow().getWindow());
-        screenQuadVao = directStateAccessSupported() ? glCreateVertexArrays() : glGenVertexArrays();
-        VeilDebug.get().objectLabel(GL_VERTEX_ARRAY, screenQuadVao, "Screen Quad Vertex Array");
-        emptySamplers = MemoryUtil.memCallocInt(maxCombinedTextureUnits());
-    }
-
     /**
      * Binds the specified texture ids to sequential texture units and invalidates the GLStateManager.
      *
@@ -485,7 +457,7 @@ public final class VeilRenderSystem {
     }
 
     /**
-     * Rebuilds all chunks in view without deleting the old chunks.
+     * Rebuilds all chunks in view without deleting old chunks.
      */
     public static void rebuildChunks() {
         ((LevelRendererExtension) Minecraft.getInstance().levelRenderer).veil$markChunksDirty();
@@ -624,6 +596,20 @@ public final class VeilRenderSystem {
      */
     public static boolean nvDrawTextureSupported() {
         return VeilRenderSystem.NV_DRAW_TEXTURE_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBDrawIndirect} is supported
+     */
+    public static boolean drawIndirectSupported() {
+        return VeilRenderSystem.DRAW_INDIRECT_SUPPORTED.getAsBoolean();
+    }
+
+    /**
+     * @return Whether {@link ARBMultiDrawIndirect} is supported
+     */
+    public static boolean multiDrawIndirectSupported() {
+        return VeilRenderSystem.MULTI_DRAW_INDIRECT_SUPPORTED.getAsBoolean();
     }
 
     /**
@@ -897,6 +883,12 @@ public final class VeilRenderSystem {
         GlStateManager._glBindVertexArray(vao);
     }
 
+    /**
+     * Retrieves the texture bound to the specified target.
+     *
+     * @param target The target to get the binding for
+     * @return The texture bound to that target
+     */
     public static int getBoundTexture(int target) {
         return switch (target) {
             case GL_TEXTURE_1D -> glGetInteger(GL_TEXTURE_BINDING_1D);
@@ -1019,6 +1011,36 @@ public final class VeilRenderSystem {
     // Internal
 
     @ApiStatus.Internal
+    public static void bootstrap() {
+        VeilEventPlatform.INSTANCE.onVeilShaderCompile((shaderManager, updatedPrograms) -> {
+            UNIFORM_BLOCK_STATE.onShaderCompile();
+            SHADER_BUFFER_CACHE.onShaderCompile(updatedPrograms);
+            ERRORED_SHADERS.clear();
+        });
+        VeilEventPlatform.INSTANCE.onVeilRenderLevelStage((stage, levelRenderer, bufferSource, matrixStack, frustumMatrix, projectionMatrix, renderTick, deltaTracker, camera, frustum) -> {
+            if (stage == VeilRenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS) {
+                NecromancerRenderDispatcher.begin();
+            } else if (stage == VeilRenderLevelStageEvent.Stage.AFTER_ENTITIES) {
+                NecromancerRenderDispatcher.end();
+            }
+        });
+    }
+
+    @ApiStatus.Internal
+    public static void init() {
+        Minecraft client = Minecraft.getInstance();
+        if (!(client.getResourceManager() instanceof ReloadableResourceManager resourceManager)) {
+            throw new IllegalStateException("Client resource manager is " + client.getResourceManager().getClass());
+        }
+
+        renderer = new VeilRenderer(resourceManager, client.getWindow());
+        VeilImGuiImpl.init(client.getWindow().getWindow());
+        screenQuadVao = directStateAccessSupported() ? glCreateVertexArrays() : glGenVertexArrays();
+        VeilDebug.get().objectLabel(GL_VERTEX_ARRAY, screenQuadVao, "Screen Quad Vertex Array");
+        emptySamplers = MemoryUtil.memCallocInt(maxCombinedTextureUnits());
+    }
+
+    @ApiStatus.Internal
     public static void beginFrame() {
         VeilImGuiImpl.get().beginFrame();
 
@@ -1034,7 +1056,7 @@ public final class VeilRenderSystem {
         }
 
         renderer.endFrame();
-        if(!FramebufferStack.isEmpty()) {
+        if (!FramebufferStack.isEmpty()) {
             Veil.LOGGER.warn("Did not pop all bound framebuffers");
         }
         FramebufferStack.clear();

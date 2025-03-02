@@ -9,6 +9,7 @@ import imgui.type.ImFloat;
 import net.minecraft.client.Camera;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
+import org.joml.Vector3dc;
 import org.joml.Vector3fc;
 
 import java.nio.ByteBuffer;
@@ -39,7 +40,7 @@ public class PointLight extends Light implements IndirectLight<PointLight>, Edit
     }
 
     @Override
-    public Vector3d getPosition() {
+    public Vector3dc getPosition() {
         return this.position;
     }
 
@@ -86,15 +87,6 @@ public class PointLight extends Light implements IndirectLight<PointLight>, Edit
     @Override
     public LightTypeRegistry.LightType<?> getType() {
         return LightTypeRegistry.POINT.get();
-    }
-
-    @Override
-    public PointLight clone() {
-        return new PointLight()
-                .setPosition(this.position)
-                .setColor(this.color)
-                .setRadius(this.radius)
-                .setBrightness(this.brightness);
     }
 
     @Override

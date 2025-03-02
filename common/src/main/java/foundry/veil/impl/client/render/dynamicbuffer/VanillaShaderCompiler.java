@@ -9,7 +9,7 @@ import foundry.veil.Veil;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.ext.ShaderInstanceExtension;
 import foundry.veil.impl.ThreadTaskScheduler;
-import foundry.veil.impl.client.render.shader.transformer.VanillaShaderProcessor;
+import foundry.veil.impl.client.render.shader.processor.VanillaShaderProcessor;
 import net.minecraft.FileUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;

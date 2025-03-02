@@ -12,6 +12,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * Registry for resource editor types.
+ */
 public final class VeilResourceEditorRegistry {
 
     public static final ResourceKey<Registry<ResourceFileEditor.Factory<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(Veil.veilPath("resource_editor"));

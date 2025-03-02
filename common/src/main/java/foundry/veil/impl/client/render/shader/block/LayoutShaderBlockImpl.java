@@ -1,4 +1,4 @@
-package foundry.veil.impl.client.render.shader.definition;
+package foundry.veil.impl.client.render.shader.block;
 
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;

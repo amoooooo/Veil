@@ -22,6 +22,13 @@ public interface SodiumCompat {
     SodiumCompat INSTANCE = Veil.platform().isModLoaded("sodium") ? ServiceLoader.load(SodiumCompat.class).findFirst().orElse(null) : null;
 
     /**
+     * @return Whether Sodium is loaded
+     */
+    static boolean isLoaded() {
+        return INSTANCE != null;
+    }
+
+    /**
      * @return A map of all shader IDs loaded by sodium
      */
     Object2IntMap<ResourceLocation> getLoadedShaders();
