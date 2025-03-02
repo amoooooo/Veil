@@ -2,7 +2,6 @@ package foundry.veil.mixin.performance.client;
 
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.pipeline.RenderTarget;
-import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
@@ -65,7 +64,7 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
     @SuppressWarnings("ConstantValue")
     @Inject(method = "copyDepthFrom", at = @At("HEAD"), cancellable = true)
     public void copyDepthFrom(RenderTarget otherTarget, CallbackInfo ci) {
-        if (!(((Object) this.getClass()) instanceof MainTarget) || (((Object) this.getClass()) instanceof TextureTarget)) {
+        if (!(((Object) this.getClass()) instanceof MainTarget)) {
             return;
         }
 
@@ -87,7 +86,7 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
     @Inject(method = "clear", at = @At("HEAD"), cancellable = true)
     public void clear(boolean clearError, CallbackInfo ci) {
         // Prevent any mods that extend render target from having issues
-        if (!(((Object) this.getClass()) instanceof MainTarget) || (((Object) this.getClass()) instanceof TextureTarget)) {
+        if (!(((Object) this.getClass()) instanceof MainTarget)) {
             return;
         }
 
@@ -120,6 +119,8 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
 
     @Inject(method = "_blitToScreen", at = @At("HEAD"), cancellable = true)
     private void _blitToScreen(int width, int height, boolean disableBlend, CallbackInfo ci) {
+        GlStateManager._disableDepthTest(); // This is needed to maintain the vanilla render state
+
         // This is likely to have better power efficiency on NVIDIA graphics cards, so prefer it
         // https://registry.khronos.org/OpenGL/extensions/NV/NV_draw_texture.txt
         if (VeilRenderSystem.nvDrawTextureSupported()) {
@@ -127,7 +128,6 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
             RenderSystem.assertOnRenderThread();
             GlStateManager._colorMask(true, true, true, false);
             GlStateManager._depthMask(false);
-            GlStateManager._disableDepthTest();
             if (disableBlend) {
                 GlStateManager._disableBlend();
             }
@@ -145,10 +145,8 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
             ci.cancel();
             RenderSystem.assertOnRenderThread();
             GlStateManager._colorMask(true, true, true, false);
-            GlStateManager._disableDepthTest(); // This is needed to maintain the vanilla render state
             int frameBufferId = ((RenderTargetExtension) this).veil$getFramebuffer();
             glBlitNamedFramebuffer(frameBufferId, 0, 0, 0, this.width, this.height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-            GlStateManager._colorMask(true, true, true, true);
         } else {
             ShaderProgram shader = VeilRenderSystem.setShader(veil$BLIT_SHADER);
             if (shader == null) {
@@ -160,7 +158,6 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
             GlStateManager._viewport(0, 0, width, height);
             GlStateManager._colorMask(true, true, true, false);
             GlStateManager._depthMask(false);
-            GlStateManager._disableDepthTest();
             if (disableBlend) {
                 GlStateManager._disableBlend();
             }
@@ -169,10 +166,10 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
             shader.bind();
             VeilRenderSystem.drawScreenQuad();
             ShaderProgram.unbind();
-
-            GlStateManager._colorMask(true, true, true, true);
-            GlStateManager._depthMask(true);
         }
+
+        GlStateManager._colorMask(true, true, true, true);
+        GlStateManager._depthMask(true);
     }
 
     @Override
