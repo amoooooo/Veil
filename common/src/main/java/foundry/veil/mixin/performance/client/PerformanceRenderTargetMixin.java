@@ -145,6 +145,7 @@ public abstract class PerformanceRenderTargetMixin implements PerformanceRenderT
             ci.cancel();
             RenderSystem.assertOnRenderThread();
             GlStateManager._colorMask(true, true, true, false);
+            GlStateManager._disableDepthTest(); // This is needed to maintain the vanilla render state
             int frameBufferId = ((RenderTargetExtension) this).veil$getFramebuffer();
             glBlitNamedFramebuffer(frameBufferId, 0, 0, 0, this.width, this.height, 0, 0, width, height, GL_COLOR_BUFFER_BIT, GL_NEAREST);
             GlStateManager._colorMask(true, true, true, true);
