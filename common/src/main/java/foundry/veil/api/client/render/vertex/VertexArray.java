@@ -2,7 +2,6 @@ package foundry.veil.api.client.render.vertex;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.MeshData;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -14,6 +13,7 @@ import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import org.jetbrains.annotations.ApiStatus;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL40C;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.NativeResource;
@@ -268,27 +268,46 @@ public abstract class VertexArray implements NativeResource {
      * Binds this vertex array and applies any changes to the format automatically.
      */
     public void bind() {
-        BufferUploader.invalidate();
-        GlStateManager._glBindVertexArray(this.id);
+        VeilRenderSystem.bindVertexArray(this.id);
     }
 
     /**
      * Unbinds the current vertex array.
      */
     public static void unbind() {
-        BufferUploader.invalidate();
-        GlStateManager._glBindVertexArray(0);
+        VeilRenderSystem.bindVertexArray(0);
     }
 
+    /**
+     * Draws {@link #indexCount} number of indices with the previously defined draw mode.
+     */
     public void draw() {
         glDrawElements(this.drawMode, this.indexCount, this.indexType.getGlType(), 0L);
     }
 
+    /**
+     * Draws {@link #indexCount} number of indices with the previously defined draw mode a number of times.
+     *
+     * @param instances The number of instances to draw
+     */
     public void drawInstanced(int instances) {
         glDrawElementsInstanced(this.drawMode, this.indexCount, this.indexType.getGlType(), 0L, instances);
     }
 
+    /**
+     * Draws {@link #indexCount} number of indices with the previously defined draw mode a number of times.
+     * <br>
+     * <strong>Note: This only works if {@link VeilRenderSystem#multiDrawIndirectSupported()} is <code>true</code></strong>
+     *
+     * @param indirect  A pointer into the currently bound {@link GL40C#GL_DRAW_INDIRECT_BUFFER} or the address of a struct containing draw data
+     * @param drawCount The number of instances to draw
+     * @param stride    The stride between commands or <code>0</code> if they are tightly packed
+     */
     public void drawIndirect(long indirect, int drawCount, int stride) {
+        if (!VeilRenderSystem.multiDrawIndirectSupported()) {
+            throw new UnsupportedOperationException("Indirect rendering is not supported");
+        }
+
         glMultiDrawElementsIndirect(this.drawMode, this.indexType.getGlType(), indirect, drawCount, stride);
     }
 

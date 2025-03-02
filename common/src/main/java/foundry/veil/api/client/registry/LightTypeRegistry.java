@@ -1,6 +1,7 @@
 package foundry.veil.api.client.registry;
 
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.light.*;
 import foundry.veil.api.client.render.light.renderer.IndirectLightRenderer;
 import foundry.veil.api.client.render.light.renderer.LightTypeRenderer;
@@ -30,7 +31,7 @@ public final class LightTypeRegistry {
 
     public static final Supplier<LightType<DirectionalLight>> DIRECTIONAL = register("directional", DirectionalLightRenderer::new, (level, camera) -> new DirectionalLight().setTo(camera).setDirection(0, -1, 0));
     public static final Supplier<LightType<PointLight>> POINT = register("point", () -> {
-        boolean supported = IndirectLightRenderer.isSupported();
+        boolean supported = VeilRenderSystem.multiDrawIndirectSupported();
         if (supported) {
             Veil.LOGGER.info("Using Indirect Point Light Renderer");
             return new IndirectPointLightRenderer();

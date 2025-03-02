@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static org.lwjgl.opengl.ARBMultiDrawIndirect.glMultiDrawElementsIndirect;
 import static org.lwjgl.opengl.GL11C.glDrawArrays;
 import static org.lwjgl.opengl.GL11C.glGetInteger;
 import static org.lwjgl.opengl.GL15C.GL_ELEMENT_ARRAY_BUFFER;
@@ -23,7 +24,6 @@ import static org.lwjgl.opengl.GL20C.GL_CURRENT_PROGRAM;
 import static org.lwjgl.opengl.GL31C.glDrawArraysInstanced;
 import static org.lwjgl.opengl.GL31C.glDrawElementsInstanced;
 import static org.lwjgl.opengl.GL40C.GL_PATCHES;
-import static org.lwjgl.opengl.GL43C.glMultiDrawElementsIndirect;
 
 @Mixin(VertexBuffer.class)
 public abstract class PipelineVertexBufferMixin implements VertexBufferExtension {
@@ -116,6 +116,10 @@ public abstract class PipelineVertexBufferMixin implements VertexBufferExtension
 
     @Unique
     private void _veil$drawIndirect(long indirect, int drawCount, int stride) {
+        if (!VeilRenderSystem.multiDrawIndirectSupported()) {
+            throw new UnsupportedOperationException("Indirect rendering is not supported");
+        }
+
         if (this.sequentialIndices != null) {
             this.sequentialIndices.bind(this.indexCount);
             glMultiDrawElementsIndirect(this.veil$getDrawMode(this.mode.asGLMode), this.sequentialIndices.type().asGLType, indirect, drawCount, stride);

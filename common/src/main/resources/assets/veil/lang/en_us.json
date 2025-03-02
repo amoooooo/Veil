@@ -56,6 +56,8 @@
   "inspector.veil.device_info.opengl.feature_flag.texture_mirror_clamp_to_edge": "Texture Mirror Clamp? %s",
   "inspector.veil.device_info.opengl.feature_flag.texture_cube_map_seamless": "Texture Cube Map Seamless? %s",
   "inspector.veil.device_info.opengl.feature_flag.nv_draw_texture": "NVIDIA Draw Texture? %s",
+  "inspector.veil.device_info.opengl.feature_flag.draw_indirect": "Indirect Rendering? %s",
+  "inspector.veil.device_info.opengl.feature_flag.multi_draw_indirect": "Multi-Draw Indirect Rendering? %s",
 
   "inspector.veil.device_info.opengl.shader.max_uniform_components": "Max Uniform Components: %s",
   "inspector.veil.device_info.opengl.shader.max_uniform_blocks": "Max Uniform Blocks: %s",

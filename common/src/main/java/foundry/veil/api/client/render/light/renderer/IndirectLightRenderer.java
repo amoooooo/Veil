@@ -18,8 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.joml.Vector3dc;
 import org.joml.Vector4fc;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
@@ -67,7 +65,7 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
      * @param lowResSize The size of the low-resolution mesh or <code>0</code> to only use the high-detail mesh
      */
     public IndirectLightRenderer(int lightSize, int lowResSize, int positionOffset, int rangeOffset) {
-        if (!isSupported()) {
+        if (!VeilRenderSystem.multiDrawIndirectSupported()) {
             throw new IllegalStateException("Indirect light renderer is not supported");
         }
 
@@ -336,13 +334,5 @@ public abstract class IndirectLightRenderer<T extends Light & IndirectLight<T>> 
             this.instancedBlock.free();
             this.indirectBlock.free();
         }
-    }
-
-    /**
-     * @return Whether this renderer is supported
-     */
-    public static boolean isSupported() {
-        GLCapabilities caps = GL.getCapabilities();
-        return caps.OpenGL43 || caps.GL_ARB_multi_draw_indirect;
     }
 }
