@@ -9,19 +9,21 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.system.NativeResource;
 
 import javax.annotation.Nullable;
 
 public class CachedBufferSource implements MultiBufferSource, NativeResource {
 
-    protected final Object2ObjectMap<RenderType, ByteBufferBuilder> buffers = new Object2ObjectArrayMap<>();
-    protected final Object2ObjectMap<RenderType, BufferBuilder> startedBuilders = new Object2ObjectArrayMap<>();
+    private final Object2ObjectMap<RenderType, ByteBufferBuilder> buffers = new Object2ObjectArrayMap<>();
+    private final Object2ObjectMap<RenderType, BufferBuilder> startedBuilders = new Object2ObjectArrayMap<>();
+
     @Nullable
-    protected RenderType lastSharedType;
+    private RenderType lastSharedType;
 
     @Override
-    public VertexConsumer getBuffer(RenderType renderType) {
+    public @NotNull VertexConsumer getBuffer(@NotNull RenderType renderType) {
         BufferBuilder last = this.startedBuilders.get(renderType);
         if (last != null && !renderType.canConsolidateConsecutiveGeometry()) {
             this.endBatch(renderType, last);

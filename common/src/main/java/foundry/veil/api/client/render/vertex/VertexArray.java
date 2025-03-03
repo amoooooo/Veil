@@ -12,6 +12,7 @@ import foundry.veil.impl.client.render.vertex.LegacyVertexArray;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.opengl.ARBMultiDrawIndirect;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL40C;
 import org.lwjgl.opengl.GLCapabilities;
@@ -25,12 +26,12 @@ import java.util.function.IntFunction;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.glCreateVertexArrays;
 import static org.lwjgl.opengl.ARBDirectStateAccess.glNamedBufferData;
+import static org.lwjgl.opengl.ARBMultiDrawIndirect.glMultiDrawElementsIndirect;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL15C.*;
 import static org.lwjgl.opengl.GL30C.glDeleteVertexArrays;
 import static org.lwjgl.opengl.GL30C.glGenVertexArrays;
 import static org.lwjgl.opengl.GL31C.glDrawElementsInstanced;
-import static org.lwjgl.opengl.GL43C.glMultiDrawElementsIndirect;
 
 /**
  * More generic alternative to {@link VertexBuffer} that uses the latest available OpenGL version.

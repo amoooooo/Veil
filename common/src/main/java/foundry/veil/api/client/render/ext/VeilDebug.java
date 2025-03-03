@@ -63,10 +63,6 @@ public enum VeilDebug {
      * @return The best implementation of GL debug for this platform
      */
     public static VeilDebug get() {
-        if (!Veil.RENDERDOC) {
-            return DISABLED;
-        }
-
         if (debug == null) {
             GLCapabilities caps = GL.getCapabilities();
             if (caps.OpenGL43 || caps.GL_KHR_debug) {
