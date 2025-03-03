@@ -34,7 +34,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
     private final ImGuiImplGlfw implGlfw;
     private final ImGuiImplGl3 implGl3;
-    private final ThreadLocal<ImguiState> state;
+    private final ImguiState state;
     private final ImGuiContext imGuiContext;
     private final ImPlotContext imPlotContext;
     private final AtomicBoolean active;
@@ -43,7 +43,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
         this.implGlfw = new VeilImGuiImplGlfw(this);
         this.implGl3 = new ImGuiImplGl3();
 
-        this.state = ThreadLocal.withInitial(ImguiState::new);
+        this.state = new ImguiState();
         ImGuiContext oldImGuiContext = new ImGuiContext(ImGui.getCurrentContext().ptr);
         ImPlotContext oldImPlotContext = new ImPlotContext(ImPlot.getCurrentContext().ptr);
 
@@ -75,12 +75,12 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
 
     @Override
     public void start() {
-        this.state.get().start(this.imGuiContext, this.imPlotContext);
+        this.state.start(this.imGuiContext, this.imPlotContext);
     }
 
     @Override
     public void stop() {
-        this.state.get().end();
+        this.state.end();
     }
 
     @Override
@@ -124,7 +124,7 @@ public class VeilImGuiImpl implements VeilImGui, NativeResource {
             glfwMakeContextCurrent(backupWindowPtr);
         }
 
-        this.state.get().forceEnd();
+        this.state.forceEnd();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package foundry.veil.mixin.imgui.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
+import foundry.veil.api.client.render.VeilRenderSystem;
 import net.minecraft.client.MouseHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,8 +44,14 @@ public class MouseHandlerMixin {
         }
     }
 
+    // REI calls these on another thread for some reason, so it's possible other mods may do the same thing
+
     @Inject(method = "xpos", at = @At("HEAD"), cancellable = true)
     public void cancelMouseX(CallbackInfoReturnable<Double> cir) {
+        if (!RenderSystem.isOnRenderThreadOrInit()) {
+            return;
+        }
+
         try {
             if (Veil.beginImGui().shouldHideMouse()) {
                 cir.setReturnValue(Double.MIN_VALUE);
@@ -55,6 +63,10 @@ public class MouseHandlerMixin {
 
     @Inject(method = "ypos", at = @At("HEAD"), cancellable = true)
     public void cancelMouseY(CallbackInfoReturnable<Double> cir) {
+        if (!RenderSystem.isOnRenderThreadOrInit()) {
+            return;
+        }
+
         try {
             if (Veil.beginImGui().shouldHideMouse()) {
                 cir.setReturnValue(Double.MIN_VALUE);
