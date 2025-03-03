@@ -57,7 +57,7 @@ public class PostPipelineContext implements PostPipeline.Context {
 
     @Override
     public void applySamplers(TextureUniformAccess shader) {
-        this.samplers.forEach((name, pair) -> shader.addSampler(name, pair.getLeft(), pair.getRight()));
+        this.samplers.forEach((name, pair) -> shader.setSampler(name, pair.getLeft(), pair.getRight()));
     }
 
     @Override

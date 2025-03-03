@@ -333,13 +333,13 @@ public class ShaderProgramImpl implements ShaderProgram {
         }
 
         if (context != null) {
-            this.definitionTextures.forEach((name, source) -> this.addSampler(name, source.textureSource.getId(context), source.samplerId()));
+            this.definitionTextures.forEach((name, source) -> this.setSampler(name, source.textureSource.getId(context), source.samplerId()));
         }
         this.textures.bind(this.compiledProgram.uniforms, samplerStart);
     }
 
     @Override
-    public void addSampler(CharSequence name, int textureId, int samplerId) {
+    public void setSampler(CharSequence name, int textureId, int samplerId) {
         if (this.compiledProgram != null && this.compiledProgram.uniforms.hasSampler(name.toString())) {
             this.textures.put(name, textureId, samplerId);
         }
@@ -580,7 +580,7 @@ public class ShaderProgramImpl implements ShaderProgram {
                 if (sampler == 0) {
                     this.program.removeSampler(name);
                 } else {
-                    this.program.addSampler(name, sampler);
+                    this.program.setSampler(name, sampler);
                 }
             }
         }

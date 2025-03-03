@@ -26,21 +26,21 @@ public interface TextureUniformAccess {
             }
 
             AdvancedFboTextureAttachment attachment = framebuffer.getColorTextureAttachment(i);
-            this.addSampler("DiffuseSampler" + i, attachment.getId());
+            this.setSampler("DiffuseSampler" + i, attachment.getId());
             if (attachment.getName() != null) {
-                this.addSampler(attachment.getName(), attachment.getId());
+                this.setSampler(attachment.getName(), attachment.getId());
             }
             if (!setDiffuseSampler) {
-                this.addSampler("DiffuseSampler", attachment.getId());
+                this.setSampler("DiffuseSampler", attachment.getId());
                 setDiffuseSampler = true;
             }
         }
 
         if (framebuffer.isDepthTextureAttachment()) {
             AdvancedFboTextureAttachment attachment = framebuffer.getDepthTextureAttachment();
-            this.addSampler("DiffuseDepthSampler", attachment.getId());
+            this.setSampler("DiffuseDepthSampler", attachment.getId());
             if (attachment.getName() != null) {
-                this.addSampler(attachment.getName(), attachment.getId());
+                this.setSampler(attachment.getName(), attachment.getId());
             }
         }
     }
@@ -51,8 +51,8 @@ public interface TextureUniformAccess {
      * @param name      The name of the texture to set
      * @param textureId The id of the texture to bind and assign a texture unit
      */
-    default void addSampler(CharSequence name, int textureId) {
-        this.addSampler(name, textureId, 0);
+    default void setSampler(CharSequence name, int textureId) {
+        this.setSampler(name, textureId, 0);
     }
 
     /**
@@ -62,7 +62,7 @@ public interface TextureUniformAccess {
      * @param textureId The id of the texture to bind and assign a texture unit
      * @param samplerId The id of the sampler assign a texture unit
      */
-    void addSampler(CharSequence name, int textureId, int samplerId);
+    void setSampler(CharSequence name, int textureId, int samplerId);
 
     /**
      * Removes the specified sampler binding.
@@ -72,7 +72,7 @@ public interface TextureUniformAccess {
     void removeSampler(CharSequence name);
 
     /**
-     * Loads the samplers set by {@link #addSampler(CharSequence, int)} into the shader.
+     * Loads the samplers set by {@link #setSampler(CharSequence, int)} into the shader.
      *
      * @param samplerStart The sampler to start binding to
      */
@@ -81,7 +81,7 @@ public interface TextureUniformAccess {
     }
 
     /**
-     * Loads the samplers set by {@link #addSampler(CharSequence, int)} into the shader.
+     * Loads the samplers set by {@link #setSampler(CharSequence, int)} into the shader.
      *
      * @param context      The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers
      * @param samplerStart The sampler to start binding to
