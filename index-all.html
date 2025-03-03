@@ -289,16 +289,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Adds a resource to this folder, creating sub-folders if necessary</div>
 </dd>
-<dt><a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#addSampler(java.lang.CharSequence,int)" class="member-name-link">addSampler(CharSequence, int)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></dt>
-<dd>
-<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
-</dd>
-<dt><a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#addSampler(java.lang.CharSequence,int,int)" class="member-name-link">addSampler(CharSequence, int, int)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></dt>
-<dd>
-<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
-</dd>
-<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#addSampler(java.lang.CharSequence,int,int)" class="member-name-link">addSampler(CharSequence, int, int)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#addShaderBlock(java.lang.String,foundry.veil.api.client.render.shader.block.ShaderBlock)" class="member-name-link">addShaderBlock(String, ShaderBlock&lt;?&gt;)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/rendertype/layer/ColorLogicLayer.html#addShard(foundry.veil.api.client.render.rendertype.VeilRenderTypeBuilder,java.lang.Object...)" class="member-name-link">addShard(VeilRenderTypeBuilder, Object...)</a> - Method in record class foundry.veil.api.client.render.rendertype.layer.<a href="foundry/veil/api/client/render/rendertype/layer/ColorLogicLayer.html" title="class in foundry.veil.api.client.render.rendertype.layer">ColorLogicLayer</a></dt>
@@ -923,7 +913,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#bindSamplers(int)" class="member-name-link">bindSamplers(int)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></dt>
 <dd>
-<div class="block">Loads the samplers set by <a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#addSampler(java.lang.CharSequence,int)"><code>TextureUniformAccess.addSampler(CharSequence, int)</code></a> into the shader.</div>
+<div class="block">Loads the samplers set by <a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#setSampler(java.lang.CharSequence,int)"><code>TextureUniformAccess.setSampler(CharSequence, int)</code></a> into the shader.</div>
 </dd>
 <dt><a href="foundry/veil/api/client/render/ext/VeilMultiBind.html#bindSamplers(int,int...)" class="member-name-link">bindSamplers(int, int...)</a> - Method in enum class foundry.veil.api.client.render.ext.<a href="foundry/veil/api/client/render/ext/VeilMultiBind.html" title="enum class in foundry.veil.api.client.render.ext">VeilMultiBind</a></dt>
 <dd>
@@ -943,7 +933,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#bindSamplers(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context,int)" class="member-name-link">bindSamplers(ShaderTextureSource.Context, int)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></dt>
 <dd>
-<div class="block">Loads the samplers set by <a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#addSampler(java.lang.CharSequence,int)"><code>TextureUniformAccess.addSampler(CharSequence, int)</code></a> into the shader.</div>
+<div class="block">Loads the samplers set by <a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#setSampler(java.lang.CharSequence,int)"><code>TextureUniformAccess.setSampler(CharSequence, int)</code></a> into the shader.</div>
 </dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#bindSamplers(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context,int)" class="member-name-link">bindSamplers(ShaderTextureSource.Context, int)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
@@ -10819,11 +10809,21 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html#setSafe(int,int,int,int)" class="member-name-link">setSafe(int, int, int, int)</a> - Method in class foundry.veil.impl.client.render.wrapper.<a href="foundry/veil/impl/client/render/wrapper/VanillaUniformWrapper.html" title="class in foundry.veil.impl.client.render.wrapper">VanillaUniformWrapper</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#setSampler(java.lang.CharSequence,int)" class="member-name-link">setSampler(CharSequence, int)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></dt>
+<dd>
+<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
+</dd>
 <dt><a href="foundry/veil/api/client/render/post/PostPipeline.Context.html#setSampler(java.lang.CharSequence,int,int)" class="member-name-link">setSampler(CharSequence, int, int)</a> - Method in interface foundry.veil.api.client.render.post.<a href="foundry/veil/api/client/render/post/PostPipeline.Context.html" title="interface in foundry.veil.api.client.render.post">PostPipeline.Context</a></dt>
 <dd>
 <div class="block">Binds a named sampler id.</div>
 </dd>
+<dt><a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html#setSampler(java.lang.CharSequence,int,int)" class="member-name-link">setSampler(CharSequence, int, int)</a> - Method in interface foundry.veil.api.client.render.shader.program.<a href="foundry/veil/api/client/render/shader/program/TextureUniformAccess.html" title="interface in foundry.veil.api.client.render.shader.program">TextureUniformAccess</a></dt>
+<dd>
+<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
+</dd>
 <dt><a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html#setSampler(java.lang.CharSequence,int,int)" class="member-name-link">setSampler(CharSequence, int, int)</a> - Method in class foundry.veil.impl.client.render.pipeline.<a href="foundry/veil/impl/client/render/pipeline/PostPipelineContext.html" title="class in foundry.veil.impl.client.render.pipeline">PostPipelineContext</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html#setSampler(java.lang.CharSequence,int,int)" class="member-name-link">setSampler(CharSequence, int, int)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.Wrapper.html#setSampler(java.lang.String,java.lang.Object)" class="member-name-link">setSampler(String, Object)</a> - Method in class foundry.veil.impl.client.render.shader.program.<a href="foundry/veil/impl/client/render/shader/program/ShaderProgramImpl.Wrapper.html" title="class in foundry.veil.impl.client.render.shader.program">ShaderProgramImpl.Wrapper</a></dt>
 <dd>&nbsp;</dd>

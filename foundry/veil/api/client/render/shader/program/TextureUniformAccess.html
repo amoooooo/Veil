@@ -112,28 +112,15 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#addSampler(java.lang.CharSequence,int)" class="member-name-link">addSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- int&nbsp;textureId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addSampler(java.lang.CharSequence,int,int)" class="member-name-link">addSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
- int&nbsp;textureId,
- int&nbsp;samplerId)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#bindSamplers(int)" class="member-name-link">bindSamplers</a><wbr>(int&nbsp;samplerStart)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
-<div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
+<div class="block">Loads the samplers set by <a href="#setSampler(java.lang.CharSequence,int)"><code>setSampler(CharSequence, int)</code></a> into the shader.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#bindSamplers(foundry.veil.api.client.render.shader.texture.ShaderTextureSource.Context,int)" class="member-name-link">bindSamplers</a><wbr>(<a href="../texture/ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context,
  int&nbsp;samplerStart)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
+<div class="block">Loads the samplers set by <a href="#setSampler(java.lang.CharSequence,int)"><code>setSampler(CharSequence, int)</code></a> into the shader.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#clearSamplers()" class="member-name-link">clearSamplers</a>()</code></div>
@@ -150,6 +137,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
 <div class="block">Sets <code>DiffuseSampler0</code>-<code>DiffuseSamplerMax</code>
  to the color buffers in the specified framebuffer.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code>default void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5"><code><a href="#setSampler(java.lang.CharSequence,int)" class="member-name-link">setSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ int&nbsp;textureId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab5">
+<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#setSampler(java.lang.CharSequence,int,int)" class="member-name-link">setSampler</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+ int&nbsp;textureId,
+ int&nbsp;samplerId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
 </div>
 </div>
 </div>
@@ -178,9 +178,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="addSampler(java.lang.CharSequence,int)">
-<h3>addSampler</h3>
-<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addSampler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<section class="detail" id="setSampler(java.lang.CharSequence,int)">
+<h3>setSampler</h3>
+<div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSampler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;textureId)</span></div>
 <div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
 <dl class="notes">
@@ -191,9 +191,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="addSampler(java.lang.CharSequence,int,int)">
-<h3>addSampler</h3>
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addSampler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
+<section class="detail" id="setSampler(java.lang.CharSequence,int,int)">
+<h3>setSampler</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">setSampler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;name,
  int&nbsp;textureId,
  int&nbsp;samplerId)</span></div>
 <div class="block">Adds a texture that is dynamically bound and sets texture units.</div>
@@ -220,7 +220,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="bindSamplers(int)">
 <h3>bindSamplers</h3>
 <div class="member-signature"><span class="modifiers">default</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">bindSamplers</span><wbr><span class="parameters">(int&nbsp;samplerStart)</span></div>
-<div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
+<div class="block">Loads the samplers set by <a href="#setSampler(java.lang.CharSequence,int)"><code>setSampler(CharSequence, int)</code></a> into the shader.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>samplerStart</code> - The sampler to start binding to</dd>
@@ -233,7 +233,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">bindSamplers</span><wbr><span class="parameters">(@Nullable
  <a href="../texture/ShaderTextureSource.Context.html" title="interface in foundry.veil.api.client.render.shader.texture">ShaderTextureSource.Context</a>&nbsp;context,
  int&nbsp;samplerStart)</span></div>
-<div class="block">Loads the samplers set by <a href="#addSampler(java.lang.CharSequence,int)"><code>addSampler(CharSequence, int)</code></a> into the shader.</div>
+<div class="block">Loads the samplers set by <a href="#setSampler(java.lang.CharSequence,int)"><code>setSampler(CharSequence, int)</code></a> into the shader.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>context</code> - The context for setting built-in shader samplers or <code>null</code> to ignore normal samplers</dd>
