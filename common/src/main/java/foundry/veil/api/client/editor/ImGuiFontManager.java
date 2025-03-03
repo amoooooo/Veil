@@ -7,6 +7,7 @@ import imgui.ImFont;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -130,7 +131,13 @@ public class ImGuiFontManager implements PreparableReloadListener {
             FloatBuffer xscale = stack.mallocFloat(1);
             FloatBuffer yscale = stack.mallocFloat(1);
             glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), xscale, yscale);
+
             float scale = Math.max(xscale.get(0), yscale.get(0));
+            // Hack because macs seem to report massive values for some reason
+            if (Minecraft.ON_OSX) {
+                scale /= 2;
+            }
+            scale = Math.max(1.0F, scale);
 
             for (Map.Entry<ResourceLocation, FontPackBuilder> entry : this.fontBuilders.entrySet()) {
                 Veil.LOGGER.info("Built {}", entry.getKey());
