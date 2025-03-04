@@ -25,39 +25,48 @@ public interface Tooltippable {
      */
     List<Component> getTooltip();
 
-    boolean isTooltipEnabled();
+    default boolean isTooltipEnabled() {
+        return true;
+    }
 
-    CompoundTag saveTooltipData();
+    default CompoundTag saveTooltipData() {
+        return new CompoundTag();
+    }
 
-    void loadTooltipData(CompoundTag tag);
+    default void loadTooltipData(CompoundTag tag) {
+    }
 
     /**
      * Set the tooltip components for the block entity
      *
      * @param tooltip the tooltip components to set
      */
-    void setTooltip(List<Component> tooltip);
+    default void setTooltip(List<Component> tooltip) {        
+    }
 
     /**
      * Add a tooltip component to the block entity
      *
      * @param tooltip
      */
-    void addTooltip(Component tooltip);
+    default void addTooltip(Component tooltip) {
+    }
 
     /**
      * Add a list of tooltip components to the block entity
      *
      * @param tooltip
      */
-    void addTooltip(List<Component> tooltip);
+    default void addTooltip(List<Component> tooltip) {
+    }
 
     /**
      * Add a tooltip component to the block entity
      *
      * @param tooltip
      */
-    void addTooltip(String tooltip);
+    default void addTooltip(String tooltip) {
+    }
 
     /**
      * Get the theme object for the tooltip from the block entity
@@ -65,83 +74,103 @@ public interface Tooltippable {
      * @return the theme object
      * @see ColorTheme
      */
-    ColorTheme getTheme();
+    default ColorTheme getTheme() {
+        return ColorTheme.DEFAULT;
+    }
 
     /**
      * Set the theme object for the tooltip from the block entity
      *
      * @param theme the theme object to set
      */
-    void setTheme(ColorTheme theme);
+    default void setTheme(ColorTheme theme) {
+    }
 
     /**
      * Set the background color of the theme
      *
      * @param color the color to set
      */
-    void setBackgroundColor(int color);
+    default void setBackgroundColor(int color) {
+    }
 
     /**
      * Set the top border color of the theme
      *
      * @param color
      */
-    void setTopBorderColor(int color);
+    default void setTopBorderColor(int color) {
+    }
 
     /**
      * Set the bottom border color of the theme
      *
      * @param color
      */
-    void setBottomBorderColor(int color);
+    default void setBottomBorderColor(int color) {
+    }
 
     /**
      * Whether the tooltip should be rendered in worldspace or not
      *
      * @return true if the tooltip should be rendered in worldspace, false if it should be rendered in screenspace
      */
-    boolean getWorldspace();
+    default boolean getWorldspace() {
+        return false;
+    }
 
     /**
      * The stack for the tooltip to take components from
      *
      * @return the stack
      */
-    ItemStack getStack();
+    default ItemStack getStack() {
+        return null;
+    }
 
     /**
      * Increase the tooltip width
      *
      * @return the bonus width
      */
-    int getTooltipWidth();
+    default int getTooltipWidth() {
+        return 0;
+    }
 
     /**
      * Increase the tooltip height
      *
      * @return the bonus height
      */
-    int getTooltipHeight();
+    default int getTooltipHeight() {
+        return 0;
+    }
 
     /**
      * Get the x offset for the tooltip
      *
      * @return
      */
-    int getTooltipXOffset();
+    default int getTooltipXOffset() {
+        return 0;
+    }
 
     /**
      * Get the y offset for the tooltip
      *
      * @return
      */
-    int getTooltipYOffset();
+    default int getTooltipYOffset() {
+        return 0;
+    }
 
     /**
      * Get the items to render in the tooltip and data about them
      *
      * @return the items
      */
-    List<VeilUIItemTooltipDataHolder> getItems();
+    default List<VeilUIItemTooltipDataHolder> getItems() {
+        return List.of();
+    }
 
 }
