@@ -18,7 +18,6 @@ what is possible in modding.
 - **Easings**: Apply easing functions for more natural motion.
 - **Framebuffer**: JSON-driven custom framebuffers.
 - **In-World Tooltips**: Fully customizable, network-synced 3D tooltips.
-- **OpenCL**: Harness the power of OpenCL for rendering and other computational tasks.
 - **Post Processing**: A custom post-processing pipeline with easy texture binding.
 - **Shaders**: Full support for all OpenGL shader types, with HLSL and Spir-V support potentially coming in the future.
 - **Shader Modification**: Inject and modify existing shaders to suit your needs.
