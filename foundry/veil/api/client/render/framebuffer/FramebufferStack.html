@@ -130,12 +130,12 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isEmpty()" class="member-name-link">isEmpty</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#pop()" class="member-name-link">pop</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#pop(net.minecraft.resources.ResourceLocation)" class="member-name-link">pop</a><wbr>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Pushes the current framebuffer and restores the previous state.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#push()" class="member-name-link">push</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#push(net.minecraft.resources.ResourceLocation)" class="member-name-link">push</a><wbr>(@Nullable net.minecraft.resources.ResourceLocation&nbsp;name)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Pushes the current framebuffer to the stack.</div>
 </div>
@@ -171,17 +171,27 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="push()">
+<section class="detail" id="push(net.minecraft.resources.ResourceLocation)">
 <h3>push</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">push</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">push</span><wbr><span class="parameters">(@Nullable
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;name)</span></div>
 <div class="block">Pushes the current framebuffer to the stack.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the buffer to pop</dd>
+</dl>
 </section>
 </li>
 <li>
-<section class="detail" id="pop()">
+<section class="detail" id="pop(net.minecraft.resources.ResourceLocation)">
 <h3>pop</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">pop</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">pop</span><wbr><span class="parameters">(@Nullable
+ @Nullable net.minecraft.resources.ResourceLocation&nbsp;name)</span></div>
 <div class="block">Pushes the current framebuffer and restores the previous state. If the stack is empty, the main framebuffer is bound.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - The name of the buffer to pop</dd>
+</dl>
 </section>
 </li>
 <li>
