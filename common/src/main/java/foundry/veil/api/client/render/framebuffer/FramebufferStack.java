@@ -70,12 +70,12 @@ public class FramebufferStack {
         }
 
         Vector4i viewport = state.viewport;
-        glBindFramebuffer(GL_FRAMEBUFFER, state.framebuffer);
         // Macs can't handle this state change
         if (Minecraft.ON_OSX) {
             glBindFramebuffer(GL_READ_FRAMEBUFFER, state.framebuffer);
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, state.framebuffer);
         }
+        glBindFramebuffer(GL_FRAMEBUFFER, state.framebuffer);
         RenderSystem.viewport(viewport.x, viewport.y, viewport.z, viewport.w);
     }
 
