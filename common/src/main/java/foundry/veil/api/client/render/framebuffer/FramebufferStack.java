@@ -43,7 +43,12 @@ public class FramebufferStack {
             viewport.set(bufer);
         }
 
-        STATE_STACK.add(new State(viewport, glGetInteger(GL_FRAMEBUFFER_BINDING), name));
+        STATE_STACK.add(new State(
+                viewport,
+                glGetInteger(GL_FRAMEBUFFER_BINDING),
+                glGetInteger(GL_READ_FRAMEBUFFER_BINDING),
+                glGetInteger(GL_DRAW_FRAMEBUFFER_BINDING),
+                name));
     }
 
     /**
@@ -70,12 +75,9 @@ public class FramebufferStack {
         }
 
         Vector4i viewport = state.viewport;
-        // Macs can't handle this state change
-        if (Minecraft.ON_OSX) {
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, state.framebuffer);
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, state.framebuffer);
-        }
         glBindFramebuffer(GL_FRAMEBUFFER, state.framebuffer);
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, state.readFramebuffer);
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, state.drawFramebuffer);
         RenderSystem.viewport(viewport.x, viewport.y, viewport.z, viewport.w);
     }
 
@@ -96,6 +98,11 @@ public class FramebufferStack {
         return STATE_STACK.isEmpty();
     }
 
-    private record State(Vector4i viewport, int framebuffer, @Nullable ResourceLocation name) {
+    private record State(
+            Vector4i viewport,
+            int framebuffer,
+            int readFramebuffer,
+            int drawFramebuffer,
+            @Nullable ResourceLocation name) {
     }
 }
