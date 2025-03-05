@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import foundry.veil.Veil;
 import org.joml.Vector4i;
 import org.lwjgl.system.MemoryStack;
 
@@ -40,11 +41,16 @@ public class FramebufferStack {
      */
     public static void pop() {
         if (STATE_STACK.isEmpty()) {
-            AdvancedFbo.unbind();
+            Veil.LOGGER.error("Popped empty Framebuffer stack");
             return;
         }
 
         State state = STATE_STACK.removeFirst();
+        if (state.framebuffer == AdvancedFbo.getMainFramebuffer().getId()) {
+            AdvancedFbo.unbind();
+            return;
+        }
+
         Vector4i viewport = state.viewport;
         glBindFramebuffer(GL_FRAMEBUFFER, state.framebuffer);
         RenderSystem.viewport(viewport.x, viewport.y, viewport.z, viewport.w);
@@ -54,7 +60,10 @@ public class FramebufferStack {
      * Clears the entire framebuffer stack.
      */
     public static void clear() {
-        STATE_STACK.clear();
+        if (!STATE_STACK.isEmpty()) {
+            STATE_STACK.clear();
+            AdvancedFbo.unbind();
+        }
     }
 
     /**

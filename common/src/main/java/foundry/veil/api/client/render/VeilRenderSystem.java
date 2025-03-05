@@ -1057,9 +1057,10 @@ public final class VeilRenderSystem {
 
         renderer.endFrame();
         if (!FramebufferStack.isEmpty()) {
-            Veil.LOGGER.warn("Did not pop all bound framebuffers");
+            Veil.LOGGER.error("Did not pop all bound framebuffers");
+            FramebufferStack.clear();
+            AdvancedFbo.unbind();
         }
-        FramebufferStack.clear();
 
         UNIFORM_BLOCK_STATE.clearUsedBindings();
         VanillaShaderCompiler.clear();

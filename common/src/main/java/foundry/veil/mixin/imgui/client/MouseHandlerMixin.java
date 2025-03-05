@@ -2,7 +2,6 @@ package foundry.veil.mixin.imgui.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
-import foundry.veil.api.client.render.VeilRenderSystem;
 import net.minecraft.client.MouseHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
