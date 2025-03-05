@@ -27,7 +27,7 @@ public class DynamicBufferLevelRendererMixin {
         if (FramebufferStack.isEmpty()) {
             original.call(instance, setViewport);
         } else {
-            FramebufferStack.pop();
+            FramebufferStack.pop(null);
         }
     }
 

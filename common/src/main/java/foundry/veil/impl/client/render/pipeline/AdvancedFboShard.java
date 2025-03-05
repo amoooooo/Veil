@@ -19,12 +19,12 @@ public class AdvancedFboShard extends RenderStateShard.OutputStateShard {
         super(Veil.MODID + ":advanced_fbo", () -> {
             AdvancedFbo value = fbo.get();
             if (value != null) {
-                FramebufferStack.push();
+                FramebufferStack.push(fboName);
                 value.bindDraw(true);
             }
         }, () -> {
             if (fbo.get() != null) {
-                FramebufferStack.pop();
+                FramebufferStack.pop(fboName);
             }
         });
         this.fboName = fboName != null ? fboName.toString() : "custom";

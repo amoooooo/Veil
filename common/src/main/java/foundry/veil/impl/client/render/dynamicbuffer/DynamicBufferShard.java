@@ -22,13 +22,13 @@ public class DynamicBufferShard extends RenderStateShard {
             if (!Veil.platform().hasErrors()) {
                 DynamicBufferManger dynamicBufferManger = VeilRenderSystem.renderer().getDynamicBufferManger();
                 if (dynamicBufferManger.isEnabled()) {
-                    FramebufferStack.push();
+                    FramebufferStack.push(name);
                     dynamicBufferManger.setupRenderState(name, targetSupplier.get(), true);
                 }
             }
         }, () -> {
             if (!Veil.platform().hasErrors() && VeilRenderSystem.renderer().getDynamicBufferManger().isEnabled()) {
-                FramebufferStack.pop();
+                FramebufferStack.pop(name);
             }
         });
     }

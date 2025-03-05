@@ -62,7 +62,7 @@ public final class VeilBloomRenderer {
                     .build(true);
         }
 
-        FramebufferStack.push();
+        FramebufferStack.push(null);
         VeilRenderSystem.renderer().getFramebufferManager().setFramebuffer(VeilFramebuffers.BLOOM, bloom);
         bloom.bind(true);
         rendered = true;
@@ -73,7 +73,7 @@ public final class VeilBloomRenderer {
             return;
         }
 
-        FramebufferStack.pop();
+        FramebufferStack.pop(null);
     }
 
     private static @Nullable PostPipeline getPipeline() {
@@ -99,10 +99,10 @@ public final class VeilBloomRenderer {
         ProfilerFiller profiler = Minecraft.getInstance().getProfiler();
         profiler.push("bloom");
 
-        FramebufferStack.push();
+        FramebufferStack.push(null);
         VeilRenderSystem.renderer().getPostProcessingManager().runPipeline(pipeline);
         bloom.clear(GL_COLOR_BUFFER_BIT);
-        FramebufferStack.pop();
+        FramebufferStack.pop(null);
 
         profiler.pop();
     }
