@@ -79,7 +79,7 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
 
     @Override
     public void bind(boolean setViewport) {
-        glBindFramebuffer(GL_FRAMEBUFFER, this.id);
+        GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, this.id);
         if (setViewport) {
             RenderSystem.viewport(0, 0, this.width, this.height);
         }
@@ -87,7 +87,7 @@ public abstract class AdvancedFboImpl implements AdvancedFbo {
 
     @Override
     public void bindDraw(boolean setViewport) {
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this.id);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this.id);
         if (setViewport) {
             RenderSystem.viewport(0, 0, this.width, this.height);
         }

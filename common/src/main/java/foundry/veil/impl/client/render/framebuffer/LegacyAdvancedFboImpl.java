@@ -1,6 +1,7 @@
 package foundry.veil.impl.client.render.framebuffer;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.ext.VeilDebug;
@@ -65,7 +66,7 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         }
 
         this.currentDrawBuffers = this.drawBuffers;
-        glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+        GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
     }
 
     @Override
@@ -132,7 +133,7 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
             }
 
             if (oldFbo != this.id) {
-                glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+                GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
             }
         }
 
@@ -148,7 +149,7 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         }
         glDrawBuffers(buffers);
         if (oldFbo != this.id) {
-            glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+            GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
         }
     }
 
@@ -178,11 +179,11 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         int oldDraw = glGetInteger(GL_DRAW_FRAMEBUFFER_BINDING);
 
         this.bindRead();
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
         glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, width, height, mask, filtering);
 
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
     }
 
     @Override
@@ -194,8 +195,8 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         target.bindDraw(false);
         glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, target.getWidth(), target.getHeight(), mask, filtering);
 
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
     }
 
     @Override
@@ -205,11 +206,11 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
 
         this.bindRead();
         RenderTargetExtension extension = (RenderTargetExtension) target;
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, extension.veil$getFramebuffer());
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, extension.veil$getFramebuffer());
         glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, extension.veil$getWidth(), extension.veil$getHeight(), mask, filtering);
 
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
     }
 
     @Override
@@ -220,7 +221,7 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         }
         super.setColorAttachmentTexture(attachment, textureId, layer);
         if (old != this.id) {
-            glBindFramebuffer(GL_FRAMEBUFFER, old);
+            GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, old);
         }
     }
 
@@ -232,7 +233,7 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         }
         super.setDepthAttachmentTexture(textureId, layer);
         if (old != this.id) {
-            glBindFramebuffer(GL_FRAMEBUFFER, old);
+            GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, old);
         }
     }
 }

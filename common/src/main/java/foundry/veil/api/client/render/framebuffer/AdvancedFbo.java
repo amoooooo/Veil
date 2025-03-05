@@ -1,6 +1,7 @@
 package foundry.veil.api.client.render.framebuffer;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.texture.TextureFilter;
@@ -115,7 +116,7 @@ public interface AdvancedFbo extends NativeResource {
      */
     default void bindRead() {
         RenderSystem.assertOnRenderThreadOrInit();
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, this.getId());
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, this.getId());
     }
 
     /**
@@ -144,9 +145,9 @@ public interface AdvancedFbo extends NativeResource {
         }
 
         if (!RenderSystem.isOnRenderThreadOrInit()) {
-            RenderSystem.recordRenderCall(() -> glBindFramebuffer(GL_FRAMEBUFFER, 0));
+            RenderSystem.recordRenderCall(() -> GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, 0));
         } else {
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, 0);
         }
     }
 
@@ -156,9 +157,9 @@ public interface AdvancedFbo extends NativeResource {
     static void unbindRead() {
         int mainTarget = AdvancedFbo.getMainFramebuffer().getId();
         if (!RenderSystem.isOnRenderThreadOrInit()) {
-            RenderSystem.recordRenderCall(() -> glBindFramebuffer(GL_READ_FRAMEBUFFER, mainTarget));
+            RenderSystem.recordRenderCall(() -> GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, mainTarget));
         } else {
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, mainTarget);
+            GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, mainTarget);
         }
     }
 
@@ -168,9 +169,9 @@ public interface AdvancedFbo extends NativeResource {
     static void unbindDraw() {
         int mainTarget = AdvancedFbo.getMainFramebuffer().getId();
         if (!RenderSystem.isOnRenderThreadOrInit()) {
-            RenderSystem.recordRenderCall(() -> glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainTarget));
+            RenderSystem.recordRenderCall(() -> GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainTarget));
         } else {
-            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainTarget);
+            GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mainTarget);
         }
     }
 

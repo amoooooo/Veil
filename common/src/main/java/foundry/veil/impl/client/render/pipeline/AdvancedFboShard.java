@@ -20,7 +20,7 @@ public class AdvancedFboShard extends RenderStateShard.OutputStateShard {
             AdvancedFbo value = fbo.get();
             if (value != null) {
                 FramebufferStack.push(fboName);
-                value.bindDraw(true);
+                value.bind(true);
             }
         }, () -> {
             if (fbo.get() != null) {

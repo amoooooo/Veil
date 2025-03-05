@@ -1,5 +1,6 @@
 package foundry.veil.api.client.render.framebuffer;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
 import net.minecraft.client.Minecraft;
@@ -75,9 +76,9 @@ public class FramebufferStack {
         }
 
         Vector4i viewport = state.viewport;
-        glBindFramebuffer(GL_FRAMEBUFFER, state.framebuffer);
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, state.readFramebuffer);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, state.drawFramebuffer);
+        GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, state.framebuffer);
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, state.readFramebuffer);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, state.drawFramebuffer);
         RenderSystem.viewport(viewport.x, viewport.y, viewport.z, viewport.w);
     }
 

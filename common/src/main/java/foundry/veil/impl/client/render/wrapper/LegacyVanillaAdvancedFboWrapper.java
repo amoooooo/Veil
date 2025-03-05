@@ -1,6 +1,7 @@
 package foundry.veil.impl.client.render.wrapper;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.ext.RenderTargetExtension;
@@ -44,7 +45,7 @@ public class LegacyVanillaAdvancedFboWrapper extends VanillaAdvancedFboWrapper {
         RenderSystem.clear(buffers, Minecraft.ON_OSX);
 
         if (old != id) {
-            glBindFramebuffer(GL_FRAMEBUFFER, old);
+            GlStateManager._glBindFramebuffer(GL_FRAMEBUFFER, old);
         }
     }
 
@@ -54,11 +55,11 @@ public class LegacyVanillaAdvancedFboWrapper extends VanillaAdvancedFboWrapper {
         int oldDraw = glGetInteger(GL_DRAW_FRAMEBUFFER_BINDING);
 
         this.bindRead();
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, id);
         glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, width, height, mask, filtering);
 
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
     }
 
     @Override
@@ -70,8 +71,8 @@ public class LegacyVanillaAdvancedFboWrapper extends VanillaAdvancedFboWrapper {
         target.bindDraw(false);
         glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, target.getWidth(), target.getHeight(), mask, filtering);
 
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
     }
 
     @Override
@@ -81,10 +82,10 @@ public class LegacyVanillaAdvancedFboWrapper extends VanillaAdvancedFboWrapper {
 
         this.bindRead();
         RenderTargetExtension extension = (RenderTargetExtension) target;
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, extension.veil$getFramebuffer());
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, extension.veil$getFramebuffer());
         glBlitFramebuffer(0, 0, this.getWidth(), this.getHeight(), 0, 0, extension.veil$getWidth(), extension.veil$getHeight(), mask, filtering);
 
-        glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
+        GlStateManager._glBindFramebuffer(GL_READ_FRAMEBUFFER, oldRead);
+        GlStateManager._glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDraw);
     }
 }
