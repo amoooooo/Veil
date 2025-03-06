@@ -365,9 +365,15 @@ public class ShaderManager implements PreparableReloadListener, Closeable {
 
         try (ShaderCompiler compiler = reloadState.createCompiler()) {
             for (Map.Entry<ResourceLocation, ProgramDefinition> entry : reloadState.definitions().entrySet()) {
+                ProgramDefinition definition = entry.getValue();
+                if (definition.compute() != null && !VeilRenderSystem.computeSupported()) {
+                    Veil.LOGGER.info("Skipping compute shader '{}' (compute is unsupported on this platform)", entry.getKey());
+                    continue;
+                }
+
                 ResourceLocation id = entry.getKey();
                 ShaderProgramImpl program = new ShaderProgramImpl(id);
-                this.compile(program, entry.getValue(), compiler);
+                this.compile(program, definition, compiler);
                 DynamicShaderProgramImpl old = (DynamicShaderProgramImpl) this.shaders.put(id, program);
                 if (old != null) {
                     old.setOldShader(program);

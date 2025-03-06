@@ -121,10 +121,10 @@ public final class VeilLevelPerspectiveRenderer {
         renderingPerspective = true;
         AdvancedFbo drawFbo = VeilRenderSystem.renderer().getDynamicBufferManger().getDynamicFbo(framebuffer);
         if (drawFbo != null) {
-            drawFbo.bindDraw(true);
+            drawFbo.bind(true);
             renderTargetExtension.veil$setWrapper(drawFbo);
         } else {
-            framebuffer.bindDraw(true);
+            framebuffer.bind(true);
             renderTargetExtension.veil$setWrapper(framebuffer);
         }
 
