@@ -10,7 +10,7 @@ import io.github.ocelot.glslprocessor.api.node.GlslNode;
 import io.github.ocelot.glslprocessor.api.node.GlslRootNode;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
 import io.github.ocelot.glslprocessor.api.node.function.GlslFunctionNode;
-import io.github.ocelot.glslprocessor.api.node.variable.GlslNewNode;
+import io.github.ocelot.glslprocessor.api.node.variable.GlslNewFieldNode;
 import io.github.ocelot.glslprocessor.lib.anarres.cpp.LexerException;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -197,7 +197,7 @@ public interface ShaderPreProcessor {
             tree.getDirectives().addAll(loadedImport.getDirectives());
 
             Set<String> fieldNames = loadedImport.fields()
-                    .map(GlslNewNode::getName)
+                    .map(GlslNewFieldNode::getName)
                     .filter(Objects::nonNull)
                     .collect(Collectors.toUnmodifiableSet());
             Set<String> functionNames = loadedImport.functions()
@@ -213,7 +213,7 @@ public interface ShaderPreProcessor {
                         }
 
                         if (rootNode.isField()) {
-                            GlslNewNode field = rootNode.asField();
+                            GlslNewFieldNode field = rootNode.asField();
                             String fieldName = field.getName();
                             if (fieldName != null && fieldNames.contains(fieldName)) {
                                 throw new IOException("Field is part of include '" + name + "': " + fieldName);
@@ -234,10 +234,10 @@ public interface ShaderPreProcessor {
                         }
 
                         if (rootNode.isField()) {
-                            GlslNewNode field = rootNode.asField();
+                            GlslNewFieldNode field = rootNode.asField();
                             String fieldName = field.getName();
                             if (fieldName != null && fieldNames.contains(fieldName)) {
-                                Set<GlslNewNode> remove = loadedImport.fields()
+                                Set<GlslNewFieldNode> remove = loadedImport.fields()
                                         .filter(node -> fieldName.equals(node.getName()))
                                         .collect(Collectors.toUnmodifiableSet());
 
@@ -266,7 +266,7 @@ public interface ShaderPreProcessor {
                         }
 
                         if (rootNode.isField()) {
-                            GlslNewNode field = rootNode.asField();
+                            GlslNewFieldNode field = rootNode.asField();
                             if (fieldNames.contains(field.getName())) {
                                 // Remove field from shader source
                                 iterator.remove();

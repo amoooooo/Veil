@@ -3,8 +3,8 @@ package foundry.veil.api.client.render;
 import foundry.veil.api.client.render.shader.block.ShaderBlock;
 import io.github.ocelot.glslprocessor.api.grammar.*;
 import io.github.ocelot.glslprocessor.api.node.GlslNode;
-import io.github.ocelot.glslprocessor.api.node.variable.GlslNewNode;
-import io.github.ocelot.glslprocessor.api.node.variable.GlslStructNode;
+import io.github.ocelot.glslprocessor.api.node.variable.GlslNewFieldNode;
+import io.github.ocelot.glslprocessor.api.node.variable.GlslStructDeclarationNode;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
@@ -48,9 +48,9 @@ public record VeilShaderBufferLayout<T>(String name,
         GlslSpecifiedType structSpecifier = new GlslSpecifiedType(this.structSpecifier, GlslTypeQualifier.layout(this.memoryLayout.getLayoutId()), storageType);
         GlslNode node;
         if (interfaceName != null) {
-            node = new GlslNewNode(structSpecifier, interfaceName, null);
+            node = new GlslNewFieldNode(structSpecifier, interfaceName, null);
         } else {
-            node = new GlslStructNode(structSpecifier);
+            node = new GlslStructDeclarationNode(structSpecifier);
         }
         return node;
     }
@@ -398,7 +398,7 @@ public record VeilShaderBufferLayout<T>(String name,
             if (this.fields.isEmpty()) {
                 throw new IllegalArgumentException("At least 1 field must be defined in a shader block");
             }
-            return new VeilShaderBufferLayout<>(this.name, Collections.unmodifiableMap(this.fields), this.binding, this.memoryLayout, new GlslStructSpecifier(this.name, this.structFields));
+            return new VeilShaderBufferLayout<>(this.name, Collections.unmodifiableMap(this.fields), this.binding, this.memoryLayout, GlslTypeSpecifier.struct(this.name, this.structFields));
         }
 
         /**

@@ -5,6 +5,7 @@ import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
 import io.github.ocelot.glslprocessor.api.grammar.GlslSpecifiedType;
 import io.github.ocelot.glslprocessor.api.grammar.GlslTypeQualifier;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
+import io.github.ocelot.glslprocessor.api.visitor.GlslNodeStringWriter;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -81,7 +82,9 @@ public class VertexShaderModification extends SimpleShaderModification {
 
                 for (GlslTypeQualifier qualifier : type.getQualifiers()) {
                     if (qualifier instanceof GlslTypeQualifier.StorageType storage && storage == GlslTypeQualifier.StorageType.IN) {
-                        validInputs.put(validInputs.size(), new Attribute(validInputs.size(), type.getSpecifier().getSourceString(), node.getName()));
+                        GlslNodeStringWriter writer = new GlslNodeStringWriter(true);
+                        writer.visitTypeSpecifier(type.getSpecifier());
+                        validInputs.put(validInputs.size(), new Attribute(validInputs.size(), writer.toString(), node.getName()));
                         break;
                     }
                 }

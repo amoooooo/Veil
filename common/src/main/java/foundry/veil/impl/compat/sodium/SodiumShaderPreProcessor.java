@@ -9,6 +9,7 @@ import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
 import io.github.ocelot.glslprocessor.api.node.GlslNode;
 import io.github.ocelot.glslprocessor.api.node.GlslNodeList;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
+import io.github.ocelot.glslprocessor.api.visitor.GlslNodeStringWriter;
 import io.github.ocelot.glslprocessor.lib.anarres.cpp.LexerException;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -30,11 +31,14 @@ public class SodiumShaderPreProcessor implements ShaderPreProcessor {
         List<GlslNode> mainBody = Objects.requireNonNull(tree.mainFunction().orElseThrow().getBody());
         GlslNodeList treeBody = tree.getBody();
 
+        GlslNodeStringWriter writer = new GlslNodeStringWriter(true);
         boolean modified = false;
         for (int i = 0; i < buffers.length; i++) {
             DynamicBufferType type = buffers[i];
             String sourceName = type.getSourceName();
-            String output = "layout(location = " + (1 + i) + ") out " + type.getType().getSourceString() + " " + sourceName;
+            writer.clear();
+            writer.visitTypeSpecifier(type.getType());
+            String output = "layout(location = " + (1 + i) + ") out " + writer + " " + sourceName;
 
             switch (type) {
                 case ALBEDO -> {

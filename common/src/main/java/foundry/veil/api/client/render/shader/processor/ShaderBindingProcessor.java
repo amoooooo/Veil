@@ -4,14 +4,14 @@ import io.github.ocelot.glslprocessor.api.GlslSyntaxException;
 import io.github.ocelot.glslprocessor.api.grammar.GlslSpecifiedType;
 import io.github.ocelot.glslprocessor.api.grammar.GlslTypeQualifier;
 import io.github.ocelot.glslprocessor.api.grammar.GlslTypeSpecifier;
-import io.github.ocelot.glslprocessor.api.node.GlslConstantNode;
 import io.github.ocelot.glslprocessor.api.node.GlslTree;
+import io.github.ocelot.glslprocessor.api.node.constant.GlslConstantNode;
+import io.github.ocelot.glslprocessor.api.visitor.GlslNodeStringWriter;
 import io.github.ocelot.glslprocessor.lib.anarres.cpp.LexerException;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Adds support for <code>layout(binding = #)</code> in the shader source without needing shader version 420.
@@ -45,7 +45,16 @@ public class ShaderBindingProcessor implements ShaderPreProcessor {
                     while (layoutIdIterator.hasNext()) {
                         GlslTypeQualifier.LayoutId layoutId = layoutIdIterator.next();
                         if ("binding".equals(layoutId.identifier()) && layoutId.expression() instanceof GlslConstantNode constantNode) {
-                            veilContext.addUniformBinding(Objects.requireNonNullElse(node.getName(), type.getSourceString()), constantNode.intValue());
+                            String name;
+                            if (node.getName() != null) {
+                                name = node.getName();
+                            } else {
+                                GlslNodeStringWriter writer = new GlslNodeStringWriter(true);
+                                writer.visitSpecifiedType(type);
+                                name = writer.toString();
+                            }
+                            
+                            veilContext.addUniformBinding(name, constantNode.intValue());
                             layoutIdIterator.remove();
                         }
                     }
