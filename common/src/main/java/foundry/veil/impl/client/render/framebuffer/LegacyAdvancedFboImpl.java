@@ -3,23 +3,19 @@ package foundry.veil.impl.client.render.framebuffer;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import foundry.veil.api.client.render.VeilRenderSystem;
 import foundry.veil.api.client.render.ext.VeilDebug;
 import foundry.veil.api.client.render.framebuffer.AdvancedFbo;
 import foundry.veil.api.client.render.framebuffer.AdvancedFboAttachment;
-import foundry.veil.api.client.render.framebuffer.AdvancedFboTextureAttachment;
 import foundry.veil.ext.RenderTargetExtension;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.MemoryStack;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.Locale;
 
-import static org.lwjgl.opengl.ARBClearTexture.glClearTexImage;
 import static org.lwjgl.opengl.GL20C.glDrawBuffers;
 import static org.lwjgl.opengl.GL30C.*;
 
@@ -76,60 +72,25 @@ public class LegacyAdvancedFboImpl extends AdvancedFboImpl {
         }
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            boolean clearTex = VeilRenderSystem.clearTextureSupported();
-            FloatBuffer color = stack.floats(red, green, blue, alpha);
-
             int oldFbo = glGetInteger(GL_FRAMEBUFFER_BINDING);
             if (oldFbo != this.id) {
                 this.bind(false);
             }
 
-            if ((clearMask & GL_COLOR_BUFFER_BIT) != 0) {
+            boolean color = (clearMask & GL_COLOR_BUFFER_BIT) != 0;
+            FloatBuffer oldColor = null;
+            if (color) {
                 this.drawBuffers(buffers);
-                for (int buffer : buffers) {
-                    int i = buffer - GL_COLOR_ATTACHMENT0;
-                    if (i >= 0 && i < this.colorAttachments.length) {
-                        AdvancedFboAttachment attachment = this.colorAttachments[i];
-                        if (clearTex && attachment instanceof AdvancedFboTextureAttachment texture) {
-                            glClearTexImage(texture.getId(), 0, GL_RGBA, GL_FLOAT, color);
-                        } else {
-                            glClearBufferfv(GL_COLOR, i, color);
-                        }
-                    }
-                }
-                this.resetDrawBuffers();
+                oldColor = stack.mallocFloat(4);
+                glGetFloatv(GL_COLOR_CLEAR_VALUE, oldColor);
+                glClearColor(red, green, blue, alpha);
             }
 
-            if (this.depthAttachment != null) {
-                boolean depth = (clearMask & GL_DEPTH_BUFFER_BIT) != 0;
-                boolean stencil = this.hasStencil && (clearMask & GL_STENCIL_BUFFER_BIT) != 0;
-                if (!depth && !stencil) {
-                    return;
-                }
+            GlStateManager._clear(clearMask, Minecraft.ON_OSX);
 
-                if (this.hasStencil) {
-                    if (depth && stencil) {
-                        if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
-                            glClearTexImage(texture.getId(), 0, GL_DEPTH_STENCIL, GL_FLOAT_32_UNSIGNED_INT_24_8_REV, (ByteBuffer) null);
-                        } else {
-                            glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0F, 0);
-                        }
-                    } else {
-                        // Can't clear the texture if only clearing depth or stencil
-                        if (depth) {
-                            glClearBufferfv(GL_DEPTH, 0, stack.floats(1.0F));
-                        }
-                        if (stencil) {
-                            glClearBufferiv(GL_STENCIL, 0, stack.ints(0));
-                        }
-                    }
-                } else {
-                    if (clearTex && this.depthAttachment instanceof AdvancedFboTextureAttachment texture) {
-                        glClearTexImage(texture.getId(), 0, GL_DEPTH_COMPONENT, GL_FLOAT, stack.floats(1.0F));
-                    } else {
-                        glClearBufferfv(GL_DEPTH, 0, stack.floats(1.0F));
-                    }
-                }
+            if (color) {
+                glClearColor(oldColor.get(0), oldColor.get(1), oldColor.get(2), oldColor.get(3));
+                this.resetDrawBuffers();
             }
 
             if (oldFbo != this.id) {

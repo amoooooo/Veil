@@ -1040,7 +1040,7 @@ public interface AdvancedFbo extends NativeResource {
         public Builder setDepthRenderBuffer(int width, int height) {
             Validate.isTrue(this.format == GL_DEPTH_COMPONENT || this.format == GL_DEPTH_STENCIL, "A depth or depth stencil format must be specified for depth attachments");
             return this.setDepthBuffer(new AdvancedFboRenderAttachment(
-                    this.format,
+                    this.format == GL_DEPTH_STENCIL ? GL_DEPTH_STENCIL_ATTACHMENT : GL_DEPTH_ATTACHMENT,
                     this.internalFormat,
                     width,
                     height,
