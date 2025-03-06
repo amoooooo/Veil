@@ -3,7 +3,6 @@ package foundry.veil.api.client.render.framebuffer;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import foundry.veil.Veil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4i;
@@ -25,6 +24,7 @@ import static org.lwjgl.opengl.GL30C.*;
 public class FramebufferStack {
 
     private static final List<State> STATE_STACK = new ArrayList<>(1);
+    private static ResourceLocation lastPop;
 
     /**
      * Pushes the current framebuffer to the stack.
@@ -50,6 +50,7 @@ public class FramebufferStack {
                 glGetInteger(GL_READ_FRAMEBUFFER_BINDING),
                 glGetInteger(GL_DRAW_FRAMEBUFFER_BINDING),
                 name));
+        lastPop = null;
     }
 
     /**
@@ -58,18 +59,19 @@ public class FramebufferStack {
      * @param name The name of the buffer to pop
      */
     public static void pop(@Nullable ResourceLocation name) {
-        // Make sure this isn't called multiple times
+        // Make sure this isn't called multiple times in a row
+        if (lastPop != null && lastPop.equals(name)) {
+            return;
+        }
+
         if (STATE_STACK.isEmpty()) {
             Veil.LOGGER.error("Popped empty Framebuffer stack");
+            lastPop = null;
             return;
         }
 
-        State state = STATE_STACK.getFirst();
-        if (name != null && !name.equals(state.name)) {
-            return;
-        }
-
-        STATE_STACK.removeFirst();
+        lastPop = name;
+        State state = STATE_STACK.removeFirst();
         if (state.framebuffer == AdvancedFbo.getMainFramebuffer().getId()) {
             AdvancedFbo.unbind();
             return;
@@ -89,6 +91,7 @@ public class FramebufferStack {
         if (!STATE_STACK.isEmpty()) {
             STATE_STACK.clear();
             AdvancedFbo.unbind();
+            lastPop = null;
         }
     }
 
