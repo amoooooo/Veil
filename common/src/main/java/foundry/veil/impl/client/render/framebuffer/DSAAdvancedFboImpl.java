@@ -72,9 +72,9 @@ public class DSAAdvancedFboImpl extends AdvancedFboImpl {
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             boolean clearTex = VeilRenderSystem.clearTextureSupported();
-            FloatBuffer color = stack.floats(red, green, blue, alpha);
 
             if ((clearMask & GL_COLOR_BUFFER_BIT) != 0) {
+                FloatBuffer color = stack.floats(red, green, blue, alpha);
                 for (int buffer : buffers) {
                     int i = buffer - GL_COLOR_ATTACHMENT0;
                     if (i >= 0 && i < this.colorAttachments.length) {
