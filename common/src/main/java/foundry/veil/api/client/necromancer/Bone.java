@@ -134,19 +134,38 @@ public class Bone {
         parent.children.add(this);
     }
 
-    public void rotate(float angle, Direction.Axis axis) {
+    public Bone rotate(float angle, Direction.Axis axis) {
         switch (axis) {
             case X -> this.rotation.rotateX(angle);
             case Y -> this.rotation.rotateY(angle);
             case Z -> this.rotation.rotateZ(angle);
         }
+        return this;
     }
 
-    public void rotateDeg(float angle, Direction.Axis axis) {
+    public Bone rotateDeg(float angle, Direction.Axis axis) {
         switch (axis) {
             case X -> this.rotation.rotateX(angle * Mth.DEG_TO_RAD);
             case Y -> this.rotation.rotateY(angle * Mth.DEG_TO_RAD);
             case Z -> this.rotation.rotateZ(angle * Mth.DEG_TO_RAD);
         }
+        return this;
+    }
+
+    public Bone offset(float x, float y, float z) {
+        this.position.add(x, y, z);
+        return this;
+    }
+    public Bone offsetX(float x) {
+        this.position.add(x, 0, 0);
+        return this;
+    }
+    public Bone offsetY(float y) {
+        this.position.add(0, y, 0);
+        return this;
+    }
+    public Bone offsetZ(float z) {
+        this.position.add(0, 0, z);
+        return this;
     }
 }
